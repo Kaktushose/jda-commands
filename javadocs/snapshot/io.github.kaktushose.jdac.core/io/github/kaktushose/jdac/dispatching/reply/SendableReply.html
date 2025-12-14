@@ -59,7 +59,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply)" tabindex="0">SendableReply(ConfigurableReply)</a></li>
+<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.reply.MessageReply)" tabindex="0">SendableReply(MessageReply)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -75,7 +75,7 @@ loadScripts(document, 'script');</script>
 <h1 title="Class SendableReply" class="title">Class SendableReply</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance"><a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply</a>
+<div class="inheritance"><a href="MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">io.github.kaktushose.jdac.dispatching.reply.MessageReply</a>
 <div class="inheritance">io.github.kaktushose.jdac.dispatching.reply.SendableReply</div>
 </div>
 </div>
@@ -83,8 +83,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public final class </span><span class="element-name type-name-label">SendableReply</span>
-<span class="extends-implements">extends <a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></span></div>
-<div class="block">Subtype of <a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>ConfigurableReply</code></a> that allows replying without message content (<a href="#reply()"><code>reply()</code></a>).</div>
+<span class="extends-implements">extends <a href="MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></span></div>
+<div class="block">Subtype of <a href="MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>MessageReply</code></a> that allows replying without message content (<a href="#reply()"><code>reply()</code></a>).</div>
 </div>
 </section>
 <section class="summary">
@@ -94,8 +94,8 @@ loadScripts(document, 'script');</script>
 <section class="field-summary" id="field-summary">
 <h2>Field Summary</h2>
 <div class="inherited-list">
-<h3 id="fields-inherited-from-class-io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply">Fields inherited from class&nbsp;<a href="ConfigurableReply.html#field-summary" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></h3>
-<code><a href="ConfigurableReply.html#replyAction">replyAction</a></code></div>
+<h3 id="fields-inherited-from-class-io.github.kaktushose.jdac.dispatching.reply.MessageReply">Fields inherited from class&nbsp;<a href="MessageReply.html#field-summary" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></h3>
+<code><a href="MessageReply.html#replyAction">replyAction</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -106,7 +106,7 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply)" class="member-name-link">SendableReply</a><wbr>(<a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a>&nbsp;reply)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.reply.MessageReply)" class="member-name-link">SendableReply</a><wbr>(<a href="MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a>&nbsp;reply)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructs a new SendableReply.</div>
 </div>
@@ -133,8 +133,8 @@ loadScripts(document, 'script');</script>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply">Methods inherited from class&nbsp;<a href="ConfigurableReply.html#method-summary" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></h3>
-<code><a href="ConfigurableReply.html#builder(java.util.function.Consumer)" title="builder(Consumer)">builder</a>, <a href="ConfigurableReply.html#components(io.github.kaktushose.jdac.dispatching.reply.Component...)" title="components(Component...)">components</a>, <a href="ConfigurableReply.html#components(java.lang.String...)" title="components(String...)">components</a>, <a href="ConfigurableReply.html#editReply(boolean)" title="editReply(boolean)">editReply</a>, <a href="ConfigurableReply.html#embeds(io.github.kaktushose.jdac.embeds.Embed...)" title="embeds(Embed...)">embeds</a>, <a href="ConfigurableReply.html#embeds(java.lang.String...)" title="embeds(String...)">embeds</a>, <a href="ConfigurableReply.html#embeds(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry,io.github.kaktushose.jdac.message.placeholder.Entry...)" title="embeds(String, Entry, Entry...)">embeds</a>, <a href="ConfigurableReply.html#embeds(java.lang.String,java.util.function.Consumer)" title="embeds(String, Consumer)">embeds</a>, <a href="ConfigurableReply.html#ephemeral(boolean)" title="ephemeral(boolean)">ephemeral</a>, <a href="ConfigurableReply.html#keepComponents(boolean)" title="keepComponents(boolean)">keepComponents</a>, <a href="ConfigurableReply.html#keepSelections(boolean)" title="keepSelections(boolean)">keepSelections</a>, <a href="ConfigurableReply.html#reply(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" title="reply(String, Entry...)">reply</a></code></div>
+<h3 id="methods-inherited-from-class-io.github.kaktushose.jdac.dispatching.reply.MessageReply">Methods inherited from class&nbsp;<a href="MessageReply.html#method-summary" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></h3>
+<code><a href="MessageReply.html#builder(java.util.function.Consumer)" title="builder(Consumer)">builder</a>, <a href="MessageReply.html#components(io.github.kaktushose.jdac.dispatching.reply.Component...)" title="components(Component...)">components</a>, <a href="MessageReply.html#components(java.lang.String...)" title="components(String...)">components</a>, <a href="MessageReply.html#embeds(io.github.kaktushose.jdac.embeds.Embed...)" title="embeds(Embed...)">embeds</a>, <a href="MessageReply.html#embeds(java.lang.String...)" title="embeds(String...)">embeds</a>, <a href="MessageReply.html#embeds(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry,io.github.kaktushose.jdac.message.placeholder.Entry...)" title="embeds(String, Entry, Entry...)">embeds</a>, <a href="MessageReply.html#embeds(java.lang.String,java.util.function.Consumer)" title="embeds(String, Consumer)">embeds</a>, <a href="MessageReply.html#reply(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" title="reply(String, Entry...)">reply</a>, <a href="MessageReply.html#resolve(io.github.kaktushose.jdac.dispatching.reply.Component)" title="resolve(Component)">resolve</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#method-summary" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -150,14 +150,14 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply)">
+<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.dispatching.reply.MessageReply)">
 <h3>SendableReply</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SendableReply</span><wbr><span class="parameters">(<a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a>&nbsp;reply)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SendableReply</span><wbr><span class="parameters">(<a href="MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a>&nbsp;reply)</span></div>
 <div class="block">Constructs a new SendableReply.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>reply</code> - the underlying <a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>ConfigurableReply</code></a></dd>
+<dd><code>reply</code> - the underlying <a href="MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>MessageReply</code></a></dd>
 </dl>
 </div>
 </section>

@@ -60,6 +60,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#value()" tabindex="0">value</a></li>
 <li><a href="#minValue()" tabindex="0">minValue</a></li>
 <li><a href="#maxValue()" tabindex="0">maxValue</a></li>
+<li><a href="#uniqueId()" tabindex="0">uniqueId</a></li>
 </ol>
 </li>
 </ol>
@@ -83,7 +84,7 @@ Furthermore, the method signature has to meet the following conditions:</p>
 <li>First parameter must be of type <a href="../../dispatching/events/interactions/ComponentEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events.interactions"><code>ComponentEvent</code></a></li>
 <li>Second parameter must be of type <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List&lt;String&gt;</code></a></li>
 </ul>
-<p>You can reply with a string select menu by calling <a href="../../dispatching/reply/ConfigurableReply.html#components(io.github.kaktushose.jdac.dispatching.reply.Component...)"><code>ConfigurableReply.components(Component...)</code></a>.</p>
+<p>You can reply with a string select menu by calling <a href="../../dispatching/reply/MessageReply.html#components(io.github.kaktushose.jdac.dispatching.reply.Component...)"><code>MessageReply.components(Component...)</code></a>.</p>
 <h3 id="example--heading">Example:</h3>
 <pre><code>@MenuOption(label= &quot;Pizza&quot;, value = &quot;pizza&quot;)
 @MenuOption(label= &quot;Hamburger&quot;, value = &quot;hamburger&quot;)
@@ -124,9 +125,14 @@ public void onMenu(ComponentEvent event, List&lt;String&gt; choices) { ... }
 <div class="col-last odd-row-color">
 <div class="block">The minimum amount of values a user has to select.</div>
 </div>
-<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#value()" class="member-name-link">value</a></code></div>
+<div class="col-first even-row-color"><code>int</code></div>
+<div class="col-second even-row-color"><code><a href="#uniqueId()" class="member-name-link">uniqueId</a></code></div>
 <div class="col-last even-row-color">
+<div class="block">The uniqueId of this component.</div>
+</div>
+<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#value()" class="member-name-link">value</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">Configure the placeholder which is displayed when no selections have been made yet.</div>
 </div>
 </div>
@@ -194,6 +200,19 @@ public void onMenu(ComponentEvent event, List&lt;String&gt; choices) { ... }
 <dl class="notes">
 <dt>Default:</dt>
 <dd><code>1</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="uniqueId()">
+<h3>uniqueId</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">uniqueId</span></div>
+<div class="block">The uniqueId of this component. Must be greater than 0. Default value is <code>-1</code> which will result in Discord auto assigning an id.</div>
+<dl class="notes">
+<dt>Default:</dt>
+<dd><code>-1</code></dd>
 </dl>
 </div>
 </section>

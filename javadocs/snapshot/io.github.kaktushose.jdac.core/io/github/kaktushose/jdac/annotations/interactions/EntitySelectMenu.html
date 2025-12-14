@@ -66,6 +66,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#placeholder()" tabindex="0">placeholder</a></li>
 <li><a href="#minValue()" tabindex="0">minValue</a></li>
 <li><a href="#maxValue()" tabindex="0">maxValue</a></li>
+<li><a href="#uniqueId()" tabindex="0">uniqueId</a></li>
 </ol>
 </li>
 </ol>
@@ -89,7 +90,7 @@ Furthermore, the method signature has to meet the following conditions:</p>
 <li>First parameter must be of type <a href="../../dispatching/events/interactions/ComponentEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events.interactions"><code>ComponentEvent</code></a></li>
 <li>Second parameter must be of type <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Mentions.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Mentions</code></a></li>
 </ul>
-<p>You can reply with an entity select menu by calling <a href="../../dispatching/reply/ConfigurableReply.html#components(io.github.kaktushose.jdac.dispatching.reply.Component...)"><code>ConfigurableReply.components(Component...)</code></a>.</p>
+<p>You can reply with an entity select menu by calling <a href="../../dispatching/reply/MessageReply.html#components(io.github.kaktushose.jdac.dispatching.reply.Component...)"><code>MessageReply.components(Component...)</code></a>.</p>
 <h3 id="example--heading">Example:</h3>
 <pre><code>@EntitySelectMenu(value = SelectTarget.USER, placeholder = &quot;Who's your favourite user?&quot;)
 public void onMenu(ComponentEvent event, Mentions mentions) { ... }
@@ -141,38 +142,20 @@ public void onMenu(ComponentEvent event, Mentions mentions) { ... }
 <div class="col-first odd-row-color"><code>long[]</code></div>
 <div class="col-second odd-row-color"><code><a href="#defaultChannels()" class="member-name-link">defaultChannels</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block"><p>The</p>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre>default values</pre>
-</details>
-
-<p>for channels that will be shown to the user.</p>
-</div>
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.DefaultValue.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">default values</a>
+for channels that will be shown to the user.</div>
 </div>
 <div class="col-first even-row-color"><code>long[]</code></div>
 <div class="col-second even-row-color"><code><a href="#defaultRoles()" class="member-name-link">defaultRoles</a></code></div>
 <div class="col-last even-row-color">
-<div class="block"><p>The</p>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre>default values</pre>
-</details>
-
-<p>for roles that will be shown to the user.</p>
-</div>
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.DefaultValue.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">default values</a>
+for roles that will be shown to the user.</div>
 </div>
 <div class="col-first odd-row-color"><code>long[]</code></div>
 <div class="col-second odd-row-color"><code><a href="#defaultUsers()" class="member-name-link">defaultUsers</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block"><p>The</p>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre>default values</pre>
-</details>
-
-<p>for users that will be shown to the user.</p>
-</div>
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.DefaultValue.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">default values</a>
+for users that will be shown to the user.</div>
 </div>
 <div class="col-first even-row-color"><code>int</code></div>
 <div class="col-second even-row-color"><code><a href="#maxValue()" class="member-name-link">maxValue</a></code></div>
@@ -188,6 +171,11 @@ public void onMenu(ComponentEvent event, Mentions mentions) { ... }
 <div class="col-second even-row-color"><code><a href="#placeholder()" class="member-name-link">placeholder</a></code></div>
 <div class="col-last even-row-color">
 <div class="block">Configure the placeholder which is displayed when no selections have been made yet.</div>
+</div>
+<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-second odd-row-color"><code><a href="#uniqueId()" class="member-name-link">uniqueId</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">The uniqueId of this component.</div>
 </div>
 </div>
 </section>
@@ -219,23 +207,11 @@ public void onMenu(ComponentEvent event, Mentions mentions) { ... }
 <h3>defaultRoles</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="return-type">long[]</span>&nbsp;<span class="element-name">defaultRoles</span></div>
-<div class="block"><p>The</p>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre>default values</pre>
-</details>
-
-<p>for roles that will be shown to the user.</p>
-</div>
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.DefaultValue.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">default values</a>
+for roles that will be shown to the user.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd><p>the</p>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre>default values</pre>
-</details>
-
-</dd>
+<dd>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.DefaultValue.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">default values</a></dd>
 </dl>
 <dl class="notes">
 <dt>Default:</dt>
@@ -249,23 +225,11 @@ public void onMenu(ComponentEvent event, Mentions mentions) { ... }
 <h3>defaultChannels</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="return-type">long[]</span>&nbsp;<span class="element-name">defaultChannels</span></div>
-<div class="block"><p>The</p>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre>default values</pre>
-</details>
-
-<p>for channels that will be shown to the user.</p>
-</div>
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.DefaultValue.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">default values</a>
+for channels that will be shown to the user.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd><p>the</p>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre>default values</pre>
-</details>
-
-</dd>
+<dd>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.DefaultValue.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">default values</a></dd>
 </dl>
 <dl class="notes">
 <dt>Default:</dt>
@@ -279,23 +243,11 @@ public void onMenu(ComponentEvent event, Mentions mentions) { ... }
 <h3>defaultUsers</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="return-type">long[]</span>&nbsp;<span class="element-name">defaultUsers</span></div>
-<div class="block"><p>The</p>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre>default values</pre>
-</details>
-
-<p>for users that will be shown to the user.</p>
-</div>
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.DefaultValue.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">default values</a>
+for users that will be shown to the user.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd><p>the</p>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre>default values</pre>
-</details>
-
-</dd>
+<dd>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.DefaultValue.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">default values</a></dd>
 </dl>
 <dl class="notes">
 <dt>Default:</dt>
@@ -375,6 +327,19 @@ This is only relevant for menus that allow CHANNEL targets.</div>
 <dl class="notes">
 <dt>Default:</dt>
 <dd><code>1</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="uniqueId()">
+<h3>uniqueId</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">uniqueId</span></div>
+<div class="block">The uniqueId of this component. Must be greater than 0. Default value is <code>-1</code> which will result in Discord auto assigning an id.</div>
+<dl class="notes">
+<dt>Default:</dt>
+<dd><code>-1</code></dd>
 </dl>
 </div>
 </section>

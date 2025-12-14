@@ -111,7 +111,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Attempts to add a child <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/internal/register/TreeNode.html" title="class in io.github.kaktushose.jdac.internal.register"><code>TreeNode</code></a> either as a child of this <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/internal/register/TreeNode.html" title="class in io.github.kaktushose.jdac.internal.register"><code>TreeNode</code></a> or to one of its children based on the
 given labels.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#addComponents(net.dv8tion.jda.api.components.actionrow.ActionRow...)" class="member-name-link">addComponents(ActionRow...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#addComponents(net.dv8tion.jda.api.components.MessageTopLevelComponent...)" class="member-name-link">addComponents(MessageTopLevelComponent...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#addEmbeds(net.dv8tion.jda.api.entities.MessageEmbed...)" class="member-name-link">addEmbeds(MessageEmbed...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
 <dd>&nbsp;</dd>
@@ -191,6 +191,14 @@ should be mapped to.</div>
 <div class="block">Validates an argument.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/context/InvocationContext.html#arguments()" class="member-name-link">arguments()</a> - Method in record class io.github.kaktushose.jdac.dispatching.context.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/context/InvocationContext.html" title="class in io.github.kaktushose.jdac.dispatching.context">InvocationContext</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html#asButton()" class="member-name-link">asButton()</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html#asEntitySelectMenu()" class="member-name-link">asEntitySelectMenu()</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html#asStringSelectMenu()" class="member-name-link">asStringSelectMenu()</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/ButtonComponent.html#asThumbnail()" class="member-name-link">asThumbnail()</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.dynamic.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/ButtonComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic">ButtonComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html#author(java.lang.String)" class="member-name-link">author(String)</a> - Method in class io.github.kaktushose.jdac.embeds.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html" title="class in io.github.kaktushose.jdac.embeds">Embed</a></dt>
 <dd>
@@ -312,12 +320,12 @@ should be mapped to.</div>
 <dd>
 <div class="block">Converts this configuration into an <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/internal/Embeds.html" title="class in io.github.kaktushose.jdac.embeds.internal"><code>Embeds</code></a> instance that should be used globally.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#builder(java.util.function.Consumer)" class="member-name-link">builder(Consumer)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#builder(java.util.function.Consumer)" class="member-name-link">builder(Consumer)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html#builder(java.util.function.Consumer)" class="member-name-link">builder(Consumer)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></dt>
 <dd>
 <div class="block">Access the underlying <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateBuilder.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateBuilder</code></a> for configuration steps not covered by <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>ConfigurableReply</code></a>.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#builder(java.util.function.Consumer)" class="member-name-link">builder(Consumer)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACommands.html#builder(net.dv8tion.jda.api.JDA)" class="member-name-link">builder(JDA)</a> - Static method in class io.github.kaktushose.jdac.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACommands.html" title="class in io.github.kaktushose.jdac">JDACommands</a></dt>
 <dd>
 <div class="block">Create a new builder.</div>
@@ -373,7 +381,7 @@ in a certain scope.</div>
 <dd>
 <div class="block">Representation of a button.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ButtonDefinition.html#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,net.dv8tion.jda.api.entities.emoji.Emoji,java.lang.String,net.dv8tion.jda.api.components.buttons.ButtonStyle)" class="member-name-link">ButtonDefinition(ClassDescription, MethodDescription, Collection, String, Emoji, String, ButtonStyle)</a> - Constructor for record class io.github.kaktushose.jdac.definitions.interactions.component.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ButtonDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component">ButtonDefinition</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ButtonDefinition.html#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,net.dv8tion.jda.api.entities.emoji.Emoji,java.lang.String,net.dv8tion.jda.api.components.buttons.ButtonStyle,java.lang.Integer)" class="member-name-link">ButtonDefinition(ClassDescription, MethodDescription, Collection, String, Emoji, String, ButtonStyle, Integer)</a> - Constructor for record class io.github.kaktushose.jdac.definitions.interactions.component.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ButtonDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component">ButtonDefinition</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>ButtonDefinition</code> record class.</div>
 </dd>
@@ -630,10 +638,16 @@ in a certain scope.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html#%3Cinit%3E(java.lang.String,java.lang.Class,io.github.kaktushose.jdac.message.placeholder.Entry%5B%5D)" class="member-name-link">Component(String, Class, Entry[])</a> - Constructor for class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDataSource.html" class="type-name-link" title="interface in io.github.kaktushose.jdac.components">ComponentDataSource</a> - Interface in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/package-summary.html">io.github.kaktushose.jdac.components</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ComponentDefinition.html" class="type-name-link" title="interface in io.github.kaktushose.jdac.definitions.interactions.component">ComponentDefinition&lt;T&gt;</a> - Interface in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/package-summary.html">io.github.kaktushose.jdac.definitions.interactions.component</a></dt>
 <dd>
 <div class="block">Common interface for component interaction definitions.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDto.html" class="type-name-link" title="class in io.github.kaktushose.jdac.components">ComponentDto</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/package-summary.html">io.github.kaktushose.jdac.components</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDto.html#%3Cinit%3E()" class="member-name-link">ComponentDto()</a> - Constructor for class io.github.kaktushose.jdac.components.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDto.html" title="class in io.github.kaktushose.jdac.components">ComponentDto</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html" class="type-name-link" title="class in io.github.kaktushose.jdac.dispatching.events.interactions">ComponentEvent</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/package-summary.html">io.github.kaktushose.jdac.dispatching.events.interactions</a></dt>
 <dd>
 <div class="block">This class is a subclass of <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/Event.html" title="class in io.github.kaktushose.jdac.dispatching.events"><code>Event</code></a>.</div>
@@ -644,26 +658,22 @@ in a certain scope.</div>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/handling/ComponentHandler.html#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.FrameworkContext)" class="member-name-link">ComponentHandler(FrameworkContext)</a> - Constructor for class io.github.kaktushose.jdac.dispatching.handling.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/handling/ComponentHandler.html" title="class in io.github.kaktushose.jdac.dispatching.handling">ComponentHandler</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#components()" class="member-name-link">components()</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#components(io.github.kaktushose.jdac.dispatching.reply.Component...)" class="member-name-link">components(Component...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html#components(io.github.kaktushose.jdac.dispatching.reply.Component...)" class="member-name-link">components(Component...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></dt>
 <dd>
 <div class="block">Adds an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRow.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link"><code>ActionRow</code></a> to the reply and adds the passed <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>Component</code></a> to it.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#components(java.lang.String...)" class="member-name-link">components(String...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html#components(java.lang.String...)" class="member-name-link">components(String...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></dt>
 <dd>
 <div class="block">Adds an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRow.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link"><code>ActionRow</code></a> to the reply and adds the passed components to it.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#componentTree()" class="member-name-link">componentTree()</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" class="type-name-link" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/package-summary.html">io.github.kaktushose.jdac.dispatching.reply</a></dt>
 <dd>
 <div class="block">Builder for sending messages based on a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a> that supports adding components to
 messages and changing the <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a>.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply)" class="member-name-link">ConfigurableReply(ConfigurableReply)</a> - Constructor for class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
-<dd>
-<div class="block">Constructs a new ConfigurableReply.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction)" class="member-name-link">ConfigurableReply(ReplyAction)</a> - Constructor for class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#%3Cinit%3E(io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig)" class="member-name-link">ConfigurableReply(InteractionDefinition.ReplyConfig)</a> - Constructor for class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
 <dd>
 <div class="block">Constructs a new ConfigurableReply.</div>
 </dd>
@@ -778,6 +788,8 @@ messages and changing the <a href="io.github.kaktushose.jdac.core/io/github/kakt
 <dd>
 <div class="block">Creates an instance of a <code>Data</code> record class.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDataSource.html#dataObject(net.dv8tion.jda.api.utils.data.DataObject)" class="member-name-link">dataObject(DataObject)</a> - Static method in interface io.github.kaktushose.jdac.components.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDataSource.html" title="interface in io.github.kaktushose.jdac.components">ComponentDataSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html#dataObject(net.dv8tion.jda.api.utils.data.DataObject)" class="member-name-link">dataObject(DataObject)</a> - Static method in interface io.github.kaktushose.jdac.embeds.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a></dt>
 <dd>
 <div class="block">Constructs a new <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds"><code>EmbedDataSource</code></a> using a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/data/DataObject.html" title="class or interface in net.dv8tion.jda.api.utils.data" class="external-link"><code>DataObject</code></a> as its source.</div>
@@ -798,14 +810,8 @@ messages and changing the <a href="io.github.kaktushose.jdac.core/io/github/kakt
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntitySelectMenu.html#defaultChannels()" class="member-name-link">defaultChannels()</a> - Element in annotation interface io.github.kaktushose.jdac.annotations.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntitySelectMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">EntitySelectMenu</a></dt>
 <dd>
-<div class="block"><p>The</p>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre>default values</pre>
-</details>
-
-<p>for channels that will be shown to the user.</p>
-</div>
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.DefaultValue.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">default values</a>
+for channels that will be shown to the user.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/error/DefaultErrorMessageFactory.html" class="type-name-link" title="class in io.github.kaktushose.jdac.embeds.error">DefaultErrorMessageFactory</a> - Record Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/error/package-summary.html">io.github.kaktushose.jdac.embeds.error</a></dt>
 <dd>
@@ -833,25 +839,13 @@ messages and changing the <a href="io.github.kaktushose.jdac.core/io/github/kakt
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntitySelectMenu.html#defaultRoles()" class="member-name-link">defaultRoles()</a> - Element in annotation interface io.github.kaktushose.jdac.annotations.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntitySelectMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">EntitySelectMenu</a></dt>
 <dd>
-<div class="block"><p>The</p>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre>default values</pre>
-</details>
-
-<p>for roles that will be shown to the user.</p>
-</div>
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.DefaultValue.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">default values</a>
+for roles that will be shown to the user.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntitySelectMenu.html#defaultUsers()" class="member-name-link">defaultUsers()</a> - Element in annotation interface io.github.kaktushose.jdac.annotations.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntitySelectMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">EntitySelectMenu</a></dt>
 <dd>
-<div class="block"><p>The</p>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre>default values</pre>
-</details>
-
-<p>for users that will be shown to the user.</p>
-</div>
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.DefaultValue.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">default values</a>
+for users that will be shown to the user.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/TextInput.html#defaultValue()" class="member-name-link">defaultValue()</a> - Element in annotation interface io.github.kaktushose.jdac.annotations.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/TextInput.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">TextInput</a></dt>
 <dd>
@@ -1022,6 +1016,15 @@ messages and changing the <a href="io.github.kaktushose.jdac.core/io/github/kakt
 </dl>
 <h2 class="title" id="I:E">E</h2>
 <dl class="index">
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/EditableConfigurableReply.html" class="type-name-link" title="class in io.github.kaktushose.jdac.dispatching.reply">EditableConfigurableReply</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/package-summary.html">io.github.kaktushose.jdac.dispatching.reply</a></dt>
+<dd>
+<div class="block">Subtype of <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>ConfigurableReply</code></a> that is used for <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/components/ComponentInteraction.html" title="class or interface in net.dv8tion.jda.api.interactions.components" class="external-link">ComponentInteractions</a>,
+where you can also edit the original reply instead of sending a new one.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/EditableConfigurableReply.html#%3Cinit%3E(io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig,net.dv8tion.jda.api.interactions.components.ComponentInteraction)" class="member-name-link">EditableConfigurableReply(InteractionDefinition.ReplyConfig, ComponentInteraction)</a> - Constructor for class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/EditableConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">EditableConfigurableReply</a></dt>
+<dd>
+<div class="block">Constructs a new ConfigurableReply.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/ReplyConfig.html#editReply()" class="member-name-link">editReply()</a> - Element in annotation interface io.github.kaktushose.jdac.annotations.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/ReplyConfig.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">ReplyConfig</a></dt>
 <dd>
 <div class="block">Whether to edit the original message or to send a new one.</div>
@@ -1034,9 +1037,9 @@ messages and changing the <a href="io.github.kaktushose.jdac.core/io/github/kakt
 <dd>
 <div class="block">Whether to edit the original message or to send a new one.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#editReply(boolean)" class="member-name-link">editReply(boolean)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/EditableConfigurableReply.html#editReply(boolean)" class="member-name-link">editReply(boolean)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/EditableConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">EditableConfigurableReply</a></dt>
 <dd>
-<div class="block">Whether to keep the original components when editing a message.</div>
+<div class="block">Whether to edit the original message or to send a new one.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#editReply(boolean)" class="member-name-link">editReply(boolean)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
 <dd>&nbsp;</dd>
@@ -1076,19 +1079,19 @@ messages and changing the <a href="io.github.kaktushose.jdac.core/io/github/kakt
 <dd>
 <div class="block">Returns the value of the <code>embeds</code> record component.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#embeds(io.github.kaktushose.jdac.embeds.Embed...)" class="member-name-link">embeds(Embed...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html#embeds(io.github.kaktushose.jdac.embeds.Embed...)" class="member-name-link">embeds(Embed...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></dt>
 <dd>
 <div class="block">Acknowledgement of this event with one or more <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html" title="class in io.github.kaktushose.jdac.embeds"><code>Embed</code></a>s.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#embeds(java.lang.String...)" class="member-name-link">embeds(String...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html#embeds(java.lang.String...)" class="member-name-link">embeds(String...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></dt>
 <dd>
 <div class="block">Acknowledgement of this event with one or more <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html" title="class in io.github.kaktushose.jdac.embeds"><code>Embed</code></a>s.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#embeds(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">embeds(String, Entry, Entry...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html#embeds(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">embeds(String, Entry, Entry...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></dt>
 <dd>
 <div class="block">Acknowledgement of this event with an <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html" title="class in io.github.kaktushose.jdac.embeds"><code>Embed</code></a>.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#embeds(java.lang.String,java.util.function.Consumer)" class="member-name-link">embeds(String, Consumer)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html#embeds(java.lang.String,java.util.function.Consumer)" class="member-name-link">embeds(String, Consumer)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></dt>
 <dd>
 <div class="block">Acknowledgement of this event with an <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html" title="class in io.github.kaktushose.jdac.embeds"><code>Embed</code></a>.</div>
 </dd>
@@ -1200,7 +1203,7 @@ should be enabled for by default.</div>
 <dd>
 <div class="block">Representation of an entity select menu.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/EntitySelectMenuDefinition.html#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.util.Set,java.util.Set,java.util.Set,java.lang.String,int,int)" class="member-name-link">EntitySelectMenuDefinition(ClassDescription, MethodDescription, Collection, Set, Set, Set, String, int, int)</a> - Constructor for record class io.github.kaktushose.jdac.definitions.interactions.component.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/EntitySelectMenuDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component.menu">EntitySelectMenuDefinition</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/EntitySelectMenuDefinition.html#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.util.Set,java.util.Set,java.util.Set,java.lang.String,int,int,java.lang.Integer)" class="member-name-link">EntitySelectMenuDefinition(ClassDescription, MethodDescription, Collection, Set, Set, Set, String, int, int, Integer)</a> - Constructor for record class io.github.kaktushose.jdac.definitions.interactions.component.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/EntitySelectMenuDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component.menu">EntitySelectMenuDefinition</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>EntitySelectMenuDefinition</code> record class.</div>
 </dd>
@@ -1606,6 +1609,8 @@ with other user provided <a href="io.github.kaktushose.jdac.core/io/github/kaktu
 <dd>
 <div class="block">Used to modify the fields of this embed.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDataSource.html#file(java.nio.file.Path)" class="member-name-link">file(Path)</a> - Static method in interface io.github.kaktushose.jdac.components.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDataSource.html" title="interface in io.github.kaktushose.jdac.components">ComponentDataSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html#file(java.nio.file.Path)" class="member-name-link">file(Path)</a> - Static method in interface io.github.kaktushose.jdac.embeds.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a></dt>
 <dd>
 <div class="block">Constructs a new <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds"><code>EmbedDataSource</code></a> using a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/file/Path.html" title="class or interface in java.nio.file" class="external-link"><code>Path</code></a> pointing to a JSON file as its source.</div>
@@ -1715,6 +1720,8 @@ ordered by their <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jd
 <dd>
 <div class="block">Gets an <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html" title="class in io.github.kaktushose.jdac.embeds"><code>Embed</code></a> based on the given name and sets the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a>.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDataSource.html#get(java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.MessageResolver)" class="member-name-link">get(String, Map, MessageResolver)</a> - Method in interface io.github.kaktushose.jdac.components.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDataSource.html" title="interface in io.github.kaktushose.jdac.components">ComponentDataSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html#get(java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.MessageResolver)" class="member-name-link">get(String, Map, MessageResolver)</a> - Method in interface io.github.kaktushose.jdac.embeds.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a></dt>
 <dd>
 <div class="block">Retrieves an <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html" title="class in io.github.kaktushose.jdac.embeds"><code>Embed</code></a> based on the given name.</div>
@@ -1839,6 +1846,14 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selecti
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/Event.html#getToken()" class="member-name-link">getToken()</a> - Method in class io.github.kaktushose.jdac.dispatching.events.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/Event.html" title="class in io.github.kaktushose.jdac.dispatching.events">Event</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/ButtonComponent.html#getType()" class="member-name-link">getType()</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.dynamic.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/ButtonComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic">ButtonComponent</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/internal/UnspecificComponent.html#getType()" class="member-name-link">getType()</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.dynamic.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/internal/UnspecificComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.internal">UnspecificComponent</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/EntitySelectMenuComponent.html#getType()" class="member-name-link">getType()</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/EntitySelectMenuComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">EntitySelectMenuComponent</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/StringSelectComponent.html#getType()" class="member-name-link">getType()</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">StringSelectComponent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/error/DefaultErrorMessageFactory.html#getTypeAdaptingFailedMessage(io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext,io.github.kaktushose.proteus.conversion.ConversionResult.Failure)" class="member-name-link">getTypeAdaptingFailedMessage(ErrorMessageFactory.ErrorContext, ConversionResult.Failure)</a> - Method in record class io.github.kaktushose.jdac.embeds.error.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/error/DefaultErrorMessageFactory.html" title="class in io.github.kaktushose.jdac.embeds.error">DefaultErrorMessageFactory</a></dt>
 <dd>
 <div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when type adapting of the user input failed.</div>
@@ -1848,6 +1863,8 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selecti
 <div class="block">Gets a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a> to send when type adapting of the user input failed.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/Event.html#getTypeRaw()" class="member-name-link">getTypeRaw()</a> - Method in class io.github.kaktushose.jdac.dispatching.events.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/Event.html" title="class in io.github.kaktushose.jdac.dispatching.events">Event</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html#getUniqueId()" class="member-name-link">getUniqueId()</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/Event.html#getUser()" class="member-name-link">getUser()</a> - Method in class io.github.kaktushose.jdac.dispatching.events.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/Event.html" title="class in io.github.kaktushose.jdac.dispatching.events">Event</a></dt>
 <dd>&nbsp;</dd>
@@ -2240,6 +2257,8 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selecti
 </dd>
 <dt><a href="io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/internal/GuiceExtension.html#init(io.github.kaktushose.jdac.guice.GuiceExtensionData)" class="member-name-link">init(GuiceExtensionData)</a> - Method in class io.github.kaktushose.jdac.guice.internal.<a href="io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/internal/GuiceExtension.html" title="class in io.github.kaktushose.jdac.guice.internal">GuiceExtension</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDataSource.html#inputStream(java.io.InputStream)" class="member-name-link">inputStream(InputStream)</a> - Static method in interface io.github.kaktushose.jdac.components.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDataSource.html" title="interface in io.github.kaktushose.jdac.components">ComponentDataSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html#inputStream(java.io.InputStream)" class="member-name-link">inputStream(InputStream)</a> - Static method in interface io.github.kaktushose.jdac.embeds.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a></dt>
 <dd>
 <div class="block">Constructs a new <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds"><code>EmbedDataSource</code></a> using an JSON <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link"><code>InputStream</code></a> as its source.</div>
@@ -2407,6 +2426,8 @@ that is bound to the underlying <a href="./index.html#runtime-concept-heading"><
 <dd>
 <div class="block">Annotations needed for interactions.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/package-summary.html">io.github.kaktushose.jdac.components</a> - package io.github.kaktushose.jdac.components</dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/package-summary.html">io.github.kaktushose.jdac.configuration</a> - package io.github.kaktushose.jdac.configuration</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/internal/package-summary.html">io.github.kaktushose.jdac.configuration.internal</a> - package io.github.kaktushose.jdac.configuration.internal</dt>
@@ -2667,6 +2688,8 @@ the placeholders.</div>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/internal/Helpers.html#jdaException(java.lang.IllegalArgumentException,io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition)" class="member-name-link">jdaException(IllegalArgumentException, InteractionDefinition)</a> - Static method in class io.github.kaktushose.jdac.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/internal/Helpers.html" title="class in io.github.kaktushose.jdac.internal">Helpers</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDataSource.html#json(java.lang.String)" class="member-name-link">json(String)</a> - Static method in interface io.github.kaktushose.jdac.components.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDataSource.html" title="interface in io.github.kaktushose.jdac.components">ComponentDataSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html#json(java.lang.String)" class="member-name-link">json(String)</a> - Static method in interface io.github.kaktushose.jdac.embeds.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a></dt>
 <dd>
 <div class="block">Constructs a new <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds"><code>EmbedDataSource</code></a> using a JSON payload as its source.</div>
@@ -2686,9 +2709,9 @@ the placeholders.</div>
 <dd>
 <div class="block">Whether to keep the original components when editing a message.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#keepComponents(boolean)" class="member-name-link">keepComponents(boolean)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/EditableConfigurableReply.html#keepComponents(boolean)" class="member-name-link">keepComponents(boolean)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/EditableConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">EditableConfigurableReply</a></dt>
 <dd>
-<div class="block">Whether to edit the original message or to send a new one.</div>
+<div class="block">Whether to keep the original components when editing a message.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#keepComponents(boolean)" class="member-name-link">keepComponents(boolean)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
 <dd>&nbsp;</dd>
@@ -2704,7 +2727,7 @@ the placeholders.</div>
 <dd>
 <div class="block">Whether to keep the selections of a string select menu when sending edits.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#keepSelections(boolean)" class="member-name-link">keepSelections(boolean)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/EditableConfigurableReply.html#keepSelections(boolean)" class="member-name-link">keepSelections(boolean)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/EditableConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">EditableConfigurableReply</a></dt>
 <dd>
 <div class="block">Whether to keep the selections of a string select menu when sending edits.</div>
 </dd>
@@ -2918,6 +2941,18 @@ in the given bundle.</div>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html#MESSAGE_RESOLVER" class="member-name-link">MESSAGE_RESOLVER</a> - Static variable in interface io.github.kaktushose.jdac.configuration.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a></dt>
 <dd>
 <div class="block">The <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/MessageResolver.html" title="class in io.github.kaktushose.jdac.message"><code>MessageResolver</code></a> service provided byt JDA-Commands.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" class="type-name-link" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/package-summary.html">io.github.kaktushose.jdac.dispatching.reply</a></dt>
+<dd>
+<div class="block">Handles all the business logic for sending messages, including embeds or V1 components.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html#%3Cinit%3E(io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig)" class="member-name-link">MessageReply(InteractionDefinition.ReplyConfig)</a> - Constructor for class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></dt>
+<dd>
+<div class="block">Constructs a new MessageReply.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.reply.MessageReply)" class="member-name-link">MessageReply(MessageReply)</a> - Constructor for class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></dt>
+<dd>
+<div class="block">Constructs a new MessageReply.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/context/InvocationContext.Utility.html#messageResolver()" class="member-name-link">messageResolver()</a> - Method in record class io.github.kaktushose.jdac.dispatching.context.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/context/InvocationContext.Utility.html" title="class in io.github.kaktushose.jdac.dispatching.context">InvocationContext.Utility</a></dt>
 <dd>
@@ -3229,6 +3264,8 @@ in the given bundle.</div>
 <dd>
 <div class="block">Constructs a new <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html" title="class in io.github.kaktushose.jdac.embeds"><code>Embed</code></a>.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDto.html#of(net.dv8tion.jda.api.utils.data.DataObject,java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.MessageResolver)" class="member-name-link">of(DataObject, String, Map, MessageResolver)</a> - Static method in class io.github.kaktushose.jdac.components.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDto.html" title="class in io.github.kaktushose.jdac.components">ComponentDto</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/JDAEventListener.html#onGenericInteractionCreate(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">onGenericInteractionCreate(GenericInteractionCreateEvent)</a> - Method in class io.github.kaktushose.jdac.dispatching.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/JDAEventListener.html" title="class in io.github.kaktushose.jdac.dispatching">JDAEventListener</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/StringSelectComponent.html#option(java.lang.String,java.lang.String)" class="member-name-link">option(String, String)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">StringSelectComponent</a></dt>
@@ -3625,7 +3662,7 @@ accumulated together with the user defined ones or overwritten.</div>
 <dd>
 <div class="block">Removes all fields with the given name.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html#removeComponents()" class="member-name-link">removeComponents()</a> - Method in class io.github.kaktushose.jdac.dispatching.events.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events">ReplyableEvent</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html#removeComponents()" class="member-name-link">removeComponents()</a> - Method in class io.github.kaktushose.jdac.dispatching.events.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events.interactions">ComponentEvent</a></dt>
 <dd>
 <div class="block">Removes all components from the original message.</div>
 </dd>
@@ -3659,21 +3696,33 @@ accumulated together with the user defined ones or overwritten.</div>
 <dd>
 <div class="block">Acknowledgement of this event with a text message.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#reply(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">reply(String, Entry...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
-<dd>
-<div class="block">Acknowledgement of this event with a text message.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/Reply.html#reply(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">reply(String, Entry...)</a> - Method in interface io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/Reply.html" title="interface in io.github.kaktushose.jdac.dispatching.reply.internal">Reply</a></dt>
-<dd>
-<div class="block">Acknowledgement of this event with a text message.</div>
-</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#reply(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">reply(String, Entry...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)" class="member-name-link">reply(MessageEmbed, MessageEmbed...)</a> - Method in class io.github.kaktushose.jdac.dispatching.events.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events">ReplyableEvent</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html#reply(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">reply(String, Entry...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></dt>
 <dd>
-<div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed</code></a>.</div>
+<div class="block">Acknowledgement of this event with a text message.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/Reply.html#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)" class="member-name-link">reply(MessageEmbed, MessageEmbed...)</a> - Method in interface io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/Reply.html" title="interface in io.github.kaktushose.jdac.dispatching.reply.internal">Reply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#reply(java.util.List)" class="member-name-link">reply(List)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,net.dv8tion.jda.api.components.MessageTopLevelComponent...)" class="member-name-link">reply(MessageTopLevelComponent, MessageTopLevelComponent...)</a> - Method in class io.github.kaktushose.jdac.dispatching.events.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events">ReplyableEvent</a></dt>
+<dd>
+<div class="block">Acknowledgement of this event with V2 Components.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,net.dv8tion.jda.api.components.MessageTopLevelComponent...)" class="member-name-link">reply(MessageTopLevelComponent, MessageTopLevelComponent...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
+<dd>
+<div class="block">Acknowledgement of this event with V2 Components.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html#reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer...)" class="member-name-link">reply(ComponentReplacer...)</a> - Method in class io.github.kaktushose.jdac.dispatching.events.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events.interactions">ComponentEvent</a></dt>
+<dd>
+<div class="block">Acknowledgement of this event with the V2 Components of the original reply.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/EditableConfigurableReply.html#reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer...)" class="member-name-link">reply(ComponentReplacer...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/EditableConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">EditableConfigurableReply</a></dt>
+<dd>
+<div class="block">Acknowledgement of this event with the V2 Components of the original reply.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer...)" class="member-name-link">reply(ComponentReplacer...)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)" class="member-name-link">reply(MessageEmbed, MessageEmbed...)</a> - Method in class io.github.kaktushose.jdac.dispatching.events.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events">ReplyableEvent</a></dt>
 <dd>
 <div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed</code></a>.</div>
 </dd>
@@ -3683,32 +3732,20 @@ accumulated together with the user defined ones or overwritten.</div>
 <dd>
 <div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a>.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/Reply.html#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" class="member-name-link">reply(MessageCreateData)</a> - Method in interface io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/Reply.html" title="interface in io.github.kaktushose.jdac.dispatching.reply.internal">Reply</a></dt>
-<dd>
-<div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a>.</div>
-</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" class="member-name-link">reply(MessageCreateData)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/Reply.html" class="type-name-link" title="interface in io.github.kaktushose.jdac.dispatching.reply.internal">Reply</a> - Interface in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/package-summary.html">io.github.kaktushose.jdac.dispatching.reply.internal</a></dt>
-<dd>
-<div class="block">Common interface for classes that support simple message replies to <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a>.</div>
-</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html" class="type-name-link" title="class in io.github.kaktushose.jdac.dispatching.events">ReplyableEvent&lt;T&gt;</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/package-summary.html">io.github.kaktushose.jdac.dispatching.events</a></dt>
 <dd>
 <div class="block">Subtype of <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/Event.html" title="class in io.github.kaktushose.jdac.dispatching.events"><code>Event</code></a> that supports replying to the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a> with text messages.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html#%3Cinit%3E()" class="member-name-link">ReplyableEvent()</a> - Constructor for class io.github.kaktushose.jdac.dispatching.events.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events">ReplyableEvent</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html#replyAction" class="member-name-link">replyAction</a> - Variable in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html#replyAction" class="member-name-link">replyAction</a> - Variable in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" class="type-name-link" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/package-summary.html">io.github.kaktushose.jdac.dispatching.reply.internal</a></dt>
-<dd>
-<div class="block">Implementation of <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/Reply.html" title="interface in io.github.kaktushose.jdac.dispatching.reply.internal"><code>Reply</code></a> handling all the business logic of sending messages.</div>
-</dd>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#%3Cinit%3E(io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig)" class="member-name-link">ReplyAction(InteractionDefinition.ReplyConfig)</a> - Constructor for class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
-<dd>
-<div class="block">Constructs a new ReplyAction.</div>
-</dd>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/AutoCompleteEvent.html#replyChoice(java.lang.String,double)" class="member-name-link">replyChoice(String, double)</a> - Method in class io.github.kaktushose.jdac.dispatching.events.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/AutoCompleteEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events.interactions">AutoCompleteEvent</a></dt>
 <dd>
 <div class="block">Reply with up to <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/OptionData.html#MAX_CHOICES" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">25</a> choices which can be picked from by the user.</div>
@@ -3757,6 +3794,8 @@ accumulated together with the user defined ones or overwritten.</div>
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/context/InvocationContext.Data.html#param-replyConfig"><code>replyConfig</code></a> record component.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html#replyConfig()" class="member-name-link">replyConfig()</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/internal/ReplyAction.html" title="class in io.github.kaktushose.jdac.dispatching.reply.internal">ReplyAction</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/internal/Helpers.html#replyConfig(io.github.kaktushose.jdac.definitions.features.internal.Invokable,io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig)" class="member-name-link">replyConfig(Invokable, InteractionDefinition.ReplyConfig)</a> - Static method in class io.github.kaktushose.jdac.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/internal/Helpers.html" title="class in io.github.kaktushose.jdac.internal">Helpers</a></dt>
 <dd>
 <div class="block">The <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition.ReplyConfig</code></a> that should be used when sending replies.</div>
@@ -3795,6 +3834,8 @@ accumulated together with the user defined ones or overwritten.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/SelectMenuComponent.html#requiresRange(int,int)" class="member-name-link">requiresRange(int, int)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/SelectMenuComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">SelectMenuComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html#resolve(io.github.kaktushose.jdac.dispatching.reply.Component)" class="member-name-link">resolve(Component)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html#resolve(java.lang.String)" class="member-name-link">resolve(String)</a> - Method in class io.github.kaktushose.jdac.message.emoji.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji">EmojiResolver</a></dt>
 <dd>
 <div class="block">Resolves the emoji aliases of a string according to the javadocs of this class.</div>
@@ -3825,6 +3866,8 @@ resolve emojis (see <a href="io.github.kaktushose.jdac.core/io/github/kaktushose
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/OptionDataDefinition.html#param-resolvedType"><code>resolvedType</code></a> record component.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/internal/Resolver.html" class="type-name-link" title="class in io.github.kaktushose.jdac.configuration.internal">Resolver</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/internal/package-summary.html">io.github.kaktushose.jdac.configuration.internal</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDataSource.html#resource(java.lang.String)" class="member-name-link">resource(String)</a> - Static method in interface io.github.kaktushose.jdac.components.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/components/ComponentDataSource.html" title="interface in io.github.kaktushose.jdac.components">ComponentDataSource</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html#resource(java.lang.String)" class="member-name-link">resource(String)</a> - Static method in interface io.github.kaktushose.jdac.embeds.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a></dt>
 <dd>
@@ -3929,9 +3972,9 @@ resolve emojis (see <a href="io.github.kaktushose.jdac.core/io/github/kaktushose
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/SendableReply.html" class="type-name-link" title="class in io.github.kaktushose.jdac.dispatching.reply">SendableReply</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/package-summary.html">io.github.kaktushose.jdac.dispatching.reply</a></dt>
 <dd>
-<div class="block">Subtype of <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>ConfigurableReply</code></a> that allows replying without message content (<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/SendableReply.html#reply()"><code>SendableReply.reply()</code></a>).</div>
+<div class="block">Subtype of <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/MessageReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>MessageReply</code></a> that allows replying without message content (<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/SendableReply.html#reply()"><code>SendableReply.reply()</code></a>).</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/SendableReply.html#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply)" class="member-name-link">SendableReply(ConfigurableReply)</a> - Constructor for class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/SendableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">SendableReply</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/SendableReply.html#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.reply.MessageReply)" class="member-name-link">SendableReply(MessageReply)</a> - Constructor for class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/SendableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">SendableReply</a></dt>
 <dd>
 <div class="block">Constructs a new SendableReply.</div>
 </dd>
@@ -4033,7 +4076,7 @@ instantiates an instance of <a href="io.github.kaktushose.jdac.core/io/github/ka
 <dd>
 <div class="block">Representation of a string select menu.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/StringSelectMenuDefinition.html#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.util.Set,java.lang.String,int,int)" class="member-name-link">StringSelectMenuDefinition(ClassDescription, MethodDescription, Collection, Set, String, int, int)</a> - Constructor for record class io.github.kaktushose.jdac.definitions.interactions.component.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/StringSelectMenuDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component.menu">StringSelectMenuDefinition</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/StringSelectMenuDefinition.html#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.util.Set,java.lang.String,int,int,java.lang.Integer)" class="member-name-link">StringSelectMenuDefinition(ClassDescription, MethodDescription, Collection, Set, String, int, int, Integer)</a> - Constructor for record class io.github.kaktushose.jdac.definitions.interactions.component.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/StringSelectMenuDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component.menu">StringSelectMenuDefinition</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>StringSelectMenuDefinition</code> record class.</div>
 </dd>
@@ -4452,6 +4495,36 @@ instantiates an instance of <a href="io.github.kaktushose.jdac.core/io/github/ka
 </dl>
 <h2 class="title" id="I:U">U</h2>
 <dl class="index">
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html#uniqueId" class="member-name-link">uniqueId</a> - Variable in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Button.html#uniqueId()" class="member-name-link">uniqueId()</a> - Element in annotation interface io.github.kaktushose.jdac.annotations.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Button.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">Button</a></dt>
+<dd>
+<div class="block">The uniqueId of this component.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntitySelectMenu.html#uniqueId()" class="member-name-link">uniqueId()</a> - Element in annotation interface io.github.kaktushose.jdac.annotations.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntitySelectMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">EntitySelectMenu</a></dt>
+<dd>
+<div class="block">The uniqueId of this component.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringSelectMenu.html#uniqueId()" class="member-name-link">uniqueId()</a> - Element in annotation interface io.github.kaktushose.jdac.annotations.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringSelectMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">StringSelectMenu</a></dt>
+<dd>
+<div class="block">The uniqueId of this component.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ButtonDefinition.html#uniqueId()" class="member-name-link">uniqueId()</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.component.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ButtonDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component">ButtonDefinition</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ButtonDefinition.html#param-uniqueId"><code>uniqueId</code></a> record component.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ComponentDefinition.html#uniqueId()" class="member-name-link">uniqueId()</a> - Method in interface io.github.kaktushose.jdac.definitions.interactions.component.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ComponentDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions.component">ComponentDefinition</a></dt>
+<dd>
+<div class="block">The uniqueId of this component.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/EntitySelectMenuDefinition.html#uniqueId()" class="member-name-link">uniqueId()</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.component.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/EntitySelectMenuDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component.menu">EntitySelectMenuDefinition</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/EntitySelectMenuDefinition.html#param-uniqueId"><code>uniqueId</code></a> record component.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/StringSelectMenuDefinition.html#uniqueId()" class="member-name-link">uniqueId()</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.component.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/StringSelectMenuDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component.menu">StringSelectMenuDefinition</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/StringSelectMenuDefinition.html#param-uniqueId"><code>uniqueId</code></a> record component.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/internal/UnspecificComponent.html" class="type-name-link" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.internal">UnspecificComponent</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/internal/package-summary.html">io.github.kaktushose.jdac.dispatching.reply.dynamic.internal</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/internal/UnspecificComponent.html#%3Cinit%3E(boolean,boolean,java.lang.String,java.lang.Class,io.github.kaktushose.jdac.message.placeholder.Entry%5B%5D)" class="member-name-link">UnspecificComponent(boolean, boolean, String, Class, Entry[])</a> - Constructor for class io.github.kaktushose.jdac.dispatching.reply.dynamic.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/internal/UnspecificComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.internal">UnspecificComponent</a></dt>
@@ -4692,6 +4765,8 @@ the order they are declared.</div>
 </dl>
 <h2 class="title" id="I:W">W</h2>
 <dl class="index">
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html#with()" class="member-name-link">with()</a> - Method in class io.github.kaktushose.jdac.dispatching.events.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events.interactions">ComponentEvent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html#with()" class="member-name-link">with()</a> - Method in class io.github.kaktushose.jdac.dispatching.events.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events">ReplyableEvent</a></dt>
 <dd>
 <div class="block">Entry point for configuring a reply.</div>
@@ -4700,15 +4775,15 @@ the order they are declared.</div>
 <dd>
 <div class="block">Builds a new <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/ModalDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions"><code>ModalDefinition</code></a> with the given values.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ButtonDefinition.html#with(java.lang.String,net.dv8tion.jda.api.entities.emoji.Emoji,java.lang.String,net.dv8tion.jda.api.components.buttons.ButtonStyle)" class="member-name-link">with(String, Emoji, String, ButtonStyle)</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.component.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ButtonDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component">ButtonDefinition</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ButtonDefinition.html#with(java.lang.String,net.dv8tion.jda.api.entities.emoji.Emoji,java.lang.String,net.dv8tion.jda.api.components.buttons.ButtonStyle,java.lang.Integer)" class="member-name-link">with(String, Emoji, String, ButtonStyle, Integer)</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.component.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ButtonDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component">ButtonDefinition</a></dt>
 <dd>
 <div class="block">Builds a new <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ButtonDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component"><code>ButtonDefinition</code></a> with the given values</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/EntitySelectMenuDefinition.html#with(java.util.Set,java.util.Set,java.util.Set,java.lang.String,java.lang.Integer,java.lang.Integer)" class="member-name-link">with(Set, Set, Set, String, Integer, Integer)</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.component.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/EntitySelectMenuDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component.menu">EntitySelectMenuDefinition</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/EntitySelectMenuDefinition.html#with(java.util.Set,java.util.Set,java.util.Set,java.lang.String,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">with(Set, Set, Set, String, Integer, Integer, Integer)</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.component.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/EntitySelectMenuDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component.menu">EntitySelectMenuDefinition</a></dt>
 <dd>
 <div class="block">Builds a new <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/EntitySelectMenuDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component.menu"><code>EntitySelectMenuDefinition</code></a> with the given values.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/StringSelectMenuDefinition.html#with(java.util.Set,java.util.Collection,java.lang.String,java.lang.Integer,java.lang.Integer)" class="member-name-link">with(Set, Collection, String, Integer, Integer)</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.component.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/StringSelectMenuDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component.menu">StringSelectMenuDefinition</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/StringSelectMenuDefinition.html#with(java.util.Set,java.util.Collection,java.lang.String,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">with(Set, Collection, String, Integer, Integer, Integer)</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.component.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/StringSelectMenuDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component.menu">StringSelectMenuDefinition</a></dt>
 <dd>
 <div class="block">Builds a new <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/StringSelectMenuDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component.menu"><code>StringSelectMenuDefinition</code></a> with the given values.</div>
 </dd>
@@ -4716,6 +4791,10 @@ the order they are declared.</div>
 <dd>
 <div class="block">Builds a new <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/ModalDefinition.TextInputDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions"><code>ModalDefinition.TextInputDefinition</code></a> from the given <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/textinput/TextInput.Builder.html" title="class or interface in net.dv8tion.jda.api.components.textinput" class="external-link"><code>TextInput.Builder</code></a>.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html#withUniqueId(int)" class="member-name-link">withUniqueId(int)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/ButtonComponent.html#withUniqueId(int)" class="member-name-link">withUniqueId(int)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.dynamic.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/ButtonComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic">ButtonComponent</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:J">J</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:Q">Q</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;<br><a href="allclasses-index.html">All&nbsp;Classes&nbsp;and&nbsp;Interfaces</a><span class="vertical-separator">|</span><a href="allpackages-index.html">All&nbsp;Packages</a><span class="vertical-separator">|</span><a href="constant-values.html">Constant&nbsp;Field&nbsp;Values</a><span class="vertical-separator">|</span><a href="serialized-form.html">Serialized&nbsp;Form</a></main>
 </div>

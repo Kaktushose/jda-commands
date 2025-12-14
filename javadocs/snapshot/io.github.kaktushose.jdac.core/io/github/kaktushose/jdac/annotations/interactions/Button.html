@@ -61,6 +61,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#style()" tabindex="0">style</a></li>
 <li><a href="#emoji()" tabindex="0">emoji</a></li>
 <li><a href="#link()" tabindex="0">link</a></li>
+<li><a href="#uniqueId()" tabindex="0">uniqueId</a></li>
 </ol>
 </li>
 </ol>
@@ -83,7 +84,7 @@ Furthermore, the method signature has to meet the following conditions:</p>
 <ul>
 <li>First parameter must be of type <a href="../../dispatching/events/interactions/ComponentEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events.interactions"><code>ComponentEvent</code></a></li>
 </ul>
-<p>You can reply with a button by calling <a href="../../dispatching/reply/ConfigurableReply.html#components(io.github.kaktushose.jdac.dispatching.reply.Component...)"><code>ConfigurableReply.components(Component...)</code></a>.</p>
+<p>You can reply with a button by calling <a href="../../dispatching/reply/MessageReply.html#components(io.github.kaktushose.jdac.dispatching.reply.Component...)"><code>MessageReply.components(Component...)</code></a>.</p>
 <h3 id="example--heading">Example:</h3>
 <pre><code>@Button(value = &quot;Press me&quot;, style = ButtonStyle.DANGER)
 public void onButton(ComponentEvent event) { ... }
@@ -125,9 +126,14 @@ public void onButton(ComponentEvent event) { ... }
 <div class="col-last even-row-color">
 <div class="block">Gets the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/buttons/ButtonStyle.html" title="class or interface in net.dv8tion.jda.api.components.buttons" class="external-link"><code>ButtonStyle</code></a>.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#value()" class="member-name-link">value</a></code></div>
+<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-second odd-row-color"><code><a href="#uniqueId()" class="member-name-link">uniqueId</a></code></div>
 <div class="col-last odd-row-color">
+<div class="block">The uniqueId of this component.</div>
+</div>
+<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#value()" class="member-name-link">value</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">Gets the label of the button.</div>
 </div>
 </div>
@@ -206,6 +212,19 @@ public void onButton(ComponentEvent event) { ... }
 <dl class="notes">
 <dt>Default:</dt>
 <dd><code>""</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="uniqueId()">
+<h3>uniqueId</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">uniqueId</span></div>
+<div class="block">The uniqueId of this component. Must be greater than 0. Default value is <code>-1</code> which will result in Discord auto assigning an id.</div>
+<dl class="notes">
+<dt>Default:</dt>
+<dd><code>-1</code></dd>
 </dl>
 </div>
 </section>
