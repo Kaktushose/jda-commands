@@ -130,7 +130,7 @@ public record EntitySelectMenuDefinition(
             if (!channelTypes.isEmpty()) {
                 menu.setChannelTypes(channelTypes);
             }
-            if (uniqueId > 0) {
+            if (uniqueId != null) {
                 menu.setUniqueId(uniqueId);
             }
             return menu.build();

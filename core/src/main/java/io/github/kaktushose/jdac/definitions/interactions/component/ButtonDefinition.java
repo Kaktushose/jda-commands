@@ -110,7 +110,7 @@ public record ButtonDefinition(
             } else {
                 button = Button.of(style, idOrUrl, label, emoji);
             }
-            if (uniqueId > 0) {
+            if (uniqueId != null) {
                 button = button.withUniqueId(uniqueId);
             }
             return button;

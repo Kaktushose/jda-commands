@@ -127,7 +127,7 @@ public record StringSelectMenuDefinition(
                     .setRequiredRange(minValue, maxValue)
                     .addOptions(selectOptions.stream().map(MenuOptionDefinition::toJDAEntity).collect(Collectors.toSet()))
                     .build();
-            if (uniqueId > 0) {
+            if (uniqueId != null) {
                 menu = menu.withUniqueId(uniqueId);
             }
             return menu;
