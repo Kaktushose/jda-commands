@@ -3,7 +3,7 @@ package io.github.kaktushose.jdac.exceptions;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 
-/// Thrown if the JSON parsing inside of [Embed][io.github.kaktushose.jdac.embeds.Embed] fails.
+/// Thrown if the JSON parsing during localization of embeds or components fails.
 public final class ParsingException extends JDACException {
 
     /// @param placeholder the placeholders to insert

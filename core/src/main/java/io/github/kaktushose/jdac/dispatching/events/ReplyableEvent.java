@@ -18,6 +18,7 @@ import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
@@ -33,6 +34,8 @@ import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -198,8 +201,35 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///   - It does not support previewing files
     ///   - URLs don't create embeds
     ///   - You cannot switch this message back to not using Components V2 (you can however upgrade a message to V2)
-    public Message reply(MessageTopLevelComponent component, MessageTopLevelComponent... components) {
-        return with().reply(component, components);
+    ///
+    /// @param component the [MessageTopLevelComponent] to reply with
+    /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
+    public Message reply(MessageTopLevelComponent component, Entry... placeholder) {
+        return reply(List.of(component), placeholder);
+    }
+
+    /// Acknowledgement of this event with V2 Components.
+    ///
+    /// Using V2 components removes the top-level component limit,
+    /// and allows more components in total ({@value Message#MAX_COMPONENT_COUNT_IN_COMPONENT_TREE}).
+    ///
+    /// They also allow you to use a larger choice of components, such as any component extending [MessageTopLevelComponent],
+    /// as long as they are [compatible][Component.Type#isMessageCompatible()].
+    ///
+    /// The character limit for the messages also gets changed to {@value Message#MAX_CONTENT_LENGTH_COMPONENT_V2}.
+    ///
+    /// This, however, comes with a few drawbacks:
+    ///
+    ///   - You cannot send content, embeds, polls or stickers
+    ///   - It does not support voice messages
+    ///   - It does not support previewing files
+    ///   - URLs don't create embeds
+    ///   - You cannot switch this message back to not using Components V2 (you can however upgrade a message to V2)
+    ///
+    /// @param components a [Collection] of [MessageTopLevelComponent]s to reply with
+    /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
+    public Message reply(Collection<MessageTopLevelComponent> components, Entry... placeholder) {
+        return with().reply(components, placeholder);
     }
 
     /// Acknowledgement of this event with a text message.

@@ -4,6 +4,8 @@ import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
@@ -69,15 +71,30 @@ public final class EditableConfigurableReply extends ConfigurableReply {
     /// This method will always set [#keepComponents(boolean)] to `true` to retrieve the original components.
     ///
     /// @param replacer the [ComponentReplacer] to apply to the original components
+    /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
     /// @throws UnsupportedOperationException if the original message didn't use V2 Components
-    public Message reply(ComponentReplacer... replacer) {
+    public Message reply(ComponentReplacer replacer, Entry... placeholder) {
         if (!interaction.getMessage().isUsingComponentsV2()) {
             throw new UnsupportedOperationException(JDACException.errorMessage("component-replacer-v1"));
         }
 
         replyAction.keepComponents(true);
 
-        return replyAction.reply(replacer);
+        return replyAction.reply(replacer, placeholder);
     }
 
+    /// Acknowledgement of this event with the V2 Components of the original reply.
+    ///
+    /// This method will always set [#keepComponents(boolean)] to `true` to retrieve the original components.
+    ///
+    /// @throws UnsupportedOperationException if the original message didn't use V2 Components
+    public Message reply() {
+        if (!interaction.getMessage().isUsingComponentsV2()) {
+            throw new UnsupportedOperationException(JDACException.errorMessage("component-replacer-v1"));
+        }
+
+        replyAction.keepComponents(true);
+
+        return replyAction.reply();
+    }
 }
