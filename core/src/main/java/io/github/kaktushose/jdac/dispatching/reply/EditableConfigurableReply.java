@@ -83,7 +83,7 @@ public final class EditableConfigurableReply extends ConfigurableReply {
         replacer[replacer.length -1] = ComponentReplacer.of(
                 io.github.kaktushose.jdac.dispatching.reply.Component.class,
                 _ -> true,
-                it -> resolve(it, false)
+                this::resolve
         );
 
         return replyAction.reply(replacer);
