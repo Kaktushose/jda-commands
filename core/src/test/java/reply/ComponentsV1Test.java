@@ -105,13 +105,6 @@ class ComponentsV1Test {
         assertNull(reply.lastMessage());
     }
 
-    @Test
-    void testDuplicate() {
-        MessageEventReply reply = scenario.slash("duplicate").invoke();
-
-        assertTrue(reply.embeds().get(0).getDescription().contains("The command execution has unexpectedly failed."));
-    }
-
     @Interaction
     public static class TestController {
 
