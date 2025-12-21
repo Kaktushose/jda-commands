@@ -98,14 +98,14 @@ public final class ReplyAction {
     }
 
     public Message reply(List<MessageTopLevelComponentUnion> components, Entry... placeholder) {
-        components = componentLocalizer.localize(components, getUserLocale(), placeholder);
+        components = componentLocalizer.localize(components, getUserLocale(), Entry.toMap(placeholder));
         builder.closeFiles().clear().useComponentsV2().addComponents(components);
         return reply();
     }
 
     public Message reply(ComponentReplacer replacer, Entry... placeholder) {
         var components = builder.getComponentTree().replace(replacer).getComponents();
-        components = componentLocalizer.localize(components, getUserLocale(), placeholder);
+        components = componentLocalizer.localize(components, getUserLocale(), Entry.toMap(placeholder));
         builder.setComponents(components);
         return reply();
     }
