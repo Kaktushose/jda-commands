@@ -84,13 +84,4 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     public Message reply(ComponentReplacer replacer, Entry... placeholder) {
         return with().reply(replacer, placeholder);
     }
-
-    /// Acknowledgement of this event with the V2 Components of the original reply.
-    ///
-    /// This method will always set [#keepComponents(boolean)] to `true` to retrieve the original components.
-    ///
-    /// @throws UnsupportedOperationException if the original message didn't use V2 Components
-    public Message reply() {
-        return with().reply();
-    }
 }

@@ -82,19 +82,4 @@ public final class EditableConfigurableReply extends ConfigurableReply {
 
         return replyAction.reply(replacer, placeholder);
     }
-
-    /// Acknowledgement of this event with the V2 Components of the original reply.
-    ///
-    /// This method will always set [#keepComponents(boolean)] to `true` to retrieve the original components.
-    ///
-    /// @throws UnsupportedOperationException if the original message didn't use V2 Components
-    public Message reply() {
-        if (!interaction.getMessage().isUsingComponentsV2()) {
-            throw new UnsupportedOperationException(JDACException.errorMessage("component-replacer-v1"));
-        }
-
-        replyAction.keepComponents(true);
-
-        return replyAction.reply();
-    }
 }
