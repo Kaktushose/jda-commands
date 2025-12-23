@@ -12,7 +12,6 @@ import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig;
-import io.github.kaktushose.jdac.dispatching.FrameworkContext;
 import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.jdac.dispatching.adapter.internal.TypeAdapters;
@@ -59,7 +58,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static io.github.kaktushose.jdac.configuration.Property.*;
-import static io.github.kaktushose.jdac.configuration.internal.InternalPropertyProviders.*;
+import static io.github.kaktushose.jdac.configuration.internal.InternalProperties.*;
 
 /// This builder is used to build instances of [JDACommands].
 ///
@@ -335,38 +334,30 @@ public class JDACBuilder {
     /// This method applies all found implementations of [Extension],
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
-        Resolver resolver = properties.createResolver();
+        Resolver resolver = properties.loadExtensionsAndcreateResolver();
+        Properties initProperties = new Properties();
 
         try {
             log.info("Starting JDA-Commands...");
 
-            FrameworkContext frameworkContext = new FrameworkContext(
-                    new Middlewares(resolver.get(MIDDLEWARE), resolver.get(ERROR_MESSAGE_FACTORY), resolver.get(PERMISSION_PROVIDER)),
-                    resolver.get(ERROR_MESSAGE_FACTORY),
-                    new InteractionRegistry(
-                            new Validators(resolver.get(VALIDATOR)),
-                            resolver.get(I18N),
-                            resolver.get(LOCALIZE_COMMANDS) ? resolver.get(I18N).localizationFunction() : (_) -> Map.of(),
-                            resolver.get(DESCRIPTOR)
-                    ),
-                    new TypeAdapters(resolver.get(TYPE_ADAPTER), resolver.get(I18N)),
-                    resolver.get(EXPIRATION_STRATEGY),
-                    resolver.get(INTERACTION_CONTROLLER_INSTANTIATOR),
-                    resolver.get(EMBEDS),
+            InteractionRegistry interactionRegistry = new InteractionRegistry(
+                    new Validators(resolver.get(VALIDATOR)),
                     resolver.get(I18N),
-                    resolver.get(MESSAGE_RESOLVER),
-                    resolver.get(GLOBAL_REPLY_CONFIG),
-                    resolver.get(GLOBAL_COMMAND_CONFIG)
+                    resolver.get(LOCALIZE_COMMANDS) ? resolver.get(I18N).localizationFunction() : (_) -> Map.of(),
+                    resolver.get(DESCRIPTOR)
             );
+            Middlewares middlewares = new Middlewares(resolver.get(MIDDLEWARE), resolver.get(ERROR_MESSAGE_FACTORY), resolver.get(PERMISSION_PROVIDER));
+            TypeAdapters typeAdapters = new TypeAdapters(resolver.get(TYPE_ADAPTER), resolver.get(I18N));
 
-            JDACommands jdaCommands = new JDACommands(
-                    frameworkContext,
-                    resolver.get(JDA_CONTEXT),
-                    resolver.get(GUILD_SCOPE_PROVIDER),
-                    resolver.get(SHUTDOWN_JDA)
-            );
+            Helpers.addProtectedProperty(initProperties, INTERACTION_REGISTRY, _ -> interactionRegistry);
+            Helpers.addProtectedProperty(initProperties, DEFINITIONS, ctx -> ctx.get(INTERACTION_REGISTRY));
 
-            jdaCommands.start(resolver.get(MERGED_CLASS_FINDER));
+            Helpers.addProtectedProperty(initProperties, MIDDLEWARES, _ -> middlewares);
+            Helpers.addProtectedProperty(initProperties, TYPE_ADAPTERS, _ -> typeAdapters);
+
+            JDACommands jdaCommands = new JDACommands(resolver.createSub(initProperties));
+            jdaCommands.start();
+
             return jdaCommands;
         } catch (JDACException e) {
             if (resolver.get(SHUTDOWN_JDA)) {

@@ -5,6 +5,8 @@ import io.github.kaktushose.jdac.annotations.interactions.CommandConfig;
 import io.github.kaktushose.jdac.annotations.interactions.Permissions;
 import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
 import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.configuration.PropertyProvider;
+import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.description.ParameterDescription;
@@ -265,5 +267,9 @@ public final class Helpers {
         }
 
         return properties;
+    }
+
+    public static  <T> void addProtectedProperty(Properties properties, Property<T> type, Function<PropertyProvider.Context, T> supplier) {
+        ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.add(PropertyProvider.create(type, Properties.FALLBACK_PRIORITY, supplier)));
     }
 }

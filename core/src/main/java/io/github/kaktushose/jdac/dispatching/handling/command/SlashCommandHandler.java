@@ -1,9 +1,10 @@
 package io.github.kaktushose.jdac.dispatching.handling.command;
 
+import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
-import io.github.kaktushose.jdac.dispatching.FrameworkContext;
 import io.github.kaktushose.jdac.dispatching.Runtime;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
@@ -31,6 +32,8 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 @ApiStatus.Internal
 public final class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {
 
+    public static final ScopedValue<SlashCommandInteractionEvent> EVENT = ScopedValue.newInstance();
+
     private static final Map<Class<?>, Object> DEFAULT_MAPPINGS = Map.of(
             byte.class, ((byte) 0),
             short.class, ((short) 0),
@@ -43,8 +46,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             Optional.class, Optional.empty()
     );
 
-    public SlashCommandHandler(FrameworkContext context) {
-        super(context);
+    public SlashCommandHandler(Resolver resolver) {
+        super(resolver);
     }
 
     @Override
@@ -54,17 +57,17 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                 it.name().equals(event.getFullCommandName())
         );
 
-        return parseArguments(command, event, runtime)
-                .map(args -> new InvocationContext<>(
-                        new InvocationContext.Utility(context.i18n(), context.messageResolver()),
-                        new InvocationContext.Data<>(
-                            event,
-                            runtime.keyValueStore(),
-                            command,
-                            Helpers.replyConfig(command, context.globalReplyConfig()),
-                            args)
+        return ScopedValue.where(EVENT, event)
+                .call(() -> parseArguments(command, event, runtime)
+                        .map(args -> new InvocationContext<>(
+                                event,
+                                runtime.keyValueStore(),
+                                command,
+                                Helpers.replyConfig(command, resolver.get(Property.GLOBAL_REPLY_CONFIG)),
+                                args)
                         )
                 ).orElse(null);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -74,7 +77,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                 .stream()
                 .map(it -> event.getOption(it.name()))
                 .toList();
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, context.globalReplyConfig());
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, resolver.get(Property.GLOBAL_REPLY_CONFIG));
         List<@Nullable Object> parsedArguments = new ArrayList<>();
 
         log.debug("Type adapting arguments...");

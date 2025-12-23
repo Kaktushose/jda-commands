@@ -51,6 +51,13 @@ public final class Resolver {
         return result.value;
     }
 
+    public Resolver createSub(Properties additional) {
+        Resolver sub = new Resolver(new HashMap<>(this.properties));
+        sub.properties.putAll(additional.properties());
+        sub.cache.putAll(this.cache);
+        return sub;
+    }
+
     private <T> boolean shouldSkip(SortedSet<PropertyProvider<T>> providers, PropertyProvider<T> provider) {
         return providers.size() > 1
                 && provider.priority() == Properties.FALLBACK_PRIORITY

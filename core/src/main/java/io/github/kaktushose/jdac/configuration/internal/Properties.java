@@ -13,6 +13,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 public class Properties {
     public static ScopedValue<Boolean> INSIDE_FRAMEWORK = ScopedValue.newInstance();
 
+
     public static final int FALLBACK_PRIORITY = 0;
     public static final int USER_PRIORITY = Integer.MAX_VALUE;
 
@@ -54,11 +55,15 @@ public class Properties {
         provider.forEach(this::add);
     }
 
-    public Resolver createResolver() {
+    public Resolver loadExtensionsAndcreateResolver() {
         ExtensionLoader extensionLoader = new ExtensionLoader();
         extensionLoader.load(new Resolver(properties)); // Resolver just for user settable types
         extensionLoader.register(this);
 
         return new Resolver(properties);
+    }
+
+    Map<Property<?>, SortedSet<PropertyProvider<?>>> properties() {
+        return properties;
     }
 }

@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.dispatching.events;
 
+import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
 import io.github.kaktushose.jdac.dispatching.events.interactions.AutoCompleteEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
@@ -7,6 +8,7 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
+import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.message.MessageResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
@@ -26,8 +28,8 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Locale;
 
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getJdaEvent;
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getRuntime;
+import static io.github.kaktushose.jdac.introspection.internal.IntroAccess.accJdaEvent;
+import static io.github.kaktushose.jdac.introspection.internal.IntroAccess.accRuntime;
 
 
 /// Abstract base event for all interaction events, like [CommandEvent].
@@ -48,14 +50,14 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// @return the [GenericInteractionCreateEvent]
     @SuppressWarnings("unchecked")
     public T jdaEvent() {
-        return (T) getJdaEvent();
+        return (T) accJdaEvent();
     }
 
     /// Returns the id of the [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) this event is dispatched in.
     ///
     /// @return the id of the current [`Runtime`]({@docRoot}/index.html#runtime-concept-heading)
     public String runtimeId() {
-        return getRuntime().id();
+        return accRuntime().id();
     }
 
     /// Closes the underlying [`Runtime`]({@docRoot}/index.html#runtime-concept-heading). This will ignore any new jda events belonging to this interaction, resulting
@@ -64,7 +66,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// This is only needed if the expiration strategy
     /// [ExpirationStrategy.Explicit] is used.
     public void closeRuntime() {
-        getRuntime().close();
+        accRuntime().close();
     }
 
     /// Returns the [KeyValueStore] of this [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
@@ -74,7 +76,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the [KeyValueStore]
     public KeyValueStore kv() {
-        return getRuntime().keyValueStore();
+        return accRuntime().keyValueStore();
     }
 
     /// Returns an instance of a class annotated with [`Interaction`][io.github.kaktushose.jdac.annotations.interactions.Interaction],
@@ -83,7 +85,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// @return the interaction class instance
     @Nullable
     public <I> I interactionInstance(Class<I> interactionClass) {
-        return getRuntime().interactionInstance(interactionClass);
+        return accRuntime().interactionInstance(interactionClass);
     }
 
 
@@ -91,14 +93,14 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the [I18n] instance.
     public I18n i18n() {
-        return getRuntime().framework().i18n();
+        return Introspection.accGet(Property.I18N);
     }
 
     /// Gets the [MessageResolver] instance
     ///
     /// @return the [MessageResolver] instance
     public MessageResolver messageResolver() {
-        return getRuntime().framework().messageResolver();
+        return Introspection.accGet(Property.MESSAGE_RESOLVER);
     }
 
     /// Gets a localization message for the given key using the underlying [I18n] instance.

@@ -1,8 +1,9 @@
 package io.github.kaktushose.jdac.dispatching.handling;
 
+import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
-import io.github.kaktushose.jdac.dispatching.FrameworkContext;
 import io.github.kaktushose.jdac.dispatching.Runtime;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.events.interactions.AutoCompleteEvent;
@@ -17,8 +18,8 @@ import java.util.List;
 @ApiStatus.Internal
 public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInteractionEvent> {
 
-    public AutoCompleteHandler(FrameworkContext context) {
-        super(context);
+    public AutoCompleteHandler(Resolver resolver) {
+        super(resolver);
     }
 
     @Nullable
@@ -35,14 +36,11 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
                         .map(OptionDataDefinition::autoComplete)
                         .map(definition ->
                                 new InvocationContext<>(
-                                        new InvocationContext.Utility(context.i18n(), context.messageResolver()),
-                                        new InvocationContext.Data<>(
-                                            event,
-                                            runtime.keyValueStore(),
-                                            definition,
-                                            Helpers.replyConfig(slashCommandDefinition, context.globalReplyConfig()),
-                                            List.of(new AutoCompleteEvent())
-                                        )
+                                        event,
+                                        runtime.keyValueStore(),
+                                        definition,
+                                        Helpers.replyConfig(slashCommandDefinition, resolver.get(Property.GLOBAL_REPLY_CONFIG)),
+                                        List.of(new AutoCompleteEvent())
                                 )
                         ).orElseGet(() -> {
                             log.debug("No auto complete handler found for command \"/{}\"", interaction.getFullCommandName());

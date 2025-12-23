@@ -14,16 +14,14 @@ import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringS
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.introspection.Definitions;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 
 /// Central registry for all [InteractionDefinition]s.
@@ -32,7 +30,7 @@ public record InteractionRegistry(Validators validators,
                                   LocalizationFunction localizationFunction,
                                   Descriptor descriptor,
                                   Set<Definition> definitions
-) {
+) implements Definitions {
 
     private static final Logger log = LoggerFactory.getLogger(InteractionRegistry.class);
 
@@ -202,6 +200,12 @@ public record InteractionRegistry(Validators validators,
                 );
     }
 
+
+    @Override
+    public <T extends Definition> T findFirst(Class<T> type, Predicate<T> predicate) {
+        return find(type, false, predicate);
+    }
+
     /// Attempts to find all [Definition]s of type [T] based on the given [Predicate].
     ///
     /// @param type      the type of the [Definition] to find
@@ -211,6 +215,7 @@ public record InteractionRegistry(Validators validators,
     /// @throws IllegalStateException    if no [Definition] was found, although this mandatory should have been the case.
     ///                                  This is a rare occasion and can be considered a framework bug
     /// @throws IllegalArgumentException if no [Definition] was found, because the [Predicate] didn't include any elements
+    @Override
     public <T extends Definition> Collection<T> find(Class<T> type, Predicate<T> predicate) {
         return definitions.stream()
                 .filter(type::isInstance)
@@ -218,4 +223,13 @@ public record InteractionRegistry(Validators validators,
                 .filter(predicate)
                 .toList();
     }
+
+    @Override
+    public Collection<Definition> all() {
+        return Collections.unmodifiableSet(definitions);
+    }
+
+
+
+
 }

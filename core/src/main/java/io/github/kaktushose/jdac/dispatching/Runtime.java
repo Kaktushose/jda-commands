@@ -1,5 +1,9 @@
 package io.github.kaktushose.jdac.dispatching;
 
+import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
+import io.github.kaktushose.jdac.configuration.internal.Properties;
+import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.handling.AutoCompleteHandler;
@@ -10,6 +14,7 @@ import io.github.kaktushose.jdac.dispatching.handling.command.ContextCommandHand
 import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
 import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.internal.Helpers;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -56,21 +61,25 @@ public final class Runtime implements Closeable {
     private final KeyValueStore keyValueStore = new KeyValueStore();
 
     private final InteractionControllerInstantiator runtimeBoundInstanceProvider;
-    private final FrameworkContext context;
+    private final Resolver resolver;
 
     private LocalDateTime lastActivity = LocalDateTime.now();
 
-    private Runtime(String id, FrameworkContext context, JDA jda) {
-        this.id = id;
-        this.context = context;
-        eventQueue = new LinkedBlockingQueue<>();
-        slashCommandHandler = new SlashCommandHandler(context);
-        autoCompleteHandler = new AutoCompleteHandler(context);
-        contextCommandHandler = new ContextCommandHandler(context);
-        componentHandler = new ComponentHandler(context);
-        modalHandler = new ModalHandler(context);
+    private Runtime(String id, Resolver baseResolver, JDA jda) {
+        Properties properties = new Properties();
+        Helpers.addProtectedProperty(properties, Property.JDA, _ -> jda);
+        Helpers.addProtectedProperty(properties, InternalProperties.RUNTIME, _ -> this);
 
-        this.runtimeBoundInstanceProvider = context.instanceProvider().forRuntime(id, jda);
+        this.id = id;
+        this.resolver = baseResolver.createSub(properties);
+        eventQueue = new LinkedBlockingQueue<>();
+        slashCommandHandler = new SlashCommandHandler(resolver);
+        autoCompleteHandler = new AutoCompleteHandler(resolver);
+        contextCommandHandler = new ContextCommandHandler(resolver);
+        componentHandler = new ComponentHandler(resolver);
+        modalHandler = new ModalHandler(resolver);
+
+        this.runtimeBoundInstanceProvider = resolver.get(Property.INTERACTION_CONTROLLER_INSTANTIATOR).forRuntime(id, jda);
 
         this.executionThread = Thread.ofVirtual()
                 .name("JDAC Runtime-Thread %s".formatted(id))
@@ -78,8 +87,8 @@ public final class Runtime implements Closeable {
                 .unstarted(this::checkForEvents);
     }
 
-    public static Runtime startNew(String id, FrameworkContext context, JDA jda) {
-        var runtime = new Runtime(id, context, jda);
+    public static Runtime startNew(String id, Resolver resolver, JDA jda) {
+        var runtime = new Runtime(id, resolver, jda);
         runtime.executionThread.start();
 
         log.debug("Created new runtime with id {}", id);
@@ -124,8 +133,8 @@ public final class Runtime implements Closeable {
         return keyValueStore;
     }
 
-    public FrameworkContext framework() {
-        return context;
+    public Resolver resolver() {
+        return resolver;
     }
 
     public <T> T interactionInstance(Class<T> clazz) {
@@ -138,7 +147,7 @@ public final class Runtime implements Closeable {
     }
 
     public boolean isClosed() {
-        if (context.expirationStrategy() instanceof ExpirationStrategy.Inactivity(long minutes) &&
+        if (resolver.get(Property.EXPIRATION_STRATEGY) instanceof ExpirationStrategy.Inactivity(long minutes) &&
             lastActivity.isBefore(LocalDateTime.now().minusMinutes(minutes))) {
             close();
             return true;

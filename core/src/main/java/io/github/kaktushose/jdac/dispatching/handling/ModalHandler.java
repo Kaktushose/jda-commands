@@ -1,9 +1,10 @@
 package io.github.kaktushose.jdac.dispatching.handling;
 
+import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.ModalDefinition;
-import io.github.kaktushose.jdac.dispatching.FrameworkContext;
 import io.github.kaktushose.jdac.dispatching.Runtime;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
@@ -19,8 +20,8 @@ import java.util.stream.Collectors;
 @ApiStatus.Internal
 public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
 
-    public ModalHandler(FrameworkContext frameworkContext) {
-        super(frameworkContext);
+    public ModalHandler(Resolver resolver) {
+        super(resolver);
     }
 
     @Override
@@ -29,20 +30,17 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
                 it.definitionId().equals(CustomId.fromMerged(event.getModalId()).definitionId())
         );
 
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(modal, context.globalReplyConfig());
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(modal, resolver.get(Property.GLOBAL_REPLY_CONFIG));
 
         List<Object> arguments = event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList());
         arguments.addFirst(new ModalEvent());
 
         return new InvocationContext<>(
-                new InvocationContext.Utility(context.i18n(), context.messageResolver()),
-                new InvocationContext.Data<>(
-                    event,
-                    runtime.keyValueStore(),
-                    modal,
-                    replyConfig,
-                    Collections.unmodifiableList(arguments)
-                )
+                event,
+                runtime.keyValueStore(),
+                modal,
+                replyConfig,
+                Collections.unmodifiableList(arguments)
         );
     }
 }
