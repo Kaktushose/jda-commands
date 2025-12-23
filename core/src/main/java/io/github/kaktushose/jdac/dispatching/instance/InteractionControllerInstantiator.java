@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.dispatching.instance;
 
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
-import io.github.kaktushose.jdac.dispatching.Runtime;
+import io.github.kaktushose.jdac.introspection.Introspection;
 import net.dv8tion.jda.api.JDA;
 
 /// An [InteractionControllerInstantiator] is used get instances of classes annotated with [Interaction], if needed creating those.
@@ -18,28 +18,5 @@ public interface InteractionControllerInstantiator {
     /// This method will be called each time an instance of a class annotated with [Interaction] is needed.
     ///
     /// @param clazz   the [Class] of needed instance
-    /// @param context a context that gives additional useful information or provide some needed functionality
-    <T> T instance(Class<T> clazz, Context context);
-
-    /// Called each time a new [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) is created.
-    ///
-    /// @param id  the runtime id
-    /// @param jda the [JDA] instance associated with the event responsible for creating the new Runtime instance
-    /// @return a specific instance of [InteractionControllerInstantiator] belonging to provided runtime.
-    default InteractionControllerInstantiator forRuntime(String id, JDA jda) {
-        return this;
-    }
-
-    class Context {
-        private final Runtime runtime;
-
-        public Context(Runtime runtime) {
-            this.runtime = runtime;
-        }
-
-        /// the runtime id
-        public String runtimeId() {
-            return runtime.id();
-        }
-    }
+    <T> T instance(Class<T> clazz, Introspection introspection);
 }

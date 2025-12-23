@@ -118,7 +118,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                     definition.methodDescription().name(),
                     arguments
             );
-            Object instance = runtime.interactionInstance(definition.classDescription().clazz());
+            Object instance = runtime.interactionInstance(definition.classDescription().clazz(), Introspection.access());
 
             ScopedValue.where(INVOCATION_PERMITTED, true).call(() -> definition.invoke(instance, invocation));
         } catch (Exception exception) {

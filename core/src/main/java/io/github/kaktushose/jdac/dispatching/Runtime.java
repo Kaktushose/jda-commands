@@ -12,9 +12,9 @@ import io.github.kaktushose.jdac.dispatching.handling.EventHandler;
 import io.github.kaktushose.jdac.dispatching.handling.ModalHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.ContextCommandHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
-import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.internal.Helpers;
+import io.github.kaktushose.jdac.introspection.Introspection;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -60,7 +60,6 @@ public final class Runtime implements Closeable {
 
     private final KeyValueStore keyValueStore = new KeyValueStore();
 
-    private final InteractionControllerInstantiator runtimeBoundInstanceProvider;
     private final Resolver resolver;
 
     private LocalDateTime lastActivity = LocalDateTime.now();
@@ -78,8 +77,6 @@ public final class Runtime implements Closeable {
         contextCommandHandler = new ContextCommandHandler(resolver);
         componentHandler = new ComponentHandler(resolver);
         modalHandler = new ModalHandler(resolver);
-
-        this.runtimeBoundInstanceProvider = resolver.get(Property.INTERACTION_CONTROLLER_INSTANTIATOR).forRuntime(id, jda);
 
         this.executionThread = Thread.ofVirtual()
                 .name("JDAC Runtime-Thread %s".formatted(id))
@@ -137,8 +134,8 @@ public final class Runtime implements Closeable {
         return resolver;
     }
 
-    public <T> T interactionInstance(Class<T> clazz) {
-        return runtimeBoundInstanceProvider.instance(clazz, new InteractionControllerInstantiator.Context(this));
+    public <T> T interactionInstance(Class<T> clazz, Introspection introspection) {
+        return resolver.get(Property.INTERACTION_CONTROLLER_INSTANTIATOR).instance(clazz, introspection);
     }
 
     @Override

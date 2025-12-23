@@ -85,7 +85,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// @return the interaction class instance
     @Nullable
     public <I> I interactionInstance(Class<I> interactionClass) {
-        return accRuntime().interactionInstance(interactionClass);
+        return accRuntime().interactionInstance(interactionClass, Introspection.access());
     }
 
 

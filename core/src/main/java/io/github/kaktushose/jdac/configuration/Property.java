@@ -195,6 +195,8 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
             new Singleton<>("JDA_EVENT", Category.PROVIDED, GenericInteractionCreateEvent.class, Stage.INTERACTION);
     Property<InvocationContext<?>> INVOCATION_CONTEXT =
             new Singleton<>("INVOCATION_CONTEXT", Category.PROVIDED, castUnsafe(InvocationContext.class), Stage.INTERACTION);
+    Property<String> RUNTIME_ID =
+            new Singleton<>("RUNTIME_ID", Category.PROVIDED, String.class, Stage.INTERACTION);
 
 
     /// A collection consisting of all [Property]s that are
