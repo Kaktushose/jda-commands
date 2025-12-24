@@ -59,7 +59,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
 
         implementations.add(provider(
                 Property.INTERACTION_CONTROLLER_INSTANTIATOR,
-                ctx -> new GuiceInteractionControllerInstantiator(ctx.get(Property.I18N), injector)
+                _ -> new GuiceInteractionControllerInstantiator(injector)
         ));
 
         addDynamicImplementations(implementations);

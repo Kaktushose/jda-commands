@@ -1,0 +1,27 @@
+package io.github.kaktushose.jdac.guice.internal;
+
+import com.google.inject.Key;
+import com.google.inject.Provider;
+import com.google.inject.Scope;
+import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.introspection.Introspection;
+import org.jetbrains.annotations.ApiStatus;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+@ApiStatus.Internal
+public class RuntimeBoundScope implements Scope {
+
+    private final Map<String, Map<Key<?>, Object>> store = new ConcurrentHashMap<>();
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> Provider<T> scope(Key<T> key, Provider<T> unscoped) {
+        return () -> {
+            Map<Key<?>, Object> runtimeBoundCache = store.computeIfAbsent(Introspection.accGet(Property.RUNTIME_ID), _ -> new ConcurrentHashMap<>());
+
+            return (T) runtimeBoundCache.computeIfAbsent(key, _ -> unscoped.get());
+        };
+    }
+}

@@ -14,6 +14,7 @@ import io.github.kaktushose.jdac.dispatching.handling.command.ContextCommandHand
 import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.Stage;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -67,6 +68,7 @@ public final class Runtime implements Closeable {
         this.resolver = Properties.Builder.newRestricted()
                 .addFallback(Property.JDA, _ -> jda)
                 .addFallback(InternalProperties.RUNTIME, _ -> this)
+                .addFallback(Property.RUNTIME_ID, _ -> this.id())
                 .createResolver(baseResolver);
 
         this.id = id;
@@ -133,8 +135,8 @@ public final class Runtime implements Closeable {
         return resolver;
     }
 
-    public <T> T interactionInstance(Class<T> clazz, Introspection introspection) {
-        return resolver.get(Property.INTERACTION_CONTROLLER_INSTANTIATOR).instance(clazz, introspection);
+    public <T> T interactionInstance(Class<T> clazz) {
+        return resolver.get(Property.INTERACTION_CONTROLLER_INSTANTIATOR).instance(clazz, new Introspection(resolver, Stage.RUNTIME));
     }
 
     @Override

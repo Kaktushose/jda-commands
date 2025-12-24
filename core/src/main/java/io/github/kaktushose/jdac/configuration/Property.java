@@ -188,15 +188,18 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     Property<Definitions> DEFINITIONS =
             new Singleton<>("DEFINITIONS", Category.PROVIDED, Definitions.class, Stage.INITIALIZED);
 
-    // ------ interaction ---------
+    // ------- runtime ---------
     Property<JDA> JDA =
-            new Singleton<>("JDA", Category.PROVIDED, net.dv8tion.jda.api.JDA.class, Stage.INTERACTION);
+            new Singleton<>("JDA", Category.PROVIDED, net.dv8tion.jda.api.JDA.class, Stage.RUNTIME);
+    Property<String> RUNTIME_ID =
+            new Singleton<>("RUNTIME_ID", Category.PROVIDED, String.class, Stage.RUNTIME);
+
+
+    // ------ interaction ---------
     Property<GenericInteractionCreateEvent> JDA_EVENT =
             new Singleton<>("JDA_EVENT", Category.PROVIDED, GenericInteractionCreateEvent.class, Stage.INTERACTION);
     Property<InvocationContext<?>> INVOCATION_CONTEXT =
             new Singleton<>("INVOCATION_CONTEXT", Category.PROVIDED, castUnsafe(InvocationContext.class), Stage.INTERACTION);
-    Property<String> RUNTIME_ID =
-            new Singleton<>("RUNTIME_ID", Category.PROVIDED, String.class, Stage.INTERACTION);
 
 
     /// A collection consisting of all [Property]s that are
@@ -236,10 +239,16 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     ///
     /// @see Category#PROVIDED
     Collection<Property<?>> PROVIDED = Helpers.propertyCategoryList(Category.PROVIDED, List.of(
-             I18N,
-             MESSAGE_RESOLVER,
-             EMOJI_RESOLVER,
-             MERGED_CLASS_FINDER
+            I18N,
+            MESSAGE_RESOLVER,
+            EMOJI_RESOLVER,
+            MERGED_CLASS_FINDER,
+            JDA_COMMANDS,
+            DEFINITIONS,
+            JDA,
+            RUNTIME_ID,
+            JDA_EVENT,
+            INVOCATION_CONTEXT
      ));
 
     /// Whether the fallback values provided by JDA-Commands should be accumulated together

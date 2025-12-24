@@ -56,6 +56,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                 it.name().equals(event.getFullCommandName())
         );
 
+        // Scope values needed for user locale in proteus mapper, see type adapter
         return ScopedValue.where(EVENT, event)
                 .call(() -> parseArguments(command, event, runtime).map(args -> new Ingredients(command, args)))
                 .orElse(null);

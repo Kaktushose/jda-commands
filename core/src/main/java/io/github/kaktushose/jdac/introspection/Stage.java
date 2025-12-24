@@ -4,5 +4,6 @@ package io.github.kaktushose.jdac.introspection;
 public enum Stage {
     CONFIGURATION,
     INITIALIZED,
+    RUNTIME,
     INTERACTION
 }
