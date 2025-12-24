@@ -15,6 +15,7 @@ import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
+import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -69,18 +70,23 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     }
 
     @Nullable
-    protected abstract InvocationContext<T> prepare(T event, Runtime runtime);
+    protected abstract Ingredients prepare(T event, Runtime runtime);
 
     @Override
     public final void accept(T e, Runtime runtime) {
         log.debug("Got event {}", e);
 
-        InvocationContext<T> invocationContext = prepare(e, runtime);
+        Ingredients ingredients = prepare(e, runtime);
 
-        if (invocationContext == null || Thread.interrupted()) {
+        if (ingredients == null || Thread.interrupted()) {
             log.debug("Interaction execution cancelled by preparation task");
             return;
         }
+
+        InvocationContext<T> invocationContext =
+                new InvocationContext<>(e, runtime.keyValueStore(), ingredients.definition,
+                        Helpers.replyConfig(ingredients.definition, resolver.get(Property.GLOBAL_REPLY_CONFIG)),
+                        ingredients.rawArguments);
 
         Resolver interactionResolver = Properties.Builder.newRestricted()
                 .addFallback(Property.JDA_EVENT, _ -> e)
@@ -88,7 +94,6 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                 .createResolver(this.resolver);
 
         Introspection introspection = new Introspection(interactionResolver, Stage.INTERACTION);
-
         ScopedValue.where(INTROSPECTION, introspection).run(() -> {
             log.debug("Executing middlewares...");
             middlewares.forOrdered(invocationContext.definition().classDescription().clazz(), middleware -> {
@@ -154,4 +159,6 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             }
         }
     }
+
+    public record Ingredients(InteractionDefinition definition, SequencedCollection<@Nullable Object> rawArguments) {}
 }

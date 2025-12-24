@@ -6,7 +6,6 @@ import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
 import io.github.kaktushose.jdac.dispatching.Runtime;
-import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.handling.EventHandler;
 import io.github.kaktushose.jdac.exceptions.InternalException;
@@ -52,21 +51,14 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
     @Override
     @Nullable
-    protected InvocationContext<SlashCommandInteractionEvent> prepare(SlashCommandInteractionEvent event, Runtime runtime) {
+    protected Ingredients prepare(SlashCommandInteractionEvent event, Runtime runtime) {
         SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class, true, it ->
                 it.name().equals(event.getFullCommandName())
         );
 
         return ScopedValue.where(EVENT, event)
-                .call(() -> parseArguments(command, event, runtime)
-                        .map(args -> new InvocationContext<>(
-                                event,
-                                runtime.keyValueStore(),
-                                command,
-                                Helpers.replyConfig(command, resolver.get(Property.GLOBAL_REPLY_CONFIG)),
-                                args)
-                        )
-                ).orElse(null);
+                .call(() -> parseArguments(command, event, runtime).map(args -> new Ingredients(command, args)))
+                .orElse(null);
 
     }
 

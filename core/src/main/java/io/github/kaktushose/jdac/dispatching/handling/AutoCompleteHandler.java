@@ -1,13 +1,10 @@
 package io.github.kaktushose.jdac.dispatching.handling;
 
-import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
 import io.github.kaktushose.jdac.dispatching.Runtime;
-import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.events.interactions.AutoCompleteEvent;
-import io.github.kaktushose.jdac.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
 import org.jetbrains.annotations.ApiStatus;
@@ -24,7 +21,7 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
 
     @Nullable
     @Override
-    protected InvocationContext<CommandAutoCompleteInteractionEvent> prepare(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
+    protected Ingredients prepare(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
         CommandAutoCompleteInteraction interaction = event.getInteraction();
 
         return interactionRegistry.find(SlashCommandDefinition.class, it -> it.name().equals(interaction.getFullCommandName()))
@@ -34,15 +31,8 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
                         .filter(option -> option.name().equals(event.getFocusedOption().getName()))
                         .findFirst()
                         .map(OptionDataDefinition::autoComplete)
-                        .map(definition ->
-                                new InvocationContext<>(
-                                        event,
-                                        runtime.keyValueStore(),
-                                        definition,
-                                        Helpers.replyConfig(slashCommandDefinition, resolver.get(Property.GLOBAL_REPLY_CONFIG)),
-                                        List.of(new AutoCompleteEvent())
-                                )
-                        ).orElseGet(() -> {
+                        .map(definition -> new Ingredients(definition, List.of(new AutoCompleteEvent())))
+                        .orElseGet(() -> {
                             log.debug("No auto complete handler found for command \"/{}\"", interaction.getFullCommandName());
                             return null;
                         })

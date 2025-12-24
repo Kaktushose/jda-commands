@@ -1,15 +1,11 @@
 package io.github.kaktushose.jdac.dispatching.handling;
 
-import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
 import io.github.kaktushose.jdac.dispatching.Runtime;
-import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.exceptions.InternalException;
-import io.github.kaktushose.jdac.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -27,12 +23,10 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
     }
 
     @Override
-    protected InvocationContext<GenericComponentInteractionCreateEvent> prepare(GenericComponentInteractionCreateEvent genericEvent, Runtime runtime) {
+    protected Ingredients prepare(GenericComponentInteractionCreateEvent genericEvent, Runtime runtime) {
         var component = interactionRegistry.find(ComponentDefinition.class, true, it ->
                 it.definitionId().equals(CustomId.fromMerged(genericEvent.getComponentId()).definitionId())
         );
-
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(component, resolver.get(Property.GLOBAL_REPLY_CONFIG));
 
         List<Object> arguments = switch (genericEvent) {
             case StringSelectInteractionEvent event -> new ArrayList<>(List.of(event.getValues()));
@@ -42,12 +36,6 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
         };
         arguments.addFirst(new ComponentEvent());
 
-        return new InvocationContext<>(
-                genericEvent,
-                runtime.keyValueStore(),
-                component,
-                replyConfig,
-                arguments
-        );
+        return new Ingredients(component, arguments);
     }
 }
