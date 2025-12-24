@@ -15,7 +15,6 @@ import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
-import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -75,7 +74,6 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     @Override
     public final void accept(T e, Runtime runtime) {
         log.debug("Got event {}", e);
-        Properties properties = new Properties();
 
         InvocationContext<T> invocationContext = prepare(e, runtime);
 
@@ -84,9 +82,10 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             return;
         }
 
-        Helpers.addProtectedProperty(properties, Property.JDA_EVENT, _ -> e);
-        Helpers.addProtectedProperty(properties, Property.INVOCATION_CONTEXT, _ -> invocationContext);
-        Resolver interactionResolver = this.resolver.createSub(properties);
+        Resolver interactionResolver = Properties.Builder.newRestricted()
+                .addFallback(Property.JDA_EVENT, _ -> e)
+                .addFallback(Property.INVOCATION_CONTEXT, _ -> invocationContext)
+                .createResolver(this.resolver);
 
         Introspection introspection = new Introspection(interactionResolver, Stage.INTERACTION);
 

@@ -335,7 +335,6 @@ public class JDACBuilder {
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
         Resolver resolver = properties.loadExtensionsAndcreateResolver();
-        Properties initProperties = new Properties();
 
         try {
             log.info("Starting JDA-Commands...");
@@ -349,13 +348,14 @@ public class JDACBuilder {
             Middlewares middlewares = new Middlewares(resolver.get(MIDDLEWARE), resolver.get(ERROR_MESSAGE_FACTORY), resolver.get(PERMISSION_PROVIDER));
             TypeAdapters typeAdapters = new TypeAdapters(resolver.get(TYPE_ADAPTER), resolver.get(I18N));
 
-            Helpers.addProtectedProperty(initProperties, INTERACTION_REGISTRY, _ -> interactionRegistry);
-            Helpers.addProtectedProperty(initProperties, DEFINITIONS, ctx -> ctx.get(INTERACTION_REGISTRY));
+            Resolver initResolver = Properties.Builder.newRestricted()
+                    .addFallback(INTERACTION_REGISTRY, _ -> interactionRegistry)
+                    .addFallback(DEFINITIONS, ctx -> ctx.get(INTERACTION_REGISTRY))
+                    .addFallback(MIDDLEWARES, _ -> middlewares)
+                    .addFallback(TYPE_ADAPTERS, _ -> typeAdapters)
+                    .createResolver(resolver);
 
-            Helpers.addProtectedProperty(initProperties, MIDDLEWARES, _ -> middlewares);
-            Helpers.addProtectedProperty(initProperties, TYPE_ADAPTERS, _ -> typeAdapters);
-
-            JDACommands jdaCommands = new JDACommands(resolver.createSub(initProperties));
+            JDACommands jdaCommands = new JDACommands(initResolver);
             jdaCommands.start();
 
             return jdaCommands;

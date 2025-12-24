@@ -13,7 +13,6 @@ import io.github.kaktushose.jdac.dispatching.handling.ModalHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.ContextCommandHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
 import io.github.kaktushose.jdac.exceptions.InternalException;
-import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -65,12 +64,12 @@ public final class Runtime implements Closeable {
     private LocalDateTime lastActivity = LocalDateTime.now();
 
     private Runtime(String id, Resolver baseResolver, JDA jda) {
-        Properties properties = new Properties();
-        Helpers.addProtectedProperty(properties, Property.JDA, _ -> jda);
-        Helpers.addProtectedProperty(properties, InternalProperties.RUNTIME, _ -> this);
+        this.resolver = Properties.Builder.newRestricted()
+                .addFallback(Property.JDA, _ -> jda)
+                .addFallback(InternalProperties.RUNTIME, _ -> this)
+                .createResolver(baseResolver);
 
         this.id = id;
-        this.resolver = baseResolver.createSub(properties);
         eventQueue = new LinkedBlockingQueue<>();
         slashCommandHandler = new SlashCommandHandler(resolver);
         autoCompleteHandler = new AutoCompleteHandler(resolver);

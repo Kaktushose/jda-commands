@@ -17,7 +17,6 @@ import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.internal.register.SlashCommandUpdater;
 import io.github.kaktushose.jdac.introspection.Introspection;
@@ -42,10 +41,9 @@ public final class JDACommands {
     private final Resolver resolver;
 
     JDACommands(Resolver baseResolver) {
-        Properties properties = new Properties();
-        Helpers.addProtectedProperty(properties, Property.JDA_COMMANDS, _ -> this);
-
-        this.resolver = baseResolver.createSub(properties);
+        this.resolver = Properties.Builder.newRestricted()
+                .addFallback(Property.JDA_COMMANDS, _ -> this)
+                .createResolver(baseResolver);
 
         this.updater = new SlashCommandUpdater(
                 resolver.get(InternalProperties.JDA_CONTEXT),
