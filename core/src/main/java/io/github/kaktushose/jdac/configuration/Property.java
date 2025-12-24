@@ -9,6 +9,7 @@ import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinit
 import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
+import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
@@ -193,6 +194,8 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
             new Singleton<>("JDA", Category.PROVIDED, net.dv8tion.jda.api.JDA.class, Stage.RUNTIME);
     Property<String> RUNTIME_ID =
             new Singleton<>("RUNTIME_ID", Category.PROVIDED, String.class, Stage.RUNTIME);
+    Property<KeyValueStore> KEY_VALUE_STORE =
+            new Singleton<>("KEY_VALUE_STORE", Category.PROVIDED, KeyValueStore.class, Stage.RUNTIME);
 
 
     // ------ interaction ---------

@@ -69,6 +69,7 @@ public final class Runtime implements Closeable {
                 .addFallback(Property.JDA, _ -> jda)
                 .addFallback(InternalProperties.RUNTIME, _ -> this)
                 .addFallback(Property.RUNTIME_ID, _ -> this.id())
+                .addFallback(Property.KEY_VALUE_STORE, _ -> keyValueStore())
                 .createResolver(baseResolver);
 
         this.id = id;
@@ -129,10 +130,6 @@ public final class Runtime implements Closeable {
 
     public KeyValueStore keyValueStore() {
         return keyValueStore;
-    }
-
-    public Resolver resolver() {
-        return resolver;
     }
 
     public <T> T interactionInstance(Class<T> clazz) {
