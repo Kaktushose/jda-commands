@@ -203,19 +203,6 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
                 .orElseGet(() -> getInvocationContext().definition().methodDescription().declaringClass().getName());
         String definitionId = InteractionDefinition.createDefinitionId(className, component.name());
 
-        boolean duplicate = ComponentIterator.createStream(replyAction.componentTree().getComponents())
-                .filter(it -> it instanceof ActionComponent)
-                .map(ActionComponent.class::cast)
-                .map(ActionComponent::getCustomId)
-                .filter(Objects::nonNull)
-                .map(CustomId::fromMerged)
-                .anyMatch(customId -> customId.definitionId().equals(definitionId));
-        if (duplicate) {
-            throw new IllegalArgumentException(
-                    JDACException.errorMessage("duplicate-component", entry("method", "%s#%s".formatted(className, component)))
-            );
-        }
-
         var definition = findDefinition(component, definitionId, className);
 
         ActionRowChildComponent item = switch (definition) {
