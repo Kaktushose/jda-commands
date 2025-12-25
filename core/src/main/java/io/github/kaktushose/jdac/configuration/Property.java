@@ -191,7 +191,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
 
     // ------- runtime ---------
     Property<JDA> JDA =
-            new Singleton<>("JDA", Category.PROVIDED, net.dv8tion.jda.api.JDA.class, Stage.RUNTIME);
+            new Singleton<>("JDA", Category.PROVIDED, JDA.class, Stage.RUNTIME);
     Property<String> RUNTIME_ID =
             new Singleton<>("RUNTIME_ID", Category.PROVIDED, String.class, Stage.RUNTIME);
     Property<KeyValueStore> KEY_VALUE_STORE =
