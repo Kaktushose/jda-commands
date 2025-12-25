@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - Java 25 or later
-- [JDA 5.x](https://github.com/discord-jda/JDA)
+- [JDA 6.x](https://github.com/discord-jda/JDA)
 - [SLF4J Implementation](https://jda.wiki/setup/logging/) _(not mandatory, but recommended)_
 
 ## Configuration

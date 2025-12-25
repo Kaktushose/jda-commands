@@ -115,7 +115,6 @@ independent-runtime-id = Provided custom id is runtime-independent.
 
 # ConfigurableReply
 modal-as-component = Modals cannot be attached as components! "{ $method }" is a modal method! You have to reply with "ModalReplyableEvent#replyModal".
-duplicate-component = Cannot add component "{ $method } multiple times.
 
 # EditableConfigurableReply
 component-replacer-v1 = Cannot use ComponentReplacers on a message that isn't Components V2. Upgrade this message to Components V2 first or

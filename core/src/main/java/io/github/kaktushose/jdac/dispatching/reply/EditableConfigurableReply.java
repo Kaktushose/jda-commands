@@ -10,6 +10,8 @@ import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
 
+import java.util.Arrays;
+
 /// Subtype of [ConfigurableReply] that is used for [ComponentInteractions][net.dv8tion.jda.api.interactions.components.ComponentInteraction],
 /// where you can also edit the original reply instead of sending a new one.
 public final class EditableConfigurableReply extends ConfigurableReply {
