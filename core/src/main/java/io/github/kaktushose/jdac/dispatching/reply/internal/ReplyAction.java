@@ -41,7 +41,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 public final class ReplyAction {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyAction.class);
-    private final ComponentLocalizer componentLocalizer;
+    private final ComponentLocalizer<MessageTopLevelComponentUnion> componentLocalizer;
     private MessageCreateBuilder builder;
     private boolean ephemeral;
     private boolean editReply;
@@ -50,7 +50,7 @@ public final class ReplyAction {
 
     public ReplyAction(ReplyConfig replyConfig) {
         log.debug("Reply Debug: [Runtime={}]", getRuntime().id());
-        componentLocalizer = new ComponentLocalizer(getFramework().messageResolver());
+        componentLocalizer = new ComponentLocalizer<>(getFramework().messageResolver(), MessageTopLevelComponentUnion.class);
         builder = new MessageCreateBuilder();
         ephemeral = replyConfig.ephemeral();
         editReply = replyConfig.editReply();

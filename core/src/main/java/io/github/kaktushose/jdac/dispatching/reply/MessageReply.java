@@ -15,8 +15,8 @@ import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComp
 import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
-import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
+import io.github.kaktushose.jdac.message.i18n.ComponentLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ActionComponent;
@@ -24,20 +24,17 @@ import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
-import net.dv8tion.jda.api.components.selections.SelectOption;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.components.utils.ComponentIterator;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
@@ -47,12 +44,14 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     private static final Logger log = LoggerFactory.getLogger(MessageReply.class);
     protected final ReplyAction replyAction;
+    private final ComponentLocalizer<ActionRowChildComponent> localizer;
 
     /// Constructs a new MessageReply.
     ///
     ///  @param replyConfig the [ReplyConfig] to use
     public MessageReply(ReplyConfig replyConfig) {
         replyAction = new ReplyAction(replyConfig);
+        localizer = new ComponentLocalizer<>(getFramework().messageResolver(), ActionRowChildComponent.class);
     }
 
     /// Constructs a new MessageReply.
@@ -60,6 +59,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     ///  @param reply the [MessageReply] to copy from
     public MessageReply(MessageReply reply) {
         replyAction = reply.replyAction;
+        localizer = new ComponentLocalizer<>(getFramework().messageResolver(), ActionRowChildComponent.class);
     }
 
     /// Acknowledgement of this event with a text message.
@@ -234,40 +234,9 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
             case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
         };
 
-        item = resolve(item, component);
+        item = localizer.localize(item, getJdaEvent().getUserLocale().toLocale(), Entry.toMap(component.placeholder()));
         log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
         return item;
-    }
-
-    private ActionRowChildComponent resolve(ActionRowChildComponent item, Component<?, ?, ?, ?> component) {
-        return switch (item) {
-            case Button button -> button.withLabel(resolveMessage(button.getLabel(), component));
-            case EntitySelectMenu menu ->
-                    menu.createCopy().setPlaceholder(orNull(menu.getPlaceholder(), p -> resolveMessage(p, component))).build();
-            case StringSelectMenu menu -> {
-                StringSelectMenu.Builder copy = menu.createCopy();
-                List<SelectOption> localized = copy.getOptions()
-                        .stream()
-                        .map(option -> option.withDescription(orNull(option.getDescription(), d -> resolveMessage(d, component)))
-                                .withLabel(resolveMessage(option.getLabel(), component)))
-                        .toList();
-                copy.getOptions().clear();
-                copy.addOptions(localized);
-                copy.setPlaceholder(orNull(copy.getPlaceholder(), p -> resolveMessage(p, component)));
-                yield copy.build();
-            }
-            default -> throw new InternalException("default-switch");
-        };
-    }
-
-    @Nullable
-    private <T> T orNull(@Nullable T val, Function<T, T> func) {
-        if (val == null) return null;
-        return func.apply(val);
-    }
-
-    private String resolveMessage(String key, Component<?, ?, ?, ?> component) {
-        return getFramework().messageResolver().resolve(key, getJdaEvent().getUserLocale().toLocale(), component.placeholder());
     }
 
     private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(Component<T, ?, ?, D> component, String definitionId, String className) {

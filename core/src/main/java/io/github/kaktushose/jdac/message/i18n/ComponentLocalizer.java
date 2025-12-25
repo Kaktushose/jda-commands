@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.github.kaktushose.jdac.exceptions.ParsingException;
 import io.github.kaktushose.jdac.message.MessageResolver;
 import io.github.kaktushose.jdac.message.i18n.internal.Localizer;
-import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
+import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.utils.ComponentDeserializer;
 import net.dv8tion.jda.api.components.utils.ComponentSerializer;
 import net.dv8tion.jda.api.utils.FileUpload;
@@ -15,18 +15,20 @@ import java.util.*;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
-public final class ComponentLocalizer extends Localizer<MessageTopLevelComponentUnion> {
+public final class ComponentLocalizer<T extends Component> extends Localizer<T> {
 
     private static final ComponentSerializer serializer = new ComponentSerializer();
+    private final Class<T> type;
 
-    public ComponentLocalizer(MessageResolver resolver) {
-        super(resolver, Set.of("content"));
+    public ComponentLocalizer(MessageResolver resolver, Class<T> type) {
+        super(resolver, Set.of("content", "label", "placeholder", "value"));
+        this.type = type;
     }
 
-    public List<MessageTopLevelComponentUnion> localize(Collection<MessageTopLevelComponentUnion> components, Locale locale, Map<String, @Nullable Object> placeholders) {
-        List<MessageTopLevelComponentUnion> result = new ArrayList<>();
+    public List<T> localize(Collection<T> components, Locale locale, Map<String, @Nullable Object> placeholders) {
+        List<T> result = new ArrayList<>();
 
-        for (MessageTopLevelComponentUnion component : components) {
+        for (T component : components) {
             result.add(localize(component, locale, placeholders));
         }
 
@@ -34,13 +36,13 @@ public final class ComponentLocalizer extends Localizer<MessageTopLevelComponent
     }
 
     @Override
-    public MessageTopLevelComponentUnion localize(MessageTopLevelComponentUnion component, Locale locale, Map<String, @Nullable Object> placeholders) {
+    public T localize(T component, Locale locale, Map<String, @Nullable Object> placeholders) {
         List<FileUpload> fileUploads = serializer.getFileUploads(component);
         DataObject data = serializer.serialize(component);
         try {
             JsonNode node = resolve(mapper.readTree(data.toString()), locale, placeholders);
             ComponentDeserializer deserializer = new ComponentDeserializer(fileUploads);
-            return deserializer.deserializeAs(MessageTopLevelComponentUnion.class, DataObject.fromJson(node.toString()));
+            return deserializer.deserializeAs(type, DataObject.fromJson(node.toString()));
         } catch (Exception e) {
             throw new ParsingException(e, entry("rawJson", data.toString()));
         }
