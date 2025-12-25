@@ -15,7 +15,7 @@ import java.util.*;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
-public final class ComponentResolver<T extends Component> extends Resolver<T> {
+public final class ComponentResolver<T extends Component> extends Resolver<T, T> {
 
     private static final ComponentSerializer serializer = new ComponentSerializer();
     private final Class<T> type;

@@ -15,14 +15,14 @@ import java.util.Set;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
-public final class EmbedResolver extends Resolver<MessageEmbed> {
+public final class EmbedResolver extends Resolver<DataObject, MessageEmbed> {
 
     public EmbedResolver(MessageResolver resolver) {
         super(resolver, Set.of());
     }
 
     @Override
-    public MessageEmbed resolve(MessageEmbed embed, Locale locale, Map<String, @Nullable Object> placeholders) {
+    public MessageEmbed resolve(DataObject embed, Locale locale, Map<String, @Nullable Object> placeholders) {
         try {
             JsonNode node = resolve(mapper.readTree(embed.toData().toString()), locale, placeholders);
             return EmbedBuilder.fromData(DataObject.fromJson(node.toString())).build();

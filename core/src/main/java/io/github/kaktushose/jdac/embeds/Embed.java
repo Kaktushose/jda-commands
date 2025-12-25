@@ -349,7 +349,7 @@ public class Embed {
     ///
     /// @return the built, sendable [MessageEmbed]
     public MessageEmbed build() {
-        return embedLocalizer.resolve(EmbedBuilder.fromData(data).build(), locale, placeholders);
+        return embedLocalizer.resolve(data, locale, placeholders);
     }
 
     private void urlCheck(@Nullable String url) {

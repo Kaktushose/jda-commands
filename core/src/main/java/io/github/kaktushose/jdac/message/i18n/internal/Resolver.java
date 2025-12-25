@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 @ApiStatus.Internal
-public abstract sealed class Resolver<T> permits ComponentResolver, EmbedResolver {
+public abstract sealed class Resolver<S, T> permits ComponentResolver, EmbedResolver {
 
     protected static final ObjectMapper mapper = new ObjectMapper();
     private final MessageResolver resolver;
@@ -31,7 +31,7 @@ public abstract sealed class Resolver<T> permits ComponentResolver, EmbedResolve
         this.fields = fields;
     }
 
-    public abstract T resolve(T object, Locale locale, Map<String, @Nullable Object> placeholders);
+    public abstract T resolve(S object, Locale locale, Map<String, @Nullable Object> placeholders);
 
     protected JsonNode resolve(JsonNode node, Locale locale, Map<String, @Nullable Object> placeholders) {
         if (node instanceof ObjectNode objectNode) {
