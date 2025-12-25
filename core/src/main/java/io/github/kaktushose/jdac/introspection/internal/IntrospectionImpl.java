@@ -5,13 +5,18 @@ import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.lifecycle.Event;
+import io.github.kaktushose.jdac.introspection.lifecycle.Subscriber;
+import io.github.kaktushose.jdac.introspection.lifecycle.Subscription;
 
 public final class IntrospectionImpl implements Introspection {
 
+    private final Lifecycle lifecycle;
     private final Resolver resolver;
     private final Stage stage;
 
-    public IntrospectionImpl(Resolver resolver, Stage stage) {
+    public IntrospectionImpl(Lifecycle lifecycle, Resolver resolver, Stage stage) {
+        this.lifecycle = lifecycle;
         this.resolver = resolver;
         this.stage = stage;
     }
@@ -30,8 +35,18 @@ public final class IntrospectionImpl implements Introspection {
         return resolver.get(type);
     }
 
+    @Override
+    public <T extends Event> Subscription subscribe(Class<T> event, Subscriber<T> subscriber) {
+        return lifecycle.subscribe(event, subscriber);
+    }
+
+    public void publish(Event event) {
+        lifecycle.publish(event);
+    }
+
     public IntrospectionImpl createSub(Properties properties, Stage stage) {
         return new IntrospectionImpl(
+                this.lifecycle,
                 resolver.createSub(properties),
                 stage
         );

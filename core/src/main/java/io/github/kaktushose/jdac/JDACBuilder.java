@@ -5,8 +5,8 @@ import io.github.kaktushose.jdac.configuration.Extension;
 import io.github.kaktushose.jdac.configuration.ExtensionFilter;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
+import io.github.kaktushose.jdac.configuration.internal.Extensions;
 import io.github.kaktushose.jdac.configuration.internal.Properties;
-import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
@@ -31,6 +31,7 @@ import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.introspection.internal.Lifecycle;
 import io.github.kaktushose.jdac.message.MessageResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiSource;
@@ -336,7 +337,9 @@ public class JDACBuilder {
     /// This method applies all found implementations of [Extension],
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
-        IntrospectionImpl introspection = new IntrospectionImpl(properties.loadExtensionsAndcreateResolver(), Stage.CONFIGURATION);
+        Extensions extensions = loadExtensions();
+
+        IntrospectionImpl introspection = new IntrospectionImpl(new Lifecycle(), properties.createResolver(), Stage.CONFIGURATION);
 
         try {
             log.info("Starting JDA-Commands...");
@@ -358,7 +361,7 @@ public class JDACBuilder {
                     .createIntrospection(introspection, Stage.INITIALIZED);
 
             JDACommands jdaCommands = new JDACommands(initIntrospection);
-            jdaCommands.start();
+            jdaCommands.start(extensions);
 
             return jdaCommands;
         } catch (JDACException e) {
@@ -367,6 +370,14 @@ public class JDACBuilder {
             }
             throw e;
         }
+    }
+
+    private Extensions loadExtensions() {
+        Extensions extensions = new Extensions();
+        extensions.load(properties.createResolver()); // Resolver just for user settable types
+        extensions.register(properties);
+
+        return extensions;
     }
 
 }

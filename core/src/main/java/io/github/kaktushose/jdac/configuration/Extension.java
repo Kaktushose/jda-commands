@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.configuration;
 
 import io.github.kaktushose.jdac.JDACBuilder;
+import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.configuration.Property.Category;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
@@ -74,6 +75,8 @@ public interface Extension<T extends Extension.Data> {
     default Collection<PropertyProvider<?>> properties() {
         return List.of();
     }
+
+    default void onStart(JDACommands commands) {}
 
     /// @return the [Class] of the custom [Data] implementation or null if the extension doesn't support additional configuration
     @Nullable

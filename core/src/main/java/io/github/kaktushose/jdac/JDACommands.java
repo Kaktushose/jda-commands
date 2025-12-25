@@ -5,6 +5,7 @@ import io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu;
 import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.configuration.internal.Extensions;
 import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
 import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
@@ -93,15 +94,18 @@ public final class JDACommands {
         return new JDACBuilder(new JDAContext(shardManager));
     }
 
-    void start() {
+    void start(Extensions extensions) {
         ClassFinder classFinder = introspection.get(Property.MERGED_CLASS_FINDER);
 
         introspection.get(InternalProperties.INTERACTION_REGISTRY).index(classFinder.search(Interaction.class), introspection.get(Property.GLOBAL_COMMAND_CONFIG));
         updater.updateAllCommands();
 
         introspection.get(InternalProperties.JDA_CONTEXT).performTask(it -> it.addEventListener(jdaEventListener), false);
-        log.info("Finished loading!");
 
+        log.debug("Run Extension#onStart()");
+        extensions.callOnStart(this);
+
+        log.info("Finished loading!");
     }
 
     /// Shuts down this JDACommands instance, making it unable to receive any events from Discord.

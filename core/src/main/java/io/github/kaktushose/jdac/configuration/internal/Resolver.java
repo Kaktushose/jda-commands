@@ -26,7 +26,7 @@ public final class Resolver {
 
     private final Executor executor;
 
-    Resolver(Map<Property<?>, SortedSet<PropertyProvider<?>>> properties) {
+    public Resolver(Map<Property<?>, SortedSet<PropertyProvider<?>>> properties) {
         this.properties = properties;
         this.executor = new Executor(this);
     }

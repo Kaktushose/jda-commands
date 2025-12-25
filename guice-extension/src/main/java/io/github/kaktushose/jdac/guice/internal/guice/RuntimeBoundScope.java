@@ -1,4 +1,4 @@
-package io.github.kaktushose.jdac.guice.internal;
+package io.github.kaktushose.jdac.guice.internal.guice;
 
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -23,5 +23,9 @@ public class RuntimeBoundScope implements Scope {
 
             return (T) runtimeBoundCache.computeIfAbsent(key, _ -> unscoped.get());
         };
+    }
+
+    public void removeRuntime(String id) {
+        store.remove(id);
     }
 }

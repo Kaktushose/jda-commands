@@ -1,4 +1,4 @@
-package io.github.kaktushose.jdac.guice.internal;
+package io.github.kaktushose.jdac.guice.internal.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;

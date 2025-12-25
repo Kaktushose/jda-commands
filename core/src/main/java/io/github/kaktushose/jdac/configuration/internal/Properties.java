@@ -58,12 +58,8 @@ public class Properties {
         provider.forEach(this::add);
     }
 
-    public Resolver loadExtensionsAndcreateResolver() {
-        ExtensionLoader extensionLoader = new ExtensionLoader();
-        extensionLoader.load(new Resolver(properties)); // Resolver just for user settable types
-        extensionLoader.register(this);
-
-        return new Resolver(properties);
+    public Resolver createResolver() {
+        return new Resolver(this.properties);
     }
 
     Map<Property<?>, SortedSet<PropertyProvider<?>>> properties() {

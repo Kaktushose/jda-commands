@@ -3,7 +3,6 @@ package io.github.kaktushose.jdac.dispatching;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
 import io.github.kaktushose.jdac.configuration.internal.Properties;
-import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.handling.AutoCompleteHandler;
@@ -13,8 +12,9 @@ import io.github.kaktushose.jdac.dispatching.handling.ModalHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.ContextCommandHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
 import io.github.kaktushose.jdac.exceptions.InternalException;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -138,6 +138,7 @@ public final class Runtime implements Closeable {
 
     @Override
     public void close() {
+        introspection.publish(new RuntimeCloseEvent(id));
         executionThread.interrupt();
     }
 
