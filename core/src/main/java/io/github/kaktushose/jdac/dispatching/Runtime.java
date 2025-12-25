@@ -97,18 +97,20 @@ public final class Runtime implements Closeable {
     }
 
     private void checkForEvents() {
-        introspection.publish(new RuntimeOpenEvent(id));
+        ScopedValue.where(IntrospectionImpl.INTROSPECTION, introspection).run(() -> {
+            introspection.publish(new RuntimeOpenEvent(id));
 
-        try {
-            while (!Thread.interrupted()) {
-                GenericInteractionCreateEvent incomingEvent = eventQueue.take();
+            try {
+                while (!Thread.interrupted()) {
+                    GenericInteractionCreateEvent incomingEvent = eventQueue.take();
 
-                Thread.ofVirtual().name("JDAC EventHandler-Thread %s".formatted(id)).start(() -> executeHandler(incomingEvent)).join();
+                    Thread.ofVirtual().name("JDAC EventHandler-Thread %s".formatted(id)).start(() -> executeHandler(incomingEvent)).join();
+                }
+            } catch (InterruptedException _) {
             }
-        } catch (InterruptedException _) {
-        }
 
-        log.debug("Runtime finished");
+            log.debug("Runtime finished");
+        });
     }
 
     private void executeHandler(GenericInteractionCreateEvent incomingEvent) {

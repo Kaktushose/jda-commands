@@ -49,8 +49,6 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         implements BiConsumer<T, Runtime>
         permits AutoCompleteHandler, ComponentHandler, ModalHandler, ContextCommandHandler, SlashCommandHandler {
 
-    public static final ScopedValue<IntrospectionImpl> INTROSPECTION = ScopedValue.newInstance();
-
     public static final ScopedValue<Boolean> INVOCATION_PERMITTED = ScopedValue.newInstance();
 
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
@@ -94,7 +92,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                 .addFallback(Property.INVOCATION_CONTEXT, _ -> invocationContext)
                 .createIntrospection(this.runtimeIntrospection, Stage.INTERACTION);
 
-        ScopedValue.where(INTROSPECTION, interactionIntrospection).run(() -> {
+        ScopedValue.where(IntrospectionImpl.INTROSPECTION, interactionIntrospection).run(() -> {
             log.debug("Executing middlewares...");
             middlewares.forOrdered(invocationContext.definition().classDescription().clazz(), middleware -> {
                 log.debug("Executing middleware {}", middleware.getClass().getSimpleName());

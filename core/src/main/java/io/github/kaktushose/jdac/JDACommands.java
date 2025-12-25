@@ -51,7 +51,8 @@ public final class JDACommands {
         this.updater = new SlashCommandUpdater(
                 introspection.get(InternalProperties.JDA_CONTEXT),
                 introspection.get(Property.GUILD_SCOPE_PROVIDER),
-                introspection.get(InternalProperties.INTERACTION_REGISTRY));
+                introspection.get(InternalProperties.INTERACTION_REGISTRY)
+        );
 
         this.jdaEventListener = new JDAEventListener(introspection);
     }
@@ -97,19 +98,21 @@ public final class JDACommands {
     }
 
     void start(Extensions extensions) {
-        ClassFinder classFinder = introspection.get(Property.MERGED_CLASS_FINDER);
+        ScopedValue.where(IntrospectionImpl.INTROSPECTION, introspection).run(() -> {
+            ClassFinder classFinder = introspection.get(Property.MERGED_CLASS_FINDER);
 
-        introspection.get(InternalProperties.INTERACTION_REGISTRY).index(classFinder.search(Interaction.class), introspection.get(Property.GLOBAL_COMMAND_CONFIG));
-        updater.updateAllCommands();
+            introspection.get(InternalProperties.INTERACTION_REGISTRY).index(classFinder.search(Interaction.class), introspection.get(Property.GLOBAL_COMMAND_CONFIG));
+            updater.updateAllCommands();
 
-        introspection.get(InternalProperties.JDA_CONTEXT).performTask(it -> it.addEventListener(jdaEventListener), false);
+            introspection.get(InternalProperties.JDA_CONTEXT).performTask(it -> it.addEventListener(jdaEventListener), false);
 
-        log.debug("Run Extension#onStart()");
-        extensions.callOnStart(this);
+            log.debug("Run Extension#onStart()");
+            extensions.callOnStart(this);
 
-        log.info("Finished loading!");
+            log.info("Finished loading!");
 
-        introspection.publish(new FrameworkStartEvent());
+            introspection.publish(new FrameworkStartEvent());
+        });
     }
 
     /// Shuts down this JDACommands instance, making it unable to receive any events from Discord.

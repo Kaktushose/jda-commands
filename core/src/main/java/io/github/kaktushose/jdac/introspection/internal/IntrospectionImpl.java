@@ -11,6 +11,8 @@ import io.github.kaktushose.jdac.introspection.lifecycle.Subscription;
 
 public final class IntrospectionImpl implements Introspection {
 
+    public static final ScopedValue<IntrospectionImpl> INTROSPECTION = ScopedValue.newInstance();
+
     private final Lifecycle lifecycle;
     private final Resolver resolver;
     private final Stage stage;
@@ -51,5 +53,4 @@ public final class IntrospectionImpl implements Introspection {
                 stage
         );
     }
-
 }

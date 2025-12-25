@@ -341,35 +341,37 @@ public class JDACBuilder {
 
         IntrospectionImpl introspection = new IntrospectionImpl(new Lifecycle(), properties.createResolver(), Stage.CONFIGURATION);
 
-        try {
-            log.info("Starting JDA-Commands...");
+        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, introspection).call(() -> {
+            try {
+                log.info("Starting JDA-Commands...");
 
-            InteractionRegistry interactionRegistry = new InteractionRegistry(
-                    new Validators(introspection.get(VALIDATOR)),
-                    introspection.get(I18N),
-                    introspection.get(LOCALIZE_COMMANDS) ? introspection.get(I18N).localizationFunction() : (_) -> Map.of(),
-                    introspection.get(DESCRIPTOR)
-            );
-            Middlewares middlewares = new Middlewares(introspection.get(MIDDLEWARE), introspection.get(ERROR_MESSAGE_FACTORY), introspection.get(PERMISSION_PROVIDER));
-            TypeAdapters typeAdapters = new TypeAdapters(introspection.get(TYPE_ADAPTER), introspection.get(I18N));
+                InteractionRegistry interactionRegistry = new InteractionRegistry(
+                        new Validators(introspection.get(VALIDATOR)),
+                        introspection.get(I18N),
+                        introspection.get(LOCALIZE_COMMANDS) ? introspection.get(I18N).localizationFunction() : (_) -> Map.of(),
+                        introspection.get(DESCRIPTOR)
+                );
+                Middlewares middlewares = new Middlewares(introspection.get(MIDDLEWARE), introspection.get(ERROR_MESSAGE_FACTORY), introspection.get(PERMISSION_PROVIDER));
+                TypeAdapters typeAdapters = new TypeAdapters(introspection.get(TYPE_ADAPTER), introspection.get(I18N));
 
-            IntrospectionImpl initIntrospection = Properties.Builder.newRestricted()
-                    .addFallback(INTERACTION_REGISTRY, _ -> interactionRegistry)
-                    .addFallback(DEFINITIONS, ctx -> ctx.get(INTERACTION_REGISTRY))
-                    .addFallback(MIDDLEWARES, _ -> middlewares)
-                    .addFallback(TYPE_ADAPTERS, _ -> typeAdapters)
-                    .createIntrospection(introspection, Stage.INITIALIZED);
+                IntrospectionImpl initIntrospection = Properties.Builder.newRestricted()
+                        .addFallback(INTERACTION_REGISTRY, _ -> interactionRegistry)
+                        .addFallback(DEFINITIONS, ctx -> ctx.get(INTERACTION_REGISTRY))
+                        .addFallback(MIDDLEWARES, _ -> middlewares)
+                        .addFallback(TYPE_ADAPTERS, _ -> typeAdapters)
+                        .createIntrospection(introspection, Stage.INITIALIZED);
 
-            JDACommands jdaCommands = new JDACommands(initIntrospection);
-            jdaCommands.start(extensions);
+                JDACommands jdaCommands = new JDACommands(initIntrospection);
+                jdaCommands.start(extensions);
 
-            return jdaCommands;
-        } catch (JDACException e) {
-            if (introspection.get(SHUTDOWN_JDA)) {
-                introspection.get(JDA_CONTEXT).shutdown();
+                return jdaCommands;
+            } catch (JDACException e) {
+                if (introspection.get(SHUTDOWN_JDA)) {
+                    introspection.get(JDA_CONTEXT).shutdown();
+                }
+                throw e;
             }
-            throw e;
-        }
+        });
     }
 
     private Extensions loadExtensions() {
