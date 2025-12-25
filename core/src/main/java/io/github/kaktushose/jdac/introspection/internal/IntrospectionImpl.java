@@ -41,7 +41,7 @@ public final class IntrospectionImpl implements Introspection {
     }
 
     public void publish(Event event) {
-        lifecycle.publish(event);
+        lifecycle.publish(event, this);
     }
 
     public IntrospectionImpl createSub(Properties properties, Stage stage) {

@@ -22,6 +22,8 @@ import io.github.kaktushose.jdac.internal.register.SlashCommandUpdater;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.FrameworkShutdownEvent;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.FrameworkStartEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
@@ -106,6 +108,8 @@ public final class JDACommands {
         extensions.callOnStart(this);
 
         log.info("Finished loading!");
+
+        introspection.publish(new FrameworkStartEvent());
     }
 
     /// Shuts down this JDACommands instance, making it unable to receive any events from Discord.
@@ -114,6 +118,8 @@ public final class JDACommands {
     /// If [JDACBuilder#shutdownJDA()] is set to `true``, the underlying [JDA] or [ShardManager] instance will
     /// be shutdown too.
     public void shutdown() {
+        introspection.publish(new FrameworkShutdownEvent());
+
         JDAContext jdaContext = introspection.get(InternalProperties.JDA_CONTEXT);
 
         jdaContext.performTask(jda -> jda.removeEventListener(jdaEventListener), false);

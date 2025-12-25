@@ -17,6 +17,8 @@ import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.InteractionFinishedEvent;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.InteractionStartEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -53,19 +55,19 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
-    protected final IntrospectionImpl introspection;
+    protected final IntrospectionImpl runtimeIntrospection;
     protected final Middlewares middlewares;
     protected final InteractionRegistry interactionRegistry;
     protected final TypeAdapters adapterRegistry;
     protected final ErrorMessageFactory errorMessageFactory;
 
-    public EventHandler(IntrospectionImpl introspection) {
-        this.introspection = introspection;
+    public EventHandler(IntrospectionImpl runtimeIntrospection) {
+        this.runtimeIntrospection = runtimeIntrospection;
 
-        this.middlewares = introspection.get(InternalProperties.MIDDLEWARES);
-        this.interactionRegistry = introspection.get(InternalProperties.INTERACTION_REGISTRY);
-        this.adapterRegistry = introspection.get(InternalProperties.TYPE_ADAPTERS);
-        this.errorMessageFactory = introspection.get(Property.ERROR_MESSAGE_FACTORY);
+        this.middlewares = runtimeIntrospection.get(InternalProperties.MIDDLEWARES);
+        this.interactionRegistry = runtimeIntrospection.get(InternalProperties.INTERACTION_REGISTRY);
+        this.adapterRegistry = runtimeIntrospection.get(InternalProperties.TYPE_ADAPTERS);
+        this.errorMessageFactory = runtimeIntrospection.get(Property.ERROR_MESSAGE_FACTORY);
     }
 
     @Nullable
@@ -84,13 +86,13 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
         InvocationContext<T> invocationContext =
                 new InvocationContext<>(e, runtime.keyValueStore(), ingredients.definition,
-                        Helpers.replyConfig(ingredients.definition, introspection.get(Property.GLOBAL_REPLY_CONFIG)),
+                        Helpers.replyConfig(ingredients.definition, runtimeIntrospection.get(Property.GLOBAL_REPLY_CONFIG)),
                         ingredients.rawArguments);
 
         IntrospectionImpl interactionIntrospection = Properties.Builder.newRestricted()
                 .addFallback(Property.JDA_EVENT, _ -> e)
                 .addFallback(Property.INVOCATION_CONTEXT, _ -> invocationContext)
-                .createIntrospection(this.introspection, Stage.INTERACTION);
+                .createIntrospection(this.runtimeIntrospection, Stage.INTERACTION);
 
         ScopedValue.where(INTROSPECTION, interactionIntrospection).run(() -> {
             log.debug("Executing middlewares...");
@@ -104,17 +106,19 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                 return;
             }
 
-            invoke(invocationContext, runtime);
+            invoke(invocationContext, runtime, interactionIntrospection);
         });
     }
 
-    private void invoke(InvocationContext<T> invocation, Runtime runtime) {
+    private void invoke(InvocationContext<T> invocation, Runtime runtime, IntrospectionImpl introspection) {
         SequencedCollection<@Nullable Object> arguments = invocation.arguments();
 
         var definition = invocation.definition();
 
         log.info("Executing interaction \"{}\" for user \"{}\"", definition.displayName(), invocation.event().getUser().getEffectiveName());
         try {
+            introspection.publish(new InteractionStartEvent(invocation));
+
             log.debug("Invoking method \"{}.{}\" with following arguments: {}",
                     definition.classDescription().name(),
                     definition.methodDescription().name(),
@@ -124,37 +128,43 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
             ScopedValue.where(INVOCATION_PERMITTED, true).call(() -> definition.invoke(instance, invocation));
         } catch (Exception exception) {
-            // this unwraps the underlying error in case of an exception inside the command class
-            Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
-            log.error("Interaction execution failed!", throwable);
+            handleException(exception, invocation);
+        } finally {
+            introspection.publish(new InteractionFinishedEvent(invocation));
+        }
+    }
 
-            // 10062 is the error code for "Unknown interaction". In that case we cannot send any reply, not even the
-            // error message.
-            if (throwable instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
-                return;
+    private void handleException(Exception exception, InvocationContext<?> invocation) {
+        // this unwraps the underlying error in case of an exception inside the command class
+        Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
+        log.error("Interaction execution failed!", throwable);
+
+        // 10062 is the error code for "Unknown interaction". In that case we cannot send any reply, not even the
+        // error message.
+        if (throwable instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
+            return;
+        }
+
+        // if the throwing event is a component event we should remove the component to prevent further executions
+        boolean deleted = false;
+        if (invocation.event() instanceof GenericComponentInteractionCreateEvent componentEvent) {
+            var message = componentEvent.getMessage();
+            // ugly workaround to check if the message is still valid after removing components or if we have to delete
+            // the entire message
+            var data = new MessageCreateBuilder().applyMessage(componentEvent.getMessage());
+            data.setComponents();
+            if (data.isValid()) {
+                message.editMessageComponents().complete();
+            } else {
+                deleted = true;
+                message.delete().complete();
             }
+        }
 
-            // if the throwing event is a component event we should remove the component to prevent further executions
-            boolean deleted = false;
-            if (invocation.event() instanceof GenericComponentInteractionCreateEvent componentEvent) {
-                var message = componentEvent.getMessage();
-                // ugly workaround to check if the message is still valid after removing components or if we have to delete
-                // the entire message
-                var data = new MessageCreateBuilder().applyMessage(componentEvent.getMessage());
-                data.setComponents();
-                if (data.isValid()) {
-                    message.editMessageComponents().complete();
-                } else {
-                    deleted = true;
-                    message.delete().complete();
-                }
-            }
+        invocation.cancel(errorMessageFactory.getCommandExecutionFailedMessage(invocation, throwable));
 
-            invocation.cancel(errorMessageFactory.getCommandExecutionFailedMessage(invocation, throwable));
-
-            if (invocation.event() instanceof IReplyCallback callback && !deleted) {
-                callback.getHook().editOriginalComponents().queue();
-            }
+        if (invocation.event() instanceof IReplyCallback callback && !deleted) {
+            callback.getHook().editOriginalComponents().queue();
         }
     }
 

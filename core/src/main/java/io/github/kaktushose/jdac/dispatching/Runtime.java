@@ -15,6 +15,7 @@ import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeOpenEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -96,6 +97,8 @@ public final class Runtime implements Closeable {
     }
 
     private void checkForEvents() {
+        introspection.publish(new RuntimeOpenEvent(id));
+
         try {
             while (!Thread.interrupted()) {
                 GenericInteractionCreateEvent incomingEvent = eventQueue.take();

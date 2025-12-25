@@ -1,6 +1,8 @@
 package io.github.kaktushose.jdac.introspection.lifecycle;
 
-import java.util.function.Consumer;
+import io.github.kaktushose.jdac.introspection.Introspection;
 
-public interface Subscriber<T extends Event> extends Consumer<T> {
+import java.util.function.BiConsumer;
+
+public interface Subscriber<T extends Event> extends BiConsumer<T, Introspection> {
 }

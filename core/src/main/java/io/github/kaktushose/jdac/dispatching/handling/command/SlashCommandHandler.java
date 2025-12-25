@@ -70,7 +70,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                 .stream()
                 .map(it -> event.getOption(it.name()))
                 .toList();
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, introspection.get(Property.GLOBAL_REPLY_CONFIG));
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, runtimeIntrospection.get(Property.GLOBAL_REPLY_CONFIG));
         List<@Nullable Object> parsedArguments = new ArrayList<>();
 
         log.debug("Type adapting arguments...");

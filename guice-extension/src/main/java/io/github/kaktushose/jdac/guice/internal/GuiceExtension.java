@@ -145,7 +145,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
     public void onStart(JDACommands commands) {
         Introspection introspection = commands.introspection();
 
-        introspection.subscribe(RuntimeCloseEvent.class, event -> runtimeBoundScope.removeRuntime(event.runtimeId()));
+        introspection.subscribe(RuntimeCloseEvent.class, (event, _) -> runtimeBoundScope.removeRuntime(event.runtimeId()));
     }
 
     @Override

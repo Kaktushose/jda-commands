@@ -22,9 +22,9 @@ public class Lifecycle {
         subscriptions.get(eventType).remove(subscriber);
     }
 
-    public void publish(Event event) {
+    public void publish(Event event, IntrospectionImpl introspection) {
         for (Subscriber<Event> subscriber : subscriptions.getOrDefault(event.getClass(), Set.of())) {
-            subscriber.accept(event);
+            subscriber.accept(event, introspection);
         }
     }
 }
