@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac.dispatching.events;
 
-import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
 import io.github.kaktushose.jdac.dispatching.events.interactions.AutoCompleteEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
@@ -9,6 +8,7 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.message.MessageResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
@@ -28,8 +28,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Locale;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntroAccess.accJdaEvent;
-import static io.github.kaktushose.jdac.introspection.internal.IntroAccess.accRuntime;
+import static io.github.kaktushose.jdac.introspection.internal.IntroAccess.*;
 
 
 /// Abstract base event for all interaction events, like [CommandEvent].
@@ -88,19 +87,20 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return accRuntime().interactionInstance(interactionClass);
     }
 
-
-    /// Gets the [I18n] instance.
+    /// Gets the [Introspection] instance of this interaction.
     ///
-    /// @return the [I18n] instance.
-    public I18n i18n() {
-        return Introspection.accGet(Property.I18N);
+    /// Same as [Introspection#access()]
+    ///
+    /// @return the [Introspection] instance with stage set to [Stage#INTERACTION].
+    public Introspection introspection() {
+        return Introspection.access();
     }
 
     /// Gets the [MessageResolver] instance
     ///
     /// @return the [MessageResolver] instance
     public MessageResolver messageResolver() {
-        return Introspection.accGet(Property.MESSAGE_RESOLVER);
+        return accMessageResolver();
     }
 
     /// Gets a localization message for the given key using the underlying [I18n] instance.
@@ -110,7 +110,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the localized message or the key if not found
     public String localize(String key, Entry... placeholders) {
-        return i18n().localize(jdaEvent().getUserLocale().toLocale(), key, placeholders);
+        return accI18n().localize(accUserLocale(), key, placeholders);
     }
 
     /// Resolved the given message with help of the underlying [MessageResolver] instance,
@@ -121,7 +121,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the resolved message
     public String resolve(String message, Entry... placeholders) {
-        return messageResolver().resolve(message, jdaEvent().getUserLocale().toLocale(), placeholders);
+        return messageResolver().resolve(message, accUserLocale(), placeholders);
     }
 
 

@@ -2,9 +2,12 @@ package io.github.kaktushose.jdac.configuration;
 
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.JDACommands;
+import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.configuration.Property.Category;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.Stage;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
@@ -29,6 +32,11 @@ import java.util.List;
 /// If the [Extension] needs additional configuration data, implementations have to provide an
 /// own implementation of [Data] that the user has to register in the builder by calling [JDACBuilder#extensionData(Data...)].
 ///
+/// ## on framework start
+/// At the time that framework is fully initialized and started (practically at the end of [JDACBuilder#start()]),
+/// the [Extension#onStart(JDACommands)] method of all extensions will be called.
+/// This allows further configuration, e.g. through the [Introspection] API by using [JDACommands#introspection()].
+///
 /// ## Example
 /// This example extension provides an own implementation of [InteractionControllerInstantiator].
 /// ```java
@@ -50,6 +58,13 @@ import java.util.List;
 ///                 2000,
 ///                 _ -> new CustomInteractionClassProvider(this))
 ///         );
+///     }
+///
+///     @Override
+///     public void onStart(JDACommands framework) {
+///         Introspection introspection = framework.introspection();
+///
+///         introspection.subscribe(RuntimeCloseEvent.class, (event, _) -> ...);
 ///     }
 ///
 ///     @Override
@@ -76,7 +91,11 @@ public interface Extension<T extends Extension.Data> {
         return List.of();
     }
 
-    default void onStart(JDACommands commands) {}
+    /// This method will be called after the framework was fully started, practically at the end of [JDACBuilder#start()].
+    ///
+    /// @param framework the fully initialized [JDACommands] instance.
+    @IntrospectionAccess(Stage.INITIALIZED)
+    default void onStart(JDACommands framework) {}
 
     /// @return the [Class] of the custom [Data] implementation or null if the extension doesn't support additional configuration
     @Nullable

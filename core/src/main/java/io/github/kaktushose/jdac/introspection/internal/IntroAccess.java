@@ -8,12 +8,15 @@ import io.github.kaktushose.jdac.dispatching.Runtime;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.i18n.I18n;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Locale;
 
 import static io.github.kaktushose.jdac.introspection.Introspection.accGet;
 
+@ApiStatus.Internal
 public class IntroAccess {
     public static InvocationContext<?> accInvocationContext() {
         return accGet(Property.INVOCATION_CONTEXT);
@@ -45,5 +48,9 @@ public class IntroAccess {
 
     public static MessageResolver accMessageResolver() {
         return accGet(Property.MESSAGE_RESOLVER);
+    }
+
+    public static I18n accI18n() {
+        return accGet(Property.I18N);
     }
 }

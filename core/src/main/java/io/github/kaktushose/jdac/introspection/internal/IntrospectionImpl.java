@@ -8,7 +8,9 @@ import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.lifecycle.Event;
 import io.github.kaktushose.jdac.introspection.lifecycle.Subscriber;
 import io.github.kaktushose.jdac.introspection.lifecycle.Subscription;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Internal
 public final class IntrospectionImpl implements Introspection {
 
     public static final ScopedValue<IntrospectionImpl> INTROSPECTION = ScopedValue.newInstance();

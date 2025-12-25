@@ -10,6 +10,7 @@ import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
+import io.github.kaktushose.jdac.dispatching.events.Event;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
@@ -183,24 +184,34 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
              new Singleton<>("MERGED_CLASS_FINDER", Category.PROVIDED, ClassFinder.class, Stage.CONFIGURATION);
 
     // ------- initialized --------
+    /// The [JDACommands] instance available after fully starting the framework.
     Property<JDACommands> JDA_COMMANDS =
             new Singleton<>("JDA_COMMANDS", Category.PROVIDED, JDACommands.class, Stage.INITIALIZED);
 
+    /// The [Definitions] instance available after fully starting the framework.
     Property<Definitions> DEFINITIONS =
             new Singleton<>("DEFINITIONS", Category.PROVIDED, Definitions.class, Stage.INITIALIZED);
 
     // ------- runtime ---------
+    /// The [JDA] instance bound to this specific Runtime.
     Property<JDA> JDA =
             new Singleton<>("JDA", Category.PROVIDED, JDA.class, Stage.RUNTIME);
+
+    /// The identifier bound to this runtime. Same as [Event#runtimeId()].
     Property<String> RUNTIME_ID =
             new Singleton<>("RUNTIME_ID", Category.PROVIDED, String.class, Stage.RUNTIME);
+
+    /// The [KeyValueStore] associated with this runtime. Same as [InvocationContext#keyValueStore()] or [Event#kv()].
     Property<KeyValueStore> KEY_VALUE_STORE =
             new Singleton<>("KEY_VALUE_STORE", Category.PROVIDED, KeyValueStore.class, Stage.RUNTIME);
 
 
     // ------ interaction ---------
+    /// The [GenericInteractionCreateEvent] of this interaction. Same as [Event#jdaEvent()].
     Property<GenericInteractionCreateEvent> JDA_EVENT =
             new Singleton<>("JDA_EVENT", Category.PROVIDED, GenericInteractionCreateEvent.class, Stage.INTERACTION);
+
+    /// The [InvocationContext] of this interaction. Same as in [Middleware#accept(InvocationContext)].
     Property<InvocationContext<?>> INVOCATION_CONTEXT =
             new Singleton<>("INVOCATION_CONTEXT", Category.PROVIDED, castUnsafe(InvocationContext.class), Stage.INTERACTION);
 
@@ -270,8 +281,8 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// @return the category of the property
     Category category();
 
+    /// The stage or "level" at which this property has a value set.
     Stage stage();
-
 
     /// The fallback behaviour defines whether the fallback value provided by JDA-Commands should be
     /// accumulated together with the user defined ones or overwritten.
@@ -312,6 +323,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// @param value the value type
     /// @param name the property's name
     /// @param fallbackBehaviour the property's [FallbackBehaviour]
+    /// @param stage the property's stage
     record Map<K, V>(String name, Category category, Class<K> key, Class<V> value,
                      FallbackBehaviour fallbackBehaviour, Stage stage) implements Property<java.util.Map<K, V>> {}
 
@@ -320,6 +332,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// @param name the property's name
     /// @param category the property's category
     /// @param type the property's type
+    /// @param stage the property's stage
     record Singleton<T>(String name, Category category, Class<T> type, Stage stage) implements Property<T> {
         @Override
         public FallbackBehaviour fallbackBehaviour() {
@@ -333,6 +346,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// @param name the property's name
     /// @param type the property's type
     /// @param fallbackBehaviour the property's [FallbackBehaviour]
+    /// @param stage the property's stage
     record Enumeration<E>(String name, Category category, Class<E> type,
                           FallbackBehaviour fallbackBehaviour, Stage stage) implements Property<Collection<E>> {}
 }
