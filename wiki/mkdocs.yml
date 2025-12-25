@@ -110,7 +110,7 @@ nav:
   - Interactions:
       - Overview: interactions/overview.md
       - Commands: interactions/commands.md
-      - Components: interactions/components.md
+      - Action Components: interactions/components.md
       - Modals: interactions/modals.md
       - Reply API: interactions/reply.md
   - Middlewares:
