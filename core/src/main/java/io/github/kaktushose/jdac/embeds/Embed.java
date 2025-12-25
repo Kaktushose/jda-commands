@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.embeds;
 
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.message.i18n.EmbedResolver;
+import io.github.kaktushose.jdac.message.EmbedResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
 import io.github.kaktushose.jdac.message.MessageResolver;

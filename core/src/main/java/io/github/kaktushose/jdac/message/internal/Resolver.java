@@ -1,12 +1,12 @@
-package io.github.kaktushose.jdac.message.i18n.internal;
+package io.github.kaktushose.jdac.message.internal;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.github.kaktushose.jdac.message.MessageResolver;
-import io.github.kaktushose.jdac.message.i18n.ComponentResolver;
-import io.github.kaktushose.jdac.message.i18n.EmbedResolver;
+import io.github.kaktushose.jdac.message.ComponentResolver;
+import io.github.kaktushose.jdac.message.EmbedResolver;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 

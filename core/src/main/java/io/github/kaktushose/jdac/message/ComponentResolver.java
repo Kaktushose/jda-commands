@@ -1,9 +1,8 @@
-package io.github.kaktushose.jdac.message.i18n;
+package io.github.kaktushose.jdac.message;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.kaktushose.jdac.exceptions.ParsingException;
-import io.github.kaktushose.jdac.message.MessageResolver;
-import io.github.kaktushose.jdac.message.i18n.internal.Resolver;
+import io.github.kaktushose.jdac.message.internal.Resolver;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.utils.ComponentDeserializer;
 import net.dv8tion.jda.api.components.utils.ComponentSerializer;
