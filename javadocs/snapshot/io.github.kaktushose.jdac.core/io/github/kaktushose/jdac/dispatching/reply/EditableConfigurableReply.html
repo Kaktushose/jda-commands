@@ -67,7 +67,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#editReply(boolean)" tabindex="0">editReply(boolean)</a></li>
 <li><a href="#keepComponents(boolean)" tabindex="0">keepComponents(boolean)</a></li>
 <li><a href="#keepSelections(boolean)" tabindex="0">keepSelections(boolean)</a></li>
-<li><a href="#reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer...)" tabindex="0">reply(ComponentReplacer...)</a></li>
+<li><a href="#reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">reply(ComponentReplacer, Entry...)</a></li>
 </ol>
 </li>
 </ol>
@@ -147,7 +147,8 @@ where you can also edit the original reply instead of sending a new one.</div>
 <div class="block">Whether to keep the selections of a string select menu when sending edits.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link">ComponentReplacer</a>...&nbsp;replacer)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link">ComponentReplacer</a>&nbsp;replacer,
+ <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acknowledgement of this event with the V2 Components of the original reply.</div>
 </div>
@@ -156,7 +157,7 @@ where you can also edit the original reply instead of sending a new one.</div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply">Methods inherited from class&nbsp;<a href="ConfigurableReply.html#method-summary" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></h3>
-<code><a href="ConfigurableReply.html#ephemeral(boolean)" title="ephemeral(boolean)">ephemeral</a>, <a href="ConfigurableReply.html#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,net.dv8tion.jda.api.components.MessageTopLevelComponent...)" title="reply(MessageTopLevelComponent, MessageTopLevelComponent...)">reply</a></code></div>
+<code><a href="ConfigurableReply.html#ephemeral(boolean)" title="ephemeral(boolean)">ephemeral</a>, <a href="ConfigurableReply.html#reply(java.util.Collection,io.github.kaktushose.jdac.message.placeholder.Entry...)" title="reply(Collection, Entry...)">reply</a>, <a href="ConfigurableReply.html#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,io.github.kaktushose.jdac.message.placeholder.Entry...)" title="reply(MessageTopLevelComponent, Entry...)">reply</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-io.github.kaktushose.jdac.dispatching.reply.MessageReply">Methods inherited from class&nbsp;<a href="MessageReply.html#method-summary" title="class in io.github.kaktushose.jdac.dispatching.reply">MessageReply</a></h3>
 <code><a href="MessageReply.html#builder(java.util.function.Consumer)" title="builder(Consumer)">builder</a>, <a href="MessageReply.html#components(io.github.kaktushose.jdac.dispatching.reply.Component...)" title="components(Component...)">components</a>, <a href="MessageReply.html#components(java.lang.String...)" title="components(String...)">components</a>, <a href="MessageReply.html#embeds(io.github.kaktushose.jdac.embeds.Embed...)" title="embeds(Embed...)">embeds</a>, <a href="MessageReply.html#embeds(java.lang.String...)" title="embeds(String...)">embeds</a>, <a href="MessageReply.html#embeds(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry,io.github.kaktushose.jdac.message.placeholder.Entry...)" title="embeds(String, Entry, Entry...)">embeds</a>, <a href="MessageReply.html#embeds(java.lang.String,java.util.function.Consumer)" title="embeds(String, Consumer)">embeds</a>, <a href="MessageReply.html#reply(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" title="reply(String, Entry...)">reply</a>, <a href="MessageReply.html#resolve(io.github.kaktushose.jdac.dispatching.reply.Component)" title="resolve(Component)">resolve</a></code></div>
@@ -252,10 +253,11 @@ its components get added to the reply before it is sent.</p>
 </section>
 </li>
 <li>
-<section class="detail" id="reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer...)">
+<section class="detail" id="reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer,io.github.kaktushose.jdac.message.placeholder.Entry...)">
 <h3>reply</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link">ComponentReplacer</a>...&nbsp;replacer)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link">ComponentReplacer</a>&nbsp;replacer,
+ <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block"><p>Acknowledgement of this event with the V2 Components of the original reply. Will also apply the passed
 <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link"><code>ComponentReplacer</code></a> before sending the reply.</p>
 <p>This method will always set <a href="#keepComponents(boolean)"><code>keepComponents(boolean)</code></a> to <code>true</code> to retrieve the original components.</p>
@@ -263,6 +265,7 @@ its components get added to the reply before it is sent.</p>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>replacer</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link"><code>ComponentReplacer</code></a> to apply to the original components</dd>
+<dd><code>placeholder</code> - the <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">placeholders</a> to use. See <a href="../../message/placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder"><code>PlaceholderResolver</code></a></dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class or interface in java.lang" class="external-link">UnsupportedOperationException</a></code> - if the original message didn't use V2 Components</dd>
 </dl>

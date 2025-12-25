@@ -48,6 +48,7 @@ io.github.kaktushose.jdac.message
 io.github.kaktushose.jdac.message.emoji
 io.github.kaktushose.jdac.message.i18n
 io.github.kaktushose.jdac.message.i18n.internal
+io.github.kaktushose.jdac.message.internal
 io.github.kaktushose.jdac.message.placeholder
 io.github.kaktushose.jdac.permissions
 io.github.kaktushose.jdac.scope

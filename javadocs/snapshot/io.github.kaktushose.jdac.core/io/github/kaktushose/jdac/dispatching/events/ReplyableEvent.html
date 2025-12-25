@@ -72,7 +72,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#embed(java.lang.String)" tabindex="0">embed(String)</a></li>
 <li><a href="#findEmbed(java.lang.String)" tabindex="0">findEmbed(String)</a></li>
 <li><a href="#with()" tabindex="0">with()</a></li>
-<li><a href="#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,net.dv8tion.jda.api.components.MessageTopLevelComponent...)" tabindex="0">reply(MessageTopLevelComponent, MessageTopLevelComponent...)</a></li>
+<li><a href="#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">reply(MessageTopLevelComponent, Entry...)</a></li>
+<li><a href="#reply(java.util.Collection,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">reply(Collection, Entry...)</a></li>
 <li><a href="#reply(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">reply(String, Entry...)</a></li>
 <li><a href="#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)" tabindex="0">reply(MessageEmbed, MessageEmbed...)</a></li>
 <li><a href="#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" tabindex="0">reply(MessageCreateData)</a></li>
@@ -203,25 +204,31 @@ and transforms it into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/
 <div class="block">Acknowledgement of this event with a text message.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,net.dv8tion.jda.api.components.MessageTopLevelComponent...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>&nbsp;component,
- <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>...&nbsp;components)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(java.util.Collection,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>&gt;&nbsp;components,
+ <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acknowledgement of this event with V2 Components.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed</a>&nbsp;first,
- <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed</a>...&nbsp;additional)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>&nbsp;component,
+ <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed</code></a>.</div>
+<div class="block">Acknowledgement of this event with V2 Components.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" class="member-name-link">reply</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;message)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.entities.MessageEmbed,net.dv8tion.jda.api.entities.MessageEmbed...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed</a>&nbsp;first,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed</a>...&nbsp;additional)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>MessageEmbed</code></a>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" class="member-name-link">reply</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;message)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acknowledgement of this event with a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateData</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#with()" class="member-name-link">with</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#with()" class="member-name-link">with</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Entry point for configuring a reply.</div>
 </div>
 </div>
@@ -439,11 +446,11 @@ This may be useful if you want to send a component without using the framework.<
 </section>
 </li>
 <li>
-<section class="detail" id="reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,net.dv8tion.jda.api.components.MessageTopLevelComponent...)">
+<section class="detail" id="reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,io.github.kaktushose.jdac.message.placeholder.Entry...)">
 <h3>reply</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>&nbsp;component,
- <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>...&nbsp;components)</span></div>
+ <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</span></div>
 <div class="block"><p>Acknowledgement of this event with V2 Components.</p>
 <p>Using V2 components removes the top-level component limit,
 and allows more components in total (<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html#MAX_COMPONENT_COUNT_IN_COMPONENT_TREE" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">40</a>).</p>
@@ -459,6 +466,40 @@ as long as they are <a href="https://docs.jda.wiki/net/dv8tion/jda/api/component
 <li>You cannot switch this message back to not using Components V2 (you can however upgrade a message to V2)</li>
 </ul>
 </div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>component</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link"><code>MessageTopLevelComponent</code></a> to reply with</dd>
+<dd><code>placeholder</code> - the <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">placeholders</a> to use. See <a href="../../message/placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder"><code>PlaceholderResolver</code></a></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="reply(java.util.Collection,io.github.kaktushose.jdac.message.placeholder.Entry...)">
+<h3>reply</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>&gt;&nbsp;components,
+ <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</span></div>
+<div class="block"><p>Acknowledgement of this event with V2 Components.</p>
+<p>Using V2 components removes the top-level component limit,
+and allows more components in total (<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html#MAX_COMPONENT_COUNT_IN_COMPONENT_TREE" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">40</a>).</p>
+<p>They also allow you to use a larger choice of components, such as any component extending <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link"><code>MessageTopLevelComponent</code></a>,
+as long as they are <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.Type.html#isMessageCompatible()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">compatible</a>.</p>
+<p>The character limit for the messages also gets changed to <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html#MAX_CONTENT_LENGTH_COMPONENT_V2" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">4000</a>.</p>
+<p>This, however, comes with a few drawbacks:</p>
+<ul>
+<li>You cannot send content, embeds, polls or stickers</li>
+<li>It does not support voice messages</li>
+<li>It does not support previewing files</li>
+<li>URLs don't create embeds</li>
+<li>You cannot switch this message back to not using Components V2 (you can however upgrade a message to V2)</li>
+</ul>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>components</code> - a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link"><code>MessageTopLevelComponent</code></a>s to reply with</dd>
+<dd><code>placeholder</code> - the <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">placeholders</a> to use. See <a href="../../message/placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder"><code>PlaceholderResolver</code></a></dd>
+</dl>
 </div>
 </section>
 </li>
