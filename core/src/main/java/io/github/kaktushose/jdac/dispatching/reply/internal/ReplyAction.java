@@ -2,7 +2,7 @@ package io.github.kaktushose.jdac.dispatching.reply.internal;
 
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.exceptions.InternalException;
-import io.github.kaktushose.jdac.exceptions.internal.JDACException;
+import io.github.kaktushose.jdac.message.ComponentResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
@@ -41,21 +41,21 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 public final class ReplyAction {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyAction.class);
+    private final ComponentResolver<MessageTopLevelComponentUnion> componentResolver;
     private MessageCreateBuilder builder;
     private boolean ephemeral;
     private boolean editReply;
     private boolean keepComponents;
     private boolean keepSelections;
-    private List<ComponentReplacer> componentReplacer;
 
     public ReplyAction(ReplyConfig replyConfig) {
         log.debug("Reply Debug: [Runtime={}]", getRuntime().id());
+        componentResolver = new ComponentResolver<>(getFramework().messageResolver(), MessageTopLevelComponentUnion.class);
         builder = new MessageCreateBuilder();
         ephemeral = replyConfig.ephemeral();
         editReply = replyConfig.editReply();
         keepComponents = replyConfig.keepComponents();
         keepSelections = replyConfig.keepSelections();
-        componentReplacer = new ArrayList<>();
     }
 
     public void ephemeral(boolean ephemeral) {
@@ -97,13 +97,16 @@ public final class ReplyAction {
         return reply();
     }
 
-    public Message reply(List<MessageTopLevelComponentUnion> components) {
+    public Message reply(List<MessageTopLevelComponentUnion> components, Entry... placeholder) {
+        components = componentResolver.resolve(components, getUserLocale(), Entry.toMap(placeholder));
         builder.closeFiles().clear().useComponentsV2().addComponents(components);
         return reply();
     }
 
-    public Message reply(ComponentReplacer... replacer) {
-        componentReplacer = List.of(replacer);
+    public Message reply(ComponentReplacer replacer, Entry... placeholder) {
+        var components = builder.getComponentTree().replace(replacer).getComponents();
+        components = componentResolver.resolve(components, getUserLocale(), Entry.toMap(placeholder));
+        builder.setComponents(components);
         return reply();
     }
 
@@ -125,10 +128,6 @@ public final class ReplyAction {
         if (getJdaEvent() instanceof ComponentInteraction interaction && keepComponents) {
             builder.addComponents(retrieveComponents(interaction.getMessage()));
             builder.useComponentsV2(interaction.getMessage().isUsingComponentsV2());
-        }
-
-        if (!componentReplacer.isEmpty()) {
-            builder.setComponents(builder.getComponentTree().replace(ComponentReplacer.all(componentReplacer)));
         }
 
         log.debug(

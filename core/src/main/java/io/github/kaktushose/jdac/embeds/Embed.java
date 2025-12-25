@@ -1,11 +1,7 @@
 package io.github.kaktushose.jdac.embeds;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.exceptions.ParsingException;
+import io.github.kaktushose.jdac.message.EmbedResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
 import io.github.kaktushose.jdac.message.MessageResolver;
@@ -27,7 +23,6 @@ import java.util.*;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 import static net.dv8tion.jda.api.EmbedBuilder.URL_PATTERN;
 import static net.dv8tion.jda.api.EmbedBuilder.ZERO_WIDTH_SPACE;
 
@@ -35,17 +30,16 @@ import static net.dv8tion.jda.api.EmbedBuilder.ZERO_WIDTH_SPACE;
 /// loaded via [EmbedDataSource].
 public class Embed {
 
-    private static final ObjectMapper mapper = new ObjectMapper();
     private final String name;
     private final Map<String, @Nullable Object> placeholders;
-    private final MessageResolver messageResolver;
+    private final EmbedResolver embedLocalizer;
     private DataObject data;
     private Locale locale;
 
     private Embed(DataObject object, String name, Map<String, @Nullable Object> placeholders, MessageResolver messageResolver) {
         this.name = name;
         this.placeholders = new HashMap<>(placeholders);
-        this.messageResolver = messageResolver;
+        this.embedLocalizer = new EmbedResolver(messageResolver);
         locale = Locale.ENGLISH;
         this.data = object;
     }
@@ -355,13 +349,7 @@ public class Embed {
     ///
     /// @return the built, sendable [MessageEmbed]
     public MessageEmbed build() {
-        String json = data.toString();
-        try {
-            JsonNode node = resolve(mapper.readTree(json));
-            return EmbedBuilder.fromData(DataObject.fromJson(node.toString())).build();
-        } catch (Exception e) {
-            throw new ParsingException(e, entry("rawJson", json));
-        }
+        return embedLocalizer.resolve(data, locale, placeholders);
     }
 
     private void urlCheck(@Nullable String url) {
@@ -369,28 +357,6 @@ public class Embed {
             Checks.notLonger(url, MessageEmbed.URL_MAX_LENGTH, "URL");
             Checks.check(URL_PATTERN.matcher(url).matches(), "URL must be a valid http(s) or attachment url.");
         }
-    }
-
-    private JsonNode resolve(JsonNode node) {
-        if (node instanceof ObjectNode objectNode) {
-            Iterator<Map.Entry<String, JsonNode>> iterator = objectNode.fields();
-            while (iterator.hasNext()) {
-                Map.Entry<String, JsonNode> entry = iterator.next();
-                JsonNode child = entry.getValue();
-                JsonNode newChild = resolve(child);
-                if (newChild.isTextual()) {
-                    objectNode.put(entry.getKey(), messageResolver.resolve(newChild.asText(), locale, placeholders));
-                } else {
-                    objectNode.set(entry.getKey(), newChild);
-                }
-            }
-        } else if (node instanceof ArrayNode arrayNode) {
-            for (int i = 0; i < arrayNode.size(); i++) {
-                JsonNode child = arrayNode.get(i);
-                arrayNode.set(i, resolve(child));
-            }
-        }
-        return node;
     }
 
     /// Transforms this embed into [MessageCreateData].
