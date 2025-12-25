@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.embeds;
 
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.message.i18n.EmbedLocalizer;
+import io.github.kaktushose.jdac.message.i18n.EmbedResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
 import io.github.kaktushose.jdac.message.MessageResolver;
@@ -32,14 +32,14 @@ public class Embed {
 
     private final String name;
     private final Map<String, @Nullable Object> placeholders;
-    private final EmbedLocalizer embedLocalizer;
+    private final EmbedResolver embedLocalizer;
     private DataObject data;
     private Locale locale;
 
     private Embed(DataObject object, String name, Map<String, @Nullable Object> placeholders, MessageResolver messageResolver) {
         this.name = name;
         this.placeholders = new HashMap<>(placeholders);
-        this.embedLocalizer = new EmbedLocalizer(messageResolver);
+        this.embedLocalizer = new EmbedResolver(messageResolver);
         locale = Locale.ENGLISH;
         this.data = object;
     }
@@ -349,7 +349,7 @@ public class Embed {
     ///
     /// @return the built, sendable [MessageEmbed]
     public MessageEmbed build() {
-        return embedLocalizer.localize(EmbedBuilder.fromData(data).build(), locale, placeholders);
+        return embedLocalizer.resolve(EmbedBuilder.fromData(data).build(), locale, placeholders);
     }
 
     private void urlCheck(@Nullable String url) {

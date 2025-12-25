@@ -2,7 +2,7 @@ package io.github.kaktushose.jdac.dispatching.reply.internal;
 
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.exceptions.InternalException;
-import io.github.kaktushose.jdac.message.i18n.ComponentLocalizer;
+import io.github.kaktushose.jdac.message.i18n.ComponentResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
@@ -41,7 +41,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 public final class ReplyAction {
 
     private static final Logger log = LoggerFactory.getLogger(ReplyAction.class);
-    private final ComponentLocalizer<MessageTopLevelComponentUnion> componentLocalizer;
+    private final ComponentResolver<MessageTopLevelComponentUnion> componentResolver;
     private MessageCreateBuilder builder;
     private boolean ephemeral;
     private boolean editReply;
@@ -50,7 +50,7 @@ public final class ReplyAction {
 
     public ReplyAction(ReplyConfig replyConfig) {
         log.debug("Reply Debug: [Runtime={}]", getRuntime().id());
-        componentLocalizer = new ComponentLocalizer<>(getFramework().messageResolver(), MessageTopLevelComponentUnion.class);
+        componentResolver = new ComponentResolver<>(getFramework().messageResolver(), MessageTopLevelComponentUnion.class);
         builder = new MessageCreateBuilder();
         ephemeral = replyConfig.ephemeral();
         editReply = replyConfig.editReply();
@@ -98,14 +98,14 @@ public final class ReplyAction {
     }
 
     public Message reply(List<MessageTopLevelComponentUnion> components, Entry... placeholder) {
-        components = componentLocalizer.localize(components, getUserLocale(), Entry.toMap(placeholder));
+        components = componentResolver.resolve(components, getUserLocale(), Entry.toMap(placeholder));
         builder.closeFiles().clear().useComponentsV2().addComponents(components);
         return reply();
     }
 
     public Message reply(ComponentReplacer replacer, Entry... placeholder) {
         var components = builder.getComponentTree().replace(replacer).getComponents();
-        components = componentLocalizer.localize(components, getUserLocale(), Entry.toMap(placeholder));
+        components = componentResolver.resolve(components, getUserLocale(), Entry.toMap(placeholder));
         builder.setComponents(components);
         return reply();
     }

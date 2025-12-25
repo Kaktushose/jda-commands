@@ -16,7 +16,7 @@ import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
-import io.github.kaktushose.jdac.message.i18n.ComponentLocalizer;
+import io.github.kaktushose.jdac.message.i18n.ComponentResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ActionComponent;
@@ -44,14 +44,14 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     private static final Logger log = LoggerFactory.getLogger(MessageReply.class);
     protected final ReplyAction replyAction;
-    private final ComponentLocalizer<ActionRowChildComponent> localizer;
+    private final ComponentResolver<ActionRowChildComponent> localizer;
 
     /// Constructs a new MessageReply.
     ///
     ///  @param replyConfig the [ReplyConfig] to use
     public MessageReply(ReplyConfig replyConfig) {
         replyAction = new ReplyAction(replyConfig);
-        localizer = new ComponentLocalizer<>(getFramework().messageResolver(), ActionRowChildComponent.class);
+        localizer = new ComponentResolver<>(getFramework().messageResolver(), ActionRowChildComponent.class);
     }
 
     /// Constructs a new MessageReply.
@@ -59,7 +59,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     ///  @param reply the [MessageReply] to copy from
     public MessageReply(MessageReply reply) {
         replyAction = reply.replyAction;
-        localizer = new ComponentLocalizer<>(getFramework().messageResolver(), ActionRowChildComponent.class);
+        localizer = new ComponentResolver<>(getFramework().messageResolver(), ActionRowChildComponent.class);
     }
 
     /// Acknowledgement of this event with a text message.
@@ -234,7 +234,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
             case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
         };
 
-        item = localizer.localize(item, getJdaEvent().getUserLocale().toLocale(), Entry.toMap(component.placeholder()));
+        item = localizer.resolve(item, getJdaEvent().getUserLocale().toLocale(), Entry.toMap(component.placeholder()));
         log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
         return item;
     }

@@ -3,7 +3,7 @@ package io.github.kaktushose.jdac.message.i18n;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.kaktushose.jdac.exceptions.ParsingException;
 import io.github.kaktushose.jdac.message.MessageResolver;
-import io.github.kaktushose.jdac.message.i18n.internal.Localizer;
+import io.github.kaktushose.jdac.message.i18n.internal.Resolver;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.utils.ComponentDeserializer;
 import net.dv8tion.jda.api.components.utils.ComponentSerializer;
@@ -15,28 +15,28 @@ import java.util.*;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
-public final class ComponentLocalizer<T extends Component> extends Localizer<T> {
+public final class ComponentResolver<T extends Component> extends Resolver<T> {
 
     private static final ComponentSerializer serializer = new ComponentSerializer();
     private final Class<T> type;
 
-    public ComponentLocalizer(MessageResolver resolver, Class<T> type) {
+    public ComponentResolver(MessageResolver resolver, Class<T> type) {
         super(resolver, Set.of("content", "label", "placeholder", "value"));
         this.type = type;
     }
 
-    public List<T> localize(Collection<T> components, Locale locale, Map<String, @Nullable Object> placeholders) {
+    public List<T> resolve(Collection<T> components, Locale locale, Map<String, @Nullable Object> placeholders) {
         List<T> result = new ArrayList<>();
 
         for (T component : components) {
-            result.add(localize(component, locale, placeholders));
+            result.add(resolve(component, locale, placeholders));
         }
 
         return result;
     }
 
     @Override
-    public T localize(T component, Locale locale, Map<String, @Nullable Object> placeholders) {
+    public T resolve(T component, Locale locale, Map<String, @Nullable Object> placeholders) {
         List<FileUpload> fileUploads = serializer.getFileUploads(component);
         DataObject data = serializer.serialize(component);
         try {

@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.github.kaktushose.jdac.message.MessageResolver;
-import io.github.kaktushose.jdac.message.i18n.ComponentLocalizer;
-import io.github.kaktushose.jdac.message.i18n.EmbedLocalizer;
+import io.github.kaktushose.jdac.message.i18n.ComponentResolver;
+import io.github.kaktushose.jdac.message.i18n.EmbedResolver;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
@@ -16,22 +16,22 @@ import java.util.Map;
 import java.util.Set;
 
 @ApiStatus.Internal
-public abstract sealed class Localizer<T> permits ComponentLocalizer, EmbedLocalizer {
+public abstract sealed class Resolver<T> permits ComponentResolver, EmbedResolver {
 
     protected static final ObjectMapper mapper = new ObjectMapper();
     private final MessageResolver resolver;
     private final Set<String> fields;
 
-    /// Constructs a new Localizer.
+    /// Constructs a new Resolver.
     ///
     /// @param resolver the [MessageResolver] to use for localization
     /// @param fields the JSON fields to localize.  An empty [Set] indicates that all fields will be localized
-    public Localizer(MessageResolver resolver, Set<String> fields) {
+    public Resolver(MessageResolver resolver, Set<String> fields) {
         this.resolver = resolver;
         this.fields = fields;
     }
 
-    public abstract T localize(T object, Locale locale, Map<String, @Nullable Object> placeholders);
+    public abstract T resolve(T object, Locale locale, Map<String, @Nullable Object> placeholders);
 
     protected JsonNode resolve(JsonNode node, Locale locale, Map<String, @Nullable Object> placeholders) {
         if (node instanceof ObjectNode objectNode) {
@@ -40,7 +40,7 @@ public abstract sealed class Localizer<T> permits ComponentLocalizer, EmbedLocal
                 Map.Entry<String, JsonNode> entry = iterator.next();
                 JsonNode child = entry.getValue();
                 JsonNode newChild = resolve(child, locale, placeholders);
-                if (newChild.isTextual() && localize(entry.getKey())) {
+                if (newChild.isTextual() && resolve(entry.getKey())) {
                     objectNode.put(entry.getKey(), resolver.resolve(newChild.asText(), locale, placeholders));
                 } else {
                     objectNode.set(entry.getKey(), newChild);
@@ -55,7 +55,7 @@ public abstract sealed class Localizer<T> permits ComponentLocalizer, EmbedLocal
         return node;
     }
 
-    private boolean localize(String key) {
+    private boolean resolve(String key) {
         if (fields.isEmpty()) {
             return true;
         }
