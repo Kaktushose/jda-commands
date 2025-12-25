@@ -56,7 +56,7 @@ public final class Runtime implements Closeable {
     private final ModalHandler modalHandler;
 
     private final String id;
-    private final BlockingQueue<GenericInteractionCreateEvent> eventQueue;
+    private final BlockingQueue<GenericInteractionCreateEvent> eventQueue = new LinkedBlockingQueue<>();
     private final Thread executionThread;
 
     private final KeyValueStore keyValueStore = new KeyValueStore();
@@ -66,15 +66,15 @@ public final class Runtime implements Closeable {
     private LocalDateTime lastActivity = LocalDateTime.now();
 
     private Runtime(String id, IntrospectionImpl baseIntrospection, JDA jda) {
+        this.id = id;
+
         this.introspection = Properties.Builder.newRestricted()
                 .addFallback(Property.JDA, _ -> jda)
                 .addFallback(InternalProperties.RUNTIME, _ -> this)
-                .addFallback(Property.RUNTIME_ID, _ -> this.id())
+                .addFallback(Property.RUNTIME_ID, _ -> id)
                 .addFallback(Property.KEY_VALUE_STORE, _ -> keyValueStore())
                 .createIntrospection(baseIntrospection, Stage.RUNTIME);
 
-        this.id = id;
-        eventQueue = new LinkedBlockingQueue<>();
         slashCommandHandler = new SlashCommandHandler(introspection);
         autoCompleteHandler = new AutoCompleteHandler(introspection);
         contextCommandHandler = new ContextCommandHandler(introspection);

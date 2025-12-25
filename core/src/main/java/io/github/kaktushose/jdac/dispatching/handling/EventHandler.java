@@ -6,7 +6,6 @@ import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
 import io.github.kaktushose.jdac.dispatching.Runtime;
-import io.github.kaktushose.jdac.dispatching.adapter.internal.TypeAdapters;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.handling.command.ContextCommandHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
@@ -15,6 +14,7 @@ import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.internal.Helpers;
+import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.InteractionFinishedEvent;
@@ -54,17 +54,13 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
     protected final IntrospectionImpl runtimeIntrospection;
-    protected final Middlewares middlewares;
     protected final InteractionRegistry interactionRegistry;
-    protected final TypeAdapters adapterRegistry;
     protected final ErrorMessageFactory errorMessageFactory;
 
     public EventHandler(IntrospectionImpl runtimeIntrospection) {
         this.runtimeIntrospection = runtimeIntrospection;
 
-        this.middlewares = runtimeIntrospection.get(InternalProperties.MIDDLEWARES);
         this.interactionRegistry = runtimeIntrospection.get(InternalProperties.INTERACTION_REGISTRY);
-        this.adapterRegistry = runtimeIntrospection.get(InternalProperties.TYPE_ADAPTERS);
         this.errorMessageFactory = runtimeIntrospection.get(Property.ERROR_MESSAGE_FACTORY);
     }
 
@@ -94,6 +90,8 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
         ScopedValue.where(IntrospectionImpl.INTROSPECTION, interactionIntrospection).run(() -> {
             log.debug("Executing middlewares...");
+
+            Middlewares middlewares = Introspection.accGet(InternalProperties.MIDDLEWARES);
             middlewares.forOrdered(invocationContext.definition().classDescription().clazz(), middleware -> {
                 log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
                 middleware.accept(invocationContext);
