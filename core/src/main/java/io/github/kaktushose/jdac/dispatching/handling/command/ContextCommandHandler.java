@@ -1,12 +1,12 @@
 package io.github.kaktushose.jdac.dispatching.handling.command;
 
-import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.ContextCommandDefinition;
 import io.github.kaktushose.jdac.dispatching.Runtime;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.handling.EventHandler;
 import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import org.jetbrains.annotations.ApiStatus;
@@ -16,8 +16,8 @@ import java.util.List;
 @ApiStatus.Internal
 public final class ContextCommandHandler extends EventHandler<GenericContextInteractionEvent<?>> {
 
-    public ContextCommandHandler(Resolver resolver) {
-        super(resolver);
+    public ContextCommandHandler(IntrospectionImpl introspection) {
+        super(introspection);
     }
 
     @Override

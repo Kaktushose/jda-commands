@@ -29,6 +29,8 @@ import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.internal.JDAContext;
+import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import io.github.kaktushose.jdac.message.MessageResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiSource;
@@ -334,34 +336,34 @@ public class JDACBuilder {
     /// This method applies all found implementations of [Extension],
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
-        Resolver resolver = properties.loadExtensionsAndcreateResolver();
+        IntrospectionImpl introspection = new IntrospectionImpl(properties.loadExtensionsAndcreateResolver(), Stage.CONFIGURATION);
 
         try {
             log.info("Starting JDA-Commands...");
 
             InteractionRegistry interactionRegistry = new InteractionRegistry(
-                    new Validators(resolver.get(VALIDATOR)),
-                    resolver.get(I18N),
-                    resolver.get(LOCALIZE_COMMANDS) ? resolver.get(I18N).localizationFunction() : (_) -> Map.of(),
-                    resolver.get(DESCRIPTOR)
+                    new Validators(introspection.get(VALIDATOR)),
+                    introspection.get(I18N),
+                    introspection.get(LOCALIZE_COMMANDS) ? introspection.get(I18N).localizationFunction() : (_) -> Map.of(),
+                    introspection.get(DESCRIPTOR)
             );
-            Middlewares middlewares = new Middlewares(resolver.get(MIDDLEWARE), resolver.get(ERROR_MESSAGE_FACTORY), resolver.get(PERMISSION_PROVIDER));
-            TypeAdapters typeAdapters = new TypeAdapters(resolver.get(TYPE_ADAPTER), resolver.get(I18N));
+            Middlewares middlewares = new Middlewares(introspection.get(MIDDLEWARE), introspection.get(ERROR_MESSAGE_FACTORY), introspection.get(PERMISSION_PROVIDER));
+            TypeAdapters typeAdapters = new TypeAdapters(introspection.get(TYPE_ADAPTER), introspection.get(I18N));
 
-            Resolver initResolver = Properties.Builder.newRestricted()
+            IntrospectionImpl initIntrospection = Properties.Builder.newRestricted()
                     .addFallback(INTERACTION_REGISTRY, _ -> interactionRegistry)
                     .addFallback(DEFINITIONS, ctx -> ctx.get(INTERACTION_REGISTRY))
                     .addFallback(MIDDLEWARES, _ -> middlewares)
                     .addFallback(TYPE_ADAPTERS, _ -> typeAdapters)
-                    .createResolver(resolver);
+                    .createIntrospection(introspection, Stage.INITIALIZED);
 
-            JDACommands jdaCommands = new JDACommands(initResolver);
+            JDACommands jdaCommands = new JDACommands(initIntrospection);
             jdaCommands.start();
 
             return jdaCommands;
         } catch (JDACException e) {
-            if (resolver.get(SHUTDOWN_JDA)) {
-                resolver.get(JDA_CONTEXT).shutdown();
+            if (introspection.get(SHUTDOWN_JDA)) {
+                introspection.get(JDA_CONTEXT).shutdown();
             }
             throw e;
         }

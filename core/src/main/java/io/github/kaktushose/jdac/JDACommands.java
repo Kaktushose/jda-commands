@@ -7,7 +7,6 @@ import io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
 import io.github.kaktushose.jdac.configuration.internal.Properties;
-import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
@@ -21,6 +20,7 @@ import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.internal.register.SlashCommandUpdater;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
@@ -38,19 +38,19 @@ public final class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final JDAEventListener jdaEventListener;
     private final SlashCommandUpdater updater;
-    private final Resolver resolver;
+    private final IntrospectionImpl introspection;
 
-    JDACommands(Resolver baseResolver) {
-        this.resolver = Properties.Builder.newRestricted()
+    JDACommands(IntrospectionImpl baseIntrospection) {
+        this.introspection = Properties.Builder.newRestricted()
                 .addFallback(Property.JDA_COMMANDS, _ -> this)
-                .createResolver(baseResolver);
+                .createIntrospection(baseIntrospection, Stage.INITIALIZED);
 
         this.updater = new SlashCommandUpdater(
-                resolver.get(InternalProperties.JDA_CONTEXT),
-                resolver.get(Property.GUILD_SCOPE_PROVIDER),
-                resolver.get(InternalProperties.INTERACTION_REGISTRY));
+                introspection.get(InternalProperties.JDA_CONTEXT),
+                introspection.get(Property.GUILD_SCOPE_PROVIDER),
+                introspection.get(InternalProperties.INTERACTION_REGISTRY));
 
-        this.jdaEventListener = new JDAEventListener(resolver);
+        this.jdaEventListener = new JDAEventListener(introspection);
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
@@ -94,12 +94,12 @@ public final class JDACommands {
     }
 
     void start() {
-        ClassFinder classFinder = resolver.get(Property.MERGED_CLASS_FINDER);
+        ClassFinder classFinder = introspection.get(Property.MERGED_CLASS_FINDER);
 
-        resolver.get(InternalProperties.INTERACTION_REGISTRY).index(classFinder.search(Interaction.class), resolver.get(Property.GLOBAL_COMMAND_CONFIG));
+        introspection.get(InternalProperties.INTERACTION_REGISTRY).index(classFinder.search(Interaction.class), introspection.get(Property.GLOBAL_COMMAND_CONFIG));
         updater.updateAllCommands();
 
-        resolver.get(InternalProperties.JDA_CONTEXT).performTask(it -> it.addEventListener(jdaEventListener), false);
+        introspection.get(InternalProperties.JDA_CONTEXT).performTask(it -> it.addEventListener(jdaEventListener), false);
         log.info("Finished loading!");
 
     }
@@ -110,11 +110,11 @@ public final class JDACommands {
     /// If [JDACBuilder#shutdownJDA()] is set to `true``, the underlying [JDA] or [ShardManager] instance will
     /// be shutdown too.
     public void shutdown() {
-        JDAContext jdaContext = resolver.get(InternalProperties.JDA_CONTEXT);
+        JDAContext jdaContext = introspection.get(InternalProperties.JDA_CONTEXT);
 
         jdaContext.performTask(jda -> jda.removeEventListener(jdaEventListener), false);
 
-        if (resolver.get(Property.SHUTDOWN_JDA)) {
+        if (introspection.get(Property.SHUTDOWN_JDA)) {
             jdaContext.shutdown();
         }
     }
@@ -134,7 +134,7 @@ public final class JDACommands {
     /// @return the JDA [Button]
     public Button getButton(Class<?> origin, String button) {
         var id = String.valueOf((origin.getName() + button).hashCode());
-        var definition = resolver.get(InternalProperties.INTERACTION_REGISTRY).find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = introspection.get(InternalProperties.INTERACTION_REGISTRY).find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
         return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
@@ -149,7 +149,7 @@ public final class JDACommands {
     /// @return the JDA [SelectMenu]
     public SelectMenu getSelectMenu(Class<?> origin, String menu) {
         var id = String.valueOf((origin.getName() + menu).hashCode());
-        var definition = resolver.get(InternalProperties.INTERACTION_REGISTRY).find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = introspection.get(InternalProperties.INTERACTION_REGISTRY).find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
         return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
@@ -161,7 +161,7 @@ public final class JDACommands {
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
-        return resolver.get(InternalProperties.EMBEDS).get(name);
+        return introspection.get(InternalProperties.EMBEDS).get(name);
     }
 
     /// Gets an [Embed] based on the given name and wraps it in an [Optional].
@@ -171,7 +171,7 @@ public final class JDACommands {
     /// @param name the name of the [Embed]
     /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
     public Optional<Embed> findEmbed(String name) {
-        Embeds embeds = resolver.get(InternalProperties.EMBEDS);
+        Embeds embeds = introspection.get(InternalProperties.EMBEDS);
 
         if (!embeds.exists(name)) {
             return Optional.empty();
@@ -180,6 +180,6 @@ public final class JDACommands {
     }
 
     public Introspection introspection() {
-        return new Introspection(resolver, Stage.INITIALIZED);
+        return introspection;
     }
 }

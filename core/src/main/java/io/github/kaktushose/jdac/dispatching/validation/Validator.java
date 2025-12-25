@@ -8,8 +8,8 @@ import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 

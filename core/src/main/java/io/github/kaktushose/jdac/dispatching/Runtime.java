@@ -13,7 +13,7 @@ import io.github.kaktushose.jdac.dispatching.handling.ModalHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.ContextCommandHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
 import io.github.kaktushose.jdac.exceptions.InternalException;
-import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import io.github.kaktushose.jdac.introspection.Stage;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -60,25 +60,25 @@ public final class Runtime implements Closeable {
 
     private final KeyValueStore keyValueStore = new KeyValueStore();
 
-    private final Resolver resolver;
+    private final IntrospectionImpl introspection;
 
     private LocalDateTime lastActivity = LocalDateTime.now();
 
-    private Runtime(String id, Resolver baseResolver, JDA jda) {
-        this.resolver = Properties.Builder.newRestricted()
+    private Runtime(String id, IntrospectionImpl baseIntrospection, JDA jda) {
+        this.introspection = Properties.Builder.newRestricted()
                 .addFallback(Property.JDA, _ -> jda)
                 .addFallback(InternalProperties.RUNTIME, _ -> this)
                 .addFallback(Property.RUNTIME_ID, _ -> this.id())
                 .addFallback(Property.KEY_VALUE_STORE, _ -> keyValueStore())
-                .createResolver(baseResolver);
+                .createIntrospection(baseIntrospection, Stage.RUNTIME);
 
         this.id = id;
         eventQueue = new LinkedBlockingQueue<>();
-        slashCommandHandler = new SlashCommandHandler(resolver);
-        autoCompleteHandler = new AutoCompleteHandler(resolver);
-        contextCommandHandler = new ContextCommandHandler(resolver);
-        componentHandler = new ComponentHandler(resolver);
-        modalHandler = new ModalHandler(resolver);
+        slashCommandHandler = new SlashCommandHandler(introspection);
+        autoCompleteHandler = new AutoCompleteHandler(introspection);
+        contextCommandHandler = new ContextCommandHandler(introspection);
+        componentHandler = new ComponentHandler(introspection);
+        modalHandler = new ModalHandler(introspection);
 
         this.executionThread = Thread.ofVirtual()
                 .name("JDAC Runtime-Thread %s".formatted(id))
@@ -86,8 +86,8 @@ public final class Runtime implements Closeable {
                 .unstarted(this::checkForEvents);
     }
 
-    public static Runtime startNew(String id, Resolver resolver, JDA jda) {
-        var runtime = new Runtime(id, resolver, jda);
+    public static Runtime startNew(String id, IntrospectionImpl introspection, JDA jda) {
+        var runtime = new Runtime(id, introspection, jda);
         runtime.executionThread.start();
 
         log.debug("Created new runtime with id {}", id);
@@ -133,7 +133,7 @@ public final class Runtime implements Closeable {
     }
 
     public <T> T interactionInstance(Class<T> clazz) {
-        return resolver.get(Property.INTERACTION_CONTROLLER_INSTANTIATOR).instance(clazz, new Introspection(resolver, Stage.RUNTIME));
+        return introspection.get(Property.INTERACTION_CONTROLLER_INSTANTIATOR).instance(clazz, introspection);
     }
 
     @Override
@@ -142,7 +142,7 @@ public final class Runtime implements Closeable {
     }
 
     public boolean isClosed() {
-        if (resolver.get(Property.EXPIRATION_STRATEGY) instanceof ExpirationStrategy.Inactivity(long minutes) &&
+        if (introspection.get(Property.EXPIRATION_STRATEGY) instanceof ExpirationStrategy.Inactivity(long minutes) &&
             lastActivity.isBefore(LocalDateTime.now().minusMinutes(minutes))) {
             close();
             return true;

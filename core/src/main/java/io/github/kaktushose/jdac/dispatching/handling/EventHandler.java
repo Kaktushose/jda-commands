@@ -3,7 +3,6 @@ package io.github.kaktushose.jdac.dispatching.handling;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
 import io.github.kaktushose.jdac.configuration.internal.Properties;
-import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
 import io.github.kaktushose.jdac.dispatching.Runtime;
@@ -16,8 +15,8 @@ import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.internal.Helpers;
-import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -48,25 +47,25 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         implements BiConsumer<T, Runtime>
         permits AutoCompleteHandler, ComponentHandler, ModalHandler, ContextCommandHandler, SlashCommandHandler {
 
-    public static final ScopedValue<Introspection> INTROSPECTION = ScopedValue.newInstance();
+    public static final ScopedValue<IntrospectionImpl> INTROSPECTION = ScopedValue.newInstance();
 
     public static final ScopedValue<Boolean> INVOCATION_PERMITTED = ScopedValue.newInstance();
 
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
-    protected final Resolver resolver;
+    protected final IntrospectionImpl introspection;
     protected final Middlewares middlewares;
     protected final InteractionRegistry interactionRegistry;
     protected final TypeAdapters adapterRegistry;
     protected final ErrorMessageFactory errorMessageFactory;
 
-    public EventHandler(Resolver resolver) {
-        this.resolver = resolver;
+    public EventHandler(IntrospectionImpl introspection) {
+        this.introspection = introspection;
 
-        this.middlewares = resolver.get(InternalProperties.MIDDLEWARES);
-        this.interactionRegistry = resolver.get(InternalProperties.INTERACTION_REGISTRY);
-        this.adapterRegistry = resolver.get(InternalProperties.TYPE_ADAPTERS);
-        this.errorMessageFactory = resolver.get(Property.ERROR_MESSAGE_FACTORY);
+        this.middlewares = introspection.get(InternalProperties.MIDDLEWARES);
+        this.interactionRegistry = introspection.get(InternalProperties.INTERACTION_REGISTRY);
+        this.adapterRegistry = introspection.get(InternalProperties.TYPE_ADAPTERS);
+        this.errorMessageFactory = introspection.get(Property.ERROR_MESSAGE_FACTORY);
     }
 
     @Nullable
@@ -85,16 +84,15 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
         InvocationContext<T> invocationContext =
                 new InvocationContext<>(e, runtime.keyValueStore(), ingredients.definition,
-                        Helpers.replyConfig(ingredients.definition, resolver.get(Property.GLOBAL_REPLY_CONFIG)),
+                        Helpers.replyConfig(ingredients.definition, introspection.get(Property.GLOBAL_REPLY_CONFIG)),
                         ingredients.rawArguments);
 
-        Resolver interactionResolver = Properties.Builder.newRestricted()
+        IntrospectionImpl interactionIntrospection = Properties.Builder.newRestricted()
                 .addFallback(Property.JDA_EVENT, _ -> e)
                 .addFallback(Property.INVOCATION_CONTEXT, _ -> invocationContext)
-                .createResolver(this.resolver);
+                .createIntrospection(this.introspection, Stage.INTERACTION);
 
-        Introspection introspection = new Introspection(interactionResolver, Stage.INTERACTION);
-        ScopedValue.where(INTROSPECTION, introspection).run(() -> {
+        ScopedValue.where(INTROSPECTION, interactionIntrospection).run(() -> {
             log.debug("Executing middlewares...");
             middlewares.forOrdered(invocationContext.definition().classDescription().clazz(), middleware -> {
                 log.debug("Executing middleware {}", middleware.getClass().getSimpleName());

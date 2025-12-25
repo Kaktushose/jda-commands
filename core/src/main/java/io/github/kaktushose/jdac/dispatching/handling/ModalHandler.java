@@ -1,10 +1,10 @@
 package io.github.kaktushose.jdac.dispatching.handling;
 
-import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.ModalDefinition;
 import io.github.kaktushose.jdac.dispatching.Runtime;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.interactions.modals.ModalMapping;
 import org.jetbrains.annotations.ApiStatus;
@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 @ApiStatus.Internal
 public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
 
-    public ModalHandler(Resolver resolver) {
-        super(resolver);
+    public ModalHandler(IntrospectionImpl introspection) {
+        super(introspection);
     }
 
     @Override

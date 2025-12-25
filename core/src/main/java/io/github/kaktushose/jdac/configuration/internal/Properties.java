@@ -3,6 +3,8 @@ package io.github.kaktushose.jdac.configuration.internal;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
+import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.*;
@@ -90,8 +92,8 @@ public class Properties {
             return properties;
         }
 
-        public Resolver createResolver(Resolver base) {
-            return base.createSub(build());
+        public IntrospectionImpl createIntrospection(IntrospectionImpl introspection, Stage stage) {
+            return introspection.createSub(properties, stage);
         }
     }
 }
