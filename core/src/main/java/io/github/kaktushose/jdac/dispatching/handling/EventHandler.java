@@ -125,10 +125,10 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             Object instance = runtime.interactionInstance(definition.classDescription().clazz());
 
             ScopedValue.where(INVOCATION_PERMITTED, true).call(() -> definition.invoke(instance, invocation));
+            introspection.publish(new InteractionFinishedEvent(invocation, null));
         } catch (Exception exception) {
+            introspection.publish(new InteractionFinishedEvent(invocation, exception));
             handleException(exception, invocation);
-        } finally {
-            introspection.publish(new InteractionFinishedEvent(invocation));
         }
     }
 
