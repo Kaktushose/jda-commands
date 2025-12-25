@@ -208,7 +208,7 @@ calling `#modify`.
 ### Replying with Components V2
 
 You can reply with Components V2 by passing one or more <MessageTopLevelComponent>s to the 
-[`reply()`][[ReplyableEvent#reply(MessageTopLevelComponent, MessageTopLevelComponent...)]] method. 
+[`reply()`][[ReplyableEvent#reply(Collection<MessageTopLevelComponent>, Entry...)]] method. 
 This will automatically enable the V2 flag. Note that this method is only available either directly at the event class or at the <ConfigurableReply>
 stage (accessed by calling [`with()`][[ReplyableEvent#with()]]). 
 !!! example
@@ -245,7 +245,7 @@ Once you've sent a Components V2 message it has to remain Components V2. The [Re
 also apply to Components V2. 
 
 Often, you want to keep the original components, but edit some of them. You can do so by calling 
-[`reply(ComponentReplacer... replacer)`][[ComponentEvent#reply(ComponentReplacer...)]].
+[`reply(ComponentReplacer... replacer)`][[ComponentEvent#reply(ComponentReplacer, Entry...)]].
 This method will enforce `keepComponents` and throw an <UnsupportedOperationException> if the message isn't Components V2.
 
 !!! example
