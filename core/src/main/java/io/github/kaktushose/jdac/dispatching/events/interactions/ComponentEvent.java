@@ -5,6 +5,7 @@ import io.github.kaktushose.jdac.dispatching.events.ModalReplyableEvent;
 import io.github.kaktushose.jdac.dispatching.reply.EditableConfigurableReply;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -80,6 +81,7 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// This method will always set [#keepComponents(boolean)] to `true` to retrieve the original components.
     ///
     /// @param replacer the [ComponentReplacer] to apply to the original components
+    /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
     /// @throws IllegalStateException if the original message didn't use V2 Components
     public Message reply(ComponentReplacer replacer, Entry... placeholder) {
         return with().reply(replacer, placeholder);

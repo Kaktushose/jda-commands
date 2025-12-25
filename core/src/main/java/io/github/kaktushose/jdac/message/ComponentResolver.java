@@ -25,13 +25,7 @@ public final class ComponentResolver<T extends Component> extends Resolver<T, T>
     }
 
     public List<T> resolve(Collection<T> components, Locale locale, Map<String, @Nullable Object> placeholders) {
-        List<T> result = new ArrayList<>();
-
-        for (T component : components) {
-            result.add(resolve(component, locale, placeholders));
-        }
-
-        return result;
+        return components.stream().map(it -> resolve(it, locale, placeholders)).toList();
     }
 
     @Override
