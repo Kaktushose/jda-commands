@@ -3,6 +3,7 @@ package io.github.kaktushose.jdac.introspection.internal;
 import io.github.kaktushose.jdac.introspection.lifecycle.Event;
 import io.github.kaktushose.jdac.introspection.lifecycle.Subscriber;
 import io.github.kaktushose.jdac.introspection.lifecycle.Subscription;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 import java.util.Set;
@@ -14,7 +15,7 @@ public class Lifecycle {
 
     @SuppressWarnings("unchecked")
     public <T extends Event> Subscription subscribe(Class<T> event, Subscriber<T> subscriber) {
-        subscriptions.computeIfAbsent(event, _ -> ConcurrentHashMap.newKeySet()).add((Subscriber<Event>) subscriber);
+        subscriptions.computeIfAbsent(event, _ -> ConcurrentHashMap.newKeySet()).add((Subscriber<@NonNull Event>) subscriber);
         return new Subscription(event, subscriber, this);
     }
 
@@ -23,8 +24,10 @@ public class Lifecycle {
     }
 
     public void publish(Event event, IntrospectionImpl introspection) {
-        for (Subscriber<Event> subscriber : subscriptions.getOrDefault(event.getClass(), Set.of())) {
-            subscriber.accept(event, introspection);
-        }
+        ScopedValue.where(IntrospectionImpl.INTROSPECTION, introspection).run(() -> {
+            for (Subscriber<Event> subscriber : subscriptions.getOrDefault(event.getClass(), Set.of())) {
+                subscriber.accept(event, introspection);
+            }
+        });
     }
 }
