@@ -1,15 +1,15 @@
 package io.github.kaktushose.jdac.dispatching.handling.command;
 
+import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
-import io.github.kaktushose.jdac.dispatching.FrameworkContext;
 import io.github.kaktushose.jdac.dispatching.Runtime;
-import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.handling.EventHandler;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.internal.Helpers;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import io.github.kaktushose.proteus.type.Type;
@@ -31,6 +31,8 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 @ApiStatus.Internal
 public final class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {
 
+    public static final ScopedValue<SlashCommandInteractionEvent> EVENT = ScopedValue.newInstance();
+
     private static final Map<Class<?>, Object> DEFAULT_MAPPINGS = Map.of(
             byte.class, ((byte) 0),
             short.class, ((short) 0),
@@ -43,38 +45,32 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             Optional.class, Optional.empty()
     );
 
-    public SlashCommandHandler(FrameworkContext context) {
-        super(context);
+    public SlashCommandHandler(IntrospectionImpl introspection) {
+        super(introspection);
     }
 
     @Override
     @Nullable
-    protected InvocationContext<SlashCommandInteractionEvent> prepare(SlashCommandInteractionEvent event, Runtime runtime) {
+    protected Ingredients prepare(SlashCommandInteractionEvent event, Runtime runtime) {
         SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class, true, it ->
                 it.name().equals(event.getFullCommandName())
         );
 
-        return parseArguments(command, event, runtime)
-                .map(args -> new InvocationContext<>(
-                        new InvocationContext.Utility(context.i18n(), context.messageResolver()),
-                        new InvocationContext.Data<>(
-                            event,
-                            runtime.keyValueStore(),
-                            command,
-                            Helpers.replyConfig(command, context.globalReplyConfig()),
-                            args)
-                        )
-                ).orElse(null);
+        // Scope values needed for user locale in proteus mapper, see type adapter
+        return ScopedValue.where(EVENT, event)
+                .call(() -> parseArguments(command, event).map(args -> new Ingredients(command, args)))
+                .orElse(null);
+
     }
 
     @SuppressWarnings("unchecked")
-    private Optional<List<@Nullable Object>> parseArguments(SlashCommandDefinition command, SlashCommandInteractionEvent event, Runtime runtime) {
+    private Optional<List<@Nullable Object>> parseArguments(SlashCommandDefinition command, SlashCommandInteractionEvent event) {
         List<@Nullable OptionMapping> optionMappings = command
                 .commandOptions()
                 .stream()
                 .map(it -> event.getOption(it.name()))
                 .toList();
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, context.globalReplyConfig());
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, runtimeIntrospection.get(Property.GLOBAL_REPLY_CONFIG));
         List<@Nullable Object> parsedArguments = new ArrayList<>();
 
         log.debug("Type adapting arguments...");

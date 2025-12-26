@@ -1,13 +1,16 @@
 package io.github.kaktushose.jdac.dispatching.validation;
 
 import io.github.kaktushose.jdac.JDACBuilder;
+import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.annotations.constraints.Constraint;
 import io.github.kaktushose.jdac.annotations.constraints.NotPerm;
 import io.github.kaktushose.jdac.annotations.constraints.Perm;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
-import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.internal.IntroAccess;
 import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
@@ -55,6 +58,7 @@ public interface Validator<T, A extends Annotation> {
     /// @param argument   the argument to validate
     /// @param annotation the corresponding annotation
     /// @param context    the corresponding [InvocationContext]
+    @IntrospectionAccess(Stage.INTERACTION)
     void apply(T argument, A annotation, Context context);
 
     /// This context provides access to the [InvocationContext] of this interaction and
@@ -83,7 +87,8 @@ public interface Validator<T, A extends Annotation> {
         /// @see MessageResolver
         /// @see I18n
         public MessageCreateData failMessage(String content, Entry... placeholder) {
-            String localized = invocationContext.util().messageResolver().resolve(content, invocationContext.event().getUserLocale().toLocale(), placeholder);
+            String localized = IntroAccess.accMessageResolver()
+                    .resolve(content, IntroAccess.accUserLocale(), placeholder);
 
             return errorMessageFactory.getConstraintFailedMessage(invocationContext, localized);
         }

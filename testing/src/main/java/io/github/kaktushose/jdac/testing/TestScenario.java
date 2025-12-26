@@ -7,6 +7,7 @@ import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
 import dev.goldmensch.fluava.Fluava;
@@ -112,7 +113,7 @@ public class TestScenario {
                     .classFinders(ClassFinder.explicit(klass))
                     .instanceProvider(new InteractionControllerInstantiator() {
                         @Override
-                        public <T> T instance(Class<T> clazz, Context context) {
+                        public <T> T instance(Class<T> clazz, Introspection context) {
                             return spy(clazz);
                         }
                     });

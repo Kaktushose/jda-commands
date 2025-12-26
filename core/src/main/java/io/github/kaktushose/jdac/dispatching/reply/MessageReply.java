@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.function.Consumer;
 
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.*;
+import static io.github.kaktushose.jdac.introspection.internal.IntroAccess.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// Handles all the business logic for sending messages, including embeds or V1 components.
@@ -49,7 +49,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     ///  @param replyConfig the [ReplyConfig] to use
     public MessageReply(ReplyConfig replyConfig) {
         replyAction = new ReplyAction(replyConfig);
-        resolver = new ComponentResolver<>(getFramework().messageResolver(), ActionRowChildComponent.class);
+        resolver = new ComponentResolver<>(accMessageResolver(), ActionRowChildComponent.class);
     }
 
     /// Constructs a new MessageReply.
@@ -57,7 +57,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     ///  @param reply the [MessageReply] to copy from
     public MessageReply(MessageReply reply) {
         replyAction = reply.replyAction;
-        resolver = new ComponentResolver<>(getFramework().messageResolver(), ActionRowChildComponent.class);
+        resolver = new ComponentResolver<>(accMessageResolver(), ActionRowChildComponent.class);
     }
 
     /// Acknowledgement of this event with a text message.
@@ -98,7 +98,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     /// @return this instance for fluent interface
     public SendableReply embeds(String... embeds) {
         return embeds(Arrays.stream(embeds)
-                .map(it -> getFramework().embeds().get(it, getJdaEvent().getUserLocale().toLocale()))
+                .map(it -> accEmbeds().get(it, accUserLocale()))
                 .toArray(Embed[]::new));
     }
 
@@ -121,7 +121,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     /// @param consumer a [Consumer] allowing direct modification of the [Embed] before sending it.
     /// @return this instance for fluent interface
     public SendableReply embeds(String embed, Consumer<Embed> consumer) {
-        Embed resolved = getFramework().embeds().get(embed, getJdaEvent().getUserLocale().toLocale());
+        Embed resolved = accEmbeds().get(embed, accUserLocale());
         consumer.accept(resolved);
         replyAction.addEmbeds(resolved.build());
         return new SendableReply(this);
@@ -136,7 +136,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     /// @param entries the placeholders to use. See [Embed#placeholders(Entry...)]
     /// @return this instance for fluent interface
     public SendableReply embeds(String embed, Entry entry, Entry... entries) {
-        Embed resolved = getFramework().embeds().get(embed, getJdaEvent().getUserLocale().toLocale());
+        Embed resolved = accEmbeds().get(embed, accUserLocale());
         resolved.placeholders(entry).placeholders(entries);
         replyAction.addEmbeds(resolved.build());
         return new SendableReply(this);
@@ -198,7 +198,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     protected ActionRowChildComponent resolve(Component<?, ?, ?, ?> component) {
         var className = component.origin().map(Class::getName)
-                .orElseGet(() -> getInvocationContext().definition().methodDescription().declaringClass().getName());
+                .orElseGet(() -> accInvocationContext().definition().methodDescription().declaringClass().getName());
         String definitionId = InteractionDefinition.createDefinitionId(className, component.name());
 
         var definition = findDefinition(component, definitionId, className);
@@ -219,13 +219,13 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
             case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
         };
 
-        item = resolver.resolve(item, getJdaEvent().getUserLocale().toLocale(), Entry.toMap(component.placeholder()));
+        item = resolver.resolve(item, accUserLocale(), Entry.toMap(component.placeholder()));
         log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
         return item;
     }
 
     private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(Component<T, ?, ?, D> component, String definitionId, String className) {
-        InteractionRegistry registry = getFramework().interactionRegistry();
+        InteractionRegistry registry = accInteractionRegistry();
 
         try {
             // this cast is effective safe
@@ -248,6 +248,6 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     private CustomId createId(InteractionDefinition definition, boolean independent) {
         return independent
                 ? CustomId.independent(definition.definitionId())
-                : new CustomId(getRuntime().id(), definition.definitionId());
+                : new CustomId(accRuntime().id(), definition.definitionId());
     }
 }

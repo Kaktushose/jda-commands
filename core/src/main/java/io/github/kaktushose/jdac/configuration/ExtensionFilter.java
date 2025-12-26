@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 ///
 /// @see JDACBuilder#filterExtensions(FilterStrategy, String...)
 /// @see #test(Provider)
-@SuppressWarnings("rawtypes") // because of stream in ExtensionLoader must handle raw type Provider<Extension>
+@SuppressWarnings("rawtypes") // because of stream in Extensions must handle raw type Provider<Extension>
 public record ExtensionFilter(FilterStrategy filterStrategy, Collection<String> classes)
         implements Predicate<Provider<Extension>> {
 

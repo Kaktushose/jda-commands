@@ -16,7 +16,7 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getReplyConfig;
+import static io.github.kaktushose.jdac.introspection.internal.IntroAccess.accReplyConfig;
 
 /// This class is a subclass of [Event]. It provides additional features for replying to a [GenericComponentInteractionCreateEvent].
 ///
@@ -65,14 +65,14 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
             throw new UnsupportedOperationException(JDACException.errorMessage("remove-components-v2"));
         }
         if (!jdaEvent().isAcknowledged()) {
-            jdaEvent().deferReply(getReplyConfig().ephemeral()).complete();
+            jdaEvent().deferReply(accReplyConfig().ephemeral()).complete();
         }
         jdaEvent().getHook().editOriginalComponents().complete();
     }
 
     @Override
     public EditableConfigurableReply with() {
-        return new EditableConfigurableReply(getReplyConfig(), jdaEvent());
+        return new EditableConfigurableReply(accReplyConfig(), jdaEvent());
     }
 
     /// Acknowledgement of this event with the V2 Components of the original reply. Will also apply the passed

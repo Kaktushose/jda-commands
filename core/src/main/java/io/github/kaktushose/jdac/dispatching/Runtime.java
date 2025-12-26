@@ -1,5 +1,8 @@
 package io.github.kaktushose.jdac.dispatching;
 
+import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
+import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.handling.AutoCompleteHandler;
@@ -8,8 +11,11 @@ import io.github.kaktushose.jdac.dispatching.handling.EventHandler;
 import io.github.kaktushose.jdac.dispatching.handling.ModalHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.ContextCommandHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
-import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
 import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeOpenEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -50,27 +56,30 @@ public final class Runtime implements Closeable {
     private final ModalHandler modalHandler;
 
     private final String id;
-    private final BlockingQueue<GenericInteractionCreateEvent> eventQueue;
+    private final BlockingQueue<GenericInteractionCreateEvent> eventQueue = new LinkedBlockingQueue<>();
     private final Thread executionThread;
 
     private final KeyValueStore keyValueStore = new KeyValueStore();
 
-    private final InteractionControllerInstantiator runtimeBoundInstanceProvider;
-    private final FrameworkContext context;
+    private final IntrospectionImpl introspection;
 
     private LocalDateTime lastActivity = LocalDateTime.now();
 
-    private Runtime(String id, FrameworkContext context, JDA jda) {
+    private Runtime(String id, IntrospectionImpl baseIntrospection, JDA jda) {
         this.id = id;
-        this.context = context;
-        eventQueue = new LinkedBlockingQueue<>();
-        slashCommandHandler = new SlashCommandHandler(context);
-        autoCompleteHandler = new AutoCompleteHandler(context);
-        contextCommandHandler = new ContextCommandHandler(context);
-        componentHandler = new ComponentHandler(context);
-        modalHandler = new ModalHandler(context);
 
-        this.runtimeBoundInstanceProvider = context.instanceProvider().forRuntime(id, jda);
+        this.introspection = Properties.Builder.newRestricted()
+                .addFallback(Property.JDA, _ -> jda)
+                .addFallback(InternalProperties.RUNTIME, _ -> this)
+                .addFallback(Property.RUNTIME_ID, _ -> id)
+                .addFallback(Property.KEY_VALUE_STORE, _ -> keyValueStore())
+                .createIntrospection(baseIntrospection, Stage.RUNTIME);
+
+        slashCommandHandler = new SlashCommandHandler(introspection);
+        autoCompleteHandler = new AutoCompleteHandler(introspection);
+        contextCommandHandler = new ContextCommandHandler(introspection);
+        componentHandler = new ComponentHandler(introspection);
+        modalHandler = new ModalHandler(introspection);
 
         this.executionThread = Thread.ofVirtual()
                 .name("JDAC Runtime-Thread %s".formatted(id))
@@ -78,8 +87,8 @@ public final class Runtime implements Closeable {
                 .unstarted(this::checkForEvents);
     }
 
-    public static Runtime startNew(String id, FrameworkContext context, JDA jda) {
-        var runtime = new Runtime(id, context, jda);
+    public static Runtime startNew(String id, IntrospectionImpl introspection, JDA jda) {
+        var runtime = new Runtime(id, introspection, jda);
         runtime.executionThread.start();
 
         log.debug("Created new runtime with id {}", id);
@@ -88,16 +97,20 @@ public final class Runtime implements Closeable {
     }
 
     private void checkForEvents() {
-        try {
-            while (!Thread.interrupted()) {
-                GenericInteractionCreateEvent incomingEvent = eventQueue.take();
+        ScopedValue.where(IntrospectionImpl.INTROSPECTION, introspection).run(() -> {
+            introspection.publish(new RuntimeOpenEvent(id));
 
-                Thread.ofVirtual().name("JDAC EventHandler-Thread %s".formatted(id)).start(() -> executeHandler(incomingEvent)).join();
+            try {
+                while (!Thread.interrupted()) {
+                    GenericInteractionCreateEvent incomingEvent = eventQueue.take();
+
+                    Thread.ofVirtual().name("JDAC EventHandler-Thread %s".formatted(id)).start(() -> executeHandler(incomingEvent)).join();
+                }
+            } catch (InterruptedException _) {
             }
-        } catch (InterruptedException _) {
-        }
 
-        log.debug("Runtime finished");
+            log.debug("Runtime finished");
+        });
     }
 
     private void executeHandler(GenericInteractionCreateEvent incomingEvent) {
@@ -124,21 +137,18 @@ public final class Runtime implements Closeable {
         return keyValueStore;
     }
 
-    public FrameworkContext framework() {
-        return context;
-    }
-
     public <T> T interactionInstance(Class<T> clazz) {
-        return runtimeBoundInstanceProvider.instance(clazz, new InteractionControllerInstantiator.Context(this));
+        return introspection.get(Property.INTERACTION_CONTROLLER_INSTANTIATOR).instance(clazz, introspection);
     }
 
     @Override
     public void close() {
+        introspection.publish(new RuntimeCloseEvent(id));
         executionThread.interrupt();
     }
 
     public boolean isClosed() {
-        if (context.expirationStrategy() instanceof ExpirationStrategy.Inactivity(long minutes) &&
+        if (introspection.get(Property.EXPIRATION_STRATEGY) instanceof ExpirationStrategy.Inactivity(long minutes) &&
             lastActivity.isBefore(LocalDateTime.now().minusMinutes(minutes))) {
             close();
             return true;
