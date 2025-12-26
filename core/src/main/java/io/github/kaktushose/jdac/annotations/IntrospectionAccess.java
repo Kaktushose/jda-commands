@@ -3,11 +3,15 @@ package io.github.kaktushose.jdac.annotations;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
 
 import java.lang.annotation.*;
 
 /// This annotation indicates that [Introspection#access()] and [Introspection#accGet(Property)] can be used
-/// inside this method.
+/// inside the method annotated with this annotation.
+///
+/// If this annotation is present on a Class like [RuntimeCloseEvent] it's up to the use case which meaning this has, please
+/// read the javadocs there.
 ///
 /// Only properties having at least the stage of [#value()] can be used.
 /// - [Stage#INTERACTION] includes [Stage#CONFIGURATION], [Stage#INITIALIZED] and [Stage#RUNTIME]
@@ -21,7 +25,7 @@ import java.lang.annotation.*;
 /// @see Stage
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.FIELD, ElementType.TYPE, ElementType.METHOD})
 public @interface IntrospectionAccess {
 
     /// The [Stage] of the available [Introspection] instance.
