@@ -243,7 +243,7 @@ public class JDACBuilder {
     /// @param source  The source type that the given [TypeAdapter] can handle
     /// @param target  The target type that the given [TypeAdapter] can handle
     /// @param adapter The [TypeAdapter] to be registered
-    public JDACBuilder adapter(Class<?> source, Class<?> target, TypeAdapter<?, ?> adapter) {
+    public <S, T> JDACBuilder adapter(Class<S> source, Class<T> target, TypeAdapter<S, T> adapter) {
         return addUserProperty(TYPE_ADAPTER, _ -> Map.of(new AdapterType<>(Type.of(source), Type.of(target)), adapter));
     }
 
