@@ -152,10 +152,10 @@ This can be configured by settings <a href="#shutdownJDA(boolean)"><code>shutdow
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="JDACBuilder.html" title="class in io.github.kaktushose.jdac">JDACBuilder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#adapter(java.lang.Class,java.lang.Class,io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter)" class="member-name-link">adapter</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;source,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;target,
- <a href="dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&nbsp;adapter)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;S,<wbr>T&gt;&nbsp;<a href="JDACBuilder.html" title="class in io.github.kaktushose.jdac">JDACBuilder</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#adapter(java.lang.Class,java.lang.Class,io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter)" class="member-name-link">adapter</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;S&gt;&nbsp;source,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;target,
+ <a href="dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter">TypeAdapter</a>&lt;S,<wbr>T&gt;&nbsp;adapter)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="JDACBuilder.html" title="class in io.github.kaktushose.jdac">JDACBuilder</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#classFinders(io.github.kaktushose.jdac.definitions.description.ClassFinder...)" class="member-name-link">classFinders</a><wbr>(<a href="definitions/description/ClassFinder.html" title="interface in io.github.kaktushose.jdac.definitions.description">ClassFinder</a>...&nbsp;classFinders)</code></div>
@@ -388,9 +388,9 @@ If you want to add own <a href="message/emoji/EmojiSource.html" title="interface
 <section class="detail" id="adapter(java.lang.Class,java.lang.Class,io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter)">
 <h3>adapter</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="JDACBuilder.html" title="class in io.github.kaktushose.jdac">JDACBuilder</a></span>&nbsp;<span class="element-name">adapter</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;source,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;target,
- <a href="dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&nbsp;adapter)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;S,<wbr>T&gt;</span>&nbsp;<span class="return-type"><a href="JDACBuilder.html" title="class in io.github.kaktushose.jdac">JDACBuilder</a></span>&nbsp;<span class="element-name">adapter</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;S&gt;&nbsp;source,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;target,
+ <a href="dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter">TypeAdapter</a>&lt;S,<wbr>T&gt;&nbsp;adapter)</span></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>source</code> - The source type that the given <a href="dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter"><code>TypeAdapter</code></a> can handle</dd>
