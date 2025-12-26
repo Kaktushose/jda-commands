@@ -115,6 +115,11 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         try {
             introspection.publish(new InteractionStartEvent(invocation));
 
+            if (Thread.interrupted()) {
+                log.debug("Interaction execution cancelled by InteractionStartEvent subscriber");
+                return;
+            }
+
             log.debug("Invoking method \"{}.{}\" with following arguments: {}",
                     definition.classDescription().name(),
                     definition.methodDescription().name(),
