@@ -23,5 +23,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface IntrospectionAccess {
+
+    /// The [Stage] of the available [Introspection] instance.
     Stage value();
 }

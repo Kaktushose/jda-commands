@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.introspection;
 
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
+import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
@@ -19,6 +20,8 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 /// - [Stage#INTERACTION] includes [Stage#CONFIGURATION], [Stage#INITIALIZED] and [Stage#RUNTIME]
 /// - [Stage#RUNTIME] includes [Stage#CONFIGURATION] and [Stage#INITIALIZED]
 /// - [Stage#INITIALIZED] includes [Stage#CONFIGURATION]
+///
+/// To know in which stage a [Property] is available take a look at [Property#stage()].
 ///
 /// More technical, a [Stage] with a certain [ordinal][Stage#ordinal()] contains all stages with a lower ordinal value:
 ///

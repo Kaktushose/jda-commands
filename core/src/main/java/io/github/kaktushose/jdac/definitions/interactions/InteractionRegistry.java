@@ -29,7 +29,7 @@ public record InteractionRegistry(Validators validators,
                                   I18n i18n,
                                   LocalizationFunction localizationFunction,
                                   Descriptor descriptor,
-                                  Set<Definition> definitions
+                                  Set<InteractionDefinition> definitions
 ) implements Definitions {
 
     private static final Logger log = LoggerFactory.getLogger(InteractionRegistry.class);
@@ -77,7 +77,7 @@ public record InteractionRegistry(Validators validators,
                 definitions.size() - oldSize);
     }
 
-    private Collection<Definition> indexInteractionClass(ClassDescription clazz, CommandDefinition.CommandConfig globalCommandConfig, Collection<AutoCompleteDefinition> autoCompletes) {
+    private Collection<InteractionDefinition> indexInteractionClass(ClassDescription clazz, CommandDefinition.CommandConfig globalCommandConfig, Collection<AutoCompleteDefinition> autoCompletes) {
         var interaction = clazz.annotation(Interaction.class).orElseThrow();
 
         final Set<String> permissions = clazz.annotation(Permissions.class).map(value -> Set.of(value.value())).orElseGet(Set::of);
@@ -111,7 +111,7 @@ public record InteractionRegistry(Validators validators,
     }
 
 
-    private Set<Definition> interactionDefinitions(ClassDescription clazz,
+    private Set<InteractionDefinition> interactionDefinitions(ClassDescription clazz,
                                                    Validators validators,
                                                    LocalizationFunction localizationFunction,
                                                    I18n i18n,
@@ -119,7 +119,7 @@ public record InteractionRegistry(Validators validators,
                                                    Set<String> permissions,
                                                    Collection<AutoCompleteDefinition> autocompletes,
                                                    CommandDefinition.CommandConfig globalCommandConfig) {
-        Set<Definition> definitions = new HashSet<>(autocompletes);
+        Set<InteractionDefinition> definitions = new HashSet<>(autocompletes);
         for (MethodDescription method : clazz.methods()) {
             final MethodBuildContext context = new MethodBuildContext(
                     validators,
@@ -135,7 +135,7 @@ public record InteractionRegistry(Validators validators,
 
 
             ScopedValue.where(InvalidDeclarationException.CONTEXT, method).run(() -> {
-                Definition definition = construct(method, context);
+                InteractionDefinition definition = construct(method, context);
 
                 if (definition != null) {
                     log.debug("Found interaction: {}", definition);
@@ -147,7 +147,7 @@ public record InteractionRegistry(Validators validators,
     }
 
     @Nullable
-    private Definition construct(MethodDescription method, MethodBuildContext context) {
+    private InteractionDefinition construct(MethodDescription method, MethodBuildContext context) {
         // index commands
         if (method.annotation(Command.class).isPresent()) {
             Command command = method.annotation(Command.class).get();
@@ -225,7 +225,7 @@ public record InteractionRegistry(Validators validators,
     }
 
     @Override
-    public Collection<Definition> all() {
+    public Collection<InteractionDefinition> all() {
         return Collections.unmodifiableSet(definitions);
     }
 

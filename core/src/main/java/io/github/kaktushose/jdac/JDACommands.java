@@ -192,6 +192,9 @@ public final class JDACommands {
         return Optional.of(embeds.get(name));
     }
 
+    /// Gets the [Introspection] instance with stage [Stage#INITIALIZED].
+    ///
+    /// @return the [Introspection] instance
     public Introspection introspection() {
         return introspection;
     }

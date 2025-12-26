@@ -5,7 +5,7 @@ import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
-import io.github.kaktushose.jdac.introspection.lifecycle.Event;
+import io.github.kaktushose.jdac.introspection.lifecycle.FrameworkEvent;
 import io.github.kaktushose.jdac.introspection.lifecycle.Subscriber;
 import io.github.kaktushose.jdac.introspection.lifecycle.Subscription;
 import org.jetbrains.annotations.ApiStatus;
@@ -40,11 +40,11 @@ public final class IntrospectionImpl implements Introspection {
     }
 
     @Override
-    public <T extends Event> Subscription subscribe(Class<T> event, Subscriber<T> subscriber) {
+    public <T extends FrameworkEvent> Subscription subscribe(Class<T> event, Subscriber<T> subscriber) {
         return lifecycle.subscribe(event, subscriber);
     }
 
-    public void publish(Event event) {
+    public void publish(FrameworkEvent event) {
         lifecycle.publish(event, this);
     }
 
