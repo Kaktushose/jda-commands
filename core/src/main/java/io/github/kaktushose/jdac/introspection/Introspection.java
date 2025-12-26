@@ -41,7 +41,7 @@ import java.util.NoSuchElementException;
 ///
 /// Please note that access is read-only, you can't set the value of a [Property] after starting the framework.
 ///
-/// Based on the location where you access this api, the available [Properties][Property] may very.
+/// Based on the location (in code) where you access this api, the available [Properties][Property] may very.
 /// To know what property is accessible, take a look at [Introspection#currentStage()] and compare it to [Property#stage()].
 /// A hint on the current stage is also provided by [IntrospectionAccess#value()].
 ///
@@ -51,7 +51,7 @@ import java.util.NoSuchElementException;
 /// An example can be found inside the guice extension, were we use a [RuntimeCloseEvent] to remove
 /// the interaction controller instances inside the cache at the end of a conversation.
 ///
-/// To subscribe to an [FrameworkEvent] you use [#subscribe(Class, Subscriber)] which returns a [Subscription] allowing you
+/// To subscribe to a [FrameworkEvent] you use [#subscribe(Class, Subscriber)] which returns a [Subscription] allowing you
 /// to "unsubscribe" from this event later. If an [FrameworkEvent] is fired by JDA-Commands all [Subscriber]s of that event
 /// are called.
 ///
