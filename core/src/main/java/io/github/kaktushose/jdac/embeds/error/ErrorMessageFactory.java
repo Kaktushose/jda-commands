@@ -35,7 +35,7 @@ public interface ErrorMessageFactory {
     /// @param context   the [ErrorContext]
     /// @param exception the [Throwable] that made the command execution fail
     /// @return a [MessageCreateData] to send when the command execution failed
-    MessageCreateData getCommandExecutionFailedMessage(ErrorContext context, Throwable exception);
+    MessageCreateData getInteractionExecutionFailedMessage(ErrorContext context, Throwable exception);
 
     /// Gets a [MessageCreateData] to send when an incoming component interaction already timed out.
     ///

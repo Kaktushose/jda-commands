@@ -58,7 +58,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// ### Variables
 /// - `message`: The error message of the failed constraint
 ///
-/// ## Command Execution Failed
+/// ## Interaction Execution Failed
 /// ### Keys
 /// - `execution-failed-title`
 /// - `execution-failed-message`
@@ -165,7 +165,7 @@ public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     /// {@inheritDoc}
     @Override
-    public MessageCreateData getCommandExecutionFailedMessage(ErrorContext context, Throwable exception) {
+    public MessageCreateData getInteractionExecutionFailedMessage(ErrorContext context, Throwable exception) {
         return build(
                 Container.of(
                         TextDisplay.of("jdac$execution-failed-title"),
@@ -177,7 +177,7 @@ public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 entry("user", context.event().getUser().getEffectiveName()),
                 entry("interaction", context.event().getInteraction().getType()),
                 entry("timestamp", dateFormat.format(System.currentTimeMillis())),
-                entry("exception", exception)
+                entry("exception", exception.getClass().getSimpleName())
         );
     }
 

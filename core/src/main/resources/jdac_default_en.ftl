@@ -25,14 +25,14 @@ insufficient-permissions =
 constraint-failed =
     ### Parameter Error
     { $ message }
-## Command Execution Failed
+## Interaction Execution Failed
 execution-failed-title =
-    ## Command Execution Failed
-    The command execution has unexpectedly failed. Please report the following error to the bot devs.
+    ## Interaction Execution Failed
+    The interaction execution has unexpectedly failed. Please report the following error to the bot devs.
 execution-failed-message =
     ### Error Message
     ```
-    The user "{ $ user }" attempted to execute an "{ $interaction }" interaction at { $timestamp } but a "{ $ exception} " occured.
+    The user "{ $ user }" attempted to execute an "{ $interaction }" interaction at { $timestamp } but a "{ $ exception}" occured.
     Please refer to the logs for further information.
     ```
 ## Unknown Interaction
