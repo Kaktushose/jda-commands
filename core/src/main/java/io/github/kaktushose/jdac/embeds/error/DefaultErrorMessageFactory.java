@@ -5,14 +5,18 @@ import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefi
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
-import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.internal.Helpers;
+import io.github.kaktushose.jdac.message.ComponentResolver;
+import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import io.github.kaktushose.proteus.type.Type;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.components.container.Container;
+import net.dv8tion.jda.api.components.separator.Separator;
+import net.dv8tion.jda.api.components.textdisplay.TextDisplay;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -22,15 +26,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
-/// The default implementation of [ErrorMessageFactory]. Supports loading the embeds from an [EmbedDataSource].
-///
-/// @see JDACBuilder#embeds(Consumer)
-public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageFactory {
+/// The default implementation of [ErrorMessageFactory] using Components V2.
+public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private final ComponentResolver<Container> resolver;
+
+    public DefaultErrorMessageFactory(MessageResolver resolver) {
+        this.resolver = new ComponentResolver<>(resolver, Container.class);
+    }
 
     /// {@inheritDoc}
     /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
@@ -48,7 +56,7 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         String name = "**%s**".formatted(command.displayName());
         String expected = "N/A";
         String actual = "N/A";
-        String input = "N/A";
+        String raw = "N/A";
         for (int i = 0; i < commandOptions.size(); i++) {
             OptionDataDefinition commandOption = commandOptions.get(i);
             Optional<OptionMapping> optionMapping = optionMappings.get(i);
@@ -61,35 +69,29 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
                         .collect(Collectors.joining(" ")));
                 expected = commandOption.declaredType().getSimpleName();
                 actual = optionMapping.map(Helpers::humanReadableType).orElse("null");
-                input = optionMapping.map(OptionMapping::getAsString).orElse("null");
+                raw = optionMapping.map(OptionMapping::getAsString).orElse("null");
                 break;
             } else {
                 name = "%s %s".formatted(name, commandOption.name());
             }
         }
 
-        if (embeds.exists("typeAdaptingFailed")) {
-            return embeds.get("typeAdaptingFailed")
-                    .placeholders(
-                            entry("command", name.trim()),
-                            entry("expected", "`%s`".formatted(expected)),
-                            entry("actual", "`%s`".formatted(actual)),
-                            entry("input", "`%s`".formatted(input)),
-                            entry("details", failure.message())
-                    ).toMessageCreateData();
-        }
-
-        MessageEmbed embed = new EmbedBuilder()
-                .setColor(Color.ORANGE)
-                .setTitle("Invalid Arguments")
-                .addField("Command", name.trim(), false)
-                .addField("Expected Type", "`%s`".formatted(expected), true)
-                .addField("Provided Type", "`%s`".formatted(actual), true)
-                .addField("Raw Input", "`%s`".formatted(input), false)
-                .addField("Details", failure.message(), false)
-                .build();
-
-        return new MessageCreateBuilder().setEmbeds(embed).build();
+        return build(
+                Container.of(
+                        TextDisplay.of("jdac$adapting-failed-title"),
+                        Separator.createDivider(Separator.Spacing.SMALL),
+                        TextDisplay.of("jdac$adapting-failed-details"),
+                        Separator.createDivider(Separator.Spacing.SMALL),
+                        TextDisplay.of("jdac$adapting-failed-message")
+                ),
+                Color.ORANGE,
+                context.event().getUserLocale(),
+                entry("command", name),
+                entry("expected", expected),
+                entry("actual", actual),
+                entry("raw", raw),
+                entry("message", failure.message())
+        );
     }
 
     /// {@inheritDoc}
@@ -101,23 +103,13 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
         context.definition().permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
 
-        if (embeds.exists("insufficientPermissions")) {
-            return embeds.get("insufficientPermissions")
-                    .placeholders(
-                            entry("name", context.definition().displayName()),
-                            entry("permissions", permissions)
-                    ).toMessageCreateData();
-        }
-
-        MessageEmbed embed = new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Insufficient Permissions")
-                .setDescription(String.format("`%s` requires specific permissions to be executed",
-                        context.definition().displayName()))
-                .addField("Permissions:",
-                        String.format("`%s`", permissions), false
-                ).build();
-        return new MessageCreateBuilder().setEmbeds(embed).build();
+        return build(
+                Container.of(TextDisplay.of("jdac$insufficient-permissions")),
+                Color.RED,
+                context.event().getUserLocale(),
+                entry("command", context.definition().displayName()),
+                entry("permissions", permissions)
+        );
     }
 
     /// {@inheritDoc}
@@ -125,15 +117,12 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @Override
     public MessageCreateData getConstraintFailedMessage(ErrorContext context, String message) {
-        if (embeds.exists("constraintFailed")) {
-            return embeds.get("constraintFailed").placeholders(entry("message", message)).toMessageCreateData();
-        }
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.ORANGE)
-                .setTitle("Parameter Error")
-                .setDescription(String.format("```%s```", message))
-                .build()
-        ).build();
+        return build(Container.of(
+                        TextDisplay.of("jdac$constraint-failed")),
+                Color.ORANGE,
+                context.event().getUserLocale(),
+                entry("message", message)
+        );
     }
 
     /// {@inheritDoc}
@@ -141,26 +130,19 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @Override
     public MessageCreateData getCommandExecutionFailedMessage(ErrorContext context, Throwable exception) {
-        String error = String.format("```The user \"%s\" attempted to execute an \"%s\" interaction at %s, " +
-                                     "but a \"%s\" occurred. " +
-                                     "Please refer to the logs for further information.```",
-                context.event().getUser(),
-                context.event().getInteraction().getType(),
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()),
-                exception.getClass().getName()
+        return build(
+                Container.of(
+                        TextDisplay.of("jdac$execution-failed-title"),
+                        Separator.createDivider(Separator.Spacing.SMALL),
+                        TextDisplay.of("jdac$execution-failed-message")
+                ),
+                Color.RED,
+                context.event().getUserLocale(),
+                entry("user", context.event().getUser().getEffectiveName()),
+                entry("interaction", context.event().getInteraction().getType()),
+                entry("timestamp", dateFormat.format(System.currentTimeMillis())),
+                entry("exception", exception)
         );
-
-        if (embeds.exists("executionFailed")) {
-            return embeds.get("executionFailed").placeholders(entry("error", error)).toMessageCreateData();
-        }
-
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Command Execution Failed")
-                .setDescription("The command execution has unexpectedly failed. Please report the following error to the bot devs.")
-                .addField("Error Message", error, false)
-                .build()
-        ).build();
     }
 
     /// {@inheritDoc}
@@ -168,15 +150,14 @@ public record DefaultErrorMessageFactory(Embeds embeds) implements ErrorMessageF
     /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @Override
     public MessageCreateData getTimedOutComponentMessage(GenericInteractionCreateEvent event) {
-        if (embeds.exists("unknownInteraction")) {
-            return embeds.get("unknownInteraction").toMessageCreateData();
-        }
+        return build(Container.of(TextDisplay.of("jdac$unknown-interaction")), Color.RED, event.getUserLocale());
+    }
 
-        return new MessageCreateBuilder().setEmbeds(new EmbedBuilder()
-                .setColor(Color.RED)
-                .setTitle("Unknown Interaction")
-                .setDescription("This interaction timed out and is no longer available!")
-                .build()
+    private MessageCreateData build(Container container, Color color, DiscordLocale locale, Entry... placeholders) {
+        return new MessageCreateBuilder().useComponentsV2().setComponents(resolver.resolve(
+                container.withAccentColor(color),
+                locale.toLocale(),
+                Entry.toMap(placeholders))
         ).build();
     }
 }

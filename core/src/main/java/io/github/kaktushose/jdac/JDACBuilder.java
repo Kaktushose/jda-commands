@@ -123,7 +123,7 @@ public class JDACBuilder {
         addFallback(LOCALIZE_COMMANDS, _ -> true);
         addFallback(LOCALIZER, _ -> new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
         addFallback(PERMISSION_PROVIDER, _ -> new DefaultPermissionsProvider());
-        addFallback(ERROR_MESSAGE_FACTORY, ctx -> new DefaultErrorMessageFactory(ctx.get(EMBED_CONFIG_INTERNAL).buildError()));
+        addFallback(ERROR_MESSAGE_FACTORY, ctx -> new DefaultErrorMessageFactory(ctx.get(MESSAGE_RESOLVER)));
         addFallback(GUILD_SCOPE_PROVIDER, _ -> new DefaultGuildScopeProvider());
         addFallback(DESCRIPTOR, _ -> Descriptor.REFLECTIVE);
 
