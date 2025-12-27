@@ -15,10 +15,10 @@ adapting-failed-details =
 adapting-failed-message =
     ### Message
     { $message }
-## Insuffienct Permissions
+## Insufficient Permissions
 insufficient-permissions =
     ## Insufficient Permissions
-    `{ $command }` requires specific permissions to be executed
+    `{ $interaction }` requires specific permissions to be executed
     ### Required Permissions
     `{ $permissions }`
 ## Constraint Failed

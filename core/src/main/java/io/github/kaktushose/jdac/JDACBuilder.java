@@ -147,7 +147,7 @@ public class JDACBuilder {
 
             return embedConfig;
         });
-        addFallback(EMBEDS, ctx -> ctx.get(EMBED_CONFIG_INTERNAL).buildDefault());
+        addFallback(EMBEDS, ctx -> ctx.get(EMBED_CONFIG_INTERNAL).build());
 
         addFallback(I18N, ctx -> new I18n(ctx.get(DESCRIPTOR), ctx.get(LOCALIZER)));
         addFallback(MESSAGE_RESOLVER,

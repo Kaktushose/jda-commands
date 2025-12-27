@@ -3,8 +3,6 @@ package io.github.kaktushose.jdac.embeds.error;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
-import io.github.kaktushose.jdac.embeds.EmbedConfig;
-import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.message.ComponentResolver;
 import io.github.kaktushose.jdac.message.MessageResolver;
@@ -31,6 +29,52 @@ import java.util.stream.Collectors;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// The default implementation of [ErrorMessageFactory] using Components V2.
+///
+/// # Localization
+/// For simple localization of these error messages you can add a `jdac_LOCALE.ftl` file to the resources folder and
+/// provide the keys/ use the variables as listed below.
+///
+/// ## Type Adapting Failed
+/// ### Keys
+/// - `adapting-failed-title`
+/// - `adapting-failed-details`
+/// - `adapting-failed-message`
+/// ### Variables
+/// - `command`: The full command with parameter names, with the failed argument underlined, for instance: **/example** arg1 <u>arg2</u>
+/// - `expected`: The expected argument type
+/// - `actual`: The provided argument type
+/// - `raw`: The raw, textual user input
+/// - `message`: The error message of the type adapter
+///
+/// ## Insufficient Permissions
+/// ### Keys
+/// - `insufficient-permissions`
+/// ### Variables
+/// - `interaction`: The name of the interaction that failed
+/// - `permissions`: The permissions that are required
+/// ## Constraint Failed
+/// ### Keys
+/// - `constraint-failed`
+/// ### Variables
+/// - `message`: The error message of the failed constraint
+///
+/// ## Command Execution Failed
+/// ### Keys
+/// - `execution-failed-title`
+/// - `execution-failed-message`
+/// ### Variables
+/// - `user`: the user executing the interaction
+/// - `interaction`: the interaction type
+/// - `timestamp`: the current timestamp
+/// - `exception`: the name of the exception class
+///
+/// ## Unknown Interaction
+/// ### Keys
+/// - `unknown-interaction`
+///
+/// # Own Instance
+/// Alternatively, you can pass your own [ErrorMessageFactory] implementation to
+/// [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
 public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -41,8 +85,6 @@ public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     /// {@inheritDoc}
-    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
-    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @Override
     public MessageCreateData getTypeAdaptingFailedMessage(ErrorContext context, ConversionResult.Failure<?> failure) {
         SlashCommandDefinition command = (SlashCommandDefinition) context.definition();
@@ -95,8 +137,6 @@ public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     /// {@inheritDoc}
-    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
-    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @Override
     public MessageCreateData getInsufficientPermissionsMessage(ErrorContext context) {
         StringBuilder sbPermissions = new StringBuilder();
@@ -107,14 +147,12 @@ public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 Container.of(TextDisplay.of("jdac$insufficient-permissions")),
                 Color.RED,
                 context.event().getUserLocale(),
-                entry("command", context.definition().displayName()),
+                entry("interaction", context.definition().displayName()),
                 entry("permissions", permissions)
         );
     }
 
     /// {@inheritDoc}
-    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
-    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @Override
     public MessageCreateData getConstraintFailedMessage(ErrorContext context, String message) {
         return build(Container.of(
@@ -126,8 +164,6 @@ public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     /// {@inheritDoc}
-    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
-    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @Override
     public MessageCreateData getCommandExecutionFailedMessage(ErrorContext context, Throwable exception) {
         return build(
@@ -146,8 +182,6 @@ public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
     }
 
     /// {@inheritDoc}
-    /// Use [EmbedConfig#errorSource(EmbedDataSource)] to replace the default embed of this error message. Alternatively,
-    /// pass your own [ErrorMessageFactory] implementation to [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
     @Override
     public MessageCreateData getTimedOutComponentMessage(GenericInteractionCreateEvent event) {
         return build(Container.of(TextDisplay.of("jdac$unknown-interaction")), Color.RED, event.getUserLocale());

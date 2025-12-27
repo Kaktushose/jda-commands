@@ -3,14 +3,12 @@ package io.github.kaktushose.jdac.embeds.internal;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
-import io.github.kaktushose.jdac.embeds.error.DefaultErrorMessageFactory;
 import io.github.kaktushose.jdac.message.MessageResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.ProteusBuilder.ConflictStrategy;
 import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.ApiStatus;
-import org.jspecify.annotations.Nullable;
 
 import java.awt.*;
 import java.util.*;
@@ -77,7 +75,6 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
         private final List<EmbedDataSource> sources;
         private final Map<String, Object> placeholders;
         private final MessageResolver messageResolver;
-        private @Nullable EmbedDataSource errorSource;
 
         /// Constructs a new embed configuration builder.
         public Configuration(MessageResolver messageResolver) {
@@ -104,24 +101,12 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
             return this;
         }
 
-        @Override
-        public Configuration errorSource(EmbedDataSource source) {
-            errorSource = source;
-            return this;
-        }
-
         /// Converts this configuration into an [Embeds] instance that should be used globally.
         ///
         /// @return an [Embeds] instance for default usage
-        public Embeds buildDefault() {
+        public Embeds build() {
             return new Embeds(sources, placeholders, messageResolver);
         }
 
-        /// Converts this configuration into an [Embeds] instance that should only be used by [DefaultErrorMessageFactory].
-        ///
-        /// @return an [Embeds] instance for usage inside [DefaultErrorMessageFactory]
-        public Embeds buildError() {
-            return new Embeds(errorSource == null ? List.of() : List.of(errorSource), placeholders, messageResolver);
-        }
     }
 }
