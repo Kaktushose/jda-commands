@@ -32,7 +32,7 @@ execution-failed-title =
 execution-failed-message =
     ### Error Message
     ```
-    The user "{ $ user }" attempted to execute an "{ $interaction }" interaction at { $timestamp } but a "{ $ exception}" occured.
+    The user "{ $ user }" attempted to execute a "{ $interaction }" interaction at { $timestamp } but a "{ $ exception}" occured.
     Please refer to the logs for further information.
     ```
 ## Unknown Interaction

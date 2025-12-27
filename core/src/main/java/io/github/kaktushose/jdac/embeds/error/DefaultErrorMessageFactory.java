@@ -72,7 +72,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// ### Keys
 /// - `unknown-interaction`
 ///
-/// # Own Instance
+/// # Own Implementation
 /// Alternatively, you can pass your own [ErrorMessageFactory] implementation to
 /// [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
 public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
