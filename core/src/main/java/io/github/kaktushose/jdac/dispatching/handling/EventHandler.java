@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.dispatching.handling;
 
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
 import io.github.kaktushose.jdac.dispatching.FrameworkContext;
 import io.github.kaktushose.jdac.dispatching.Runtime;
@@ -12,12 +13,13 @@ import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandle
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
+import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
+import io.github.kaktushose.jdac.internal.Helpers;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
-import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
-import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
@@ -121,27 +123,23 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                 return;
             }
 
-            // if the throwing event is a component event we should remove the component to prevent further executions
-            boolean deleted = false;
-            if (invocation.event() instanceof GenericComponentInteractionCreateEvent componentEvent) {
-                var message = componentEvent.getMessage();
-                // ugly workaround to check if the message is still valid after removing components or if we have to delete
-                // the entire message
-                var data = new MessageCreateBuilder().applyMessage(componentEvent.getMessage());
-                data.setComponents();
-                if (data.isValid()) {
-                    message.editMessageComponents().complete();
+            boolean edit = invocation.data().replyConfig().editReply();
+            if (invocation.event() instanceof GenericComponentInteractionCreateEvent componentEvent && !edit) {
+                Message message = componentEvent.getMessage();
+                if (Helpers.isValidWithoutComponents(message)) {
+                    message.editMessageComponents().queue();
                 } else {
-                    deleted = true;
-                    message.delete().complete();
+                    edit = true;
                 }
             }
 
-            invocation.cancel(errorMessageFactory.getCommandExecutionFailedMessage(invocation, throwable));
+            // we don't call invocation#cancel here so we have control over the edit behavior. If removing the component
+            // would make the message invalid we just replace it with the error message
+            new ReplyAction(
+                    new ReplyConfig(invocation.data().replyConfig().ephemeral(), false, false, edit)
+            ).reply(errorMessageFactory.getInteractionExecutionFailedMessage(invocation, throwable));
 
-            if (invocation.event() instanceof IReplyCallback callback && !deleted) {
-                callback.getHook().editOriginalComponents().queue();
-            }
+            Thread.currentThread().interrupt();
         }
     }
 }
