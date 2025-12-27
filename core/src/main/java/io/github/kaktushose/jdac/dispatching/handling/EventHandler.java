@@ -120,7 +120,6 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             // 10062 is the error code for "Unknown interaction". In that case we cannot send any reply, not even the
             // error message.
             if (throwable instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
-                Thread.currentThread().interrupt();
                 return;
             }
 
@@ -139,8 +138,6 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             new ReplyAction(
                     new ReplyConfig(invocation.data().replyConfig().ephemeral(), false, false, edit)
             ).reply(errorMessageFactory.getInteractionExecutionFailedMessage(invocation, throwable));
-
-            Thread.currentThread().interrupt();
         }
     }
 }
