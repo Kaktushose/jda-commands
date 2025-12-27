@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac.embeds;
 
-import io.github.kaktushose.jdac.embeds.error.DefaultErrorMessageFactory;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
@@ -65,11 +64,4 @@ public interface EmbedConfig {
     /// @param source the [EmbedDataSource] to add
     /// @return this instance for fluent interface
     EmbedConfig sources(EmbedDataSource... source);
-
-    /// Adds a new [EmbedDataSource] that will be used by the [DefaultErrorMessageFactory] to load the error messages
-    /// from.
-    ///
-    /// @param source the [EmbedDataSource] to load the error embeds from
-    /// @return this instance for fluent interface
-    EmbedConfig errorSource(EmbedDataSource source);
 }

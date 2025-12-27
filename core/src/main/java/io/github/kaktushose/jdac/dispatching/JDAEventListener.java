@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.dispatching;
 
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
+import io.github.kaktushose.jdac.internal.Helpers;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
@@ -53,27 +54,26 @@ public final class JDAEventListener extends ListenerAdapter {
             default -> null;
         };
 
-        if (runtime == null) {
-            if (jdaEvent instanceof GenericComponentInteractionCreateEvent componentEvent && !CustomId.isInvalid(componentEvent.getComponentId())) {
-                if (componentEvent.getMessage().isUsingComponentsV2()) {
-                    componentEvent.deferReply(true).queue();
-                    componentEvent.getMessage().delete().queue();
-                } else {
-                    componentEvent.deferEdit().setComponents().queue();
-                }
-                componentEvent.getHook()
-                        .setEphemeral(true)
-                        .sendMessage(context.errorMessageFactory().getTimedOutComponentMessage(jdaEvent))
-                        .queue();
-            } else {
-                log.debug("Received unknown event: {}", jdaEvent);
-            }
+        if (runtime != null) {
+            log.debug("Found runtime with id {} for event {}", runtime.id(), jdaEvent);
+            runtime.queueEvent(jdaEvent);
             return;
         }
 
-        log.debug("Found runtime with id {} for event {}", runtime.id(), jdaEvent);
+        if (!(jdaEvent instanceof GenericComponentInteractionCreateEvent componentEvent && !CustomId.isInvalid(componentEvent.getComponentId()))) {
+            log.debug("Received unknown event: {}", jdaEvent);
+            return;
+        }
 
-        runtime.queueEvent(jdaEvent);
+        if (Helpers.isValidWithoutComponents(componentEvent.getMessage())) {
+            componentEvent.editComponents().queue();
+        } else {
+            componentEvent.deferReply(true).queue();
+        }
+        componentEvent.getHook()
+                .sendMessage(context.errorMessageFactory().getTimedOutComponentMessage(jdaEvent))
+                .setEphemeral(true)
+                .queue();
     }
 
     private void checkRuntimesAlive() {
