@@ -18,21 +18,23 @@ import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.internal.JDAContext;
-import io.github.kaktushose.jdac.internal.register.SlashCommandUpdater;
+import io.github.kaktushose.jdac.internal.register.CommandUpdater;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.FrameworkShutdownEvent;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.FrameworkStartEvent;
-import io.github.kaktushose.jdac.message.i18n.I18n;
-import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /// The main entry point of the JDA-Commands framework. This class includes methods to manage the overall framework
@@ -42,7 +44,7 @@ import java.util.Optional;
 public final class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
     private final JDAEventListener jdaEventListener;
-    private final SlashCommandUpdater updater;
+    private final CommandUpdater updater;
     private final IntrospectionImpl introspection;
 
     JDACommands(IntrospectionImpl baseIntrospection) {
@@ -50,7 +52,7 @@ public final class JDACommands {
                 .addFallback(Property.JDA_COMMANDS, _ -> this)
                 .createIntrospection(baseIntrospection, Stage.INITIALIZED);
 
-        this.updater = new SlashCommandUpdater(
+        this.updater = new CommandUpdater(
                 introspection.get(InternalProperties.JDA_CONTEXT),
                 introspection.get(Property.GUILD_SCOPE_PROVIDER),
                 introspection.get(InternalProperties.INTERACTION_REGISTRY)
@@ -65,7 +67,7 @@ public final class JDACommands {
     /// If any exception while configuration/start of JDA-Commands is thrown, the JDA instance if shutdown per default.
     /// This can be configured by setting [JDACBuilder#shutdownJDA(boolean)] to `false`.
     ///
-    /// @param jda      the corresponding [JDA] instance
+    /// @param jda the corresponding [JDA] instance
     /// @return a new JDACommands instance
     public static JDACommands start(JDA jda) {
         return builder(jda).start();
@@ -85,7 +87,7 @@ public final class JDACommands {
 
     /// Create a new builder.
     ///
-    /// @param jda      the corresponding [JDA] instance
+    /// @param jda the corresponding [JDA] instance
     /// @return a new [JDACBuilder]
     public static JDACBuilder builder(JDA jda) {
         return new JDACBuilder(new JDAContext(jda));
@@ -136,7 +138,14 @@ public final class JDACommands {
 
     /// Updates all slash commands that are registered with [CommandScope#GUILD]
     public void updateGuildCommands() {
-        updater.updateGuildCommands();
+        updateGuildCommands(List.of());
+    }
+
+    /// Updates all slash commands that are registered with [CommandScope#GUILD] for the given [Guild]s.
+    ///
+    /// @param guilds a [Collection] of guilds to update.
+    public void updateGuildCommands(Collection<Guild> guilds) {
+        updater.updateGuildCommands(Objects.requireNonNull(guilds));
     }
 
     /// Gets a [`Button`][io.github.kaktushose.jdac.annotations.interactions.Button] based on the method name
