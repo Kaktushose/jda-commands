@@ -3,7 +3,6 @@ io.github.kaktushose.jdac
 io.github.kaktushose.jdac.annotations.constraints
 io.github.kaktushose.jdac.annotations.i18n
 io.github.kaktushose.jdac.annotations.interactions
-io.github.kaktushose.jdac.components
 io.github.kaktushose.jdac.configuration
 io.github.kaktushose.jdac.configuration.internal
 io.github.kaktushose.jdac.definitions
