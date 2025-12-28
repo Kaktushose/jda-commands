@@ -63,6 +63,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#builder(net.dv8tion.jda.api.sharding.ShardManager)" tabindex="0">builder(ShardManager)</a></li>
 <li><a href="#shutdown()" tabindex="0">shutdown()</a></li>
 <li><a href="#updateGuildCommands()" tabindex="0">updateGuildCommands()</a></li>
+<li><a href="#updateGuildCommands(java.util.Collection)" tabindex="0">updateGuildCommands(Collection)</a></li>
 <li><a href="#i18n()" tabindex="0">i18n()</a></li>
 <li><a href="#messageResolver()" tabindex="0">messageResolver()</a></li>
 <li><a href="#getButton(java.lang.Class,java.lang.String)" tabindex="0">getButton(Class, String)</a></li>
@@ -168,6 +169,11 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selecti
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateGuildCommands()" class="member-name-link">updateGuildCommands</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Updates all slash commands that are registered with <a href="annotations/interactions/CommandScope.html#GUILD"><code>CommandScope.GUILD</code></a></div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateGuildCommands(java.util.Collection)" class="member-name-link">updateGuildCommands</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Guild.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Guild</a>&gt;&nbsp;guilds)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Updates all slash commands that are registered with <a href="annotations/interactions/CommandScope.html#GUILD"><code>CommandScope.GUILD</code></a> for the given <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Guild.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Guild</code></a>s.</div>
 </div>
 </div>
 </div>
@@ -278,6 +284,19 @@ This will <strong>not</strong> unregister any slash commands.</p>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateGuildCommands</span>()</div>
 <div class="block">Updates all slash commands that are registered with <a href="annotations/interactions/CommandScope.html#GUILD"><code>CommandScope.GUILD</code></a></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="updateGuildCommands(java.util.Collection)">
+<h3>updateGuildCommands</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateGuildCommands</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Guild.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Guild</a>&gt;&nbsp;guilds)</span></div>
+<div class="block">Updates all slash commands that are registered with <a href="annotations/interactions/CommandScope.html#GUILD"><code>CommandScope.GUILD</code></a> for the given <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Guild.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Guild</code></a>s.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>guilds</code> - a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of guilds to update.</dd>
+</dl>
 </div>
 </section>
 </li>
