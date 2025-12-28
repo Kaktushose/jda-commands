@@ -16,7 +16,7 @@ import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
-import io.github.kaktushose.jdac.message.ComponentResolver;
+import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;

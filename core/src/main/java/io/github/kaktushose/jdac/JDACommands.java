@@ -16,7 +16,7 @@ import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.internal.register.SlashCommandUpdater;
-import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;

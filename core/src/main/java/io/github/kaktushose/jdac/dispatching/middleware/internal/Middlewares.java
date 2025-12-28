@@ -38,7 +38,12 @@ public class Middlewares {
     /// @param task The task to be executed
     public void forAllOrdered(Consumer<Middleware> task) {
         for (Set<Middleware> value : middlewares.values()) {
-            value.forEach(task);
+            for (Middleware middleware : value) {
+                task.accept(middleware);
+                if (Thread.currentThread().isInterrupted()) {
+                    return;
+                }
+            }
         }
     }
 

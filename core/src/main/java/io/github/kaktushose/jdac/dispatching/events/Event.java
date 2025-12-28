@@ -7,7 +7,7 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
-import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.JDA;
@@ -119,7 +119,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the resolved message
     public String resolve(String message, Entry... placeholders) {
-        return messageResolver().resolve(message, jdaEvent().getUserLocale().toLocale(), placeholders);
+        return messageResolver().resolve(message, jdaEvent().getUserLocale().toLocale(), Entry.toMap(placeholders));
     }
 
 

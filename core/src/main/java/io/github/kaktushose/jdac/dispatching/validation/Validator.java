@@ -7,7 +7,7 @@ import io.github.kaktushose.jdac.annotations.constraints.Perm;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.message.i18n.I18n;
-import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
@@ -83,7 +83,9 @@ public interface Validator<T, A extends Annotation> {
         /// @see MessageResolver
         /// @see I18n
         public MessageCreateData failMessage(String content, Entry... placeholder) {
-            String localized = invocationContext.util().messageResolver().resolve(content, invocationContext.event().getUserLocale().toLocale(), placeholder);
+            String localized = invocationContext.util()
+                    .messageResolver()
+                    .resolve(content, invocationContext.event().getUserLocale().toLocale(), Entry.toMap(placeholder));
 
             return errorMessageFactory.getConstraintFailedMessage(invocationContext, localized);
         }

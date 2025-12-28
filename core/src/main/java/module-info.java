@@ -70,9 +70,9 @@ module io.github.kaktushose.jdac.core {
 
     // i18n/messages/emojis/placeholder
     exports io.github.kaktushose.jdac.message.i18n;
-    exports io.github.kaktushose.jdac.message;
     exports io.github.kaktushose.jdac.message.emoji;
     exports io.github.kaktushose.jdac.message.placeholder;
+    exports io.github.kaktushose.jdac.message.resolver;
 
     uses Extension;
 }
