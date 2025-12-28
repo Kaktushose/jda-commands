@@ -10,7 +10,7 @@ To access the API, you can either use
 ### Using Scoped Access
 When accessing trough <Introspection#accessScoped()>, you have to pay attention where you do so.
 An <Introspection> instance is set in most but not in all places, to know where you can use it take a look at the
-<IntrospectionAccess> annotation, which is present on all user implementable methods of JDA-Commands.
+<io.github.kaktushose.jdac.annotations.IntrospectionAccess> annotation, which is present on all user implementable methods of JDA-Commands.
 
 Inside of [interaction controller methods](../interactions/overview.md#structure) 
 the <Introspection> instance is always set with the stage <Stage#INTERACTION>, providing access to all [`Properties`][[Property]].
@@ -66,9 +66,9 @@ A <io.github.kaktushose.jdac.introspection.lifecycle.Subscriber> provides two ar
 - the <Introspection> instance used to publish the event
 
 To know in which <Stage> the event is published (and thus what [Properties][[Property]] can be used), take a look
-at the <IntrospectionAccess> annotation of the specific <FrameworkEvent> subclass.
+at the <io.github.kaktushose.jdac.annotations.IntrospectionAccess> annotation of the specific <FrameworkEvent> subclass.
 
-For example, <InteractionStartEvent> has [`@IntrospectionAccess(Stage.INTERACTION)]`][[IntrospectionAccess]], which means
+For example, <InteractionStartEvent> has [`@IntrospectionAccess(Stage.INTERACTION)]`][[io.github.kaktushose.jdac.annotations.IntrospectionAccess]], which means
 that inside of `Subscriber<InteractionStartEvent>#accept(InteractionStartEvent, Introspection)]` the stage <Stage#INTERACTION>
 is set meaning all properties can be accessed.
 
