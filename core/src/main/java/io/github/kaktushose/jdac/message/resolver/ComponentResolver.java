@@ -1,8 +1,6 @@
-package io.github.kaktushose.jdac.message;
+package io.github.kaktushose.jdac.message.resolver;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import io.github.kaktushose.jdac.exceptions.ParsingException;
-import io.github.kaktushose.jdac.message.internal.Resolver;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.utils.ComponentDeserializer;
 import net.dv8tion.jda.api.components.utils.ComponentSerializer;
@@ -14,14 +12,16 @@ import java.util.*;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
-public final class ComponentResolver<T extends Component> extends Resolver<T, T> {
+public final class ComponentResolver<T extends Component> implements Resolver<T> {
 
     private static final ComponentSerializer serializer = new ComponentSerializer();
+    private final DataObjectResolver jsonResolver;
+
     private final Class<T> type;
 
-    public ComponentResolver(MessageResolver resolver, Class<T> type) {
-        super(resolver, Set.of("content", "label", "placeholder", "value"));
+    public ComponentResolver(Resolver<String> resolver, Class<T> type) {
         this.type = type;
+        jsonResolver = new DataObjectResolver(resolver, Set.of("content", "label", "placeholder", "value"));
     }
 
     public List<T> resolve(Collection<T> components, Locale locale, Map<String, @Nullable Object> placeholders) {
@@ -33,9 +33,9 @@ public final class ComponentResolver<T extends Component> extends Resolver<T, T>
         List<FileUpload> fileUploads = serializer.getFileUploads(component);
         DataObject data = serializer.serialize(component);
         try {
-            JsonNode node = resolve(mapper.readTree(data.toString()), locale, placeholders);
+            data = jsonResolver.resolve(data, locale, placeholders);
             ComponentDeserializer deserializer = new ComponentDeserializer(fileUploads);
-            return deserializer.deserializeAs(type, DataObject.fromJson(node.toString()));
+            return deserializer.deserializeAs(type, data);
         } catch (Exception e) {
             throw new ParsingException(e, entry("rawJson", data.toString()));
         }

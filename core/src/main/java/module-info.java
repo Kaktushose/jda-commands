@@ -73,6 +73,7 @@ module io.github.kaktushose.jdac.core {
     exports io.github.kaktushose.jdac.message;
     exports io.github.kaktushose.jdac.message.emoji;
     exports io.github.kaktushose.jdac.message.placeholder;
+    exports io.github.kaktushose.jdac.message.resolver;
 
     uses Extension;
 }
