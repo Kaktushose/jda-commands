@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.ApiStatus;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +46,7 @@ public final class CommandUpdater {
     /// Sends the [SlashCommandData] to Discord. This is equivalent to calling [#updateGlobalCommands()] and
     /// [#updateGuildCommands()] each.
     public void updateAllCommands() {
-        updateGuildCommands(List.of());
+        updateGuildCommands(null);
         updateGlobalCommands();
     }
 
@@ -73,13 +74,15 @@ public final class CommandUpdater {
     }
 
     /// Sends the guild scope [SlashCommandData] to Discord.
-    public void updateGuildCommands(Collection<Guild> guilds) {
+    public void updateGuildCommands(@Nullable Collection<Guild> guilds) {
         log.debug("Updating guild commands...");
         var guildMapping = getGuildMapping();
 
-        Stream<Guild> update = guilds.stream();
-        if (guilds.isEmpty()) {
+        Stream<Guild> update;
+        if (guilds == null) {
             update = jdaContext.getGuildCache().stream();
+        } else {
+            update = guilds.stream();
         }
 
         update.forEach(guild -> {

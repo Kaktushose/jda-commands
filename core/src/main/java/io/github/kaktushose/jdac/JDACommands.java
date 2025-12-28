@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /// The main entry point of the JDA-Commands framework. This class includes methods to manage the overall framework
@@ -117,18 +118,15 @@ public final class JDACommands {
     }
 
     /// Updates all slash commands that are registered with [CommandScope#GUILD]
-    ///
-    /// This is equivalent to calling `updateGuildCommands(List.of());`
     public void updateGuildCommands() {
         updateGuildCommands(List.of());
     }
 
-    /// Updates all slash commands that are registered with [CommandScope#GUILD]
+    /// Updates all slash commands that are registered with [CommandScope#GUILD] for the given [Guild]s.
     ///
-    /// @param guilds a [Collection] of guilds to update. If an empty [Collection] is passed, will update all guilds
-    ///                             that are available
+    /// @param guilds a [Collection] of guilds to update.
     public void updateGuildCommands(Collection<Guild> guilds) {
-        updater.updateGuildCommands(guilds);
+        updater.updateGuildCommands(Objects.requireNonNull(guilds));
     }
 
     /// Exposes the localization functionality of JDA-Commands to be used elsewhere in the application
