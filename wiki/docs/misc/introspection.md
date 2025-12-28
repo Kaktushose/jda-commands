@@ -5,10 +5,10 @@ The Introspection API allows you to access JDA-Commands' [properties](property.m
 To access the API, you can either use
 
 - <JDACommands#introspection()> and <Event#introspection()>
-- or <Introspection#access()> that will return the instance bound to the current scope
+- or <Introspection#accessScoped()> that will return the instance bound to the current scope
 
 ### Using Scoped Access
-When accessing trough <Introspection#access()>, you have to pay attention where you do so.
+When accessing trough <Introspection#accessScoped()>, you have to pay attention where you do so.
 An <Introspection> instance is set in most but not in all places, to know where you can use it take a look at the
 <IntrospectionAccess> annotation, which is present on all user implementable methods of JDA-Commands.
 
@@ -16,7 +16,7 @@ Inside of [interaction controller methods](../interactions/overview.md#structure
 the <Introspection> instance is always set with the stage <Stage#INTERACTION>, providing access to all [`Properties`][[Property]].
 
 !!! note
-    Internally we use Javas <ScopedValue>s for this. If you want to know how <Introspection#access()> works in regard
+    Internally we use Javas <ScopedValue>s for this. If you want to know how <Introspection#accessScoped()> works in regard
     with Threads make yourself familiar with their docs.
 
 ## Getting [Properties][[Property]]
@@ -72,7 +72,7 @@ For example, <InteractionStartEvent> has [`@IntrospectionAccess(Stage.INTERACTIO
 that inside of `Subscriber<InteractionStartEvent>#accept(InteractionStartEvent, Introspection)]` the stage <Stage#INTERACTION>
 is set meaning all properties can be accessed.
 
-You can also call <Introspection#access()> and <Introspection#accGet(Property)> inside of them!
+You can also call <Introspection#accessScoped()> and <Introspection#scopedGet(Property)> inside of them!
 
 
 ### Example
