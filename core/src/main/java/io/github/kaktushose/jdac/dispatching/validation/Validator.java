@@ -10,6 +10,8 @@ import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess;
 import io.github.kaktushose.jdac.message.MessageResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
@@ -87,7 +89,7 @@ public interface Validator<T, A extends Annotation> {
         /// @see I18n
         public MessageCreateData failMessage(String content, Entry... placeholder) {
             String localized = IntrospectionAccess.scopedMessageResolver()
-                    .resolve(content, IntrospectionAccess.scopedUserLocale(), placeholder);
+                    .resolve(content, IntrospectionAccess.scopedUserLocale(), Entry.toMap(placeholder));
 
             return errorMessageFactory.getConstraintFailedMessage(invocationContext, localized);
         }

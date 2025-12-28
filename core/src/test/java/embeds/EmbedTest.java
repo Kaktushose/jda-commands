@@ -7,7 +7,7 @@ import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
-import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import dev.goldmensch.fluava.Fluava;
 import net.dv8tion.jda.api.EmbedBuilder;

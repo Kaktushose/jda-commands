@@ -1,10 +1,10 @@
 package io.github.kaktushose.jdac.embeds;
 
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.message.EmbedResolver;
+import io.github.kaktushose.jdac.message.resolver.DataObjectResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
-import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -32,14 +32,14 @@ public class Embed {
 
     private final String name;
     private final Map<String, @Nullable Object> placeholders;
-    private final EmbedResolver embedLocalizer;
+    private final DataObjectResolver embedResolver;
     private DataObject data;
     private Locale locale;
 
     private Embed(DataObject object, String name, Map<String, @Nullable Object> placeholders, MessageResolver messageResolver) {
         this.name = name;
         this.placeholders = new HashMap<>(placeholders);
-        this.embedLocalizer = new EmbedResolver(messageResolver);
+        this.embedResolver = new DataObjectResolver(messageResolver, Set.of());
         locale = Locale.ENGLISH;
         this.data = object;
     }
@@ -349,7 +349,7 @@ public class Embed {
     ///
     /// @return the built, sendable [MessageEmbed]
     public MessageEmbed build() {
-        return embedLocalizer.resolve(data, locale, placeholders);
+        return EmbedBuilder.fromData(embedResolver.resolve(data, locale, placeholders)).build();
     }
 
     private void urlCheck(@Nullable String url) {

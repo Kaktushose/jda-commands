@@ -24,6 +24,8 @@ import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.FrameworkShutdownEvent;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.FrameworkStartEvent;
+import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.SelectMenu;

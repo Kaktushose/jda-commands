@@ -1,4 +1,4 @@
-package io.github.kaktushose.jdac.message;
+package io.github.kaktushose.jdac.message.resolver;
 
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
@@ -22,7 +22,7 @@ import java.util.Map;
 /// Please note that this class is a helper and doesn't have own resolving logic, it's more of a pipeline
 /// to [EmojiResolver] and [I18n]. It is not intended to be directly used by end users but part of the public api
 /// to allow manual execution of the frameworks resolving logic for dynamic values if needed.
-public class MessageResolver {
+public final class MessageResolver implements Resolver<String> {
     private final I18n i18n;
     private final EmojiResolver emojiResolver;
 
@@ -40,23 +40,11 @@ public class MessageResolver {
     /// @param placeholder the placeholders to use for i18n
     ///
     /// @return the resolved message
+    @Override
     public String resolve(String message, Locale locale, Map<String, @Nullable Object> placeholder) {
         String formatted = PlaceholderResolver.resolve(message, placeholder);
         String localized = i18n.localize(locale, formatted, placeholder);
         return emojiResolver.resolve(localized);
-    }
-
-    /// First resolves the variables in the given message (see [PlaceholderResolver#resolve(String, Map)]), then
-    /// localizes the resulting message (see [I18n#localize(Locale, String, Entry...)]) and lastly attempts to
-    /// resolve emojis (see [EmojiResolver#resolve(String)]).
-    ///
-    /// @param message the message to be resolved
-    /// @param locale the locale to use for i18n
-    /// @param placeholder the placeholders to use for i18n
-    ///
-    /// @return the resolved message
-    public String resolve(String message, Locale locale, Entry... placeholder) {
-        return resolve(message, locale, Entry.toMap(placeholder));
     }
 
     /// Gets the underlying [I18n] instance

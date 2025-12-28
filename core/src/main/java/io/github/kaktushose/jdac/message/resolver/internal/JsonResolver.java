@@ -1,12 +1,9 @@
-package io.github.kaktushose.jdac.message.internal;
+package io.github.kaktushose.jdac.message.resolver.internal;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.github.kaktushose.jdac.message.MessageResolver;
-import io.github.kaktushose.jdac.message.ComponentResolver;
-import io.github.kaktushose.jdac.message.EmbedResolver;
+import io.github.kaktushose.jdac.message.resolver.Resolver;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
@@ -16,24 +13,18 @@ import java.util.Map;
 import java.util.Set;
 
 @ApiStatus.Internal
-public abstract sealed class Resolver<S, T> permits ComponentResolver, EmbedResolver {
+public final class JsonResolver implements Resolver<JsonNode> {
 
-    protected static final ObjectMapper mapper = new ObjectMapper();
-    private final MessageResolver resolver;
+    private final Resolver<String> resolver;
     private final Set<String> fields;
 
-    /// Constructs a new Resolver.
-    ///
-    /// @param resolver the [MessageResolver] to use for localization
-    /// @param fields the JSON fields to localize.  An empty [Set] indicates that all fields will be localized
-    public Resolver(MessageResolver resolver, Set<String> fields) {
+    public JsonResolver(Resolver<String> resolver, Set<String> fields) {
         this.resolver = resolver;
         this.fields = fields;
     }
 
-    public abstract T resolve(S object, Locale locale, Map<String, @Nullable Object> placeholders);
-
-    protected JsonNode resolve(JsonNode node, Locale locale, Map<String, @Nullable Object> placeholders) {
+    @Override
+    public JsonNode resolve(JsonNode node, Locale locale, Map<String, @Nullable Object> placeholders) {
         if (node instanceof ObjectNode objectNode) {
             Iterator<Map.Entry<String, JsonNode>> iterator = objectNode.fields();
             while (iterator.hasNext()) {

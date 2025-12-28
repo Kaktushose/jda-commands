@@ -2,7 +2,7 @@ package io.github.kaktushose.jdac.embeds;
 
 
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
-import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.exceptions.ParsingException;
 import net.dv8tion.jda.api.utils.data.DataObject;
 
