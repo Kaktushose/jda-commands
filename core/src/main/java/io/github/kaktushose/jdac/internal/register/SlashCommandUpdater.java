@@ -1,12 +1,13 @@
 package io.github.kaktushose.jdac.internal.register;
 
-import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.annotations.interactions.CommandScope;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.ContextCommandDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
+import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /// Class that sends the [CommandData] to Discord.
 ///
@@ -43,7 +45,7 @@ public final class SlashCommandUpdater {
     /// Sends the [SlashCommandData] to Discord. This is equivalent to calling [#updateGlobalCommands()] and
     /// [#updateGuildCommands()] each.
     public void updateAllCommands() {
-        updateGuildCommands();
+        updateGuildCommands(List.of());
         updateGlobalCommands();
     }
 
@@ -71,14 +73,21 @@ public final class SlashCommandUpdater {
     }
 
     /// Sends the guild scope [SlashCommandData] to Discord.
-    public void updateGuildCommands() {
+    public void updateGuildCommands(Collection<Guild> guilds) {
         log.debug("Updating guild commands...");
         var guildMapping = getGuildMapping();
-        for (var guild : jdaContext.getGuildCache()) {
+
+        Stream<Guild> update = guilds.stream();
+        if (guilds.isEmpty()) {
+            update = jdaContext.getGuildCache().stream();
+        }
+
+        update.forEach(guild -> {
+            log.debug("Updating guild commands for guild: {}", guild);
             var commands = guildMapping.getOrDefault(guild.getIdLong(), Collections.emptySet());
             guild.updateCommands().addCommands(commands).queue();
             log.debug("Registered guild command(s) {} for {}", commands.stream().map(CommandData::getName).collect(Collectors.toSet()), guild);
-        }
+        });
     }
 
     private Map<Long, Set<CommandData>> getGuildMapping() {
