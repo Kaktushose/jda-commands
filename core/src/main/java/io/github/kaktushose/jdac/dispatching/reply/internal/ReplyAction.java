@@ -106,7 +106,7 @@ public final class ReplyAction {
     }
 
     public Message reply(ComponentReplacer replacer, Entry... placeholder) {
-        var components = builder.getComponentTree().replace(replacer).getComponents();
+        Collection<MessageTopLevelComponentUnion> components = builder.getComponentTree().replace(replacer).getComponents();
         components = componentResolver.resolve(components, scopedUserLocale(), Entry.toMap(placeholder));
         builder.setComponents(components);
         return reply();

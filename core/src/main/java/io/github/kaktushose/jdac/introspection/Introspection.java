@@ -14,7 +14,7 @@ import io.github.kaktushose.jdac.introspection.lifecycle.FrameworkEvent;
 import io.github.kaktushose.jdac.introspection.lifecycle.Subscriber;
 import io.github.kaktushose.jdac.introspection.lifecycle.Subscription;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
-import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 
 import java.util.NoSuchElementException;
 

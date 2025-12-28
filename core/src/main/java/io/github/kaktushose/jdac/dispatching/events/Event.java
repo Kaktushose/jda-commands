@@ -7,9 +7,11 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
-import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Entitlement;
 import net.dv8tion.jda.api.entities.Guild;
@@ -26,8 +28,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Locale;
 
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getJdaEvent;
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getRuntime;
+import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
 
 
 /// Abstract base event for all interaction events, like [CommandEvent].
@@ -48,14 +49,14 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// @return the [GenericInteractionCreateEvent]
     @SuppressWarnings("unchecked")
     public T jdaEvent() {
-        return (T) getJdaEvent();
+        return (T) scopedJdaEvent();
     }
 
     /// Returns the id of the [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) this event is dispatched in.
     ///
     /// @return the id of the current [`Runtime`]({@docRoot}/index.html#runtime-concept-heading)
     public String runtimeId() {
-        return getRuntime().id();
+        return scopedRuntime().id();
     }
 
     /// Closes the underlying [`Runtime`]({@docRoot}/index.html#runtime-concept-heading). This will ignore any new jda events belonging to this interaction, resulting
@@ -64,7 +65,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// This is only needed if the expiration strategy
     /// [ExpirationStrategy.Explicit] is used.
     public void closeRuntime() {
-        getRuntime().close();
+        scopedRuntime().close();
     }
 
     /// Returns the [KeyValueStore] of this [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
@@ -74,7 +75,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the [KeyValueStore]
     public KeyValueStore kv() {
-        return getRuntime().keyValueStore();
+        return scopedRuntime().keyValueStore();
     }
 
     /// Returns an instance of a class annotated with [`Interaction`][io.github.kaktushose.jdac.annotations.interactions.Interaction],
@@ -83,22 +84,23 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// @return the interaction class instance
     @Nullable
     public <I> I interactionInstance(Class<I> interactionClass) {
-        return getRuntime().interactionInstance(interactionClass);
+        return scopedRuntime().interactionInstance(interactionClass);
     }
 
 
-    /// Gets the [I18n] instance.
+    /// Gets the [Introspection] instance of this interaction.
     ///
-    /// @return the [I18n] instance.
-    public I18n i18n() {
-        return getRuntime().framework().i18n();
+    /// Same as [Introspection#accessScoped()]
+    /// @return the [Introspection] instance with stage set to [Stage#INTERACTION].
+    public Introspection introspection() {
+        return Introspection.accessScoped();
     }
 
     /// Gets the [MessageResolver] instance
     ///
     /// @return the [MessageResolver] instance
     public MessageResolver messageResolver() {
-        return getRuntime().framework().messageResolver();
+        return scopedMessageResolver();
     }
 
     /// Gets a localization message for the given key using the underlying [I18n] instance.
@@ -108,7 +110,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the localized message or the key if not found
     public String localize(String key, Entry... placeholders) {
-        return i18n().localize(jdaEvent().getUserLocale().toLocale(), key, placeholders);
+        return scopedI18n().localize(jdaEvent().getUserLocale().toLocale(), key, placeholders);
     }
 
     /// Resolved the given message with help of the underlying [MessageResolver] instance,
