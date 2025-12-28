@@ -12,8 +12,11 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Documented
 @interface PropertyInformation {
+
     Stage stage();
+
     Property.Category category();
+
     Property.FallbackBehaviour fallbackBehaviour() default Property.FallbackBehaviour.NONE;
 
 }

@@ -29,5 +29,4 @@ public interface InternalProperties {
 
     Property<Runtime> RUNTIME = new Singleton<>("RUNTIME", Category.PROVIDED, Runtime.class, Stage.INTERACTION);
 
-
 }

@@ -28,11 +28,11 @@ import java.util.List;
 /// It's important to know, that you can only return [PropertyProvider]s of [Property]s 
 /// with [Property#category()] set to [Category#LOADABLE]!
 ///
-/// ## Extension configuration ([Extension.Data])
+/// ## Extension Configuration ([Extension.Data])
 /// If the [Extension] needs additional configuration data, implementations have to provide an
 /// own implementation of [Data] that the user has to register in the builder by calling [JDACBuilder#extensionData(Data...)].
 ///
-/// ## on framework start
+/// ## On Framework Start
 /// At the time that framework is fully initialized and started (practically at the end of [JDACBuilder#start()]),
 /// the [Extension#onStart(JDACommands)] method of all extensions will be called.
 /// This allows further configuration, e.g. through the [Introspection] API by using [JDACommands#introspection()].

@@ -14,8 +14,8 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 @ApiStatus.Internal
 public class Properties {
-    public static ScopedValue<Boolean> INSIDE_FRAMEWORK = ScopedValue.newInstance();
 
+    public static ScopedValue<Boolean> INSIDE_FRAMEWORK = ScopedValue.newInstance();
 
     public static final int FALLBACK_PRIORITY = 0;
     public static final int USER_PRIORITY = Integer.MAX_VALUE;

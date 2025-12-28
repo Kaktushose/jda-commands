@@ -200,7 +200,6 @@ public record InteractionRegistry(Validators validators,
                 );
     }
 
-
     @Override
     public <T extends Definition> T findFirst(Class<T> type, Predicate<T> predicate) {
         return find(type, false, predicate);
@@ -228,8 +227,4 @@ public record InteractionRegistry(Validators validators,
     public Collection<InteractionDefinition> all() {
         return Collections.unmodifiableSet(definitions);
     }
-
-
-
-
 }
