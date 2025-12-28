@@ -21,7 +21,7 @@ public final class ContextCommandHandler extends EventHandler<GenericContextInte
     }
 
     @Override
-    protected Ingredients prepare(GenericContextInteractionEvent<?> event, Runtime runtime) {
+    protected PreparationResult prepare(GenericContextInteractionEvent<?> event, Runtime runtime) {
         CommandDefinition command = interactionRegistry.find(ContextCommandDefinition.class, true, it ->
                 it.name().equals(event.getFullCommandName())
         );
@@ -34,6 +34,6 @@ public final class ContextCommandHandler extends EventHandler<GenericContextInte
             }
         }
 
-        return new Ingredients(command, List.of(new CommandEvent(), target));
+        return new PreparationResult(command, List.of(new CommandEvent(), target));
     }
 }

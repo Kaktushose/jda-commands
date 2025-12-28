@@ -21,7 +21,7 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
 
     @Nullable
     @Override
-    protected Ingredients prepare(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
+    protected EventHandler.PreparationResult prepare(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
         CommandAutoCompleteInteraction interaction = event.getInteraction();
 
         return interactionRegistry.find(SlashCommandDefinition.class, it -> it.name().equals(interaction.getFullCommandName()))
@@ -31,7 +31,7 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
                         .filter(option -> option.name().equals(event.getFocusedOption().getName()))
                         .findFirst()
                         .map(OptionDataDefinition::autoComplete)
-                        .map(definition -> new Ingredients(definition, List.of(new AutoCompleteEvent())))
+                        .map(definition -> new PreparationResult(definition, List.of(new AutoCompleteEvent())))
                         .orElseGet(() -> {
                             log.debug("No auto complete handler found for command \"/{}\"", interaction.getFullCommandName());
                             return null;

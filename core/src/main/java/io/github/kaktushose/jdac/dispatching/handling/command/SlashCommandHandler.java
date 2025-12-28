@@ -21,17 +21,14 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 @ApiStatus.Internal
 public final class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {
 
-    public static final ScopedValue<SlashCommandInteractionEvent> EVENT = ScopedValue.newInstance();
+    public static final ScopedValue<Locale> USER_LOCALE = ScopedValue.newInstance();
 
     private static final Map<Class<?>, Object> DEFAULT_MAPPINGS = Map.of(
             byte.class, ((byte) 0),
@@ -51,14 +48,14 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
     @Override
     @Nullable
-    protected Ingredients prepare(SlashCommandInteractionEvent event, Runtime runtime) {
+    protected EventHandler.PreparationResult prepare(SlashCommandInteractionEvent event, Runtime runtime) {
         SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class, true, it ->
                 it.name().equals(event.getFullCommandName())
         );
 
         // Scope values needed for user locale in proteus mapper, see type adapter
-        return ScopedValue.where(EVENT, event)
-                .call(() -> parseArguments(command, event).map(args -> new Ingredients(command, args)))
+        return ScopedValue.where(USER_LOCALE, event.getUserLocale().toLocale())
+                .call(() -> parseArguments(command, event).map(args -> new PreparationResult(command, args)))
                 .orElse(null);
 
     }

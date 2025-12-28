@@ -21,7 +21,7 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
     }
 
     @Override
-    protected Ingredients prepare(ModalInteractionEvent event, Runtime runtime) {
+    protected PreparationResult prepare(ModalInteractionEvent event, Runtime runtime) {
         var modal = interactionRegistry.find(ModalDefinition.class, true, it ->
                 it.definitionId().equals(CustomId.fromMerged(event.getModalId()).definitionId())
         );
@@ -29,6 +29,6 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
         List<Object> arguments = event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList());
         arguments.addFirst(new ModalEvent());
 
-        return new Ingredients(modal, Collections.unmodifiableList(arguments));
+        return new PreparationResult(modal, Collections.unmodifiableList(arguments));
     }
 }

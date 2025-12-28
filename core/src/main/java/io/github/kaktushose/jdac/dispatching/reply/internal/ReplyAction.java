@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntroAccess.*;
+import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 @ApiStatus.Internal
@@ -51,8 +51,8 @@ public final class ReplyAction {
     private boolean keepSelections;
 
     public ReplyAction(ReplyConfig replyConfig) {
-        log.debug("Reply Debug: [Runtime={}]", accRuntime().id());
-        componentResolver = new ComponentResolver<>(accMessageResolver(), MessageTopLevelComponentUnion.class);
+        log.debug("Reply Debug: [Runtime={}]", scopedRuntime().id());
+        componentResolver = new ComponentResolver<>(scopedMessageResolver(), MessageTopLevelComponentUnion.class);
         builder = new MessageCreateBuilder();
         ephemeral = replyConfig.ephemeral();
         editReply = replyConfig.editReply();
@@ -85,7 +85,7 @@ public final class ReplyAction {
     }
 
     public Message reply(String message, Entry... placeholder) {
-        builder.setContent(accMessageResolver().resolve(message, accUserLocale(), placeholder));
+        builder.setContent(scopedMessageResolver().resolve(message, scopedUserLocale(), placeholder));
         return reply();
     }
 
@@ -100,14 +100,14 @@ public final class ReplyAction {
     }
 
     public Message reply(List<MessageTopLevelComponentUnion> components, Entry... placeholder) {
-        components = componentResolver.resolve(components, accUserLocale(), Entry.toMap(placeholder));
+        components = componentResolver.resolve(components, scopedUserLocale(), Entry.toMap(placeholder));
         builder.closeFiles().clear().useComponentsV2().addComponents(components);
         return reply();
     }
 
     public Message reply(ComponentReplacer replacer, Entry... placeholder) {
         var components = builder.getComponentTree().replace(replacer).getComponents();
-        components = componentResolver.resolve(components, accUserLocale(), Entry.toMap(placeholder));
+        components = componentResolver.resolve(components, scopedUserLocale(), Entry.toMap(placeholder));
         builder.setComponents(components);
         return reply();
     }
@@ -127,17 +127,17 @@ public final class ReplyAction {
     public Message reply() {
         defer();
 
-        if (accJdaEvent() instanceof ComponentInteraction interaction && keepComponents) {
+        if (scopedJdaEvent() instanceof ComponentInteraction interaction && keepComponents) {
             builder.addComponents(retrieveComponents(interaction.getMessage()));
             builder.useComponentsV2(interaction.getMessage().isUsingComponentsV2());
         }
 
         log.debug(
                 "Replying to interaction \"{}\" with content: {} [ephemeral={}, editReply={}, keepComponents={}, keepSelections={}]",
-                accInvocationContext().definition().displayName(), builder.build().toData(), ephemeral, editReply, keepComponents, keepSelections
+                scopedInvocationContext().definition().displayName(), builder.build().toData(), ephemeral, editReply, keepComponents, keepSelections
         );
 
-        var hook = ((IDeferrableCallback) accJdaEvent()).getHook();
+        var hook = ((IDeferrableCallback) scopedJdaEvent()).getHook();
         if (editReply) {
             return hook.editOriginal(MessageEditData.fromCreateData(builder.build())).complete();
         }
@@ -159,11 +159,11 @@ public final class ReplyAction {
     private ActionComponent retrieveSelections(ActionComponent component) {
         return switch (component) {
             case StringSelectMenu selectMenu
-                    when accJdaEvent() instanceof StringSelectInteractionEvent selectEvent -> selectMenu.createCopy()
+                    when scopedJdaEvent() instanceof StringSelectInteractionEvent selectEvent -> selectMenu.createCopy()
                     .setDefaultValues(selectEvent.getValues())
                     .build();
 
-            case EntitySelectMenu selectMenu when accJdaEvent() instanceof EntitySelectInteractionEvent selectEvent -> {
+            case EntitySelectMenu selectMenu when scopedJdaEvent() instanceof EntitySelectInteractionEvent selectEvent -> {
 
                 Collection<EntitySelectMenu.DefaultValue> defaultValues = new HashSet<>();
                 Mentions mentions = selectEvent.getInteraction().getMentions();
@@ -182,7 +182,7 @@ public final class ReplyAction {
     }
 
     private void defer() {
-        GenericInteractionCreateEvent jdaEvent = accJdaEvent();
+        GenericInteractionCreateEvent jdaEvent = scopedJdaEvent();
         switch (jdaEvent) {
             case ModalInteractionEvent modalEvent when modalEvent.getMessage() != null && editReply ->
                     deferEdit(modalEvent);
@@ -197,13 +197,13 @@ public final class ReplyAction {
     }
 
     private void deferReply(IReplyCallback callback) {
-        if (!accJdaEvent().isAcknowledged()) {
+        if (!scopedJdaEvent().isAcknowledged()) {
             callback.deferReply(ephemeral).complete();
         }
     }
 
     private void deferEdit(IMessageEditCallback callback) {
-        if (!accJdaEvent().isAcknowledged()) {
+        if (!scopedJdaEvent().isAcknowledged()) {
             callback.deferEdit().complete();
         }
     }

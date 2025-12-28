@@ -7,7 +7,7 @@ import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEven
 
 import java.lang.annotation.*;
 
-/// This annotation indicates that [Introspection#access()] and [Introspection#accGet(Property)] can be used
+/// This annotation indicates that [Introspection#accessScoped()] and [Introspection#scopedGet(Property)] can be used
 /// inside the method annotated with this annotation.
 ///
 /// If this annotation is present on a Class like [RuntimeCloseEvent] it's up to the use case which meaning this has, please

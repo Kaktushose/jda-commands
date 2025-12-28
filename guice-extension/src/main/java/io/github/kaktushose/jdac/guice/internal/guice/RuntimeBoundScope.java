@@ -19,7 +19,7 @@ public class RuntimeBoundScope implements Scope {
     @Override
     public <T> Provider<T> scope(Key<T> key, Provider<T> unscoped) {
         return () -> {
-            Map<Key<?>, Object> runtimeBoundCache = store.computeIfAbsent(Introspection.accGet(Property.RUNTIME_ID), _ -> new ConcurrentHashMap<>());
+            Map<Key<?>, Object> runtimeBoundCache = store.computeIfAbsent(Introspection.scopedGet(Property.RUNTIME_ID), _ -> new ConcurrentHashMap<>());
 
             return (T) runtimeBoundCache.computeIfAbsent(key, _ -> unscoped.get());
         };

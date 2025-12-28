@@ -65,23 +65,23 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     }
 
     @Nullable
-    protected abstract Ingredients prepare(T event, Runtime runtime);
+    protected abstract PreparationResult prepare(T event, Runtime runtime);
 
     @Override
     public final void accept(T e, Runtime runtime) {
         log.debug("Got event {}", e);
 
-        Ingredients ingredients = prepare(e, runtime);
+        PreparationResult preparationResult = prepare(e, runtime);
 
-        if (ingredients == null || Thread.interrupted()) {
+        if (preparationResult == null || Thread.interrupted()) {
             log.debug("Interaction execution cancelled by preparation task");
             return;
         }
 
         InvocationContext<T> invocationContext =
-                new InvocationContext<>(e, runtime.keyValueStore(), ingredients.definition,
-                        Helpers.replyConfig(ingredients.definition, runtimeIntrospection.get(Property.GLOBAL_REPLY_CONFIG)),
-                        ingredients.rawArguments);
+                new InvocationContext<>(e, runtime.keyValueStore(), preparationResult.definition,
+                        Helpers.replyConfig(preparationResult.definition, runtimeIntrospection.get(Property.GLOBAL_REPLY_CONFIG)),
+                        preparationResult.rawArguments);
 
         IntrospectionImpl interactionIntrospection = Properties.Builder.newRestricted()
                 .addFallback(Property.JDA_EVENT, _ -> e)
@@ -91,7 +91,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         ScopedValue.where(IntrospectionImpl.INTROSPECTION, interactionIntrospection).run(() -> {
             log.debug("Executing middlewares...");
 
-            Middlewares middlewares = Introspection.accGet(InternalProperties.MIDDLEWARES);
+            Middlewares middlewares = Introspection.scopedGet(InternalProperties.MIDDLEWARES);
             middlewares.forOrdered(invocationContext.definition().classDescription().clazz(), middleware -> {
                 log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
                 middleware.accept(invocationContext);
@@ -169,5 +169,5 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         }
     }
 
-    public record Ingredients(InteractionDefinition definition, SequencedCollection<@Nullable Object> rawArguments) {}
+    public record PreparationResult(InteractionDefinition definition, SequencedCollection<@Nullable Object> rawArguments) {}
 }

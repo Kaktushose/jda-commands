@@ -16,7 +16,7 @@ public interface InteractionControllerInstantiator {
 
     /// This method will be called each time an instance of a class annotated with [Interaction] is needed.
     ///
-    /// The provided [Introspection] instance or [Introspection#access()] can be used to retrieve other components/parts
+    /// The provided [Introspection] instance or [Introspection#accessScoped()] can be used to retrieve other components/parts
     /// of this framework, e.g. [MessageResolver].
     ///
     /// @param clazz   the [Class] of needed instance

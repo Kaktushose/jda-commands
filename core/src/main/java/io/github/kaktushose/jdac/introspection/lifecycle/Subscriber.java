@@ -15,7 +15,7 @@ public interface Subscriber<T extends FrameworkEvent> extends BiConsumer<T, Intr
 
     /// Executed when the subscribed to [FrameworkEvent] ([T]) is published by the framework.
     ///
-    /// Inside this method you can always use [Introspection#access()] and [Introspection#accGet(Property)],
+    /// Inside this method you can always use [Introspection#accessScoped()] and [Introspection#scopedGet(Property)],
     /// the returned [Introspection] instance is the one that was used to publish the event.
     /// Thus, the [stage][Introspection#currentStage()] of the [Introspection] is depending on the used [FrameworkEvent].
     /// You can take a look at the specific [IntrospectionAccess] annotation of an [FrameworkEvent] class to know which stage is available.

@@ -24,9 +24,9 @@ import java.util.NoSuchElementException;
 ///
 /// To access the api, you can either
 /// - use [JDACommands#introspection()] or [Event#introspection()]
-/// - use [Introspection#access()] that will return the current instance of this scope
+/// - use [Introspection#accessScoped()] that will return the current instance of this scope
 ///
-/// When accessing trough [Introspection#access()], you have to pay attention where you do so.
+/// When accessing trough [Introspection#accessScoped()], you have to pay attention where you do so.
 /// An [Introspection] instance is set in most but not in all places, to know where you can use it take a look at the
 /// [IntrospectionAccess] annotation on user implementable methods provided by the framework.
 ///
@@ -58,13 +58,13 @@ import java.util.NoSuchElementException;
 /// It's important to know that the events are published by multiple threads perhaps concurrently, thus [Subscriber]s
 /// may be also called concurrently. They have to be written with threadsafety in mind!
 ///
-/// @implNote Internally [Introspection#access()] uses [ScopedValue]s.
+/// @implNote Internally [Introspection#accessScoped()] uses [ScopedValue]s.
 ///           For further clarification on how this works with [Thread]s take a look there.
 public sealed interface Introspection permits IntrospectionImpl {
 
-    /// Checks whether an [Introspection] instance can be access by [Introspection#access()]
+    /// Checks whether an [Introspection] instance can be access by [Introspection#accessScoped()]
     ///
-    /// @return `true` when you can use [Introspection#access()], `false` when not.
+    /// @return `true` when you can use [Introspection#accessScoped()], `false` when not.
     /// @see ScopedValue#isBound()
     static boolean accessible() {
         return IntrospectionImpl.INTROSPECTION.isBound();
@@ -78,23 +78,23 @@ public sealed interface Introspection permits IntrospectionImpl {
     ///
     /// @throws NoSuchElementException if no [Introspection] instance is set
     /// @see ScopedValue#get()
-    static Introspection access() {
+    static Introspection accessScoped() {
         return IntrospectionImpl.INTROSPECTION.get();
     }
 
 
     /// Shorthand for `Introspection.access().get(Property)`.
     ///
-    /// This method is scope dependent, see [#access()].
+    /// This method is scope dependent, see [#accessScoped()].
     ///
     /// @param property the requested [Property]
     /// @return the property's value
     /// @throws NoSuchElementException if no [Introspection] instance is set
     ///
-    /// @see Introspection#access()
+    /// @see Introspection#accessScoped()
     /// @see Introspection#get(Property)
-    static <T> T accGet(Property<T> property) {
-        return access().get(property);
+    static <T> T scopedGet(Property<T> property) {
+        return accessScoped().get(property);
     }
 
     /// Returns the current [Stage] of this introspection instance.

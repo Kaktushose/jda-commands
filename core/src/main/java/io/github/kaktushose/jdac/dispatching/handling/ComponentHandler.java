@@ -23,7 +23,7 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
     }
 
     @Override
-    protected Ingredients prepare(GenericComponentInteractionCreateEvent genericEvent, Runtime runtime) {
+    protected PreparationResult prepare(GenericComponentInteractionCreateEvent genericEvent, Runtime runtime) {
         var component = interactionRegistry.find(ComponentDefinition.class, true, it ->
                 it.definitionId().equals(CustomId.fromMerged(genericEvent.getComponentId()).definitionId())
         );
@@ -36,6 +36,6 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
         };
         arguments.addFirst(new ComponentEvent());
 
-        return new Ingredients(component, arguments);
+        return new PreparationResult(component, arguments);
     }
 }
