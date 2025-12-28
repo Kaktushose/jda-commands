@@ -3,7 +3,6 @@ package io.github.kaktushose.jdac.message.resolver.internal;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
@@ -19,10 +18,6 @@ public final class JsonResolver implements Resolver<JsonNode> {
     private final Resolver<String> resolver;
     private final Set<String> fields;
 
-    /// Constructs a new JsonResolver.
-    ///
-    /// @param resolver the [MessageResolver] to use for localization
-    /// @param fields the JSON fields to localize.  An empty [Set] indicates that all fields will be localized
     public JsonResolver(Resolver<String> resolver, Set<String> fields) {
         this.resolver = resolver;
         this.fields = fields;

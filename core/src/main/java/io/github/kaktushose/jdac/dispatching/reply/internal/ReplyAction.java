@@ -97,7 +97,7 @@ public final class ReplyAction {
         return reply();
     }
 
-    public Message reply(List<MessageTopLevelComponentUnion> components, Entry... placeholder) {
+    public Message reply(Collection<MessageTopLevelComponentUnion> components, Entry... placeholder) {
         components = componentResolver.resolve(components, getUserLocale(), Entry.toMap(placeholder));
         builder.closeFiles().clear().useComponentsV2().addComponents(components);
         return reply();
@@ -105,8 +105,7 @@ public final class ReplyAction {
 
     public Message reply(ComponentReplacer replacer, Entry... placeholder) {
         var components = builder.getComponentTree().replace(replacer).getComponents();
-        components = componentResolver.resolve(components, getUserLocale(), Entry.toMap(placeholder));
-        builder.setComponents(components);
+        builder.setComponents(componentResolver.resolve(components, getUserLocale(), Entry.toMap(placeholder)));
         return reply();
     }
 
