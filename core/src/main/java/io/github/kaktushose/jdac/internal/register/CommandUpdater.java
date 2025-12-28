@@ -24,18 +24,18 @@ import java.util.stream.Stream;
 /// @implNote Uses a [CommandTree] to properly transpile all [SlashCommandDefinition]s to [SlashCommandData].
 /// @see CommandTree
 @ApiStatus.Internal
-public final class SlashCommandUpdater {
+public final class CommandUpdater {
 
-    private static final Logger log = LoggerFactory.getLogger(SlashCommandUpdater.class);
+    private static final Logger log = LoggerFactory.getLogger(CommandUpdater.class);
     private final JDAContext jdaContext;
     private final GuildScopeProvider guildScopeProvider;
     private final InteractionRegistry interactionRegistry;
     private final LocalizationFunction localizationFunction;
 
-    /// Constructs a new SlashCommandUpdater.
-    public SlashCommandUpdater(JDAContext jdaContext,
-                               GuildScopeProvider guildScopeProvider,
-                               InteractionRegistry registry) {
+    /// Constructs a new CommandUpdater.
+    public CommandUpdater(JDAContext jdaContext,
+                          GuildScopeProvider guildScopeProvider,
+                          InteractionRegistry registry) {
         this.jdaContext = jdaContext;
         this.guildScopeProvider = guildScopeProvider;
         this.interactionRegistry = registry;

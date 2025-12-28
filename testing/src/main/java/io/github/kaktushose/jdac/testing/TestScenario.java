@@ -151,7 +151,7 @@ public class TestScenario {
             when(jda.getGuildCache()).thenReturn(snowflakeCacheView);
             when(jda.retrieveApplicationEmojis()).thenReturn(new AppEmojiRestAction());
 
-            // cache commands passed to SlashCommandUpdater
+            // cache commands passed to CommandUpdater
             List<CommandData> commands = new ArrayList<>();
             CommandListUpdateAction commandListUpdateAction = mock(CommandListUpdateAction.class);
             when(jda.updateCommands()).thenReturn(commandListUpdateAction);

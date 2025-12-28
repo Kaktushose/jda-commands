@@ -15,7 +15,7 @@ import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.internal.JDAContext;
-import io.github.kaktushose.jdac.internal.register.SlashCommandUpdater;
+import io.github.kaktushose.jdac.internal.register.CommandUpdater;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
@@ -40,7 +40,7 @@ public final class JDACommands {
     private final JDAContext jdaContext;
     private final JDAEventListener jdaEventListener;
     private final FrameworkContext frameworkContext;
-    private final SlashCommandUpdater updater;
+    private final CommandUpdater updater;
     private final boolean shutdownJDA;
 
     JDACommands(FrameworkContext frameworkContext,
@@ -49,7 +49,7 @@ public final class JDACommands {
                 boolean shutdownJDA) {
         this.frameworkContext = frameworkContext;
         this.jdaContext = jdaContext;
-        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, frameworkContext.interactionRegistry());
+        this.updater = new CommandUpdater(jdaContext, guildScopeProvider, frameworkContext.interactionRegistry());
         this.jdaEventListener = new JDAEventListener(frameworkContext);
         this.shutdownJDA = shutdownJDA;
     }
