@@ -2,7 +2,7 @@ package io.github.kaktushose.jdac.dispatching.reply.internal;
 
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.exceptions.InternalException;
-import io.github.kaktushose.jdac.message.ComponentResolver;
+import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
@@ -83,7 +83,7 @@ public final class ReplyAction {
     }
 
     public Message reply(String message, Entry... placeholder) {
-        builder.setContent(getFramework().messageResolver().resolve(message, getUserLocale(), placeholder));
+        builder.setContent(getFramework().messageResolver().resolve(message, getUserLocale(), Entry.toMap(placeholder)));
         return reply();
     }
 
@@ -97,7 +97,7 @@ public final class ReplyAction {
         return reply();
     }
 
-    public Message reply(List<MessageTopLevelComponentUnion> components, Entry... placeholder) {
+    public Message reply(Collection<MessageTopLevelComponentUnion> components, Entry... placeholder) {
         components = componentResolver.resolve(components, getUserLocale(), Entry.toMap(placeholder));
         builder.closeFiles().clear().useComponentsV2().addComponents(components);
         return reply();
@@ -105,8 +105,7 @@ public final class ReplyAction {
 
     public Message reply(ComponentReplacer replacer, Entry... placeholder) {
         var components = builder.getComponentTree().replace(replacer).getComponents();
-        components = componentResolver.resolve(components, getUserLocale(), Entry.toMap(placeholder));
-        builder.setComponents(components);
+        builder.setComponents(componentResolver.resolve(components, getUserLocale(), Entry.toMap(placeholder)));
         return reply();
     }
 

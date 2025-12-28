@@ -15,7 +15,7 @@ import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.internal.Helpers;
-import io.github.kaktushose.jdac.message.MessageResolver;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiSource;
 import io.github.kaktushose.jdac.message.i18n.I18n;
