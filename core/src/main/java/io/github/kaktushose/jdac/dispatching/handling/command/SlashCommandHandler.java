@@ -48,7 +48,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
 
     @Override
     @Nullable
-    protected EventHandler.PreparationResult prepare(SlashCommandInteractionEvent event, Runtime runtime) {
+    protected PreparationResult prepare(SlashCommandInteractionEvent event, Runtime runtime) {
         SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class, true, it ->
                 it.name().equals(event.getFullCommandName())
         );

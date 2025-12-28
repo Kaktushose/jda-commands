@@ -21,7 +21,7 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
 
     @Nullable
     @Override
-    protected EventHandler.PreparationResult prepare(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
+    protected PreparationResult prepare(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
         CommandAutoCompleteInteraction interaction = event.getInteraction();
 
         return interactionRegistry.find(SlashCommandDefinition.class, it -> it.name().equals(interaction.getFullCommandName()))
