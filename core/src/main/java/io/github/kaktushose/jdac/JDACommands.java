@@ -15,17 +15,21 @@ import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.internal.JDAContext;
-import io.github.kaktushose.jdac.internal.register.SlashCommandUpdater;
-import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.internal.register.CommandUpdater;
 import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /// The main entry point of the JDA-Commands framework. This class includes methods to manage the overall framework
@@ -37,7 +41,7 @@ public final class JDACommands {
     private final JDAContext jdaContext;
     private final JDAEventListener jdaEventListener;
     private final FrameworkContext frameworkContext;
-    private final SlashCommandUpdater updater;
+    private final CommandUpdater updater;
     private final boolean shutdownJDA;
 
     JDACommands(FrameworkContext frameworkContext,
@@ -46,7 +50,7 @@ public final class JDACommands {
                 boolean shutdownJDA) {
         this.frameworkContext = frameworkContext;
         this.jdaContext = jdaContext;
-        this.updater = new SlashCommandUpdater(jdaContext, guildScopeProvider, frameworkContext.interactionRegistry());
+        this.updater = new CommandUpdater(jdaContext, guildScopeProvider, frameworkContext.interactionRegistry());
         this.jdaEventListener = new JDAEventListener(frameworkContext);
         this.shutdownJDA = shutdownJDA;
     }
@@ -57,7 +61,7 @@ public final class JDACommands {
     /// If any exception while configuration/start of JDA-Commands is thrown, the JDA instance if shutdown per default.
     /// This can be configured by setting [JDACBuilder#shutdownJDA(boolean)] to `false`.
     ///
-    /// @param jda      the corresponding [JDA] instance
+    /// @param jda the corresponding [JDA] instance
     /// @return a new JDACommands instance
     public static JDACommands start(JDA jda) {
         return builder(jda).start();
@@ -77,7 +81,7 @@ public final class JDACommands {
 
     /// Create a new builder.
     ///
-    /// @param jda      the corresponding [JDA] instance
+    /// @param jda the corresponding [JDA] instance
     /// @return a new [JDACBuilder]
     public static JDACBuilder builder(JDA jda) {
         return new JDACBuilder(new JDAContext(jda));
@@ -115,7 +119,14 @@ public final class JDACommands {
 
     /// Updates all slash commands that are registered with [CommandScope#GUILD]
     public void updateGuildCommands() {
-        updater.updateGuildCommands();
+        updateGuildCommands(List.of());
+    }
+
+    /// Updates all slash commands that are registered with [CommandScope#GUILD] for the given [Guild]s.
+    ///
+    /// @param guilds a [Collection] of guilds to update.
+    public void updateGuildCommands(Collection<Guild> guilds) {
+        updater.updateGuildCommands(Objects.requireNonNull(guilds));
     }
 
     /// Exposes the localization functionality of JDA-Commands to be used elsewhere in the application
