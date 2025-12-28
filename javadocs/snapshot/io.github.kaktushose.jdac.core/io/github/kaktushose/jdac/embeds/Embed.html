@@ -58,8 +58,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#of(net.dv8tion.jda.api.EmbedBuilder,java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.MessageResolver)" tabindex="0">of(EmbedBuilder, String, Map, MessageResolver)</a></li>
-<li><a href="#of(net.dv8tion.jda.api.utils.data.DataObject,java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.MessageResolver)" tabindex="0">of(DataObject, String, Map, MessageResolver)</a></li>
+<li><a href="#of(net.dv8tion.jda.api.EmbedBuilder,java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.resolver.MessageResolver)" tabindex="0">of(EmbedBuilder, String, Map, MessageResolver)</a></li>
+<li><a href="#of(net.dv8tion.jda.api.utils.data.DataObject,java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.resolver.MessageResolver)" tabindex="0">of(DataObject, String, Map, MessageResolver)</a></li>
 <li><a href="#locale(java.util.Locale)" tabindex="0">locale(Locale)</a></li>
 <li><a href="#name()" tabindex="0">name()</a></li>
 <li><a href="#title(java.lang.String)" tabindex="0">title(String)</a></li>
@@ -210,18 +210,18 @@ loaded via <a href="EmbedDataSource.html" title="interface in io.github.kaktusho
 <div class="block">Gets the name of this embed.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Embed.html" title="class in io.github.kaktushose.jdac.embeds">Embed</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(net.dv8tion.jda.api.EmbedBuilder,java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.MessageResolver)" class="member-name-link">of</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html" title="class or interface in net.dv8tion.jda.api" class="external-link">EmbedBuilder</a>&nbsp;embedBuilder,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(net.dv8tion.jda.api.EmbedBuilder,java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.resolver.MessageResolver)" class="member-name-link">of</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html" title="class or interface in net.dv8tion.jda.api" class="external-link">EmbedBuilder</a>&nbsp;embedBuilder,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../message/MessageResolver.html" title="class in io.github.kaktushose.jdac.message">MessageResolver</a>&nbsp;messageResolver)</code></div>
+ <a href="../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Constructs a new <a href="Embed.html" title="class in io.github.kaktushose.jdac.embeds"><code>Embed</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Embed.html" title="class in io.github.kaktushose.jdac.embeds">Embed</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(net.dv8tion.jda.api.utils.data.DataObject,java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.MessageResolver)" class="member-name-link">of</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/data/DataObject.html" title="class or interface in net.dv8tion.jda.api.utils.data" class="external-link">DataObject</a>&nbsp;object,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(net.dv8tion.jda.api.utils.data.DataObject,java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.resolver.MessageResolver)" class="member-name-link">of</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/data/DataObject.html" title="class or interface in net.dv8tion.jda.api.utils.data" class="external-link">DataObject</a>&nbsp;object,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../message/MessageResolver.html" title="class in io.github.kaktushose.jdac.message">MessageResolver</a>&nbsp;messageResolver)</code></div>
+ <a href="../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Constructs a new <a href="Embed.html" title="class in io.github.kaktushose.jdac.embeds"><code>Embed</code></a>.</div>
 </div>
@@ -289,13 +289,13 @@ loaded via <a href="EmbedDataSource.html" title="interface in io.github.kaktusho
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="of(net.dv8tion.jda.api.EmbedBuilder,java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.MessageResolver)">
+<section class="detail" id="of(net.dv8tion.jda.api.EmbedBuilder,java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.resolver.MessageResolver)">
 <h3>of</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Embed.html" title="class in io.github.kaktushose.jdac.embeds">Embed</a></span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/EmbedBuilder.html" title="class or interface in net.dv8tion.jda.api" class="external-link">EmbedBuilder</a>&nbsp;embedBuilder,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../message/MessageResolver.html" title="class in io.github.kaktushose.jdac.message">MessageResolver</a>&nbsp;messageResolver)</span></div>
+ <a href="../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver)</span></div>
 <div class="block">Constructs a new <a href="Embed.html" title="class in io.github.kaktushose.jdac.embeds"><code>Embed</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -307,13 +307,13 @@ loaded via <a href="EmbedDataSource.html" title="interface in io.github.kaktusho
 </section>
 </li>
 <li>
-<section class="detail" id="of(net.dv8tion.jda.api.utils.data.DataObject,java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.MessageResolver)">
+<section class="detail" id="of(net.dv8tion.jda.api.utils.data.DataObject,java.lang.String,java.util.Map,io.github.kaktushose.jdac.message.resolver.MessageResolver)">
 <h3>of</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Embed.html" title="class in io.github.kaktushose.jdac.embeds">Embed</a></span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/data/DataObject.html" title="class or interface in net.dv8tion.jda.api.utils.data" class="external-link">DataObject</a>&nbsp;object,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../message/MessageResolver.html" title="class in io.github.kaktushose.jdac.message">MessageResolver</a>&nbsp;messageResolver)</span></div>
+ <a href="../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver)</span></div>
 <div class="block">Constructs a new <a href="Embed.html" title="class in io.github.kaktushose.jdac.embeds"><code>Embed</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>

@@ -43,12 +43,12 @@ io.github.kaktushose.jdac.exceptions
 io.github.kaktushose.jdac.exceptions.internal
 io.github.kaktushose.jdac.internal
 io.github.kaktushose.jdac.internal.register
-io.github.kaktushose.jdac.message
 io.github.kaktushose.jdac.message.emoji
 io.github.kaktushose.jdac.message.i18n
 io.github.kaktushose.jdac.message.i18n.internal
-io.github.kaktushose.jdac.message.internal
 io.github.kaktushose.jdac.message.placeholder
+io.github.kaktushose.jdac.message.resolver
+io.github.kaktushose.jdac.message.resolver.internal
 io.github.kaktushose.jdac.permissions
 io.github.kaktushose.jdac.scope
 module:io.github.kaktushose.jdac.guice

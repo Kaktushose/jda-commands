@@ -59,7 +59,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(java.util.Collection,java.util.Map,io.github.kaktushose.jdac.message.MessageResolver)" tabindex="0">Embeds(Collection, Map, MessageResolver)</a></li>
+<li><a href="#%3Cinit%3E(java.util.Collection,java.util.Map,io.github.kaktushose.jdac.message.resolver.MessageResolver)" tabindex="0">Embeds(Collection, Map, MessageResolver)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -96,7 +96,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations">@Internal
-</span><span class="modifiers">public record </span><span class="element-name type-name-label">Embeds</span>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a>&gt;&nbsp;sources, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders, <a href="../../message/MessageResolver.html" title="class in io.github.kaktushose.jdac.message">MessageResolver</a>&nbsp;messageResolver)
+</span><span class="modifiers">public record </span><span class="element-name type-name-label">Embeds</span>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a>&gt;&nbsp;sources, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders, <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Container for immutably holding the embed configuration made by <a href="../EmbedConfig.html" title="interface in io.github.kaktushose.jdac.embeds"><code>EmbedConfig</code></a>.</div>
 </div>
@@ -126,9 +126,9 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.util.Collection,java.util.Map,io.github.kaktushose.jdac.message.MessageResolver)" class="member-name-link">Embeds</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a>&gt;&nbsp;sources,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.util.Collection,java.util.Map,io.github.kaktushose.jdac.message.resolver.MessageResolver)" class="member-name-link">Embeds</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a>&gt;&nbsp;sources,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../../message/MessageResolver.html" title="class in io.github.kaktushose.jdac.message">MessageResolver</a>&nbsp;messageResolver)</code></div>
+ <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>Embeds</code> record class.</div>
 </div>
@@ -172,7 +172,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../message/MessageResolver.html" title="class in io.github.kaktushose.jdac.message">MessageResolver</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#messageResolver()" class="member-name-link">messageResolver</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>messageResolver</code> record component.</div>
@@ -210,12 +210,12 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(java.util.Collection,java.util.Map,io.github.kaktushose.jdac.message.MessageResolver)">
+<section class="detail" id="&lt;init&gt;(java.util.Collection,java.util.Map,io.github.kaktushose.jdac.message.resolver.MessageResolver)">
 <h3>Embeds</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Embeds</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a>&gt;&nbsp;sources,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders,
- <a href="../../message/MessageResolver.html" title="class in io.github.kaktushose.jdac.message">MessageResolver</a>&nbsp;messageResolver)</span></div>
+ <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver)</span></div>
 <div class="block">Creates an instance of a <code>Embeds</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -362,7 +362,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="messageResolver()">
 <h3>messageResolver</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../message/MessageResolver.html" title="class in io.github.kaktushose.jdac.message">MessageResolver</a></span>&nbsp;<span class="element-name">messageResolver</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a></span>&nbsp;<span class="element-name">messageResolver</span>()</div>
 <div class="block">Returns the value of the <code>messageResolver</code> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
