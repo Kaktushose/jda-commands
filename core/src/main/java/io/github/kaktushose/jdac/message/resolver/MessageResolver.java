@@ -47,19 +47,6 @@ public final class MessageResolver implements Resolver<String> {
         return emojiResolver.resolve(localized);
     }
 
-    /// First resolves the variables in the given message (see [PlaceholderResolver#resolve(String, Map)]), then
-    /// localizes the resulting message (see [I18n#localize(Locale, String, Entry...)]) and lastly attempts to
-    /// resolve emojis (see [EmojiResolver#resolve(String)]).
-    ///
-    /// @param message the message to be resolved
-    /// @param locale the locale to use for i18n
-    /// @param placeholder the placeholders to use for i18n
-    ///
-    /// @return the resolved message
-    public String resolve(String message, Locale locale, Entry... placeholder) {
-        return resolve(message, locale, Entry.toMap(placeholder));
-    }
-
     /// Gets the underlying [I18n] instance
     ///
     /// @return the used [I18n] instance

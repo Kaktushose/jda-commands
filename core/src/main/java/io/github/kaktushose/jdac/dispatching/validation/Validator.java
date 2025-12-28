@@ -83,7 +83,9 @@ public interface Validator<T, A extends Annotation> {
         /// @see MessageResolver
         /// @see I18n
         public MessageCreateData failMessage(String content, Entry... placeholder) {
-            String localized = invocationContext.util().messageResolver().resolve(content, invocationContext.event().getUserLocale().toLocale(), placeholder);
+            String localized = invocationContext.util()
+                    .messageResolver()
+                    .resolve(content, invocationContext.event().getUserLocale().toLocale(), Entry.toMap(placeholder));
 
             return errorMessageFactory.getConstraintFailedMessage(invocationContext, localized);
         }

@@ -83,7 +83,7 @@ public final class ReplyAction {
     }
 
     public Message reply(String message, Entry... placeholder) {
-        builder.setContent(getFramework().messageResolver().resolve(message, getUserLocale(), placeholder));
+        builder.setContent(getFramework().messageResolver().resolve(message, getUserLocale(), Entry.toMap(placeholder)));
         return reply();
     }
 

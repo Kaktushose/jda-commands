@@ -131,7 +131,7 @@ public class ModalBuilder {
     @Nullable
     private String resolve(@Nullable String val, Locale locale, Entry... entries) {
         if (val == null) return null;
-        return event.messageResolver().resolve(val, locale, entries);
+        return event.messageResolver().resolve(val, locale, Entry.toMap(entries));
     }
 
 }
