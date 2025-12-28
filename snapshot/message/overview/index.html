@@ -1669,7 +1669,7 @@ strings used in framework annotations and modals and much more.</p>
 support for <a href="../placeholder/">placeholders</a> and <a href="../emojis/">Unicode and app emojis</a>. In many places in the framework,
 these feature are applied <a href="../localization/#implicit-localization">implicitly</a>.</p>
 <h2 id="resolution">Resolution<a class="headerlink" href="#resolution" title="Permanent link">&para;</a></h2>
-<p>The features listed above are all pipelined together with help of the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/MessageResolver.html"><code>MessageResolver</code></a>.</p>
+<p>The features listed above are all pipelined together with help of the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html"><code>MessageResolver</code></a>.</p>
 <p>They are applied to the string provided by the user in following order:</p>
 <ol>
 <li><a href="../placeholder/">resolution of placeholders</a></li>
@@ -1678,7 +1678,7 @@ these feature are applied <a href="../localization/#implicit-localization">impli
 </ol>
 <p>The resulting string is then send to Discord or returned to the user.</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<p>Instead of manually using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/MessageResolver.html"><code>MessageResolver</code></a>
+<p>Instead of manually using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html"><code>MessageResolver</code></a>
 class, JDA-Commands allows for implicit resolution
 of messages in many common please. These include:</p>
 <ul>
@@ -1691,7 +1691,7 @@ of messages in many common please. These include:</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Message resolution of content in <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html"><code>MessageCreateData</code></a> is not supported implicitly.
-You have to use <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/MessageResolver.html"><code>MessageResolver</code></a>
+You have to use <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html"><code>MessageResolver</code></a>
 to resolve such messages.</p>
 </div>
 
