@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.configuration.internal;
 
+import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.configuration.Extension;
 import io.github.kaktushose.jdac.configuration.Property;
 import org.jetbrains.annotations.ApiStatus;
@@ -12,13 +13,13 @@ import java.util.Map;
 import java.util.ServiceLoader;
 
 @ApiStatus.Internal
-class ExtensionLoader {
-    private static final Logger log = LoggerFactory.getLogger(ExtensionLoader.class);
+public class Extensions {
+    private static final Logger log = LoggerFactory.getLogger(Extensions.class);
 
     private final Collection<Extension<Extension.Data>> loaded = new ArrayList<>();
 
     @SuppressWarnings("unchecked")
-    void load(Resolver resolver) {
+    public void load(Resolver resolver) {
         Map<Class<? extends Extension.Data>, Extension.Data> extensionData = resolver.get(Property.EXTENSION_DATA);
 
         ServiceLoader.load(Extension.class)
@@ -31,7 +32,7 @@ class ExtensionLoader {
                 .forEach(loaded::add);
     }
 
-    void register(Properties properties) {
+    public void register(Properties properties) {
         for (Extension<Extension.Data> extension : loaded) {
             if (extension.getClass().getName().startsWith("io.github.kaktushose.jdac")) {
                 ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.addAll(extension.properties()));
@@ -39,5 +40,9 @@ class ExtensionLoader {
                 properties.addAll(extension.properties());
             }
         }
+    }
+
+    public void callOnStart(JDACommands jdaCommands) {
+        loaded.forEach(ext -> ext.onStart(jdaCommands));
     }
 }

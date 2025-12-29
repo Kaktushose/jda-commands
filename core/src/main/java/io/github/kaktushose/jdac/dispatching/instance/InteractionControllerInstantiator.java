@@ -1,13 +1,12 @@
 package io.github.kaktushose.jdac.dispatching.instance;
 
+import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
-import io.github.kaktushose.jdac.dispatching.Runtime;
-import net.dv8tion.jda.api.JDA;
+import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 
 /// An [InteractionControllerInstantiator] is used get instances of classes annotated with [Interaction], if needed creating those.
-///
-/// At the time of [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) creation, [#forRuntime(String, JDA)] is called,
-/// allowing the InteractionControllerInstantiator to provide an instance that has not to be thread safe and is bound to one Runtime.
 ///
 /// Please also note that per [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) there can be multiple
 /// classes annotated with [Interaction] but there can be only one instance per class of those per [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
@@ -17,29 +16,11 @@ public interface InteractionControllerInstantiator {
 
     /// This method will be called each time an instance of a class annotated with [Interaction] is needed.
     ///
-    /// @param clazz   the [Class] of needed instance
-    /// @param context a context that gives additional useful information or provide some needed functionality
-    <T> T instance(Class<T> clazz, Context context);
-
-    /// Called each time a new [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) is created.
+    /// The provided [Introspection] instance or [Introspection#accessScoped()] can be used to retrieve other components/parts
+    /// of this framework, e.g. [MessageResolver].
     ///
-    /// @param id  the runtime id
-    /// @param jda the [JDA] instance associated with the event responsible for creating the new Runtime instance
-    /// @return a specific instance of [InteractionControllerInstantiator] belonging to provided runtime.
-    default InteractionControllerInstantiator forRuntime(String id, JDA jda) {
-        return this;
-    }
-
-    class Context {
-        private final Runtime runtime;
-
-        public Context(Runtime runtime) {
-            this.runtime = runtime;
-        }
-
-        /// the runtime id
-        public String runtimeId() {
-            return runtime.id();
-        }
-    }
+    /// @param clazz   the [Class] of needed instance
+    /// @param introspection the [Introspection] instance of this runtime (stage = [Stage#RUNTIME]).
+    @IntrospectionAccess(Stage.RUNTIME)
+    <T> T instance(Class<T> clazz, Introspection introspection);
 }

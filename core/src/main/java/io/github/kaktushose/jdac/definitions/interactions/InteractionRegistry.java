@@ -14,16 +14,14 @@ import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringS
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.introspection.Definitions;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 
 /// Central registry for all [InteractionDefinition]s.
@@ -31,8 +29,8 @@ public record InteractionRegistry(Validators validators,
                                   I18n i18n,
                                   LocalizationFunction localizationFunction,
                                   Descriptor descriptor,
-                                  Set<Definition> definitions
-) {
+                                  Set<InteractionDefinition> definitions
+) implements Definitions {
 
     private static final Logger log = LoggerFactory.getLogger(InteractionRegistry.class);
 
@@ -79,7 +77,7 @@ public record InteractionRegistry(Validators validators,
                 definitions.size() - oldSize);
     }
 
-    private Collection<Definition> indexInteractionClass(ClassDescription clazz, CommandDefinition.CommandConfig globalCommandConfig, Collection<AutoCompleteDefinition> autoCompletes) {
+    private Collection<InteractionDefinition> indexInteractionClass(ClassDescription clazz, CommandDefinition.CommandConfig globalCommandConfig, Collection<AutoCompleteDefinition> autoCompletes) {
         var interaction = clazz.annotation(Interaction.class).orElseThrow();
 
         final Set<String> permissions = clazz.annotation(Permissions.class).map(value -> Set.of(value.value())).orElseGet(Set::of);
@@ -113,7 +111,7 @@ public record InteractionRegistry(Validators validators,
     }
 
 
-    private Set<Definition> interactionDefinitions(ClassDescription clazz,
+    private Set<InteractionDefinition> interactionDefinitions(ClassDescription clazz,
                                                    Validators validators,
                                                    LocalizationFunction localizationFunction,
                                                    I18n i18n,
@@ -121,7 +119,7 @@ public record InteractionRegistry(Validators validators,
                                                    Set<String> permissions,
                                                    Collection<AutoCompleteDefinition> autocompletes,
                                                    CommandDefinition.CommandConfig globalCommandConfig) {
-        Set<Definition> definitions = new HashSet<>(autocompletes);
+        Set<InteractionDefinition> definitions = new HashSet<>(autocompletes);
         for (MethodDescription method : clazz.methods()) {
             final MethodBuildContext context = new MethodBuildContext(
                     validators,
@@ -137,7 +135,7 @@ public record InteractionRegistry(Validators validators,
 
 
             ScopedValue.where(InvalidDeclarationException.CONTEXT, method).run(() -> {
-                Definition definition = construct(method, context);
+                InteractionDefinition definition = construct(method, context);
 
                 if (definition != null) {
                     log.debug("Found interaction: {}", definition);
@@ -149,7 +147,7 @@ public record InteractionRegistry(Validators validators,
     }
 
     @Nullable
-    private Definition construct(MethodDescription method, MethodBuildContext context) {
+    private InteractionDefinition construct(MethodDescription method, MethodBuildContext context) {
         // index commands
         if (method.annotation(Command.class).isPresent()) {
             Command command = method.annotation(Command.class).get();
@@ -202,6 +200,11 @@ public record InteractionRegistry(Validators validators,
                 );
     }
 
+    @Override
+    public <T extends Definition> T findFirst(Class<T> type, Predicate<T> predicate) {
+        return find(type, false, predicate);
+    }
+
     /// Attempts to find all [Definition]s of type [T] based on the given [Predicate].
     ///
     /// @param type      the type of the [Definition] to find
@@ -211,11 +214,17 @@ public record InteractionRegistry(Validators validators,
     /// @throws IllegalStateException    if no [Definition] was found, although this mandatory should have been the case.
     ///                                  This is a rare occasion and can be considered a framework bug
     /// @throws IllegalArgumentException if no [Definition] was found, because the [Predicate] didn't include any elements
+    @Override
     public <T extends Definition> Collection<T> find(Class<T> type, Predicate<T> predicate) {
         return definitions.stream()
                 .filter(type::isInstance)
                 .map(type::cast)
                 .filter(predicate)
                 .toList();
+    }
+
+    @Override
+    public Collection<InteractionDefinition> all() {
+        return Collections.unmodifiableSet(definitions);
     }
 }
