@@ -3,14 +3,18 @@ package io.github.kaktushose.jdac.configuration.internal;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
+import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.*;
+import java.util.function.Function;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 @ApiStatus.Internal
 public class Properties {
+
     public static ScopedValue<Boolean> INSIDE_FRAMEWORK = ScopedValue.newInstance();
 
     public static final int FALLBACK_PRIORITY = 0;
@@ -55,10 +59,37 @@ public class Properties {
     }
 
     public Resolver createResolver() {
-        ExtensionLoader extensionLoader = new ExtensionLoader();
-        extensionLoader.load(new Resolver(properties)); // Resolver just for user settable types
-        extensionLoader.register(this);
+        return new Resolver(this.properties);
+    }
 
-        return new Resolver(properties);
+    Map<Property<?>, SortedSet<PropertyProvider<?>>> properties() {
+        return properties;
+    }
+
+    public static class Builder {
+        private final Properties properties = new Properties();
+        private boolean restricted = false;
+
+        public static Builder newRestricted() {
+            return new Builder().restricted(true);
+        }
+
+        public Builder restricted(boolean restricted) {
+            this.restricted = restricted;
+            return this;
+        }
+
+        public <T> Builder addFallback(Property<T> type, Function<PropertyProvider.Context, T> supplier) {
+            ScopedValue.where(Properties.INSIDE_FRAMEWORK, restricted).run(() -> properties.add(PropertyProvider.create(type, Properties.FALLBACK_PRIORITY, supplier)));
+            return this;
+        }
+
+        public Properties build() {
+            return properties;
+        }
+
+        public IntrospectionImpl createIntrospection(IntrospectionImpl introspection, Stage stage) {
+            return introspection.createSub(properties, stage);
+        }
     }
 }

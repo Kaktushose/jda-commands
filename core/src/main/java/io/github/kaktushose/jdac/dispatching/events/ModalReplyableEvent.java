@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.function.Function;
 
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getFramework;
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.getInvocationContext;
+import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.scopedInvocationContext;
+import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.scopedInteractionRegistry;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// Subtype of [ReplyableEvent] that also supports replying with a [Modal].
@@ -46,11 +46,11 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// @param callback a [Function] to dynamically modify the [Modal] before replying with it
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
     public void replyModal(String modal, Function<ModalBuilder, ModalBuilder> callback) {
-        InteractionDefinition definition = getInvocationContext().definition();
+        InteractionDefinition definition = scopedInvocationContext().definition();
 
         if (jdaEvent() instanceof IModalCallback modalCallback) {
             var definitionId = String.valueOf((definition.classDescription().name() + modal).hashCode());
-            var modalDefinition = getFramework().interactionRegistry().find(ModalDefinition.class, false, it ->
+            var modalDefinition = scopedInteractionRegistry().find(ModalDefinition.class, false, it ->
                     it.definitionId().equals(definitionId)
             );
             var builtModal = callback.apply(new ModalBuilder(this, new CustomId(runtimeId(), definitionId), modalDefinition)).build();

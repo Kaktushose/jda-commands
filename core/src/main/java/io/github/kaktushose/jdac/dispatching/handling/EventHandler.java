@@ -1,18 +1,24 @@
 package io.github.kaktushose.jdac.dispatching.handling;
 
+import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
+import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
-import io.github.kaktushose.jdac.dispatching.FrameworkContext;
 import io.github.kaktushose.jdac.dispatching.Runtime;
-import io.github.kaktushose.jdac.dispatching.adapter.internal.TypeAdapters;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
-import io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext;
 import io.github.kaktushose.jdac.dispatching.handling.command.ContextCommandHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
+import io.github.kaktushose.jdac.internal.Helpers;
+import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.InteractionFinishedEvent;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.InteractionStartEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -43,44 +49,49 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         implements BiConsumer<T, Runtime>
         permits AutoCompleteHandler, ComponentHandler, ModalHandler, ContextCommandHandler, SlashCommandHandler {
 
-    public static final ScopedValue<RichInvocationContext> RICH_INVOCATION_CONTEXT = ScopedValue.newInstance();
-
     public static final ScopedValue<Boolean> INVOCATION_PERMITTED = ScopedValue.newInstance();
 
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
-    protected final FrameworkContext context;
-    protected final Middlewares middlewares;
+    protected final IntrospectionImpl runtimeIntrospection;
     protected final InteractionRegistry interactionRegistry;
-    protected final TypeAdapters adapterRegistry;
     protected final ErrorMessageFactory errorMessageFactory;
 
-    public EventHandler(FrameworkContext context) {
-        this.context = context;
-        this.middlewares = context.middlewares();
-        this.interactionRegistry = context.interactionRegistry();
-        this.adapterRegistry = context.adapterRegistry();
-        this.errorMessageFactory = context.errorMessageFactory();
+    public EventHandler(IntrospectionImpl runtimeIntrospection) {
+        this.runtimeIntrospection = runtimeIntrospection;
+
+        this.interactionRegistry = runtimeIntrospection.get(InternalProperties.INTERACTION_REGISTRY);
+        this.errorMessageFactory = runtimeIntrospection.get(Property.ERROR_MESSAGE_FACTORY);
     }
 
     @Nullable
-    protected abstract InvocationContext<T> prepare(T event, Runtime runtime);
+    protected abstract PreparationResult prepare(T event, Runtime runtime);
 
     @Override
     public final void accept(T e, Runtime runtime) {
         log.debug("Got event {}", e);
 
-        InvocationContext<T> invocationContext = prepare(e, runtime);
+        PreparationResult preparationResult = prepare(e, runtime);
 
-        if (invocationContext == null || Thread.interrupted()) {
+        if (preparationResult == null || Thread.interrupted()) {
             log.debug("Interaction execution cancelled by preparation task");
             return;
         }
 
-        RichInvocationContext richContext = new RichInvocationContext(invocationContext, runtime);
+        InvocationContext<T> invocationContext =
+                new InvocationContext<>(e, runtime.keyValueStore(), preparationResult.definition,
+                        Helpers.replyConfig(preparationResult.definition, runtimeIntrospection.get(Property.GLOBAL_REPLY_CONFIG)),
+                        preparationResult.rawArguments);
 
-        ScopedValue.where(RICH_INVOCATION_CONTEXT, richContext).run(() -> {
+        IntrospectionImpl interactionIntrospection = Properties.Builder.newRestricted()
+                .addFallback(Property.JDA_EVENT, _ -> e)
+                .addFallback(Property.INVOCATION_CONTEXT, _ -> invocationContext)
+                .createIntrospection(this.runtimeIntrospection, Stage.INTERACTION);
+
+        ScopedValue.where(IntrospectionImpl.INTROSPECTION, interactionIntrospection).run(() -> {
             log.debug("Executing middlewares...");
+
+            Middlewares middlewares = Introspection.scopedGet(InternalProperties.MIDDLEWARES);
             middlewares.forOrdered(invocationContext.definition().classDescription().clazz(), middleware -> {
                 log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
                 middleware.accept(invocationContext);
@@ -91,17 +102,24 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                 return;
             }
 
-            invoke(invocationContext, runtime);
+            invoke(invocationContext, runtime, interactionIntrospection);
         });
     }
 
-    private void invoke(InvocationContext<T> invocation, Runtime runtime) {
+    private void invoke(InvocationContext<T> invocation, Runtime runtime, IntrospectionImpl introspection) {
         SequencedCollection<@Nullable Object> arguments = invocation.arguments();
 
         var definition = invocation.definition();
 
         log.info("Executing interaction \"{}\" for user \"{}\"", definition.displayName(), invocation.event().getUser().getEffectiveName());
         try {
+            introspection.publish(new InteractionStartEvent(invocation));
+
+            if (Thread.interrupted()) {
+                log.debug("Interaction execution cancelled by InteractionStartEvent subscriber");
+                return;
+            }
+
             log.debug("Invoking method \"{}.{}\" with following arguments: {}",
                     definition.classDescription().name(),
                     definition.methodDescription().name(),
@@ -110,38 +128,46 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             Object instance = runtime.interactionInstance(definition.classDescription().clazz());
 
             ScopedValue.where(INVOCATION_PERMITTED, true).call(() -> definition.invoke(instance, invocation));
+            introspection.publish(new InteractionFinishedEvent(invocation, null));
         } catch (Exception exception) {
-            // this unwraps the underlying error in case of an exception inside the command class
-            Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
-            log.error("Interaction execution failed!", throwable);
-
-            // 10062 is the error code for "Unknown interaction". In that case we cannot send any reply, not even the
-            // error message.
-            if (throwable instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
-                return;
-            }
-
-            // if the throwing event is a component event we should remove the component to prevent further executions
-            boolean deleted = false;
-            if (invocation.event() instanceof GenericComponentInteractionCreateEvent componentEvent) {
-                var message = componentEvent.getMessage();
-                // ugly workaround to check if the message is still valid after removing components or if we have to delete
-                // the entire message
-                var data = new MessageCreateBuilder().applyMessage(componentEvent.getMessage());
-                data.setComponents();
-                if (data.isValid()) {
-                    message.editMessageComponents().complete();
-                } else {
-                    deleted = true;
-                    message.delete().complete();
-                }
-            }
-
-            invocation.cancel(errorMessageFactory.getCommandExecutionFailedMessage(invocation, throwable));
-
-            if (invocation.event() instanceof IReplyCallback callback && !deleted) {
-                callback.getHook().editOriginalComponents().queue();
-            }
+            introspection.publish(new InteractionFinishedEvent(invocation, exception));
+            handleException(exception, invocation);
         }
     }
+
+    private void handleException(Exception exception, InvocationContext<?> invocation) {
+        // this unwraps the underlying error in case of an exception inside the command class
+        Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
+        log.error("Interaction execution failed!", throwable);
+
+        // 10062 is the error code for "Unknown interaction". In that case we cannot send any reply, not even the
+        // error message.
+        if (throwable instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
+            return;
+        }
+
+        // if the throwing event is a component event we should remove the component to prevent further executions
+        boolean deleted = false;
+        if (invocation.event() instanceof GenericComponentInteractionCreateEvent componentEvent) {
+            var message = componentEvent.getMessage();
+            // ugly workaround to check if the message is still valid after removing components or if we have to delete
+            // the entire message
+            var data = new MessageCreateBuilder().applyMessage(componentEvent.getMessage());
+            data.setComponents();
+            if (data.isValid()) {
+                message.editMessageComponents().complete();
+            } else {
+                deleted = true;
+                message.delete().complete();
+            }
+        }
+
+        invocation.cancel(errorMessageFactory.getCommandExecutionFailedMessage(invocation, throwable));
+
+        if (invocation.event() instanceof IReplyCallback callback && !deleted) {
+            callback.getHook().editOriginalComponents().queue();
+        }
+    }
+
+    public record PreparationResult(InteractionDefinition definition, SequencedCollection<@Nullable Object> rawArguments) {}
 }

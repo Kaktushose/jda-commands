@@ -4,11 +4,14 @@ import io.github.kaktushose.jdac.annotations.interactions.CommandScope;
 import io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu;
+import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.configuration.internal.Extensions;
+import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
+import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.SelectMenuDefinition;
-import io.github.kaktushose.jdac.dispatching.FrameworkContext;
 import io.github.kaktushose.jdac.dispatching.JDAEventListener;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
@@ -16,9 +19,11 @@ import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.internal.register.CommandUpdater;
-import io.github.kaktushose.jdac.message.i18n.I18n;
-import io.github.kaktushose.jdac.message.resolver.MessageResolver;
-import io.github.kaktushose.jdac.scope.GuildScopeProvider;
+import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.FrameworkShutdownEvent;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.FrameworkStartEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
@@ -38,21 +43,22 @@ import java.util.Optional;
 /// Instances of this class can be created by using one of the "start" or "builder" methods.
 public final class JDACommands {
     private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
-    private final JDAContext jdaContext;
     private final JDAEventListener jdaEventListener;
-    private final FrameworkContext frameworkContext;
     private final CommandUpdater updater;
-    private final boolean shutdownJDA;
+    private final IntrospectionImpl introspection;
 
-    JDACommands(FrameworkContext frameworkContext,
-                JDAContext jdaContext,
-                GuildScopeProvider guildScopeProvider,
-                boolean shutdownJDA) {
-        this.frameworkContext = frameworkContext;
-        this.jdaContext = jdaContext;
-        this.updater = new CommandUpdater(jdaContext, guildScopeProvider, frameworkContext.interactionRegistry());
-        this.jdaEventListener = new JDAEventListener(frameworkContext);
-        this.shutdownJDA = shutdownJDA;
+    JDACommands(IntrospectionImpl baseIntrospection) {
+        this.introspection = Properties.Builder.newRestricted()
+                .addFallback(Property.JDA_COMMANDS, _ -> this)
+                .createIntrospection(baseIntrospection, Stage.INITIALIZED);
+
+        this.updater = new CommandUpdater(
+                introspection.get(InternalProperties.JDA_CONTEXT),
+                introspection.get(Property.GUILD_SCOPE_PROVIDER),
+                introspection.get(InternalProperties.INTERACTION_REGISTRY)
+        );
+
+        this.jdaEventListener = new JDAEventListener(introspection);
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
@@ -95,13 +101,22 @@ public final class JDACommands {
         return new JDACBuilder(new JDAContext(shardManager));
     }
 
-    void start(ClassFinder classFinder) {
-        frameworkContext.interactionRegistry().index(classFinder.search(Interaction.class), frameworkContext.globalCommandConfig());
-        updater.updateAllCommands();
+    void start(Extensions extensions) {
+        ScopedValue.where(IntrospectionImpl.INTROSPECTION, introspection).run(() -> {
+            ClassFinder classFinder = introspection.get(Property.MERGED_CLASS_FINDER);
 
-        jdaContext.performTask(it -> it.addEventListener(jdaEventListener), false);
-        log.info("Finished loading!");
+            introspection.get(InternalProperties.INTERACTION_REGISTRY).index(classFinder.search(Interaction.class), introspection.get(Property.GLOBAL_COMMAND_CONFIG));
+            updater.updateAllCommands();
 
+            introspection.get(InternalProperties.JDA_CONTEXT).performTask(it -> it.addEventListener(jdaEventListener), false);
+
+            log.debug("Run Extension#onStart()");
+            extensions.callOnStart(this);
+
+            log.info("Finished loading!");
+
+            introspection.publish(new FrameworkStartEvent());
+        });
     }
 
     /// Shuts down this JDACommands instance, making it unable to receive any events from Discord.
@@ -110,9 +125,13 @@ public final class JDACommands {
     /// If [JDACBuilder#shutdownJDA()] is set to `true``, the underlying [JDA] or [ShardManager] instance will
     /// be shutdown too.
     public void shutdown() {
+        introspection.publish(new FrameworkShutdownEvent());
+
+        JDAContext jdaContext = introspection.get(InternalProperties.JDA_CONTEXT);
+
         jdaContext.performTask(jda -> jda.removeEventListener(jdaEventListener), false);
 
-        if (shutdownJDA) {
+        if (introspection.get(Property.SHUTDOWN_JDA)) {
             jdaContext.shutdown();
         }
     }
@@ -129,21 +148,6 @@ public final class JDACommands {
         updater.updateGuildCommands(Objects.requireNonNull(guilds));
     }
 
-    /// Exposes the localization functionality of JDA-Commands to be used elsewhere in the application
-    ///
-    /// @return the [I18n] instance
-    public I18n i18n() {
-        return frameworkContext.i18n();
-    }
-
-    /// Exposes the message resolver functionality of JDA-Commands to be used elsewhere in the application.
-    /// This can be used to do localization and/or resolve emoji aliases used in messages.
-    ///
-    /// @return the [MessageResolver] instance
-    public MessageResolver messageResolver() {
-        return frameworkContext.messageResolver();
-    }
-
     /// Gets a [`Button`][io.github.kaktushose.jdac.annotations.interactions.Button] based on the method name
     /// and the given class and transforms it into a JDA [Button].
     ///
@@ -154,7 +158,7 @@ public final class JDACommands {
     /// @return the JDA [Button]
     public Button getButton(Class<?> origin, String button) {
         var id = String.valueOf((origin.getName() + button).hashCode());
-        var definition = frameworkContext.interactionRegistry().find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = introspection.get(InternalProperties.INTERACTION_REGISTRY).find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
         return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
@@ -169,7 +173,7 @@ public final class JDACommands {
     /// @return the JDA [SelectMenu]
     public SelectMenu getSelectMenu(Class<?> origin, String menu) {
         var id = String.valueOf((origin.getName() + menu).hashCode());
-        var definition = frameworkContext.interactionRegistry().find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = introspection.get(InternalProperties.INTERACTION_REGISTRY).find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
         return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
@@ -181,7 +185,7 @@ public final class JDACommands {
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
-        return frameworkContext.embeds().get(name);
+        return introspection.get(InternalProperties.EMBEDS).get(name);
     }
 
     /// Gets an [Embed] based on the given name and wraps it in an [Optional].
@@ -191,11 +195,18 @@ public final class JDACommands {
     /// @param name the name of the [Embed]
     /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
     public Optional<Embed> findEmbed(String name) {
-        Embeds embeds = frameworkContext.embeds();
+        Embeds embeds = introspection.get(InternalProperties.EMBEDS);
 
         if (!embeds.exists(name)) {
             return Optional.empty();
         }
         return Optional.of(embeds.get(name));
+    }
+
+    /// Gets the [Introspection] instance with stage [Stage#INITIALIZED].
+    ///
+    /// @return the [Introspection] instance
+    public Introspection introspection() {
+        return introspection;
     }
 }

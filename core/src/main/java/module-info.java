@@ -68,6 +68,11 @@ module io.github.kaktushose.jdac.core {
     // extensions + configuration
     exports io.github.kaktushose.jdac.configuration;
 
+    // introspection
+    exports io.github.kaktushose.jdac.introspection;
+    exports io.github.kaktushose.jdac.introspection.lifecycle;
+    exports io.github.kaktushose.jdac.introspection.lifecycle.events;
+
     // i18n/messages/emojis/placeholder
     exports io.github.kaktushose.jdac.message.i18n;
     exports io.github.kaktushose.jdac.message.emoji;

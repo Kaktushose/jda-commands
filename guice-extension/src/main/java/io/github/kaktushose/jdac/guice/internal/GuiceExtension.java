@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.guice.internal;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.configuration.Extension;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
@@ -12,6 +13,10 @@ import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.guice.GuiceExtensionData;
 import io.github.kaktushose.jdac.guice.Implementation;
+import io.github.kaktushose.jdac.guice.internal.guice.GuiceExtensionModule;
+import io.github.kaktushose.jdac.guice.internal.guice.RuntimeBoundScope;
+import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
 import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
@@ -38,6 +43,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
 
     @Nullable
     private Injector injector;
+    private RuntimeBoundScope runtimeBoundScope = new RuntimeBoundScope();
 
     @Override
     public void init(@Nullable GuiceExtensionData data) {
@@ -59,7 +65,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
 
         implementations.add(provider(
                 Property.INTERACTION_CONTROLLER_INSTANTIATOR,
-                ctx -> new GuiceInteractionControllerInstantiator(ctx.get(Property.I18N), injector)
+                _ -> new GuiceInteractionControllerInstantiator(runtimeBoundScope, injector)
         ));
 
         addDynamicImplementations(implementations);
@@ -133,6 +139,13 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
                 .search(annotation, type)
                 .stream()
                 .map(injector::getInstance);
+    }
+
+    @Override
+    public void onStart(JDACommands commands) {
+        Introspection introspection = commands.introspection();
+
+        introspection.subscribe(RuntimeCloseEvent.class, (event, _) -> runtimeBoundScope.removeRuntime(event.runtimeId()));
     }
 
     @Override

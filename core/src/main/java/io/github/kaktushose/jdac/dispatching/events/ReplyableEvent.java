@@ -15,7 +15,6 @@ import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
-import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
@@ -39,7 +38,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import static io.github.kaktushose.jdac.dispatching.context.internal.RichInvocationContext.*;
+import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
 
 
 /// Subtype of [Event] that supports replying to the [GenericInteractionCreateEvent] with text messages.
@@ -74,7 +73,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// Use [#reply(String, Entry...)] to reply directly.
     public void deferReply() {
-        deferReply(getReplyConfig().ephemeral());
+        deferReply(scopedReplyConfig().ephemeral());
     }
 
     /// Acknowledge this interaction and defer the reply to a later time.
@@ -143,9 +142,9 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     @SuppressWarnings("unchecked")
     private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(String component, @Nullable Class<?> origin, Class<E> type) {
-        var className = origin == null ? getInvocationContext().definition().classDescription().name() : origin.getName();
+        var className = origin == null ? scopedInvocationContext().definition().classDescription().name() : origin.getName();
         var id = String.valueOf((className + component).hashCode());
-        var definition = getFramework().interactionRegistry().find(type, false, it -> it.definitionId().equals(id));
+        var definition = scopedInteractionRegistry().find(type, false, it -> it.definitionId().equals(id));
         return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
     }
 
@@ -157,7 +156,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
-        return getFramework().embeds().get(name, jdaEvent().getUserLocale().toLocale());
+        return scopedEmbeds().get(name, jdaEvent().getUserLocale().toLocale());
     }
 
     /// Gets an [Embed] based on the given name and wraps it in an [Optional].
@@ -167,11 +166,10 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param name the name of the [Embed]
     /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
     public Optional<Embed> findEmbed(String name) {
-        Embeds embeds = getFramework().embeds();
-        if (!embeds.exists(name)) {
+        if (!scopedEmbeds().exists(name)) {
             return Optional.empty();
         }
-        return Optional.of(embeds.get(name));
+        return Optional.of(scopedEmbeds().get(name));
     }
 
     /// Entry point for configuring a reply.
@@ -181,7 +179,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @return a new [ConfigurableReply]
     /// @see ConfigurableReply
     public ConfigurableReply with() {
-        return new ConfigurableReply(getReplyConfig());
+        return new ConfigurableReply(scopedReplyConfig());
     }
 
     /// Acknowledgement of this event with V2 Components.
@@ -255,7 +253,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
     public Message reply(MessageEmbed first, MessageEmbed... additional) {
-        return new ReplyAction(getReplyConfig()).reply(first, additional);
+        return new ReplyAction(scopedReplyConfig()).reply(first, additional);
     }
 
     /// Acknowledgement of this event with a [MessageCreateData].
@@ -267,6 +265,6 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
     public Message reply(MessageCreateData message) {
-        return new ReplyAction(getReplyConfig()).reply(message);
+        return new ReplyAction(scopedReplyConfig()).reply(message);
     }
 }

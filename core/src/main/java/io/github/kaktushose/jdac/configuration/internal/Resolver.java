@@ -26,7 +26,7 @@ public final class Resolver {
 
     private final Executor executor;
 
-    Resolver(Map<Property<?>, SortedSet<PropertyProvider<?>>> properties) {
+    public Resolver(Map<Property<?>, SortedSet<PropertyProvider<?>>> properties) {
         this.properties = properties;
         this.executor = new Executor(this);
     }
@@ -49,6 +49,13 @@ public final class Resolver {
         cache.put(type, result.value);
 
         return result.value;
+    }
+
+    public Resolver createSub(Properties additional) {
+        Resolver sub = new Resolver(new HashMap<>(this.properties));
+        sub.properties.putAll(additional.properties());
+        sub.cache.putAll(this.cache);
+        return sub;
     }
 
     private <T> boolean shouldSkip(SortedSet<PropertyProvider<T>> providers, PropertyProvider<T> provider) {

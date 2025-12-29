@@ -1,7 +1,9 @@
 package io.github.kaktushose.jdac.permissions;
 
+import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.annotations.interactions.Permissions;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
+import io.github.kaktushose.jdac.introspection.Stage;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 
@@ -18,6 +20,7 @@ public interface PermissionsProvider {
     /// @param context the corresponding [InvocationContext]
     /// @return `true` if the user has the permission to execute the command
     /// @see #hasPermission(Member, InvocationContext)
+    @IntrospectionAccess(Stage.INTERACTION)
     boolean hasPermission(User user, InvocationContext<?> context);
 
     /// Checks if a [Member] has permissions.
@@ -25,6 +28,7 @@ public interface PermissionsProvider {
     /// @param member  the [Member] to perform the check against
     /// @param context the corresponding [InvocationContext]
     /// @return `true` if the user has the permission to execute the command
+    @IntrospectionAccess(Stage.INTERACTION)
     boolean hasPermission(Member member, InvocationContext<?> context);
 
 }

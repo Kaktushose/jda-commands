@@ -5,14 +5,13 @@ import io.github.kaktushose.jdac.configuration.Extension;
 import io.github.kaktushose.jdac.configuration.ExtensionFilter;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
+import io.github.kaktushose.jdac.configuration.internal.Extensions;
 import io.github.kaktushose.jdac.configuration.internal.Properties;
-import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig;
-import io.github.kaktushose.jdac.dispatching.FrameworkContext;
 import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.jdac.dispatching.adapter.internal.TypeAdapters;
@@ -30,12 +29,15 @@ import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.internal.JDAContext;
-import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.introspection.internal.Lifecycle;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiSource;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.permissions.DefaultPermissionsProvider;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
 import io.github.kaktushose.jdac.scope.DefaultGuildScopeProvider;
@@ -59,7 +61,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static io.github.kaktushose.jdac.configuration.Property.*;
-import static io.github.kaktushose.jdac.configuration.internal.InternalPropertyProviders.*;
+import static io.github.kaktushose.jdac.configuration.internal.InternalProperties.*;
 
 /// This builder is used to build instances of [JDACommands].
 ///
@@ -335,45 +337,49 @@ public class JDACBuilder {
     /// This method applies all found implementations of [Extension],
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
-        Resolver resolver = properties.createResolver();
+        Extensions extensions = loadExtensions();
 
-        try {
-            log.info("Starting JDA-Commands...");
+        IntrospectionImpl introspection = new IntrospectionImpl(new Lifecycle(), properties.createResolver(), Stage.CONFIGURATION);
 
-            FrameworkContext frameworkContext = new FrameworkContext(
-                    new Middlewares(resolver.get(MIDDLEWARE), resolver.get(ERROR_MESSAGE_FACTORY), resolver.get(PERMISSION_PROVIDER)),
-                    resolver.get(ERROR_MESSAGE_FACTORY),
-                    new InteractionRegistry(
-                            new Validators(resolver.get(VALIDATOR)),
-                            resolver.get(I18N),
-                            resolver.get(LOCALIZE_COMMANDS) ? resolver.get(I18N).localizationFunction() : (_) -> Map.of(),
-                            resolver.get(DESCRIPTOR)
-                    ),
-                    new TypeAdapters(resolver.get(TYPE_ADAPTER), resolver.get(I18N)),
-                    resolver.get(EXPIRATION_STRATEGY),
-                    resolver.get(INTERACTION_CONTROLLER_INSTANTIATOR),
-                    resolver.get(EMBEDS),
-                    resolver.get(I18N),
-                    resolver.get(MESSAGE_RESOLVER),
-                    resolver.get(GLOBAL_REPLY_CONFIG),
-                    resolver.get(GLOBAL_COMMAND_CONFIG)
-            );
+        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, introspection).call(() -> {
+            try {
+                log.info("Starting JDA-Commands...");
 
-            JDACommands jdaCommands = new JDACommands(
-                    frameworkContext,
-                    resolver.get(JDA_CONTEXT),
-                    resolver.get(GUILD_SCOPE_PROVIDER),
-                    resolver.get(SHUTDOWN_JDA)
-            );
+                InteractionRegistry interactionRegistry = new InteractionRegistry(
+                        new Validators(introspection.get(VALIDATOR)),
+                        introspection.get(I18N),
+                        introspection.get(LOCALIZE_COMMANDS) ? introspection.get(I18N).localizationFunction() : (_) -> Map.of(),
+                        introspection.get(DESCRIPTOR)
+                );
+                Middlewares middlewares = new Middlewares(introspection.get(MIDDLEWARE), introspection.get(ERROR_MESSAGE_FACTORY), introspection.get(PERMISSION_PROVIDER));
+                TypeAdapters typeAdapters = new TypeAdapters(introspection.get(TYPE_ADAPTER), introspection.get(I18N));
 
-            jdaCommands.start(resolver.get(MERGED_CLASS_FINDER));
-            return jdaCommands;
-        } catch (JDACException e) {
-            if (resolver.get(SHUTDOWN_JDA)) {
-                resolver.get(JDA_CONTEXT).shutdown();
+                IntrospectionImpl initIntrospection = Properties.Builder.newRestricted()
+                        .addFallback(INTERACTION_REGISTRY, _ -> interactionRegistry)
+                        .addFallback(DEFINITIONS, ctx -> ctx.get(INTERACTION_REGISTRY))
+                        .addFallback(MIDDLEWARES, _ -> middlewares)
+                        .addFallback(TYPE_ADAPTERS, _ -> typeAdapters)
+                        .createIntrospection(introspection, Stage.INITIALIZED);
+
+                JDACommands jdaCommands = new JDACommands(initIntrospection);
+                jdaCommands.start(extensions);
+
+                return jdaCommands;
+            } catch (JDACException e) {
+                if (introspection.get(SHUTDOWN_JDA)) {
+                    introspection.get(JDA_CONTEXT).shutdown();
+                }
+                throw e;
             }
-            throw e;
-        }
+        });
+    }
+
+    private Extensions loadExtensions() {
+        Extensions extensions = new Extensions();
+        extensions.load(properties.createResolver()); // Resolver just for user settable types
+        extensions.register(properties);
+
+        return extensions;
     }
 
 }
