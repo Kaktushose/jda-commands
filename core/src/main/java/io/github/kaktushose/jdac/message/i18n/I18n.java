@@ -8,6 +8,7 @@ import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.message.i18n.internal.JDACLocalizationFunction;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.Resolver;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
 import org.jspecify.annotations.Nullable;
@@ -116,7 +117,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 ///
 /// If [I18n#localize(java.util.Locale, java.lang.String, Entry...)]
 /// would be called in, for example, `B$bTwo` the bundle would be `mB_bundle`.
-public class I18n {
+public class I18n implements Resolver<String> {
 
     // skipped classes during stack scanning (Class.getName().startWith(X))
     private static final List<String> SKIPPED = List.of(
@@ -253,5 +254,16 @@ public class I18n {
     /// @return the [LocalizationFunction] bases on this class, for use with JDA
     public LocalizationFunction localizationFunction() {
         return localizationFunction;
+    }
+
+    @Override
+    public String resolve(String content, Locale locale, Map<String, @Nullable Object> placeholders) {
+        return localize(locale, content, placeholders);
+    }
+
+    /// @return 200
+    @Override
+    public int priority() {
+        return 200;
     }
 }

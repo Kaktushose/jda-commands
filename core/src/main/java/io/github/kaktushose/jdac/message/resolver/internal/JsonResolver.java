@@ -46,6 +46,12 @@ public final class JsonResolver implements Resolver<JsonNode> {
         return node;
     }
 
+    /// @return 0
+    @Override
+    public int priority() {
+        return 0;
+    }
+
     private boolean resolve(String key) {
         if (fields.isEmpty()) {
             return true;

@@ -58,4 +58,10 @@ public final class DataObjectResolver implements Resolver<DataObject> {
             throw new ParsingException(e, entry("rawJson", object));
         }
     }
+
+    /// @return 0
+    @Override
+    public int priority() {
+        return 0;
+    }
 }

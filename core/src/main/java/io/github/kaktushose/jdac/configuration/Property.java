@@ -28,7 +28,6 @@ import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
-import io.github.kaktushose.jdac.processor.property.api.PropertyProcessed;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.JDA;
@@ -139,6 +138,11 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE)
     Property<GuildScopeProvider> GUILD_SCOPE_PROVIDER =
             new Singleton<>("GUILD_SCOPE_PROVIDER", Category.LOADABLE, GuildScopeProvider.class, Stage.CONFIGURATION);
+
+    /// @see JDACBuilder#stringResolver(Resolver...)
+    @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE)
+    Property<Collection<Resolver<String>>> STRING_RESOLVER =
+            new Enumeration<>("STRING_RESOLVER", Category.LOADABLE, castUnsafe(Resolver.class), ACCUMULATE, Stage.CONFIGURATION);
 
     // -------- user settable --------
     /// @see JDACBuilder#globalCommandConfig(CommandDefinition.CommandConfig)

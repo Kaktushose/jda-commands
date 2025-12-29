@@ -20,7 +20,6 @@ import java.util.Map;
 /// @see DataObjectResolver
 /// @see ComponentResolver
 /// @param <T> the type to resolve
-@FunctionalInterface
 public interface Resolver<T> {
 
     /// Resolves the given object for the provided locale.
@@ -30,5 +29,15 @@ public interface Resolver<T> {
     /// @param placeholders the placeholders to use if supported by the used localization system
     /// @return the resolved object
     T resolve(T object, Locale locale, Map<String, @Nullable Object> placeholders);
+
+    /// The priority of this resolver influences the order in which resolver are applied in a resolution pipeline.
+    ///
+    /// Currently, this only applies to `Resolver<String>`, when using [MessageResolver] (as JDA-Commands does internally).
+    /// Generally speaking, resolvers with lower priority run first.
+    ///
+    /// If the priority isn't important (e.g. for [ComponentResolver]) this should return `0`.
+    ///
+    /// @return the priority of this resolver
+    int priority();
 
 }

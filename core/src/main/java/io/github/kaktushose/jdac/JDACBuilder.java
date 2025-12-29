@@ -38,7 +38,9 @@ import io.github.kaktushose.jdac.message.emoji.EmojiSource;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
+import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.jdac.permissions.DefaultPermissionsProvider;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
 import io.github.kaktushose.jdac.scope.DefaultGuildScopeProvider;
@@ -152,8 +154,9 @@ public class JDACBuilder {
         addFallback(EMBEDS, ctx -> ctx.get(EMBED_CONFIG_INTERNAL).build());
 
         addFallback(I18N, ctx -> new I18n(ctx.get(DESCRIPTOR), ctx.get(LOCALIZER)));
-        addFallback(MESSAGE_RESOLVER,
-                ctx -> new MessageResolver(ctx.get(I18N), ctx.get(EMOJI_RESOLVER)));
+
+        addFallback(STRING_RESOLVER, ctx -> List.of(ctx.get(I18N), ctx.get(EMOJI_RESOLVER), new PlaceholderResolver()));
+        addFallback(MESSAGE_RESOLVER, ctx -> new MessageResolver(ctx.get(STRING_RESOLVER)));
 
         addFallback(EMOJI_RESOLVER, ctx -> {
             Helpers.registerAppEmojis(ctx.get(JDA_CONTEXT), ctx.get(EMOJI_SOURCES));
@@ -318,6 +321,21 @@ public class JDACBuilder {
     /// @see ExtensionFilter
     public JDACBuilder filterExtensions(ExtensionFilter.FilterStrategy strategy, String... classes) {
         return addUserProperty(EXTENSION_FILTER, _ -> new ExtensionFilter(strategy, Arrays.asList(classes)));
+    }
+
+    /// Adds a [Resolver] in the resolution chain for strings provided by the user in annotations, components etc.
+    ///
+    /// All [Resolver]s are accumulated by [MessageResolver].
+    /// This method adds to the default resolvers like localization, placeholders and emojis
+    ///
+    /// @param resolvers the [Resolver]s to add
+    ///
+    /// @see MessageResolver
+    /// @see Resolver
+    @SafeVarargs
+    public final JDACBuilder stringResolver(Resolver<String>... resolvers) {
+        addUserProperty(STRING_RESOLVER, _ -> Arrays.asList(resolvers));
+        return this;
     }
 
     /// Allows the dynamic configuration of JDA-Commands by setting [Property]s directly.
