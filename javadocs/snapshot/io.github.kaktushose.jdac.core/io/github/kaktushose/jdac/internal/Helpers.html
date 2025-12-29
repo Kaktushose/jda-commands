@@ -70,6 +70,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#checkSignatureUserContext(io.github.kaktushose.jdac.definitions.description.MethodDescription)" tabindex="0">checkSignatureUserContext(MethodDescription)</a></li>
 <li><a href="#checkDetached(net.dv8tion.jda.api.entities.detached.IDetachableEntity,java.lang.Class)" tabindex="0">checkDetached(IDetachableEntity, Class)</a></li>
 <li><a href="#jdaException(java.lang.IllegalArgumentException,io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition)" tabindex="0">jdaException(IllegalArgumentException, InteractionDefinition)</a></li>
+<li><a href="#isValidWithoutComponents(net.dv8tion.jda.api.entities.Message)" tabindex="0">isValidWithoutComponents(Message)</a></li>
+<li><a href="#cv2Reply(net.dv8tion.jda.api.components.MessageTopLevelComponent)" tabindex="0">cv2Reply(MessageTopLevelComponent)</a></li>
 <li><a href="#replyConfig(io.github.kaktushose.jdac.definitions.features.internal.Invokable,io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig)" tabindex="0">replyConfig(Invokable, InteractionDefinition.ReplyConfig)</a></li>
 <li><a href="#commandConfig(io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext)" tabindex="0">commandConfig(MethodBuildContext)</a></li>
 <li><a href="#errorContext(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent,io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition)" tabindex="0">errorContext(GenericInteractionCreateEvent, InteractionDefinition)</a></li>
@@ -149,15 +151,21 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">The <a href="../definitions/interactions/command/CommandDefinition.CommandConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command"><code>CommandDefinition.CommandConfig</code></a> that should be used when registering commands.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../embeds/error/ErrorMessageFactory.ErrorContext.html" title="interface in io.github.kaktushose.jdac.embeds.error">ErrorMessageFactory.ErrorContext</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#errorContext(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent,io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition)" class="member-name-link">errorContext</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event,
- <a href="../definitions/interactions/InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition</a>&nbsp;definition)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#cv2Reply(net.dv8tion.jda.api.components.MessageTopLevelComponent)" class="member-name-link">cv2Reply</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>&nbsp;component)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#humanReadableType(net.dv8tion.jda.api.interactions.commands.OptionMapping)" class="member-name-link">humanReadableType</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">OptionMapping</a>&nbsp;optionMapping)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../embeds/error/ErrorMessageFactory.ErrorContext.html" title="interface in io.github.kaktushose.jdac.embeds.error">ErrorMessageFactory.ErrorContext</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#errorContext(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent,io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition)" class="member-name-link">errorContext</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event,
+ <a href="../definitions/interactions/InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition</a>&nbsp;definition)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#humanReadableType(net.dv8tion.jda.api.interactions.commands.OptionMapping)" class="member-name-link">humanReadableType</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">OptionMapping</a>&nbsp;optionMapping)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Gets the human-readable representation of an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>OptionMapping</code></a>.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isValidWithoutComponents(net.dv8tion.jda.api.entities.Message)" class="member-name-link">isValidWithoutComponents</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a>&nbsp;message)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../exceptions/InvalidDeclarationException.html" title="class in io.github.kaktushose.jdac.exceptions">InvalidDeclarationException</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#jdaException(java.lang.IllegalArgumentException,io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition)" class="member-name-link">jdaException</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a>&nbsp;cause,
  <a href="../definitions/interactions/InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition</a>&nbsp;definition)</code></div>
@@ -293,6 +301,22 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../exceptions/InvalidDeclarationException.html" title="class in io.github.kaktushose.jdac.exceptions">InvalidDeclarationException</a></span>&nbsp;<span class="element-name">jdaException</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a>&nbsp;cause,
  <a href="../definitions/interactions/InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition</a>&nbsp;definition)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="isValidWithoutComponents(net.dv8tion.jda.api.entities.Message)">
+<h3>isValidWithoutComponents</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isValidWithoutComponents</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a>&nbsp;message)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="cv2Reply(net.dv8tion.jda.api.components.MessageTopLevelComponent)">
+<h3>cv2Reply</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a></span>&nbsp;<span class="element-name">cv2Reply</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>&nbsp;component)</span></div>
 </div>
 </section>
 </li>

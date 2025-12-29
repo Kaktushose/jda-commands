@@ -70,7 +70,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#placeholders(io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">placeholders(Entry...)</a></li>
 <li><a href="#placeholders(java.util.Map)" tabindex="0">placeholders(Map)</a></li>
 <li><a href="#sources(io.github.kaktushose.jdac.embeds.EmbedDataSource...)" tabindex="0">sources(EmbedDataSource...)</a></li>
-<li><a href="#errorSource(io.github.kaktushose.jdac.embeds.EmbedDataSource)" tabindex="0">errorSource(EmbedDataSource)</a></li>
 </ol>
 </li>
 </ol>
@@ -133,25 +132,19 @@ a direct localization message in a format supported by the <a href="../message/i
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="EmbedConfig.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedConfig</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#errorSource(io.github.kaktushose.jdac.embeds.EmbedDataSource)" class="member-name-link">errorSource</a><wbr>(<a href="EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a>&nbsp;source)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#placeholders(io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">placeholders</a><wbr>(<a href="../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholders)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Adds a new <a href="EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds"><code>EmbedDataSource</code></a> that will be used by the <a href="error/DefaultErrorMessageFactory.html" title="class in io.github.kaktushose.jdac.embeds.error"><code>DefaultErrorMessageFactory</code></a> to load the error messages
-from.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="EmbedConfig.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedConfig</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#placeholders(io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">placeholders</a><wbr>(<a href="../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholders)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Adds one or more new global placeholders.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="EmbedConfig.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedConfig</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#placeholders(java.util.Map)" class="member-name-link">placeholders</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="EmbedConfig.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedConfig</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#placeholders(java.util.Map)" class="member-name-link">placeholders</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Adds global placeholders with the values of the given map, where the key of the map represents
 the name of the placeholder and the value of the map the value to replace the placeholder with.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="EmbedConfig.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedConfig</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#sources(io.github.kaktushose.jdac.embeds.EmbedDataSource...)" class="member-name-link">sources</a><wbr>(<a href="EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a>...&nbsp;source)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="EmbedConfig.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedConfig</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#sources(io.github.kaktushose.jdac.embeds.EmbedDataSource...)" class="member-name-link">sources</a><wbr>(<a href="EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a>...&nbsp;source)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Adds a new <a href="EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds"><code>EmbedDataSource</code></a> that <a href="Embed.html" title="class in io.github.kaktushose.jdac.embeds"><code>Embed</code></a>s can be loaded from.</div>
 </div>
 </div>
@@ -210,22 +203,6 @@ the name of the placeholder and the value of the map the value to replace the pl
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>source</code> - the <a href="EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds"><code>EmbedDataSource</code></a> to add</dd>
-<dt>Returns:</dt>
-<dd>this instance for fluent interface</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="errorSource(io.github.kaktushose.jdac.embeds.EmbedDataSource)">
-<h3>errorSource</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="EmbedConfig.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedConfig</a></span>&nbsp;<span class="element-name">errorSource</span><wbr><span class="parameters">(<a href="EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a>&nbsp;source)</span></div>
-<div class="block">Adds a new <a href="EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds"><code>EmbedDataSource</code></a> that will be used by the <a href="error/DefaultErrorMessageFactory.html" title="class in io.github.kaktushose.jdac.embeds.error"><code>DefaultErrorMessageFactory</code></a> to load the error messages
-from.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>source</code> - the <a href="EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds"><code>EmbedDataSource</code></a> to load the error embeds from</dd>
 <dt>Returns:</dt>
 <dd>this instance for fluent interface</dd>
 </dl>

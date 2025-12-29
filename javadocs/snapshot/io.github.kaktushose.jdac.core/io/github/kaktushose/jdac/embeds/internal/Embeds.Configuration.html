@@ -67,9 +67,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#placeholders(io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">placeholders(Entry...)</a></li>
 <li><a href="#placeholders(java.util.Map)" tabindex="0">placeholders(Map)</a></li>
 <li><a href="#sources(io.github.kaktushose.jdac.embeds.EmbedDataSource...)" tabindex="0">sources(EmbedDataSource...)</a></li>
-<li><a href="#errorSource(io.github.kaktushose.jdac.embeds.EmbedDataSource)" tabindex="0">errorSource(EmbedDataSource)</a></li>
-<li><a href="#buildDefault()" tabindex="0">buildDefault()</a></li>
-<li><a href="#buildError()" tabindex="0">buildError()</a></li>
+<li><a href="#build()" tabindex="0">build()</a></li>
 </ol>
 </li>
 </ol>
@@ -127,20 +125,9 @@ implements <a href="../EmbedConfig.html" title="interface in io.github.kaktushos
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Embeds.html" title="class in io.github.kaktushose.jdac.embeds.internal">Embeds</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#buildDefault()" class="member-name-link">buildDefault</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#build()" class="member-name-link">build</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Converts this configuration into an <a href="Embeds.html" title="class in io.github.kaktushose.jdac.embeds.internal"><code>Embeds</code></a> instance that should be used globally.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Embeds.html" title="class in io.github.kaktushose.jdac.embeds.internal">Embeds</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#buildError()" class="member-name-link">buildError</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Converts this configuration into an <a href="Embeds.html" title="class in io.github.kaktushose.jdac.embeds.internal"><code>Embeds</code></a> instance that should only be used by <a href="../error/DefaultErrorMessageFactory.html" title="class in io.github.kaktushose.jdac.embeds.error"><code>DefaultErrorMessageFactory</code></a>.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Embeds.Configuration.html" title="class in io.github.kaktushose.jdac.embeds.internal">Embeds.Configuration</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#errorSource(io.github.kaktushose.jdac.embeds.EmbedDataSource)" class="member-name-link">errorSource</a><wbr>(<a href="../EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a>&nbsp;source)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Adds a new <a href="../EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds"><code>EmbedDataSource</code></a> that will be used by the <a href="../error/DefaultErrorMessageFactory.html" title="class in io.github.kaktushose.jdac.embeds.error"><code>DefaultErrorMessageFactory</code></a> to load the error messages
-from.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Embeds.Configuration.html" title="class in io.github.kaktushose.jdac.embeds.internal">Embeds.Configuration</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeholders(io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">placeholders</a><wbr>(<a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholders)</code></div>
@@ -250,46 +237,14 @@ the name of the placeholder and the value of the map the value to replace the pl
 </section>
 </li>
 <li>
-<section class="detail" id="errorSource(io.github.kaktushose.jdac.embeds.EmbedDataSource)">
-<h3>errorSource</h3>
+<section class="detail" id="build()">
+<h3>build</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Embeds.Configuration.html" title="class in io.github.kaktushose.jdac.embeds.internal">Embeds.Configuration</a></span>&nbsp;<span class="element-name">errorSource</span><wbr><span class="parameters">(<a href="../EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedDataSource</a>&nbsp;source)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../EmbedConfig.html#errorSource(io.github.kaktushose.jdac.embeds.EmbedDataSource)">EmbedConfig</a></code></span></div>
-<div class="block">Adds a new <a href="../EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds"><code>EmbedDataSource</code></a> that will be used by the <a href="../error/DefaultErrorMessageFactory.html" title="class in io.github.kaktushose.jdac.embeds.error"><code>DefaultErrorMessageFactory</code></a> to load the error messages
-from.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../EmbedConfig.html#errorSource(io.github.kaktushose.jdac.embeds.EmbedDataSource)">errorSource</a></code>&nbsp;in interface&nbsp;<code><a href="../EmbedConfig.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedConfig</a></code></dd>
-<dt>Parameters:</dt>
-<dd><code>source</code> - the <a href="../EmbedDataSource.html" title="interface in io.github.kaktushose.jdac.embeds"><code>EmbedDataSource</code></a> to load the error embeds from</dd>
-<dt>Returns:</dt>
-<dd>this instance for fluent interface</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="buildDefault()">
-<h3>buildDefault</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Embeds.html" title="class in io.github.kaktushose.jdac.embeds.internal">Embeds</a></span>&nbsp;<span class="element-name">buildDefault</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Embeds.html" title="class in io.github.kaktushose.jdac.embeds.internal">Embeds</a></span>&nbsp;<span class="element-name">build</span>()</div>
 <div class="block">Converts this configuration into an <a href="Embeds.html" title="class in io.github.kaktushose.jdac.embeds.internal"><code>Embeds</code></a> instance that should be used globally.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>an <a href="Embeds.html" title="class in io.github.kaktushose.jdac.embeds.internal"><code>Embeds</code></a> instance for default usage</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="buildError()">
-<h3>buildError</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Embeds.html" title="class in io.github.kaktushose.jdac.embeds.internal">Embeds</a></span>&nbsp;<span class="element-name">buildError</span>()</div>
-<div class="block">Converts this configuration into an <a href="Embeds.html" title="class in io.github.kaktushose.jdac.embeds.internal"><code>Embeds</code></a> instance that should only be used by <a href="../error/DefaultErrorMessageFactory.html" title="class in io.github.kaktushose.jdac.embeds.error"><code>DefaultErrorMessageFactory</code></a>.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>an <a href="Embeds.html" title="class in io.github.kaktushose.jdac.embeds.internal"><code>Embeds</code></a> instance for usage inside <a href="../error/DefaultErrorMessageFactory.html" title="class in io.github.kaktushose.jdac.embeds.error"><code>DefaultErrorMessageFactory</code></a></dd>
 </dl>
 </div>
 </section>
