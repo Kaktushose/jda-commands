@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.NoSuchElementException;
 
 import static definitions.TestHelpers.getBuildContext;
+import static definitions.TestHelpers.independentTestId;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ButtonDefinitionTest {
@@ -71,7 +72,7 @@ class ButtonDefinitionTest {
     void button_withLink_shouldNotHaveId() {
         ButtonDefinition definition = build("withLink");
 
-        var button = definition.toJDAEntity(CustomId.independent(definition.definitionId(), 0));
+        var button = definition.toJDAEntity(independentTestId(definition));
 
         assertNull(button.getCustomId());
         assertEquals("https://example.com", button.getUrl());
@@ -82,7 +83,7 @@ class ButtonDefinitionTest {
     void button_withoutLink_shouldHaveId() {
         ButtonDefinition definition = build("normalButton");
 
-        var button = definition.toJDAEntity(CustomId.independent(definition.definitionId(), 0));
+        var button = definition.toJDAEntity(independentTestId(definition));
 
         assertNotNull(button.getCustomId());
         assertNull(button.getUrl());

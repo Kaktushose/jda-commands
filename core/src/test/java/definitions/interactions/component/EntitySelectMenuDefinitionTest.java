@@ -3,7 +3,6 @@ package definitions.interactions.component;
 import io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.annotations.interactions.Permissions;
-import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
@@ -19,6 +18,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import static definitions.TestHelpers.getBuildContext;
+import static definitions.TestHelpers.independentTestId;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EntitySelectMenuDefinitionTest {
@@ -37,7 +37,7 @@ class EntitySelectMenuDefinitionTest {
     void menu_withDefaults_ShouldBuild() {
         var definition = build("allDefaults");
 
-        net.dv8tion.jda.api.components.selections.EntitySelectMenu menu = definition.toJDAEntity(CustomId.independent(definition.definitionId(), 0));
+        net.dv8tion.jda.api.components.selections.EntitySelectMenu menu = definition.toJDAEntity(independentTestId(definition));
 
         assertEquals("Entity Select Menu: test", definition.displayName());
         assertEquals(EnumSet.of(SelectTarget.USER), menu.getEntityTypes());
@@ -52,7 +52,7 @@ class EntitySelectMenuDefinitionTest {
     void menu_withExplicitValues_shouldBeSet() {
         var definition = build("explicit");
 
-        net.dv8tion.jda.api.components.selections.EntitySelectMenu menu = definition.toJDAEntity(CustomId.independent(definition.definitionId(), 0));
+        net.dv8tion.jda.api.components.selections.EntitySelectMenu menu = definition.toJDAEntity(independentTestId(definition));
 
         assertEquals(EnumSet.of(ChannelType.TEXT), menu.getChannelTypes());
         assertEquals(2, menu.getMinValues());

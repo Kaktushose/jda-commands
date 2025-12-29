@@ -61,16 +61,16 @@ public class TestScenario {
         return new SlashCommandInvocation(context, command);
     }
 
-    public ButtonInvocation button(String button) {
-        return new ButtonInvocation(context, customId(button,0), null);
+    public ButtonInvocation button(String button, int counter) {
+        return new ButtonInvocation(context, customId(button,counter), null);
     }
 
-    public StringSelectInvocation stringSelect(String menu) {
-        return new StringSelectInvocation(context, customId(menu, 0), null);
+    public StringSelectInvocation stringSelect(String menu, int counter) {
+        return new StringSelectInvocation(context, customId(menu, counter), null);
     }
 
-    public EntitySelectInvocation entitySelect(String menu) {
-        return new EntitySelectInvocation(context, customId(menu, 0), null);
+    public EntitySelectInvocation entitySelect(String menu, int counter) {
+        return new EntitySelectInvocation(context, customId(menu, counter), null);
     }
 
     public Optional<SlashCommandData> command(String command) {

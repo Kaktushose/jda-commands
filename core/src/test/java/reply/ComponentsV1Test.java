@@ -5,13 +5,11 @@ import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.testing.TestScenario;
-import io.github.kaktushose.jdac.testing.invocation.InvocationException;
 import io.github.kaktushose.jdac.testing.reply.MessageEventReply;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Mentions;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -56,13 +54,13 @@ class ComponentsV1Test {
 
     @Test
     void testComponentInvocation() {
-        MessageEventReply reply = scenario.button("button").invoke();
+        MessageEventReply reply = scenario.button("button", 0).invoke();
         assertEquals("success", reply.content());
 
-        reply = scenario.stringSelect("stringSelect").invoke();
+        reply = scenario.stringSelect("stringSelect",0).invoke();
         assertEquals("success", reply.content());
 
-        reply = scenario.entitySelect("entitySelect").invoke();
+        reply = scenario.entitySelect("entitySelect", 0).invoke();
         assertEquals("success", reply.content());
     }
 

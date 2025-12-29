@@ -1,7 +1,9 @@
 package definitions.interactions.component;
 
-import io.github.kaktushose.jdac.annotations.interactions.*;
-import io.github.kaktushose.jdac.definitions.interactions.CustomId;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.annotations.interactions.MenuOption;
+import io.github.kaktushose.jdac.annotations.interactions.Permissions;
+import io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringSelectMenuDefinition.MenuOptionDefinition;
@@ -17,6 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static definitions.TestHelpers.getBuildContext;
+import static definitions.TestHelpers.independentTestId;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StringSelectMenuDefinitionTest {
@@ -45,7 +48,7 @@ class StringSelectMenuDefinitionTest {
                 false
         )), definition.selectOptions());
 
-        var menu = definition.toJDAEntity(CustomId.independent(definition.definitionId(), 0));
+        var menu = definition.toJDAEntity(independentTestId(definition));
         assertEquals(definition.minValue(), menu.getMinValues());
         assertEquals(definition.maxValue(), menu.getMaxValues());
 
@@ -63,7 +66,7 @@ class StringSelectMenuDefinitionTest {
         StringSelectMenuDefinition definition = build("containerOptions");
 
         assertEquals(2, definition.selectOptions().size());
-        assertEquals(definition.selectOptions().size(), definition.toJDAEntity(CustomId.independent(definition.definitionId(), 0)).getOptions().size());
+        assertEquals(definition.selectOptions().size(), definition.toJDAEntity(independentTestId(definition)).getOptions().size());
     }
 
     @Test
