@@ -139,6 +139,6 @@ public final class PlaceholderResolver implements Resolver<String> {
     /// @return 100
     @Override
     public int priority() {
-        return 100;
+        return 1000;
     }
 }

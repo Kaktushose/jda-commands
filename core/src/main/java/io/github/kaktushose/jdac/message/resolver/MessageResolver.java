@@ -12,9 +12,9 @@ import java.util.*;
 /// The MessageResolver combines all registered [`Resolver<String>`][Property#STRING_RESOLVER]
 /// and following default resolvers:
 ///
-/// 1. [PlaceholderResolver] (priority = 100)
-/// 2. [I18n] (priority = 200)
-/// 3. [EmojiResolver] (priority = 300)
+/// 1. [PlaceholderResolver] (priority = 1000)
+/// 2. [I18n] (priority = 2000)
+/// 3. [EmojiResolver] (priority = 3000)
 ///
 /// [Resolver]s with lower [`priority`][Resolver#priority()] will be executed first, e.g. [PlaceholderResolver] will
 /// run before [I18n].

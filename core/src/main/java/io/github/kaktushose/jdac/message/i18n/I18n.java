@@ -264,6 +264,6 @@ public class I18n implements Resolver<String> {
     /// @return 200
     @Override
     public int priority() {
-        return 200;
+        return 2000;
     }
 }

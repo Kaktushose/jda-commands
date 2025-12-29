@@ -44,9 +44,9 @@ string resolvers are applied by <MessageResolver>. A lower priority is applied f
 
 The default resolvers have the following priorities:
 
-- <PlaceholderResolver> = 100
-- <I18n> = 200
-- <EmojiResolver> = 300
+- <PlaceholderResolver> = 1000
+- <I18n> = 2000
+- <EmojiResolver> = 3000
 
 ### Example
 ```java
@@ -57,7 +57,7 @@ public class URLResolver implements Resolver<String> {
     }
     
     public int priority() {
-        return 350; // should run after all built in resolvers
+        return 4000; // should run after all built in resolvers
     }
 }
 ```
