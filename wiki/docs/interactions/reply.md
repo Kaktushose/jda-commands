@@ -66,6 +66,10 @@ like we did before with [modals](./modals.md#replying-with-modals).
 
 You can also omit the text message and only send the component by calling `reply()` with no arguments.
 
+!!! tip
+    JDA-Commands allows reusing a component multiple times in one reply message.
+    To learn more about how this works, consult the javadocs of <CustomId>.
+
 ### Action Rows
 Every call to `components()` will create a new action row. If you want more than one action row you need to call
 `components()` multiple times.
