@@ -18,6 +18,7 @@ import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
+import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.introspection.Definitions;
@@ -85,6 +86,10 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = OVERRIDE)
     Property<Collection<EmojiSource>> EMOJI_SOURCES =
             new Enumeration<>("EMOJI_SOURCES", Category.LOADABLE, EmojiSource.class, OVERRIDE, Stage.CONFIGURATION);
+
+    /// @see EmbedConfig#sources(EmbedDataSource...)
+    Property<Collection<EmbedDataSource>> EMBED_SOURCES =
+            new Enumeration<>("EMBED_SOURCES", Category.LOADABLE, EmbedDataSource.class, ACCUMULATE, Stage.CONFIGURATION);
 
     /// @see JDACBuilder#descriptor(Descriptor)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE)

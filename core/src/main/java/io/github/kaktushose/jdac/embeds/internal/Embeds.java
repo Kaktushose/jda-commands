@@ -3,13 +3,12 @@ package io.github.kaktushose.jdac.embeds.internal;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
-import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.ProteusBuilder.ConflictStrategy;
 import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.ApiStatus;
-import org.jspecify.annotations.Nullable;
 
 import java.awt.*;
 import java.util.*;
@@ -76,12 +75,11 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
         private final List<EmbedDataSource> sources;
         private final Map<String, Object> placeholders;
         private final MessageResolver messageResolver;
-        private @Nullable EmbedDataSource errorSource;
 
         /// Constructs a new embed configuration builder.
-        public Configuration(MessageResolver messageResolver) {
+        public Configuration(MessageResolver messageResolver, Collection<EmbedDataSource> dataSources) {
             this.messageResolver = messageResolver;
-            sources = new ArrayList<>();
+            sources = new ArrayList<>(dataSources);
             placeholders = new HashMap<>();
         }
 

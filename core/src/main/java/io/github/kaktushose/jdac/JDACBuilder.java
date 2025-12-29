@@ -139,7 +139,7 @@ public class JDACBuilder {
 
         // non settable/provided services
         addFallback(EMBED_CONFIG_INTERNAL, ctx -> {
-            Embeds.Configuration embedConfig = new Embeds.Configuration(ctx.get(MESSAGE_RESOLVER));
+            Embeds.Configuration embedConfig = new Embeds.Configuration(ctx.get(MESSAGE_RESOLVER), ctx.get(EMBED_SOURCES));
             try {
                 ctx.get(EMBED_CONFIG).accept(embedConfig);
             } catch (Exception e) {
