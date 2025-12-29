@@ -1337,6 +1337,95 @@ You're not viewing the latest stable version.
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Error Messages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#localization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Localization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Localization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-adapting-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type Adapting Failed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insufficient-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Insufficient Permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constraint-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constraint Failed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interaction-execution-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interaction Execution Failed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unknown-interaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unknown Interaction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#own-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Own Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1715,6 +1804,70 @@ to <code>false</code>. </p>
 <li>Timed Out Component Message (see <a href="../../start/runtime/#components-and-modals">Runtime Concept</a>)</li>
 <li>Type Adapting Failed Message (see <a href="../../middlewares/typeadapter/">Type Adapters</a>)</li>
 </ul>
+<h3 id="localization">Localization<a class="headerlink" href="#localization" title="Permanent link">&para;</a></h3>
+<p>For simple localization of these error messages you can add a <code>jdac_LOCALE.ftl</code> file to the resources folder and
+provide the keys/ use the variables as listed below.</p>
+<h4 id="type-adapting-failed">Type Adapting Failed<a class="headerlink" href="#type-adapting-failed" title="Permanent link">&para;</a></h4>
+<p><img alt="Type Adapter Error Message" src="../../assets/adapter.png" /></p>
+<p><strong>Keys</strong></p>
+<ul>
+<li><code>adapting-failed-title</code></li>
+<li><code>adapting-failed-details</code></li>
+<li><code>adapting-failed-message</code></li>
+</ul>
+<p><strong>Variables</strong></p>
+<ul>
+<li><code>command</code>: The full command with parameter names, with the failed argument underlined, for instance: <strong>/example</strong> arg1 ^^arg2^^</li>
+<li><code>expected</code>: The expected argument type</li>
+<li><code>actual</code>: The provided argument type</li>
+<li><code>raw</code>: The raw, textual user input</li>
+<li><code>message</code>: The error message of the type adapter</li>
+</ul>
+<h4 id="insufficient-permissions">Insufficient Permissions<a class="headerlink" href="#insufficient-permissions" title="Permanent link">&para;</a></h4>
+<p><img alt="Permissions Error Message" src="../../assets/permissions.png" /></p>
+<p><strong>Keys</strong></p>
+<ul>
+<li><code>insufficient-permissions</code></li>
+</ul>
+<p><strong>Variables</strong></p>
+<ul>
+<li><code>interaction</code>: The name of the interaction that failed</li>
+<li><code>permissions</code>: The permissions that are required</li>
+</ul>
+<h4 id="constraint-failed">Constraint Failed<a class="headerlink" href="#constraint-failed" title="Permanent link">&para;</a></h4>
+<p><img alt="Validator Error Message" src="../../assets/validator.png" /></p>
+<p><strong>Keys</strong></p>
+<ul>
+<li><code>constraint-failed</code></li>
+</ul>
+<p><strong>Variables</strong></p>
+<ul>
+<li><code>message</code>: The already localized error message of the failed constraint</li>
+</ul>
+<h4 id="interaction-execution-failed">Interaction Execution Failed<a class="headerlink" href="#interaction-execution-failed" title="Permanent link">&para;</a></h4>
+<p><img alt="Exception Error Message" src="../../assets/exception.png" /></p>
+<p><strong>Keys</strong></p>
+<ul>
+<li><code>execution-failed-title</code></li>
+<li>
+<p><code>execution-failed-message</code>
+<strong>Variables</strong></p>
+</li>
+<li>
+<p><code>user</code>: the user executing the interaction</p>
+</li>
+<li><code>interaction</code>: the interaction type</li>
+<li><code>timestamp</code>: the current timestamp</li>
+<li><code>exception</code>: the name of the exception class</li>
+</ul>
+<h4 id="unknown-interaction">Unknown Interaction<a class="headerlink" href="#unknown-interaction" title="Permanent link">&para;</a></h4>
+<p><img alt="Expiration Message" src="../../assets/expiration.png" /></p>
+<p><strong>Keys</strong></p>
+<ul>
+<li><code>unknown-interaction</code></li>
+</ul>
+<p>You can find the default fluent file <a href="https://github.com/Kaktushose/jda-commands/blob/main/core/src/main/resources/jdac_default_en.ftl">here</a>.</p>
+<h3 id="own-implementation">Own Implementation<a class="headerlink" href="#own-implementation" title="Permanent link">&para;</a></h3>
 <p>You can customize these error messages by providing an implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/error/ErrorMessageFactory.html"><code>ErrorMessageFactory</code></a> either at the builder or 
 by annotating it with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>Implementation</code></a>.</p>
 <div class="admonition example">
@@ -1735,14 +1888,6 @@ by annotating it with <a href="https://kaktushose.github.io/jda-commands/javadoc
 </div>
 </div>
 </div>
-<p>To make things easier, these error messages can also be loaded from a <code>JSON</code> source using the <a href="../../message/embeds/">Embed API</a>. 
-Therefore, you have to pass an <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedDataSource.html"><code>EmbedDataSource</code></a> to the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/EmbedConfig.html"><code>EmbedConfig</code></a>.
-<div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="p">.</span><span class="na">embeds</span><span class="p">(</span><span class="n">config</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="na">errorSource</span><span class="p">(</span><span class="n">EmbedDataSource</span><span class="p">.</span><span class="na">file</span><span class="p">(</span><span class="n">Path</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;errorEmbeds.json&quot;</span><span class="p">)))</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
-</span></code></pre></div>
-The template for the error messages can be found <a href="https://github.com/Kaktushose/jda-commands/blob/main/core/src/examples/embeds.json">here</a>.
-The <code>{ $placeholders }</code> can be placed anywhere in the embeds and will get injected by JDA-Commands.  </p>
 
 
 
