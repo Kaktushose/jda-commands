@@ -58,7 +58,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#extensions-heading" tabindex="0">Extensions</a>
 <ol class="toc-list">
 <li><a href="#properties-heading" tabindex="0">Properties</a></li>
-<li><a href="#extension-configuration--heading" tabindex="0">Extension configuration (￼)</a></li>
+<li><a href="#extension-configuration--heading" tabindex="0">Extension Configuration (￼)</a></li>
+<li><a href="#on-framework-start-heading" tabindex="0">On Framework Start</a></li>
 <li><a href="#example-heading" tabindex="0">Example</a></li>
 </ol>
 </li>
@@ -70,6 +71,7 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#init(T)" tabindex="0">init(T)</a></li>
 <li><a href="#properties()" tabindex="0">properties()</a></li>
+<li><a href="#onStart(io.github.kaktushose.jdac.JDACommands)" tabindex="0">onStart(JDACommands)</a></li>
 <li><a href="#dataType()" tabindex="0">dataType()</a></li>
 </ol>
 </li>
@@ -98,9 +100,13 @@ for example provide an own implementation of <a href="../dispatching/instance/In
 or <a href="../definitions/description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description"><code>Descriptor</code></a>. These implementations will override the default ones.</p>
 <p>It's important to know, that you can only return <a href="PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration"><code>PropertyProvider</code></a>s of <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Property</code></a>s
 with <a href="Property.html#category()"><code>Property.category()</code></a> set to <a href="Property.Category.html#LOADABLE"><code>Property.Category.LOADABLE</code></a>!</p>
-<h3 id="extension-configuration--heading">Extension configuration (<a href="Extension.Data.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Extension.Data</code></a>)</h3>
+<h3 id="extension-configuration--heading">Extension Configuration (<a href="Extension.Data.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Extension.Data</code></a>)</h3>
 <p>If the <a href="Extension.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Extension</code></a> needs additional configuration data, implementations have to provide an
 own implementation of <a href="Extension.Data.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Extension.Data</code></a> that the user has to register in the builder by calling <a href="../JDACBuilder.html#extensionData(io.github.kaktushose.jdac.configuration.Extension.Data...)"><code>JDACBuilder.extensionData(Data...)</code></a>.</p>
+<h3 id="on-framework-start-heading">On Framework Start</h3>
+<p>At the time that framework is fully initialized and started (practically at the end of <a href="../JDACBuilder.html#start()"><code>JDACBuilder.start()</code></a>),
+the <a href="#onStart(io.github.kaktushose.jdac.JDACommands)"><code>onStart(JDACommands)</code></a> method of all extensions will be called.
+This allows further configuration, e.g. through the <a href="../introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> API by using <a href="../JDACommands.html#introspection()"><code>JDACommands.introspection()</code></a>.</p>
 <h3 id="example-heading">Example</h3>
 <p>This example extension provides an own implementation of <a href="../dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance"><code>InteractionControllerInstantiator</code></a>.</p>
 <pre><code class="language-java">public class DIExtension implements Extension&lt;DIExtensionData&gt; {
@@ -121,6 +127,13 @@ own implementation of <a href="Extension.Data.html" title="interface in io.githu
                 2000,
                 _ -&gt; new CustomInteractionClassProvider(this))
         );
+    }
+
+    @Override
+    public void onStart(JDACommands framework) {
+        Introspection introspection = framework.introspection();
+
+        introspection.subscribe(RuntimeCloseEvent.class, (event, _) -&gt; ...);
     }
 
     @Override
@@ -172,9 +185,14 @@ public record DIExtensionData(Injector providedInjector) implements Extension.Da
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Initialises the <a href="Extension.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Extension</code></a> with the provided <a href="Extension.Data.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Extension.Data</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration">PropertyProvider</a>&lt;?&gt;&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#properties()" class="member-name-link">properties</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#onStart(io.github.kaktushose.jdac.JDACommands)" class="member-name-link">onStart</a><wbr>(<a href="../JDACommands.html" title="class in io.github.kaktushose.jdac">JDACommands</a>&nbsp;framework)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">This method will be called after the framework was fully started, practically at the end of <a href="../JDACBuilder.html#start()"><code>JDACBuilder.start()</code></a>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration">PropertyProvider</a>&lt;?&gt;&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#properties()" class="member-name-link">properties</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Gets a collection of <a href="PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration"><code>PropertyProvider</code></a>s this <a href="Extension.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Extension</code></a> provides.</div>
 </div>
 </div>
@@ -215,6 +233,20 @@ public record DIExtensionData(Injector providedInjector) implements Extension.Da
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>a collection of <a href="PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration"><code>PropertyProvider</code></a>s</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="onStart(io.github.kaktushose.jdac.JDACommands)">
+<h3>onStart</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations"><a href="../annotations/IntrospectionAccess.html" title="annotation interface in io.github.kaktushose.jdac.annotations">@IntrospectionAccess</a>(<a href="../introspection/Stage.html#INITIALIZED">INITIALIZED</a>)
+</span><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onStart</span><wbr><span class="parameters">(<a href="../JDACommands.html" title="class in io.github.kaktushose.jdac">JDACommands</a>&nbsp;framework)</span></div>
+<div class="block">This method will be called after the framework was fully started, practically at the end of <a href="../JDACBuilder.html#start()"><code>JDACBuilder.start()</code></a>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>framework</code> - the fully initialized <a href="../JDACommands.html" title="class in io.github.kaktushose.jdac"><code>JDACommands</code></a> instance.</dd>
 </dl>
 </div>
 </section>

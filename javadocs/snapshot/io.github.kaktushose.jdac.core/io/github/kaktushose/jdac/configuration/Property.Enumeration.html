@@ -61,7 +61,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(java.lang.String,io.github.kaktushose.jdac.configuration.Property.Category,java.lang.Class,io.github.kaktushose.jdac.configuration.Property.FallbackBehaviour)" tabindex="0">Enumeration(String, Property.Category, Class, Property.FallbackBehaviour)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,io.github.kaktushose.jdac.configuration.Property.Category,java.lang.Class,io.github.kaktushose.jdac.configuration.Property.FallbackBehaviour,io.github.kaktushose.jdac.introspection.Stage)" tabindex="0">Enumeration(String, Property.Category, Class, Property.FallbackBehaviour, Stage)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -73,6 +73,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#category()" tabindex="0">category()</a></li>
 <li><a href="#type()" tabindex="0">type()</a></li>
 <li><a href="#fallbackBehaviour()" tabindex="0">fallbackBehaviour()</a></li>
+<li><a href="#stage()" tabindex="0">stage()</a></li>
 </ol>
 </li>
 </ol>
@@ -94,6 +95,7 @@ loadScripts(document, 'script');</script>
 <dd><code><span id="param-category">category</span></code> - the property's category</dd>
 <dd><code><span id="param-type">type</span></code> - the property's type</dd>
 <dd><code><span id="param-fallbackBehaviour">fallbackBehaviour</span></code> - the property's <a href="Property.FallbackBehaviour.html" title="enum class in io.github.kaktushose.jdac.configuration"><code>Property.FallbackBehaviour</code></a></dd>
+<dd><code><span id="param-stage">stage</span></code> - the property's stage</dd>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
@@ -105,7 +107,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public static record </span><span class="element-name type-name-label">Property.Enumeration&lt;E&gt;</span>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, <a href="Property.Category.html" title="enum class in io.github.kaktushose.jdac.configuration">Property.Category</a>&nbsp;category, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="#type-param-E" title="type parameter in Property.Enumeration">E</a>&gt;&nbsp;type, <a href="Property.FallbackBehaviour.html" title="enum class in io.github.kaktushose.jdac.configuration">Property.FallbackBehaviour</a>&nbsp;fallbackBehaviour)
+<div class="type-signature"><span class="modifiers">public static record </span><span class="element-name type-name-label">Property.Enumeration&lt;E&gt;</span>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, <a href="Property.Category.html" title="enum class in io.github.kaktushose.jdac.configuration">Property.Category</a>&nbsp;category, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="#type-param-E" title="type parameter in Property.Enumeration">E</a>&gt;&nbsp;type, <a href="Property.FallbackBehaviour.html" title="enum class in io.github.kaktushose.jdac.configuration">Property.FallbackBehaviour</a>&nbsp;fallbackBehaviour, <a href="../introspection/Stage.html" title="enum class in io.github.kaktushose.jdac.introspection">Stage</a>&nbsp;stage)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;E&gt;&gt;</span></div>
 <div class="block">A <a href="Property.Enumeration.html" title="class in io.github.kaktushose.jdac.configuration"><code>Property.Enumeration</code></a> property basically represents a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of multiple values.</div>
@@ -128,7 +130,7 @@ implements <a href="Property.html" title="interface in io.github.kaktushose.jdac
 <h2>Field Summary</h2>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-io.github.kaktushose.jdac.configuration.Property">Fields inherited from interface&nbsp;<a href="Property.html#field-summary" title="interface in io.github.kaktushose.jdac.configuration">Property</a></h3>
-<code><a href="Property.html#CLASS_FINDER">CLASS_FINDER</a>, <a href="Property.html#DESCRIPTOR">DESCRIPTOR</a>, <a href="Property.html#EMBED_CONFIG">EMBED_CONFIG</a>, <a href="Property.html#EMOJI_RESOLVER">EMOJI_RESOLVER</a>, <a href="Property.html#EMOJI_SOURCES">EMOJI_SOURCES</a>, <a href="Property.html#ERROR_MESSAGE_FACTORY">ERROR_MESSAGE_FACTORY</a>, <a href="Property.html#EXPIRATION_STRATEGY">EXPIRATION_STRATEGY</a>, <a href="Property.html#EXTENSION_DATA">EXTENSION_DATA</a>, <a href="Property.html#EXTENSION_FILTER">EXTENSION_FILTER</a>, <a href="Property.html#GLOBAL_COMMAND_CONFIG">GLOBAL_COMMAND_CONFIG</a>, <a href="Property.html#GLOBAL_REPLY_CONFIG">GLOBAL_REPLY_CONFIG</a>, <a href="Property.html#GUILD_SCOPE_PROVIDER">GUILD_SCOPE_PROVIDER</a>, <a href="Property.html#I18N">I18N</a>, <a href="Property.html#INTERACTION_CONTROLLER_INSTANTIATOR">INTERACTION_CONTROLLER_INSTANTIATOR</a>, <a href="Property.html#LOADABLE">LOADABLE</a>, <a href="Property.html#LOCALIZE_COMMANDS">LOCALIZE_COMMANDS</a>, <a href="Property.html#LOCALIZER">LOCALIZER</a>, <a href="Property.html#MERGED_CLASS_FINDER">MERGED_CLASS_FINDER</a>, <a href="Property.html#MESSAGE_RESOLVER">MESSAGE_RESOLVER</a>, <a href="Property.html#MIDDLEWARE">MIDDLEWARE</a>, <a href="Property.html#PACKAGES">PACKAGES</a>, <a href="Property.html#PERMISSION_PROVIDER">PERMISSION_PROVIDER</a>, <a href="Property.html#PROVIDED">PROVIDED</a>, <a href="Property.html#SHUTDOWN_JDA">SHUTDOWN_JDA</a>, <a href="Property.html#TYPE_ADAPTER">TYPE_ADAPTER</a>, <a href="Property.html#USER_SETTABLE">USER_SETTABLE</a>, <a href="Property.html#VALIDATOR">VALIDATOR</a></code></div>
+<code><a href="Property.html#CLASS_FINDER">CLASS_FINDER</a>, <a href="Property.html#DEFINITIONS">DEFINITIONS</a>, <a href="Property.html#DESCRIPTOR">DESCRIPTOR</a>, <a href="Property.html#EMBED_CONFIG">EMBED_CONFIG</a>, <a href="Property.html#EMOJI_RESOLVER">EMOJI_RESOLVER</a>, <a href="Property.html#EMOJI_SOURCES">EMOJI_SOURCES</a>, <a href="Property.html#ERROR_MESSAGE_FACTORY">ERROR_MESSAGE_FACTORY</a>, <a href="Property.html#EXPIRATION_STRATEGY">EXPIRATION_STRATEGY</a>, <a href="Property.html#EXTENSION_DATA">EXTENSION_DATA</a>, <a href="Property.html#EXTENSION_FILTER">EXTENSION_FILTER</a>, <a href="Property.html#GLOBAL_COMMAND_CONFIG">GLOBAL_COMMAND_CONFIG</a>, <a href="Property.html#GLOBAL_REPLY_CONFIG">GLOBAL_REPLY_CONFIG</a>, <a href="Property.html#GUILD_SCOPE_PROVIDER">GUILD_SCOPE_PROVIDER</a>, <a href="Property.html#I18N">I18N</a>, <a href="Property.html#INTERACTION_CONTROLLER_INSTANTIATOR">INTERACTION_CONTROLLER_INSTANTIATOR</a>, <a href="Property.html#INVOCATION_CONTEXT">INVOCATION_CONTEXT</a>, <a href="Property.html#JDA">JDA</a>, <a href="Property.html#JDA_COMMANDS">JDA_COMMANDS</a>, <a href="Property.html#JDA_EVENT">JDA_EVENT</a>, <a href="Property.html#KEY_VALUE_STORE">KEY_VALUE_STORE</a>, <a href="Property.html#LOADABLE">LOADABLE</a>, <a href="Property.html#LOCALIZE_COMMANDS">LOCALIZE_COMMANDS</a>, <a href="Property.html#LOCALIZER">LOCALIZER</a>, <a href="Property.html#MERGED_CLASS_FINDER">MERGED_CLASS_FINDER</a>, <a href="Property.html#MESSAGE_RESOLVER">MESSAGE_RESOLVER</a>, <a href="Property.html#MIDDLEWARE">MIDDLEWARE</a>, <a href="Property.html#PACKAGES">PACKAGES</a>, <a href="Property.html#PERMISSION_PROVIDER">PERMISSION_PROVIDER</a>, <a href="Property.html#PROVIDED">PROVIDED</a>, <a href="Property.html#RUNTIME_ID">RUNTIME_ID</a>, <a href="Property.html#SHUTDOWN_JDA">SHUTDOWN_JDA</a>, <a href="Property.html#TYPE_ADAPTER">TYPE_ADAPTER</a>, <a href="Property.html#USER_SETTABLE">USER_SETTABLE</a>, <a href="Property.html#VALIDATOR">VALIDATOR</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -139,10 +141,11 @@ implements <a href="Property.html" title="interface in io.github.kaktushose.jdac
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,io.github.kaktushose.jdac.configuration.Property.Category,java.lang.Class,io.github.kaktushose.jdac.configuration.Property.FallbackBehaviour)" class="member-name-link">Enumeration</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,io.github.kaktushose.jdac.configuration.Property.Category,java.lang.Class,io.github.kaktushose.jdac.configuration.Property.FallbackBehaviour,io.github.kaktushose.jdac.introspection.Stage)" class="member-name-link">Enumeration</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="Property.Category.html" title="enum class in io.github.kaktushose.jdac.configuration">Property.Category</a>&nbsp;category,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="#type-param-E" title="type parameter in Property.Enumeration">E</a>&gt;&nbsp;type,
- <a href="Property.FallbackBehaviour.html" title="enum class in io.github.kaktushose.jdac.configuration">Property.FallbackBehaviour</a>&nbsp;fallbackBehaviour)</code></div>
+ <a href="Property.FallbackBehaviour.html" title="enum class in io.github.kaktushose.jdac.configuration">Property.FallbackBehaviour</a>&nbsp;fallbackBehaviour,
+ <a href="../introspection/Stage.html" title="enum class in io.github.kaktushose.jdac.introspection">Stage</a>&nbsp;stage)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>Enumeration</code> record class.</div>
 </div>
@@ -185,14 +188,19 @@ implements <a href="Property.html" title="interface in io.github.kaktushose.jdac
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-name"><code>name</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../introspection/Stage.html" title="enum class in io.github.kaktushose.jdac.introspection">Stage</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stage()" class="member-name-link">stage</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <a href="#param-stage"><code>stage</code></a> record component.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;<a href="#type-param-E" title="type parameter in Property.Enumeration">E</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;<a href="#type-param-E" title="type parameter in Property.Enumeration">E</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-type"><code>type</code></a> record component.</div>
 </div>
 </div>
@@ -213,13 +221,14 @@ implements <a href="Property.html" title="interface in io.github.kaktushose.jdac
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.String,io.github.kaktushose.jdac.configuration.Property.Category,java.lang.Class,io.github.kaktushose.jdac.configuration.Property.FallbackBehaviour)">
+<section class="detail" id="&lt;init&gt;(java.lang.String,io.github.kaktushose.jdac.configuration.Property.Category,java.lang.Class,io.github.kaktushose.jdac.configuration.Property.FallbackBehaviour,io.github.kaktushose.jdac.introspection.Stage)">
 <h3>Enumeration</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Enumeration</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="Property.Category.html" title="enum class in io.github.kaktushose.jdac.configuration">Property.Category</a>&nbsp;category,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="#type-param-E" title="type parameter in Property.Enumeration">E</a>&gt;&nbsp;type,
- <a href="Property.FallbackBehaviour.html" title="enum class in io.github.kaktushose.jdac.configuration">Property.FallbackBehaviour</a>&nbsp;fallbackBehaviour)</span></div>
+ <a href="Property.FallbackBehaviour.html" title="enum class in io.github.kaktushose.jdac.configuration">Property.FallbackBehaviour</a>&nbsp;fallbackBehaviour,
+ <a href="../introspection/Stage.html" title="enum class in io.github.kaktushose.jdac.introspection">Stage</a>&nbsp;stage)</span></div>
 <div class="block">Creates an instance of a <code>Enumeration</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -227,6 +236,7 @@ implements <a href="Property.html" title="interface in io.github.kaktushose.jdac
 <dd><code>category</code> - the value for the <a href="#param-category"><code>category</code></a> record component</dd>
 <dd><code>type</code> - the value for the <a href="#param-type"><code>type</code></a> record component</dd>
 <dd><code>fallbackBehaviour</code> - the value for the <a href="#param-fallbackBehaviour"><code>fallbackBehaviour</code></a> record component</dd>
+<dd><code>stage</code> - the value for the <a href="#param-stage"><code>stage</code></a> record component</dd>
 </dl>
 </div>
 </section>
@@ -340,6 +350,21 @@ implements <a href="Property.html" title="interface in io.github.kaktushose.jdac
 <dd><code><a href="Property.html#fallbackBehaviour()">fallbackBehaviour</a></code>&nbsp;in interface&nbsp;<code><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="#type-param-E" title="type parameter in Property.Enumeration">E</a>&gt;</code></dd>
 <dt>Returns:</dt>
 <dd>the value of the <a href="#param-fallbackBehaviour"><code>fallbackBehaviour</code></a> record component</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="stage()">
+<h3>stage</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../introspection/Stage.html" title="enum class in io.github.kaktushose.jdac.introspection">Stage</a></span>&nbsp;<span class="element-name">stage</span>()</div>
+<div class="block">Returns the value of the <a href="#param-stage"><code>stage</code></a> record component.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Property.html#stage()">stage</a></code>&nbsp;in interface&nbsp;<code><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="#type-param-E" title="type parameter in Property.Enumeration">E</a>&gt;</code></dd>
+<dt>Returns:</dt>
+<dd>the value of the <a href="#param-stage"><code>stage</code></a> record component</dd>
 </dl>
 </div>
 </section>

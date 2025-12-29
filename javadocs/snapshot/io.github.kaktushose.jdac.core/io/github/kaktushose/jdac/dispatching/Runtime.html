@@ -57,11 +57,10 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#startNew(java.lang.String,io.github.kaktushose.jdac.dispatching.FrameworkContext,net.dv8tion.jda.api.JDA)" tabindex="0">startNew(String, FrameworkContext, JDA)</a></li>
+<li><a href="#startNew(java.lang.String,io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl,net.dv8tion.jda.api.JDA)" tabindex="0">startNew(String, IntrospectionImpl, JDA)</a></li>
 <li><a href="#id()" tabindex="0">id()</a></li>
 <li><a href="#queueEvent(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" tabindex="0">queueEvent(GenericInteractionCreateEvent)</a></li>
 <li><a href="#keyValueStore()" tabindex="0">keyValueStore()</a></li>
-<li><a href="#framework()" tabindex="0">framework()</a></li>
 <li><a href="#interactionInstance(java.lang.Class)" tabindex="0">interactionInstance(Class)</a></li>
 <li><a href="#close()" tabindex="0">close()</a></li>
 <li><a href="#isClosed()" tabindex="0">isClosed()</a></li>
@@ -120,29 +119,26 @@ the lifespan of one &quot;interaction&quot; and cannot interfere with other inte
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#close()" class="member-name-link">close</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="FrameworkContext.html" title="class in io.github.kaktushose.jdac.dispatching">FrameworkContext</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#framework()" class="member-name-link">framework</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#id()" class="member-name-link">id</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#id()" class="member-name-link">id</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T&gt;&nbsp;T</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#interactionInstance(java.lang.Class)" class="member-name-link">interactionInstance</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;clazz)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T&gt;&nbsp;T</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#interactionInstance(java.lang.Class)" class="member-name-link">interactionInstance</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;clazz)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isClosed()" class="member-name-link">isClosed</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isClosed()" class="member-name-link">isClosed</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="context/KeyValueStore.html" title="class in io.github.kaktushose.jdac.dispatching.context">KeyValueStore</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keyValueStore()" class="member-name-link">keyValueStore</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="context/KeyValueStore.html" title="class in io.github.kaktushose.jdac.dispatching.context">KeyValueStore</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keyValueStore()" class="member-name-link">keyValueStore</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#queueEvent(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">queueEvent</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#queueEvent(net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent)" class="member-name-link">queueEvent</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&nbsp;event)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Runtime.html" title="class in io.github.kaktushose.jdac.dispatching">Runtime</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#startNew(java.lang.String,io.github.kaktushose.jdac.dispatching.FrameworkContext,net.dv8tion.jda.api.JDA)" class="member-name-link">startNew</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="FrameworkContext.html" title="class in io.github.kaktushose.jdac.dispatching">FrameworkContext</a>&nbsp;context,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Runtime.html" title="class in io.github.kaktushose.jdac.dispatching">Runtime</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#startNew(java.lang.String,io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl,net.dv8tion.jda.api.JDA)" class="member-name-link">startNew</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
+ <a href="../introspection/internal/IntrospectionImpl.html" title="class in io.github.kaktushose.jdac.introspection.internal">IntrospectionImpl</a>&nbsp;introspection,
  <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&nbsp;jda)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -161,11 +157,11 @@ the lifespan of one &quot;interaction&quot; and cannot interfere with other inte
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="startNew(java.lang.String,io.github.kaktushose.jdac.dispatching.FrameworkContext,net.dv8tion.jda.api.JDA)">
+<section class="detail" id="startNew(java.lang.String,io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl,net.dv8tion.jda.api.JDA)">
 <h3>startNew</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Runtime.html" title="class in io.github.kaktushose.jdac.dispatching">Runtime</a></span>&nbsp;<span class="element-name">startNew</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="FrameworkContext.html" title="class in io.github.kaktushose.jdac.dispatching">FrameworkContext</a>&nbsp;context,
+ <a href="../introspection/internal/IntrospectionImpl.html" title="class in io.github.kaktushose.jdac.introspection.internal">IntrospectionImpl</a>&nbsp;introspection,
  <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&nbsp;jda)</span></div>
 </div>
 </section>
@@ -191,14 +187,6 @@ the lifespan of one &quot;interaction&quot; and cannot interfere with other inte
 <h3>keyValueStore</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="context/KeyValueStore.html" title="class in io.github.kaktushose.jdac.dispatching.context">KeyValueStore</a></span>&nbsp;<span class="element-name">keyValueStore</span>()</div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="framework()">
-<h3>framework</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="FrameworkContext.html" title="class in io.github.kaktushose.jdac.dispatching">FrameworkContext</a></span>&nbsp;<span class="element-name">framework</span>()</div>
 </div>
 </section>
 </li>

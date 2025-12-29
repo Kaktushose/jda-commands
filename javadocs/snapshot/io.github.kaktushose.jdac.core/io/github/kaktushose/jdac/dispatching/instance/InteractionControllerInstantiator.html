@@ -54,12 +54,10 @@ loadScripts(document, 'script');</script>
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset"></div>
 <ol class="toc-list" tabindex="-1">
 <li><a href="#" tabindex="0">Description</a></li>
-<li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#instance(java.lang.Class,io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator.Context)" tabindex="0">instance(Class, InteractionControllerInstantiator.Context)</a></li>
-<li><a href="#forRuntime(java.lang.String,net.dv8tion.jda.api.JDA)" tabindex="0">forRuntime(String, JDA)</a></li>
+<li><a href="#instance(java.lang.Class,io.github.kaktushose.jdac.introspection.Introspection)" tabindex="0">instance(Class, Introspection)</a></li>
 </ol>
 </li>
 </ol>
@@ -83,8 +81,6 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/FunctionalInterface.html" title="class or interface in java.lang" class="external-link">@FunctionalInterface</a>
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">InteractionControllerInstantiator</span></div>
 <div class="block"><p>An <a href="InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance"><code>InteractionControllerInstantiator</code></a> is used get instances of classes annotated with <a href="../../annotations/interactions/Interaction.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Interaction</code></a>, if needed creating those.</p>
-<p>At the time of <a href="../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a> creation, <a href="#forRuntime(java.lang.String,net.dv8tion.jda.api.JDA)"><code>forRuntime(String, JDA)</code></a> is called,
-allowing the InteractionControllerInstantiator to provide an instance that has not to be thread safe and is bound to one Runtime.</p>
 <p>Please also note that per <a href="../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a> there can be multiple
 classes annotated with <a href="../../annotations/interactions/Interaction.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Interaction</code></a> but there can be only one instance per class of those per <a href="../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a>.
 Instances of interactions should be treated like runtime scoped singletons, so to speak.</p>
@@ -93,42 +89,21 @@ Instances of interactions should be treated like runtime scoped singletons, so t
 </section>
 <section class="summary">
 <ul class="summary-list">
-<!-- ======== NESTED CLASS SUMMARY ======== -->
-<li>
-<section class="nested-class-summary" id="nested-class-summary">
-<h2>Nested Class Summary</h2>
-<div class="caption"><span>Nested Classes</span></div>
-<div class="summary-table three-column-summary">
-<div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Interface</div>
-<div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static class&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="InteractionControllerInstantiator.Context.html" class="type-name-link" title="class in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator.Context</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-</div>
-</section>
-</li>
 <!-- ========== METHOD SUMMARY =========== -->
 <li>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab5" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab5', 3)" class="table-tab">Default Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#forRuntime(java.lang.String,net.dv8tion.jda.api.JDA)" class="member-name-link">forRuntime</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&nbsp;jda)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Called each time a new <a href="../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a> is created.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;T&gt;&nbsp;T</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#instance(java.lang.Class,io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator.Context)" class="member-name-link">instance</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;clazz,
- <a href="InteractionControllerInstantiator.Context.html" title="class in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator.Context</a>&nbsp;context)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;T&gt;&nbsp;T</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#instance(java.lang.Class,io.github.kaktushose.jdac.introspection.Introspection)" class="member-name-link">instance</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;clazz,
+ <a href="../../introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection">Introspection</a>&nbsp;introspection)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">This method will be called each time an instance of a class annotated with <a href="../../annotations/interactions/Interaction.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Interaction</code></a> is needed.</div>
 </div>
 </div>
@@ -146,33 +121,20 @@ Instances of interactions should be treated like runtime scoped singletons, so t
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="instance(java.lang.Class,io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator.Context)">
+<section class="detail" id="instance(java.lang.Class,io.github.kaktushose.jdac.introspection.Introspection)">
 <h3>instance</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">instance</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;clazz,
- <a href="InteractionControllerInstantiator.Context.html" title="class in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator.Context</a>&nbsp;context)</span></div>
-<div class="block">This method will be called each time an instance of a class annotated with <a href="../../annotations/interactions/Interaction.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Interaction</code></a> is needed.</div>
+<div class="member-signature"><span class="annotations"><a href="../../annotations/IntrospectionAccess.html" title="annotation interface in io.github.kaktushose.jdac.annotations">@IntrospectionAccess</a>(<a href="../../introspection/Stage.html#RUNTIME">RUNTIME</a>)
+</span><span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">instance</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;clazz,
+ <a href="../../introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection">Introspection</a>&nbsp;introspection)</span></div>
+<div class="block"><p>This method will be called each time an instance of a class annotated with <a href="../../annotations/interactions/Interaction.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Interaction</code></a> is needed.</p>
+<p>The provided <a href="../../introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> instance or <a href="../../introspection/Introspection.html#accessScoped()"><code>Introspection.accessScoped()</code></a> can be used to retrieve other components/parts
+of this framework, e.g. <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a>.</p>
+</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>clazz</code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> of needed instance</dd>
-<dd><code>context</code> - a context that gives additional useful information or provide some needed functionality</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="forRuntime(java.lang.String,net.dv8tion.jda.api.JDA)">
-<h3>forRuntime</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a></span>&nbsp;<span class="element-name">forRuntime</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&nbsp;jda)</span></div>
-<div class="block">Called each time a new <a href="../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a> is created.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>id</code> - the runtime id</dd>
-<dd><code>jda</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>JDA</code></a> instance associated with the event responsible for creating the new Runtime instance</dd>
-<dt>Returns:</dt>
-<dd>a specific instance of <a href="InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance"><code>InteractionControllerInstantiator</code></a> belonging to provided runtime.</dd>
+<dd><code>introspection</code> - the <a href="../../introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> instance of this runtime (stage = <a href="../../introspection/Stage.html#RUNTIME"><code>Stage.RUNTIME</code></a>).</dd>
 </dl>
 </div>
 </section>

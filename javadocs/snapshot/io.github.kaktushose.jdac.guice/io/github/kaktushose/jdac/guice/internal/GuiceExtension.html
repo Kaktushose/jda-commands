@@ -66,6 +66,7 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#init(io.github.kaktushose.jdac.guice.GuiceExtensionData)" tabindex="0">init(GuiceExtensionData)</a></li>
 <li><a href="#properties()" tabindex="0">properties()</a></li>
+<li><a href="#onStart(io.github.kaktushose.jdac.JDACommands)" tabindex="0">onStart(JDACommands)</a></li>
 <li><a href="#dataType()" tabindex="0">dataType()</a></li>
 </ol>
 </li>
@@ -147,9 +148,14 @@ For further information please see the docs on <a href="../Implementation.html" 
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Initialises the <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Extension.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Extension</code></a> with the provided <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Extension.Data.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Extension.Data</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration">PropertyProvider</a>&lt;?&gt;&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#properties()" class="member-name-link">properties</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onStart(io.github.kaktushose.jdac.JDACommands)" class="member-name-link">onStart</a><wbr>(<a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACommands.html" title="class in io.github.kaktushose.jdac">JDACommands</a>&nbsp;commands)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">This method will be called after the framework was fully started, practically at the end of <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.html#start()"><code>JDACBuilder.start()</code></a>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration">PropertyProvider</a>&lt;?&gt;&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#properties()" class="member-name-link">properties</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets a collection of <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration"><code>PropertyProvider</code></a>s this <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Extension.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Extension</code></a> provides.</div>
 </div>
 </div>
@@ -215,6 +221,22 @@ For further information please see the docs on <a href="../Implementation.html" 
 <dd><code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Extension.html#properties()">properties</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Extension.html" title="interface in io.github.kaktushose.jdac.configuration">Extension</a>&lt;<a href="../GuiceExtensionData.html" title="class in io.github.kaktushose.jdac.guice">GuiceExtensionData</a>&gt;</code></dd>
 <dt>Returns:</dt>
 <dd>a collection of <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration"><code>PropertyProvider</code></a>s</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="onStart(io.github.kaktushose.jdac.JDACommands)">
+<h3>onStart</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onStart</span><wbr><span class="parameters">(<a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACommands.html" title="class in io.github.kaktushose.jdac">JDACommands</a>&nbsp;commands)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Extension.html#onStart(io.github.kaktushose.jdac.JDACommands)">Extension</a></code></span></div>
+<div class="block">This method will be called after the framework was fully started, practically at the end of <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.html#start()"><code>JDACBuilder.start()</code></a>.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Extension.html#onStart(io.github.kaktushose.jdac.JDACommands)">onStart</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Extension.html" title="interface in io.github.kaktushose.jdac.configuration">Extension</a>&lt;<a href="../GuiceExtensionData.html" title="class in io.github.kaktushose.jdac.guice">GuiceExtensionData</a>&gt;</code></dd>
+<dt>Parameters:</dt>
+<dd><code>commands</code> - the fully initialized <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACommands.html" title="class in io.github.kaktushose.jdac"><code>JDACommands</code></a> instance.</dd>
 </dl>
 </div>
 </section>

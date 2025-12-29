@@ -59,6 +59,7 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#categories-heading" tabindex="0">Categories</a></li>
 <li><a href="#types-heading" tabindex="0">Types</a></li>
+<li><a href="#stages-heading" tabindex="0">Stages</a></li>
 </ol>
 </li>
 </ol>
@@ -92,6 +93,13 @@ loadScripts(document, 'script');</script>
 <li><a href="#MESSAGE_RESOLVER" tabindex="0">MESSAGE_RESOLVER</a></li>
 <li><a href="#EMOJI_RESOLVER" tabindex="0">EMOJI_RESOLVER</a></li>
 <li><a href="#MERGED_CLASS_FINDER" tabindex="0">MERGED_CLASS_FINDER</a></li>
+<li><a href="#JDA_COMMANDS" tabindex="0">JDA_COMMANDS</a></li>
+<li><a href="#DEFINITIONS" tabindex="0">DEFINITIONS</a></li>
+<li><a href="#JDA" tabindex="0">JDA</a></li>
+<li><a href="#RUNTIME_ID" tabindex="0">RUNTIME_ID</a></li>
+<li><a href="#KEY_VALUE_STORE" tabindex="0">KEY_VALUE_STORE</a></li>
+<li><a href="#JDA_EVENT" tabindex="0">JDA_EVENT</a></li>
+<li><a href="#INVOCATION_CONTEXT" tabindex="0">INVOCATION_CONTEXT</a></li>
 <li><a href="#LOADABLE" tabindex="0">LOADABLE</a></li>
 <li><a href="#USER_SETTABLE" tabindex="0">USER_SETTABLE</a></li>
 <li><a href="#PROVIDED" tabindex="0">PROVIDED</a></li>
@@ -102,6 +110,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#fallbackBehaviour()" tabindex="0">fallbackBehaviour()</a></li>
 <li><a href="#name()" tabindex="0">name()</a></li>
 <li><a href="#category()" tabindex="0">category()</a></li>
+<li><a href="#stage()" tabindex="0">stage()</a></li>
 </ol>
 </li>
 </ol>
@@ -146,6 +155,10 @@ accumulated and providers with higher <a href="PropertyProvider.html#priority()"
 </ul>
 <p>The only exception to this general accumulation rule are fallback values. Whether they are accumulated with other
 providers or overwritten is defined by <a href="#fallbackBehaviour()"><code>fallbackBehaviour()</code></a>.</p>
+<h3 id="stages-heading">Stages</h3>
+<p>A <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Property</code></a>'s value is only set during some stages during the frameworks runtime and in the process of execution
+user interactions.
+To know in what stage a property's value is accessible take a look at the fields <a href="../annotations/IntrospectionAccess.html" title="annotation interface in io.github.kaktushose.jdac.annotations"><code>IntrospectionAccess</code></a> annotation</p>
 </div>
 </div>
 </section>
@@ -201,49 +214,79 @@ accumulated together with the user defined ones or overwritten.</div>
 <div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../definitions/description/ClassFinder.html" title="interface in io.github.kaktushose.jdac.definitions.description">ClassFinder</a>&gt;&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#CLASS_FINDER" class="member-name-link">CLASS_FINDER</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../definitions/description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description">Descriptor</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#DESCRIPTOR" class="member-name-link">DESCRIPTOR</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="../embeds/EmbedConfig.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedConfig</a>&gt;&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#EMBED_CONFIG" class="member-name-link">EMBED_CONFIG</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji">EmojiResolver</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#EMOJI_RESOLVER" class="member-name-link">EMOJI_RESOLVER</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../introspection/Definitions.html" title="interface in io.github.kaktushose.jdac.introspection">Definitions</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#DEFINITIONS" class="member-name-link">DEFINITIONS</a></code></div>
 <div class="col-last odd-row-color">
+<div class="block">The <a href="../introspection/Definitions.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Definitions</code></a> instance available after fully starting the framework.</div>
+</div>
+<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../definitions/description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description">Descriptor</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#DESCRIPTOR" class="member-name-link">DESCRIPTOR</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="../embeds/EmbedConfig.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedConfig</a>&gt;&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#EMBED_CONFIG" class="member-name-link">EMBED_CONFIG</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji">EmojiResolver</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#EMOJI_RESOLVER" class="member-name-link">EMOJI_RESOLVER</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">The <a href="../message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji"><code>EmojiResolver</code></a> service provided by JDA-Commands.</div>
 </div>
-<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../message/emoji/EmojiSource.html" title="interface in io.github.kaktushose.jdac.message.emoji">EmojiSource</a>&gt;&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#EMOJI_SOURCES" class="member-name-link">EMOJI_SOURCES</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../embeds/error/ErrorMessageFactory.html" title="interface in io.github.kaktushose.jdac.embeds.error">ErrorMessageFactory</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#ERROR_MESSAGE_FACTORY" class="member-name-link">ERROR_MESSAGE_FACTORY</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../message/emoji/EmojiSource.html" title="interface in io.github.kaktushose.jdac.message.emoji">EmojiSource</a>&gt;&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#EMOJI_SOURCES" class="member-name-link">EMOJI_SOURCES</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../dispatching/expiration/ExpirationStrategy.html" title="interface in io.github.kaktushose.jdac.dispatching.expiration">ExpirationStrategy</a>&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#EXPIRATION_STRATEGY" class="member-name-link">EXPIRATION_STRATEGY</a></code></div>
+<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../embeds/error/ErrorMessageFactory.html" title="interface in io.github.kaktushose.jdac.embeds.error">ErrorMessageFactory</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#ERROR_MESSAGE_FACTORY" class="member-name-link">ERROR_MESSAGE_FACTORY</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="Extension.Data.html" title="interface in io.github.kaktushose.jdac.configuration">Extension.Data</a>&gt;, <a href="Extension.Data.html" title="interface in io.github.kaktushose.jdac.configuration">Extension.Data</a>&gt;&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#EXTENSION_DATA" class="member-name-link">EXTENSION_DATA</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../dispatching/expiration/ExpirationStrategy.html" title="interface in io.github.kaktushose.jdac.dispatching.expiration">ExpirationStrategy</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#EXPIRATION_STRATEGY" class="member-name-link">EXPIRATION_STRATEGY</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="ExtensionFilter.html" title="class in io.github.kaktushose.jdac.configuration">ExtensionFilter</a>&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#EXTENSION_FILTER" class="member-name-link">EXTENSION_FILTER</a></code></div>
+<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="Extension.Data.html" title="interface in io.github.kaktushose.jdac.configuration">Extension.Data</a>&gt;, <a href="Extension.Data.html" title="interface in io.github.kaktushose.jdac.configuration">Extension.Data</a>&gt;&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#EXTENSION_DATA" class="member-name-link">EXTENSION_DATA</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../definitions/interactions/command/CommandDefinition.CommandConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">CommandDefinition.CommandConfig</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#GLOBAL_COMMAND_CONFIG" class="member-name-link">GLOBAL_COMMAND_CONFIG</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="ExtensionFilter.html" title="class in io.github.kaktushose.jdac.configuration">ExtensionFilter</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#EXTENSION_FILTER" class="member-name-link">EXTENSION_FILTER</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition.ReplyConfig</a>&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#GLOBAL_REPLY_CONFIG" class="member-name-link">GLOBAL_REPLY_CONFIG</a></code></div>
+<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../definitions/interactions/command/CommandDefinition.CommandConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">CommandDefinition.CommandConfig</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#GLOBAL_COMMAND_CONFIG" class="member-name-link">GLOBAL_COMMAND_CONFIG</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../scope/GuildScopeProvider.html" title="interface in io.github.kaktushose.jdac.scope">GuildScopeProvider</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#GUILD_SCOPE_PROVIDER" class="member-name-link">GUILD_SCOPE_PROVIDER</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition.ReplyConfig</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#GLOBAL_REPLY_CONFIG" class="member-name-link">GLOBAL_REPLY_CONFIG</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a>&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#I18N" class="member-name-link">I18N</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../scope/GuildScopeProvider.html" title="interface in io.github.kaktushose.jdac.scope">GuildScopeProvider</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#GUILD_SCOPE_PROVIDER" class="member-name-link">GUILD_SCOPE_PROVIDER</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#I18N" class="member-name-link">I18N</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">The <a href="../message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a> service provided by JDA-Commands.</div>
 </div>
-<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#INTERACTION_CONTROLLER_INSTANTIATOR" class="member-name-link">INTERACTION_CONTROLLER_INSTANTIATOR</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#INTERACTION_CONTROLLER_INSTANTIATOR" class="member-name-link">INTERACTION_CONTROLLER_INSTANTIATOR</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../dispatching/context/InvocationContext.html" title="class in io.github.kaktushose.jdac.dispatching.context">InvocationContext</a>&lt;?&gt;&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#INVOCATION_CONTEXT" class="member-name-link">INVOCATION_CONTEXT</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">The <a href="../dispatching/context/InvocationContext.html" title="class in io.github.kaktushose.jdac.dispatching.context"><code>InvocationContext</code></a> of this interaction.</div>
+</div>
+<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#JDA" class="member-name-link">JDA</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>JDA</code></a> instance bound to this specific Runtime.</div>
+</div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../JDACommands.html" title="class in io.github.kaktushose.jdac">JDACommands</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#JDA_COMMANDS" class="member-name-link">JDA_COMMANDS</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">The <a href="../JDACommands.html" title="class in io.github.kaktushose.jdac"><code>JDACommands</code></a> instance available after fully starting the framework.</div>
+</div>
+<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#JDA_EVENT" class="member-name-link">JDA_EVENT</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a> of this interaction.</div>
+</div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../dispatching/context/KeyValueStore.html" title="class in io.github.kaktushose.jdac.dispatching.context">KeyValueStore</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#KEY_VALUE_STORE" class="member-name-link">KEY_VALUE_STORE</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">The <a href="../dispatching/context/KeyValueStore.html" title="class in io.github.kaktushose.jdac.dispatching.context"><code>KeyValueStore</code></a> associated with this runtime.</div>
+</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;?&gt;&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#LOADABLE" class="member-name-link">LOADABLE</a></code></div>
 <div class="col-last even-row-color">
@@ -282,22 +325,27 @@ accumulated together with the user defined ones or overwritten.</div>
 <div class="col-last even-row-color">
 <div class="block">A collection consisting of all <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Property</code></a>s that are <a href="Property.Category.html#PROVIDED">provided by JDA-Commands</a></div>
 </div>
-<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#SHUTDOWN_JDA" class="member-name-link">SHUTDOWN_JDA</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="../dispatching/adapter/AdapterType.html" title="class in io.github.kaktushose.jdac.dispatching.adapter">AdapterType</a>&lt;?,<wbr>?&gt;, <a href="../dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&gt;&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#TYPE_ADAPTER" class="member-name-link">TYPE_ADAPTER</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#RUNTIME_ID" class="member-name-link">RUNTIME_ID</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">The identifier bound to this runtime.</div>
+</div>
+<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#SHUTDOWN_JDA" class="member-name-link">SHUTDOWN_JDA</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="../dispatching/adapter/AdapterType.html" title="class in io.github.kaktushose.jdac.dispatching.adapter">AdapterType</a>&lt;?,<wbr>?&gt;, <a href="../dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&gt;&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#TYPE_ADAPTER" class="member-name-link">TYPE_ADAPTER</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">The TYPE_ADAPTER property maps <a href="../dispatching/adapter/AdapterType.html" title="class in io.github.kaktushose.jdac.dispatching.adapter"><code>AdapterType</code></a>s containing the source and targets <code>Type</code>s to their associated <a href="../dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter"><code>TypeAdapter</code></a></div>
 </div>
-<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;?&gt;&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#USER_SETTABLE" class="member-name-link">USER_SETTABLE</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;?&gt;&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#USER_SETTABLE" class="member-name-link">USER_SETTABLE</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">A collection consisting of all <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Property</code></a>s that are <a href="Property.Category.html#USER_SETTABLE">settable by the user</a></div>
 </div>
-<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;, <a href="../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&gt;&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#VALIDATOR" class="member-name-link">VALIDATOR</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;, <a href="../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&gt;&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#VALIDATOR" class="member-name-link">VALIDATOR</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">The VALIDATOR property maps a <a href="../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation"><code>Validator</code></a> to its identifying annotation.</div>
 </div>
 </div>
@@ -330,6 +378,11 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">The name of the property is a user and machine-readable unique identifier for a property</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../introspection/Stage.html" title="enum class in io.github.kaktushose.jdac.introspection">Stage</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#stage()" class="member-name-link">stage</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">The stage or &quot;level&quot; at which this property has a value set.</div>
+</div>
 </div>
 </div>
 </div>
@@ -348,7 +401,10 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="CLASS_FINDER">
 <h3>CLASS_FINDER</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../definitions/description/ClassFinder.html" title="interface in io.github.kaktushose.jdac.definitions.description">ClassFinder</a>&gt;&gt;</span>&nbsp;<span class="element-name">CLASS_FINDER</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#LOADABLE">LOADABLE</a>,
+                     fallbackBehaviour=<a href="Property.FallbackBehaviour.html#OVERRIDE">OVERRIDE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../definitions/description/ClassFinder.html" title="interface in io.github.kaktushose.jdac.definitions.description">ClassFinder</a>&gt;&gt;</span>&nbsp;<span class="element-name">CLASS_FINDER</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -364,7 +420,10 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="EMOJI_SOURCES">
 <h3>EMOJI_SOURCES</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../message/emoji/EmojiSource.html" title="interface in io.github.kaktushose.jdac.message.emoji">EmojiSource</a>&gt;&gt;</span>&nbsp;<span class="element-name">EMOJI_SOURCES</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#LOADABLE">LOADABLE</a>,
+                     fallbackBehaviour=<a href="Property.FallbackBehaviour.html#OVERRIDE">OVERRIDE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../message/emoji/EmojiSource.html" title="interface in io.github.kaktushose.jdac.message.emoji">EmojiSource</a>&gt;&gt;</span>&nbsp;<span class="element-name">EMOJI_SOURCES</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -380,7 +439,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="DESCRIPTOR">
 <h3>DESCRIPTOR</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../definitions/description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description">Descriptor</a>&gt;</span>&nbsp;<span class="element-name">DESCRIPTOR</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#LOADABLE">LOADABLE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../definitions/description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description">Descriptor</a>&gt;</span>&nbsp;<span class="element-name">DESCRIPTOR</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -396,7 +457,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="LOCALIZER">
 <h3>LOCALIZER</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../message/i18n/Localizer.html" title="interface in io.github.kaktushose.jdac.message.i18n">Localizer</a>&gt;</span>&nbsp;<span class="element-name">LOCALIZER</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#LOADABLE">LOADABLE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../message/i18n/Localizer.html" title="interface in io.github.kaktushose.jdac.message.i18n">Localizer</a>&gt;</span>&nbsp;<span class="element-name">LOCALIZER</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -412,7 +475,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="INTERACTION_CONTROLLER_INSTANTIATOR">
 <h3>INTERACTION_CONTROLLER_INSTANTIATOR</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a>&gt;</span>&nbsp;<span class="element-name">INTERACTION_CONTROLLER_INSTANTIATOR</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#LOADABLE">LOADABLE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a>&gt;</span>&nbsp;<span class="element-name">INTERACTION_CONTROLLER_INSTANTIATOR</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -428,7 +493,10 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="MIDDLEWARE">
 <h3>MIDDLEWARE</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;<a href="../dispatching/middleware/Priority.html" title="enum class in io.github.kaktushose.jdac.dispatching.middleware">Priority</a>, <a href="../dispatching/middleware/Middleware.html" title="interface in io.github.kaktushose.jdac.dispatching.middleware">Middleware</a>&gt;&gt;&gt;</span>&nbsp;<span class="element-name">MIDDLEWARE</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#LOADABLE">LOADABLE</a>,
+                     fallbackBehaviour=<a href="Property.FallbackBehaviour.html#ACCUMULATE">ACCUMULATE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;<a href="../dispatching/middleware/Priority.html" title="enum class in io.github.kaktushose.jdac.dispatching.middleware">Priority</a>, <a href="../dispatching/middleware/Middleware.html" title="interface in io.github.kaktushose.jdac.dispatching.middleware">Middleware</a>&gt;&gt;&gt;</span>&nbsp;<span class="element-name">MIDDLEWARE</span></div>
 <div class="block">MIDDLEWARE property holds multiple <a href="../dispatching/middleware/Middleware.html" title="interface in io.github.kaktushose.jdac.dispatching.middleware"><code>Middleware</code></a>s associated with their <a href="../dispatching/middleware/Priority.html" title="enum class in io.github.kaktushose.jdac.dispatching.middleware"><code>Priority</code></a></div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -445,7 +513,10 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="TYPE_ADAPTER">
 <h3>TYPE_ADAPTER</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="../dispatching/adapter/AdapterType.html" title="class in io.github.kaktushose.jdac.dispatching.adapter">AdapterType</a>&lt;?,<wbr>?&gt;, <a href="../dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&gt;&gt;</span>&nbsp;<span class="element-name">TYPE_ADAPTER</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#LOADABLE">LOADABLE</a>,
+                     fallbackBehaviour=<a href="Property.FallbackBehaviour.html#ACCUMULATE">ACCUMULATE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="../dispatching/adapter/AdapterType.html" title="class in io.github.kaktushose.jdac.dispatching.adapter">AdapterType</a>&lt;?,<wbr>?&gt;, <a href="../dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&gt;&gt;</span>&nbsp;<span class="element-name">TYPE_ADAPTER</span></div>
 <div class="block">The TYPE_ADAPTER property maps <a href="../dispatching/adapter/AdapterType.html" title="class in io.github.kaktushose.jdac.dispatching.adapter"><code>AdapterType</code></a>s containing the source and targets <code>Type</code>s to their associated <a href="../dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter"><code>TypeAdapter</code></a></div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -462,7 +533,10 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="VALIDATOR">
 <h3>VALIDATOR</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;, <a href="../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&gt;&gt;</span>&nbsp;<span class="element-name">VALIDATOR</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#LOADABLE">LOADABLE</a>,
+                     fallbackBehaviour=<a href="Property.FallbackBehaviour.html#ACCUMULATE">ACCUMULATE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;, <a href="../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&gt;&gt;</span>&nbsp;<span class="element-name">VALIDATOR</span></div>
 <div class="block">The VALIDATOR property maps a <a href="../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation"><code>Validator</code></a> to its identifying annotation.</div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -479,7 +553,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="PERMISSION_PROVIDER">
 <h3>PERMISSION_PROVIDER</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../permissions/PermissionsProvider.html" title="interface in io.github.kaktushose.jdac.permissions">PermissionsProvider</a>&gt;</span>&nbsp;<span class="element-name">PERMISSION_PROVIDER</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#LOADABLE">LOADABLE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../permissions/PermissionsProvider.html" title="interface in io.github.kaktushose.jdac.permissions">PermissionsProvider</a>&gt;</span>&nbsp;<span class="element-name">PERMISSION_PROVIDER</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -495,7 +571,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="ERROR_MESSAGE_FACTORY">
 <h3>ERROR_MESSAGE_FACTORY</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../embeds/error/ErrorMessageFactory.html" title="interface in io.github.kaktushose.jdac.embeds.error">ErrorMessageFactory</a>&gt;</span>&nbsp;<span class="element-name">ERROR_MESSAGE_FACTORY</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#LOADABLE">LOADABLE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../embeds/error/ErrorMessageFactory.html" title="interface in io.github.kaktushose.jdac.embeds.error">ErrorMessageFactory</a>&gt;</span>&nbsp;<span class="element-name">ERROR_MESSAGE_FACTORY</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -511,7 +589,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="GUILD_SCOPE_PROVIDER">
 <h3>GUILD_SCOPE_PROVIDER</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../scope/GuildScopeProvider.html" title="interface in io.github.kaktushose.jdac.scope">GuildScopeProvider</a>&gt;</span>&nbsp;<span class="element-name">GUILD_SCOPE_PROVIDER</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#LOADABLE">LOADABLE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../scope/GuildScopeProvider.html" title="interface in io.github.kaktushose.jdac.scope">GuildScopeProvider</a>&gt;</span>&nbsp;<span class="element-name">GUILD_SCOPE_PROVIDER</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -527,7 +607,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="GLOBAL_COMMAND_CONFIG">
 <h3>GLOBAL_COMMAND_CONFIG</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../definitions/interactions/command/CommandDefinition.CommandConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">CommandDefinition.CommandConfig</a>&gt;</span>&nbsp;<span class="element-name">GLOBAL_COMMAND_CONFIG</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#USER_SETTABLE">USER_SETTABLE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../definitions/interactions/command/CommandDefinition.CommandConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">CommandDefinition.CommandConfig</a>&gt;</span>&nbsp;<span class="element-name">GLOBAL_COMMAND_CONFIG</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -543,7 +625,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="GLOBAL_REPLY_CONFIG">
 <h3>GLOBAL_REPLY_CONFIG</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition.ReplyConfig</a>&gt;</span>&nbsp;<span class="element-name">GLOBAL_REPLY_CONFIG</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#USER_SETTABLE">USER_SETTABLE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition.ReplyConfig</a>&gt;</span>&nbsp;<span class="element-name">GLOBAL_REPLY_CONFIG</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -559,7 +643,10 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="PACKAGES">
 <h3>PACKAGES</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&gt;</span>&nbsp;<span class="element-name">PACKAGES</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#USER_SETTABLE">USER_SETTABLE</a>,
+                     fallbackBehaviour=<a href="Property.FallbackBehaviour.html#ACCUMULATE">ACCUMULATE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&gt;</span>&nbsp;<span class="element-name">PACKAGES</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -575,7 +662,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="EXPIRATION_STRATEGY">
 <h3>EXPIRATION_STRATEGY</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../dispatching/expiration/ExpirationStrategy.html" title="interface in io.github.kaktushose.jdac.dispatching.expiration">ExpirationStrategy</a>&gt;</span>&nbsp;<span class="element-name">EXPIRATION_STRATEGY</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#USER_SETTABLE">USER_SETTABLE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../dispatching/expiration/ExpirationStrategy.html" title="interface in io.github.kaktushose.jdac.dispatching.expiration">ExpirationStrategy</a>&gt;</span>&nbsp;<span class="element-name">EXPIRATION_STRATEGY</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -591,7 +680,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="LOCALIZE_COMMANDS">
 <h3>LOCALIZE_COMMANDS</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</span>&nbsp;<span class="element-name">LOCALIZE_COMMANDS</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#USER_SETTABLE">USER_SETTABLE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</span>&nbsp;<span class="element-name">LOCALIZE_COMMANDS</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -607,7 +698,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="SHUTDOWN_JDA">
 <h3>SHUTDOWN_JDA</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</span>&nbsp;<span class="element-name">SHUTDOWN_JDA</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#USER_SETTABLE">USER_SETTABLE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</span>&nbsp;<span class="element-name">SHUTDOWN_JDA</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -623,7 +716,10 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="EXTENSION_DATA">
 <h3>EXTENSION_DATA</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="Extension.Data.html" title="interface in io.github.kaktushose.jdac.configuration">Extension.Data</a>&gt;, <a href="Extension.Data.html" title="interface in io.github.kaktushose.jdac.configuration">Extension.Data</a>&gt;&gt;</span>&nbsp;<span class="element-name">EXTENSION_DATA</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#USER_SETTABLE">USER_SETTABLE</a>,
+                     fallbackBehaviour=<a href="Property.FallbackBehaviour.html#ACCUMULATE">ACCUMULATE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="Extension.Data.html" title="interface in io.github.kaktushose.jdac.configuration">Extension.Data</a>&gt;, <a href="Extension.Data.html" title="interface in io.github.kaktushose.jdac.configuration">Extension.Data</a>&gt;&gt;</span>&nbsp;<span class="element-name">EXTENSION_DATA</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -639,7 +735,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="EXTENSION_FILTER">
 <h3>EXTENSION_FILTER</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="ExtensionFilter.html" title="class in io.github.kaktushose.jdac.configuration">ExtensionFilter</a>&gt;</span>&nbsp;<span class="element-name">EXTENSION_FILTER</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#USER_SETTABLE">USER_SETTABLE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="ExtensionFilter.html" title="class in io.github.kaktushose.jdac.configuration">ExtensionFilter</a>&gt;</span>&nbsp;<span class="element-name">EXTENSION_FILTER</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -655,7 +753,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="EMBED_CONFIG">
 <h3>EMBED_CONFIG</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="../embeds/EmbedConfig.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedConfig</a>&gt;&gt;</span>&nbsp;<span class="element-name">EMBED_CONFIG</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#USER_SETTABLE">USER_SETTABLE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="../embeds/EmbedConfig.html" title="interface in io.github.kaktushose.jdac.embeds">EmbedConfig</a>&gt;&gt;</span>&nbsp;<span class="element-name">EMBED_CONFIG</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -671,7 +771,9 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <section class="detail" id="I18N">
 <h3>I18N</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a>&gt;</span>&nbsp;<span class="element-name">I18N</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#PROVIDED">PROVIDED</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a>&gt;</span>&nbsp;<span class="element-name">I18N</span></div>
 <div class="block">The <a href="../message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a> service provided by JDA-Commands.
 Needs the values of <a href="#DESCRIPTOR"><code>DESCRIPTOR</code></a> and <a href="#LOCALIZER"><code>LOCALIZER</code></a>.</div>
 <dl class="notes">
@@ -685,7 +787,9 @@ Needs the values of <a href="#DESCRIPTOR"><code>DESCRIPTOR</code></a> and <a hre
 <section class="detail" id="MESSAGE_RESOLVER">
 <h3>MESSAGE_RESOLVER</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&gt;</span>&nbsp;<span class="element-name">MESSAGE_RESOLVER</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#PROVIDED">PROVIDED</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&gt;</span>&nbsp;<span class="element-name">MESSAGE_RESOLVER</span></div>
 <div class="block">The <a href="../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a> service provided byt JDA-Commands.
 Needs the values of <a href="#I18N"><code>I18N</code></a> and <a href="#EMOJI_RESOLVER"><code>EMOJI_RESOLVER</code></a>.</div>
 <dl class="notes">
@@ -699,7 +803,9 @@ Needs the values of <a href="#I18N"><code>I18N</code></a> and <a href="#EMOJI_RE
 <section class="detail" id="EMOJI_RESOLVER">
 <h3>EMOJI_RESOLVER</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji">EmojiResolver</a>&gt;</span>&nbsp;<span class="element-name">EMOJI_RESOLVER</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#PROVIDED">PROVIDED</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji">EmojiResolver</a>&gt;</span>&nbsp;<span class="element-name">EMOJI_RESOLVER</span></div>
 <div class="block">The <a href="../message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji"><code>EmojiResolver</code></a> service provided by JDA-Commands.
 Needs the value of <a href="#EMOJI_RESOLVER"><code>EMOJI_RESOLVER</code></a>.</div>
 <dl class="notes">
@@ -713,13 +819,92 @@ Needs the value of <a href="#EMOJI_RESOLVER"><code>EMOJI_RESOLVER</code></a>.</d
 <section class="detail" id="MERGED_CLASS_FINDER">
 <h3>MERGED_CLASS_FINDER</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../definitions/description/ClassFinder.html" title="interface in io.github.kaktushose.jdac.definitions.description">ClassFinder</a>&gt;</span>&nbsp;<span class="element-name">MERGED_CLASS_FINDER</span></div>
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#PROVIDED">PROVIDED</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../definitions/description/ClassFinder.html" title="interface in io.github.kaktushose.jdac.definitions.description">ClassFinder</a>&gt;</span>&nbsp;<span class="element-name">MERGED_CLASS_FINDER</span></div>
 <div class="block">An <a href="../definitions/description/ClassFinder.html" title="interface in io.github.kaktushose.jdac.definitions.description"><code>ClassFinder</code></a> instance that is backed by all <a href="../definitions/description/ClassFinder.html" title="interface in io.github.kaktushose.jdac.definitions.description"><code>ClassFinder</code></a> of <a href="#CLASS_FINDER"><code>CLASS_FINDER</code></a>.
 It will search in all registered <a href="../definitions/description/ClassFinder.html" title="interface in io.github.kaktushose.jdac.definitions.description"><code>ClassFinder</code></a> for the requested class.</div>
 <dl class="notes">
 <dt>Implementation Note:</dt>
 <dd>the <a href="PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration"><code>PropertyProvider</code></a> for this value is defined in the constructor of <a href="../JDACBuilder.html" title="class in io.github.kaktushose.jdac"><code>JDACBuilder</code></a></dd>
 </dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="JDA_COMMANDS">
+<h3>JDA_COMMANDS</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#INITIALIZED">INITIALIZED</a>,
+                     category=<a href="Property.Category.html#PROVIDED">PROVIDED</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../JDACommands.html" title="class in io.github.kaktushose.jdac">JDACommands</a>&gt;</span>&nbsp;<span class="element-name">JDA_COMMANDS</span></div>
+<div class="block">The <a href="../JDACommands.html" title="class in io.github.kaktushose.jdac"><code>JDACommands</code></a> instance available after fully starting the framework.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="DEFINITIONS">
+<h3>DEFINITIONS</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#INITIALIZED">INITIALIZED</a>,
+                     category=<a href="Property.Category.html#PROVIDED">PROVIDED</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../introspection/Definitions.html" title="interface in io.github.kaktushose.jdac.introspection">Definitions</a>&gt;</span>&nbsp;<span class="element-name">DEFINITIONS</span></div>
+<div class="block">The <a href="../introspection/Definitions.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Definitions</code></a> instance available after fully starting the framework.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="JDA">
+<h3>JDA</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#RUNTIME">RUNTIME</a>,
+                     category=<a href="Property.Category.html#PROVIDED">PROVIDED</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&gt;</span>&nbsp;<span class="element-name">JDA</span></div>
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>JDA</code></a> instance bound to this specific Runtime.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="RUNTIME_ID">
+<h3>RUNTIME_ID</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#RUNTIME">RUNTIME</a>,
+                     category=<a href="Property.Category.html#PROVIDED">PROVIDED</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">RUNTIME_ID</span></div>
+<div class="block">The identifier bound to this runtime. Same as <a href="../dispatching/events/Event.html#runtimeId()"><code>Event.runtimeId()</code></a>.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="KEY_VALUE_STORE">
+<h3>KEY_VALUE_STORE</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#RUNTIME">RUNTIME</a>,
+                     category=<a href="Property.Category.html#PROVIDED">PROVIDED</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../dispatching/context/KeyValueStore.html" title="class in io.github.kaktushose.jdac.dispatching.context">KeyValueStore</a>&gt;</span>&nbsp;<span class="element-name">KEY_VALUE_STORE</span></div>
+<div class="block">The <a href="../dispatching/context/KeyValueStore.html" title="class in io.github.kaktushose.jdac.dispatching.context"><code>KeyValueStore</code></a> associated with this runtime. Same as <a href="../dispatching/context/InvocationContext.html#keyValueStore()"><code>InvocationContext.keyValueStore()</code></a> or <a href="../dispatching/events/Event.html#kv()"><code>Event.kv()</code></a>.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="JDA_EVENT">
+<h3>JDA_EVENT</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#INTERACTION">INTERACTION</a>,
+                     category=<a href="Property.Category.html#PROVIDED">PROVIDED</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">GenericInteractionCreateEvent</a>&gt;</span>&nbsp;<span class="element-name">JDA_EVENT</span></div>
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a> of this interaction. Same as <a href="../dispatching/events/Event.html#jdaEvent()"><code>Event.jdaEvent()</code></a>.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="INVOCATION_CONTEXT">
+<h3>INVOCATION_CONTEXT</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#INTERACTION">INTERACTION</a>,
+                     category=<a href="Property.Category.html#PROVIDED">PROVIDED</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../dispatching/context/InvocationContext.html" title="class in io.github.kaktushose.jdac.dispatching.context">InvocationContext</a>&lt;?&gt;&gt;</span>&nbsp;<span class="element-name">INVOCATION_CONTEXT</span></div>
+<div class="block">The <a href="../dispatching/context/InvocationContext.html" title="class in io.github.kaktushose.jdac.dispatching.context"><code>InvocationContext</code></a> of this interaction. Same as in <a href="../dispatching/middleware/Middleware.html#accept(io.github.kaktushose.jdac.dispatching.context.InvocationContext)"><code>Middleware.accept(InvocationContext)</code></a>.</div>
 </div>
 </section>
 </li>
@@ -820,6 +1005,15 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 <dt>Returns:</dt>
 <dd>the category of the property</dd>
 </dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="stage()">
+<h3>stage</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="../introspection/Stage.html" title="enum class in io.github.kaktushose.jdac.introspection">Stage</a></span>&nbsp;<span class="element-name">stage</span>()</div>
+<div class="block">The stage or &quot;level&quot; at which this property has a value set.</div>
 </div>
 </section>
 </li>

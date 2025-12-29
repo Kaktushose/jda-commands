@@ -54,18 +54,16 @@ loadScripts(document, 'script');</script>
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset"></div>
 <ol class="toc-list" tabindex="-1">
 <li><a href="#" tabindex="0">Description</a></li>
-<li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
 <li><a href="#constructor-summary" tabindex="0">Constructor Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.message.i18n.I18n,com.google.inject.Injector)" tabindex="0">GuiceInteractionControllerInstantiator(I18n, Injector)</a></li>
+<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.guice.internal.guice.RuntimeBoundScope,com.google.inject.Injector)" tabindex="0">GuiceInteractionControllerInstantiator(RuntimeBoundScope, Injector)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#instance(java.lang.Class,io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator.Context)" tabindex="0">instance(Class, InteractionControllerInstantiator.Context)</a></li>
-<li><a href="#forRuntime(java.lang.String,net.dv8tion.jda.api.JDA)" tabindex="0">forRuntime(String, JDA)</a></li>
+<li><a href="#instance(java.lang.Class,io.github.kaktushose.jdac.introspection.Introspection)" tabindex="0">instance(Class, Introspection)</a></li>
 </ol>
 </li>
 </ol>
@@ -93,15 +91,6 @@ implements <a href="../../../../../../../io.github.kaktushose.jdac.core/io/githu
 </section>
 <section class="summary">
 <ul class="summary-list">
-<!-- ======== NESTED CLASS SUMMARY ======== -->
-<li>
-<section class="nested-class-summary" id="nested-class-summary">
-<h2>Nested Class Summary</h2>
-<div class="inherited-list">
-<h3 id="nested-classes-inherited-from-class-io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator">Nested classes/interfaces inherited from interface&nbsp;<a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html#nested-class-summary" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a></h3>
-<code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.Context.html" title="class in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator.Context</a></code></div>
-</section>
-</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -110,7 +99,7 @@ implements <a href="../../../../../../../io.github.kaktushose.jdac.core/io/githu
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.message.i18n.I18n,com.google.inject.Injector)" class="member-name-link">GuiceInteractionControllerInstantiator</a><wbr>(<a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a>&nbsp;i18n,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.guice.internal.guice.RuntimeBoundScope,com.google.inject.Injector)" class="member-name-link">GuiceInteractionControllerInstantiator</a><wbr>(<a href="guice/RuntimeBoundScope.html" title="class in io.github.kaktushose.jdac.guice.internal.guice">RuntimeBoundScope</a>&nbsp;scope,
  <a href="https://google.github.io/guice/api-docs/7.0.0/javadoc/com/google/inject/Injector.html" title="class or interface in com.google.inject" class="external-link">Injector</a>&nbsp;injector)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -127,16 +116,10 @@ implements <a href="../../../../../../../io.github.kaktushose.jdac.core/io/githu
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#forRuntime(java.lang.String,net.dv8tion.jda.api.JDA)" class="member-name-link">forRuntime</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&nbsp;jda)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T&gt;&nbsp;T</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#instance(java.lang.Class,io.github.kaktushose.jdac.introspection.Introspection)" class="member-name-link">instance</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;clazz,
+ <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection">Introspection</a>&nbsp;introspection)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Creates a new child injector with its own <a href="InteractionControllerInstantiatorModule.html" title="class in io.github.kaktushose.jdac.guice.internal"><code>InteractionControllerInstantiatorModule</code></a> for each runtime.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T&gt;&nbsp;T</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#instance(java.lang.Class,io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator.Context)" class="member-name-link">instance</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;clazz,
- <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.Context.html" title="class in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator.Context</a>&nbsp;context)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">This method will be called each time an instance of a class annotated with <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Interaction.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Interaction</code></a> is needed.</div>
 </div>
 </div>
@@ -157,10 +140,10 @@ implements <a href="../../../../../../../io.github.kaktushose.jdac.core/io/githu
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.message.i18n.I18n,com.google.inject.Injector)">
+<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.guice.internal.guice.RuntimeBoundScope,com.google.inject.Injector)">
 <h3>GuiceInteractionControllerInstantiator</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">GuiceInteractionControllerInstantiator</span><wbr><span class="parameters">(<a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a>&nbsp;i18n,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">GuiceInteractionControllerInstantiator</span><wbr><span class="parameters">(<a href="guice/RuntimeBoundScope.html" title="class in io.github.kaktushose.jdac.guice.internal.guice">RuntimeBoundScope</a>&nbsp;scope,
  <a href="https://google.github.io/guice/api-docs/7.0.0/javadoc/com/google/inject/Injector.html" title="class or interface in com.google.inject" class="external-link">Injector</a>&nbsp;injector)</span></div>
 </div>
 </section>
@@ -174,39 +157,22 @@ implements <a href="../../../../../../../io.github.kaktushose.jdac.core/io/githu
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="instance(java.lang.Class,io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator.Context)">
+<section class="detail" id="instance(java.lang.Class,io.github.kaktushose.jdac.introspection.Introspection)">
 <h3>instance</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">instance</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;clazz,
- <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.Context.html" title="class in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator.Context</a>&nbsp;context)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html#instance(java.lang.Class,io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator.Context)">InteractionControllerInstantiator</a></code></span></div>
-<div class="block">This method will be called each time an instance of a class annotated with <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Interaction.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Interaction</code></a> is needed.</div>
+ <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection">Introspection</a>&nbsp;introspection)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html#instance(java.lang.Class,io.github.kaktushose.jdac.introspection.Introspection)">InteractionControllerInstantiator</a></code></span></div>
+<div class="block"><p>This method will be called each time an instance of a class annotated with <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Interaction.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Interaction</code></a> is needed.</p>
+<p>The provided <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> instance or <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Introspection.html#accessScoped()"><code>Introspection.accessScoped()</code></a> can be used to retrieve other components/parts
+of this framework, e.g. <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a>.</p>
+</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html#instance(java.lang.Class,io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator.Context)">instance</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a></code></dd>
+<dd><code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html#instance(java.lang.Class,io.github.kaktushose.jdac.introspection.Introspection)">instance</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>clazz</code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> of needed instance</dd>
-<dd><code>context</code> - a context that gives additional useful information or provide some needed functionality</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="forRuntime(java.lang.String,net.dv8tion.jda.api.JDA)">
-<h3>forRuntime</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a></span>&nbsp;<span class="element-name">forRuntime</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&nbsp;jda)</span></div>
-<div class="block">Creates a new child injector with its own <a href="InteractionControllerInstantiatorModule.html" title="class in io.github.kaktushose.jdac.guice.internal"><code>InteractionControllerInstantiatorModule</code></a> for each runtime.
-This has the effect, that each class annotated with <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Interaction.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Interaction</code></a> will be treated as a runtime scoped singleton.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html#forRuntime(java.lang.String,net.dv8tion.jda.api.JDA)">forRuntime</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a></code></dd>
-<dt>Parameters:</dt>
-<dd><code>id</code> - the runtime id</dd>
-<dd><code>jda</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link"><code>JDA</code></a> instance associated with the event responsible for creating the new Runtime instance</dd>
-<dt>Returns:</dt>
-<dd>a specific instance of <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance"><code>InteractionControllerInstantiator</code></a> belonging to provided runtime.</dd>
+<dd><code>introspection</code> - the <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> instance of this runtime (stage = <a href="../../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Stage.html#RUNTIME"><code>Stage.RUNTIME</code></a>).</dd>
 </dl>
 </div>
 </section>
