@@ -140,7 +140,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
             new Singleton<>("GUILD_SCOPE_PROVIDER", Category.LOADABLE, GuildScopeProvider.class, Stage.CONFIGURATION);
 
     /// @see JDACBuilder#stringResolver(Resolver...)
-    @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE)
+    @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = ACCUMULATE)
     Property<Collection<Resolver<String>>> STRING_RESOLVER =
             new Enumeration<>("STRING_RESOLVER", Category.LOADABLE, castUnsafe(Resolver.class), ACCUMULATE, Stage.CONFIGURATION);
 
