@@ -32,8 +32,9 @@ jobs:
           mkdocs build --verbose 2>&1 | tee ../out.log # 2>&1 -> redirect err to out
       - name: Check for errors
         run: |
-          if grep -Eq '^WARNING|ERROR' out.log; then
+          pattern='^WARNING|ERROR'
+          if grep -Eq '$pattern' out.log; then
             echo "Found warnings or errors:"
-            grep -E 'WARNING|ERROR' out.log
+            grep -E '$pattern' out.log
             exit 1
           fi
