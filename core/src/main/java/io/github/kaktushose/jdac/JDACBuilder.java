@@ -29,6 +29,7 @@ import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.internal.JDAContext;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import io.github.kaktushose.jdac.introspection.internal.Lifecycle;
@@ -51,7 +52,6 @@ import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -109,7 +109,7 @@ public class JDACBuilder {
         Proteus.global().register(Type.of(Class.class), Type.of(String.class), Mapper.uni((klass, _) -> MappingResult.lossless(klass.getName())));
     }
 
-    private static final Logger log = LoggerFactory.getLogger(JDACBuilder.class);
+    private static final Logger log = JDACLogger.getLogger(JDACBuilder.class);
 
     private final Properties properties = new Properties();
 
