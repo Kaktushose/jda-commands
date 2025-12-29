@@ -6,7 +6,7 @@ adapting-failed-title =
     { $command }
 adapting-failed-details =
     ### Details
-    { "** Expected Type**" }
+    { "**Expected Type**" }
     `{ $expected }`
     { "**Actual Type**" }
     `{ $actual }`

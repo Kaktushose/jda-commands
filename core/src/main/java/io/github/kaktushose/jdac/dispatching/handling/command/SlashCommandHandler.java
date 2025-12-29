@@ -105,6 +105,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                         case MAPPING_FAILED -> {
                             log.debug("Type adapting failed!");
                             event.replyComponents(errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), failure))
+                                    .useComponentsV2()
                                     .setEphemeral(replyConfig.ephemeral())
                                     .queue();
                             return Optional.empty();
