@@ -120,7 +120,7 @@ public final class EmojiResolver implements Resolver<String> {
         return resolve(msg);
     }
 
-    /// @return 300
+    /// @return 3000
     @Override
     public int priority() {
         return 3000;

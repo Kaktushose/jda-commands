@@ -136,7 +136,7 @@ public final class PlaceholderResolver implements Resolver<String> {
         return components;
     }
 
-    /// @return 100
+    /// @return 1000
     @Override
     public int priority() {
         return 1000;

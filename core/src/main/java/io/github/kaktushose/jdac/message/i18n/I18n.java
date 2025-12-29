@@ -261,7 +261,7 @@ public class I18n implements Resolver<String> {
         return localize(locale, content, placeholders);
     }
 
-    /// @return 200
+    /// @return 2000
     @Override
     public int priority() {
         return 2000;
