@@ -13,6 +13,8 @@ repositories {
 dependencies {
     api(libs.com.google.inject.guice)
     api(project(":core"))
+
+    implementation("org.ow2.asm:asm:9.9")
 }
 
 tasks.test {
