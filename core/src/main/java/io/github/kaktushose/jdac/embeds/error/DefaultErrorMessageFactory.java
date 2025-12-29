@@ -4,11 +4,12 @@ import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
 import io.github.kaktushose.jdac.internal.Helpers;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
-import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import io.github.kaktushose.proteus.type.Type;
+import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.components.container.Container;
 import net.dv8tion.jda.api.components.separator.Separator;
 import net.dv8tion.jda.api.components.textdisplay.TextDisplay;
@@ -16,8 +17,6 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -85,7 +84,7 @@ public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     /// {@inheritDoc}
     @Override
-    public MessageCreateData getTypeAdaptingFailedMessage(ErrorContext context, ConversionResult.Failure<?> failure) {
+    public MessageTopLevelComponent getTypeAdaptingFailedMessage(ErrorContext context, ConversionResult.Failure<?> failure) {
         SlashCommandDefinition command = (SlashCommandDefinition) context.definition();
         SlashCommandInteractionEvent event = (SlashCommandInteractionEvent) context.event();
         List<OptionDataDefinition> commandOptions = new ArrayList<>(command.commandOptions());
@@ -137,7 +136,7 @@ public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     /// {@inheritDoc}
     @Override
-    public MessageCreateData getInsufficientPermissionsMessage(ErrorContext context) {
+    public MessageTopLevelComponent getInsufficientPermissionsMessage(ErrorContext context) {
         StringBuilder sbPermissions = new StringBuilder();
         context.definition().permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
         String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
@@ -153,7 +152,7 @@ public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     /// {@inheritDoc}
     @Override
-    public MessageCreateData getConstraintFailedMessage(ErrorContext context, String message) {
+    public MessageTopLevelComponent getConstraintFailedMessage(ErrorContext context, String message) {
         return build(Container.of(
                         TextDisplay.of("jdac$constraint-failed")),
                 Color.ORANGE,
@@ -164,7 +163,7 @@ public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     /// {@inheritDoc}
     @Override
-    public MessageCreateData getInteractionExecutionFailedMessage(ErrorContext context, Throwable exception) {
+    public MessageTopLevelComponent getInteractionExecutionFailedMessage(ErrorContext context, Throwable exception) {
         return build(
                 Container.of(
                         TextDisplay.of("jdac$execution-failed-title"),
@@ -182,15 +181,15 @@ public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     /// {@inheritDoc}
     @Override
-    public MessageCreateData getTimedOutComponentMessage(GenericInteractionCreateEvent event) {
+    public MessageTopLevelComponent getTimedOutComponentMessage(GenericInteractionCreateEvent event) {
         return build(Container.of(TextDisplay.of("jdac$unknown-interaction")), Color.RED, event.getUserLocale());
     }
 
-    private MessageCreateData build(Container container, Color color, DiscordLocale locale, Entry... placeholders) {
-        return new MessageCreateBuilder().useComponentsV2().setComponents(resolver.resolve(
+    private MessageTopLevelComponent build(Container container, Color color, DiscordLocale locale, Entry... placeholders) {
+        return resolver.resolve(
                 container.withAccentColor(color),
                 locale.toLocale(),
-                Entry.toMap(placeholders))
-        ).build();
+                Entry.toMap(placeholders)
+        );
     }
 }

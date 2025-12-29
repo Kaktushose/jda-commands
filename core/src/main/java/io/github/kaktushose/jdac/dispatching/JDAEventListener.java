@@ -71,7 +71,7 @@ public final class JDAEventListener extends ListenerAdapter {
             componentEvent.deferReply(true).queue();
         }
         componentEvent.getHook()
-                .sendMessage(context.errorMessageFactory().getTimedOutComponentMessage(jdaEvent))
+                .sendMessageComponents(context.errorMessageFactory().getTimedOutComponentMessage(jdaEvent))
                 .setEphemeral(true)
                 .queue();
     }

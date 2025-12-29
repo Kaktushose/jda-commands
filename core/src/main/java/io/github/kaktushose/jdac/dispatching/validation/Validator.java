@@ -6,6 +6,7 @@ import io.github.kaktushose.jdac.annotations.constraints.NotPerm;
 import io.github.kaktushose.jdac.annotations.constraints.Perm;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
+import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
@@ -87,7 +88,7 @@ public interface Validator<T, A extends Annotation> {
                     .messageResolver()
                     .resolve(content, invocationContext.event().getUserLocale().toLocale(), Entry.toMap(placeholder));
 
-            return errorMessageFactory.getConstraintFailedMessage(invocationContext, localized);
+            return Helpers.cv2Reply(errorMessageFactory.getConstraintFailedMessage(invocationContext, localized));
         }
 
         /// Used to fail a validation and cancel the [InvocationContext]
