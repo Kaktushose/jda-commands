@@ -6,11 +6,11 @@ adapting-failed-title =
     { $command }
 adapting-failed-details =
     ### Details
-    **Expected Type**
+    { "** Expected Type**" }
     `{ $expected }`
-    **Actual Type**
+    { "**Actual Type**" }
     `{ $actual }`
-    **Raw Input**
+    { "**Raw Input**" }
     `{ $raw }`
 adapting-failed-message =
     ### Message
