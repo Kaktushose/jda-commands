@@ -20,7 +20,7 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 import java.awt.*;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -56,7 +56,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// ### Keys
 /// - `constraint-failed`
 /// ### Variables
-/// - `message`: The error message of the failed constraint
+/// - `message`: The already localized error message of the failed constraint
 ///
 /// ## Interaction Execution Failed
 /// ### Keys
@@ -77,7 +77,6 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
 public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private final ComponentResolver<Container> resolver;
 
     public DefaultErrorMessageFactory(MessageResolver resolver) {
@@ -176,7 +175,7 @@ public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
                 context.event().getUserLocale(),
                 entry("user", context.event().getUser().getEffectiveName()),
                 entry("interaction", context.event().getInteraction().getType()),
-                entry("timestamp", dateFormat.format(System.currentTimeMillis())),
+                entry("timestamp", LocalDateTime.now()),
                 entry("exception", exception.getClass().getSimpleName())
         );
     }

@@ -64,7 +64,7 @@ provide the keys/ use the variables as listed below.
 
 **Variables**
 
-- `message`: The error message of the failed constraint
+- `message`: The already localized error message of the failed constraint
 
 #### Interaction Execution Failed
 ![Exception Error Message](../assets/exception.png)
