@@ -4,9 +4,9 @@ import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.internal.Helpers;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -19,7 +19,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 @ApiStatus.Internal
 public final class Resolver {
 
-    private static final Logger log = LoggerFactory.getLogger(Resolver.class);
+    private static final Logger log = JDACLogger.getLogger(Resolver.class);
 
     private final Map<Property<?>, Object> cache = new HashMap<>();
     private final Map<Property<?>, SortedSet<PropertyProvider<?>>> properties;

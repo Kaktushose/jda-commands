@@ -31,7 +31,7 @@ class FallbackLogger extends LegacyAbstractLogger {
         logger.addHandler(HANDLER);
     }
 
-    private java.util.logging.Level translateLevel(Level level) {
+    private static java.util.logging.Level translateLevel(Level level) {
         return switch (level) {
             case ERROR -> java.util.logging.Level.SEVERE;
             case WARN -> java.util.logging.Level.WARNING;

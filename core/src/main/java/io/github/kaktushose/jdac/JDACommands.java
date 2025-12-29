@@ -18,6 +18,7 @@ import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.internal.JDAContext;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.internal.register.CommandUpdater;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
@@ -30,7 +31,6 @@ import net.dv8tion.jda.api.components.selections.SelectMenu;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.List;
@@ -42,7 +42,8 @@ import java.util.Optional;
 ///
 /// Instances of this class can be created by using one of the "start" or "builder" methods.
 public final class JDACommands {
-    private static final Logger log = LoggerFactory.getLogger(JDACommands.class);
+    private static final Logger log = JDACLogger.getLogger(JDACommands.class);
+
     private final JDAEventListener jdaEventListener;
     private final CommandUpdater updater;
     private final IntrospectionImpl introspection;

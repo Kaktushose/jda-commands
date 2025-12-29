@@ -15,6 +15,7 @@ import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
@@ -31,7 +32,6 @@ import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.List;
@@ -59,7 +59,7 @@ import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAcce
 public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEvent> extends Event<T>
         permits ModalEvent, ModalReplyableEvent {
 
-    private static final Logger log = LoggerFactory.getLogger(ReplyableEvent.class);
+    private static final Logger log = JDACLogger.getLogger(ReplyableEvent.class);
 
     /// Acknowledge this interaction and defer the reply to a later time.
     ///

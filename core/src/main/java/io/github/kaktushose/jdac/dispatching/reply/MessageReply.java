@@ -16,9 +16,10 @@ import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
-import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 import net.dv8tion.jda.api.components.buttons.Button;
@@ -29,9 +30,11 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
@@ -40,7 +43,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// Handles all the business logic for sending messages, including embeds or V1 components.
 public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
-    private static final Logger log = LoggerFactory.getLogger(MessageReply.class);
+    private static final Logger log = JDACLogger.getLogger(MessageReply.class);
     protected final ReplyAction replyAction;
     private final ComponentResolver<ActionRowChildComponent> resolver;
 

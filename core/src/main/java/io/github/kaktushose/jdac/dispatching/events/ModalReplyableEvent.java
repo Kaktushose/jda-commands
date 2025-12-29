@@ -8,16 +8,16 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.ModalBuilder;
 import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.function.Function;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.scopedInvocationContext;
 import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.scopedInteractionRegistry;
+import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.scopedInvocationContext;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// Subtype of [ReplyableEvent] that also supports replying with a [Modal].
@@ -29,7 +29,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
         extends ReplyableEvent<T>
         permits CommandEvent, ComponentEvent {
 
-    private static final Logger log = LoggerFactory.getLogger(ModalReplyableEvent.class);
+    private static final Logger log = JDACLogger.getLogger(ModalReplyableEvent.class);
 
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
     ///

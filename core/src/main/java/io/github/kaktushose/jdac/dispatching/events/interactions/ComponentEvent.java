@@ -4,6 +4,7 @@ import io.github.kaktushose.jdac.dispatching.events.Event;
 import io.github.kaktushose.jdac.dispatching.events.ModalReplyableEvent;
 import io.github.kaktushose.jdac.dispatching.reply.EditableConfigurableReply;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
@@ -14,7 +15,6 @@ import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteract
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.scopedReplyConfig;
 
@@ -24,7 +24,7 @@ import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAcce
 /// @see ModalReplyableEvent
 public final class ComponentEvent extends ModalReplyableEvent<GenericComponentInteractionCreateEvent> {
 
-    private static final Logger log = LoggerFactory.getLogger(ComponentEvent.class);
+    private static final Logger log = JDACLogger.getLogger(ComponentEvent.class);
 
     /// Returns the underlying [GenericComponentInteractionCreateEvent] and casts it to the given type.
     ///
