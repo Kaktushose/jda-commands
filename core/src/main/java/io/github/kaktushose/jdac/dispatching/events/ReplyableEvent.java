@@ -99,6 +99,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// This may be useful if you want to send a component without using the framework.
     ///
     /// @param button the name of the button defining method
+    /// @param counter the counter to add to the custom id, see javadocs of [CustomId]
     /// @return the JDA [Button]
     public Button getButton(String button, int counter) {
         return getComponent(button, null, ButtonDefinition.class, counter);
@@ -112,6 +113,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param origin the [Class] of the method
     /// @param button the name of the button defining method
+    /// @param counter the counter to add to the custom id, see javadocs of [CustomId]
     /// @return the JDA [Button]
     public Button getButton(Class<?> origin, String button, int counter) {
         return getComponent(button, null, ButtonDefinition.class, counter);
@@ -123,6 +125,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// without using the framework.
     ///
     /// @param menu the name of the select menu
+    /// @param counter the counter to add to the custom id, see javadocs of [CustomId]
     /// @return the JDA [SelectMenu]
     public SelectMenu getSelectMenu(String menu, int counter) {
         return getComponent(menu, null, SelectMenuDefinition.class, counter);
@@ -135,6 +138,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param origin the [Class] of the method
     /// @param menu   the name of the select menu
+    /// @param counter the counter to add to the custom id, see javadocs of [CustomId]
     /// @return the JDA [SelectMenu]
     public SelectMenu getSelectMenu(Class<?> origin, String menu, int counter) {
         return getComponent(menu, origin, SelectMenuDefinition.class, counter);
