@@ -8,6 +8,7 @@ import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess;
+import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
@@ -57,7 +58,6 @@ public interface Validator<T, A extends Annotation> {
     /// @param argument   the argument to validate
     /// @param annotation the corresponding annotation
     /// @param context    the corresponding [InvocationContext]
-    @io.github.kaktushose.jdac.annotations.IntrospectionAccess(Stage.INTERACTION)
     void apply(T argument, A annotation, Context context);
 
     /// This context provides access to the [InvocationContext] of this interaction and
@@ -89,7 +89,7 @@ public interface Validator<T, A extends Annotation> {
             String localized = IntrospectionAccess.scopedMessageResolver()
                     .resolve(content, IntrospectionAccess.scopedUserLocale(), Entry.toMap(placeholder));
 
-            return errorMessageFactory.getConstraintFailedMessage(invocationContext, localized);
+            return Helpers.cv2Reply(errorMessageFactory.getConstraintFailedMessage(invocationContext, localized));
         }
 
         /// Used to fail a validation and cancel the [InvocationContext]

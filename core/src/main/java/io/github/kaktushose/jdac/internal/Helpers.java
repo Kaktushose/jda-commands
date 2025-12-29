@@ -18,7 +18,9 @@ import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.emoji.EmojiSource;
+import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.detached.IDetachableEntity;
 import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
@@ -26,6 +28,8 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.utils.Result;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.lang.annotation.Annotation;
@@ -143,6 +147,16 @@ public final class Helpers {
                 entry("class", definition.classDescription().name()),
                 entry("method", definition.methodDescription().name())
         );
+    }
+
+    public static boolean isValidWithoutComponents(Message message) {
+        var data = new MessageCreateBuilder().applyMessage(message);
+        data.setComponents();
+        return data.isValid();
+    }
+
+    public static MessageCreateData cv2Reply(MessageTopLevelComponent component) {
+        return new MessageCreateBuilder().useComponentsV2().setComponents(component).build();
     }
 
     /// The [InteractionDefinition.ReplyConfig] that should be used when sending replies.

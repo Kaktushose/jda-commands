@@ -2,10 +2,10 @@ package io.github.kaktushose.jdac.dispatching.context;
 
 import io.github.kaktushose.jdac.definitions.features.internal.Invokable;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
-import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jspecify.annotations.Nullable;
 
@@ -40,12 +40,7 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
     /// @param errorMessage the error message that should be sent to the user as a reply
     /// @implNote This will interrupt the current event thread
     public void cancel(MessageCreateData errorMessage) {
-        var errorReplyConfig = new InteractionDefinition.ReplyConfig(replyConfig().ephemeral(), false, false, replyConfig.editReply());
-        ReplyAction replyAction = new ReplyAction(errorReplyConfig);
-        if (event() instanceof ComponentInteraction interaction && interaction.getMessage().isUsingComponentsV2()) {
-            replyAction.editReply(false);
-        }
-        replyAction.reply(errorMessage);
+        new ReplyAction(new ReplyConfig(replyConfig().ephemeral(), false, false, false)).reply(errorMessage);
         Thread.currentThread().interrupt();
     }
 

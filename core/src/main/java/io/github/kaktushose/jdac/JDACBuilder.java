@@ -125,7 +125,7 @@ public class JDACBuilder {
         addFallback(LOCALIZE_COMMANDS, _ -> true);
         addFallback(LOCALIZER, _ -> new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
         addFallback(PERMISSION_PROVIDER, _ -> new DefaultPermissionsProvider());
-        addFallback(ERROR_MESSAGE_FACTORY, ctx -> new DefaultErrorMessageFactory(ctx.get(EMBED_CONFIG_INTERNAL).buildError()));
+        addFallback(ERROR_MESSAGE_FACTORY, ctx -> new DefaultErrorMessageFactory(ctx.get(MESSAGE_RESOLVER)));
         addFallback(GUILD_SCOPE_PROVIDER, _ -> new DefaultGuildScopeProvider());
         addFallback(DESCRIPTOR, _ -> Descriptor.REFLECTIVE);
 
@@ -149,7 +149,7 @@ public class JDACBuilder {
 
             return embedConfig;
         });
-        addFallback(EMBEDS, ctx -> ctx.get(EMBED_CONFIG_INTERNAL).buildDefault());
+        addFallback(EMBEDS, ctx -> ctx.get(EMBED_CONFIG_INTERNAL).build());
 
         addFallback(I18N, ctx -> new I18n(ctx.get(DESCRIPTOR), ctx.get(LOCALIZER)));
         addFallback(MESSAGE_RESOLVER,

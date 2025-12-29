@@ -4,6 +4,7 @@ import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
 import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
 import io.github.kaktushose.jdac.dispatching.Runtime;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
@@ -12,6 +13,7 @@ import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandle
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
+import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.introspection.Introspection;
@@ -19,11 +21,10 @@ import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.InteractionFinishedEvent;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.InteractionStartEvent;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
-import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
-import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
@@ -128,44 +129,32 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             Object instance = runtime.interactionInstance(definition.classDescription().clazz());
 
             ScopedValue.where(INVOCATION_PERMITTED, true).call(() -> definition.invoke(instance, invocation));
-            introspection.publish(new InteractionFinishedEvent(invocation, null));
         } catch (Exception exception) {
-            introspection.publish(new InteractionFinishedEvent(invocation, exception));
-            handleException(exception, invocation);
-        }
-    }
+            // this unwraps the underlying error in case of an exception inside the command class
+            Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
+            log.error("Interaction execution failed!", throwable);
 
-    private void handleException(Exception exception, InvocationContext<?> invocation) {
-        // this unwraps the underlying error in case of an exception inside the command class
-        Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
-        log.error("Interaction execution failed!", throwable);
-
-        // 10062 is the error code for "Unknown interaction". In that case we cannot send any reply, not even the
-        // error message.
-        if (throwable instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
-            return;
-        }
-
-        // if the throwing event is a component event we should remove the component to prevent further executions
-        boolean deleted = false;
-        if (invocation.event() instanceof GenericComponentInteractionCreateEvent componentEvent) {
-            var message = componentEvent.getMessage();
-            // ugly workaround to check if the message is still valid after removing components or if we have to delete
-            // the entire message
-            var data = new MessageCreateBuilder().applyMessage(componentEvent.getMessage());
-            data.setComponents();
-            if (data.isValid()) {
-                message.editMessageComponents().complete();
-            } else {
-                deleted = true;
-                message.delete().complete();
+            // 10062 is the error code for "Unknown interaction". In that case we cannot send any reply, not even the
+            // error message.
+            if (throwable instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
+                return;
             }
-        }
 
-        invocation.cancel(errorMessageFactory.getCommandExecutionFailedMessage(invocation, throwable));
+            boolean edit = invocation.replyConfig().editReply();
+            if (invocation.event() instanceof GenericComponentInteractionCreateEvent componentEvent && !edit) {
+                Message message = componentEvent.getMessage();
+                if (Helpers.isValidWithoutComponents(message)) {
+                    message.editMessageComponents().queue();
+                } else {
+                    edit = true;
+                }
+            }
 
-        if (invocation.event() instanceof IReplyCallback callback && !deleted) {
-            callback.getHook().editOriginalComponents().queue();
+            // we don't call invocation#cancel here so we have control over the edit behavior. If removing the component
+            // would make the message invalid we just replace it with the error message
+            new ReplyAction(
+                    new ReplyConfig(invocation.replyConfig().ephemeral(), false, false, edit)
+            ).reply(Helpers.cv2Reply(errorMessageFactory.getInteractionExecutionFailedMessage(invocation, throwable)));
         }
     }
 
