@@ -3,7 +3,6 @@ package io.github.kaktushose.jdac.definitions.interactions.component;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.features.CustomIdJDAEntity;
-import io.github.kaktushose.jdac.definitions.features.JDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.SelectMenuDefinition;
@@ -18,7 +17,7 @@ import java.util.function.Supplier;
 /// @see ButtonDefinition
 /// @see EntitySelectMenuDefinition
 /// @see StringSelectMenuDefinition
-public sealed interface ComponentDefinition<T> extends InteractionDefinition, JDAEntity<T>, CustomIdJDAEntity<T>
+public sealed interface ComponentDefinition<T> extends InteractionDefinition, CustomIdJDAEntity<T>
         permits ButtonDefinition, SelectMenuDefinition {
 
     /// Overrides the oldValue with the newValue if present, else returns the oldValue

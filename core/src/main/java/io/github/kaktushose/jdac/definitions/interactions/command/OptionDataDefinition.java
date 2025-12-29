@@ -8,7 +8,7 @@ import io.github.kaktushose.jdac.annotations.interactions.Param;
 import io.github.kaktushose.jdac.definitions.Definition;
 import io.github.kaktushose.jdac.definitions.description.AnnotationDescription;
 import io.github.kaktushose.jdac.definitions.description.ParameterDescription;
-import io.github.kaktushose.jdac.definitions.features.JDAEntity;
+import io.github.kaktushose.jdac.definitions.features.NonCustomIdJDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition;
 import io.github.kaktushose.jdac.dispatching.events.Event;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
@@ -60,7 +60,7 @@ public record OptionDataDefinition(
         String description,
         SequencedCollection<Command.Choice> choices,
         Collection<ConstraintDefinition> constraints
-) implements Definition, JDAEntity<OptionData> {
+) implements Definition, NonCustomIdJDAEntity<OptionData> {
 
 
     private static final Map<OptionType, Class<?>> OPTION_TYPE_TO_CLASS = Map.ofEntries(
@@ -235,7 +235,7 @@ public record OptionDataDefinition(
     ///
     /// @return the [OptionData]
     @Override
-    public OptionData toJDAEntity(int counter) {
+    public OptionData toJDAEntity() {
         if (!declaredType.equals(Optional.class) && !Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(declaredType))) {
             throw new ConfigurationException("no-type-adapting-path",
                     entry("optionType", optionType.name()),

@@ -14,7 +14,8 @@ import org.junit.jupiter.api.Test;
 import java.util.NoSuchElementException;
 
 import static definitions.TestHelpers.getBuildContext;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class SlashCommandDefinitionTest {
 
@@ -60,7 +61,7 @@ class SlashCommandDefinitionTest {
 
     @Test
     void command_withCorrectDeclaration_shouldBuildCorrectSlashCommandData() {
-        SlashCommandData command = build("correct").toJDAEntity(0);
+        SlashCommandData command = build("correct").toJDAEntity();
 
         assertEquals("correct", command.getName());
         assertEquals("description", command.getDescription());

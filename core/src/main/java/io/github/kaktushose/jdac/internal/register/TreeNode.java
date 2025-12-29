@@ -109,7 +109,7 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
             return root;
         }
 
-        return (command.toJDAEntity(0));
+        return (command.toJDAEntity());
     }
 
     /// Transforms this TreeNode into [SubcommandGroupData] if it has children, else transforms it directly to [SubcommandData].

@@ -50,7 +50,7 @@ class ContextCommandDefinitionTest {
     void message_withCorrectSignature_shouldBuild() {
         ContextCommandDefinition definition = build("messageCorrect");
 
-        var commandData = definition.toJDAEntity(0);
+        var commandData = definition.toJDAEntity();
 
         assertEquals("message", commandData.getName());
         assertEquals(Type.MESSAGE, commandData.getType());
@@ -60,7 +60,7 @@ class ContextCommandDefinitionTest {
     void user_withMemberParam_shouldBuild() {
         ContextCommandDefinition definition = build("userWithMember");
 
-        var commandData = definition.toJDAEntity(0);
+        var commandData = definition.toJDAEntity();
 
         assertEquals("user", commandData.getName());
         assertEquals(Type.USER, commandData.getType());

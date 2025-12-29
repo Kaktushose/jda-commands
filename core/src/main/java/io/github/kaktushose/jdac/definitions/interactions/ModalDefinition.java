@@ -5,7 +5,7 @@ import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.description.ParameterDescription;
 import io.github.kaktushose.jdac.definitions.features.CustomIdJDAEntity;
-import io.github.kaktushose.jdac.definitions.features.JDAEntity;
+import io.github.kaktushose.jdac.definitions.features.NonCustomIdJDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.internal.Helpers;
@@ -77,7 +77,7 @@ public record ModalDefinition(
         try {
             var modal = Modal.create(customId.merged(), title);
 
-            textInputs.forEach(textInput -> modal.addComponents(textInput.toJDAEntity(0)));
+            textInputs.forEach(textInput -> modal.addComponents(textInput.toJDAEntity()));
 
             return modal.build();
         } catch (IllegalArgumentException e) {
@@ -101,7 +101,7 @@ public record ModalDefinition(
             int maxValue,
             TextInputStyle style,
             boolean required
-    ) implements JDAEntity<Label>, Definition {
+    ) implements NonCustomIdJDAEntity<Label>, Definition {
 
         /// Builds a new [TextInputDefinition] from the given [ParameterDescription]
         ///
@@ -158,7 +158,7 @@ public record ModalDefinition(
         ///
         /// @return the [TextInput]
         @Override
-        public Label toJDAEntity(int counter) {
+        public Label toJDAEntity() {
             return Label.of(label, toBuilder().build());
         }
 

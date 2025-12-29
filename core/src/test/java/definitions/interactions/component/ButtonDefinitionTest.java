@@ -71,7 +71,7 @@ class ButtonDefinitionTest {
     void button_withLink_shouldNotHaveId() {
         ButtonDefinition definition = build("withLink");
 
-        var button = definition.toJDAEntity(0);
+        var button = definition.toJDAEntity(CustomId.independent(definition.definitionId(), 0));
 
         assertNull(button.getCustomId());
         assertEquals("https://example.com", button.getUrl());
@@ -82,7 +82,7 @@ class ButtonDefinitionTest {
     void button_withoutLink_shouldHaveId() {
         ButtonDefinition definition = build("normalButton");
 
-        var button = definition.toJDAEntity(0);
+        var button = definition.toJDAEntity(CustomId.independent(definition.definitionId(), 0));
 
         assertNotNull(button.getCustomId());
         assertNull(button.getUrl());

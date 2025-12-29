@@ -79,7 +79,7 @@ public record ContextCommandDefinition(
     ///
     /// @return the [CommandData]
     @Override
-    public CommandData toJDAEntity(int counter) {
+    public CommandData toJDAEntity() {
         try {
             var command = Commands.context(commandType, name);
             command.setContexts(commandConfig.context());

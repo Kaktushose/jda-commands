@@ -103,15 +103,6 @@ public record EntitySelectMenuDefinition(
         );
     }
 
-    /// Transforms this definition to an [EntitySelectMenu] with an independent custom id.
-    ///
-    /// @return the [EntitySelectMenu]
-    /// @see CustomId#independent(String)
-    @Override
-    public EntitySelectMenu toJDAEntity(int counter) {
-        return toJDAEntity(CustomId.independent(definitionId(), counter));
-    }
-
     /// Transforms this definition to an [EntitySelectMenu] with the given [CustomId].
     ///
     /// @param customId the [CustomId] to use
