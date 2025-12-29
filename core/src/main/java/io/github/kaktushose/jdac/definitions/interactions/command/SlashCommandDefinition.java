@@ -127,7 +127,7 @@ public record SlashCommandDefinition(
     ///
     /// @return the [SlashCommandData]
     @Override
-    public SlashCommandData toJDAEntity() {
+    public SlashCommandData toJDAEntity(int counter) {
         try {
             SlashCommandData command = Commands.slash(
                     name,
@@ -141,7 +141,7 @@ public record SlashCommandDefinition(
                     .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()))
                     .addOptions(commandOptions.stream()
                             .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))
-                            .map(OptionDataDefinition::toJDAEntity)
+                            .map(def -> def.toJDAEntity(0))
                             .toList()
                     );
             return command;
@@ -158,7 +158,7 @@ public record SlashCommandDefinition(
             return new SubcommandData(name, description)
                     .addOptions(commandOptions.stream()
                             .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))
-                            .map(OptionDataDefinition::toJDAEntity)
+                            .map(def -> def.toJDAEntity(0))
                             .toList()
                     );
         } catch (IllegalArgumentException e) {

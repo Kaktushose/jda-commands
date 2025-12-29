@@ -62,15 +62,15 @@ public class TestScenario {
     }
 
     public ButtonInvocation button(String button) {
-        return new ButtonInvocation(context, customId(button), null);
+        return new ButtonInvocation(context, customId(button,0), null);
     }
 
     public StringSelectInvocation stringSelect(String menu) {
-        return new StringSelectInvocation(context, customId(menu), null);
+        return new StringSelectInvocation(context, customId(menu, 0), null);
     }
 
     public EntitySelectInvocation entitySelect(String menu) {
-        return new EntitySelectInvocation(context, customId(menu), null);
+        return new EntitySelectInvocation(context, customId(menu, 0), null);
     }
 
     public Optional<SlashCommandData> command(String command) {
@@ -93,8 +93,8 @@ public class TestScenario {
         return new AutoCompleteInvocation(context, command, option);
     }
 
-    private String customId(String component) {
-        return new CustomId("independent", String.valueOf((context.klass().getName() + component).hashCode())).merged();
+    private String customId(String component, int counter) {
+        return new CustomId("independent", String.valueOf((context.klass().getName() + component).hashCode()), String.valueOf(counter)).merged();
     }
 
     public static final class Builder {

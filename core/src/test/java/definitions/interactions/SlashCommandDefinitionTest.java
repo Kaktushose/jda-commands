@@ -60,7 +60,7 @@ class SlashCommandDefinitionTest {
 
     @Test
     void command_withCorrectDeclaration_shouldBuildCorrectSlashCommandData() {
-        SlashCommandData command = build("correct").toJDAEntity();
+        SlashCommandData command = build("correct").toJDAEntity(0);
 
         assertEquals("correct", command.getName());
         assertEquals("description", command.getDescription());

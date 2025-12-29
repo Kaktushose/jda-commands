@@ -77,7 +77,7 @@ public record ModalDefinition(
         try {
             var modal = Modal.create(customId.merged(), title);
 
-            textInputs.forEach(textInput -> modal.addComponents(textInput.toJDAEntity()));
+            textInputs.forEach(textInput -> modal.addComponents(textInput.toJDAEntity(0)));
 
             return modal.build();
         } catch (IllegalArgumentException e) {
@@ -158,7 +158,7 @@ public record ModalDefinition(
         ///
         /// @return the [TextInput]
         @Override
-        public Label toJDAEntity() {
+        public Label toJDAEntity(int counter) {
             return Label.of(label, toBuilder().build());
         }
 

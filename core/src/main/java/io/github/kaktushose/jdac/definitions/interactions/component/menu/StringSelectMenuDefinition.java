@@ -111,8 +111,8 @@ public record StringSelectMenuDefinition(
     /// @return the [StringSelectMenu]
     /// @see CustomId#independent(String)
     @Override
-    public StringSelectMenu toJDAEntity() {
-        return toJDAEntity(CustomId.independent(definitionId()));
+    public StringSelectMenu toJDAEntity(int counter) {
+        return toJDAEntity(CustomId.independent(definitionId(), counter));
     }
 
     /// Transforms this definition to an [StringSelectMenu] with the given [CustomId].
@@ -125,7 +125,7 @@ public record StringSelectMenuDefinition(
             StringSelectMenu menu = StringSelectMenu.create(customId.merged())
                     .setPlaceholder(placeholder)
                     .setRequiredRange(minValue, maxValue)
-                    .addOptions(selectOptions.stream().map(MenuOptionDefinition::toJDAEntity).collect(Collectors.toSet()))
+                    .addOptions(selectOptions.stream().map(def -> def.toJDAEntity(0)).collect(Collectors.toSet()))
                     .build();
             if (uniqueId != null) {
                 menu = menu.withUniqueId(uniqueId);
@@ -183,7 +183,7 @@ public record StringSelectMenuDefinition(
 
         /// Transforms this definition into a [SelectOption].
         @Override
-        public SelectOption toJDAEntity() {
+        public SelectOption toJDAEntity(int counter) {
             return SelectOption.of(label, value)
                     .withDescription(description)
                     .withEmoji(emoji)

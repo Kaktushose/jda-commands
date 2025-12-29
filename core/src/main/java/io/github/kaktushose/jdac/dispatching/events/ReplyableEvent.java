@@ -145,7 +145,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         var className = origin == null ? scopedInvocationContext().definition().classDescription().name() : origin.getName();
         var id = String.valueOf((className + component).hashCode());
         var definition = scopedInteractionRegistry().find(type, false, it -> it.definitionId().equals(id));
-        return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
+        return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId(), "0"));
     }
 
     /// Gets an [Embed] based on the given name.

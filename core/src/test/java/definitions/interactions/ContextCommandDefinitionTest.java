@@ -3,7 +3,6 @@ package definitions.interactions;
 import io.github.kaktushose.jdac.annotations.interactions.Command;
 import io.github.kaktushose.jdac.annotations.interactions.CommandConfig;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
-import io.github.kaktushose.jdac.annotations.interactions.Permissions;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.command.ContextCommandDefinition;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
@@ -15,10 +14,10 @@ import net.dv8tion.jda.api.interactions.commands.Command.Type;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 import static definitions.TestHelpers.getBuildContext;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ContextCommandDefinitionTest {
 
@@ -51,7 +50,7 @@ class ContextCommandDefinitionTest {
     void message_withCorrectSignature_shouldBuild() {
         ContextCommandDefinition definition = build("messageCorrect");
 
-        var commandData = definition.toJDAEntity();
+        var commandData = definition.toJDAEntity(0);
 
         assertEquals("message", commandData.getName());
         assertEquals(Type.MESSAGE, commandData.getType());
@@ -61,7 +60,7 @@ class ContextCommandDefinitionTest {
     void user_withMemberParam_shouldBuild() {
         ContextCommandDefinition definition = build("userWithMember");
 
-        var commandData = definition.toJDAEntity();
+        var commandData = definition.toJDAEntity(0);
 
         assertEquals("user", commandData.getName());
         assertEquals(Type.USER, commandData.getType());

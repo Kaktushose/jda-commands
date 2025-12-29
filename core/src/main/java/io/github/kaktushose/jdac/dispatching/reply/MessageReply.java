@@ -40,6 +40,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// Handles all the business logic for sending messages, including embeds or V1 components.
 public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
+    private int counter = 0;
     private static final Logger log = LoggerFactory.getLogger(MessageReply.class);
     protected final ReplyAction replyAction;
     private final ComponentResolver<ActionRowChildComponent> resolver;
@@ -247,7 +248,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     private CustomId createId(InteractionDefinition definition, boolean independent) {
         return independent
-                ? CustomId.independent(definition.definitionId())
-                : new CustomId(scopedRuntime().id(), definition.definitionId());
+                ? CustomId.independent(definition.definitionId(), counter++)
+                : new CustomId(scopedRuntime().id(), definition.definitionId(), String.valueOf(counter++));
     }
 }

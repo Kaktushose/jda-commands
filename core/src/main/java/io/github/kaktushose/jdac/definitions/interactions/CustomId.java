@@ -8,12 +8,12 @@ import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 /// @param runtimeId    the id of the [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) this custom id is bound to
 ///                     or the literal `independent`.
 /// @param definitionId the [Definition#definitionId()]
-/// @implNote the custom id has the following format: `jdac.runtimeId.definitionId`
-public record CustomId(String runtimeId, String definitionId) {
-    public static final String BOUND_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.-?\\d+$";
+/// @implNote the custom id has the following format: `jdac.runtimeId.definitionId.componentCounter`
+public record CustomId(String runtimeId, String definitionId, String counter) {
+    public static final String BOUND_CUSTOM_ID_REGEX = "^jdac\\.[0-9a-fA-F-]{36}\\.-?\\d+.\\d+$";
     private static final String PREFIX = "jdac";
     private static final String INDEPENDENT_ID = "independent";
-    public static final String INDEPENDENT_CUSTOM_ID_REGEX = "^jdac\\.%s\\.-?\\d+$".formatted(INDEPENDENT_ID);
+    public static final String INDEPENDENT_CUSTOM_ID_REGEX = "^jdac\\.%s\\.-?\\d+.\\d+$".formatted(INDEPENDENT_ID);
 
     public CustomId {
         if (!runtimeId.matches("[0-9a-fA-F-]{36}") && !runtimeId.equals(INDEPENDENT_ID)) {
@@ -30,15 +30,15 @@ public record CustomId(String runtimeId, String definitionId) {
             throw new IllegalArgumentException(JDACException.errorMessage("invalid-custom-id"));
         }
         var split = customId.split("\\.");
-        return new CustomId(split[1], split[2]);
+        return new CustomId(split[1], split[2], split[3]);
     }
 
     /// Constructs a new runtime-independent [CustomId] from the given definition id.
     ///
     /// @param definitionId the definition id to construct the [CustomId] from
     /// @return a new runtime-independent [CustomId]
-    public static CustomId independent(String definitionId) {
-        return new CustomId(INDEPENDENT_ID, definitionId);
+    public static CustomId independent(String definitionId, int counter) {
+        return new CustomId(INDEPENDENT_ID, definitionId, String.valueOf(counter));
     }
 
     /// Checks if the passed custom id *doesn't* conform to the defined format of jda-commands.
@@ -50,7 +50,7 @@ public record CustomId(String runtimeId, String definitionId) {
 
     /// The String representation of this custom id.
     public String merged() {
-        return "%s.%s.%s".formatted(PREFIX, runtimeId, definitionId);
+        return "%s.%s.%s.%s".formatted(PREFIX, runtimeId, definitionId, counter);
     }
 
     /// Gets the runtime id of this custom id.

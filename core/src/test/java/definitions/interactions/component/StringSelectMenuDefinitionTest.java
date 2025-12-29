@@ -44,7 +44,7 @@ class StringSelectMenuDefinitionTest {
                 false
         )), definition.selectOptions());
 
-        var menu = definition.toJDAEntity();
+        var menu = definition.toJDAEntity(0);
         assertEquals(definition.minValue(), menu.getMinValues());
         assertEquals(definition.maxValue(), menu.getMaxValues());
 
@@ -62,7 +62,7 @@ class StringSelectMenuDefinitionTest {
         StringSelectMenuDefinition definition = build("containerOptions");
 
         assertEquals(2, definition.selectOptions().size());
-        assertEquals(definition.selectOptions().size(), definition.toJDAEntity().getOptions().size());
+        assertEquals(definition.selectOptions().size(), definition.toJDAEntity(0).getOptions().size());
     }
 
     @Test

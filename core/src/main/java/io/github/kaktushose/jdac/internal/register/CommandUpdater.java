@@ -59,7 +59,7 @@ public final class CommandUpdater {
         commands.addAll(
                 interactionRegistry.find(ContextCommandDefinition.class, it -> it.commandConfig().scope() == scope)
                         .stream()
-                        .map(ContextCommandDefinition::toJDAEntity)
+                        .map(def -> def.toJDAEntity(0))
                         .toList()
         );
         return commands;

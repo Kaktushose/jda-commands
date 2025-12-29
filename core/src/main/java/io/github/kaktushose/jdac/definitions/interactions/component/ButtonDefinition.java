@@ -92,8 +92,8 @@ public record ButtonDefinition(
     /// @return the [Button]
     /// @see CustomId#independent(String)
     @Override
-    public Button toJDAEntity() {
-        return toJDAEntity(CustomId.independent(definitionId()));
+    public Button toJDAEntity(int counter) {
+        return toJDAEntity(CustomId.independent(definitionId(), counter));
     }
 
     /// Transforms this definition to an [Button] with the given [CustomId].

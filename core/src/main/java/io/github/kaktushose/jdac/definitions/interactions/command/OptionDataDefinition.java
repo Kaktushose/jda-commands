@@ -235,7 +235,7 @@ public record OptionDataDefinition(
     ///
     /// @return the [OptionData]
     @Override
-    public OptionData toJDAEntity() {
+    public OptionData toJDAEntity(int counter) {
         if (!declaredType.equals(Optional.class) && !Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(declaredType))) {
             throw new ConfigurationException("no-type-adapting-path",
                     entry("optionType", optionType.name()),
