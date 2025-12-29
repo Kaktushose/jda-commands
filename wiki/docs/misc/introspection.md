@@ -62,7 +62,7 @@ from this event later. If a <FrameworkEvent> is fired by JDA-Commands all
 ### Accessing <Introspection> inside <io.github.kaktushose.jdac.introspection.lifecycle.Subscriber>
 A <io.github.kaktushose.jdac.introspection.lifecycle.Subscriber> provides two arguments:
 
-- the published instance of <FrameworkEvent>
+- the published instance of <FrameworkEventyg>
 - the <Introspection> instance used to publish the event
 
 To know in which <Stage> the event is published (and thus what [Properties][[Property]] can be used), take a look
