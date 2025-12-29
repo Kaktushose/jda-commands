@@ -69,6 +69,7 @@ public final class ButtonComponent extends Component<ButtonComponent, Button, Bu
 
     @Override
     public ButtonComponent withUniqueId(int uniqueId) {
-        throw new UnsupportedOperationException();
+        super.withUniqueId(uniqueId);
+        return this;
     }
 }

@@ -29,8 +29,9 @@ public final class UnspecificComponent extends Component<UnspecificComponent, Ac
         return definition;
     }
 
+    // works - don't touch it
     @Override
     public Type getType() {
-        return Type.UNKNOWN;
+        return Type.BUTTON;
     }
 }

@@ -13,6 +13,8 @@ import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponentUnion;
+import net.dv8tion.jda.api.components.section.SectionAccessoryComponentUnion;
+import net.dv8tion.jda.api.components.thumbnail.Thumbnail;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
@@ -77,7 +79,8 @@ import java.util.function.Function;
 /// @see StringSelectComponent
 /// @see EntitySelectMenuComponent
 public abstract sealed class Component<S extends Component<S, T, B, D>, T extends ActionComponent, B, D extends ComponentDefinition<T>>
-        implements ActionRowChildComponentUnion permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
+        implements ActionRowChildComponentUnion, SectionAccessoryComponentUnion
+        permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
 
     protected @Nullable Integer uniqueId;
     private final Entry[] placeholder;
@@ -268,6 +271,11 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
 
     @Override
     public net.dv8tion.jda.api.components.selections.EntitySelectMenu asEntitySelectMenu() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Thumbnail asThumbnail() {
         throw new UnsupportedOperationException();
     }
 
