@@ -3,6 +3,7 @@ package io.github.kaktushose.jdac.annotations.interactions;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.dispatching.events.ReplyableEvent;
 import io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply;
+import io.github.kaktushose.jdac.dispatching.reply.EditableConfigurableReply;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -18,7 +19,7 @@ import java.lang.annotation.Target;
 ///  will be used instead.
 ///
 /// **These values are always overridden by [ConfigurableReply#ephemeral(boolean)],
-/// [ConfigurableReply#keepComponents(boolean)] or respectively [ConfigurableReply#editReply(boolean)].**
+/// [EditableConfigurableReply#keepComponents(boolean)] or respectively [EditableConfigurableReply#editReply(boolean)].**
 ///
 /// In other words the hierarchy is as following:
 /// 1. [ConfigurableReply]

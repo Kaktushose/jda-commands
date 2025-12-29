@@ -44,7 +44,7 @@ public final class CommandUpdater {
     }
 
     /// Sends the [SlashCommandData] to Discord. This is equivalent to calling [#updateGlobalCommands()] and
-    /// [#updateGuildCommands()] each.
+    /// [#updateGuildCommands(Collection)()] each.
     public void updateAllCommands() {
         updateGuildCommands(null);
         updateGlobalCommands();

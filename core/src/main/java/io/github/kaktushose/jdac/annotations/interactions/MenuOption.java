@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 
 import java.lang.annotation.*;
 
-/// Used to define [`SelectOptions`][net.dv8tion.jda.api.interactions.components.selections.SelectOption]
+/// Used to define [`SelectOptions`][net.dv8tion.jda.api.components.selections.SelectOption]
 /// for [StringSelectMenu]s.
 ///
 /// @see StringSelectMenu
