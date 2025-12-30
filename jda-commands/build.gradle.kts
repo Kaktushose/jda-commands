@@ -19,6 +19,8 @@ dependencies {
     
     api(project(":core"))
     api(project(":guice-extension"))
+
+    javadocClasspath(project(":processor"))
 }
 
 tasks.withType<Javadoc>().configureEach {
