@@ -41,6 +41,22 @@ public record ClassDescription(
                 .findFirst();
     }
 
+    /// Gets a method that matches the given name and parameter types if found.
+    ///
+    /// @param name the method name
+    /// @param parameters the method parameters, as stored by [ParameterDescription#type()]
+    ///
+    /// @return the found [MethodDescription] or [Optional#empty()]
+    public Optional<MethodDescription> findMethod(String name, Class<?>... parameters) {
+        return methods
+                .stream()
+                .filter(desc -> desc.name().equals(name) && desc.parameters()
+                        .stream()
+                        .map(ParameterDescription::type)
+                        .toList().equals(Arrays.asList(parameters)))
+                .findFirst();
+    }
+
     /// Gets a method that matches the given name and parameter types.
     /// Throws if no matching method was found.
     ///
@@ -51,8 +67,22 @@ public record ClassDescription(
     ///
     /// @throws NoSuchElementException if no element was found
     /// @see Optional#orElseThrow()
-    public MethodDescription method(String name,List<Class<?>> parameters) {
+    public MethodDescription method(String name, List<Class<?>> parameters) {
         return findMethod(name, parameters).orElseThrow();
+    }
+
+    /// Gets a method that matches the given name and parameter types.
+    /// Throws if no matching method was found.
+    ///
+    /// @param name the method name
+    /// @param parameters the method parameters, as stored by [ParameterDescription#type()]
+    ///
+    /// @return the found [MethodDescription]
+    ///
+    /// @throws NoSuchElementException if no element was found
+    /// @see Optional#orElseThrow()
+    public MethodDescription method(String name, Class<?>... parameters) {
+        return method(name, Arrays.asList(parameters));
     }
 
     @Override

@@ -36,4 +36,13 @@ public sealed interface Definitions permits InteractionRegistry {
     ///
     /// @return the frist [InteractionDefinition] matching the provided criteria
     <T extends Definition> T findFirst(Class<T> type, Predicate<T> predicate);
+
+    /// Gets all registered [InteractionDefinition]s matching the passed type
+    ///
+    /// @param type the [type][Object#getClass()] of the needed [InteractionDefinition]
+    ///
+    /// @return the [InteractionDefinition]s matching the provided type
+    default <T extends Definition> Collection<T> find(Class<T> type) {
+        return find(type, _ -> true);
+    }
 }

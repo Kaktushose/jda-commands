@@ -40,4 +40,12 @@ public sealed interface Description permits AnnotationDescription, ClassDescript
     default <T extends Annotation> T annotation(Class<T> type) {
         return findAnnotation(type).orElseThrow();
     }
+
+    /// Checks whether this element has a [Annotation] for the specified type.
+    ///
+    /// @param type the type of the annotation
+    /// @return `true` if the annotation is present else `false`
+    default boolean hasAnnotation(Class<? extends Annotation> type) {
+        return findAnnotation(type).isPresent();
+    }
 }
