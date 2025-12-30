@@ -80,7 +80,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     // -------- settable by user + loadable from extension --------
 
     /// @see JDACBuilder#classFinders(ClassFinder...)
-    @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE)
+    @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = OVERRIDE)
     Property<Collection<ClassFinder>> CLASS_FINDER =
             new Enumeration<>("CLASS_FINDER", Category.LOADABLE, ClassFinder.class, OVERRIDE, Stage.CONFIGURATION);
 
@@ -90,6 +90,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
             new Enumeration<>("EMOJI_SOURCES", Category.LOADABLE, EmojiSource.class, OVERRIDE, Stage.CONFIGURATION);
 
     /// @see EmbedConfig#sources(EmbedDataSource...)
+    @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = ACCUMULATE)
     Property<Collection<EmbedDataSource>> EMBED_SOURCES =
             new Enumeration<>("EMBED_SOURCES", Category.LOADABLE, EmbedDataSource.class, ACCUMULATE, Stage.CONFIGURATION);
 
