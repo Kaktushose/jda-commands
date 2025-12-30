@@ -122,7 +122,7 @@ public final class JDACommands {
     /// Shuts down this JDACommands instance, making it unable to receive any events from Discord.
     /// This will **not** unregister any slash commands.
     ///
-    /// If [JDACBuilder#shutdownJDA()] is set to `true``, the underlying [JDA] or [ShardManager] instance will
+    /// If [JDACBuilder#shutdownJDA(boolean)] is set to `true``, the underlying [JDA] or [ShardManager] instance will
     /// be shutdown too.
     public void shutdown() {
         introspection.publish(new FrameworkShutdownEvent());

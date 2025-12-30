@@ -1,0 +1,22 @@
+name: Javadoc build & test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-javadoc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/setup-gradle
+      - name: Generate javadocs with Gradle
+        run: ./gradlew javadoc  2>&1 | tee out.log # 2>&1 -> redirect err to out
+      - name: Check for errors
+        run: |
+          pattern='warning:'
+          if grep -Eq "$pattern" out.log; then
+            echo "Found warnings:"
+            grep -E "$pattern" out.log
+            exit 1
+          fi

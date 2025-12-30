@@ -19,19 +19,19 @@ public sealed interface Definitions permits InteractionRegistry {
     /// @return an _immutable_ collection of all indexes [InteractionDefinition]s
     Collection<InteractionDefinition> all();
 
-    /// Gets a subset of all registered [InteractionDefinition] filtered by their [type][InteractionDefinition#getClass()]
+    /// Gets a subset of all registered [InteractionDefinition] filtered by their [type][Object#getClass()]
     /// and the passed [Predicate].
     ///
-    /// @param type the [type][InteractionDefinition#getClass()] of the needed [InteractionDefinition]s
+    /// @param type the [type][Object#getClass()] of the needed [InteractionDefinition]s
     /// @param predicate the [Predicate] to filter the [InteractionDefinition]s of the passed type
     ///
     /// @return the [InteractionDefinition]s matching the provided criteria
     <T extends Definition> Collection<T> find(Class<T> type, Predicate<T> predicate);
 
-    /// Gets the first [InteractionDefinition] with the given [type][InteractionDefinition#getClass()] that
+    /// Gets the first [InteractionDefinition] with the given [type][Object#getClass()] that
     /// match the passed [Predicate]
     ///
-    /// @param type the [type][InteractionDefinition#getClass()] of the needed [InteractionDefinition]
+    /// @param type the [type][Object#getClass()] of the needed [InteractionDefinition]
     /// @param predicate the [Predicate] that has to match the needed [InteractionDefinition]
     ///
     /// @return the frist [InteractionDefinition] matching the provided criteria

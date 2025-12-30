@@ -19,7 +19,6 @@ import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
-import io.github.kaktushose.jdac.introspection.lifecycle.events.InteractionFinishedEvent;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.InteractionStartEvent;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -43,7 +42,7 @@ import java.util.function.BiConsumer;
 /// 2. Middleware execution: In this step all registered [Middleware]s
 /// are executed ordered by their [Priority].
 ///
-/// 3. Invocation ([EventHandler#invoke(InvocationContext, Runtime)]):
+/// 3. Invocation ([EventHandler#invoke(InvocationContext, Runtime, IntrospectionImpl)]):
 /// In this step the user implemented method is called with help of the right [InteractionDefinition]
 @ApiStatus.Internal
 public abstract sealed class EventHandler<T extends GenericInteractionCreateEvent>

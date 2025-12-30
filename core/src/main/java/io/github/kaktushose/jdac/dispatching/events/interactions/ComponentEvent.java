@@ -78,7 +78,7 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// Acknowledgement of this event with the V2 Components of the original reply. Will also apply the passed
     /// [ComponentReplacer] before sending the reply.
     ///
-    /// This method will always set [#keepComponents(boolean)] to `true` to retrieve the original components.
+    /// This method will always set [EditableConfigurableReply#keepComponents(boolean)] to `true` to retrieve the original components.
     ///
     /// @param replacer the [ComponentReplacer] to apply to the original components
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
