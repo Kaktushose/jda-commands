@@ -15,7 +15,7 @@ import java.util.Optional;
 /// @see ParameterDescription
 public sealed interface Description permits AnnotationDescription, ClassDescription, MethodDescription, PackageDescription, ParameterDescription {
 
-    /// a possibly-empty [Collection] of all [Annotation]s this element is annotated with.
+    /// @return a possibly-empty [Collection] of all [Annotation]s this element is annotated with.
     Collection<AnnotationDescription<?>> annotations();
 
     /// Gets this element's [Annotation] for the specified type if such an annotation is present
