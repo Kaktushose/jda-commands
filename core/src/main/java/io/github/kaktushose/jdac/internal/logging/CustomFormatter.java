@@ -1,5 +1,7 @@
 package io.github.kaktushose.jdac.internal.logging;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.ZoneId;
@@ -7,6 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
 
+@ApiStatus.Internal
 public class CustomFormatter extends SimpleFormatter {
 
     // borrowed from JDA :D
@@ -14,12 +17,9 @@ public class CustomFormatter extends SimpleFormatter {
 
     @Override
     public String format(LogRecord record) {
-        ZonedDateTime zdt = ZonedDateTime.ofInstant(
-                record.getInstant(), ZoneId.systemDefault());
+        ZonedDateTime zdt = ZonedDateTime.ofInstant(record.getInstant(), ZoneId.systemDefault());
 
-        String source = record.getSourceClassName() != null
-                ? record.getSourceClassName()
-                : record.getLoggerName();
+        String source = record.getSourceClassName() != null ? record.getSourceClassName() : record.getLoggerName();
 
         String throwable = "";
         if (record.getThrown() != null) {
@@ -29,11 +29,7 @@ public class CustomFormatter extends SimpleFormatter {
             pw.close();
             throwable = sw.toString();
         }
-        return format.formatted(
-                zdt,
-                source,
-                record.getLevel().getName(),
-                record.getMessage(),
-                throwable);
+
+        return format.formatted(zdt, source, record.getLevel().getName(), record.getMessage(), throwable);
     }
 }

@@ -1,6 +1,5 @@
 # Logging
-JDA-Commands uses [SLF4J](https://slf4j.org/) as its logging framework allowing bot developers
-to use an own logging backend.
+JDA-Commands uses [SLF4J](https://slf4j.org/) as its logging framework allowing bot developers to use an own logging backend.
 
 If you see following on startup:
 ```
@@ -9,7 +8,7 @@ SLF4J(W): Defaulting to no-operation (NOP) logger implementation
 SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
 ```
 
-and/or
+and/ or
 ```
 
 [JDALogger] [WARN] Using fallback logger due to missing SLF4J implementation.
@@ -23,12 +22,12 @@ It means that you have to configure a logging framework. You can consult the [JD
 Per default, we will provide a very basic fallback logger based on [java.util.logging][[java.util.logging.Logger]].
 Please consult its documentation to know how to configure it.
 
-!!! tip
+!!! info
     Sometimes  `java.util.logging` is referred to as `JUL`. Don't be confused, it's the same!
 
-## the fallback logger
+## The Fallback Logger
 The fallback logger is a simple SLF4J logger built around [java.util.logging.Logger][[java.util.logging.Logger]]
-with a log format similar to JDA's fallback logger format.
+with a log format similar to JDAs fallback logger format.
 
 The log levels are translated following:
 
@@ -38,7 +37,7 @@ The log levels are translated following:
 - DEBUG -> <java.util.logging.Level#FINE> (JUL)
 - TRACE -> <java.util.logging.Level#FINEST> (JUL)
 
-### debug mode
+### Debug Mode
 If you want to enable debug logging for the fallback logger you have to somewhere create a `logging.properties`
 with following contents:
 
@@ -49,12 +48,15 @@ handlers = java.util.logging.ConsoleHandler
 java.util.logging.ConsoleHandler.level = FINE
 ```
 
-Then add this to your jvm args:
+Then add this to your JVM args:
 `-Djava.util.logging.config.file=<your_path_to_logging.properties>`
 
-For example, your java command could look like this:
-
+For example, your Java command could look like this:
 
 ```shell
 java -Djava.util.logging.config.file=./app/src/main/resources/logging.properties -jar myBot.jar
 ```
+
+!!! danger
+    Using the fallback logger is not recommended. As said before, consult the [JDA documentation](https://jda.wiki/setup/logging/)
+    on how to setup proper logging. 

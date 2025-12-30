@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.internal.logging;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Marker;
 import org.slf4j.event.Level;
 import org.slf4j.helpers.LegacyAbstractLogger;
@@ -10,7 +11,9 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
+@ApiStatus.Internal
 class FallbackLogger extends LegacyAbstractLogger {
+
     private static final Formatter FORMATTER = new CustomFormatter();
     private static final ConsoleHandler HANDLER;
 
