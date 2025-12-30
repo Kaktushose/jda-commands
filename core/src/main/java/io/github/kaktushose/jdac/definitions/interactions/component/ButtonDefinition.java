@@ -45,7 +45,7 @@ public record ButtonDefinition(
     public static ButtonDefinition build(MethodBuildContext context) {
         var method = context.method();
         io.github.kaktushose.jdac.annotations.interactions.Button button =
-                method.annotation(io.github.kaktushose.jdac.annotations.interactions.Button.class).orElseThrow();
+                method.findAnnotation(io.github.kaktushose.jdac.annotations.interactions.Button.class).orElseThrow();
 
         Helpers.checkSignature(method, List.of(ComponentEvent.class));
 

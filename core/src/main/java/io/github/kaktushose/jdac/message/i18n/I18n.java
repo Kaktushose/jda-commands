@@ -246,7 +246,7 @@ public class I18n {
     }
 
     private Optional<String> readAnnotation(Description description) {
-        return description.annotation(Bundle.class)
+        return description.findAnnotation(Bundle.class)
                 .map(Bundle::value);
     }
 

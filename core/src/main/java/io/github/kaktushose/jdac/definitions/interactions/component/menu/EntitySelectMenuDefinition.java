@@ -48,7 +48,7 @@ public record EntitySelectMenuDefinition(
     public static EntitySelectMenuDefinition build(MethodBuildContext context) {
         var method = context.method();
         io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu selectMenu =
-                method.annotation(io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu.class).orElseThrow();
+                method.findAnnotation(io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu.class).orElseThrow();
 
         Helpers.checkSignature(method, List.of(ComponentEvent.class, Mentions.class));
 

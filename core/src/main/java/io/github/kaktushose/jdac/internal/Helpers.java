@@ -76,7 +76,7 @@ public final class Helpers {
     /// @param context the [MethodBuildContext] to extract the permissions from
     /// @return a possibly-empty set of all permissions
     public static Set<String> permissions(MethodBuildContext context) {
-        var permission = context.method().annotation(Permissions.class);
+        var permission = context.method().findAnnotation(Permissions.class);
 
         if (permission.isPresent()) {
             HashSet<String> mergedPermissions = new HashSet<>(context.permissions());
@@ -208,8 +208,8 @@ public final class Helpers {
                                                              MethodDescription method,
                                                              Function<A, C> mapper,
                                                              C fallback) {
-        var clazzAnn = clazz.annotation(annotation);
-        var methodAnn = method.annotation(annotation);
+        var clazzAnn = clazz.findAnnotation(annotation);
+        var methodAnn = method.findAnnotation(annotation);
 
         if (clazzAnn.isEmpty() && methodAnn.isEmpty()) {
             return fallback;

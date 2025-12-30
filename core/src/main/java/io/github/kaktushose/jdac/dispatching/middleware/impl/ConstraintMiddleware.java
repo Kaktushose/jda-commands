@@ -63,7 +63,7 @@ public class ConstraintMiddleware implements Middleware {
                 Validator<Object, Annotation> validator = (Validator<Object, Annotation>) constraint.validator();
 
                 // TODO better exception
-                Constraint constraintAnn = constraint.annotation().annotation(Constraint.class).orElseThrow();
+                Constraint constraintAnn = constraint.annotation().findAnnotation(Constraint.class).orElseThrow();
                 Class<?>[] supportedTypes = constraintAnn.value();
                 Object converted = Arrays.stream(supportedTypes)
                         .map(klass -> Proteus.global().convert(argument, Type.dynamic(argument), Type.of(klass)))

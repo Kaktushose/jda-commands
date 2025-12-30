@@ -38,7 +38,7 @@ public record ModalDefinition(
     /// @return an [Optional] holding the [ModalDefinition]
     public static ModalDefinition build(MethodBuildContext context) {
         var method = context.method();
-        var modal = method.annotation(io.github.kaktushose.jdac.annotations.interactions.Modal.class).orElseThrow();
+        var modal = method.findAnnotation(io.github.kaktushose.jdac.annotations.interactions.Modal.class).orElseThrow();
 
         Helpers.checkParameterType(method, 0, ModalEvent.class);
 
@@ -108,7 +108,7 @@ public record ModalDefinition(
         /// @param parameter the [ParameterDescription] to build the [TextInputDefinition] from
         /// @return the new [TextInputDefinition]
         public static Optional<TextInputDefinition> build(ParameterDescription parameter) {
-            var optional = parameter.annotation(io.github.kaktushose.jdac.annotations.interactions.TextInput.class);
+            var optional = parameter.findAnnotation(io.github.kaktushose.jdac.annotations.interactions.TextInput.class);
 
             if (optional.isEmpty()) {
                 return Optional.empty();

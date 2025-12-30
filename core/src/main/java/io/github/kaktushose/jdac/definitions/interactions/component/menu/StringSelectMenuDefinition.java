@@ -47,16 +47,16 @@ public record StringSelectMenuDefinition(
     public static StringSelectMenuDefinition build(MethodBuildContext context) {
         var method = context.method();
         io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu selectMenu =
-                method.annotation(io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu.class).orElseThrow();
+                method.findAnnotation(io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu.class).orElseThrow();
 
         Helpers.checkSignature(method, List.of(ComponentEvent.class, List.class));
 
         Set<MenuOptionDefinition> selectOptions = new HashSet<>();
 
-        method.annotation(MenuOption.class)
+        method.findAnnotation(MenuOption.class)
                 .ifPresent(it -> selectOptions.add(MenuOptionDefinition.build(it)));
 
-        method.annotation(MenuOptionContainer.class)
+        method.findAnnotation(MenuOptionContainer.class)
                 .stream()
                 .flatMap(it -> Arrays.stream(it.value()))
                 .forEach(it -> selectOptions.add(MenuOptionDefinition.build(it)));
