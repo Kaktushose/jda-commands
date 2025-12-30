@@ -34,15 +34,15 @@ If you are using localization, please take a look at [implicit localization](loc
     You have to use <MessageResolver>
     to resolve such messages.
 
-## Adding custom string resolvers
+## Adding custom String Resolvers
 Sometimes it's necessary to introduce custom resolution logic. JDA-Commands provides <Property#STRING_RESOLVER>
 (configurable by <JDACBuilder#stringResolver(Resolver...)>) allowing the user to add own implementations of 
 [`Resolver<String>`][[io.github.kaktushose.jdac.message.resolver.Resolver]].
 
 Each <io.github.kaktushose.jdac.message.resolver.Resolver> has a [priority][[Resolver#priority()]] affecting the order in which all registered
-string resolvers are applied by <MessageResolver>. A lower priority is applied first (e.g. <I18n> runs after <PlaceholderResolver>).
+String Resolvers are applied by <MessageResolver>. A lower priority is applied first (e.g. <I18n> runs after <PlaceholderResolver>).
 
-The default resolvers have the following priorities:
+The default Resolvers have the following priorities:
 
 - <PlaceholderResolver> = 1000
 - <I18n> = 2000
