@@ -11,7 +11,6 @@ import io.github.kaktushose.jdac.definitions.description.reflective.ReflectiveDe
 import io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
@@ -49,7 +48,7 @@ public class TestHelpers {
 
     private static Collection<AutoCompleteDefinition> autoCompleteDefinitions(ClassDescription clazz) {
         return clazz.methods().stream()
-                .filter(it -> it.annotation(AutoComplete.class).isPresent())
+                .filter(it -> it.hasAnnotation(AutoComplete.class))
                 .map(method -> AutoCompleteDefinition.build(clazz, method))
                 .toList();
     }

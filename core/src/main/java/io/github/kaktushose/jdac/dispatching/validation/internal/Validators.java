@@ -44,7 +44,7 @@ public class Validators {
     /// @param type       the type to validate
     /// @return an [Optional] holding the [Validator]
     public Result get(AnnotationDescription<? extends Annotation> annotation, Class<?> type) {
-        Constraint constraint = annotation.annotation(Constraint.class).orElseThrow();
+        Constraint constraint = annotation.annotation(Constraint.class);
 
         boolean typesCompatible = Arrays.stream(constraint.value())
                 .anyMatch(klass -> Proteus.global().existsPath(Type.of(type), Type.of(klass)));

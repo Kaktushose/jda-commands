@@ -143,7 +143,7 @@ public record OptionDataDefinition(
         // index constraints
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
-                .filter(it -> it.annotation(Constraint.class).isPresent())
+                .filter(it -> it.hasAnnotation(Constraint.class))
                 .forEach(it -> {
                     switch (validatorRegistry.get(it, resolvedType)) {
                         case Validators.Result.NotFound _ -> throw new ConfigurationException(
@@ -172,7 +172,7 @@ public record OptionDataDefinition(
         String description = i18n.localize(Locale.ENGLISH, "jdac$no-description");
         boolean isOptional = parameter.type().equals(Optional.class);
         OptionType optionType = CLASS_TO_OPTION_TYPE.getOrDefault(resolvedType, OptionType.STRING);
-        var param = parameter.annotation(Param.class);
+        var param = parameter.findAnnotation(Param.class);
         if (param.isPresent()) {
             Param annotation = param.get();
             name = annotation.name().isEmpty() ? name : annotation.name();
@@ -186,7 +186,7 @@ public record OptionDataDefinition(
 
         // Options
         List<Command.Choice> commandChoices = new ArrayList<>();
-        var choices = parameter.annotation(Choices.class);
+        var choices = parameter.findAnnotation(Choices.class);
         if (choices.isPresent()) {
             for (String option : choices.get().value()) {
                 String[] parsed = option.split(":", 2);

@@ -78,9 +78,9 @@ public record InteractionRegistry(Validators validators,
     }
 
     private Collection<InteractionDefinition> indexInteractionClass(ClassDescription clazz, CommandDefinition.CommandConfig globalCommandConfig, Collection<AutoCompleteDefinition> autoCompletes) {
-        var interaction = clazz.annotation(Interaction.class).orElseThrow();
+        var interaction = clazz.annotation(Interaction.class);
 
-        final Set<String> permissions = clazz.annotation(Permissions.class).map(value -> Set.of(value.value())).orElseGet(Set::of);
+        final Set<String> permissions = clazz.findAnnotation(Permissions.class).map(value -> Set.of(value.value())).orElseGet(Set::of);
 
         // index interactions
         return interactionDefinitions(
@@ -105,7 +105,7 @@ public record InteractionRegistry(Validators validators,
 
     private Collection<AutoCompleteDefinition> autoCompleteDefinitions(ClassDescription clazz) {
         return clazz.methods().stream()
-                .filter(it -> it.annotation(AutoComplete.class).isPresent())
+                .filter(it -> it.findAnnotation(AutoComplete.class).isPresent())
                 .map(method -> AutoCompleteDefinition.build(clazz, method))
                 .toList();
     }
@@ -149,8 +149,8 @@ public record InteractionRegistry(Validators validators,
     @Nullable
     private InteractionDefinition construct(MethodDescription method, MethodBuildContext context) {
         // index commands
-        if (method.annotation(Command.class).isPresent()) {
-            Command command = method.annotation(Command.class).get();
+        if (method.hasAnnotation(Command.class)) {
+            Command command = method.findAnnotation(Command.class).get();
             return switch (command.type()) {
                 case SLASH -> SlashCommandDefinition.build(context);
                 case USER, MESSAGE -> ContextCommandDefinition.build(context);
@@ -159,18 +159,18 @@ public record InteractionRegistry(Validators validators,
         }
 
         // index components
-        if (method.annotation(Button.class).isPresent()) {
+        if (method.hasAnnotation(Button.class)) {
             return ButtonDefinition.build(context);
         }
-        if (method.annotation(EntitySelectMenu.class).isPresent()) {
+        if (method.hasAnnotation(EntitySelectMenu.class)) {
             return EntitySelectMenuDefinition.build(context);
         }
-        if (method.annotation(StringSelectMenu.class).isPresent()) {
+        if (method.hasAnnotation(StringSelectMenu.class)) {
             return StringSelectMenuDefinition.build(context);
         }
 
         //index modals
-        if (method.annotation(Modal.class).isPresent()) {
+        if (method.hasAnnotation(Modal.class)) {
             return ModalDefinition.build(context);
         }
 

@@ -30,7 +30,7 @@ class ClassDescriptionTest {
         AnnotationDescription<?> description = classDescription.annotations().stream().findFirst().orElseThrow();
         assertEquals(Interaction.class, description.type());
 
-        Interaction interaction = classDescription.annotation(Interaction.class).orElseThrow();
+        Interaction interaction = classDescription.annotation(Interaction.class);
         assertEquals("base", interaction.value());
     }
 
@@ -38,7 +38,7 @@ class ClassDescriptionTest {
     void testPackageDescription() {
         PackageDescription description = classDescription.packageDescription();
         assertEquals("definitions.description.environment", description.name());
-        assertEquals(Bundle.class, description.annotation(Bundle.class).orElseThrow().annotationType());
+        assertEquals(Bundle.class, description.annotation(Bundle.class).annotationType());
 
         assertTrue(Descriptor.REFLECTIVE.describe(NestedClass.class).packageDescription().annotations().isEmpty());
     }
@@ -87,7 +87,7 @@ class ClassDescriptionTest {
         assertEquals(int.class, second.type());
 
         ParameterDescription third = parameters.get(2);
-        assertEquals(Param.class, third.annotation(Param.class).orElseThrow().annotationType());
+        assertEquals(Param.class, third.annotation(Param.class).annotationType());
 
         ParameterDescription fourth = parameters.get(3);
         assertEquals(String.class, fourth.typeArguments()[0]);

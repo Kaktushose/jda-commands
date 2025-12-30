@@ -2,9 +2,7 @@ package io.github.kaktushose.jdac.definitions.description;
 
 import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodType;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.SequencedCollection;
+import java.util.*;
 
 /// A [Description] that describes a method.
 ///
@@ -29,6 +27,31 @@ public record MethodDescription(
         this.parameters = Collections.unmodifiableSequencedCollection(parameters);
         this.annotations = Collections.unmodifiableCollection(annotations);
         this.invoker = invoker;
+    }
+
+    /// Gets the parameter matching the given name if any.
+    ///
+    /// Please note that if `-parameters` isn't present on the 'javac' command, this is just `arg0`, `arg1` etc.
+    /// if using [Descriptor#REFLECTIVE].
+    ///
+    /// @param name the parameters name
+    /// @return the matching [ParameterDescription] or [Optional#empty()]
+    public Optional<ParameterDescription> findParameter(String name) {
+        return parameters.stream().filter(desc -> desc.name().equals(name)).findFirst();
+    }
+
+    /// Gets the parameter matching the given name. Throws if no matching parameter is found.
+    ///
+    /// Please note that if `-parameters` isn't present on the 'javac' command, this is just `arg0`, `arg1` etc.
+    /// if using [Descriptor#REFLECTIVE].
+    ///
+    /// @param name the parameters name
+    /// @return the matching [ParameterDescription]
+    ///
+    /// @throws NoSuchElementException if no element was found
+    /// @see Optional#orElseThrow()
+    public ParameterDescription parameter(String name) {
+        return findParameter(name).orElseThrow();
     }
 
     /// @return the return type and parameters of this method as a [MethodType]
