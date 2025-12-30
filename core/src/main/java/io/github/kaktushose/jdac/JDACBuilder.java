@@ -155,8 +155,9 @@ public class JDACBuilder {
 
         addFallback(I18N, ctx -> new I18n(ctx.get(DESCRIPTOR), ctx.get(LOCALIZER)));
 
-        addFallback(STRING_RESOLVER, ctx -> List.of(ctx.get(I18N), ctx.get(EMOJI_RESOLVER), new PlaceholderResolver()));
+        addFallback(STRING_RESOLVER, ctx -> List.of(ctx.get(I18N), ctx.get(EMOJI_RESOLVER), ctx.get(PLACEHOLDER_RESOLVER)));
         addFallback(MESSAGE_RESOLVER, ctx -> new MessageResolver(ctx.get(STRING_RESOLVER)));
+        addFallback(PLACEHOLDER_RESOLVER, _ -> new PlaceholderResolver());
 
         addFallback(EMOJI_RESOLVER, ctx -> {
             Helpers.registerAppEmojis(ctx.get(JDA_CONTEXT), ctx.get(EMOJI_SOURCES));
