@@ -365,7 +365,7 @@ public class JDACBuilder {
 
                 InteractionRegistry interactionRegistry = new InteractionRegistry(
                         new Validators(introspection.get(VALIDATOR)),
-                        introspection.get(I18N),
+                        introspection.get(MESSAGE_RESOLVER),
                         introspection.get(LOCALIZE_COMMANDS) ? introspection.get(I18N).localizationFunction() : (_) -> Map.of(),
                         introspection.get(DESCRIPTOR)
                 );

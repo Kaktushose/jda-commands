@@ -15,6 +15,7 @@ import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import dev.goldmensch.fluava.Fluava;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 
 import java.util.*;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public class TestHelpers {
 
     public static final I18n I18N = new I18n(Descriptor.REFLECTIVE, new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
+    public static final MessageResolver MESSAGE_RESOLVER = new MessageResolver(List.of(I18N));
 
     public static final Validators validators = new Validators(Map.of());
 
@@ -36,7 +38,7 @@ public class TestHelpers {
         return new MethodBuildContext(
                 validators,
                 ResourceBundleLocalizationFunction.empty().build(),
-                I18N,
+                MESSAGE_RESOLVER,
                 controller.getAnnotation(Interaction.class),
                 permissions(clazz),
                 clazz,

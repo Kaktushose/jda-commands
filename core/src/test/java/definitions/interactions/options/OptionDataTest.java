@@ -24,8 +24,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 import java.util.Optional;
 
-import static definitions.TestHelpers.I18N;
-import static definitions.TestHelpers.getBuildContext;
+import static definitions.TestHelpers.*;
 import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -119,7 +118,7 @@ class OptionDataTest {
         ParameterDescription description = build("notAnnotated").methodDescription().parameters().getLast();
 
         for (Class<?> type : CLASS_TO_OPTION_TYPE.keySet()) {
-            OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), null, I18N, validators);
+            OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), null, MESSAGE_RESOLVER, validators);
             assertEquals(CLASS_TO_OPTION_TYPE.get(type), build.optionType());
         }
     }
@@ -130,7 +129,7 @@ class OptionDataTest {
         ParameterDescription description = build("notAnnotated").methodDescription().parameters().getLast();
 
         for (Class<?> type : PRIMITIVE_TO_BOXED.keySet()) {
-            OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), null, I18N, validators);
+            OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), null, MESSAGE_RESOLVER, validators);
             assertEquals(PRIMITIVE_TO_BOXED.get(type), build.resolvedType());
         }
     }

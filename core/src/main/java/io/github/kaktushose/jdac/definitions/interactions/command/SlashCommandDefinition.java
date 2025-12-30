@@ -52,7 +52,7 @@ public record SlashCommandDefinition(
         var interaction = context.interaction();
         var command = method.annotation(Command.class);
         String description = command.desc().equals("N/A")
-                ? context.i18n().localize(Locale.ENGLISH, "jdac$no-description")
+                ? context.messageResolver().resolve("jdac$no-description", Locale.ENGLISH, Map.of())
                 : command.desc();
 
         String name = String.join(" ", interaction.value(), command.value())
@@ -78,7 +78,7 @@ public record SlashCommandDefinition(
         List<OptionDataDefinition> commandOptions = method.parameters().stream()
                 .filter(it -> !(CommandEvent.class.isAssignableFrom(it.type())))
                 .map(parameter ->
-                        OptionDataDefinition.build(parameter, findAutoComplete(autoCompletes, parameter, name), context.i18n(), context.validators())
+                        OptionDataDefinition.build(parameter, findAutoComplete(autoCompletes, parameter, name), context.messageResolver(), context.validators())
                 )
                 .toList();
 

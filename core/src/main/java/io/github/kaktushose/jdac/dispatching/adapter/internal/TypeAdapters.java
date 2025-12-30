@@ -55,10 +55,10 @@ public class TypeAdapters {
         proteus.from(NUMBER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
 
         proteus.from(MEMBER).into(USER, uni((source, _) -> lossless(source.getUser())), IGNORE);
-        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure(i18n.localize(SlashCommandHandler.USER_LOCALE.isBound()
+        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure(i18n.resolve("jdac$member-required-got-user",
+                        SlashCommandHandler.USER_LOCALE.isBound()
                         ? SlashCommandHandler.USER_LOCALE.get()
-                        : Locale.ENGLISH,
-                        "jdac$member-required-got-user"))), IGNORE);
+                        : Locale.ENGLISH, Map.of()))), IGNORE);
 
         proteus.into(MENTIONABLE)
                 .from(USER, uni((source, _) -> lossless(source)), IGNORE)

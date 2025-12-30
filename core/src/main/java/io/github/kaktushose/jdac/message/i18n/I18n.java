@@ -164,7 +164,8 @@ public class I18n implements Resolver<String> {
     /// @param placeholder the placeholder to be used
     ///
     /// @return the localized message or the key if not found
-    public String localize(Locale locale, String combinedKey, Map<String, @Nullable Object> placeholder) {
+    @Override
+    public String resolve(String combinedKey, Locale locale, Map<String, @Nullable Object> placeholder) {
         String[] bundleSplit = combinedKey.split("\\$", 2);
         String bundle = bundleSplit.length == 2 && !bundleSplit[0].isEmpty()
                 ? bundleSplit[0].trim()
@@ -182,21 +183,6 @@ public class I18n implements Resolver<String> {
 
         return localizer.localize(locale, bundle, key, placeholder)
                 .orElse(combinedKey);
-    }
-
-    /// This method returns the localized message found by the provided [Locale] and key
-    /// in the given bundle.
-    ///
-    /// The bundle can be either explicitly stated by adding it to the
-    /// key in the following format: `bundle$key`. Alternatively, the bundle name can also be
-    /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
-    ///
-    /// @param locale      the [Locale] to be used to localize the key
-    /// @param key         the messages key
-    /// @param placeholder the placeholder to be used
-    /// @return the localized message or the key if not found
-    public String localize(Locale locale, String key, Entry... placeholder) {
-        return localize(locale, key, Entry.toMap(placeholder));
     }
 
     private String findBundle() {
@@ -254,11 +240,6 @@ public class I18n implements Resolver<String> {
     /// @return the [LocalizationFunction] bases on this class, for use with JDA
     public LocalizationFunction localizationFunction() {
         return localizationFunction;
-    }
-
-    @Override
-    public String resolve(String content, Locale locale, Map<String, @Nullable Object> placeholders) {
-        return localize(locale, content, placeholders);
     }
 
     /// @return 2000

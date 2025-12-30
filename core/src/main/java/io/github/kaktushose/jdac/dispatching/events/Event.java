@@ -112,7 +112,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the localized message or the key if not found
     public String localize(String key, Entry... placeholders) {
-        return scopedI18n().localize(jdaEvent().getUserLocale().toLocale(), key, placeholders);
+        return scopedI18n().resolve(key, jdaEvent().getUserLocale().toLocale(), Entry.toMap(placeholders));
     }
 
     /// Resolved the given message with help of the underlying [MessageResolver] instance,
