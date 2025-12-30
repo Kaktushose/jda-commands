@@ -55,18 +55,6 @@ public final class PlaceholderResolver implements Resolver<String> {
                 .collect(Collectors.joining());
     }
 
-    /// Resolves the given string according to the class docs.
-    ///
-    /// @param content the string to be resolved
-    /// @param placeholders the placeholders to be used
-    /// @return the string with placeholders replaced by their value
-    ///
-    /// @see PlaceholderResolver#resolve(String, Locale, Map)
-    public static String resolve(String content, Map<String, @Nullable Object> placeholders) {
-        return new PlaceholderResolver().resolve(content, Locale.ENGLISH, placeholders);
-    }
-
-
     private static String getPlaceholder(String name, Map<String, @Nullable Object> placeholder) {
         Object value = placeholder.get(name);
         if (value == null) return "null";
