@@ -8,31 +8,31 @@
       
       
       
-        <link rel="canonical" href="https://kaktushose.github.io/wiki/snapshot/misc/extension/configuring/">
+        <link rel="canonical" href="https://kaktushose.github.io/wiki/snapshot/misc/logging/">
       
       
-        <link rel="prev" href="../writing/">
+        <link rel="prev" href="../../message/embeds/">
       
       
-        <link rel="next" href="../../property/">
+        <link rel="next" href="../error-handling/">
       
       
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
-        <title>Configuration - JDA-Commands Wiki</title>
+        <title>Logging - JDA-Commands Wiki</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
   
@@ -61,7 +61,7 @@
       
     
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuring-extensions" class="md-skip">
+        <a href="#logging" class="md-skip">
           Skip to content
         </a>
       
@@ -99,12 +99,12 @@
             <div class="md-banner__inner md-grid md-typeset">
               
 You're not viewing the latest stable version.
-<a href="../../../..">
+<a href="../../..">
     <strong>Click here to go to latest.</strong>
 </a>
 
             </div>
-            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
           </aside>
         
       </div>
@@ -116,7 +116,7 @@ You're not viewing the latest stable version.
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="JDA-Commands Wiki" class="md-header__button md-logo" aria-label="JDA-Commands Wiki" data-md-component="logo">
+    <a href="../.." title="JDA-Commands Wiki" class="md-header__button md-logo" aria-label="JDA-Commands Wiki" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
@@ -136,7 +136,7 @@ You're not viewing the latest stable version.
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Configuration
+              Logging
             
           </span>
         </div>
@@ -222,7 +222,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -243,7 +243,7 @@ You're not viewing the latest stable version.
     
     
       <li class="md-tabs__item">
-        <a href="../../../start/installation/" class="md-tabs__link">
+        <a href="../../start/installation/" class="md-tabs__link">
           
   
   
@@ -263,7 +263,7 @@ You're not viewing the latest stable version.
     
     
       <li class="md-tabs__item">
-        <a href="../../../interactions/overview/" class="md-tabs__link">
+        <a href="../../interactions/overview/" class="md-tabs__link">
           
   
   
@@ -283,7 +283,7 @@ You're not viewing the latest stable version.
     
     
       <li class="md-tabs__item">
-        <a href="../../../middlewares/overview/" class="md-tabs__link">
+        <a href="../../middlewares/overview/" class="md-tabs__link">
           
   
   
@@ -301,7 +301,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-tabs__item">
-      <a href="../../../di/" class="md-tabs__link">
+      <a href="../../di/" class="md-tabs__link">
         
   
   
@@ -322,7 +322,7 @@ You're not viewing the latest stable version.
     
     
       <li class="md-tabs__item">
-        <a href="../../../message/overview/" class="md-tabs__link">
+        <a href="../../message/overview/" class="md-tabs__link">
           
   
   
@@ -344,7 +344,7 @@ You're not viewing the latest stable version.
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../logging/" class="md-tabs__link">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -405,7 +405,7 @@ You're not viewing the latest stable version.
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="JDA-Commands Wiki" class="md-nav__button md-logo" aria-label="JDA-Commands Wiki" data-md-component="logo">
+    <a href="../.." title="JDA-Commands Wiki" class="md-nav__button md-logo" aria-label="JDA-Commands Wiki" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
@@ -435,7 +435,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -514,7 +514,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../start/installation/" class="md-nav__link">
+      <a href="../../start/installation/" class="md-nav__link">
         
   
   
@@ -542,7 +542,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../start/quick-start/" class="md-nav__link">
+      <a href="../../start/quick-start/" class="md-nav__link">
         
   
   
@@ -570,7 +570,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../start/runtime/" class="md-nav__link">
+      <a href="../../start/runtime/" class="md-nav__link">
         
   
   
@@ -657,7 +657,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../interactions/overview/" class="md-nav__link">
+      <a href="../../interactions/overview/" class="md-nav__link">
         
   
   
@@ -685,7 +685,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../interactions/commands/" class="md-nav__link">
+      <a href="../../interactions/commands/" class="md-nav__link">
         
   
   
@@ -713,7 +713,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../interactions/components/" class="md-nav__link">
+      <a href="../../interactions/components/" class="md-nav__link">
         
   
   
@@ -741,7 +741,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../interactions/modals/" class="md-nav__link">
+      <a href="../../interactions/modals/" class="md-nav__link">
         
   
   
@@ -769,7 +769,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../interactions/reply/" class="md-nav__link">
+      <a href="../../interactions/reply/" class="md-nav__link">
         
   
   
@@ -856,7 +856,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../middlewares/overview/" class="md-nav__link">
+      <a href="../../middlewares/overview/" class="md-nav__link">
         
   
   
@@ -884,7 +884,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../middlewares/typeadapter/" class="md-nav__link">
+      <a href="../../middlewares/typeadapter/" class="md-nav__link">
         
   
   
@@ -912,7 +912,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../middlewares/validator/" class="md-nav__link">
+      <a href="../../middlewares/validator/" class="md-nav__link">
         
   
   
@@ -940,7 +940,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../middlewares/permissions/" class="md-nav__link">
+      <a href="../../middlewares/permissions/" class="md-nav__link">
         
   
   
@@ -975,7 +975,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../di/" class="md-nav__link">
+      <a href="../../di/" class="md-nav__link">
         
   
   
@@ -1054,7 +1054,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../message/overview/" class="md-nav__link">
+      <a href="../../message/overview/" class="md-nav__link">
         
   
   
@@ -1082,7 +1082,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../message/emojis/" class="md-nav__link">
+      <a href="../../message/emojis/" class="md-nav__link">
         
   
   
@@ -1110,7 +1110,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../message/placeholder/" class="md-nav__link">
+      <a href="../../message/placeholder/" class="md-nav__link">
         
   
   
@@ -1138,7 +1138,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../message/localization/" class="md-nav__link">
+      <a href="../../message/localization/" class="md-nav__link">
         
   
   
@@ -1166,7 +1166,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../../message/embeds/" class="md-nav__link">
+      <a href="../../message/embeds/" class="md-nav__link">
         
   
   
@@ -1255,10 +1255,37 @@ You're not viewing the latest stable version.
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../logging/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1274,6 +1301,54 @@ You're not viewing the latest stable version.
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-fallback-logger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Fallback Logger
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Fallback Logger">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debug-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Debug Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1286,7 +1361,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../error-handling/" class="md-nav__link">
+      <a href="../error-handling/" class="md-nav__link">
         
   
   
@@ -1314,7 +1389,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../reflection/" class="md-nav__link">
+      <a href="../reflection/" class="md-nav__link">
         
   
   
@@ -1342,7 +1417,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../introspection/" class="md-nav__link">
+      <a href="../introspection/" class="md-nav__link">
         
   
   
@@ -1367,8 +1442,6 @@ You're not viewing the latest stable version.
                 
   
   
-    
-  
   
   
     
@@ -1384,11 +1457,11 @@ You're not viewing the latest stable version.
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_5" >
         
           
           <label class="md-nav__link" for="__nav_7_5" id="__nav_7_5_label" tabindex="">
@@ -1409,7 +1482,7 @@ You're not viewing the latest stable version.
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1424,8 +1497,6 @@ You're not viewing the latest stable version.
                 
   
   
-    
-  
   
   
     
@@ -1438,11 +1509,11 @@ You're not viewing the latest stable version.
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_5_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_5_1" >
         
           
           <label class="md-nav__link" for="__nav_7_5_1" id="__nav_7_5_1_label" tabindex="0">
@@ -1463,7 +1534,7 @@ You're not viewing the latest stable version.
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_5_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_5_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_5_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1481,7 +1552,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../overview/" class="md-nav__link">
+      <a href="../extension/overview/" class="md-nav__link">
         
   
   
@@ -1509,7 +1580,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../writing/" class="md-nav__link">
+      <a href="../extension/writing/" class="md-nav__link">
         
   
   
@@ -1534,37 +1605,10 @@ You're not viewing the latest stable version.
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Configuration
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../extension/configuring/" class="md-nav__link">
         
   
   
@@ -1580,48 +1624,6 @@ You're not viewing the latest stable version.
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#passing-instances-of-extensiondata" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Passing instances of Extension.Data
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#filtering-found-extensions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Filtering found Extensions
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1642,7 +1644,7 @@ You're not viewing the latest stable version.
   
   
     <li class="md-nav__item">
-      <a href="../../property/" class="md-nav__link">
+      <a href="../property/" class="md-nav__link">
         
   
   
@@ -1725,35 +1727,54 @@ You're not viewing the latest stable version.
   
 
 
-<h1 id="configuring-extensions">Configuring extensions<a class="headerlink" href="#configuring-extensions" title="Permanent link">&para;</a></h1>
-<h2 id="passing-instances-of-extensiondata">Passing instances of <code>Extension.Data</code><a class="headerlink" href="#passing-instances-of-extensiondata" title="Permanent link">&para;</a></h2>
-<p>If we want to configure an extension, we can pass an instance of the extension specific implementation of <code>Extension.Data</code>
-to the JDA-Commands builder. In case of our <code>MyExtension</code> example, that would be:</p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">   </span><span class="p">.</span><span class="na">extensionData</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">MyExtensionData</span><span class="p">(</span><span class="s">&quot;someValue&quot;</span><span class="p">))</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">   </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
-</span></code></pre></div>
+<h1 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link">&para;</a></h1>
+<p>JDA-Commands uses <a href="https://slf4j.org/">SLF4J</a> as its logging framework allowing bot developers to use an own logging backend.</p>
+<p>If you see following on startup:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>SLF4J(W): No SLF4J providers were found.
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+</span></code></pre></div></p>
+<p>and/ or
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>[JDALogger] [WARN] Using fallback logger due to missing SLF4J implementation.
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>[JDALogger] [WARN] Please setup a logging framework to use JDA.
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>[JDALogger] [WARN] You can use our logging setup guide https://jda.wiki/setup/logging/
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>[JDALogger] [WARN] To disable the fallback logger, add the slf4j-nop dependency or use JDALogger.setFallbackLoggerEnabled(false)
+</span></code></pre></div></p>
+<p>It means that you have to configure a logging framework. You can consult the <a href="https://jda.wiki/setup/logging/">JDA documentation about it</a>.</p>
+<p>Per default, we will provide a very basic fallback logger based on <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.logging/java/util/logging/Logger.html">java.util.logging</a>.
+Please consult its documentation to know how to configure it.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Sometimes  <code>java.util.logging</code> is referred to as <code>JUL</code>. Don't be confused, it's the same!</p>
 </div>
-<h2 id="filtering-found-extensions">Filtering found Extensions<a class="headerlink" href="#filtering-found-extensions" title="Permanent link">&para;</a></h2>
-<p>Filtering extensions is crucial for resolving cycling dependencies.
-To filter which extensions we want to include in our application, we can utilize the
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.html#filterExtensions(io.github.kaktushose.jdac.configuration.ExtensionFilter.FilterStrategy,java.lang.String...)"><code>JDACBuilder#filterExtensions(ExtensionFilter.FilterStrategy, String...)</code></a>
-method. You need to pass the following two parameters:</p>
-<ol>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/ExtensionFilter.FilterStrategy.html"><code>ExtensionFilter.FilterStrategy</code></a>,
-   which will either exclude (<code>FilterStrategy.EXCLUDE</code>) or include (<code>FilterStrategy.INCLUDE</code>) the passed extensions.</li>
-<li><code>String...</code> is an enumeration of the full class names, which should be either included or excluded.
-   The strings will be matched to the full class names of the classes extending <code>Extension</code> using <code>String#startWith</code>, thus
-   specifying package names is possible.</li>
-</ol>
-<div class="admonition example">
-<p class="admonition-title">Exclude default Guice Extension</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">        </span><span class="p">.</span><span class="na">filterExtensions</span><span class="p">(</span><span class="n">FilterStrategy</span><span class="p">.</span><span class="na">EXCLUDE</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;io.github.kaktushose.jdac.guice&quot;</span><span class="p">)</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">        </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<h2 id="the-fallback-logger">The Fallback Logger<a class="headerlink" href="#the-fallback-logger" title="Permanent link">&para;</a></h2>
+<p>The fallback logger is a simple SLF4J logger built around <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.logging/java/util/logging/Logger.html">java.util.logging.Logger</a>
+with a log format similar to JDAs fallback logger format.</p>
+<p>The log levels are translated following:</p>
+<ul>
+<li>ERROR -&gt; <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.logging/java/util/logging/Level.html#SEVERE"><code>Level#SEVERE</code></a> (JUL)</li>
+<li>WARN -&gt; <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.logging/java/util/logging/Level.html#WARNING"><code>Level#WARNING</code></a> (JUL)</li>
+<li>INFO -&gt; <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.logging/java/util/logging/Level.html#INFO"><code>Level#INFO</code></a> (JUL)</li>
+<li>DEBUG -&gt; <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.logging/java/util/logging/Level.html#FINE"><code>Level#FINE</code></a> (JUL)</li>
+<li>TRACE -&gt; <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.logging/java/util/logging/Level.html#FINEST"><code>Level#FINEST</code></a> (JUL)</li>
+</ul>
+<h3 id="debug-mode">Debug Mode<a class="headerlink" href="#debug-mode" title="Permanent link">&para;</a></h3>
+<p>If you want to enable debug logging for the fallback logger you have to somewhere create a <code>logging.properties</code>
+with following contents:</p>
+<div class="language-properties highlight"><span class="filename">logging.properties</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="na">.level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">FINE</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="na">handlers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">java.util.logging.ConsoleHandler</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="na">java.util.logging.ConsoleHandler.level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">FINE</span>
 </span></code></pre></div>
+<p>Then add this to your JVM args:
+<code>-Djava.util.logging.config.file=&lt;your_path_to_logging.properties&gt;</code></p>
+<p>For example, your Java command could look like this:</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>java<span class="w"> </span>-Djava.util.logging.config.file<span class="o">=</span>./app/src/main/resources/logging.properties<span class="w"> </span>-jar<span class="w"> </span>myBot.jar
+</span></code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Using the fallback logger is not recommended. As said before, consult the <a href="https://jda.wiki/setup/logging/">JDA documentation</a>
+on how to setup proper logging. </p>
 </div>
 
 
@@ -1792,7 +1813,7 @@ method. You need to pass the following two parameters:</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../writing/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Writing Extensions">
+          <a href="../../message/embeds/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Embed API">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1802,20 +1823,20 @@ method. You need to pass the following two parameters:</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Writing Extensions
+                Embed API
               </div>
             </div>
           </a>
         
         
           
-          <a href="../../property/" class="md-footer__link md-footer__link--next" aria-label="Next: Properties">
+          <a href="../error-handling/" class="md-footer__link md-footer__link--next" aria-label="Next: Error Handling">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Properties
+                Error Handling
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1869,12 +1890,12 @@ method. You need to pass the following two parameters:</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "toc.integrate", "toc.follow", "search.share", "search.suggest", "content.code.annotate", "content.code.copy", "content.tabs.link"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "wiki", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "toc.integrate", "toc.follow", "search.share", "search.suggest", "content.code.annotate", "content.code.copy", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "wiki", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
-        <script src="../../../js/open_in_new_tab.js"></script>
+        <script src="../../js/open_in_new_tab.js"></script>
       
     
   </body>
