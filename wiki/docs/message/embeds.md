@@ -45,6 +45,10 @@ to later load Embeds from at various places.
         .start();
     ```
 
+!!! tip
+    [EmbedDataSources][[EmbedDataSource]] can also be loaded from [extensions](../misc/extension/overview.md) by providing
+    values for [Property#EMBED_SOURCES]
+
 ## Loading Embeds
 You can either use the <JDACommands>
 or the <ReplyableEvent>
