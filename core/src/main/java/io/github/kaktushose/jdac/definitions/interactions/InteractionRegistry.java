@@ -78,7 +78,7 @@ public record InteractionRegistry(Validators validators,
     }
 
     private Collection<InteractionDefinition> indexInteractionClass(ClassDescription clazz, CommandDefinition.CommandConfig globalCommandConfig, Collection<AutoCompleteDefinition> autoCompletes) {
-        var interaction = clazz.findAnnotation(Interaction.class).orElseThrow();
+        var interaction = clazz.annotation(Interaction.class);
 
         final Set<String> permissions = clazz.findAnnotation(Permissions.class).map(value -> Set.of(value.value())).orElseGet(Set::of);
 
@@ -149,7 +149,7 @@ public record InteractionRegistry(Validators validators,
     @Nullable
     private InteractionDefinition construct(MethodDescription method, MethodBuildContext context) {
         // index commands
-        if (method.findAnnotation(Command.class).isPresent()) {
+        if (method.hasAnnotation(Command.class)) {
             Command command = method.findAnnotation(Command.class).get();
             return switch (command.type()) {
                 case SLASH -> SlashCommandDefinition.build(context);
@@ -159,18 +159,18 @@ public record InteractionRegistry(Validators validators,
         }
 
         // index components
-        if (method.findAnnotation(Button.class).isPresent()) {
+        if (method.hasAnnotation(Button.class)) {
             return ButtonDefinition.build(context);
         }
-        if (method.findAnnotation(EntitySelectMenu.class).isPresent()) {
+        if (method.hasAnnotation(EntitySelectMenu.class)) {
             return EntitySelectMenuDefinition.build(context);
         }
-        if (method.findAnnotation(StringSelectMenu.class).isPresent()) {
+        if (method.hasAnnotation(StringSelectMenu.class)) {
             return StringSelectMenuDefinition.build(context);
         }
 
         //index modals
-        if (method.findAnnotation(Modal.class).isPresent()) {
+        if (method.hasAnnotation(Modal.class)) {
             return ModalDefinition.build(context);
         }
 

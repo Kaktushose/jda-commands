@@ -50,7 +50,7 @@ public record SlashCommandDefinition(
     public static SlashCommandDefinition build(MethodBuildContext context) {
         var method = context.method();
         var interaction = context.interaction();
-        var command = method.findAnnotation(Command.class).orElseThrow();
+        var command = method.annotation(Command.class);
         String description = command.desc().equals("N/A")
                 ? context.i18n().localize(Locale.ENGLISH, "jdac$no-description")
                 : command.desc();

@@ -43,7 +43,7 @@ public record ContextCommandDefinition(
     /// @return an [Optional] holding the [ContextCommandDefinition]
     public static ContextCommandDefinition build(MethodBuildContext context) {
         var method = context.method();
-        var command = method.findAnnotation(io.github.kaktushose.jdac.annotations.interactions.Command.class).orElseThrow();
+        var command = method.annotation(io.github.kaktushose.jdac.annotations.interactions.Command.class);
 
         switch (command.type()) {
             case USER -> Helpers.checkSignatureUserContext(method);

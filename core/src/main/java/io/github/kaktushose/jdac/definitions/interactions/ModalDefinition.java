@@ -38,7 +38,7 @@ public record ModalDefinition(
     /// @return an [Optional] holding the [ModalDefinition]
     public static ModalDefinition build(MethodBuildContext context) {
         var method = context.method();
-        var modal = method.findAnnotation(io.github.kaktushose.jdac.annotations.interactions.Modal.class).orElseThrow();
+        var modal = method.annotation(io.github.kaktushose.jdac.annotations.interactions.Modal.class);
 
         Helpers.checkParameterType(method, 0, ModalEvent.class);
 

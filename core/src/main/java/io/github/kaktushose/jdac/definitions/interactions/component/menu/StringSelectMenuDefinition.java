@@ -47,7 +47,7 @@ public record StringSelectMenuDefinition(
     public static StringSelectMenuDefinition build(MethodBuildContext context) {
         var method = context.method();
         io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu selectMenu =
-                method.findAnnotation(io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu.class).orElseThrow();
+                method.annotation(io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu.class);
 
         Helpers.checkSignature(method, List.of(ComponentEvent.class, List.class));
 

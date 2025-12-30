@@ -34,21 +34,18 @@ public record MethodDescription(
     /// Please note that if `-parameters` isn't present on the 'javac' command, this is just `arg0`, `arg1` etc.
     /// if using [Descriptor#REFLECTIVE].
     ///
-    /// @param name the parameter's name
+    /// @param name the parameters name
     /// @return the matching [ParameterDescription] or [Optional#empty()]
     public Optional<ParameterDescription> findParameter(String name) {
-        return parameters.stream()
-                .filter(desc -> desc.name().equals(name))
-                .findFirst();
+        return parameters.stream().filter(desc -> desc.name().equals(name)).findFirst();
     }
 
-    /// Gets the parameter matching the given name.
-    /// Throws if no matching parameter is found.
+    /// Gets the parameter matching the given name. Throws if no matching parameter is found.
     ///
     /// Please note that if `-parameters` isn't present on the 'javac' command, this is just `arg0`, `arg1` etc.
     /// if using [Descriptor#REFLECTIVE].
     ///
-    /// @param name the parameter's name
+    /// @param name the parameters name
     /// @return the matching [ParameterDescription]
     ///
     /// @throws NoSuchElementException if no element was found

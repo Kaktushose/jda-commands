@@ -143,7 +143,7 @@ public record OptionDataDefinition(
         // index constraints
         List<ConstraintDefinition> constraints = new ArrayList<>();
         parameter.annotations().stream()
-                .filter(it -> it.findAnnotation(Constraint.class).isPresent())
+                .filter(it -> it.hasAnnotation(Constraint.class))
                 .forEach(it -> {
                     switch (validatorRegistry.get(it, resolvedType)) {
                         case Validators.Result.NotFound _ -> throw new ConfigurationException(

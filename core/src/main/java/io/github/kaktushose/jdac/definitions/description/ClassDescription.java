@@ -48,13 +48,7 @@ public record ClassDescription(
     ///
     /// @return the found [MethodDescription] or [Optional#empty()]
     public Optional<MethodDescription> findMethod(String name, Class<?>... parameters) {
-        return methods
-                .stream()
-                .filter(desc -> desc.name().equals(name) && desc.parameters()
-                        .stream()
-                        .map(ParameterDescription::type)
-                        .toList().equals(Arrays.asList(parameters)))
-                .findFirst();
+        return findMethod(name, Arrays.asList(parameters));
     }
 
     /// Gets a method that matches the given name and parameter types.

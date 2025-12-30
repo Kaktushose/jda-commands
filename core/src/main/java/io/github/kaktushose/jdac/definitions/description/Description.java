@@ -15,10 +15,12 @@ import java.util.Optional;
 /// @see ParameterDescription
 public sealed interface Description permits AnnotationDescription, ClassDescription, MethodDescription, PackageDescription, ParameterDescription {
 
+    /// Gets all [Annotation]s this element is annotated with
+    ///
     /// @return a possibly-empty [Collection] of all [Annotation]s this element is annotated with.
     Collection<AnnotationDescription<?>> annotations();
 
-    /// Gets this element's [Annotation] for the specified type if such an annotation is present
+    /// Gets the [Annotation] of this element for the specified type if such an annotation is present
     ///
     /// @param type the type of the annotation to get
     /// @return an [Optional] holding the [Annotation] if present at this element or else an empty [Optional]
@@ -30,7 +32,7 @@ public sealed interface Description permits AnnotationDescription, ClassDescript
                 .findFirst();
     }
 
-    /// Gets this element's [Annotation] for the specified type. Throws if no matching annotation is found.
+    /// Gets the [Annotation] of this element for the specified type. Throws if no matching annotation is found.
     ///
     /// @param type the type of the annotation to get
     /// @return an [Optional] holding the [Annotation]
@@ -41,7 +43,7 @@ public sealed interface Description permits AnnotationDescription, ClassDescript
         return findAnnotation(type).orElseThrow();
     }
 
-    /// Checks whether this element has a [Annotation] for the specified type.
+    /// Checks whether this element has an [Annotation] of the specified type.
     ///
     /// @param type the type of the annotation
     /// @return `true` if the annotation is present else `false`

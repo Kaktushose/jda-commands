@@ -48,7 +48,7 @@ public class TestHelpers {
 
     private static Collection<AutoCompleteDefinition> autoCompleteDefinitions(ClassDescription clazz) {
         return clazz.methods().stream()
-                .filter(it -> it.findAnnotation(AutoComplete.class).isPresent())
+                .filter(it -> it.hasAnnotation(AutoComplete.class))
                 .map(method -> AutoCompleteDefinition.build(clazz, method))
                 .toList();
     }

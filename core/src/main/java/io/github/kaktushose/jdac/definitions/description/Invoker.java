@@ -12,8 +12,8 @@ public interface Invoker {
 
     /// Invokes the method behind [MethodDescription].
     ///
-    /// Please note that this method isn't intended to be directly used by bot developers.
-    /// Calling it may result in undefined behaviour!
+    /// **Please note that this method isn't intended to be directly used by bot developers.
+    /// Calling it may result in undefined behavior!**
     ///
     /// @param instance  an instance of the declaring class of the method
     /// @param arguments a [SequencedCollection] of the arguments the method should be invoked with
