@@ -2,8 +2,9 @@ package io.github.kaktushose.jdac.dispatching;
 
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import io.github.kaktushose.jdac.internal.Helpers;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
@@ -14,7 +15,6 @@ import net.dv8tion.jda.api.hooks.SubscribeEvent;
 import net.dv8tion.jda.api.interactions.ICustomIdInteraction;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.UUID;
@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @ApiStatus.Internal
 public final class JDAEventListener extends ListenerAdapter {
 
-    private static final Logger log = LoggerFactory.getLogger(JDAEventListener.class);
+    private static final Logger log = JDACLogger.getLogger(JDAEventListener.class);
     private final Map<String, Runtime> runtimes = new ConcurrentHashMap<>();
     private final IntrospectionImpl introspection;
 

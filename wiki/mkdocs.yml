@@ -126,6 +126,7 @@ nav:
       - Localization: message/localization.md
       - Embed API: message/embeds.md
   - Misc:
+      - Logging: misc/logging.md
       - Error Handling: misc/error-handling.md
       - Avoiding Reflections (ClassFinder & Descriptor): misc/reflection.md
       - Introspection: misc/introspection.md

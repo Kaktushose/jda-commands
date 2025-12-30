@@ -3,9 +3,9 @@ package io.github.kaktushose.jdac.configuration.internal;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.configuration.Extension;
 import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,7 +14,7 @@ import java.util.ServiceLoader;
 
 @ApiStatus.Internal
 public class Extensions {
-    private static final Logger log = LoggerFactory.getLogger(Extensions.class);
+    private static final Logger log = JDACLogger.getLogger(Extensions.class);
 
     private final Collection<Extension<Extension.Data>> loaded = new ArrayList<>();
 

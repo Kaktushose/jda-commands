@@ -149,9 +149,10 @@ jobs:
           fi
       - name: Check for errors
         run: |
-          if grep -Eq 'WARNING|ERROR' out.log; then
+          pattern='^(WARNING|ERROR)'
+          if grep -Eq "$pattern" out.log; then
             echo "Found warnings or errors:"
-            grep -E 'WARNING|ERROR' out.log
+            grep -E "$pattern" out.log
             exit 1
           fi
       - name: Push Wiki

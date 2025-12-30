@@ -12,6 +12,7 @@ import io.github.kaktushose.jdac.dispatching.handling.ModalHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.ContextCommandHandler;
 import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
 import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
@@ -25,7 +26,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.time.LocalDateTime;
@@ -47,7 +47,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 @ApiStatus.Internal
 public final class Runtime implements Closeable {
 
-    private static final Logger log = LoggerFactory.getLogger(Runtime.class);
+    private static final Logger log = JDACLogger.getLogger(Runtime.class);
 
     private final SlashCommandHandler slashCommandHandler;
     private final AutoCompleteHandler autoCompleteHandler;

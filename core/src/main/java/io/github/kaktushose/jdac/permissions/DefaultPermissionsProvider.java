@@ -2,11 +2,11 @@ package io.github.kaktushose.jdac.permissions;
 
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.internal.Helpers;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
 /// @see PermissionsProvider
 public class DefaultPermissionsProvider implements PermissionsProvider {
 
-    private static final Logger log = LoggerFactory.getLogger(DefaultPermissionsProvider.class);
+    private static final Logger log = JDACLogger.getLogger(DefaultPermissionsProvider.class);
 
     /// Doesn't perform checks and will always return `true`.
     ///

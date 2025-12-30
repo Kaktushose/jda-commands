@@ -14,12 +14,12 @@ import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringS
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.introspection.Definitions;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -32,7 +32,7 @@ public record InteractionRegistry(Validators validators,
                                   Set<InteractionDefinition> definitions
 ) implements Definitions {
 
-    private static final Logger log = LoggerFactory.getLogger(InteractionRegistry.class);
+    private static final Logger log = JDACLogger.getLogger(InteractionRegistry.class);
 
     /// Constructs a new [InteractionRegistry]
     ///

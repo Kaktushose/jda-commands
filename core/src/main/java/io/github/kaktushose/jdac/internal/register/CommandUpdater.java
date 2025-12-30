@@ -6,6 +6,7 @@ import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinit
 import io.github.kaktushose.jdac.definitions.interactions.command.ContextCommandDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
 import io.github.kaktushose.jdac.internal.JDAContext;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -14,7 +15,6 @@ import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFuncti
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 @ApiStatus.Internal
 public final class CommandUpdater {
 
-    private static final Logger log = LoggerFactory.getLogger(CommandUpdater.class);
+    private static final Logger log = JDACLogger.getLogger(CommandUpdater.class);
     private final JDAContext jdaContext;
     private final GuildScopeProvider guildScopeProvider;
     private final InteractionRegistry interactionRegistry;

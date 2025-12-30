@@ -18,6 +18,7 @@ module io.github.kaktushose.jdac.core {
     requires transitive dev.goldmensch.fluava;
     requires org.apache.commons.collections4;
     requires io.github.classgraph;
+    requires java.logging;
 
     // base package
     exports io.github.kaktushose.jdac;

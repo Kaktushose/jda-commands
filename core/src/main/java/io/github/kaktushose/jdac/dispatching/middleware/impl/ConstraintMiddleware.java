@@ -8,11 +8,11 @@ import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import io.github.kaktushose.proteus.type.Type;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 /// @see Validators ValidatorRegistry
 public class ConstraintMiddleware implements Middleware {
 
-    private static final Logger log = LoggerFactory.getLogger(ConstraintMiddleware.class);
+    private static final Logger log = JDACLogger.getLogger(ConstraintMiddleware.class);
     private final ErrorMessageFactory errorMessageFactory;
 
     public ConstraintMiddleware(ErrorMessageFactory errorMessageFactory) {

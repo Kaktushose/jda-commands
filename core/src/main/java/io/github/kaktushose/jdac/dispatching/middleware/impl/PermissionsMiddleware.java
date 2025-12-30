@@ -5,12 +5,12 @@ import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.internal.Helpers;
+import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /// A [Middleware] implementation that will check permissions.
 /// The default implementation can only handle discord permissions. However, the [PermissionsProvider] can be
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 /// @see PermissionsProvider
 public class PermissionsMiddleware implements Middleware {
 
-    private static final Logger log = LoggerFactory.getLogger(PermissionsMiddleware.class);
+    private static final Logger log = JDACLogger.getLogger(PermissionsMiddleware.class);
 
     private final PermissionsProvider permissionsProvider;
     private final ErrorMessageFactory errorMessageFactory;
