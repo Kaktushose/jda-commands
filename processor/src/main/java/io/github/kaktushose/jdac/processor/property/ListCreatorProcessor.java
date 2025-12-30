@@ -33,7 +33,7 @@ public class ListCreatorProcessor extends PropertyProcessor {
         try {
             file.writeTo(processingEnv.getFiler());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            processingEnv.getMessager().printError("Error while trying to create file: " + e.getMessage());
         }
 
         return false;
