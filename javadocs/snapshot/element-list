@@ -42,6 +42,7 @@ io.github.kaktushose.jdac.embeds.internal
 io.github.kaktushose.jdac.exceptions
 io.github.kaktushose.jdac.exceptions.internal
 io.github.kaktushose.jdac.internal
+io.github.kaktushose.jdac.internal.logging
 io.github.kaktushose.jdac.internal.register
 io.github.kaktushose.jdac.introspection
 io.github.kaktushose.jdac.introspection.internal
