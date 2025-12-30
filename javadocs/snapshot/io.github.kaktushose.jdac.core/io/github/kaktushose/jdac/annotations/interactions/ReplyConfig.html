@@ -82,17 +82,8 @@ Interaction classes annotated with <a href="ReplyConfig.html" title="annotation 
 every method, if and only if no annotation is present at method level. If the <a href="ReplyConfig.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>ReplyConfig</code></a> annotation is neither
 present at the class level nor the method level, the global <a href="../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions"><code>ReplyConfig</code></a>
 will be used instead.</p>
-<p>**These values are always overridden by <a href="../../dispatching/reply/ConfigurableReply.html#ephemeral(boolean)"><code>ConfigurableReply.ephemeral(boolean)</code></a>,</p>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre><code>ConfigurableReply#keepComponents(boolean)</code></pre>
-</details>
- or respectively 
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre><code>ConfigurableReply#editReply(boolean)</code></pre>
-</details>
-.**
+<p><strong>These values are always overridden by <a href="../../dispatching/reply/ConfigurableReply.html#ephemeral(boolean)"><code>ConfigurableReply.ephemeral(boolean)</code></a>,
+<a href="../../dispatching/reply/EditableConfigurableReply.html#keepComponents(boolean)"><code>EditableConfigurableReply.keepComponents(boolean)</code></a> or respectively <a href="../../dispatching/reply/EditableConfigurableReply.html#editReply(boolean)"><code>EditableConfigurableReply.editReply(boolean)</code></a>.</strong></p>
 <p>In other words the hierarchy is as following:</p>
 <ol>
 <li><a href="../../dispatching/reply/ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>ConfigurableReply</code></a></li>
