@@ -29,6 +29,7 @@ import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
+import io.github.kaktushose.jdac.processor.property.Validated;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.JDA;
@@ -74,11 +75,12 @@ import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 /// To know in what stage a property's value is accessible take a look at the fields [IntrospectionAccess] annotation
 ///
 @SuppressWarnings("unused")
+@Validated
 public sealed interface Property<T> permits Property.Enumeration, Property.Singleton, Property.Map {
     // -------- settable by user + loadable from extension --------
 
     /// @see JDACBuilder#classFinders(ClassFinder...)
-    @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = OVERRIDE)
+    @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE)
     Property<Collection<ClassFinder>> CLASS_FINDER =
             new Enumeration<>("CLASS_FINDER", Category.LOADABLE, ClassFinder.class, OVERRIDE, Stage.CONFIGURATION);
 
