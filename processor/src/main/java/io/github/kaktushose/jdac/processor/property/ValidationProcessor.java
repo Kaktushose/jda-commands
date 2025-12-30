@@ -19,6 +19,10 @@ public class ValidationProcessor extends PropertyProcessor {
 
             messager.printError(text, field.element());
         }
+
+        if (!field.stage().equals("CONFIGURATION") && !field.category().equals("PROVIDED")) {
+            messager.printError("Properties with stage CONFIGURATION must have category set to PROVIDED", field.element());
+        }
     }
 
     private boolean equalsContent(Property one, Property other) {
