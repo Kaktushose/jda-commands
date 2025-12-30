@@ -20,7 +20,6 @@ import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
-import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.introspection.Definitions;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
@@ -29,7 +28,7 @@ import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
-import io.github.kaktushose.jdac.processor.property.Validated;
+import io.github.kaktushose.jdac.processor.property.api.PropertyProcessed;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.JDA;
@@ -37,7 +36,6 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
-import java.util.List;
 import java.util.function.Consumer;
 
 import static io.github.kaktushose.jdac.configuration.Property.FallbackBehaviour.ACCUMULATE;
@@ -75,7 +73,7 @@ import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 /// To know in what stage a property's value is accessible take a look at the fields [IntrospectionAccess] annotation
 ///
 @SuppressWarnings("unused")
-@Validated
+@PropertyProcessed
 public sealed interface Property<T> permits Property.Enumeration, Property.Singleton, Property.Map {
     // -------- settable by user + loadable from extension --------
 
@@ -266,50 +264,17 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// [settable by the user and loadable through extensions][Category#LOADABLE]
     ///
     /// @see Category#LOADABLE
-    Collection<Property<?>> LOADABLE = Helpers.propertyCategoryList(Category.LOADABLE, List.of(
-             CLASS_FINDER,
-             EMOJI_SOURCES,
-             DESCRIPTOR,
-             LOCALIZER,
-             INTERACTION_CONTROLLER_INSTANTIATOR,
-             MIDDLEWARE,
-             TYPE_ADAPTER,
-             VALIDATOR,
-             PERMISSION_PROVIDER,
-             ERROR_MESSAGE_FACTORY,
-             GUILD_SCOPE_PROVIDER
-     ));
+    Collection<Property<?>> LOADABLE = PropertyListAccessor.getLoadable();
 
     /// A collection consisting of all [Property]s that are [settable by the user][Category#USER_SETTABLE]
     ///
     /// @see Category#USER_SETTABLE
-    Collection<Property<?>> USER_SETTABLE = Helpers.propertyCategoryList(Category.USER_SETTABLE, List.of(
-             GLOBAL_COMMAND_CONFIG,
-             GLOBAL_REPLY_CONFIG,
-             PACKAGES,
-             EXPIRATION_STRATEGY,
-             LOCALIZE_COMMANDS,
-             SHUTDOWN_JDA,
-             EXTENSION_DATA,
-             EXTENSION_FILTER,
-             EMBED_CONFIG
-     ));
+    Collection<Property<?>> USER_SETTABLE = PropertyListAccessor.getSettable();
 
     /// A collection consisting of all [Property]s that are [provided by JDA-Commands][Category#PROVIDED]
     ///
     /// @see Category#PROVIDED
-    Collection<Property<?>> PROVIDED = Helpers.propertyCategoryList(Category.PROVIDED, List.of(
-            I18N,
-            MESSAGE_RESOLVER,
-            EMOJI_RESOLVER,
-            MERGED_CLASS_FINDER,
-            JDA_COMMANDS,
-            DEFINITIONS,
-            JDA,
-            RUNTIME_ID,
-            JDA_EVENT,
-            INVOCATION_CONTEXT
-     ));
+    Collection<Property<?>> PROVIDED = PropertyListAccessor.getProvided();
 
     /// Whether the fallback values provided by JDA-Commands should be accumulated together
     /// with other user provided [PropertyProvider]s for this property.

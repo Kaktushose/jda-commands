@@ -1,4 +1,4 @@
-package io.github.kaktushose.jdac.processor.property;
+package io.github.kaktushose.jdac.processor.property.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
-public @interface Validated {
+public @interface PropertyProcessed {
 }
