@@ -8,7 +8,7 @@ import io.github.kaktushose.jdac.annotations.interactions.Param;
 import io.github.kaktushose.jdac.definitions.Definition;
 import io.github.kaktushose.jdac.definitions.description.AnnotationDescription;
 import io.github.kaktushose.jdac.definitions.description.ParameterDescription;
-import io.github.kaktushose.jdac.definitions.features.JDAEntity;
+import io.github.kaktushose.jdac.definitions.features.NonCustomIdJDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition;
 import io.github.kaktushose.jdac.dispatching.events.Event;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
@@ -60,7 +60,7 @@ public record OptionDataDefinition(
         String description,
         SequencedCollection<Command.Choice> choices,
         Collection<ConstraintDefinition> constraints
-) implements Definition, JDAEntity<OptionData> {
+) implements Definition, NonCustomIdJDAEntity<OptionData> {
 
 
     private static final Map<OptionType, Class<?>> OPTION_TYPE_TO_CLASS = Map.ofEntries(

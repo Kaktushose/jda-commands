@@ -5,7 +5,7 @@ import io.github.kaktushose.jdac.annotations.interactions.MenuOptionContainer;
 import io.github.kaktushose.jdac.definitions.Definition;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
-import io.github.kaktushose.jdac.definitions.features.JDAEntity;
+import io.github.kaktushose.jdac.definitions.features.NonCustomIdJDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
@@ -106,15 +106,6 @@ public record StringSelectMenuDefinition(
                 .collect(Collectors.toSet());
     }
 
-    /// Transforms this definition to an [StringSelectMenu] with an independent custom id.
-    ///
-    /// @return the [StringSelectMenu]
-    /// @see CustomId#independent(String)
-    @Override
-    public StringSelectMenu toJDAEntity() {
-        return toJDAEntity(CustomId.independent(definitionId()));
-    }
-
     /// Transforms this definition to an [StringSelectMenu] with the given [CustomId].
     ///
     /// @param customId the [CustomId] to use
@@ -153,7 +144,7 @@ public record StringSelectMenuDefinition(
                                        @Nullable String description,
                                        @Nullable Emoji emoji,
                                        boolean isDefault
-    ) implements JDAEntity<SelectOption>, Definition {
+    ) implements NonCustomIdJDAEntity<SelectOption>, Definition {
 
         public MenuOptionDefinition(SelectOption option) {
             this(option.getValue(), option.getLabel(), option.getDescription(), option.getEmoji(), option.isDefault());

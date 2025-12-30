@@ -154,12 +154,14 @@ public final class JDACommands {
     /// The button will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent.
     /// This may be useful if you want to send a message without using the framework.
     ///
+    /// @param origin the [Class] of the method
     /// @param button the name of the button in the format `FullClassNameWithPackage.method``
+    /// @param counter the counter to add to the custom id, see javadocs of [CustomId]
     /// @return the JDA [Button]
-    public Button getButton(Class<?> origin, String button) {
+    public Button getButton(Class<?> origin, String button, int counter) {
         var id = String.valueOf((origin.getName() + button).hashCode());
         var definition = introspection.get(InternalProperties.INTERACTION_REGISTRY).find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
-        return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
+        return definition.toJDAEntity(CustomId.independent(definition.definitionId(), counter));
     }
 
     /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and the given class and transforms it
@@ -170,11 +172,12 @@ public final class JDACommands {
     ///
     /// @param origin the [Class] of the method
     /// @param menu   the name of the button in the format `FullClassNameWithPackage.method``
+    /// @param counter the counter to add to the custom id, see javadocs of [CustomId]
     /// @return the JDA [SelectMenu]
-    public SelectMenu getSelectMenu(Class<?> origin, String menu) {
+    public SelectMenu getSelectMenu(Class<?> origin, String menu, int counter) {
         var id = String.valueOf((origin.getName() + menu).hashCode());
         var definition = introspection.get(InternalProperties.INTERACTION_REGISTRY).find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
-        return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
+        return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId(), counter));
     }
 
     /// Gets an [Embed] based on the given name.

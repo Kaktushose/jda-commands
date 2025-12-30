@@ -87,15 +87,6 @@ public record ButtonDefinition(
                 override(this.uniqueId, uniqueId));
     }
 
-    /// Transforms this definition to an [Button] with an independent custom id.
-    ///
-    /// @return the [Button]
-    /// @see CustomId#independent(String)
-    @Override
-    public Button toJDAEntity() {
-        return toJDAEntity(CustomId.independent(definitionId()));
-    }
-
     /// Transforms this definition to an [Button] with the given [CustomId].
     ///
     /// @param customId the [CustomId] to use

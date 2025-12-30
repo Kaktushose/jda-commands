@@ -14,13 +14,12 @@ import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringS
 /// @see EntitySelectMenuDefinition
 /// @see StringSelectMenuDefinition
 /// @see ModalDefinition
-public sealed interface CustomIdJDAEntity<T> extends Definition permits ComponentDefinition, ModalDefinition {
+public sealed interface CustomIdJDAEntity<T> extends JDAEntity<T> permits ComponentDefinition, ModalDefinition {
 
     /// Transforms this [Definition] into a JDA entity of the given type [T].
     ///
     /// @param customId the [CustomId] to use to build this JDA entity
     /// @return a JDA entity of type [T]
-
     T toJDAEntity(CustomId customId);
 
 }

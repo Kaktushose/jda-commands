@@ -99,9 +99,10 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// This may be useful if you want to send a component without using the framework.
     ///
     /// @param button the name of the button defining method
+    /// @param counter the counter to add to the custom id, see javadocs of [CustomId]
     /// @return the JDA [Button]
-    public Button getButton(String button) {
-        return getComponent(button, null, ButtonDefinition.class);
+    public Button getButton(String button, int counter) {
+        return getComponent(button, null, ButtonDefinition.class, counter);
     }
 
     /// Gets a [`Button`][io.github.kaktushose.jdac.annotations.interactions.Button] based on the method name
@@ -112,9 +113,10 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param origin the [Class] of the method
     /// @param button the name of the button defining method
+    /// @param counter the counter to add to the custom id, see javadocs of [CustomId]
     /// @return the JDA [Button]
-    public Button getButton(Class<?> origin, String button) {
-        return getComponent(button, null, ButtonDefinition.class);
+    public Button getButton(Class<?> origin, String button, int counter) {
+        return getComponent(button, null, ButtonDefinition.class, counter);
     }
 
     /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
@@ -123,9 +125,10 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// without using the framework.
     ///
     /// @param menu the name of the select menu
+    /// @param counter the counter to add to the custom id, see javadocs of [CustomId]
     /// @return the JDA [SelectMenu]
-    public SelectMenu getSelectMenu(String menu) {
-        return getComponent(menu, null, SelectMenuDefinition.class);
+    public SelectMenu getSelectMenu(String menu, int counter) {
+        return getComponent(menu, null, SelectMenuDefinition.class, counter);
     }
 
     /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
@@ -135,17 +138,18 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param origin the [Class] of the method
     /// @param menu   the name of the select menu
+    /// @param counter the counter to add to the custom id, see javadocs of [CustomId]
     /// @return the JDA [SelectMenu]
-    public SelectMenu getSelectMenu(Class<?> origin, String menu) {
-        return getComponent(menu, origin, SelectMenuDefinition.class);
+    public SelectMenu getSelectMenu(Class<?> origin, String menu, int counter) {
+        return getComponent(menu, origin, SelectMenuDefinition.class, counter);
     }
 
     @SuppressWarnings("unchecked")
-    private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(String component, @Nullable Class<?> origin, Class<E> type) {
+    private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(String component, @Nullable Class<?> origin, Class<E> type, int counter) {
         var className = origin == null ? scopedInvocationContext().definition().classDescription().name() : origin.getName();
         var id = String.valueOf((className + component).hashCode());
         var definition = scopedInteractionRegistry().find(type, false, it -> it.definitionId().equals(id));
-        return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
+        return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId(), String.valueOf(counter)));
     }
 
     /// Gets an [Embed] based on the given name.

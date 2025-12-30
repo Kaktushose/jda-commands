@@ -53,7 +53,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
             var modalDefinition = scopedInteractionRegistry().find(ModalDefinition.class, false, it ->
                     it.definitionId().equals(definitionId)
             );
-            var builtModal = callback.apply(new ModalBuilder(this, new CustomId(runtimeId(), definitionId), modalDefinition)).build();
+            var builtModal = callback.apply(new ModalBuilder(this, new CustomId(runtimeId(), definitionId, "0"), modalDefinition)).build();
 
             log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(), modalDefinition.displayName(), runtimeId());
             modalCallback.replyModal(builtModal).queue();

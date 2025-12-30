@@ -5,7 +5,7 @@ import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.description.ParameterDescription;
 import io.github.kaktushose.jdac.definitions.features.CustomIdJDAEntity;
-import io.github.kaktushose.jdac.definitions.features.JDAEntity;
+import io.github.kaktushose.jdac.definitions.features.NonCustomIdJDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.internal.Helpers;
@@ -101,7 +101,7 @@ public record ModalDefinition(
             int maxValue,
             TextInputStyle style,
             boolean required
-    ) implements JDAEntity<Label>, Definition {
+    ) implements NonCustomIdJDAEntity<Label>, Definition {
 
         /// Builds a new [TextInputDefinition] from the given [ParameterDescription]
         ///

@@ -1,20 +1,22 @@
 package definitions;
 
+import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.annotations.interactions.AutoComplete;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.annotations.interactions.Permissions;
+import io.github.kaktushose.jdac.definitions.Definition;
 import io.github.kaktushose.jdac.definitions.description.AnnotationDescription;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.description.reflective.ReflectiveDescriptor;
 import io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
-import dev.goldmensch.fluava.Fluava;
 import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 
 import java.util.*;
@@ -67,6 +69,10 @@ public class TestHelpers {
     private static MethodDescription methodDescription(Class<?> controller, String method) {
         ClassDescription clazz = Descriptor.REFLECTIVE.describe(controller);
         return clazz.methods().stream().filter(it -> it.name().equals(method)).findFirst().orElseThrow();
+    }
+
+    public static CustomId independentTestId(Definition definition) {
+        return CustomId.independent(definition.definitionId(), 0);
     }
 
 }

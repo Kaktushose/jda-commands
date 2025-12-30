@@ -12,9 +12,9 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 import static definitions.TestHelpers.getBuildContext;
+import static definitions.TestHelpers.independentTestId;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ButtonDefinitionTest {
@@ -72,7 +72,7 @@ class ButtonDefinitionTest {
     void button_withLink_shouldNotHaveId() {
         ButtonDefinition definition = build("withLink");
 
-        var button = definition.toJDAEntity();
+        var button = definition.toJDAEntity(independentTestId(definition));
 
         assertNull(button.getCustomId());
         assertEquals("https://example.com", button.getUrl());
@@ -83,7 +83,7 @@ class ButtonDefinitionTest {
     void button_withoutLink_shouldHaveId() {
         ButtonDefinition definition = build("normalButton");
 
-        var button = definition.toJDAEntity();
+        var button = definition.toJDAEntity(independentTestId(definition));
 
         assertNotNull(button.getCustomId());
         assertNull(button.getUrl());
@@ -92,7 +92,7 @@ class ButtonDefinitionTest {
     @Test
     void button_withCustomId_shouldUseGivenId() {
         ButtonDefinition definition = build("normalButton");
-        CustomId customId = CustomId.independent("test-id-123");
+        CustomId customId = CustomId.independent("test-id-123", 0);
 
         var button = definition.toJDAEntity(customId);
 

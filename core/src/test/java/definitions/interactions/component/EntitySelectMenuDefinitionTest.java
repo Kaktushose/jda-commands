@@ -7,18 +7,18 @@ import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
-import net.dv8tion.jda.api.entities.Mentions;
-import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu.DefaultValue;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
+import net.dv8tion.jda.api.entities.Mentions;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
 import org.junit.jupiter.api.Test;
 
 import java.util.EnumSet;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
 import static definitions.TestHelpers.getBuildContext;
+import static definitions.TestHelpers.independentTestId;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EntitySelectMenuDefinitionTest {
@@ -37,7 +37,7 @@ class EntitySelectMenuDefinitionTest {
     void menu_withDefaults_ShouldBuild() {
         var definition = build("allDefaults");
 
-        net.dv8tion.jda.api.components.selections.EntitySelectMenu menu = definition.toJDAEntity();
+        net.dv8tion.jda.api.components.selections.EntitySelectMenu menu = definition.toJDAEntity(independentTestId(definition));
 
         assertEquals("Entity Select Menu: test", definition.displayName());
         assertEquals(EnumSet.of(SelectTarget.USER), menu.getEntityTypes());
@@ -52,7 +52,7 @@ class EntitySelectMenuDefinitionTest {
     void menu_withExplicitValues_shouldBeSet() {
         var definition = build("explicit");
 
-        net.dv8tion.jda.api.components.selections.EntitySelectMenu menu = definition.toJDAEntity();
+        net.dv8tion.jda.api.components.selections.EntitySelectMenu menu = definition.toJDAEntity(independentTestId(definition));
 
         assertEquals(EnumSet.of(ChannelType.TEXT), menu.getChannelTypes());
         assertEquals(2, menu.getMinValues());

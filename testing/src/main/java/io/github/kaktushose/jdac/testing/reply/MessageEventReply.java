@@ -112,7 +112,7 @@ public final class MessageEventReply extends EventReply {
     }
 
     private String customId(String component) {
-        return new CustomId(runtimeId(component), definitionId(component)).merged();
+        return new CustomId(runtimeId(component), definitionId(component), "0").merged();
     }
 
     private String runtimeId(String component) {
