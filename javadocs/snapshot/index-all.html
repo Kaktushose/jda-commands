@@ -152,7 +152,7 @@ should be mapped to.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Description.html#annotation(java.lang.Class)" class="member-name-link">annotation(Class)</a> - Method in interface io.github.kaktushose.jdac.definitions.description.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Description.html" title="interface in io.github.kaktushose.jdac.definitions.description">Description</a></dt>
 <dd>
-<div class="block">Gets this elements <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link"><code>Annotation</code></a> for the specified type if such an annotation is present</div>
+<div class="block">Gets the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link"><code>Annotation</code></a> of this element for the specified type.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/AnnotationDescription.html" class="type-name-link" title="class in io.github.kaktushose.jdac.definitions.description">AnnotationDescription&lt;T&gt;</a> - Record Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/package-summary.html">io.github.kaktushose.jdac.definitions.description</a></dt>
 <dd>
@@ -172,7 +172,7 @@ should be mapped to.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Description.html#annotations()" class="member-name-link">annotations()</a> - Method in interface io.github.kaktushose.jdac.definitions.description.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Description.html" title="interface in io.github.kaktushose.jdac.definitions.description">Description</a></dt>
 <dd>
-<div class="block">a possibly-empty <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of all <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link"><code>Annotation</code></a>s this element is annotated with.</div>
+<div class="block">Gets all <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link"><code>Annotation</code></a>s this element is annotated with</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/MethodDescription.html#annotations()" class="member-name-link">annotations()</a> - Method in record class io.github.kaktushose.jdac.definitions.description.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a></dt>
 <dd>
@@ -1688,6 +1688,10 @@ with other user provided <a href="io.github.kaktushose.jdac.core/io/github/kaktu
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/ExtensionFilter.html#param-filterStrategy"><code>filterStrategy</code></a> record component.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Definitions.html#find(java.lang.Class)" class="member-name-link">find(Class)</a> - Method in interface io.github.kaktushose.jdac.introspection.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Definitions.html" title="interface in io.github.kaktushose.jdac.introspection">Definitions</a></dt>
+<dd>
+<div class="block">Gets all registered <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition</code></a>s matching the passed type</div>
+</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html#find(java.lang.Class,boolean,java.util.function.Predicate)" class="member-name-link">find(Class, boolean, Predicate)</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html" title="class in io.github.kaktushose.jdac.definitions.interactions">InteractionRegistry</a></dt>
 <dd>
 <div class="block">Attempts to find a <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/Definition.html" title="interface in io.github.kaktushose.jdac.definitions"><code>Definition</code></a> of type <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html#find(java.lang.Class,boolean,java.util.function.Predicate)-type-param-T"><code>T</code></a> based on the given <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a>.</div>
@@ -1700,6 +1704,10 @@ with other user provided <a href="io.github.kaktushose.jdac.core/io/github/kaktu
 <dd>
 <div class="block">Gets a subset of all registered <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition</code></a> filtered by their <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">type</a>
 and the passed <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a>.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Description.html#findAnnotation(java.lang.Class)" class="member-name-link">findAnnotation(Class)</a> - Method in interface io.github.kaktushose.jdac.definitions.description.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Description.html" title="interface in io.github.kaktushose.jdac.definitions.description">Description</a></dt>
+<dd>
+<div class="block">Gets the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link"><code>Annotation</code></a> of this element for the specified type if such an annotation is present</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html#findEmbed(java.lang.String)" class="member-name-link">findEmbed(String)</a> - Method in class io.github.kaktushose.jdac.dispatching.events.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ReplyableEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events">ReplyableEvent</a></dt>
 <dd>
@@ -1715,6 +1723,18 @@ and the passed <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.
 <dd>
 <div class="block">Gets the first <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition</code></a> with the given <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">type</a> that
 match the passed <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a></div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/ClassDescription.html#findMethod(java.lang.String,java.lang.Class...)" class="member-name-link">findMethod(String, Class...)</a> - Method in record class io.github.kaktushose.jdac.definitions.description.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a></dt>
+<dd>
+<div class="block">Gets a method that matches the given name and parameter types if found.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/ClassDescription.html#findMethod(java.lang.String,java.util.List)" class="member-name-link">findMethod(String, List)</a> - Method in record class io.github.kaktushose.jdac.definitions.description.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a></dt>
+<dd>
+<div class="block">Gets a method that matches the given name and parameter types if found.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/MethodDescription.html#findParameter(java.lang.String)" class="member-name-link">findParameter(String)</a> - Method in record class io.github.kaktushose.jdac.definitions.description.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a></dt>
+<dd>
+<div class="block">Gets the parameter matching the given name if any.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/FluavaLocalizer.html" class="type-name-link" title="class in io.github.kaktushose.jdac.message.i18n">FluavaLocalizer</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/package-summary.html">io.github.kaktushose.jdac.message.i18n</a></dt>
 <dd>
@@ -2015,6 +2035,10 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selecti
 </dl>
 <h2 class="title" id="I:H">H</h2>
 <dl class="index">
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Description.html#hasAnnotation(java.lang.Class)" class="member-name-link">hasAnnotation(Class)</a> - Method in interface io.github.kaktushose.jdac.definitions.description.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Description.html" title="interface in io.github.kaktushose.jdac.definitions.description">Description</a></dt>
+<dd>
+<div class="block">Checks whether this element has an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link"><code>Annotation</code></a> of the specified type.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/ExtensionException.Information.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.kaktushose.jdac.configuration.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/ExtensionException.Information.html" title="class in io.github.kaktushose.jdac.configuration">ExtensionException.Information</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
@@ -2529,7 +2553,9 @@ inside the method annotated with this annotation.</div>
 <div class="block">Invokes the method that this <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/Definition.html" title="interface in io.github.kaktushose.jdac.definitions"><code>Definition</code></a> is bound to.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Invoker.html#invoke(java.lang.Object,java.util.SequencedCollection)" class="member-name-link">invoke(Object, SequencedCollection)</a> - Method in interface io.github.kaktushose.jdac.definitions.description.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Invoker.html" title="interface in io.github.kaktushose.jdac.definitions.description">Invoker</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Invokes the method behind <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description"><code>MethodDescription</code></a>.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/MethodDescription.html#invoker()" class="member-name-link">invoker()</a> - Method in record class io.github.kaktushose.jdac.definitions.description.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/MethodDescription.html#param-invoker"><code>invoker</code></a> record component.</div>
@@ -3139,6 +3165,14 @@ for <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotation
 <dd>
 <div class="block">Returns the value of the <code>method</code> record component.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/ClassDescription.html#method(java.lang.String,java.lang.Class...)" class="member-name-link">method(String, Class...)</a> - Method in record class io.github.kaktushose.jdac.definitions.description.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a></dt>
+<dd>
+<div class="block">Gets a method that matches the given name and parameter types.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/ClassDescription.html#method(java.lang.String,java.util.List)" class="member-name-link">method(String, List)</a> - Method in record class io.github.kaktushose.jdac.definitions.description.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a></dt>
+<dd>
+<div class="block">Gets a method that matches the given name and parameter types.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/MethodBuildContext.html" class="type-name-link" title="class in io.github.kaktushose.jdac.definitions.interactions">MethodBuildContext</a> - Record Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/package-summary.html">io.github.kaktushose.jdac.definitions.interactions</a></dt>
 <dd>
 <div class="block">Holds all objects needed to create an <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition</code></a>.</div>
@@ -3515,6 +3549,10 @@ and resource.</div>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/ModalDefinition.TextInputDefinition.html#parameter()" class="member-name-link">parameter()</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/ModalDefinition.TextInputDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition.TextInputDefinition</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>parameter</code> record component.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/MethodDescription.html#parameter(java.lang.String)" class="member-name-link">parameter(String)</a> - Method in record class io.github.kaktushose.jdac.definitions.description.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a></dt>
+<dd>
+<div class="block">Gets the parameter matching the given name.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/ParameterDescription.html" class="type-name-link" title="class in io.github.kaktushose.jdac.definitions.description">ParameterDescription</a> - Record Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/package-summary.html">io.github.kaktushose.jdac.definitions.description</a></dt>
 <dd>
