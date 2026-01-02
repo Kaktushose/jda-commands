@@ -64,7 +64,7 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#build(io.github.kaktushose.jdac.definitions.description.ParameterDescription,io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition,io.github.kaktushose.jdac.message.i18n.I18n,io.github.kaktushose.jdac.dispatching.validation.internal.Validators)" tabindex="0">build(ParameterDescription, AutoCompleteDefinition, I18n, Validators)</a></li>
+<li><a href="#build(io.github.kaktushose.jdac.definitions.description.ParameterDescription,io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition,io.github.kaktushose.jdac.message.resolver.MessageResolver,io.github.kaktushose.jdac.dispatching.validation.internal.Validators)" tabindex="0">build(ParameterDescription, AutoCompleteDefinition, MessageResolver, Validators)</a></li>
 <li><a href="#displayName()" tabindex="0">displayName()</a></li>
 <li><a href="#toJDAEntity()" tabindex="0">toJDAEntity()</a></li>
 <li><a href="#toString()" tabindex="0">toString()</a></li>
@@ -177,9 +177,9 @@ implements <a href="../../Definition.html" title="interface in io.github.kaktush
 <div class="block">Returns the value of the <a href="#param-autoComplete"><code>autoComplete</code></a> record component.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">OptionDataDefinition</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#build(io.github.kaktushose.jdac.definitions.description.ParameterDescription,io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition,io.github.kaktushose.jdac.message.i18n.I18n,io.github.kaktushose.jdac.dispatching.validation.internal.Validators)" class="member-name-link">build</a><wbr>(<a href="../../description/ParameterDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ParameterDescription</a>&nbsp;parameter,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#build(io.github.kaktushose.jdac.definitions.description.ParameterDescription,io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition,io.github.kaktushose.jdac.message.resolver.MessageResolver,io.github.kaktushose.jdac.dispatching.validation.internal.Validators)" class="member-name-link">build</a><wbr>(<a href="../../description/ParameterDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ParameterDescription</a>&nbsp;parameter,
  @Nullable <a href="../AutoCompleteDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">AutoCompleteDefinition</a>&nbsp;autoComplete,
- <a href="../../../message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a>&nbsp;i18n,
+ <a href="../../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver,
  <a href="../../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a>&nbsp;validatorRegistry)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Builds a new <a href="OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command"><code>OptionDataDefinition</code></a>.</div>
@@ -307,19 +307,19 @@ implements <a href="../../Definition.html" title="interface in io.github.kaktush
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="build(io.github.kaktushose.jdac.definitions.description.ParameterDescription,io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition,io.github.kaktushose.jdac.message.i18n.I18n,io.github.kaktushose.jdac.dispatching.validation.internal.Validators)">
+<section class="detail" id="build(io.github.kaktushose.jdac.definitions.description.ParameterDescription,io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition,io.github.kaktushose.jdac.message.resolver.MessageResolver,io.github.kaktushose.jdac.dispatching.validation.internal.Validators)">
 <h3>build</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">OptionDataDefinition</a></span>&nbsp;<span class="element-name">build</span><wbr><span class="parameters">(<a href="../../description/ParameterDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ParameterDescription</a>&nbsp;parameter,
  @Nullable <a href="../AutoCompleteDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">AutoCompleteDefinition</a>&nbsp;autoComplete,
- <a href="../../../message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a>&nbsp;i18n,
+ <a href="../../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver,
  <a href="../../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a>&nbsp;validatorRegistry)</span></div>
 <div class="block">Builds a new <a href="OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command"><code>OptionDataDefinition</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>parameter</code> - the <a href="../../description/ParameterDescription.html" title="class in io.github.kaktushose.jdac.definitions.description"><code>ParameterDescription</code></a> to build the <a href="OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command"><code>OptionDataDefinition</code></a> from</dd>
 <dd><code>autoComplete</code> - the <a href="../AutoCompleteDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions"><code>AutoCompleteDefinition</code></a> for this option or <code>null</code> if no auto complete was defined</dd>
-<dd><code>i18n</code> - the <a href="../../../message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a> instance to use</dd>
+<dd><code>messageResolver</code> - the <a href="../../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a> instance to use</dd>
 <dd><code>validatorRegistry</code> - the corresponding <a href="../../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal"><code>Validators</code></a></dd>
 <dt>Returns:</dt>
 <dd>the <a href="OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command"><code>OptionDataDefinition</code></a></dd>

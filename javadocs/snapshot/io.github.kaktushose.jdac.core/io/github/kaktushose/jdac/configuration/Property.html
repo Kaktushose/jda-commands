@@ -81,6 +81,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#PERMISSION_PROVIDER" tabindex="0">PERMISSION_PROVIDER</a></li>
 <li><a href="#ERROR_MESSAGE_FACTORY" tabindex="0">ERROR_MESSAGE_FACTORY</a></li>
 <li><a href="#GUILD_SCOPE_PROVIDER" tabindex="0">GUILD_SCOPE_PROVIDER</a></li>
+<li><a href="#STRING_RESOLVER" tabindex="0">STRING_RESOLVER</a></li>
 <li><a href="#GLOBAL_COMMAND_CONFIG" tabindex="0">GLOBAL_COMMAND_CONFIG</a></li>
 <li><a href="#GLOBAL_REPLY_CONFIG" tabindex="0">GLOBAL_REPLY_CONFIG</a></li>
 <li><a href="#PACKAGES" tabindex="0">PACKAGES</a></li>
@@ -93,6 +94,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#I18N" tabindex="0">I18N</a></li>
 <li><a href="#MESSAGE_RESOLVER" tabindex="0">MESSAGE_RESOLVER</a></li>
 <li><a href="#EMOJI_RESOLVER" tabindex="0">EMOJI_RESOLVER</a></li>
+<li><a href="#PLACEHOLDER_RESOLVER" tabindex="0">PLACEHOLDER_RESOLVER</a></li>
 <li><a href="#MERGED_CLASS_FINDER" tabindex="0">MERGED_CLASS_FINDER</a></li>
 <li><a href="#JDA_COMMANDS" tabindex="0">JDA_COMMANDS</a></li>
 <li><a href="#DEFINITIONS" tabindex="0">DEFINITIONS</a></li>
@@ -324,18 +326,26 @@ accumulated together with the user defined ones or overwritten.</div>
 <div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../permissions/PermissionsProvider.html" title="interface in io.github.kaktushose.jdac.permissions">PermissionsProvider</a>&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#PERMISSION_PROVIDER" class="member-name-link">PERMISSION_PROVIDER</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;?&gt;&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#PROVIDED" class="member-name-link">PROVIDED</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../message/placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder">PlaceholderResolver</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#PLACEHOLDER_RESOLVER" class="member-name-link">PLACEHOLDER_RESOLVER</a></code></div>
 <div class="col-last odd-row-color">
+<div class="block">The <a href="../message/placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder"><code>PlaceholderResolver</code></a> service provided by JDA-Commands.</div>
+</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;?&gt;&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#PROVIDED" class="member-name-link">PROVIDED</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">A collection consisting of all <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Property</code></a>s that are <a href="Property.Category.html#PROVIDED">provided by JDA-Commands</a></div>
 </div>
-<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#RUNTIME_ID" class="member-name-link">RUNTIME_ID</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#RUNTIME_ID" class="member-name-link">RUNTIME_ID</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">The identifier bound to this runtime.</div>
 </div>
-<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#SHUTDOWN_JDA" class="member-name-link">SHUTDOWN_JDA</a></code></div>
+<div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#SHUTDOWN_JDA" class="member-name-link">SHUTDOWN_JDA</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../message/resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&gt;&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#STRING_RESOLVER" class="member-name-link">STRING_RESOLVER</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="../dispatching/adapter/AdapterType.html" title="class in io.github.kaktushose.jdac.dispatching.adapter">AdapterType</a>&lt;?,<wbr>?&gt;, <a href="../dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter">TypeAdapter</a>&lt;?,<wbr>?&gt;&gt;&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#TYPE_ADAPTER" class="member-name-link">TYPE_ADAPTER</a></code></div>
@@ -627,6 +637,25 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 </section>
 </li>
 <li>
+<section class="detail" id="STRING_RESOLVER">
+<h3>STRING_RESOLVER</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#LOADABLE">LOADABLE</a>,
+                     fallbackBehaviour=<a href="Property.FallbackBehaviour.html#ACCUMULATE">ACCUMULATE</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../message/resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&gt;&gt;</span>&nbsp;<span class="element-name">STRING_RESOLVER</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="../JDACBuilder.html#stringResolver(io.github.kaktushose.jdac.message.resolver.Resolver...)"><code>JDACBuilder.stringResolver(Resolver...)</code></a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="GLOBAL_COMMAND_CONFIG">
 <h3>GLOBAL_COMMAND_CONFIG</h3>
 <div class="horizontal-scroll">
@@ -831,6 +860,21 @@ Needs the values of <a href="#I18N"><code>I18N</code></a> and <a href="#EMOJI_RE
 </span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji">EmojiResolver</a>&gt;</span>&nbsp;<span class="element-name">EMOJI_RESOLVER</span></div>
 <div class="block">The <a href="../message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji"><code>EmojiResolver</code></a> service provided by JDA-Commands.
 Needs the value of <a href="#EMOJI_RESOLVER"><code>EMOJI_RESOLVER</code></a>.</div>
+<dl class="notes">
+<dt>Implementation Note:</dt>
+<dd>the <a href="PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration"><code>PropertyProvider</code></a> for this value is defined in the constructor of <a href="../JDACBuilder.html" title="class in io.github.kaktushose.jdac"><code>JDACBuilder</code></a></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="PLACEHOLDER_RESOLVER">
+<h3>PLACEHOLDER_RESOLVER</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
+                     category=<a href="Property.Category.html#PROVIDED">PROVIDED</a>)
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../message/placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder">PlaceholderResolver</a>&gt;</span>&nbsp;<span class="element-name">PLACEHOLDER_RESOLVER</span></div>
+<div class="block">The <a href="../message/placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder"><code>PlaceholderResolver</code></a> service provided by JDA-Commands.</div>
 <dl class="notes">
 <dt>Implementation Note:</dt>
 <dd>the <a href="PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration"><code>PropertyProvider</code></a> for this value is defined in the constructor of <a href="../JDACBuilder.html" title="class in io.github.kaktushose.jdac"><code>JDACBuilder</code></a></dd>

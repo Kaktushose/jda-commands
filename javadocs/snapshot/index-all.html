@@ -306,7 +306,7 @@ should be mapped to.</div>
 <dd>
 <div class="block">Builds a new <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/ModalDefinition.TextInputDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions"><code>ModalDefinition.TextInputDefinition</code></a> from the given <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/ParameterDescription.html" title="class in io.github.kaktushose.jdac.definitions.description"><code>ParameterDescription</code></a></div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/OptionDataDefinition.html#build(io.github.kaktushose.jdac.definitions.description.ParameterDescription,io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition,io.github.kaktushose.jdac.message.i18n.I18n,io.github.kaktushose.jdac.dispatching.validation.internal.Validators)" class="member-name-link">build(ParameterDescription, AutoCompleteDefinition, I18n, Validators)</a> - Static method in record class io.github.kaktushose.jdac.definitions.interactions.command.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">OptionDataDefinition</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/OptionDataDefinition.html#build(io.github.kaktushose.jdac.definitions.description.ParameterDescription,io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition,io.github.kaktushose.jdac.message.resolver.MessageResolver,io.github.kaktushose.jdac.dispatching.validation.internal.Validators)" class="member-name-link">build(ParameterDescription, AutoCompleteDefinition, MessageResolver, Validators)</a> - Static method in record class io.github.kaktushose.jdac.definitions.interactions.command.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command">OptionDataDefinition</a></dt>
 <dd>
 <div class="block">Builds a new <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/OptionDataDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.command"><code>OptionDataDefinition</code></a>.</div>
 </dd>
@@ -1193,10 +1193,6 @@ where you can also edit the original reply instead of sending a new one.</div>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/internal/guice/PerInteractionModule.html#emojiResolver()" class="member-name-link">emojiResolver()</a> - Method in class io.github.kaktushose.jdac.guice.internal.guice.<a href="io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/internal/guice/PerInteractionModule.html" title="class in io.github.kaktushose.jdac.guice.internal.guice">PerInteractionModule</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html#emojiResolver()" class="member-name-link">emojiResolver()</a> - Method in class io.github.kaktushose.jdac.message.resolver.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a></dt>
-<dd>
-<div class="block">Gets the underlying <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji"><code>EmojiResolver</code></a> instance</div>
-</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html" class="type-name-link" title="class in io.github.kaktushose.jdac.message.emoji">EmojiResolver</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/package-summary.html">io.github.kaktushose.jdac.message.emoji</a></dt>
 <dd>
 <div class="block">The <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji"><code>EmojiResolver</code></a> replaces emoji aliases in strings with their formatted value.</div>
@@ -2276,24 +2272,12 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selecti
 </dl>
 <h2 class="title" id="I:I">I</h2>
 <dl class="index">
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html#i18n()" class="member-name-link">i18n()</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html" title="class in io.github.kaktushose.jdac.definitions.interactions">InteractionRegistry</a></dt>
-<dd>
-<div class="block">Returns the value of the <code>i18n</code> record component.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/MethodBuildContext.html#i18n()" class="member-name-link">i18n()</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/MethodBuildContext.html" title="class in io.github.kaktushose.jdac.definitions.interactions">MethodBuildContext</a></dt>
-<dd>
-<div class="block">Returns the value of the <code>i18n</code> record component.</div>
-</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/FrameworkContext.html#i18n()" class="member-name-link">i18n()</a> - Method in record class io.github.kaktushose.jdac.dispatching.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/FrameworkContext.html" title="class in io.github.kaktushose.jdac.dispatching">FrameworkContext</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>i18n</code> record component.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/internal/guice/PerInteractionModule.html#i18n()" class="member-name-link">i18n()</a> - Method in class io.github.kaktushose.jdac.guice.internal.guice.<a href="io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/internal/guice/PerInteractionModule.html" title="class in io.github.kaktushose.jdac.guice.internal.guice">PerInteractionModule</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html#i18n()" class="member-name-link">i18n()</a> - Method in class io.github.kaktushose.jdac.message.resolver.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a></dt>
-<dd>
-<div class="block">Gets the underlying <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a> instance</div>
-</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html" class="type-name-link" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/package-summary.html">io.github.kaktushose.jdac.message.i18n</a></dt>
 <dd>
 <div class="block">This class serves as an interface for application localization.</div>
@@ -2462,11 +2446,11 @@ that is bound to the underlying <a href="./index.html#runtime-concept-heading"><
 <dd>
 <div class="block">Central registry for all <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition</code></a>s.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.i18n.I18n,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,io.github.kaktushose.jdac.definitions.description.Descriptor)" class="member-name-link">InteractionRegistry(Validators, I18n, LocalizationFunction, Descriptor)</a> - Constructor for record class io.github.kaktushose.jdac.definitions.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html" title="class in io.github.kaktushose.jdac.definitions.interactions">InteractionRegistry</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,io.github.kaktushose.jdac.definitions.description.Descriptor)" class="member-name-link">InteractionRegistry(Validators, MessageResolver, LocalizationFunction, Descriptor)</a> - Constructor for record class io.github.kaktushose.jdac.definitions.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html" title="class in io.github.kaktushose.jdac.definitions.interactions">InteractionRegistry</a></dt>
 <dd>
 <div class="block">Constructs a new <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html" title="class in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionRegistry</code></a></div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.i18n.I18n,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,io.github.kaktushose.jdac.definitions.description.Descriptor,java.util.Set)" class="member-name-link">InteractionRegistry(Validators, I18n, LocalizationFunction, Descriptor, Set)</a> - Constructor for record class io.github.kaktushose.jdac.definitions.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html" title="class in io.github.kaktushose.jdac.definitions.interactions">InteractionRegistry</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,io.github.kaktushose.jdac.definitions.description.Descriptor,java.util.Set)" class="member-name-link">InteractionRegistry(Validators, MessageResolver, LocalizationFunction, Descriptor, Set)</a> - Constructor for record class io.github.kaktushose.jdac.definitions.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html" title="class in io.github.kaktushose.jdac.definitions.interactions">InteractionRegistry</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>InteractionRegistry</code> record class.</div>
 </dd>
@@ -3024,15 +3008,6 @@ loaded from <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/co
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html#localizationFunction()" class="member-name-link">localizationFunction()</a> - Method in class io.github.kaktushose.jdac.message.i18n.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/Event.html#localize(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">localize(String, Entry...)</a> - Method in class io.github.kaktushose.jdac.dispatching.events.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/Event.html" title="class in io.github.kaktushose.jdac.dispatching.events">Event</a></dt>
-<dd>
-<div class="block">Gets a localization message for the given key using the underlying <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a> instance.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html#localize(java.util.Locale,java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">localize(Locale, String, Entry...)</a> - Method in class io.github.kaktushose.jdac.message.i18n.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a></dt>
-<dd>
-<div class="block">This method returns the localized message found by the provided <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> and key
-in the given bundle.</div>
-</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/Localizer.html#localize(java.util.Locale,java.lang.String,java.lang.String,java.util.Map)" class="member-name-link">localize(Locale, String, String, Map)</a> - Method in interface io.github.kaktushose.jdac.message.i18n.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/Localizer.html" title="interface in io.github.kaktushose.jdac.message.i18n">Localizer</a></dt>
 <dd>
 <div class="block">This method localizes a given key for a specific bundle and locale.</div>
@@ -3040,11 +3015,6 @@ in the given bundle.</div>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/FluavaLocalizer.html#localize(java.util.Locale,java.lang.String,java.lang.String,java.util.Map)" class="member-name-link">localize(Locale, String, String, Map)</a> - Method in class io.github.kaktushose.jdac.message.i18n.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/FluavaLocalizer.html" title="class in io.github.kaktushose.jdac.message.i18n">FluavaLocalizer</a></dt>
 <dd>
 <div class="block">This method localizes a given key for a specific bundle and locale.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html#localize(java.util.Locale,java.lang.String,java.util.Map)" class="member-name-link">localize(Locale, String, Map)</a> - Method in class io.github.kaktushose.jdac.message.i18n.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a></dt>
-<dd>
-<div class="block">This method returns the localized method found by the provided <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> and key
-in the given bundle.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html#LOCALIZE_COMMANDS" class="member-name-link">LOCALIZE_COMMANDS</a> - Static variable in interface io.github.kaktushose.jdac.configuration.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a></dt>
 <dd>&nbsp;</dd>
@@ -3154,6 +3124,14 @@ for <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotation
 <dd>
 <div class="block">Constructs a new MessageReply.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html#messageResolver()" class="member-name-link">messageResolver()</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionRegistry.html" title="class in io.github.kaktushose.jdac.definitions.interactions">InteractionRegistry</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>messageResolver</code> record component.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/MethodBuildContext.html#messageResolver()" class="member-name-link">messageResolver()</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/MethodBuildContext.html" title="class in io.github.kaktushose.jdac.definitions.interactions">MethodBuildContext</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>messageResolver</code> record component.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/Event.html#messageResolver()" class="member-name-link">messageResolver()</a> - Method in class io.github.kaktushose.jdac.dispatching.events.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/Event.html" title="class in io.github.kaktushose.jdac.dispatching.events">Event</a></dt>
 <dd>
 <div class="block">Gets the <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a> instance</div>
@@ -3170,10 +3148,10 @@ for <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotation
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html" class="type-name-link" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/package-summary.html">io.github.kaktushose.jdac.message.resolver</a></dt>
 <dd>
-<div class="block">The MessageResolver combines <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html#localize(java.util.Locale,java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>I18n.localize(Locale, String, Entry...)</code></a> and
-<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html#resolve(java.lang.String)"><code>EmojiResolver.resolve(String)</code></a>.</div>
+<div class="block">The MessageResolver combines all registered <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html#STRING_RESOLVER"><code>Resolver&lt;String&gt;</code></a>
+and following default resolvers:</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html#%3Cinit%3E(io.github.kaktushose.jdac.message.i18n.I18n,io.github.kaktushose.jdac.message.emoji.EmojiResolver)" class="member-name-link">MessageResolver(I18n, EmojiResolver)</a> - Constructor for class io.github.kaktushose.jdac.message.resolver.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html#%3Cinit%3E(java.util.Collection)" class="member-name-link">MessageResolver(Collection)</a> - Constructor for class io.github.kaktushose.jdac.message.resolver.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/MethodBuildContext.html#method()" class="member-name-link">method()</a> - Method in record class io.github.kaktushose.jdac.definitions.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/MethodBuildContext.html" title="class in io.github.kaktushose.jdac.definitions.interactions">MethodBuildContext</a></dt>
 <dd>
@@ -3191,7 +3169,7 @@ for <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotation
 <dd>
 <div class="block">Holds all objects needed to create an <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition</code></a>.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/MethodBuildContext.html#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,io.github.kaktushose.jdac.message.i18n.I18n,io.github.kaktushose.jdac.annotations.interactions.Interaction,java.util.Set,io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig)" class="member-name-link">MethodBuildContext(Validators, LocalizationFunction, I18n, Interaction, Set, ClassDescription, MethodDescription, Collection, CommandDefinition.CommandConfig)</a> - Constructor for record class io.github.kaktushose.jdac.definitions.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/MethodBuildContext.html" title="class in io.github.kaktushose.jdac.definitions.interactions">MethodBuildContext</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/MethodBuildContext.html#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,io.github.kaktushose.jdac.message.resolver.MessageResolver,io.github.kaktushose.jdac.annotations.interactions.Interaction,java.util.Set,io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig)" class="member-name-link">MethodBuildContext(Validators, LocalizationFunction, MessageResolver, Interaction, Set, ClassDescription, MethodDescription, Collection, CommandDefinition.CommandConfig)</a> - Constructor for record class io.github.kaktushose.jdac.definitions.interactions.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/MethodBuildContext.html" title="class in io.github.kaktushose.jdac.definitions.interactions">MethodBuildContext</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>MethodBuildContext</code> record class.</div>
 </dd>
@@ -3698,6 +3676,10 @@ require the user to have the given permissions in order to execute the command.<
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/SelectMenuComponent.html#placeholder(java.lang.String)" class="member-name-link">placeholder(String)</a> - Method in class io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/SelectMenuComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">SelectMenuComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html#PLACEHOLDER_RESOLVER" class="member-name-link">PLACEHOLDER_RESOLVER</a> - Static variable in interface io.github.kaktushose.jdac.configuration.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a></dt>
+<dd>
+<div class="block">The <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder"><code>PlaceholderResolver</code></a> service provided by JDA-Commands.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/PlaceholderResolver.html" class="type-name-link" title="class in io.github.kaktushose.jdac.message.placeholder">PlaceholderResolver</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/package-summary.html">io.github.kaktushose.jdac.message.placeholder</a></dt>
 <dd>
 <div class="block">The placeholder resolver is used to do simple placeholder/variable resolution.</div>
@@ -3752,6 +3734,24 @@ the name of the placeholder and the value of the map the value to replace the pl
 <dt><a href="io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.Middleware.html#priority()" class="member-name-link">priority()</a> - Element in annotation interface io.github.kaktushose.jdac.guice.<a href="io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.Middleware.html" title="annotation interface in io.github.kaktushose.jdac.guice">Implementation.Middleware</a></dt>
 <dd>
 <div class="block">Gets the <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/middleware/Priority.html" title="enum class in io.github.kaktushose.jdac.dispatching.middleware"><code>Priority</code></a> to register the <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/middleware/Middleware.html" title="interface in io.github.kaktushose.jdac.dispatching.middleware"><code>Middleware</code></a> with.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html#priority()" class="member-name-link">priority()</a> - Method in class io.github.kaktushose.jdac.message.emoji.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji">EmojiResolver</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html#priority()" class="member-name-link">priority()</a> - Method in class io.github.kaktushose.jdac.message.i18n.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/PlaceholderResolver.html#priority()" class="member-name-link">priority()</a> - Method in class io.github.kaktushose.jdac.message.placeholder.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder">PlaceholderResolver</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/ComponentResolver.html#priority()" class="member-name-link">priority()</a> - Method in class io.github.kaktushose.jdac.message.resolver.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/ComponentResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">ComponentResolver</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/DataObjectResolver.html#priority()" class="member-name-link">priority()</a> - Method in class io.github.kaktushose.jdac.message.resolver.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/DataObjectResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">DataObjectResolver</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/internal/JsonResolver.html#priority()" class="member-name-link">priority()</a> - Method in class io.github.kaktushose.jdac.message.resolver.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/internal/JsonResolver.html" title="class in io.github.kaktushose.jdac.message.resolver.internal">JsonResolver</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html#priority()" class="member-name-link">priority()</a> - Method in class io.github.kaktushose.jdac.message.resolver.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/Resolver.html#priority()" class="member-name-link">priority()</a> - Method in interface io.github.kaktushose.jdac.message.resolver.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a></dt>
+<dd>
+<div class="block">The priority of this resolver influences the order in which resolver are applied in a resolution pipeline.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/middleware/Priority.html" class="type-name-link" title="enum class in io.github.kaktushose.jdac.dispatching.middleware">Priority</a> - Enum Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/middleware/package-summary.html">io.github.kaktushose.jdac.dispatching.middleware</a></dt>
 <dd>
@@ -4089,15 +4089,21 @@ accumulated together with the user defined ones or overwritten.</div>
 <div class="block">Resolved the given message with help of the underlying <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a> instance,
 thus performing localization and emoji resolution.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html#resolve(java.lang.String,java.util.Locale,java.util.Map)" class="member-name-link">resolve(String, Locale, Map)</a> - Method in class io.github.kaktushose.jdac.message.resolver.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html#resolve(java.lang.String,java.util.Locale,java.util.Map)" class="member-name-link">resolve(String, Locale, Map)</a> - Method in class io.github.kaktushose.jdac.message.emoji.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji">EmojiResolver</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html#resolve(java.lang.String,java.util.Locale,java.util.Map)" class="member-name-link">resolve(String, Locale, Map)</a> - Method in class io.github.kaktushose.jdac.message.i18n.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a></dt>
 <dd>
-<div class="block">First resolves the variables in the given message (see <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/PlaceholderResolver.html#resolve(java.lang.String,java.util.Map)"><code>PlaceholderResolver.resolve(String, Map)</code></a>), then
-localizes the resulting message (see <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html#localize(java.util.Locale,java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>I18n.localize(Locale, String, Entry...)</code></a>) and lastly attempts to
-resolve emojis (see <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html#resolve(java.lang.String)"><code>EmojiResolver.resolve(String)</code></a>).</div>
+<div class="block">This method returns the localized method found by the provided <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> and key
+in the given bundle.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/PlaceholderResolver.html#resolve(java.lang.String,java.util.Map)" class="member-name-link">resolve(String, Map)</a> - Static method in class io.github.kaktushose.jdac.message.placeholder.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder">PlaceholderResolver</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/PlaceholderResolver.html#resolve(java.lang.String,java.util.Locale,java.util.Map)" class="member-name-link">resolve(String, Locale, Map)</a> - Method in class io.github.kaktushose.jdac.message.placeholder.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder">PlaceholderResolver</a></dt>
 <dd>
 <div class="block">Resolves the given string according to the class docs.</div>
+</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html#resolve(java.lang.String,java.util.Locale,java.util.Map)" class="member-name-link">resolve(String, Locale, Map)</a> - Method in class io.github.kaktushose.jdac.message.resolver.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a></dt>
+<dd>
+<div class="block">Applies all registered <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html#STRING_RESOLVER"><code>Resolver&lt;String&gt;</code></a> to the given message with
+the passed locale and placeholders.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/ComponentResolver.html#resolve(java.util.Collection,java.util.Locale,java.util.Map)" class="member-name-link">resolve(Collection, Locale, Map)</a> - Method in class io.github.kaktushose.jdac.message.resolver.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/ComponentResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">ComponentResolver</a></dt>
 <dd>
@@ -4364,6 +4370,12 @@ instantiates an instance of <a href="io.github.kaktushose.jdac.core/io/github/ka
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/Runtime.html#startNew(java.lang.String,io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl,net.dv8tion.jda.api.JDA)" class="member-name-link">startNew(String, IntrospectionImpl, JDA)</a> - Static method in class io.github.kaktushose.jdac.dispatching.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/Runtime.html" title="class in io.github.kaktushose.jdac.dispatching">Runtime</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html#STRING_RESOLVER" class="member-name-link">STRING_RESOLVER</a> - Static variable in interface io.github.kaktushose.jdac.configuration.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.html#stringResolver(io.github.kaktushose.jdac.message.resolver.Resolver...)" class="member-name-link">stringResolver(Resolver...)</a> - Method in class io.github.kaktushose.jdac.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.html" title="class in io.github.kaktushose.jdac">JDACBuilder</a></dt>
+<dd>
+<div class="block">Adds a <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver"><code>Resolver</code></a> in the resolution chain for strings provided by the user in annotations, components etc.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html#stringSelect(java.lang.Class,java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">stringSelect(Class, String, Entry...)</a> - Static method in class io.github.kaktushose.jdac.dispatching.reply.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a></dt>
 <dd>
 <div class="block">Adds a <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu"><code>StringSelectComponent</code></a> to the reply.</div>
@@ -4826,7 +4838,7 @@ instantiates an instance of <a href="io.github.kaktushose.jdac.core/io/github/ka
 <dd>
 <div class="block">Central registry for all type adapters.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/internal/TypeAdapters.html#%3Cinit%3E(java.util.Map,io.github.kaktushose.jdac.message.i18n.I18n)" class="member-name-link">TypeAdapters(Map, I18n)</a> - Constructor for class io.github.kaktushose.jdac.dispatching.adapter.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/internal/TypeAdapters.html" title="class in io.github.kaktushose.jdac.dispatching.adapter.internal">TypeAdapters</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/internal/TypeAdapters.html#%3Cinit%3E(java.util.Map,io.github.kaktushose.jdac.message.resolver.MessageResolver)" class="member-name-link">TypeAdapters(Map, MessageResolver)</a> - Constructor for class io.github.kaktushose.jdac.dispatching.adapter.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/internal/TypeAdapters.html" title="class in io.github.kaktushose.jdac.dispatching.adapter.internal">TypeAdapters</a></dt>
 <dd>
 <div class="block">Constructs a new TypeAdapters.</div>
 </dd>

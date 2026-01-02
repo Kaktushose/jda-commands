@@ -64,6 +64,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#resolve(com.fasterxml.jackson.databind.JsonNode,java.util.Locale,java.util.Map)" tabindex="0">resolve(JsonNode, Locale, Map)</a></li>
+<li><a href="#priority()" tabindex="0">priority()</a></li>
 </ol>
 </li>
 </ol>
@@ -116,11 +117,16 @@ implements <a href="../Resolver.html" title="interface in io.github.kaktushose.j
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.fasterxml.jackson.databind.JsonNode</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(com.fasterxml.jackson.databind.JsonNode,java.util.Locale,java.util.Map)" class="member-name-link">resolve</a><wbr>(com.fasterxml.jackson.databind.JsonNode&nbsp;node,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#priority()" class="member-name-link">priority</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The priority of this resolver influences the order in which resolver are applied in a resolution pipeline.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.fasterxml.jackson.databind.JsonNode</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(com.fasterxml.jackson.databind.JsonNode,java.util.Locale,java.util.Map)" class="member-name-link">resolve</a><wbr>(com.fasterxml.jackson.databind.JsonNode&nbsp;node,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Resolves the given object for the provided locale.</div>
 </div>
 </div>
@@ -175,6 +181,26 @@ implements <a href="../Resolver.html" title="interface in io.github.kaktushose.j
 <dd><code>placeholders</code> - the placeholders to use if supported by the used localization system</dd>
 <dt>Returns:</dt>
 <dd>the resolved object</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="priority()">
+<h3>priority</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">priority</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../Resolver.html#priority()">Resolver</a></code></span></div>
+<div class="block"><p>The priority of this resolver influences the order in which resolver are applied in a resolution pipeline.</p>
+<p>Currently, this only applies to <code>Resolver&lt;String&gt;</code>, when using <a href="../MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a> (as JDA-Commands does internally).
+Generally speaking, resolvers with lower priority run first.</p>
+<p>If the priority isn't important (e.g. for <a href="../ComponentResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>ComponentResolver</code></a>) this should return <code>0</code>.</p>
+</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../Resolver.html#priority()">priority</a></code>&nbsp;in interface&nbsp;<code><a href="../Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;com.fasterxml.jackson.databind.JsonNode&gt;</code></dd>
+<dt>Returns:</dt>
+<dd>0</dd>
 </dl>
 </div>
 </section>

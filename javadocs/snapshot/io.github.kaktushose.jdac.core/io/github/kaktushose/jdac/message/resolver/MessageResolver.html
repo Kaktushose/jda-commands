@@ -58,14 +58,13 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.message.i18n.I18n,io.github.kaktushose.jdac.message.emoji.EmojiResolver)" tabindex="0">MessageResolver(I18n, EmojiResolver)</a></li>
+<li><a href="#%3Cinit%3E(java.util.Collection)" tabindex="0">MessageResolver(Collection)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#resolve(java.lang.String,java.util.Locale,java.util.Map)" tabindex="0">resolve(String, Locale, Map)</a></li>
-<li><a href="#i18n()" tabindex="0">i18n()</a></li>
-<li><a href="#emojiResolver()" tabindex="0">emojiResolver()</a></li>
+<li><a href="#priority()" tabindex="0">priority()</a></li>
 </ol>
 </li>
 </ol>
@@ -88,16 +87,17 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public final class </span><span class="element-name type-name-label">MessageResolver</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span></div>
-<div class="block"><p>The MessageResolver combines <a href="../i18n/I18n.html#localize(java.util.Locale,java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>I18n.localize(Locale, String, Entry...)</code></a> and
-<a href="../emoji/EmojiResolver.html#resolve(java.lang.String)"><code>EmojiResolver.resolve(String)</code></a>.</p>
-<p>It will resolve the message in following order:</p>
+<div class="block"><p>The MessageResolver combines all registered <a href="../../configuration/Property.html#STRING_RESOLVER"><code>Resolver&lt;String&gt;</code></a>
+and following default resolvers:</p>
 <ol>
-<li>resolve placeholders with help of <a href="../placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder"><code>PlaceholderResolver</code></a></li>
-<li>do localization with help of <a href="../i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a></li>
-<li>resolve emojis with help <a href="../emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji"><code>EmojiResolver</code></a></li>
+<li><a href="../placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder"><code>PlaceholderResolver</code></a> (priority = 1000)</li>
+<li><a href="../i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a> (priority = 2000)</li>
+<li><a href="../emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji"><code>EmojiResolver</code></a> (priority = 3000)</li>
 </ol>
+<p><a href="Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver"><code>Resolver</code></a>s with lower <a href="Resolver.html#priority()"><code>priority</code></a> will be executed first, e.g. <a href="../placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder"><code>PlaceholderResolver</code></a> will
+run before <a href="../i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a>.</p>
 <p>Please note that this class is a helper and doesn't have own resolving logic, it's more of a pipeline
-to <a href="../emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji"><code>EmojiResolver</code></a> and <a href="../i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a>. It is not intended to be directly used by end users but part of the public api
+of all string resolvers. It is not intended to be directly used by end users but part of the public api
 to allow manual execution of the frameworks resolving logic for dynamic values if needed.</p>
 </div>
 </div>
@@ -112,8 +112,7 @@ to allow manual execution of the frameworks resolving logic for dynamic values i
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.message.i18n.I18n,io.github.kaktushose.jdac.message.emoji.EmojiResolver)" class="member-name-link">MessageResolver</a><wbr>(<a href="../i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a>&nbsp;i18n,
- <a href="../emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji">EmojiResolver</a>&nbsp;emojiResolver)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.util.Collection)" class="member-name-link">MessageResolver</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&gt;&nbsp;resolvers)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -129,24 +128,18 @@ to allow manual execution of the frameworks resolving logic for dynamic values i
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji">EmojiResolver</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#emojiResolver()" class="member-name-link">emojiResolver</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#priority()" class="member-name-link">priority</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the underlying <a href="../emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji"><code>EmojiResolver</code></a> instance</div>
+<div class="block">The priority of this resolver influences the order in which resolver are applied in a resolution pipeline.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#i18n()" class="member-name-link">i18n</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the underlying <a href="../i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a> instance</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(java.lang.String,java.util.Locale,java.util.Map)" class="member-name-link">resolve</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(java.lang.String,java.util.Locale,java.util.Map)" class="member-name-link">resolve</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholder)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">First resolves the variables in the given message (see <a href="../placeholder/PlaceholderResolver.html#resolve(java.lang.String,java.util.Map)"><code>PlaceholderResolver.resolve(String, Map)</code></a>), then
-localizes the resulting message (see <a href="../i18n/I18n.html#localize(java.util.Locale,java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>I18n.localize(Locale, String, Entry...)</code></a>) and lastly attempts to
-resolve emojis (see <a href="../emoji/EmojiResolver.html#resolve(java.lang.String)"><code>EmojiResolver.resolve(String)</code></a>).</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Applies all registered <a href="../../configuration/Property.html#STRING_RESOLVER"><code>Resolver&lt;String&gt;</code></a> to the given message with
+the passed locale and placeholders.</div>
 </div>
 </div>
 </div>
@@ -166,11 +159,10 @@ resolve emojis (see <a href="../emoji/EmojiResolver.html#resolve(java.lang.Strin
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.message.i18n.I18n,io.github.kaktushose.jdac.message.emoji.EmojiResolver)">
+<section class="detail" id="&lt;init&gt;(java.util.Collection)">
 <h3>MessageResolver</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MessageResolver</span><wbr><span class="parameters">(<a href="../i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a>&nbsp;i18n,
- <a href="../emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji">EmojiResolver</a>&nbsp;emojiResolver)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MessageResolver</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&gt;&nbsp;resolvers)</span></div>
 </div>
 </section>
 </li>
@@ -189,9 +181,8 @@ resolve emojis (see <a href="../emoji/EmojiResolver.html#resolve(java.lang.Strin
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">resolve</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholder)</span></div>
-<div class="block">First resolves the variables in the given message (see <a href="../placeholder/PlaceholderResolver.html#resolve(java.lang.String,java.util.Map)"><code>PlaceholderResolver.resolve(String, Map)</code></a>), then
-localizes the resulting message (see <a href="../i18n/I18n.html#localize(java.util.Locale,java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>I18n.localize(Locale, String, Entry...)</code></a>) and lastly attempts to
-resolve emojis (see <a href="../emoji/EmojiResolver.html#resolve(java.lang.String)"><code>EmojiResolver.resolve(String)</code></a>).</div>
+<div class="block">Applies all registered <a href="../../configuration/Property.html#STRING_RESOLVER"><code>Resolver&lt;String&gt;</code></a> to the given message with
+the passed locale and placeholders. See class docs for more information.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="Resolver.html#resolve(T,java.util.Locale,java.util.Map)">resolve</a></code>&nbsp;in interface&nbsp;<code><a href="Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></dd>
@@ -206,27 +197,21 @@ resolve emojis (see <a href="../emoji/EmojiResolver.html#resolve(java.lang.Strin
 </section>
 </li>
 <li>
-<section class="detail" id="i18n()">
-<h3>i18n</h3>
+<section class="detail" id="priority()">
+<h3>priority</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a></span>&nbsp;<span class="element-name">i18n</span>()</div>
-<div class="block">Gets the underlying <a href="../i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a> instance</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the used <a href="../i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a> instance</dd>
-</dl>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">priority</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Resolver.html#priority()">Resolver</a></code></span></div>
+<div class="block"><p>The priority of this resolver influences the order in which resolver are applied in a resolution pipeline.</p>
+<p>Currently, this only applies to <code>Resolver&lt;String&gt;</code>, when using <a href="MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a> (as JDA-Commands does internally).
+Generally speaking, resolvers with lower priority run first.</p>
+<p>If the priority isn't important (e.g. for <a href="ComponentResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>ComponentResolver</code></a>) this should return <code>0</code>.</p>
 </div>
-</section>
-</li>
-<li>
-<section class="detail" id="emojiResolver()">
-<h3>emojiResolver</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji">EmojiResolver</a></span>&nbsp;<span class="element-name">emojiResolver</span>()</div>
-<div class="block">Gets the underlying <a href="../emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji"><code>EmojiResolver</code></a> instance</div>
 <dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Resolver.html#priority()">priority</a></code>&nbsp;in interface&nbsp;<code><a href="Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></dd>
 <dt>Returns:</dt>
-<dd>the used <a href="../emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji"><code>EmojiResolver</code></a> instance</dd>
+<dd>0</dd>
 </dl>
 </div>
 </section>

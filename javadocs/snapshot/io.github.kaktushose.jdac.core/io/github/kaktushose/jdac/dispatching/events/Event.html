@@ -70,7 +70,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#interactionInstance(java.lang.Class)" tabindex="0">interactionInstance(Class)</a></li>
 <li><a href="#introspection()" tabindex="0">introspection()</a></li>
 <li><a href="#messageResolver()" tabindex="0">messageResolver()</a></li>
-<li><a href="#localize(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">localize(String, Entry...)</a></li>
 <li><a href="#resolve(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">resolve(String, Entry...)</a></li>
 <li><a href="#getTypeRaw()" tabindex="0">getTypeRaw()</a></li>
 <li><a href="#getToken()" tabindex="0">getToken()</a></li>
@@ -228,27 +227,21 @@ that is bound to the underlying <a href="../../../../../../../index.html#runtime
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the <a href="../context/KeyValueStore.html" title="class in io.github.kaktushose.jdac.dispatching.context"><code>KeyValueStore</code></a> of this <a href="../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localize(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">localize</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholders)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#messageResolver()" class="member-name-link">messageResolver</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets a localization message for the given key using the underlying <a href="../../message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a> instance.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#messageResolver()" class="member-name-link">messageResolver</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a> instance</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">resolve</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">resolve</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
  <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholders)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Resolved the given message with help of the underlying <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a> instance,
 thus performing localization and emoji resolution.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runtimeId()" class="member-name-link">runtimeId</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runtimeId()" class="member-name-link">runtimeId</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the id of the <a href="../../../../../../../index.html#runtime-concept-heading"><code>Runtime</code></a> this event is dispatched in.</div>
 </div>
 </div>
@@ -383,23 +376,6 @@ that is bound to the underlying <a href="../../../../../../../index.html#runtime
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a> instance</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="localize(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)">
-<h3>localize</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">localize</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholders)</span></div>
-<div class="block"><p>Gets a localization message for the given key using the underlying <a href="../../message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a> instance.</p>
-<p>Automatically resolves the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> using <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html#getUserLocale()" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent.getUserLocale()</code></a>.
-Use <a href="../../message/i18n/I18n.html#localize(java.util.Locale,java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>I18n.localize(Locale, String, Entry...)</code></a> (obtained via <a href="../../introspection/Introspection.html#get(io.github.kaktushose.jdac.configuration.Property)"><code>Introspection.get(Property.I18N)</code></a>) if you want to use a different locale.</p>
-</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the localized message or the key if not found</dd>
 </dl>
 </div>
 </section>

@@ -64,6 +64,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#resolve(java.lang.String)" tabindex="0">resolve(String)</a></li>
+<li><a href="#resolve(java.lang.String,java.util.Locale,java.util.Map)" tabindex="0">resolve(String, Locale, Map)</a></li>
+<li><a href="#priority()" tabindex="0">priority()</a></li>
 </ol>
 </li>
 </ol>
@@ -77,10 +79,15 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">io.github.kaktushose.jdac.message.emoji.EmojiResolver</div>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>All Implemented Interfaces:</dt>
+<dd><code><a href="../resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></dd>
+</dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">EmojiResolver</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="type-signature"><span class="modifiers">public final class </span><span class="element-name type-name-label">EmojiResolver</span>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+implements <a href="../resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span></div>
 <div class="block"><p>The <a href="EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji"><code>EmojiResolver</code></a> replaces emoji aliases in strings with their formatted value.</p>
 <p>An emoji alias is just the discord alias (either Unicode oder app emoji)
 enclosed by a colon <code>:</code>. For example the Unicode alias <code>:joy:</code> will be replaced by 😂 and the
@@ -120,10 +127,22 @@ App emotes with the same name as a Unicode one will override later.</p>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(java.lang.String)" class="member-name-link">resolve</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;msg)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#priority()" class="member-name-link">priority</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The priority of this resolver influences the order in which resolver are applied in a resolution pipeline.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(java.lang.String)" class="member-name-link">resolve</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;msg)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Resolves the emoji aliases of a string according to the javadocs of this class.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(java.lang.String,java.util.Locale,java.util.Map)" class="member-name-link">resolve</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;msg,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Resolves the given object for the provided locale.</div>
 </div>
 </div>
 </div>
@@ -175,6 +194,48 @@ If one of the passed application emojis has the same alias as a Unicode emoji, t
 <dd><code>msg</code> - The string to be resolved</dd>
 <dt>Returns:</dt>
 <dd>the resolved string</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="resolve(java.lang.String,java.util.Locale,java.util.Map)">
+<h3>resolve</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">resolve</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;msg,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../resolver/Resolver.html#resolve(T,java.util.Locale,java.util.Map)">Resolver</a></code></span></div>
+<div class="block">Resolves the given object for the provided locale.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../resolver/Resolver.html#resolve(T,java.util.Locale,java.util.Map)">resolve</a></code>&nbsp;in interface&nbsp;<code><a href="../resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></dd>
+<dt>Parameters:</dt>
+<dd><code>msg</code> - the object to resolve</dd>
+<dd><code>locale</code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> to use for localization</dd>
+<dd><code>placeholders</code> - the placeholders to use if supported by the used localization system</dd>
+<dt>Returns:</dt>
+<dd>the resolved object</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="priority()">
+<h3>priority</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">priority</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../resolver/Resolver.html#priority()">Resolver</a></code></span></div>
+<div class="block"><p>The priority of this resolver influences the order in which resolver are applied in a resolution pipeline.</p>
+<p>Currently, this only applies to <code>Resolver&lt;String&gt;</code>, when using <a href="../resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a> (as JDA-Commands does internally).
+Generally speaking, resolvers with lower priority run first.</p>
+<p>If the priority isn't important (e.g. for <a href="../resolver/ComponentResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>ComponentResolver</code></a>) this should return <code>0</code>.</p>
+</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../resolver/Resolver.html#priority()">priority</a></code>&nbsp;in interface&nbsp;<code><a href="../resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></dd>
+<dt>Returns:</dt>
+<dd>3000</dd>
 </dl>
 </div>
 </section>

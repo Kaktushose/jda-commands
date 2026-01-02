@@ -77,6 +77,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#shutdownJDA(boolean)" tabindex="0">shutdownJDA(boolean)</a></li>
 <li><a href="#localizeCommands(boolean)" tabindex="0">localizeCommands(boolean)</a></li>
 <li><a href="#filterExtensions(io.github.kaktushose.jdac.configuration.ExtensionFilter.FilterStrategy,java.lang.String...)" tabindex="0">filterExtensions(ExtensionFilter.FilterStrategy, String...)</a></li>
+<li><a href="#stringResolver(io.github.kaktushose.jdac.message.resolver.Resolver...)" tabindex="0">stringResolver(Resolver...)</a></li>
 <li><a href="#setProperty(io.github.kaktushose.jdac.configuration.Property,java.util.function.Function)" tabindex="0">setProperty(Property, Function)</a></li>
 <li><a href="#start()" tabindex="0">start()</a></li>
 </ol>
@@ -242,10 +243,15 @@ and resource.</div>
 <div class="block">This method applies all found implementations of <a href="configuration/Extension.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Extension</code></a>,
 instantiates an instance of <a href="JDACommands.html" title="class in io.github.kaktushose.jdac"><code>JDACommands</code></a> and starts the framework.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="JDACBuilder.html" title="class in io.github.kaktushose.jdac">JDACBuilder</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validator(java.lang.Class,io.github.kaktushose.jdac.dispatching.validation.Validator)" class="member-name-link">validator</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotation,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="JDACBuilder.html" title="class in io.github.kaktushose.jdac">JDACBuilder</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stringResolver(io.github.kaktushose.jdac.message.resolver.Resolver...)" class="member-name-link">stringResolver</a><wbr>(<a href="message/resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;...&nbsp;resolvers)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds a <a href="message/resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver"><code>Resolver</code></a> in the resolution chain for strings provided by the user in annotations, components etc.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="JDACBuilder.html" title="class in io.github.kaktushose.jdac">JDACBuilder</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validator(java.lang.Class,io.github.kaktushose.jdac.dispatching.validation.Validator)" class="member-name-link">validator</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotation,
  <a href="dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&nbsp;validator)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -541,6 +547,30 @@ If you want to add own <a href="message/emoji/EmojiSource.html" title="interface
 <dt>API Note:</dt>
 <dd>This method compares the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html#getName()" title="class or interface in java.lang" class="external-link"><code>fully classified class name</code></a> of all <a href="configuration/Extension.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Extension</code></a> implementations by using <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html#startsWith(java.lang.String)" title="class or interface in java.lang" class="external-link"><code>String.startsWith(String)</code></a>,
 so it's possible to include/exclude a bunch of extensions sharing the same base package by just providing the package name.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="stringResolver(io.github.kaktushose.jdac.message.resolver.Resolver...)">
+<h3>stringResolver</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/SafeVarargs.html" title="class or interface in java.lang" class="external-link">@SafeVarargs</a>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="JDACBuilder.html" title="class in io.github.kaktushose.jdac">JDACBuilder</a></span>&nbsp;<span class="element-name">stringResolver</span><wbr><span class="parameters">(<a href="message/resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;...&nbsp;resolvers)</span></div>
+<div class="block"><p>Adds a <a href="message/resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver"><code>Resolver</code></a> in the resolution chain for strings provided by the user in annotations, components etc.</p>
+<p>All <a href="message/resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver"><code>Resolver</code></a>s are accumulated by <a href="message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a>.
+This method adds to the default resolvers like localization, placeholders and emojis</p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>resolvers</code> - the <a href="message/resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver"><code>Resolver</code></a>s to add</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a></li>
+<li><a href="message/resolver/Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver"><code>Resolver</code></a></li>
+</ul>
+</dd>
 </dl>
 </div>
 </section>
