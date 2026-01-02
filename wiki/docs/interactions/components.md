@@ -68,7 +68,7 @@ Buttons that have a link cannot be executed, but they are still defined like nor
 
 ## Select Menus
 ### String Select Menus
-String Select Menus are defined by annotating a method with <io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu>
+String Select Menus are defined by annotating a method with <io.github.kaktushose.jdac.annotations.interactions.StringMenu>
 The first parameter must always be a <io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent>.
 The second parameter must be a <java.util.List>.
 
@@ -81,7 +81,7 @@ Select Options are defined by annotating the method with <MenuOption>.
     @MenuOption(label= "Pizza", value = "pizza")
     @MenuOption(label= "Hamburger", value = "hamburger")
     @MenuOption(label= "Sushi", value = "Sushi")
-    @StringSelectMenu("What's your favourite food?")
+    @StringMenu("What's your favourite food?")
     public void onMenu(ComponentEvent event, List<String> choices) { ... }
     ```
 
@@ -95,18 +95,18 @@ String Select Menus support up to 25 options. You can set the minimum and maximu
     @SelectOption(label= "Hamburger", value = "hamburger")
     @SelectOption(label= "Sushi", value = "Sushi")
     ...
-    @StringSelectMenu(value = "What's your favourite food?", minValue = 2, maxValue = 4)
+    @StringMenu(value = "What's your favourite food?", minValue = 2, maxValue = 4)
     public void onMenu(ComponentEvent event, List<String> choices) { ... }
     ```
 
 ### Entity Select Menus
-Entity Select Menus are defined by annotating a method with <io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu>.
+Entity Select Menus are defined by annotating a method with <io.github.kaktushose.jdac.annotations.interactions.EntityMenu>.
 The first parameter must always be a <io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent>.
 The second parameter must be of type <Mentions>.
 
 !!! example
     ```java
-    @EntitySelectMenu(value = SelectTarget.USER, placeholder = "Who's your favourite user?")
+    @EntityMenu(value = SelectTarget.USER, placeholder = "Who's your favourite user?")
     public void onMenu(ComponentEvent event, Mentions mentions) { ... }
     ```
 
@@ -115,7 +115,7 @@ When using `SelectTarget.CHANNEL` you can limit the selectable channel types wit
 
 !!! example
     ```java
-    @EntitySelectMenu(
+    @EntityMenu(
                 value = SelectTarget.CHANNEL, 
                 placeholder = "What's your favourite channel?", 
                 channelTypes = {ChannelType.TEXT, ChannelType.VOICE}
@@ -129,7 +129,7 @@ of the Entity Select Menu by using respectively the `defaultChannels`, `defaultR
 
 !!! example
     ```java
-    @EntitySelectMenu(
+    @EntityMenu(
                 value = SelectTarget.CHANNEL, 
                 placeholder = "What's your favourite channel?",
                 defaultChannels = {0123456789L, 9876543210L}

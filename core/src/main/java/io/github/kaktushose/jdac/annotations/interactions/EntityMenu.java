@@ -13,7 +13,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/// Methods annotated with EntitySelectMenu will be registered as a EntitySelectMenu at startup.
+/// Methods annotated with EntityMenu will be registered as an EntitySelectMenu at startup.
 ///
 /// Therefore, the method must be declared inside a class that is annotated with
 /// [Interaction].
@@ -26,13 +26,13 @@ import java.lang.annotation.Target;
 ///
 /// ## Example:
 /// ```
-/// @EntitySelectMenu(value = SelectTarget.USER, placeholder = "Who's your favourite user?")
+/// @EntityMenu(value = SelectTarget.USER, placeholder = "Who's your favourite user?")
 /// public void onMenu(ComponentEvent event, Mentions mentions) { ... }
 /// ```
 /// @see Interaction
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EntitySelectMenu {
+public @interface EntityMenu {
 
     /// Supported [SelectTarget]s.
     ///

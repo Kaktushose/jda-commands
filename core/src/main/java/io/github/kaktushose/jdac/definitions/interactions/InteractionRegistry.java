@@ -162,10 +162,10 @@ public record InteractionRegistry(Validators validators,
         if (method.hasAnnotation(Button.class)) {
             return ButtonDefinition.build(context);
         }
-        if (method.hasAnnotation(EntitySelectMenu.class)) {
+        if (method.hasAnnotation(EntityMenu.class)) {
             return EntitySelectMenuDefinition.build(context);
         }
-        if (method.hasAnnotation(StringSelectMenu.class)) {
+        if (method.hasAnnotation(StringMenu.class)) {
             return StringSelectMenuDefinition.build(context);
         }
 

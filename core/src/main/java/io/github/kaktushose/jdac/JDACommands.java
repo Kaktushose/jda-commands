@@ -1,9 +1,9 @@
 package io.github.kaktushose.jdac;
 
 import io.github.kaktushose.jdac.annotations.interactions.CommandScope;
-import io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu;
+import io.github.kaktushose.jdac.annotations.interactions.EntityMenu;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
-import io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu;
+import io.github.kaktushose.jdac.annotations.interactions.StringMenu;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.internal.Extensions;
 import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
@@ -163,7 +163,7 @@ public final class JDACommands {
         return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
-    /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and the given class and transforms it
+    /// Gets a [StringMenu] or [EntityMenu] based on the method name and the given class and transforms it
     /// into a JDA [SelectMenu].
     ///
     /// The select menu will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent.

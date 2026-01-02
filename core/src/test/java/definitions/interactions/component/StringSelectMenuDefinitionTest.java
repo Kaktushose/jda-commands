@@ -102,26 +102,26 @@ class StringSelectMenuDefinitionTest {
         public void noAnnotation() {
         }
 
-        @StringSelectMenu("placeholder")
+        @StringMenu("placeholder")
         public void wrongSignature(ComponentEvent event) {
         }
 
-        @StringSelectMenu("wrongList")
+        @StringMenu("wrongList")
         public void wrongList(ComponentEvent event, List<Integer> values) {
         }
 
-        @StringSelectMenu(value = "Choose one")
+        @StringMenu(value = "Choose one")
         @MenuOption(value = "v1", label = "Label 1", description = "desc", emoji = "👍")
         public void singleOption(ComponentEvent event, List<String> values) {
         }
 
-        @StringSelectMenu("Container")
+        @StringMenu("Container")
         @MenuOption(value = "a", label = "A")
         @MenuOption(value = "b", label = "B")
         public void containerOptions(ComponentEvent event, List<String> values) {
         }
 
-        @StringSelectMenu("EmptyEmoji")
+        @StringMenu("EmptyEmoji")
         @MenuOption(value = "e", label = "E")
         public void emptyEmojiOption(ComponentEvent event, List<String> values) {
         }

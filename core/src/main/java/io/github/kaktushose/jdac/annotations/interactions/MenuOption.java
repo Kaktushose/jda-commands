@@ -5,9 +5,9 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import java.lang.annotation.*;
 
 /// Used to define [`SelectOptions`][net.dv8tion.jda.api.components.selections.SelectOption]
-/// for [StringSelectMenu]s.
+/// for [StringMenu]s.
 ///
-/// @see StringSelectMenu
+/// @see StringMenu
 @Repeatable(MenuOptionContainer.class)
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
