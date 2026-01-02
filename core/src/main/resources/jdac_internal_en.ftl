@@ -52,23 +52,17 @@ invalid-parameter = { $index ->
         *[other] { $index}th
     } parameter must be of type "{ $type }".
 incorrect-method-signature =
-    { $prefix }
-    Invalid method signature.
+    { $prefix }Invalid method signature.
         Expected: { $expected }
         Actual: { $actual }
-incorrect-method-signature-hint = Hint: You forgot to add { $parameter } as the first parameter of the method.
+incorrect-method-signature-hint = You forgot to add { $parameter } as the first parameter of the method.
 member-context-guild = User context commands which use a Member object are only allowed to use InteractionContextType.GUILD.
     Change the InteractionContextType or use an User object instead.
 jda-exception =
     { $cause }
     Interaction: "{ $type }" defined at "{ $class }#{ $method }".
 should-never-be-thrown = This exception should never be thrown!
-modal-method-missing-mapping = At least one parameter is missing the @Mapping annotation
-unsupported-modal-mapping =
-    "{ $type }" is not allowed for automatic modal mapping. Supported types are:
-        java.lang.String
-        net.dv8tion.jda.api.entities.Mentions
-        java.util.List<net.dv8tion.jda.api.entities.Message.Attachment>
+
 # Configuration Errors
 resource-not-found = Failed to find resource "{ $resource }".
 io-exception = "Failed to open file.

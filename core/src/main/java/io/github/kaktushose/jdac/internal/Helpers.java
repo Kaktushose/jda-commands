@@ -1,7 +1,9 @@
 package io.github.kaktushose.jdac.internal;
 
 import io.github.kaktushose.jdac.JDACBuilder;
-import io.github.kaktushose.jdac.annotations.interactions.*;
+import io.github.kaktushose.jdac.annotations.interactions.CommandConfig;
+import io.github.kaktushose.jdac.annotations.interactions.Permissions;
+import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
@@ -11,7 +13,6 @@ import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
-import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
@@ -92,7 +93,7 @@ public final class Helpers {
 
             String prefix = !parameters.isEmpty() && parameters.getFirst().equals(methodSignature.getFirst())
                     ? ""
-                    : JDACException.errorMessage("incorrect-method-signature-hint", entry("parameter", methodSignature.getFirst().getName()));
+                    : JDACException.errorMessage("incorrect-method-signature", entry("parameter", methodSignature.getFirst().getName()));
 
             throw new InvalidDeclarationException("incorrect-method-signature",
                     entry("prefix", prefix),
@@ -110,33 +111,13 @@ public final class Helpers {
 
             String prefix = !parameters.isEmpty() && parameters.getFirst().equals(CommandEvent.class)
                     ? ""
-                    : JDACException.errorMessage("incorrect-method-signature-hint", entry("parameter", CommandEvent.class.getName()));
+                    : JDACException.errorMessage("incorrect-method-signature", entry("parameter", CommandEvent.class.getName()));
 
             throw new InvalidDeclarationException("incorrect-method-signature",
                     entry("prefix", prefix),
                     entry("expected", "[%s, %s OR %s]".formatted(CommandEvent.class, User.class, Member.class)),
                     entry("actual", method.parameters().stream().map(ParameterDescription::type).toList().toString())
             );
-        }
-    }
-
-    public static void checkSignatureModal(MethodDescription method) {
-        var parameters = method.parameters().stream()
-                .map(ParameterDescription::type)
-                .toList();
-        if (parameters.isEmpty() || !parameters.getFirst().equals(ModalEvent.class)) {
-            throw new InvalidDeclarationException("incorrect-method-signature",
-                    entry("prefix", JDACException.errorMessage("incorrect-method-signature-hint", entry("parameter", ModalEvent.class.getName()))),
-                    entry("expected", ModalEvent.class.getName()),
-                    entry("actual", method.parameters().stream().map(ParameterDescription::type).toList().toString())
-            );
-        }
-        Optional<ParameterDescription> missing = method.parameters().stream()
-                .filter(it -> !it.type().equals(ModalEvent.class))
-                .filter(it -> !it.hasAnnotation(Mapped.class))
-                .findAny();
-        if (missing.isPresent()) {
-            throw new InvalidDeclarationException("modal-method-missing-mapping");
         }
     }
 
