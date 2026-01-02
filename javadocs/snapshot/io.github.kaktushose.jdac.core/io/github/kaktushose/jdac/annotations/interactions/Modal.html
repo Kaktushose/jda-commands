@@ -74,12 +74,17 @@ loadScripts(document, 'script');</script>
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Retention.html" title="class or interface in java.lang.annotation" class="external-link">@Retention</a>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/RetentionPolicy.html#RUNTIME" title="class or interface in java.lang.annotation" class="external-link">RUNTIME</a>)
 </span><span class="modifiers">public @interface </span><span class="element-name type-name-label">Modal</span></div>
 <div class="block"><p>Methods annotated with <a href="Modal.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Modal</code></a> will be registered as a modal at startup.</p>
-<p>Therefore, the method must be declared inside a class that is annotated with
-<a href="Interaction.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Interaction</code></a>. Text inputs are defined via method parameters that must be annotated with <a href="TextInput.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>TextInput</code></a>.</p>
-<p>You can reply with a modal by calling <a href="../../dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>ModalReplyableEvent.replyModal(String, Entry...)</code></a>.</p>
+<p>Therefore, the method must be declared inside a class that is annotated with <a href="Interaction.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Interaction</code></a>.</p>
+<p>You only define the title via this annotation. The rest of the modal is built when calling
+<a href="../../dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String,net.dv8tion.jda.api.components.ModalTopLevelComponent,net.dv8tion.jda.api.components.ModalTopLevelComponent...)"><code>ModalReplyableEvent.replyModal(String, ModalTopLevelComponent, ModalTopLevelComponent...)</code></a>.</p>
 <h3 id="example--heading">Example:</h3>
 <pre><code>@Modal(&quot;My Modal&quot;)
-public void onModal(ModalEvent event, @TextInput(&quot;Type here&quot;) String input) { ... }
+public void onModal(ModalEvent event) { ... }
+
+@Command(&quot;/example&quot;)
+public void onCommand(CommandEvent event) {
+    event.replyModal(&quot;onModal&quot;, TextDisplay.of(&quot;Hello World&quot;));
+}
 </code></pre>
 </div>
 <dl class="notes">
@@ -87,7 +92,6 @@ public void onModal(ModalEvent event, @TextInput(&quot;Type here&quot;) String i
 <dd>
 <ul class="tag-list">
 <li><a href="Interaction.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Interaction</code></a></li>
-<li><a href="TextInput.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>TextInput</code></a></li>
 </ul>
 </dd>
 </dl>

@@ -63,8 +63,8 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#replyModal(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">replyModal(String, Entry...)</a></li>
-<li><a href="#replyModal(java.lang.String,java.util.function.Function)" tabindex="0">replyModal(String, Function)</a></li>
+<li><a href="#replyModal(java.lang.String,net.dv8tion.jda.api.components.ModalTopLevelComponent,net.dv8tion.jda.api.components.ModalTopLevelComponent...)" tabindex="0">replyModal(String, ModalTopLevelComponent, ModalTopLevelComponent...)</a></li>
+<li><a href="#replyModal(java.lang.String,java.util.Collection,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">replyModal(String, Collection, Entry...)</a></li>
 </ol>
 </li>
 </ol>
@@ -138,14 +138,16 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#replyModal(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">replyModal</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;modal,
- <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#replyModal(java.lang.String,java.util.Collection,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">replyModal</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;modal,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ModalTopLevelComponent</a>&gt;&nbsp;components,
+ <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholders)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acknowledgement of this event with a <a href="../../annotations/interactions/Modal.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Modal</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#replyModal(java.lang.String,java.util.function.Function)" class="member-name-link">replyModal</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;modal,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="../reply/dynamic/ModalBuilder.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic">ModalBuilder</a>, <a href="../reply/dynamic/ModalBuilder.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic">ModalBuilder</a>&gt;&nbsp;callback)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#replyModal(java.lang.String,net.dv8tion.jda.api.components.ModalTopLevelComponent,net.dv8tion.jda.api.components.ModalTopLevelComponent...)" class="member-name-link">replyModal</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;modal,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ModalTopLevelComponent</a>&nbsp;component,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ModalTopLevelComponent</a>...&nbsp;components)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acknowledgement of this event with a <a href="../../annotations/interactions/Modal.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Modal</code></a>.</div>
 </div>
@@ -195,16 +197,18 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="replyModal(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)">
+<section class="detail" id="replyModal(java.lang.String,net.dv8tion.jda.api.components.ModalTopLevelComponent,net.dv8tion.jda.api.components.ModalTopLevelComponent...)">
 <h3>replyModal</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">replyModal</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;modal,
- <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</span></div>
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ModalTopLevelComponent</a>&nbsp;component,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ModalTopLevelComponent</a>...&nbsp;components)</span></div>
 <div class="block">Acknowledgement of this event with a <a href="../../annotations/interactions/Modal.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Modal</code></a>. This will open a popup on the target users Discord client.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>modal</code> - the method name of the <a href="../../annotations/interactions/Modal.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Modal</code></a> you want to reply with</dd>
-<dd><code>placeholder</code> - the <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder"><code>Entry</code></a> placeholders to use for localization</dd>
+<dd><code>component</code> - a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link"><code>ModalTopLevelComponent</code></a> to add to this modal</dd>
+<dd><code>components</code> - additional <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link"><code>ModalTopLevelComponent</code></a>s to add</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if no <a href="../../annotations/interactions/Modal.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Modal</code></a> with the given name was found</dd>
 </dl>
@@ -212,16 +216,18 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="replyModal(java.lang.String,java.util.function.Function)">
+<section class="detail" id="replyModal(java.lang.String,java.util.Collection,io.github.kaktushose.jdac.message.placeholder.Entry...)">
 <h3>replyModal</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">replyModal</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;modal,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="../reply/dynamic/ModalBuilder.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic">ModalBuilder</a>, <a href="../reply/dynamic/ModalBuilder.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic">ModalBuilder</a>&gt;&nbsp;callback)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ModalTopLevelComponent</a>&gt;&nbsp;components,
+ <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholders)</span></div>
 <div class="block">Acknowledgement of this event with a <a href="../../annotations/interactions/Modal.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Modal</code></a>. This will open a popup on the target users Discord client.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>modal</code> - the method name of the <a href="../../annotations/interactions/Modal.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Modal</code></a> you want to reply with</dd>
-<dd><code>callback</code> - a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link"><code>Function</code></a> to dynamically modify the <a href="../../annotations/interactions/Modal.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Modal</code></a> before replying with it</dd>
+<dd><code>components</code> - a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link"><code>ModalTopLevelComponent</code></a>s to add to this modal</dd>
+<dd><code>placeholders</code> - the <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder"><code>Entry</code></a> placeholders to use for <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">message resolution</a></dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if no <a href="../../annotations/interactions/Modal.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Modal</code></a> with the given name was found</dd>
 </dl>

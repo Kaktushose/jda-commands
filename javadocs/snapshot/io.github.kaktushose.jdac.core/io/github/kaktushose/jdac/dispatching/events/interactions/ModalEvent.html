@@ -65,6 +65,11 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#deferReply(boolean)" tabindex="0">deferReply(boolean)</a></li>
 <li><a href="#deferEdit()" tabindex="0">deferEdit()</a></li>
+<li><a href="#values()" tabindex="0">values()</a></li>
+<li><a href="#value(java.lang.String)" tabindex="0">value(String)</a></li>
+<li><a href="#value(int)" tabindex="0">value(int)</a></li>
+<li><a href="#value(java.lang.String,java.lang.Class)" tabindex="0">value(String, Class)</a></li>
+<li><a href="#value(int,java.lang.Class)" tabindex="0">value(int, Class)</a></li>
 </ol>
 </li>
 </ol>
@@ -90,7 +95,8 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public final class </span><span class="element-name type-name-label">ModalEvent</span>
 <span class="extends-implements">extends <a href="../ReplyableEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events">ReplyableEvent</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/ModalInteractionEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link">ModalInteractionEvent</a>&gt;</span></div>
-<div class="block">This class is a subclass of <a href="../Event.html" title="class in io.github.kaktushose.jdac.dispatching.events"><code>Event</code></a>. It provides additional features for replying to a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/ModalInteractionEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>ModalInteractionEvent</code></a>.</div>
+<div class="block">This class is a subclass of <a href="../Event.html" title="class in io.github.kaktushose.jdac.dispatching.events"><code>Event</code></a>. It provides additional features for replying to a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/ModalInteractionEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>ModalInteractionEvent</code></a> as
+well as for retrieving the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link"><code>ModalMapping</code></a>s.</div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -137,6 +143,38 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deferReply(boolean)" class="member-name-link">deferReply</a><wbr>(boolean&nbsp;ephemeral)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acknowledge this interaction and defer the reply to a later time.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">ModalMapping</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#value(int)" class="member-name-link">value</a><wbr>(int&nbsp;uniqueId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Convenience method to get a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link"><code>ModalMapping</code></a> by its numeric
+id from the List of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">ModalMappings</a></div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T&gt;&nbsp;io.github.kaktushose.proteus.conversion.ConversionResult<wbr>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#value(int,java.lang.Class)" class="member-name-link">value</a><wbr>(int&nbsp;uniqueId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;type)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Convenience method to get the value of a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/textinput/TextInput.html" title="class or interface in net.dv8tion.jda.api.components.textinput" class="external-link"><code>TextInput</code></a> and convert it to the given type <a href="#value(int,java.lang.Class)-type-param-T"><code>T</code></a> via
+<code>Proteus</code>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">ModalMapping</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#value(java.lang.String)" class="member-name-link">value</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;customId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Convenience method to get a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link"><code>ModalMapping</code></a> by its id
+from the List of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">ModalMappings</a>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T&gt;&nbsp;io.github.kaktushose.proteus.conversion.ConversionResult<wbr>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#value(java.lang.String,java.lang.Class)" class="member-name-link">value</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;customId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;type)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Convenience method to get the value of a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/textinput/TextInput.html" title="class or interface in net.dv8tion.jda.api.components.textinput" class="external-link"><code>TextInput</code></a> and convert it to the given type <a href="#value(java.lang.String,java.lang.Class)-type-param-T"><code>T</code></a> via
+<code>Proteus</code>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">ModalMapping</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#values()" class="member-name-link">values</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns a List of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">ModalMappings</a> representing the values
+input by the user for each field when the modal was submitted.</div>
 </div>
 </div>
 </div>
@@ -220,6 +258,118 @@ you accepted the interaction.</p>
 <p>When the acknowledgement is sent after the interaction expired, you will receive <a href="https://docs.jda.wiki/net/dv8tion/jda/api/requests/ErrorResponse.html#UNKNOWN_INTERACTION" title="class or interface in net.dv8tion.jda.api.requests" class="external-link"><code>ErrorResponse.UNKNOWN_INTERACTION</code></a>.</p>
 <p>Use <a href="../ReplyableEvent.html#reply(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>ReplyableEvent.reply(String, Entry...)</code></a> to edit it directly.</p>
 </div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="values()">
+<h3>values</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">ModalMapping</a>&gt;</span>&nbsp;<span class="element-name">values</span>()</div>
+<div class="block">Returns a List of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">ModalMappings</a> representing the values
+input by the user for each field when the modal was submitted.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Immutable List of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">ModalMappings</a></dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="#value(java.lang.String)"><code>value(String)</code></a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="value(java.lang.String)">
+<h3>value</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">ModalMapping</a></span>&nbsp;<span class="element-name">value</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;customId)</span></div>
+<div class="block">Convenience method to get a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link"><code>ModalMapping</code></a> by its id
+from the List of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">ModalMappings</a>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>customId</code> - The custom id</dd>
+<dt>Returns:</dt>
+<dd><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link"><code>ModalMapping</code></a> with this id, or null if not found</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - If no value was found for the provided id</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - If the provided id is null</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="#values()"><code>values()</code></a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="value(int)">
+<h3>value</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">ModalMapping</a></span>&nbsp;<span class="element-name">value</span><wbr><span class="parameters">(int&nbsp;uniqueId)</span></div>
+<div class="block">Convenience method to get a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link"><code>ModalMapping</code></a> by its numeric
+id from the List of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link">ModalMappings</a></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>uniqueId</code> - The uniqueId id</dd>
+<dt>Returns:</dt>
+<dd><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.modals" class="external-link"><code>ModalMapping</code></a> with this numeric id, or null if not found</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - If no value was found for the provided id</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - If the provided id is null</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="#values()"><code>values()</code></a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="value(java.lang.String,java.lang.Class)">
+<h3>value</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>
+<span class="return-type">io.github.kaktushose.proteus.conversion.ConversionResult&lt;T&gt;</span>&nbsp;<span class="element-name">value</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;customId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;type)</span></div>
+<div class="block">Convenience method to get the value of a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/textinput/TextInput.html" title="class or interface in net.dv8tion.jda.api.components.textinput" class="external-link"><code>TextInput</code></a> and convert it to the given type <a href="#value(java.lang.String,java.lang.Class)-type-param-T"><code>T</code></a> via
+<code>Proteus</code>.</div>
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><span id="value(java.lang.String,java.lang.Class)-type-param-T"><code>T</code> - the type to convert to</span></dd>
+<dt>Parameters:</dt>
+<dd><code>customId</code> - The custom id of the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/textinput/TextInput.html" title="class or interface in net.dv8tion.jda.api.components.textinput" class="external-link"><code>TextInput</code></a></dd>
+<dd><code>type</code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> of the type to convert to</dd>
+<dt>Returns:</dt>
+<dd>the <code>ConversionResult</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="value(int,java.lang.Class)">
+<h3>value</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>
+<span class="return-type">io.github.kaktushose.proteus.conversion.ConversionResult&lt;T&gt;</span>&nbsp;<span class="element-name">value</span><wbr><span class="parameters">(int&nbsp;uniqueId,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;type)</span></div>
+<div class="block">Convenience method to get the value of a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/textinput/TextInput.html" title="class or interface in net.dv8tion.jda.api.components.textinput" class="external-link"><code>TextInput</code></a> and convert it to the given type <a href="#value(int,java.lang.Class)-type-param-T"><code>T</code></a> via
+<code>Proteus</code>.</div>
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><span id="value(int,java.lang.Class)-type-param-T"><code>T</code> - the type to convert to</span></dd>
+<dt>Parameters:</dt>
+<dd><code>uniqueId</code> - The unique id of the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/textinput/TextInput.html" title="class or interface in net.dv8tion.jda.api.components.textinput" class="external-link"><code>TextInput</code></a></dd>
+<dd><code>type</code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> of the type to convert to</dd>
+<dt>Returns:</dt>
+<dd>the <code>ConversionResult</code></dd>
+</dl>
 </div>
 </section>
 </li>

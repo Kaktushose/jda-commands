@@ -60,13 +60,13 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,java.util.SequencedCollection)" tabindex="0">ModalDefinition(ClassDescription, MethodDescription, Collection, String, SequencedCollection)</a></li>
+<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,java.util.Collection)" tabindex="0">ModalDefinition(ClassDescription, MethodDescription, Collection, String, Collection)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#build(io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext)" tabindex="0">build(MethodBuildContext)</a></li>
-<li><a href="#with(java.lang.String,java.util.List)" tabindex="0">with(String, List)</a></li>
+<li><a href="#with(java.lang.String,java.util.Collection)" tabindex="0">with(String, Collection)</a></li>
 <li><a href="#toJDAEntity(io.github.kaktushose.jdac.definitions.interactions.CustomId)" tabindex="0">toJDAEntity(CustomId)</a></li>
 <li><a href="#displayName()" tabindex="0">displayName()</a></li>
 <li><a href="#toString()" tabindex="0">toString()</a></li>
@@ -76,7 +76,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#methodDescription()" tabindex="0">methodDescription()</a></li>
 <li><a href="#permissions()" tabindex="0">permissions()</a></li>
 <li><a href="#title()" tabindex="0">title()</a></li>
-<li><a href="#textInputs()" tabindex="0">textInputs()</a></li>
+<li><a href="#components()" tabindex="0">components()</a></li>
 </ol>
 </li>
 </ol>
@@ -98,7 +98,7 @@ loadScripts(document, 'script');</script>
 <dd><code><span id="param-methodDescription">methodDescription</span></code> - the <a href="../description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description"><code>MethodDescription</code></a> of the method this definition is bound to</dd>
 <dd><code><span id="param-permissions">permissions</span></code> - a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of permissions for this modal</dd>
 <dd><code><span id="param-title">title</span></code> - the title of the modal</dd>
-<dd><code><span id="param-textInputs">textInputs</span></code> - the <a href="ModalDefinition.TextInputDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions"><code>TextInputs</code></a> of this modal</dd>
+<dd><code><span id="param-components">components</span></code> - a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a> of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link"><code>ModalTopLevelComponent</code></a>s that will be added to this modal</dd>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
@@ -106,7 +106,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">ModalDefinition</span>(<a href="../description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a>&nbsp;classDescription, <a href="../description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a>&nbsp;methodDescription, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="ModalDefinition.TextInputDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition.TextInputDefinition</a>&gt;&nbsp;textInputs)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">ModalDefinition</span>(<a href="../description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a>&nbsp;classDescription, <a href="../description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a>&nbsp;methodDescription, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ModalTopLevelComponent</a>&gt;&nbsp;components)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition</a>, <a href="../features/CustomIdJDAEntity.html" title="interface in io.github.kaktushose.jdac.definitions.features">CustomIdJDAEntity</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/modals/Modal.html" title="class or interface in net.dv8tion.jda.api.modals" class="external-link">Modal</a>&gt;</span></div>
 <div class="block">Representation of a modal.</div>
@@ -118,18 +118,6 @@ implements <a href="InteractionDefinition.html" title="interface in io.github.ka
 <li>
 <section class="nested-class-summary" id="nested-class-summary">
 <h2>Nested Class Summary</h2>
-<div class="caption"><span>Nested Classes</span></div>
-<div class="summary-table three-column-summary">
-<div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Class</div>
-<div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final record&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="ModalDefinition.TextInputDefinition.html" class="type-name-link" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition.TextInputDefinition</a></code></div>
-<div class="col-last even-row-color">
-<div class="block">Representation of a modal text input defined by
-<a href="../../annotations/interactions/TextInput.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>TextInput</code></a></div>
-</div>
-</div>
 <div class="inherited-list">
 <h3 id="nested-classes-inherited-from-class-io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition">Nested classes/interfaces inherited from interface&nbsp;<a href="InteractionDefinition.html#nested-class-summary" title="interface in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition</a></h3>
 <code><a href="InteractionDefinition.ReplyConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition.ReplyConfig</a></code></div>
@@ -152,11 +140,11 @@ implements <a href="InteractionDefinition.html" title="interface in io.github.ka
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,java.util.SequencedCollection)" class="member-name-link">ModalDefinition</a><wbr>(<a href="../description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a>&nbsp;classDescription,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,java.util.Collection)" class="member-name-link">ModalDefinition</a><wbr>(<a href="../description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a>&nbsp;classDescription,
  <a href="../description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a>&nbsp;methodDescription,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="ModalDefinition.TextInputDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition.TextInputDefinition</a>&gt;&nbsp;textInputs)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ModalTopLevelComponent</a>&gt;&nbsp;components)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>ModalDefinition</code> record class.</div>
 </div>
@@ -184,35 +172,35 @@ implements <a href="InteractionDefinition.html" title="interface in io.github.ka
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-classDescription"><code>classDescription</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#displayName()" class="member-name-link">displayName</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ModalTopLevelComponent</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#components()" class="member-name-link">components</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <a href="#param-components"><code>components</code></a> record component.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#displayName()" class="member-name-link">displayName</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">The human-readable name of this definition.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#methodDescription()" class="member-name-link">methodDescription</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#methodDescription()" class="member-name-link">methodDescription</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-methodDescription"><code>methodDescription</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#permissions()" class="member-name-link">permissions</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <a href="#param-permissions"><code>permissions</code></a> record component.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a><wbr>&lt;<a href="ModalDefinition.TextInputDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition.TextInputDefinition</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#textInputs()" class="member-name-link">textInputs</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#permissions()" class="member-name-link">permissions</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <a href="#param-textInputs"><code>textInputs</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="#param-permissions"><code>permissions</code></a> record component.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#title()" class="member-name-link">title</a>()</code></div>
@@ -230,8 +218,8 @@ implements <a href="InteractionDefinition.html" title="interface in io.github.ka
 <div class="block">Returns a string representation of this record class.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ModalDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#with(java.lang.String,java.util.List)" class="member-name-link">with</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="ModalDefinition.TextInputDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition.TextInputDefinition</a>&gt;&nbsp;textInputs)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#with(java.lang.String,java.util.Collection)" class="member-name-link">with</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ModalTopLevelComponent</a>&gt;&nbsp;components)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Builds a new <a href="ModalDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions"><code>ModalDefinition</code></a> with the given values.</div>
 </div>
@@ -259,14 +247,14 @@ implements <a href="InteractionDefinition.html" title="interface in io.github.ka
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,java.util.SequencedCollection)">
+<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.definitions.description.ClassDescription,io.github.kaktushose.jdac.definitions.description.MethodDescription,java.util.Collection,java.lang.String,java.util.Collection)">
 <h3>ModalDefinition</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ModalDefinition</span><wbr><span class="parameters">(<a href="../description/ClassDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">ClassDescription</a>&nbsp;classDescription,
  <a href="../description/MethodDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">MethodDescription</a>&nbsp;methodDescription,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;permissions,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="ModalDefinition.TextInputDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition.TextInputDefinition</a>&gt;&nbsp;textInputs)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ModalTopLevelComponent</a>&gt;&nbsp;components)</span></div>
 <div class="block">Creates an instance of a <code>ModalDefinition</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -274,7 +262,7 @@ implements <a href="InteractionDefinition.html" title="interface in io.github.ka
 <dd><code>methodDescription</code> - the value for the <a href="#param-methodDescription"><code>methodDescription</code></a> record component</dd>
 <dd><code>permissions</code> - the value for the <a href="#param-permissions"><code>permissions</code></a> record component</dd>
 <dd><code>title</code> - the value for the <a href="#param-title"><code>title</code></a> record component</dd>
-<dd><code>textInputs</code> - the value for the <a href="#param-textInputs"><code>textInputs</code></a> record component</dd>
+<dd><code>components</code> - the value for the <a href="#param-components"><code>components</code></a> record component</dd>
 </dl>
 </div>
 </section>
@@ -301,11 +289,11 @@ implements <a href="InteractionDefinition.html" title="interface in io.github.ka
 </section>
 </li>
 <li>
-<section class="detail" id="with(java.lang.String,java.util.List)">
+<section class="detail" id="with(java.lang.String,java.util.Collection)">
 <h3>with</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ModalDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition</a></span>&nbsp;<span class="element-name">with</span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="ModalDefinition.TextInputDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition.TextInputDefinition</a>&gt;&nbsp;textInputs)</span></div>
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ModalTopLevelComponent</a>&gt;&nbsp;components)</span></div>
 <div class="block">Builds a new <a href="ModalDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions"><code>ModalDefinition</code></a> with the given values.</div>
 </div>
 </section>
@@ -453,14 +441,14 @@ implements <a href="InteractionDefinition.html" title="interface in io.github.ka
 </section>
 </li>
 <li>
-<section class="detail" id="textInputs()">
-<h3>textInputs</h3>
+<section class="detail" id="components()">
+<h3>components</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;<a href="ModalDefinition.TextInputDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition.TextInputDefinition</a>&gt;</span>&nbsp;<span class="element-name">textInputs</span>()</div>
-<div class="block">Returns the value of the <a href="#param-textInputs"><code>textInputs</code></a> record component.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ModalTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ModalTopLevelComponent</a>&gt;</span>&nbsp;<span class="element-name">components</span>()</div>
+<div class="block">Returns the value of the <a href="#param-components"><code>components</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the value of the <a href="#param-textInputs"><code>textInputs</code></a> record component</dd>
+<dd>the value of the <a href="#param-components"><code>components</code></a> record component</dd>
 </dl>
 </div>
 </section>

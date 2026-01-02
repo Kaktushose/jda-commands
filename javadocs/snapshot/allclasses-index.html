@@ -149,7 +149,7 @@ in a certain scope.</div>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component&lt;S,<wbr>T,<wbr>B,<wbr>D&gt;</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
-<div class="block">Represents a component, namely <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Button.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Button</code></a>, <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringSelectMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>StringSelectMenu</code></a> or <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntitySelectMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>EntitySelectMenu</code></a>, that should be added to a reply.</div>
+<div class="block">Represents a component, namely <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Button.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Button</code></a>, <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>StringMenu</code></a> or <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntityMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>EntityMenu</code></a>, that should be added to a reply.</div>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/ComponentDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions.component">ComponentDefinition&lt;T&gt;</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">
@@ -265,9 +265,9 @@ where you can also edit the original reply instead of sending a new one.</div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Emojis loaded from an implementation of <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiSource.html" title="interface in io.github.kaktushose.jdac.message.emoji"><code>EmojiSource</code></a> are automatically registered upon startup.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab6"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntitySelectMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">EntitySelectMenu</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab6"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntityMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">EntityMenu</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab6">
-<div class="block">Methods annotated with EntitySelectMenu will be registered as a EntitySelectMenu at startup.</div>
+<div class="block">Methods annotated with EntityMenu will be registered as an EntitySelectMenu at startup.</div>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/EntitySelectMenuComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">EntitySelectMenuComponent</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
@@ -521,7 +521,7 @@ inside the method annotated with this annotation.</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab6"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/MenuOption.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">MenuOption</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab6">
 <div class="block">Used to define <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectOption.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link"><code>SelectOptions</code></a>
-for <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringSelectMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>StringSelectMenu</code></a>s.</div>
+for <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>StringMenu</code></a>s.</div>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab6"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/MenuOptionContainer.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">MenuOptionContainer</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab6">
@@ -560,18 +560,9 @@ and following default resolvers:</div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab6">
 <div class="block">Methods annotated with <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Modal.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Modal</code></a> will be registered as a modal at startup.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/ModalBuilder.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic">ModalBuilder</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
-<div class="block">Builder for <a href="https://docs.jda.wiki/net/dv8tion/jda/api/modals/Modal.html" title="class or interface in net.dv8tion.jda.api.modals" class="external-link"><code>Modal</code></a>s.</div>
-</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/ModalDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
-<div class="block">Representation of a modal.</div>
-</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/ModalDefinition.TextInputDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition.TextInputDefinition</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/ModalDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions">ModalDefinition</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
-<div class="block">Representation of a modal text input defined by
-<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/TextInput.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>TextInput</code></a></div>
+<div class="block">Representation of a modal.</div>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ModalEvent.html" title="class in io.github.kaktushose.jdac.dispatching.events.interactions">ModalEvent</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
@@ -746,13 +737,13 @@ accumulated together with the user defined ones or overwritten.</div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab3">
 <div class="block">The stage or &quot;level&quot; inside the framework at which a properties value is set.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">StringSelectComponent</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
-<div class="block">An implementation of <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>Component</code></a> specific to <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/StringSelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link"><code>StringSelectMenu</code></a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab6"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">StringMenu</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab6">
+<div class="block">Methods annotated with StringMenu will be registered as a StringSelectMenu at startup.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab6"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringSelectMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">StringSelectMenu</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab6">
-<div class="block">Methods annotated with StringSelectMenu will be registered as a StringSelectMenu at startup.</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/menu/StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">StringSelectComponent</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">An implementation of <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>Component</code></a> specific to <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/StringSelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link"><code>StringSelectMenu</code></a></div>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/component/menu/StringSelectMenuDefinition.html" title="class in io.github.kaktushose.jdac.definitions.interactions.component.menu">StringSelectMenuDefinition</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab4">
@@ -770,49 +761,45 @@ accumulated together with the user defined ones or overwritten.</div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/lifecycle/Subscription.html" title="class in io.github.kaktushose.jdac.introspection.lifecycle"><code>Subscription</code></a> representing a single subscription to a certain event.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab6"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/TextInput.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions">TextInput</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab6">
-<div class="block">Annotation used to add TextInputs to <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Modal.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Modal</code></a>s.</div>
-</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/internal/register/TreeNode.html" title="class in io.github.kaktushose.jdac.internal.register">TreeNode</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/internal/register/TreeNode.html" title="class in io.github.kaktushose.jdac.internal.register">TreeNode</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
 <div class="block">Single node inside the <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/internal/register/CommandTree.html" title="class in io.github.kaktushose.jdac.internal.register"><code>CommandTree</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter">TypeAdapter&lt;S,<wbr>T&gt;</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter">TypeAdapter&lt;S,<wbr>T&gt;</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Generic top level interface for type adapting.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/internal/TypeAdapters.html" title="class in io.github.kaktushose.jdac.dispatching.adapter.internal">TypeAdapters</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/internal/TypeAdapters.html" title="class in io.github.kaktushose.jdac.dispatching.adapter.internal">TypeAdapters</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Central registry for all type adapters.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/internal/UnspecificComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.internal">UnspecificComponent</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator&lt;T,<wbr>A&gt;</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/dynamic/internal/UnspecificComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.internal">UnspecificComponent</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator&lt;T,<wbr>A&gt;</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Validators check if a command option fulfills the given constraint.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.Context.html" title="class in io.github.kaktushose.jdac.dispatching.validation">Validator.Context</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.Context.html" title="class in io.github.kaktushose.jdac.dispatching.validation">Validator.Context</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">This context provides access to the <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/context/InvocationContext.html" title="class in io.github.kaktushose.jdac.dispatching.context"><code>InvocationContext</code></a> of this interaction and
 has some utility methods useful for error messages.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Central registry for all <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation"><code>Validator</code></a>s.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/internal/Validators.Result.html" title="interface in io.github.kaktushose.jdac.dispatching.validation.internal">Validators.Result</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/internal/Validators.Result.DiscordHandled.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators.Result.DiscordHandled</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/internal/Validators.Result.html" title="interface in io.github.kaktushose.jdac.dispatching.validation.internal">Validators.Result</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/internal/Validators.Result.DiscordHandled.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators.Result.DiscordHandled</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
 <div class="block">This currently only applies to <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/Min.html" title="annotation interface in io.github.kaktushose.jdac.annotations.constraints"><code>Min</code></a> and <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/Max.html" title="annotation interface in io.github.kaktushose.jdac.annotations.constraints"><code>Max</code></a></div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/internal/Validators.Result.NotFound.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators.Result.NotFound</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/internal/Validators.Result.Success.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators.Result.Success</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/internal/Validators.Result.NotFound.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators.Result.NotFound</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/internal/Validators.Result.UnsupportedType.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators.Result.UnsupportedType</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/internal/Validators.Result.Success.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators.Result.Success</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/internal/Validators.Result.UnsupportedType.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators.Result.UnsupportedType</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
