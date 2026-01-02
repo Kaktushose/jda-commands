@@ -21,6 +21,9 @@ dependencies {
 
     implementation(libs.io.github.classgraph)
 
+    annotationProcessor(project(":processor"))
+
+    compileOnly(project(":processor"))
     compileOnly("jakarta.inject:jakarta.inject-api:2.0.1")
 
     testImplementation(project(":testing"))
