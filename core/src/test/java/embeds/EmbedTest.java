@@ -7,6 +7,7 @@ import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import dev.goldmensch.fluava.Fluava;
@@ -35,7 +36,8 @@ class EmbedTest {
     static void init() {
         EmbedDataSource embedDataSource = EmbedDataSource.resource("embeds/embeds.json");
         I18n i18n = new I18n(Descriptor.REFLECTIVE, new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
-        embeds = new Embeds(List.of(embedDataSource), Map.of(), new MessageResolver(i18n, new EmojiResolver(List.of())));
+        MessageResolver messageResolver = new MessageResolver(List.of(new PlaceholderResolver(), i18n, new EmojiResolver(List.of())));
+        embeds = new Embeds(List.of(embedDataSource), Map.of(), messageResolver);
         expected = new EmbedBuilder()
                 .setAuthor("Kaktushose", "https://cdn.discordapp.com/embed/avatars/0.png", "https://cdn.discordapp.com/embed/avatars/0.png")
                 .setTitle("Test Title")

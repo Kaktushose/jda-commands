@@ -26,7 +26,9 @@ import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiSource;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
+import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
 import io.github.kaktushose.jdac.processor.property.api.PropertyProcessed;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
@@ -140,6 +142,11 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     Property<GuildScopeProvider> GUILD_SCOPE_PROVIDER =
             new Singleton<>("GUILD_SCOPE_PROVIDER", Category.LOADABLE, GuildScopeProvider.class, Stage.CONFIGURATION);
 
+    /// @see JDACBuilder#stringResolver(Resolver...)
+    @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = ACCUMULATE)
+    Property<Collection<Resolver<String>>> STRING_RESOLVER =
+            new Enumeration<>("STRING_RESOLVER", Category.LOADABLE, castUnsafe(Resolver.class), ACCUMULATE, Stage.CONFIGURATION);
+
     // -------- user settable --------
     /// @see JDACBuilder#globalCommandConfig(CommandDefinition.CommandConfig)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.USER_SETTABLE)
@@ -211,6 +218,13 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.PROVIDED)
     Property<EmojiResolver> EMOJI_RESOLVER =
             new Singleton<>("EMOJI_RESOLVER", Category.PROVIDED, EmojiResolver.class, Stage.CONFIGURATION);
+
+    /// The [PlaceholderResolver] service provided by JDA-Commands.
+    ///
+    /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
+    @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.PROVIDED)
+    Property<PlaceholderResolver> PLACEHOLDER_RESOLVER =
+            new Singleton<>("PLACEHOLDER_RESOLVER", Category.PROVIDED, PlaceholderResolver.class, Stage.CONFIGURATION);
 
     /// An [ClassFinder] instance that is backed by all [ClassFinder] of [#CLASS_FINDER].
     /// It will search in all registered [ClassFinder] for the requested class.

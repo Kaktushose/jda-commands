@@ -9,10 +9,13 @@ import io.github.kaktushose.proteus.type.Type;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Locale;
 import java.util.Map;
 
 public class PlaceholderResolverTest {
 
+    private static final PlaceholderResolver PLACEHOLDER_RESOLVER = new PlaceholderResolver();
+    
     @Test
     void variable_not_found() {
         Map<String, Object> variables = Map.of(
@@ -21,7 +24,7 @@ public class PlaceholderResolverTest {
         );
 
         String text = "{ $not_found }";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("null", resolved);
     }
 
@@ -33,7 +36,7 @@ public class PlaceholderResolverTest {
         );
 
         String text = "{ $var }";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("this is a variable", resolved);
     }
 
@@ -49,7 +52,7 @@ public class PlaceholderResolverTest {
         );
 
         String text = "{ $data }";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("my data", resolved);
     }
 
@@ -61,7 +64,7 @@ public class PlaceholderResolverTest {
         );
 
         String text = "{ var }";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("this is a variable", resolved);
     }
 
@@ -73,7 +76,7 @@ public class PlaceholderResolverTest {
         );
 
         String text = "{ number }";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("12", resolved);
     }
 
@@ -85,7 +88,7 @@ public class PlaceholderResolverTest {
         );
 
         String text = "My number: { number }";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("My number: 12", resolved);
     }
 
@@ -97,7 +100,7 @@ public class PlaceholderResolverTest {
         );
 
         String text = "{ number } was my number";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("12 was my number", resolved);
     }
 
@@ -109,7 +112,7 @@ public class PlaceholderResolverTest {
         );
 
         String text = "My number { number } is cool";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("My number 12 is cool", resolved);
     }
 
@@ -121,7 +124,7 @@ public class PlaceholderResolverTest {
         );
 
         String text = "Escaped: \\{ number } }}fad}} adf}}";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("Escaped: { number } }}fad}} adf}}", resolved);
     }
 
@@ -133,7 +136,7 @@ public class PlaceholderResolverTest {
         );
 
         String text = "{ number ";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("{ number ", resolved);
     }
 
@@ -148,7 +151,7 @@ public class PlaceholderResolverTest {
                 { number 
                 
                 }""";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("12", resolved);
     }
 
@@ -163,7 +166,7 @@ public class PlaceholderResolverTest {
                 { line 
                 break
                 }""";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals(text, resolved);
     }
 
@@ -176,7 +179,7 @@ public class PlaceholderResolverTest {
 
         String text = """
                 { white space }""";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals(text, resolved);
     }
 
@@ -189,7 +192,7 @@ public class PlaceholderResolverTest {
 
         String text = """
                 { do$llar }""";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals(text, resolved);
     }
 
@@ -202,7 +205,7 @@ public class PlaceholderResolverTest {
 
         String text = """
                 { bra{ }""";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals(text, resolved);
     }
 
@@ -215,7 +218,7 @@ public class PlaceholderResolverTest {
 
         String text = """
                 empty: {  }""";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals(text, resolved);
     }
 
@@ -232,7 +235,7 @@ public class PlaceholderResolverTest {
                 \\ { number 
                 
                 }""";
-        String resolved = PlaceholderResolver.resolve(text, variables);
+        String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("""
                 \\\\\\ \\ some backslash \\
                 

@@ -68,4 +68,10 @@ public final class ComponentResolver<T extends Component> implements Resolver<T>
             throw new ParsingException(e, entry("rawJson", data.toString()));
         }
     }
+
+    /// @return 0
+    @Override
+    public int priority() {
+        return 0;
+    }
 }

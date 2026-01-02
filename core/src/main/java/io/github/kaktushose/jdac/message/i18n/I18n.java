@@ -7,7 +7,7 @@ import io.github.kaktushose.jdac.definitions.description.Description;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.message.i18n.internal.JDACLocalizationFunction;
-import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.Resolver;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
 import org.jspecify.annotations.Nullable;
@@ -52,7 +52,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// [`@Bundle("mybundle")`](Bundle) annotation with following order:
 ///
 ///
-/// 1. method that called [I18n#localize(Locale, String, Entry...)]
+/// 1. method that called [I18n#resolve(String,Locale,Map)]
 /// 2. other called methods in the same class
 /// 3. this methods class
 /// 4. the class' packages `package-info.java` file
@@ -114,9 +114,9 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 ///
 /// The found bundle would be `pack_bundle`.
 ///
-/// If [I18n#localize(java.util.Locale, java.lang.String, Entry...)]
+/// If [I18n#resolve(String, Locale, Map)]
 /// would be called in, for example, `B$bTwo` the bundle would be `mB_bundle`.
-public class I18n {
+public class I18n implements Resolver<String> {
 
     // skipped classes during stack scanning (Class.getName().startWith(X))
     private static final List<String> SKIPPED = List.of(
@@ -163,7 +163,8 @@ public class I18n {
     /// @param placeholder the placeholder to be used
     ///
     /// @return the localized message or the key if not found
-    public String localize(Locale locale, String combinedKey, Map<String, @Nullable Object> placeholder) {
+    @Override
+    public String resolve(String combinedKey, Locale locale, Map<String, @Nullable Object> placeholder) {
         String[] bundleSplit = combinedKey.split("\\$", 2);
         String bundle = bundleSplit.length == 2 && !bundleSplit[0].isEmpty()
                 ? bundleSplit[0].trim()
@@ -181,21 +182,6 @@ public class I18n {
 
         return localizer.localize(locale, bundle, key, placeholder)
                 .orElse(combinedKey);
-    }
-
-    /// This method returns the localized message found by the provided [Locale] and key
-    /// in the given bundle.
-    ///
-    /// The bundle can be either explicitly stated by adding it to the
-    /// key in the following format: `bundle$key`. Alternatively, the bundle name can also be
-    /// contextual retrieved by a search for the [Bundle] annotation, see class docs.
-    ///
-    /// @param locale      the [Locale] to be used to localize the key
-    /// @param key         the messages key
-    /// @param placeholder the placeholder to be used
-    /// @return the localized message or the key if not found
-    public String localize(Locale locale, String key, Entry... placeholder) {
-        return localize(locale, key, Entry.toMap(placeholder));
     }
 
     private String findBundle() {
@@ -253,5 +239,11 @@ public class I18n {
     /// @return the [LocalizationFunction] bases on this class, for use with JDA
     public LocalizationFunction localizationFunction() {
         return localizationFunction;
+    }
+
+    /// @return 2000
+    @Override
+    public int priority() {
+        return 2000;
     }
 }

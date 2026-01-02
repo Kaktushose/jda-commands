@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac.dispatching.events;
 
-import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
 import io.github.kaktushose.jdac.dispatching.events.interactions.AutoCompleteEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
@@ -10,7 +9,6 @@ import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
-import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.JDA;
@@ -103,16 +101,6 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// @return the [MessageResolver] instance
     public MessageResolver messageResolver() {
         return scopedMessageResolver();
-    }
-
-    /// Gets a localization message for the given key using the underlying [I18n] instance.
-    ///
-    /// Automatically resolves the [Locale] using [GenericInteractionCreateEvent#getUserLocale()].
-    /// Use [I18n#localize(Locale, String, Entry...)] (obtained via [`Introspection.get(Property.I18N)`][Introspection#get(Property)]) if you want to use a different locale.
-    ///
-    /// @return the localized message or the key if not found
-    public String localize(String key, Entry... placeholders) {
-        return scopedI18n().localize(jdaEvent().getUserLocale().toLocale(), key, placeholders);
     }
 
     /// Resolved the given message with help of the underlying [MessageResolver] instance,

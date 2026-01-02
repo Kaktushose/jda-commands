@@ -1,14 +1,12 @@
 package io.github.kaktushose.jdac.message.placeholder;
 
+import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import io.github.kaktushose.proteus.type.Type;
 import org.jspecify.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /// The placeholder resolver is used to do simple placeholder/variable resolution.
@@ -30,7 +28,7 @@ import java.util.stream.Collectors;
 /// 2. if not successful, just calls [Object#toString()]
 ///
 /// If a variable couldn't be found, `null` will be inserted.
-public class PlaceholderResolver {
+public final class PlaceholderResolver implements Resolver<String> {
 
     private static final Collection<String> forbiddenCharacters = List.of(
             " ",
@@ -42,15 +40,17 @@ public class PlaceholderResolver {
     /// Resolves the given string according to the class docs.
     ///
     /// @param content the string to be resolved
-    /// @param placeholder the placeholders to be used
+    /// @param locale the locale - unused in this resolver
+    /// @param placeholders the placeholders to be used
     ///
     /// @return the string with placeholders replaced by their value
-    public static String resolve(String content, Map<String, @Nullable Object> placeholder) {
+    @Override
+    public String resolve(String content, Locale locale, Map<String, @Nullable Object> placeholders) {
         return parse(content)
                 .stream()
                 .map(component -> switch (component) {
                     case Component.Literal(String value) -> value;
-                    case Component.PlaceholderReference(String reference) -> getPlaceholder(reference, placeholder);
+                    case Component.PlaceholderReference(String reference) -> getPlaceholder(reference, placeholders);
                 })
                 .collect(Collectors.joining());
     }
@@ -122,5 +122,11 @@ public class PlaceholderResolver {
         }
 
         return components;
+    }
+
+    /// @return 1000
+    @Override
+    public int priority() {
+        return 1000;
     }
 }

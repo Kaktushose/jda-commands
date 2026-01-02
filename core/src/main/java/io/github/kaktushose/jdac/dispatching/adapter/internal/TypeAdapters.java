@@ -3,7 +3,7 @@ package io.github.kaktushose.jdac.dispatching.adapter.internal;
 import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
-import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.mapping.Mapper;
 import io.github.kaktushose.proteus.type.Type;
@@ -45,7 +45,7 @@ public class TypeAdapters {
 
     /// Constructs a new TypeAdapters.
     @SuppressWarnings("unchecked")
-    public TypeAdapters(Map<AdapterType<?, ?>, TypeAdapter<?, ?>> typeAdapters, I18n i18n) {
+    public TypeAdapters(Map<AdapterType<?, ?>, TypeAdapter<?, ?>> typeAdapters, MessageResolver messageResolver) {
         proteus = Proteus.global();
 
         // this technically doesn't belong here and is a band-aid fix until proteus can handle this properly
@@ -55,10 +55,10 @@ public class TypeAdapters {
         proteus.from(NUMBER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
 
         proteus.from(MEMBER).into(USER, uni((source, _) -> lossless(source.getUser())), IGNORE);
-        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure(i18n.localize(SlashCommandHandler.USER_LOCALE.isBound()
+        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure(messageResolver.resolve("jdac$member-required-got-user",
+                        SlashCommandHandler.USER_LOCALE.isBound()
                         ? SlashCommandHandler.USER_LOCALE.get()
-                        : Locale.ENGLISH,
-                        "jdac$member-required-got-user"))), IGNORE);
+                        : Locale.ENGLISH, Map.of()))), IGNORE);
 
         proteus.into(MENTIONABLE)
                 .from(USER, uni((source, _) -> lossless(source)), IGNORE)

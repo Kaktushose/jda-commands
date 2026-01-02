@@ -17,7 +17,7 @@ import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
-import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.entities.*;
@@ -116,12 +116,12 @@ public record OptionDataDefinition(
     ///
     /// @param parameter            the [ParameterDescription] to build the [OptionDataDefinition] from
     /// @param autoComplete         the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
-    /// @param i18n                 the [I18n] instance to use
+    /// @param messageResolver      the [MessageResolver] instance to use
     /// @param validatorRegistry    the corresponding [Validators]
     /// @return the [OptionDataDefinition]
     public static OptionDataDefinition build(ParameterDescription parameter,
                                              @Nullable AutoCompleteDefinition autoComplete,
-                                             I18n i18n,
+                                             MessageResolver messageResolver,
                                              Validators validatorRegistry) {
         Class<?> resolvedType = resolveType(parameter.type(), parameter);
 
@@ -169,7 +169,7 @@ public record OptionDataDefinition(
 
         // Param
         String name = parameter.name();
-        String description = i18n.localize(Locale.ENGLISH, "jdac$no-description");
+        String description = messageResolver.resolve("jdac$no-description", Locale.ENGLISH, Map.of());
         boolean isOptional = parameter.type().equals(Optional.class);
         OptionType optionType = CLASS_TO_OPTION_TYPE.getOrDefault(resolvedType, OptionType.STRING);
         var param = parameter.findAnnotation(Param.class);

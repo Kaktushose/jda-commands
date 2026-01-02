@@ -1,8 +1,10 @@
 package io.github.kaktushose.jdac.message.emoji;
 
+import io.github.kaktushose.jdac.message.resolver.Resolver;
 import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.fellbaum.jemoji.EmojiManager;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 ///
 /// Supported are all discord emojis, their skin tone variants and the app emotes for this bot.
 /// App emotes with the same name as a Unicode one will override later.
-public class EmojiResolver {
+public final class EmojiResolver implements Resolver<String> {
 
     private final Map<String, Emoji> emojis;
 
@@ -111,5 +113,16 @@ public class EmojiResolver {
         }
 
         return components;
+    }
+
+    @Override
+    public String resolve(String msg, Locale locale, Map<String, @Nullable Object> placeholders) {
+        return resolve(msg);
+    }
+
+    /// @return 3000
+    @Override
+    public int priority() {
+        return 3000;
     }
 }

@@ -16,7 +16,7 @@ import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.introspection.Definitions;
-import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ import java.util.function.Predicate;
 
 /// Central registry for all [InteractionDefinition]s.
 public record InteractionRegistry(Validators validators,
-                                  I18n i18n,
+                                  MessageResolver messageResolver,
                                   LocalizationFunction localizationFunction,
                                   Descriptor descriptor,
                                   Set<InteractionDefinition> definitions
@@ -38,10 +38,10 @@ public record InteractionRegistry(Validators validators,
     ///
     /// @param registry   the corresponding [Validators]
     /// @param function   the [LocalizationFunction] to use
-    /// @param i18n       the [I18n] instance to use
+    /// @param messageResolver the [MessageResolver] instance to use
     /// @param descriptor the [Descriptor] to use
-    public InteractionRegistry(Validators registry, I18n i18n, LocalizationFunction function, Descriptor descriptor) {
-        this(registry, i18n, function, descriptor, new HashSet<>());
+    public InteractionRegistry(Validators registry, MessageResolver messageResolver, LocalizationFunction function, Descriptor descriptor) {
+        this(registry, messageResolver, function, descriptor, new HashSet<>());
     }
 
     /// Scans all given classes and registers the interactions defined in them.
@@ -87,7 +87,7 @@ public record InteractionRegistry(Validators validators,
                 clazz,
                 validators,
                 localizationFunction,
-                i18n,
+                messageResolver,
                 interaction,
                 permissions,
                 autoCompletes,
@@ -114,7 +114,7 @@ public record InteractionRegistry(Validators validators,
     private Set<InteractionDefinition> interactionDefinitions(ClassDescription clazz,
                                                    Validators validators,
                                                    LocalizationFunction localizationFunction,
-                                                   I18n i18n,
+                                                   MessageResolver messageResolver,
                                                    Interaction interaction,
                                                    Set<String> permissions,
                                                    Collection<AutoCompleteDefinition> autocompletes,
@@ -124,7 +124,7 @@ public record InteractionRegistry(Validators validators,
             final MethodBuildContext context = new MethodBuildContext(
                     validators,
                     localizationFunction,
-                    i18n,
+                    messageResolver,
                     interaction,
                     permissions,
                     clazz,
