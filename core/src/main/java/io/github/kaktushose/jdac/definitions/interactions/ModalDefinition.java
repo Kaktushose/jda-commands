@@ -7,11 +7,12 @@ import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDef
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.internal.Helpers;
 import net.dv8tion.jda.api.components.ModalTopLevelComponent;
-import net.dv8tion.jda.api.interactions.modals.ModalMapping;
 import net.dv8tion.jda.api.modals.Modal;
 import org.jspecify.annotations.Nullable;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 /// Representation of a modal.
 ///
@@ -34,7 +35,7 @@ public record ModalDefinition(
         var method = context.method();
         var modal = method.annotation(io.github.kaktushose.jdac.annotations.interactions.Modal.class);
 
-        Helpers.checkSignature(method, List.of(ModalEvent.class, List.class));
+        Helpers.checkSignature(method, List.of(ModalEvent.class));
 
         return new ModalDefinition(context.clazz(), method, Helpers.permissions(context), modal.value(), List.of());
     }
