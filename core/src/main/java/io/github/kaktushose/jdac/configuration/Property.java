@@ -28,7 +28,9 @@ import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
 import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
+import io.github.kaktushose.jdac.processor.property.api.PropertyProcessed;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.JDA;
@@ -220,6 +222,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// The [PlaceholderResolver] service provided by JDA-Commands.
     ///
     /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
+    @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.PROVIDED)
     Property<PlaceholderResolver> PLACEHOLDER_RESOLVER =
             new Singleton<>("PLACEHOLDER_RESOLVER", Category.PROVIDED, PlaceholderResolver.class, Stage.CONFIGURATION);
 
