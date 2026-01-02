@@ -1,7 +1,6 @@
 package io.github.kaktushose.jdac.definitions.features;
 
 import io.github.kaktushose.jdac.definitions.Definition;
-import io.github.kaktushose.jdac.definitions.interactions.ModalDefinition.TextInputDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.ContextCommandDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefinition;
@@ -21,9 +20,8 @@ import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringS
 /// @see ContextCommandDefinition
 /// @see OptionDataDefinition
 /// @see MenuOptionDefinition
-/// @see TextInputDefinition
 public sealed interface JDAEntity<T> extends Definition
-        permits ComponentDefinition, TextInputDefinition, CommandDefinition, OptionDataDefinition, MenuOptionDefinition {
+        permits ComponentDefinition, CommandDefinition, OptionDataDefinition, MenuOptionDefinition {
 
     /// Transforms this [Definition] into a JDA entity of the given type [T].
     ///

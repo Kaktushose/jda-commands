@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 /// Methods annotated with [Modal] will be registered as a modal at startup.
 ///
 /// Therefore, the method must be declared inside a class that is annotated with
-/// [Interaction]. Text inputs are defined via method parameters that must be annotated with [TextInput].
+/// [Interaction].
 ///
 /// You can reply with a modal by calling [ModalReplyableEvent#replyModal(String, Entry...)].
 ///
@@ -21,7 +21,6 @@ import java.lang.annotation.Target;
 /// public void onModal(ModalEvent event, @TextInput("Type here") String input) { ... }
 /// ```
 /// @see Interaction
-/// @see TextInput
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Modal {

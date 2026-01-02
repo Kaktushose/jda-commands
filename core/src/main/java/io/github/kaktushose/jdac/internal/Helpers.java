@@ -33,7 +33,6 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
 
@@ -84,17 +83,6 @@ public final class Helpers {
             return Collections.unmodifiableSet(mergedPermissions);
         }
         return context.permissions();
-    }
-
-    /// Checks if the given parameter is present at the [Method] at the given index.
-    ///
-    /// @param method the [Method] to check
-    /// @param index  the index the parameter is expected to be at
-    /// @param type   the type of the parameter
-    public static void checkParameterType(MethodDescription method, int index, Class<?> type) {
-        if (!type.isAssignableFrom(List.copyOf(method.parameters()).get(index).type())) {
-            throw new InvalidDeclarationException("invalid-parameter", entry("index", index + 1), entry("name", type.getSimpleName()));
-        }
     }
 
     public static void checkSignature(MethodDescription method, SequencedCollection<Class<?>> methodSignature) {

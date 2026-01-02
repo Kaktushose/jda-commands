@@ -2,31 +2,26 @@ package io.github.kaktushose.jdac.dispatching.reply.dynamic;
 
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.ModalDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.ModalDefinition.TextInputDefinition;
 import io.github.kaktushose.jdac.dispatching.events.ReplyableEvent;
-import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ModalTopLevelComponentUnion;
 import net.dv8tion.jda.api.components.label.Label;
 import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.components.textinput.TextInput;
-import net.dv8tion.jda.api.components.textinput.TextInput.Builder;
 import net.dv8tion.jda.api.modals.Modal;
 import org.jspecify.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Locale;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
-import static net.dv8tion.jda.api.modals.Modal.MAX_COMPONENTS;
 
 /// Builder for [Modal]s. Acts as a bridge between [ModalDefinition] and [Modal] for dynamic modifications.
 public class ModalBuilder {
 
     private final ReplyableEvent<?> event;
     private final CustomId customId;
-    private final List<TextInputDefinition> components = new ArrayList<>(MAX_COMPONENTS);
     private final ModalDefinition modalDefinition;
     private final Collection<Entry> placeholder = new ArrayList<>();
     private @Nullable String title;
@@ -54,34 +49,6 @@ public class ModalBuilder {
         return this;
     }
 
-
-    /// Allows modification of a text input with the given callback.
-    ///
-    /// @param textInput the name of the method parameter the text input is assigned to
-    /// @param callback  the [Function] to modify the text input
-    /// @return this instance for fluent interface
-    /// @see TextInput.Builder
-    public ModalBuilder textInput(String textInput, Function<Builder, Builder> callback) {
-        List<TextInputDefinition> textInputs = (ArrayList<TextInputDefinition>) modalDefinition.textInputs();
-        var optionalTextInput = textInputs.stream()
-                .filter(it -> it.parameter().name().equals(textInput))
-                .findFirst();
-        if (optionalTextInput.isEmpty()) {
-            throw new IllegalArgumentException(JDACException.errorMessage(
-                    "no-text-input-found",
-                    entry("input", textInput),
-                    entry("available", modalDefinition.textInputs().stream()
-                            .map(it -> it.parameter().name())
-                            .collect(Collectors.joining("\", \"")))
-            ));
-        }
-        var definition = optionalTextInput.get();
-        var index = textInputs.indexOf(definition);
-        var updated = definition.with(callback.apply(definition.toBuilder()));
-        textInputs.set(index, updated);
-        return this;
-    }
-
     /// @param callback a [Function] that allows to modify the resulting jda object.
     ///                 The passed function will be called after all modifications except localization are made by jda-commands,
     ///                 shortly before the component is localized and then registered in the message
@@ -92,7 +59,7 @@ public class ModalBuilder {
 
     /// Builds the [Modal].
     public Modal build() {
-        var definition = modalDefinition.with(title, components);
+        var definition = modalDefinition.with(title);
 
         Modal.Builder builder = definition.toJDAEntity(customId).createCopy();
         callback.apply(builder);
