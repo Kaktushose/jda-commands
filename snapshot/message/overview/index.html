@@ -1140,6 +1140,34 @@ You're not viewing the latest stable version.
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#adding-custom-string-resolvers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding custom String Resolvers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding custom String Resolvers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1750,6 +1778,30 @@ of messages in many common please. These include:</p>
 You have to use <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html"><code>MessageResolver</code></a>
 to resolve such messages.</p>
 </div>
+<h2 id="adding-custom-string-resolvers">Adding custom String Resolvers<a class="headerlink" href="#adding-custom-string-resolvers" title="Permanent link">&para;</a></h2>
+<p>Sometimes it's necessary to introduce custom resolution logic. JDA-Commands provides <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html#STRING_RESOLVER"><code>Property#STRING_RESOLVER</code></a>
+(configurable by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.html#stringResolver(io.github.kaktushose.jdac.message.resolver.Resolver...)"><code>JDACBuilder#stringResolver(Resolver...)</code></a>) allowing the user to add own implementations of 
+<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/Resolver.html"><code>Resolver&lt;String&gt;</code></a>.</p>
+<p>Each <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/Resolver.html"><code>Resolver</code></a> has a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/Resolver.html#priority()">priority</a> affecting the order in which all registered
+String Resolvers are applied by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html"><code>MessageResolver</code></a>. A lower priority is applied first (e.g. <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html"><code>I18n</code></a> runs after <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/PlaceholderResolver.html"><code>PlaceholderResolver</code></a>).</p>
+<p>The default Resolvers have the following priorities:</p>
+<ul>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/PlaceholderResolver.html"><code>PlaceholderResolver</code></a> = 1000</li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html"><code>I18n</code></a> = 2000</li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html"><code>EmojiResolver</code></a> = 3000</li>
+</ul>
+<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">URLResolver</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Resolver</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">Locale</span><span class="w"> </span><span class="n">locale</span><span class="p">,</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="nd">@Nullable</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">placeholders</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">msg</span><span class="p">.</span><span class="na">replace</span><span class="p">(</span><span class="s">&quot;JDAC_GH&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;https://github.com/Kaktushose/jda-commands&quot;</span><span class="p">);</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">priority</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">4000</span><span class="p">;</span><span class="w"> </span><span class="c1">// should run after all built in resolvers</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">}</span>
+</span></code></pre></div>
 
 
 
