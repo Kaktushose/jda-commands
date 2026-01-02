@@ -34,7 +34,7 @@ and if not found, will use the String directly as the content.
 
 !!! warning
     Localization of <MessageCreateData> is not supported implicitly.
-    To localize such messages you have to manually use <I18n#localize(Locale,String,Entry...)>.
+    To localize such messages you have to manually use <I18n#resolve(String,Locale,Map<String, Object>)>.
 
 !!! example
     ```java
