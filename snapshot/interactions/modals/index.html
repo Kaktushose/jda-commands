@@ -817,6 +817,28 @@ You're not viewing the latest stable version.
 </li>
       
         <li class="md-nav__item">
+  <a href="#replying-with-modals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Replying with Modals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modal-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modal Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#localization-and-placeholders" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -835,106 +857,6 @@ You're not viewing the latest stable version.
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#text-inputs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Text Inputs
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Text Inputs">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#style" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        style
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#placeholder" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        placeholder
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#defaultvalue" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        defaultValue
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#minvalue-maxvalue" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        minValue &amp; maxValue
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#required" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        required
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#replying-with-modals" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Replying with Modals
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Replying with Modals">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#dynamic-modals" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dynamic Modals
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1834,110 +1756,86 @@ You're not viewing the latest stable version.
 <p>Modals are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Modal.html"><code>Modal</code></a>.
 The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ModalEvent.html"><code>ModalEvent</code></a>.</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;My Modal&quot;</span><span class="p">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@TextInput</span><span class="p">(</span><span class="s">&quot;Input&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
+<h2 id="replying-with-modals">Replying with Modals<a class="headerlink" href="#replying-with-modals" title="Permanent link">&para;</a></h2>
+<p>You can reply to <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/CommandEvent.html"><code>CommandEvents</code></a>
+and <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html"><code>ComponentEvents</code></a>
+with a Modal by calling <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String,net.dv8tion.jda.api.components.ModalTopLevelComponent,net.dv8tion.jda.api.components.ModalTopLevelComponent...)"><code>ModalReplyableEvent#replyModal(String, ModalTopLevelComponent, ModalTopLevelComponent...)</code></a>
+on the event.</p>
+<h2 id="modal-components">Modal Components<a class="headerlink" href="#modal-components" title="Permanent link">&para;</a></h2>
+<p>Modals consist of a title, which is set via the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Modal.html"><code>Modal</code></a> annotation, 
+and of up to 5 components. </p>
+<p>These components aren't defined via annotations, but are just passed over to the reply method.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;ban&quot;</span><span class="p">)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">replyModal</span><span class="p">(</span><span class="s">&quot;onModal&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">TextDisplay</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;Do you really want to ban the user?&quot;</span><span class="p">));</span><span class="w"> </span><span class="c1">//(1)!</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">}</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;Confirm ban&quot;</span><span class="p">)</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>We reference the Modal we want to send via the method name.</li>
+</ol>
+</div>
+<p>When using input components, such as a text input or select menu, you can access the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/modals/ModalMapping.html"><code>ModalMapping</code></a>s directly via the
+<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ModalEvent.html"><code>ModalEvent</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;User Select&quot;</span><span class="p">)</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">replyModal</span><span class="p">(</span><span class="s">&quot;onModal&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Label</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">        </span><span class="s">&quot;Select a user&quot;</span><span class="p">,</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="n">EntitySelectMenu</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="s">&quot;user-select&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">SelectTarget</span><span class="p">.</span><span class="na">USER</span><span class="p">).</span><span class="na">build</span><span class="p">()</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="p">));</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">}</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;Example&quot;</span><span class="p">)</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">value</span><span class="p">(</span><span class="s">&quot;user-select&quot;</span><span class="p">);</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">}</span>
+</span></code></pre></div>
+</div>
 <h2 id="localization-and-placeholders">Localization and Placeholders<a class="headerlink" href="#localization-and-placeholders" title="Permanent link">&para;</a></h2>
-<p>To avoid hardcoded values, all string values of an annotation can be replaced by a localization key as supported by the
+<p>To avoid hardcoded values, all string values can be replaced by a localization key as supported by the
 current used <a href="../../message/localization/">Localization System</a>.</p>
 <p>Furthermore, it's possible to directly use placeholders.
 For more information on how to use placeholders please visit <a href="../../message/placeholder/">this page</a>.</p>
 <p>Also take a look at the general <a href="../../message/overview/">message resolution documentation</a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Key Example (with Fluava)</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;my.localization.key&quot;</span><span class="p">)</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@TextInput</span><span class="p">(</span><span class="s">&quot;Input&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;ban&quot;</span><span class="p">)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">replyModal</span><span class="p">(</span><span class="s">&quot;onModal&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">TextDisplay</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;modal-text&quot;</span><span class="p">));</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">}</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;modal-title&quot;</span><span class="p">)</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 </div>
+<p>When using placeholders, you have to also pass the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/Entry.html">Entries</a> to
+the reply method.</p>
 <div class="admonition example">
 <p class="admonition-title">Placeholder Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;{ $modal_name }&quot;</span><span class="p">)</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@TextInput</span><span class="p">(</span><span class="s">&quot;Input&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;ban&quot;</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">replyModal</span><span class="p">(</span><span class="s">&quot;onModal&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">TextDisplay</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;modal-text&quot;</span><span class="p">)),</span><span class="w"> </span><span class="n">entry</span><span class="p">(</span><span class="s">&quot;modal_name&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">target</span><span class="p">.</span><span class="na">getName</span><span class="p">()));</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">}</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;Ban { $user_name }?&quot;</span><span class="p">)</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 </div>
 <h2 id="unicode-and-application-emojis">Unicode and application emojis<a class="headerlink" href="#unicode-and-application-emojis" title="Permanent link">&para;</a></h2>
 <p>JDA-Commands has built in support for Unicode and application emoji aliases.
 If you want to use them, just take a look <a href="../../message/emojis/">here</a>.</p>
-<h2 id="text-inputs">Text Inputs<a class="headerlink" href="#text-inputs" title="Permanent link">&para;</a></h2>
-<p>You can add text inputs to a modal by adding String parameters annotated with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/TextInput.html"><code>TextInput</code></a>.
-The label and other metadata of the text input is passed to the annotation. </p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>Just as for command options, the parameter name will be used for the label by default. However, this requires the 
-<code>-parameters</code> compiler flag to be <a href="../commands/#name-description">enabled</a>. </p>
-</div>
-<p>Text Inputs can be configured with the following fields:</p>
-<h3 id="style">style<a class="headerlink" href="#style" title="Permanent link">&para;</a></h3>
-<p>Sets the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/textinput/TextInputStyle.html"><code>TextInputStyle</code></a>. 
-The default value is <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/textinput/TextInputStyle.html#PARAGRAPH"><code>TextInputStyle#PARAGRAPH</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;Ban reason&quot;</span><span class="p">)</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@TextInput</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Reason&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TextInputStyle</span><span class="p">.</span><span class="na">SHORT</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div>
-</div>
-<h3 id="placeholder">placeholder<a class="headerlink" href="#placeholder" title="Permanent link">&para;</a></h3>
-<p>Sets the placeholder of a text input.</p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;Ban reason&quot;</span><span class="p">)</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@TextInput</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Reason&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Please give a reason&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div>
-</div>
-<h3 id="defaultvalue">defaultValue<a class="headerlink" href="#defaultvalue" title="Permanent link">&para;</a></h3>
-<p>Sets the default value of a text input, which will pre-populate the text input field with the specified String. </p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;Ban reason&quot;</span><span class="p">)</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@TextInput</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Reason&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">defaultValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Rule Violation&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div>
-</div>
-<h3 id="minvalue-maxvalue">minValue &amp; maxValue<a class="headerlink" href="#minvalue-maxvalue" title="Permanent link">&para;</a></h3>
-<p>Sets the minimum and maximum input length of a text input.</p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;Ban reason&quot;</span><span class="p">)</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@TextInput</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Reason&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">maxValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div>
-</div>
-<h3 id="required">required<a class="headerlink" href="#required" title="Permanent link">&para;</a></h3>
-<p>Sets whether the text input is required. The default value is <code>true</code>.</p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;Ban reason&quot;</span><span class="p">)</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@TextInput</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Reason&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div>
-</div>
-<h2 id="replying-with-modals">Replying with Modals<a class="headerlink" href="#replying-with-modals" title="Permanent link">&para;</a></h2>
-<p>You can reply to <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/CommandEvent.html"><code>CommandEvents</code></a> 
-and <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html"><code>ComponentEvents</code></a>
-with a Modal by calling <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>ModalReplyableEvent#replyModal(String, Entry...)</code></a>
-on the event.</p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;ban&quot;</span><span class="p">)</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="n">event</span><span class="p">.</span><span class="na">replyModal</span><span class="p">(</span><span class="s">&quot;onModal&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">//(1)!</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">}</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;Ban reason&quot;</span><span class="p">)</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="nd">@TextInput</span><span class="p">(</span><span class="s">&quot;Reason&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div>
-<ol>
-<li>We reference the Modal we want to send via the method name.</li>
-</ol>
-</div>
-<h3 id="dynamic-modals">Dynamic Modals<a class="headerlink" href="#dynamic-modals" title="Permanent link">&para;</a></h3>
-<p>Sometimes you want to modify a Modal dynamically at runtime. You can do so by calling
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/ModalReplyableEvent.html#replyModal(java.lang.String,java.util.function.Function)"><code>ModalReplyableEvent#replyModal(String, Function)</code></a></p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">event</span><span class="p">.</span><span class="na">replyModal</span><span class="p">(</span><span class="s">&quot;onModal&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">modal</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">modal</span><span class="p">.</span><span class="na">title</span><span class="p">(</span><span class="s">&quot;Cool Title!&quot;</span><span class="p">));</span>
-</span></code></pre></div>
-</div>
-<p>If you want to, you can also use the native JDA builder:</p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">event</span><span class="p">.</span><span class="na">replyModal</span><span class="p">(</span><span class="s">&quot;onModal&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">modal</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">modal</span><span class="p">.</span><span class="na">modify</span><span class="p">(</span><span class="n">jdaBuilder</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">jdaBuilder</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="s">&quot;Boring Title!&quot;</span><span class="p">)));</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;Example :thumbs_up:&quot;</span><span class="p">)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 </div>
 
