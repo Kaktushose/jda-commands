@@ -26,9 +26,6 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
                 it.definitionId().equals(CustomId.fromMerged(event.getModalId()).definitionId())
         );
 
-        List<Object> arguments = event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList());
-        arguments.addFirst(new ModalEvent());
-
-        return new PreparationResult(modal, Collections.unmodifiableList(arguments));
+        return new PreparationResult(modal, List.of(new ModalEvent(), event.getValues()));
     }
 }

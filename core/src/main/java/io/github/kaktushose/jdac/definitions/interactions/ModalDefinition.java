@@ -6,6 +6,8 @@ import io.github.kaktushose.jdac.definitions.features.CustomIdJDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.internal.Helpers;
+import net.dv8tion.jda.api.components.ModalTopLevelComponent;
+import net.dv8tion.jda.api.interactions.modals.ModalMapping;
 import net.dv8tion.jda.api.modals.Modal;
 import org.jspecify.annotations.Nullable;
 
@@ -21,7 +23,8 @@ public record ModalDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,
         Collection<String> permissions,
-        String title
+        String title,
+        Collection<ModalTopLevelComponent> components
 ) implements InteractionDefinition, CustomIdJDAEntity<Modal> {
 
     /// Builds a new [ModalDefinition] from the given [MethodBuildContext].
@@ -31,18 +34,19 @@ public record ModalDefinition(
         var method = context.method();
         var modal = method.annotation(io.github.kaktushose.jdac.annotations.interactions.Modal.class);
 
-        Helpers.checkSignature(method, List.of(ModalEvent.class));
+        Helpers.checkSignature(method, List.of(ModalEvent.class, List.class));
 
-        return new ModalDefinition(context.clazz(), method, Helpers.permissions(context), modal.value());
+        return new ModalDefinition(context.clazz(), method, Helpers.permissions(context), modal.value(), List.of());
     }
 
     /// Builds a new [ModalDefinition] with the given values.
-    public ModalDefinition with(@Nullable String title) {
+    public ModalDefinition with(@Nullable String title, @Nullable Collection<ModalTopLevelComponent> components) {
         return new ModalDefinition(
                 classDescription,
                 methodDescription,
                 permissions,
-                ComponentDefinition.override(this.title, title)
+                ComponentDefinition.override(this.title, title),
+                ComponentDefinition.override(this.components, components)
         );
     }
 
@@ -52,7 +56,7 @@ public record ModalDefinition(
     /// @see CustomId#independent(String)
     public Modal toJDAEntity(CustomId customId) {
         try {
-            return Modal.create(customId.merged(), title).build();
+            return Modal.create(customId.merged(), title).addComponents(components).build();
         } catch (IllegalArgumentException e) {
             throw Helpers.jdaException(e, this);
         }
