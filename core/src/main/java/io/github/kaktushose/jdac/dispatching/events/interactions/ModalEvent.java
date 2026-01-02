@@ -65,7 +65,7 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     /// Convenience method to get a [ModalMapping][ModalMapping] by its numeric
     /// id from the List of [ModalMappings][ModalMapping]
     ///
-    /// @param uniqueId The numeric id
+    /// @param uniqueId The uniqueId id
     /// @return [ModalMapping] with this numeric id, or null if not found
     /// @throws NullPointerException     If no value was found for the provided id
     /// @throws IllegalArgumentException If the provided id is null

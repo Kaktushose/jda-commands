@@ -10,6 +10,7 @@ import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.components.ModalTopLevelComponent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
@@ -47,7 +48,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     ///
     /// @param modal        the method name of the [Modal] you want to reply with
     /// @param components   a [Collection] of [ModalTopLevelComponent]s to add to this modal
-    /// @param placeholders the [Entry] placeholders to use for localization
+    /// @param placeholders the [Entry] placeholders to use for [message resolution][MessageResolver]
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
     public void replyModal(String modal, Collection<ModalTopLevelComponent> components, Entry... placeholders) {
         if (!(jdaEvent() instanceof IModalCallback callback)) {
@@ -55,17 +56,18 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
         }
 
         InteractionDefinition definition = scopedInvocationContext().definition();
-        String definitionId = String.valueOf((definition.classDescription().name() + modal).hashCode());
+        String definitionId = InteractionDefinition.createDefinitionId(definition.classDescription().name(), modal);
         ModalDefinition modalDefinition = scopedInteractionRegistry().find(
                 ModalDefinition.class,
                 false,
                 it -> it.definitionId().equals(definitionId)
         );
 
+        var entryMap = Entry.toMap(placeholders);
         ComponentResolver<ModalTopLevelComponent> resolver = new ComponentResolver<>(scopedMessageResolver(), ModalTopLevelComponent.class);
         modalDefinition = modalDefinition.with(
-                scopedMessageResolver().resolve(modalDefinition.title(), scopedUserLocale(), Entry.toMap(placeholders)),
-                resolver.resolve(components, scopedUserLocale(), Entry.toMap(placeholders))
+                scopedMessageResolver().resolve(modalDefinition.title(), scopedUserLocale(), entryMap),
+                resolver.resolve(components, scopedUserLocale(), entryMap)
         );
 
         log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(), modalDefinition.displayName(), runtimeId());
