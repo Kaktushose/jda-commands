@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.annotations.interactions;
 
 import io.github.kaktushose.jdac.dispatching.events.ModalReplyableEvent;
-import io.github.kaktushose.jdac.message.placeholder.Entry;
+import net.dv8tion.jda.api.components.ModalTopLevelComponent;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,15 +10,20 @@ import java.lang.annotation.Target;
 
 /// Methods annotated with [Modal] will be registered as a modal at startup.
 ///
-/// Therefore, the method must be declared inside a class that is annotated with
-/// [Interaction].
+/// Therefore, the method must be declared inside a class that is annotated with [Interaction].
 ///
-/// You can reply with a modal by calling [ModalReplyableEvent#replyModal(String, Entry...)].
+/// You only define the title via this annotation. The rest of the modal is built when calling
+/// [ModalReplyableEvent#replyModal(String, ModalTopLevelComponent, ModalTopLevelComponent...)].
 ///
 /// ## Example:
 /// ```
 /// @Modal("My Modal")
-/// public void onModal(ModalEvent event, @TextInput("Type here") String input) { ... }
+/// public void onModal(ModalEvent event) { ... }
+///
+/// @Command("/example")
+/// public void onCommand(CommandEvent event) {
+///     event.replyModal("onModal", TextDisplay.of("Hello World"));
+/// }
 /// ```
 /// @see Interaction
 @Target(ElementType.METHOD)

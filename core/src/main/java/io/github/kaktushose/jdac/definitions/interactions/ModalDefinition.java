@@ -20,6 +20,7 @@ import java.util.Optional;
 /// @param methodDescription the [MethodDescription] of the method this definition is bound to
 /// @param permissions       a [Collection] of permissions for this modal
 /// @param title             the title of the modal
+/// @param components        a [Collection] of [ModalTopLevelComponent]s that will be added to this modal
 public record ModalDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,

@@ -10,7 +10,8 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import java.util.List;
 import java.util.Objects;
 
-/// This class is a subclass of [Event]. It provides additional features for replying to a [ModalInteractionEvent].
+/// This class is a subclass of [Event]. It provides additional features for replying to a [ModalInteractionEvent] as
+/// well as for retrieving the [ModalMapping]s.
 ///
 /// @see Event
 /// @see ReplyableEvent

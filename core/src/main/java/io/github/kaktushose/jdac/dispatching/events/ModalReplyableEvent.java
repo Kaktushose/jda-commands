@@ -33,10 +33,22 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
 
     private static final Logger log = JDACLogger.getLogger(ModalReplyableEvent.class);
 
+    /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
+    ///
+    /// @param modal      the method name of the [Modal] you want to reply with
+    /// @param component  a [ModalTopLevelComponent] to add to this modal
+    /// @param components additional [ModalTopLevelComponent]s to add
+    /// @throws IllegalArgumentException if no [Modal] with the given name was found
     public void replyModal(String modal, ModalTopLevelComponent component, ModalTopLevelComponent... components) {
         replyModal(modal, Stream.concat(Stream.of(component), Arrays.stream(components)).toList());
     }
 
+    /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
+    ///
+    /// @param modal        the method name of the [Modal] you want to reply with
+    /// @param components   a [Collection] of [ModalTopLevelComponent]s to add to this modal
+    /// @param placeholders the [Entry] placeholders to use for localization
+    /// @throws IllegalArgumentException if no [Modal] with the given name was found
     public void replyModal(String modal, Collection<ModalTopLevelComponent> components, Entry... placeholders) {
         if (!(jdaEvent() instanceof IModalCallback callback)) {
             throw new InternalException("reply-failed", entry("event", jdaEvent().getClass().getName()));
