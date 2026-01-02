@@ -7,7 +7,6 @@ import io.github.kaktushose.jdac.definitions.description.Description;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.message.i18n.internal.JDACLocalizationFunction;
-import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
@@ -53,7 +52,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// [`@Bundle("mybundle")`](Bundle) annotation with following order:
 ///
 ///
-/// 1. method that called [I18n#localize(Locale, String, Entry...)]
+/// 1. method that called [I18n#resolve(String,Locale,Map)]
 /// 2. other called methods in the same class
 /// 3. this methods class
 /// 4. the class' packages `package-info.java` file
@@ -115,7 +114,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 ///
 /// The found bundle would be `pack_bundle`.
 ///
-/// If [I18n#localize(java.util.Locale, java.lang.String, Entry...)]
+/// If [I18n#resolve(String, Locale, Map)]
 /// would be called in, for example, `B$bTwo` the bundle would be `mB_bundle`.
 public class I18n implements Resolver<String> {
 

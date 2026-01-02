@@ -3,7 +3,6 @@ package io.github.kaktushose.jdac.message.resolver;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
-import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import org.jspecify.annotations.Nullable;
 
@@ -31,9 +30,8 @@ public final class MessageResolver implements Resolver<String> {
         this.resolvers.addAll(resolvers);
     }
 
-    /// First resolves the variables in the given message (see [PlaceholderResolver#resolve(String, Map)]), then
-    /// localizes the resulting message (see [I18n#localize(Locale, String, Entry...)]) and lastly attempts to
-    /// resolve emojis (see [EmojiResolver#resolve(String)]).
+    /// Applies all registered [`Resolver<String>`][Property#STRING_RESOLVER] to the given message with
+    /// the passed locale and placeholders. See class docs for more information.
     ///
     /// @param message the message to be resolved
     /// @param locale the locale to use for i18n

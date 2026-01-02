@@ -9,15 +9,14 @@ import io.github.kaktushose.jdac.dispatching.reply.dynamic.internal.UnspecificCo
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.SelectMenuComponent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComponent;
-import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponentUnion;
 import net.dv8tion.jda.api.components.section.SectionAccessoryComponentUnion;
 import net.dv8tion.jda.api.components.thumbnail.Thumbnail;
 import org.jspecify.annotations.Nullable;
 
-import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -99,7 +98,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// Adds an enabled, runtime-bound [Component] to the reply.
     ///
     /// @param component   the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static Component<?, ?, ?, ?> enabled(String component, Entry... placeholder) {
         return of(true, false, component, placeholder);
     }
@@ -107,7 +106,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// Adds disabled, runtime-bound [Component]s to the reply.
     ///
     /// @param component   the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static Component<?, ?, ?, ?> disabled(String component, Entry... placeholder) {
         return of(false, false, component, placeholder);
     }
@@ -118,7 +117,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// Furthermore, the component cannot expire and will always get executed, even after a bot restart.
     ///
     /// @param component   the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static Component<?, ?, ?, ?> independent(String component, Entry... placeholder) {
         return of(true, true, component, placeholder);
     }
@@ -128,7 +127,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     ///
     /// @param origin      the [Class] the `component` is defined in
     /// @param component   the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static Component<?, ?, ?, ?> enabled(Class<?> origin, String component, Entry... placeholder) {
         return of(true, origin, component, placeholder);
     }
@@ -138,7 +137,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     ///
     /// @param origin      the [Class] the `component` is defined in
     /// @param component   the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static Component<?, ?, ?, ?> disabled(Class<?> origin, String component, Entry... placeholder) {
         return of(false, origin, component, placeholder);
     }
@@ -148,7 +147,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// @param enabled     whether the [Component] should be enabled or disabled
     /// @param independent whether the [Component] should be runtime-bound or independent
     /// @param component   the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static Component<?, ?, ?, ?> of(boolean enabled, boolean independent, String component, Entry... placeholder) {
         return new UnspecificComponent(enabled, independent, component, null, placeholder);
     }
@@ -158,7 +157,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// @param enabled     whether the [Component] should be enabled or disabled
     /// @param origin      the [Class] the `component` is defined in
     /// @param component   the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static Component<?, ?, ?, ?> of(boolean enabled, Class<?> origin, String component, Entry... placeholder) {
         return new UnspecificComponent(enabled, true, component, origin, placeholder);
     }
@@ -169,7 +168,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// @param independent whether the [Component] should be runtime-bound or independent
     /// @param origin      the [Class] the `component` is defined in
     /// @param component   the name of the method that represents the component
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static Component<?, ?, ?, ?> of(boolean enabled, boolean independent, Class<?> origin, String component, Entry... placeholder) {
         return new UnspecificComponent(enabled, independent, component, origin, placeholder);
     }
@@ -177,7 +176,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// Adds a [ButtonComponent] to the reply.
     ///
     /// @param component   the name of the method that represents the button
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static ButtonComponent button(String component, Entry... placeholder) {
         return button(null, component, placeholder);
     }
@@ -186,7 +185,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     ///
     /// @param origin      the [Class] the `component` is defined in
     /// @param component   the name of the method that represents the button
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static ButtonComponent button(@Nullable Class<?> origin, String component, Entry... placeholder) {
         return new ButtonComponent(component, origin, placeholder);
     }
@@ -194,7 +193,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// Adds an [EntitySelectMenuComponent] to the reply.
     ///
     /// @param component   the name of the method that represents the entity select menu
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static EntitySelectMenuComponent entitySelect(String component, Entry... placeholder) {
         return entitySelect(null, component, placeholder);
     }
@@ -203,7 +202,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     ///
     /// @param origin      the [Class] the `menu` is defined in
     /// @param component   the name of the method that represents the entity select menu
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static EntitySelectMenuComponent entitySelect(
             @Nullable Class<?> origin, String component, Entry... placeholder) {
         return new EntitySelectMenuComponent(component, origin, placeholder);
@@ -212,7 +211,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// Adds a [StringSelectComponent] to the reply.
     ///
     /// @param component   the name of the method that represents the string select menu
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static StringSelectComponent stringSelect(String component, Entry... placeholder) {
         return stringSelect(null, component, placeholder);
     }
@@ -221,7 +220,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     ///
     /// @param origin      the [Class] the `component` is defined in
     /// @param component   the name of the method that represents the string select menu
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale, String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
     public static StringSelectComponent stringSelect(
             @Nullable Class<?> origin, String component, Entry... placeholder) {
         return new StringSelectComponent(component, origin, placeholder);
