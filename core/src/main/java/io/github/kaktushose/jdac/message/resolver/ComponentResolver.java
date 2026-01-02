@@ -37,7 +37,7 @@ public final class ComponentResolver<T extends Component> implements Resolver<T>
     /// @param type     the [Component] [Class], needed for deserialization
     public ComponentResolver(Resolver<String> resolver, Class<T> type) {
         this.type = type;
-        jsonResolver = new DataObjectResolver(resolver, Set.of("content", "label", "placeholder", "value"));
+        jsonResolver = new DataObjectResolver(resolver, Set.of("content", "label", "placeholder", "value", "description"));
     }
 
     /// Resolves a [Collection] of [Component]s. [FileUpload]s will be preserved.

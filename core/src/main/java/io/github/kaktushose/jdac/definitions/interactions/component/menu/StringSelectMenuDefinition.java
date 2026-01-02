@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.definitions.interactions.component.menu;
 
 import io.github.kaktushose.jdac.annotations.interactions.MenuOption;
 import io.github.kaktushose.jdac.annotations.interactions.MenuOptionContainer;
+import io.github.kaktushose.jdac.annotations.interactions.StringMenu;
 import io.github.kaktushose.jdac.definitions.Definition;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
@@ -46,8 +47,7 @@ public record StringSelectMenuDefinition(
     /// @return an [Optional] holding the [StringSelectMenuDefinition]
     public static StringSelectMenuDefinition build(MethodBuildContext context) {
         var method = context.method();
-        io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu selectMenu =
-                method.annotation(io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu.class);
+        StringMenu selectMenu = method.annotation(StringMenu.class);
 
         Helpers.checkSignature(method, List.of(ComponentEvent.class, List.class));
 

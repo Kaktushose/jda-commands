@@ -5,13 +5,11 @@ import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.testing.TestScenario;
-import io.github.kaktushose.jdac.testing.invocation.InvocationException;
 import io.github.kaktushose.jdac.testing.reply.MessageEventReply;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Mentions;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -129,12 +127,12 @@ class ComponentsV1Test {
         }
 
         @MenuOption(label = "Sushi", value = "Sushi")
-        @StringSelectMenu("What's your favourite food?")
+        @StringMenu("What's your favourite food?")
         public void stringSelect(ComponentEvent event, List<String> selection) {
             event.reply("success");
         }
 
-        @EntitySelectMenu(value = SelectTarget.USER, placeholder = "Select one")
+        @EntityMenu(value = SelectTarget.USER, placeholder = "Select one")
         public void entitySelect(ComponentEvent event, Mentions mentions) {
             event.reply("success");
         }

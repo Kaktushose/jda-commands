@@ -6,18 +6,21 @@ import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.ModalDefinition;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.ModalBuilder;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import net.dv8tion.jda.api.components.ModalTopLevelComponent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import org.slf4j.Logger;
 
-import java.util.function.Function;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Stream;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.scopedInteractionRegistry;
-import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.scopedInvocationContext;
+import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// Subtype of [ReplyableEvent] that also supports replying with a [Modal].
@@ -33,32 +36,41 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
 
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
     ///
-    /// @param modal       the method name of the [Modal] you want to reply with
-    /// @param placeholder the [Entry] placeholders to use for localization
+    /// @param modal      the method name of the [Modal] you want to reply with
+    /// @param component  a [ModalTopLevelComponent] to add to this modal
+    /// @param components additional [ModalTopLevelComponent]s to add
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
-    public void replyModal(String modal, Entry... placeholder) {
-        replyModal(modal, builder -> builder.placeholder(placeholder));
+    public void replyModal(String modal, ModalTopLevelComponent component, ModalTopLevelComponent... components) {
+        replyModal(modal, Stream.concat(Stream.of(component), Arrays.stream(components)).toList());
     }
 
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
     ///
-    /// @param modal    the method name of the [Modal] you want to reply with
-    /// @param callback a [Function] to dynamically modify the [Modal] before replying with it
+    /// @param modal        the method name of the [Modal] you want to reply with
+    /// @param components   a [Collection] of [ModalTopLevelComponent]s to add to this modal
+    /// @param placeholders the [Entry] placeholders to use for [message resolution][MessageResolver]
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
-    public void replyModal(String modal, Function<ModalBuilder, ModalBuilder> callback) {
-        InteractionDefinition definition = scopedInvocationContext().definition();
-
-        if (jdaEvent() instanceof IModalCallback modalCallback) {
-            var definitionId = String.valueOf((definition.classDescription().name() + modal).hashCode());
-            var modalDefinition = scopedInteractionRegistry().find(ModalDefinition.class, false, it ->
-                    it.definitionId().equals(definitionId)
-            );
-            var builtModal = callback.apply(new ModalBuilder(this, new CustomId(runtimeId(), definitionId), modalDefinition)).build();
-
-            log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(), modalDefinition.displayName(), runtimeId());
-            modalCallback.replyModal(builtModal).queue();
-        } else {
+    public void replyModal(String modal, Collection<ModalTopLevelComponent> components, Entry... placeholders) {
+        if (!(jdaEvent() instanceof IModalCallback callback)) {
             throw new InternalException("reply-failed", entry("event", jdaEvent().getClass().getName()));
         }
+
+        InteractionDefinition definition = scopedInvocationContext().definition();
+        String definitionId = InteractionDefinition.createDefinitionId(definition.classDescription().name(), modal);
+        ModalDefinition modalDefinition = scopedInteractionRegistry().find(
+                ModalDefinition.class,
+                false,
+                it -> it.definitionId().equals(definitionId)
+        );
+
+        var entryMap = Entry.toMap(placeholders);
+        ComponentResolver<ModalTopLevelComponent> resolver = new ComponentResolver<>(scopedMessageResolver(), ModalTopLevelComponent.class);
+        modalDefinition = modalDefinition.with(
+                scopedMessageResolver().resolve(modalDefinition.title(), scopedUserLocale(), entryMap),
+                resolver.resolve(components, scopedUserLocale(), entryMap)
+        );
+
+        log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(), modalDefinition.displayName(), runtimeId());
+        callback.replyModal(modalDefinition.toJDAEntity(new CustomId(runtimeId(), definitionId))).queue();
     }
 }

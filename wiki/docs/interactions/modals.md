@@ -6,11 +6,54 @@ The first parameter must always be a <ModalEvent>.
 
 ```java
 @Modal("My Modal")
-public void onModal(ModalEvent event, @TextInput("Input") String input) { ... }
+public void onModal(ModalEvent event) { ... }
 ```
 
+## Replying with Modals
+
+You can reply to [`CommandEvents`][[CommandEvent]]
+and [`ComponentEvents`][[io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent]]
+with a Modal by calling <ModalReplyableEvent#replyModal(java.lang.String, ModalTopLevelComponent, ModalTopLevelComponent...)>
+on the event.
+
+## Modal Components
+Modals consist of a title, which is set via the <io.github.kaktushose.jdac.annotations.interactions.Modal> annotation, 
+and of up to 5 components. 
+
+These components aren't defined via annotations, but are just passed over to the reply method.
+!!! example
+    ```java
+    @Command("ban")
+    public void onCommand(CommandEvent event, User target) {
+        event.replyModal("onModal", TextDisplay.of("Do you really want to ban the user?")); //(1)!
+    }
+
+    @Modal("Confirm ban")
+    public void onModal(ModalEvent event) { ... }
+    ```
+
+    1. We reference the Modal we want to send via the method name.
+
+When using input components, such as a text input or select menu, you can access the <ModalMapping>s directly via the
+<ModalEvent>.
+!!! example
+    ```java
+    @Modal("User Select")
+    public void onModal(ModalEvent event) {
+        event.replyModal("onModal", Label.of(
+            "Select a user",
+            EntitySelectMenu.create("user-select", SelectTarget.USER).build()
+        ));
+    }
+
+    @Modal("Example")
+    public void onModal(ModalEvent event) { 
+        var value = event.value("user-select");
+    }
+    ```
+
 ## Localization and Placeholders
-To avoid hardcoded values, all string values of an annotation can be replaced by a localization key as supported by the
+To avoid hardcoded values, all string values can be replaced by a localization key as supported by the
 current used [Localization System](../message/localization.md).
 
 Furthermore, it's possible to directly use placeholders.
@@ -19,102 +62,35 @@ For more information on how to use placeholders please visit [this page](../mess
 Also take a look at the general [message resolution documentation](../message/overview.md).
 
 !!! example "Key Example (with Fluava)"
-    ```java
-    @Modal("my.localization.key")
-    public void onModal(ModalEvent event, @TextInput("Input") String input) { ... }
+    ```java    
+    @Command("ban")
+    public void onCommand(CommandEvent event, User target) {
+        event.replyModal("onModal", TextDisplay.of("modal-text"));
+    }
+
+    @Modal("modal-title")
+    public void onModal(ModalEvent event) { ... }
     ```
 
-!!! example "Placeholder Example" 
-    ```java
-    @Modal("{ $modal_name }")
-    public void onModal(ModalEvent event, @TextInput("Input") String input) { ... }
+When using placeholders, you have to also pass the [Entries][[io.github.kaktushose.jdac.message.placeholder.Entry]] to
+the reply method.
+!!! example "Placeholder Example"
+    ```java    
+    @Command("ban")
+    public void onCommand(CommandEvent event, User target) {
+        event.replyModal("onModal", List.of(TextDisplay.of("modal-text")), entry("modal_name", target.getName()));
+    }
+
+    @Modal("Ban { $user_name }?")
+    public void onModal(ModalEvent event) { ... }
     ```
 
 ## Unicode and application emojis
 JDA-Commands has built in support for Unicode and application emoji aliases.
 If you want to use them, just take a look [here](../message/emojis.md).
 
-## Text Inputs
-You can add text inputs to a modal by adding String parameters annotated with <io.github.kaktushose.jdac.annotations.interactions.TextInput>.
-The label and other metadata of the text input is passed to the annotation. 
-
-!!! tip
-    Just as for command options, the parameter name will be used for the label by default. However, this requires the 
-    `-parameters` compiler flag to be [enabled](./commands.md#name-description). 
-
-Text Inputs can be configured with the following fields:
-### style
-Sets the <TextInputStyle>. 
-The default value is <TextInputStyle#PARAGRAPH>.
 !!! example
     ```java
-    @Modal("Ban reason")
-    public void onModal(ModalEvent event, @TextInput(value = "Reason", style = TextInputStyle.SHORT) String input) { ... }
-    ```
-
-### placeholder
-Sets the placeholder of a text input.
-!!! example
-    ```java
-    @Modal("Ban reason")
-    public void onModal(ModalEvent event, @TextInput(value = "Reason", placeholder = "Please give a reason") String input) { ... }
-    ```
-
-### defaultValue
-Sets the default value of a text input, which will pre-populate the text input field with the specified String. 
-!!! example
-    ```java
-    @Modal("Ban reason")
-    public void onModal(ModalEvent event, @TextInput(value = "Reason", defaultValue = "Rule Violation") String input) { ... }
-    ```
-
-### minValue & maxValue
-Sets the minimum and maximum input length of a text input.
-!!! example
-    ```java
-    @Modal("Ban reason")
-    public void onModal(ModalEvent event, @TextInput(value = "Reason", maxValue = 1000) String input) { ... }
-    ```
-
-### required
-Sets whether the text input is required. The default value is `true`.
-!!! example
-    ```java
-    @Modal("Ban reason")
-    public void onModal(ModalEvent event, @TextInput(value = "Reason", required = false) String input) { ... }
-    ```
-
-## Replying with Modals
-
-You can reply to [`CommandEvents`][[CommandEvent]] 
-and [`ComponentEvents`][[io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent]]
-with a Modal by calling <ModalReplyableEvent#replyModal(java.lang.String,Entry...)>
-on the event.
-
-!!! example
-    ```java 
-    @Command("ban")
-    public void onCommand(CommandEvent event, User target) {
-        event.replyModal("onModal"); //(1)!
-    }
-
-    @Modal("Ban reason")
-    public void onModal(ModalEvent event, @TextInput("Reason") String input) { ... }
-    ```
-
-    1. We reference the Modal we want to send via the method name.
-
-### Dynamic Modals
-Sometimes you want to modify a Modal dynamically at runtime. You can do so by calling
-<ModalReplyableEvent#replyModal(java.lang.String,java.util.function.Function)>
-
-!!! example
-    ```java
-    event.replyModal("onModal", modal -> modal.title("Cool Title!"));
-    ```
-
-If you want to, you can also use the native JDA builder:
-!!! example
-    ```java
-    event.replyModal("onModal", modal -> modal.modify(jdaBuilder -> jdaBuilder.setTitle("Boring Title!")));
+    @Modal("Example :thumbs_up:")
+    public void onModal(ModalEvent event) { ... }
     ```

@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.dispatching.events;
 
-import io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu;
-import io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu;
+import io.github.kaktushose.jdac.annotations.interactions.EntityMenu;
+import io.github.kaktushose.jdac.annotations.interactions.StringMenu;
 import io.github.kaktushose.jdac.definitions.features.CustomIdJDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
@@ -117,7 +117,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         return getComponent(button, null, ButtonDefinition.class);
     }
 
-    /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
+    /// Gets a [StringMenu] or [EntityMenu] based on the method name and transforms it into a JDA [SelectMenu].
     ///
     /// The select menu will be linked to the current [`Runtime`]({@docRoot}/index.html#runtime-concept-heading). This may be useful if you want to send a component
     /// without using the framework.
@@ -128,7 +128,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         return getComponent(menu, null, SelectMenuDefinition.class);
     }
 
-    /// Gets a [StringSelectMenu] or [EntitySelectMenu] based on the method name and transforms it into a JDA [SelectMenu].
+    /// Gets a [StringMenu] or [EntityMenu] based on the method name and transforms it into a JDA [SelectMenu].
     ///
     /// The select menu will be [`runtime`]({@docRoot}/index.html#runtime-concept-heading)-independent.
     /// This may be useful if you want to send a component without using the framework.

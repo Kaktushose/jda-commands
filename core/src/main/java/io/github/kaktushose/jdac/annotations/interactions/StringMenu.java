@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.List;
 
-/// Methods annotated with StringSelectMenu will be registered as a StringSelectMenu at startup.
+/// Methods annotated with StringMenu will be registered as a StringSelectMenu at startup.
 ///
 /// Therefore, the method must be declared inside a class that is annotated with
 /// [Interaction].
@@ -26,14 +26,14 @@ import java.util.List;
 /// @MenuOption(label= "Pizza", value = "pizza")
 /// @MenuOption(label= "Hamburger", value = "hamburger")
 /// @MenuOption(label= "Sushi", value = "Sushi")
-/// @StringSelectMenu("What's your favourite food?")
+/// @StringMenu("What's your favourite food?")
 /// public void onMenu(ComponentEvent event, List<String> choices) { ... }
 /// ```
 /// @see Interaction
 /// @see MenuOption
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface StringSelectMenu {
+public @interface StringMenu {
 
     /// Configure the placeholder which is displayed when no selections have been made yet.
     ///

@@ -64,8 +64,8 @@ The following interaction types are available:
 - <io.github.kaktushose.jdac.annotations.interactions.AutoComplete>
 - <io.github.kaktushose.jdac.annotations.interactions.Command>
 - <io.github.kaktushose.jdac.annotations.interactions.Button>
-- <io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu>
-- <io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu>
+- <io.github.kaktushose.jdac.annotations.interactions.StringMenu>
+- <io.github.kaktushose.jdac.annotations.interactions.EntityMenu>
 - <io.github.kaktushose.jdac.annotations.interactions.Modal>
 
 You can read more about the different interaction types [here](../interactions/overview.md).

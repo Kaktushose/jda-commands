@@ -6,12 +6,9 @@ import io.github.kaktushose.jdac.dispatching.Runtime;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
-import net.dv8tion.jda.api.interactions.modals.ModalMapping;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ApiStatus.Internal
 public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
@@ -26,9 +23,6 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
                 it.definitionId().equals(CustomId.fromMerged(event.getModalId()).definitionId())
         );
 
-        List<Object> arguments = event.getValues().stream().map(ModalMapping::getAsString).collect(Collectors.toList());
-        arguments.addFirst(new ModalEvent());
-
-        return new PreparationResult(modal, Collections.unmodifiableList(arguments));
+        return new PreparationResult(modal, List.of(new ModalEvent()));
     }
 }

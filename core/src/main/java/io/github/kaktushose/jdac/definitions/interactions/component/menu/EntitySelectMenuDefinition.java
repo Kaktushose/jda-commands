@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions.component.menu;
 
+import io.github.kaktushose.jdac.annotations.interactions.EntityMenu;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
@@ -47,8 +48,7 @@ public record EntitySelectMenuDefinition(
     /// @return an [Optional] holding the [EntitySelectMenuDefinition]
     public static EntitySelectMenuDefinition build(MethodBuildContext context) {
         var method = context.method();
-        io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu selectMenu =
-                method.annotation(io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu.class);
+        EntityMenu selectMenu = method.annotation(EntityMenu.class);
 
         Helpers.checkSignature(method, List.of(ComponentEvent.class, Mentions.class));
 

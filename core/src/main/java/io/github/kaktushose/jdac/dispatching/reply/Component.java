@@ -1,8 +1,8 @@
 package io.github.kaktushose.jdac.dispatching.reply;
 
 import io.github.kaktushose.jdac.annotations.interactions.Button;
-import io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu;
-import io.github.kaktushose.jdac.annotations.interactions.StringSelectMenu;
+import io.github.kaktushose.jdac.annotations.interactions.EntityMenu;
+import io.github.kaktushose.jdac.annotations.interactions.StringMenu;
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.ButtonComponent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.internal.UnspecificComponent;
@@ -20,7 +20,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.Optional;
 import java.util.function.Function;
 
-/// Represents a component, namely [Button], [StringSelectMenu] or [EntitySelectMenu], that should be added to a reply.
+/// Represents a component, namely [Button], [StringMenu] or [EntityMenu], that should be added to a reply.
 ///
 /// Also holds the following two settings:
 /// ### enabled:

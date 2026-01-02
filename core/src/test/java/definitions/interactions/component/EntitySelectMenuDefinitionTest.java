@@ -1,6 +1,6 @@
 package definitions.interactions.component;
 
-import io.github.kaktushose.jdac.annotations.interactions.EntitySelectMenu;
+import io.github.kaktushose.jdac.annotations.interactions.EntityMenu;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.annotations.interactions.Permissions;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
@@ -14,7 +14,6 @@ import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
 import org.junit.jupiter.api.Test;
 
 import java.util.EnumSet;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -92,15 +91,15 @@ class EntitySelectMenuDefinitionTest {
         public void noAnnotation() {
         }
 
-        @EntitySelectMenu(value = SelectTarget.USER)
+        @EntityMenu(value = SelectTarget.USER)
         public void wrongSignature(ComponentEvent event) {
         }
 
-        @EntitySelectMenu(value = SelectTarget.USER, placeholder = "test")
+        @EntityMenu(value = SelectTarget.USER, placeholder = "test")
         public void allDefaults(ComponentEvent event, Mentions mentions) {
         }
 
-        @EntitySelectMenu(
+        @EntityMenu(
                 value = SelectTarget.CHANNEL,
                 channelTypes = ChannelType.TEXT,
                 minValue = 2,
