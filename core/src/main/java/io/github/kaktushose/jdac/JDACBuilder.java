@@ -371,7 +371,7 @@ public class JDACBuilder {
                         introspection.get(DESCRIPTOR)
                 );
                 Middlewares middlewares = new Middlewares(introspection.get(MIDDLEWARE), introspection.get(ERROR_MESSAGE_FACTORY), introspection.get(PERMISSION_PROVIDER));
-                TypeAdapters typeAdapters = new TypeAdapters(introspection.get(TYPE_ADAPTER), introspection.get(I18N));
+                TypeAdapters typeAdapters = new TypeAdapters(introspection.get(TYPE_ADAPTER), introspection.get(MESSAGE_RESOLVER));
 
                 IntrospectionImpl initIntrospection = Properties.Builder.newRestricted()
                         .addFallback(INTERACTION_REGISTRY, _ -> interactionRegistry)
