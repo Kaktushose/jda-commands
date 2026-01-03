@@ -74,7 +74,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// # Own Implementation
 /// Alternatively, you can pass your own [ErrorMessageFactory] implementation to
 /// [JDACBuilder#errorMessageFactory(ErrorMessageFactory)].
-public final class DefaultErrorMessageFactory implements ErrorMessageFactory {
+public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     private final ComponentResolver<Container> resolver;
 
