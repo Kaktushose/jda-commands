@@ -4,7 +4,6 @@ import io.github.kaktushose.jdac.annotations.interactions.Permissions;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
-import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
 import net.dv8tion.jda.api.entities.Member;
@@ -50,7 +49,7 @@ public class PermissionsMiddleware implements Middleware {
             hasPerms = provider.hasPermission(event.getUser(), context);
         }
         if (!hasPerms) {
-            context.cancel(Helpers.cv2Reply(errorMessageFactory.getInsufficientPermissionsMessage(context)));
+            context.cancel(errorMessageFactory.getInsufficientPermissionsMessage(context));
             log.debug("Insufficient permissions!");
             return;
         }

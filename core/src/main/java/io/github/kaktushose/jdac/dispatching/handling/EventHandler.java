@@ -153,7 +153,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             // would make the message invalid we just replace it with the error message
             new ReplyAction(
                     new ReplyConfig(invocation.replyConfig().ephemeral(), false, false, edit)
-            ).reply(Helpers.cv2Reply(errorMessageFactory.getInteractionExecutionFailedMessage(invocation, throwable)));
+            ).reply(errorMessageFactory.getInteractionExecutionFailedMessage(invocation, throwable));
         }
     }
 

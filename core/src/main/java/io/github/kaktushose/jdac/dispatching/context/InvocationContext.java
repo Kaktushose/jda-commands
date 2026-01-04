@@ -5,6 +5,9 @@ import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jspecify.annotations.Nullable;
@@ -40,11 +43,25 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
     /// @param errorMessage the error message that should be sent to the user as a reply
     /// @implNote This will interrupt the current event thread
     public void cancel(MessageCreateData errorMessage) {
-        new ReplyAction(new ReplyConfig(replyConfig().ephemeral(), false, false, false)).reply(errorMessage);
+        replyAction().reply(errorMessage);
         Thread.currentThread().interrupt();
     }
 
-    /// @return if the current invocation is cancelled
+    /// Stops further execution of this invocation at the next suitable moment.
+    ///
+    /// @param component    the [MessageTopLevelComponent] that should be sent to the user as an error message
+    /// @param placeholders the [Entry] placeholders to use for [message resolution][MessageResolver]
+    /// @implNote This will interrupt the current event thread
+    public void cancel(MessageTopLevelComponent component, Entry... placeholders) {
+        replyAction().reply(component, placeholders);
+        Thread.currentThread().interrupt();
+    }
+
+    private ReplyAction replyAction() {
+        return new ReplyAction(new ReplyConfig(replyConfig().ephemeral(), false, false, false));
+    }
+
+    /// @return if the current invocation is canceled
     public boolean cancelled() {
         return Thread.currentThread().isInterrupted();
     }

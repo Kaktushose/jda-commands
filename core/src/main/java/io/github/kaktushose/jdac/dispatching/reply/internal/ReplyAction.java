@@ -99,6 +99,10 @@ public final class ReplyAction {
         return reply();
     }
 
+    public Message reply(MessageTopLevelComponent component, Entry... placeholder) {
+        return reply(List.of((MessageTopLevelComponentUnion) component), placeholder);
+    }
+
     public Message reply(Collection<MessageTopLevelComponentUnion> components, Entry... placeholder) {
         components = componentResolver.resolve(components, scopedUserLocale(), Entry.toMap(placeholder));
         builder.closeFiles().clear().useComponentsV2().addComponents(components);

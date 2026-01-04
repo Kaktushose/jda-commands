@@ -6,13 +6,11 @@ import io.github.kaktushose.jdac.annotations.constraints.NotPerm;
 import io.github.kaktushose.jdac.annotations.constraints.Perm;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
-import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess;
-import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
-import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 
 import java.lang.annotation.Annotation;
 
@@ -85,18 +83,18 @@ public interface Validator<T, A extends Annotation> {
         ///
         /// @see MessageResolver
         /// @see I18n
-        public MessageCreateData failMessage(String content, Entry... placeholder) {
+        public MessageTopLevelComponent failMessage(String content, Entry... placeholder) {
             String localized = IntrospectionAccess.scopedMessageResolver()
                     .resolve(content, IntrospectionAccess.scopedUserLocale(), Entry.toMap(placeholder));
 
-            return Helpers.cv2Reply(errorMessageFactory.getConstraintFailedMessage(invocationContext, localized));
+            return errorMessageFactory.getConstraintFailedMessage(invocationContext, localized);
         }
 
         /// Used to fail a validation and cancel the [InvocationContext]
         ///
         /// @param failMessage the message or localization key
         /// @param placeholder the variables used for localization
-        /// @see InvocationContext#cancel(MessageCreateData)
+        /// @see InvocationContext#cancel(MessageTopLevelComponent, Entry...)
         public void fail(String failMessage, Entry... placeholder) {
             invocationContext.cancel(failMessage(failMessage, placeholder));
         }
