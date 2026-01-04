@@ -13,8 +13,20 @@ public void onModal(ModalEvent event) { ... }
 
 You can reply to [`CommandEvents`][[CommandEvent]]
 and [`ComponentEvents`][[io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent]]
-with a Modal by calling <ModalReplyableEvent#replyModal(java.lang.String, ModalTopLevelComponent, ModalTopLevelComponent...)>
+with a Modal by calling <ModalReplyableEvent#replyModal(String, ModalTopLevelComponent, io.github.kaktushose.jdac.message.placeholder.Entry...)>
 on the event.
+!!! example
+    ```java
+    event.replyModal("onModal", TextDisplay.of("Hello World"));
+    ```
+
+### Foreign Modals
+You can also reply with modals that were defined in a different class by calling 
+<ModalReplyableEvent#replyModal(Class, String, ModalTopLevelComponent, io.github.kaktushose.jdac.message.placeholder.Entry...)>.
+!!! example
+    ```java
+    event.replyModal(ModalHelpers.class, "onModal", TextDisplay.of("Hello World"));
+    ```
 
 ## Modal Components
 Modals consist of a title, which is set via the <io.github.kaktushose.jdac.annotations.interactions.Modal> annotation, 

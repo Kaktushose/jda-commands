@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.annotations.interactions;
 
 import io.github.kaktushose.jdac.dispatching.events.ModalReplyableEvent;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ModalTopLevelComponent;
 
 import java.lang.annotation.ElementType;
@@ -13,7 +14,7 @@ import java.lang.annotation.Target;
 /// Therefore, the method must be declared inside a class that is annotated with [Interaction].
 ///
 /// You only define the title via this annotation. The rest of the modal is built when calling
-/// [ModalReplyableEvent#replyModal(String, ModalTopLevelComponent, ModalTopLevelComponent...)].
+/// [ModalReplyableEvent#replyModal(String, ModalTopLevelComponent, Entry...)].
 ///
 /// ## Example:
 /// ```

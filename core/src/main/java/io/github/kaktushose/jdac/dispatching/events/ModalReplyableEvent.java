@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.components.ModalTopLevelComponent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import net.dv8tion.jda.internal.utils.Checks;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 
 import java.util.Collection;
@@ -34,14 +35,26 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
 
     private static final Logger log = JDACLogger.getLogger(ModalReplyableEvent.class);
 
+
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
     ///
-    /// @param modal      the method name of the [Modal] you want to reply with
-    /// @param component the [ModalTopLevelComponent] to add to this modal
+    /// @param modal        the method name of the [Modal] you want to reply with
+    /// @param component    the [ModalTopLevelComponent] to add to this modal
     /// @param placeholders the [Entry] placeholders to use for [message resolution][MessageResolver]
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
     public void replyModal(String modal, ModalTopLevelComponent component, Entry... placeholders) {
-        replyModal(modal, List.of(component), placeholders);
+        reply(null, modal, List.of(component), placeholders);
+    }
+
+    /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
+    ///
+    /// @param origin       the [Class] the modal handler is defined in
+    /// @param modal        the method name of the [Modal] you want to reply with
+    /// @param component    the [ModalTopLevelComponent] to add to this modal
+    /// @param placeholders the [Entry] placeholders to use for [message resolution][MessageResolver]
+    /// @throws IllegalArgumentException if no [Modal] with the given name was found
+    public void replyModal(Class<?> origin, String modal, ModalTopLevelComponent component, Entry... placeholders) {
+        reply(origin, modal, List.of(component), placeholders);
     }
 
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
@@ -51,13 +64,29 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// @param placeholders the [Entry] placeholders to use for [message resolution][MessageResolver]
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
     public void replyModal(String modal, Collection<ModalTopLevelComponent> components, Entry... placeholders) {
+        reply(null, modal, components, placeholders);
+    }
+
+    /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
+    ///
+    /// @param origin       the [Class] the modal handler is defined in
+    /// @param modal        the method name of the [Modal] you want to reply with
+    /// @param components   a [Collection] of [ModalTopLevelComponent]s to add to this modal
+    /// @param placeholders the [Entry] placeholders to use for [message resolution][MessageResolver]
+    /// @throws IllegalArgumentException if no [Modal] with the given name was found
+    public void replyModal(Class<?> origin, String modal, Collection<ModalTopLevelComponent> components, Entry... placeholders) {
+        reply(origin, modal, components, placeholders);
+    }
+
+    private void reply(@Nullable Class<?> origin, String modal, Collection<ModalTopLevelComponent> components, Entry... placeholders) {
         if (!(jdaEvent() instanceof IModalCallback callback)) {
             throw new InternalException("reply-failed", entry("event", jdaEvent().getClass().getName()));
         }
         Checks.notEmpty(components, "Modal components");
 
         InteractionDefinition definition = scopedInvocationContext().definition();
-        String definitionId = InteractionDefinition.createDefinitionId(definition.classDescription().name(), modal);
+        String className = origin == null ? definition.classDescription().name() : origin.getName();
+        String definitionId = InteractionDefinition.createDefinitionId(className, modal);
         ModalDefinition modalDefinition = scopedInteractionRegistry().find(
                 ModalDefinition.class,
                 false,
