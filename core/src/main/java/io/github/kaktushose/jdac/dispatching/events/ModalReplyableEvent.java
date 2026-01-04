@@ -14,11 +14,11 @@ import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.components.ModalTopLevelComponent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
+import net.dv8tion.jda.internal.utils.Checks;
 import org.slf4j.Logger;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Stream;
+import java.util.List;
 
 import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
@@ -37,11 +37,11 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
     ///
     /// @param modal      the method name of the [Modal] you want to reply with
-    /// @param component  a [ModalTopLevelComponent] to add to this modal
-    /// @param components additional [ModalTopLevelComponent]s to add
+    /// @param component the [ModalTopLevelComponent] to add to this modal
+    /// @param placeholders the [Entry] placeholders to use for [message resolution][MessageResolver]
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
-    public void replyModal(String modal, ModalTopLevelComponent component, ModalTopLevelComponent... components) {
-        replyModal(modal, Stream.concat(Stream.of(component), Arrays.stream(components)).toList());
+    public void replyModal(String modal, ModalTopLevelComponent component, Entry... placeholders) {
+        replyModal(modal, List.of(component), placeholders);
     }
 
     /// Acknowledgement of this event with a [Modal]. This will open a popup on the target users Discord client.
@@ -54,6 +54,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
         if (!(jdaEvent() instanceof IModalCallback callback)) {
             throw new InternalException("reply-failed", entry("event", jdaEvent().getClass().getName()));
         }
+        Checks.notEmpty(components, "Modal components");
 
         InteractionDefinition definition = scopedInvocationContext().definition();
         String definitionId = InteractionDefinition.createDefinitionId(definition.classDescription().name(), modal);
