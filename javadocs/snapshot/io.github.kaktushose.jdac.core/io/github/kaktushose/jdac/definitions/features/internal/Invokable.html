@@ -90,8 +90,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="annotations">@Internal
-</span><span class="modifiers">public sealed interface </span><span class="element-name type-name-label">Invokable</span><span class="extends-implements">
+<div class="type-signature"><span class="modifiers">public sealed interface </span><span class="element-name type-name-label">Invokable</span><span class="extends-implements">
 extends <a href="../../Definition.html" title="interface in io.github.kaktushose.jdac.definitions">Definition</a></span>
 <span class="permits">permits <a href="../../interactions/InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition</a></span></div>
 <div class="block">Indicates that the implementing <a href="../../Definition.html" title="interface in io.github.kaktushose.jdac.definitions"><code>Definition</code></a> is bound to a method that can be invoked.</div>
@@ -178,7 +177,8 @@ extends <a href="../../Definition.html" title="interface in io.github.kaktushose
 <section class="detail" id="invoke(java.lang.Object,io.github.kaktushose.jdac.dispatching.context.InvocationContext)">
 <h3>invoke</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">invoke</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;instance,
+<div class="member-signature"><span class="annotations">@Internal
+</span><span class="modifiers">default</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">invoke</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;instance,
  <a href="../../../dispatching/context/InvocationContext.html" title="class in io.github.kaktushose.jdac.dispatching.context">InvocationContext</a>&lt;?&gt;&nbsp;invocation)</span>
                          throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalAccessException.html" title="class or interface in java.lang" class="external-link">IllegalAccessException</a>,
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/reflect/InvocationTargetException.html" title="class or interface in java.lang.reflect" class="external-link">InvocationTargetException</a></span></div>
