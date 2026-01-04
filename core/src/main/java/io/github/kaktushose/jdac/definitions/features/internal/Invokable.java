@@ -16,7 +16,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.SequencedCollection;
 
 /// Indicates that the implementing [Definition] is bound to a method that can be invoked.
-@ApiStatus.Internal
 public sealed interface Invokable extends Definition permits InteractionDefinition {
 
     Logger log = LoggerFactory.getLogger(Invokable.class);
@@ -31,6 +30,7 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
     ///                                   underlying method is inaccessible
     /// @throws InvocationTargetException if an exception was thrown by the invoked method or constructor
     @Nullable
+    @ApiStatus.Internal
     default Object invoke(Object instance, InvocationContext<?> invocation) throws IllegalAccessException, InvocationTargetException {
         if (!EventHandler.INVOCATION_PERMITTED.orElse(false)) {
             throw new InternalException("invocation-not-permitted");
