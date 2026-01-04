@@ -19,7 +19,7 @@ module io.github.kaktushose.jdac.core {
     requires org.apache.commons.collections4;
     requires io.github.classgraph;
     requires java.logging;
-    requires io.github.kaktushose.jdac.processor;
+    requires static io.github.kaktushose.jdac.processor;
 
     // base package
     exports io.github.kaktushose.jdac;
