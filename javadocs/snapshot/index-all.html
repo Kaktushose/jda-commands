@@ -2796,7 +2796,7 @@ the placeholders.</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/internal/JDACLocalizationFunction.html" class="type-name-link" title="class in io.github.kaktushose.jdac.message.i18n.internal">JDACLocalizationFunction</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/internal/package-summary.html">io.github.kaktushose.jdac.message.i18n.internal</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/internal/JDACLocalizationFunction.html#%3Cinit%3E(io.github.kaktushose.jdac.message.i18n.I18n)" class="member-name-link">JDACLocalizationFunction(I18n)</a> - Constructor for class io.github.kaktushose.jdac.message.i18n.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/internal/JDACLocalizationFunction.html" title="class in io.github.kaktushose.jdac.message.i18n.internal">JDACLocalizationFunction</a></dt>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/internal/JDACLocalizationFunction.html#%3Cinit%3E(io.github.kaktushose.jdac.message.resolver.MessageResolver)" class="member-name-link">JDACLocalizationFunction(MessageResolver)</a> - Constructor for class io.github.kaktushose.jdac.message.i18n.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/internal/JDACLocalizationFunction.html" title="class in io.github.kaktushose.jdac.message.i18n.internal">JDACLocalizationFunction</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/internal/logging/JDACLogger.html" class="type-name-link" title="class in io.github.kaktushose.jdac.internal.logging">JDACLogger</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/internal/logging/package-summary.html">io.github.kaktushose.jdac.internal.logging</a></dt>
 <dd>&nbsp;</dd>
@@ -2960,6 +2960,10 @@ loaded from <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/co
 <dd>
 <div class="block">Sets the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> this <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/embeds/Embed.html" title="class in io.github.kaktushose.jdac.embeds"><code>Embed</code></a> will be localized with.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html#LOCALIZATION_FUNCTION" class="member-name-link">LOCALIZATION_FUNCTION</a> - Static variable in interface io.github.kaktushose.jdac.configuration.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a></dt>
+<dd>
+<div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link"><code>LocalizationFunction</code></a> backed by <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a> used to localize/resolve commands and descriptions.</div>
+</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/CommandDefinition.html#localizationFunction()" class="member-name-link">localizationFunction()</a> - Method in interface io.github.kaktushose.jdac.definitions.interactions.command.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/CommandDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions.command">CommandDefinition</a></dt>
 <dd>
 <div class="block">The <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link"><code>LocalizationFunction</code></a> to use for this command.</div>
@@ -2980,8 +2984,6 @@ loaded from <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/co
 <dd>
 <div class="block">Returns the value of the <code>localizationFunction</code> record component.</div>
 </dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html#localizationFunction()" class="member-name-link">localizationFunction()</a> - Method in class io.github.kaktushose.jdac.message.i18n.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n">I18n</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/FluavaLocalizer.html#localize(java.util.Locale,java.lang.String,java.lang.String,java.util.Map)" class="member-name-link">localize(Locale, String, String, Map)</a> - Method in class io.github.kaktushose.jdac.message.i18n.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/FluavaLocalizer.html" title="class in io.github.kaktushose.jdac.message.i18n">FluavaLocalizer</a></dt>
 <dd>
 <div class="block">This method localizes a given key for a specific bundle and locale.</div>
