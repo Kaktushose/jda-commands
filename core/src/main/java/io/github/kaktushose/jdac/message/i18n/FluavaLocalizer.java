@@ -3,6 +3,7 @@ package io.github.kaktushose.jdac.message.i18n;
 import dev.goldmensch.fluava.Bundle;
 import dev.goldmensch.fluava.Fluava;
 import dev.goldmensch.fluava.FluavaBuilder.FunctionConfig;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
 import java.util.Map;
@@ -33,6 +34,7 @@ public final class FluavaLocalizer implements Localizer {
 
 
     /// {@inheritDoc}
+    ///
     /// For further information regarding functionality, you can take a look at the documentation of:
     ///
     /// - [Fluava#loadBundle(String)] for bundle loading
@@ -44,11 +46,27 @@ public final class FluavaLocalizer implements Localizer {
     /// @param arguments {@inheritDoc}
     /// @return {@inheritDoc}
     @Override
-    public Optional<String> localize(Locale locale, String bundle, String key, Map<String, Object> arguments) {
-        String formattedKey = key.replace('.', '-');
-        String result = cache.computeIfAbsent(bundle, fluava::loadBundle).apply(locale, formattedKey, arguments);
-        return result.equals(formattedKey)
+    public Optional<String> localize(Locale locale, String bundle, String key, Map<String, @Nullable  Object> arguments) {
+        String result = cache.computeIfAbsent(bundle, fluava::loadBundle).apply(locale, key, arguments);
+        return result.equals(key)
                 ? Optional.empty()
                 : Optional.of(result);
+    }
+
+    /// {@inheritDoc}
+    ///
+    /// For further information regarding functionality, you can take a look at the documentation of:
+    ///
+    /// - [Fluava#loadBundle(String)] for bundle loading
+    /// - [Bundle#apply(java.util.Locale, java.lang.String, java.util.Map)] for localization of a given key
+    ///
+    /// @param locale    {@inheritDoc}
+    /// @param bundle    {@inheritDoc}
+    /// @param key       the key to be searched for. Note that all dots (`.`) will be replaced by `-`
+    /// @param arguments {@inheritDoc}
+    /// @return {@inheritDoc}
+    public Optional<String> localizeJDA(Locale locale, String bundle, String key, Map<String, @Nullable Object> arguments) {
+        String formattedKey = key.replace('.', '-');
+        return localize(locale, bundle, formattedKey, arguments);
     }
 }
