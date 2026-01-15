@@ -35,6 +35,7 @@ import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
@@ -202,6 +203,13 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.PROVIDED)
     Property<I18n> I18N =
             new Singleton<>("I18N", Category.PROVIDED, I18n.class, Stage.CONFIGURATION);
+
+    /// The [LocalizationFunction] backed by [MessageResolver] used to localize/resolve commands and descriptions.
+    ///
+    /// @see LocalizationFunction
+    @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.PROVIDED)
+    Property<LocalizationFunction> LOCALIZATION_FUNCTION =
+            new Singleton<>("LOCALIZATION_FUNCTION", Category.PROVIDED, LocalizationFunction.class, Stage.CONFIGURATION);
 
     /// The [MessageResolver] service provided byt JDA-Commands.
     /// Needs the values of [#I18N] and [#EMOJI_RESOLVER].

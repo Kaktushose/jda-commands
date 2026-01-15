@@ -38,6 +38,7 @@ import io.github.kaktushose.jdac.message.emoji.EmojiSource;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
+import io.github.kaktushose.jdac.message.i18n.internal.JDACLocalizationFunction;
 import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
@@ -158,6 +159,7 @@ public class JDACBuilder {
         addFallback(STRING_RESOLVER, ctx -> List.of(ctx.get(I18N), ctx.get(EMOJI_RESOLVER), ctx.get(PLACEHOLDER_RESOLVER)));
         addFallback(MESSAGE_RESOLVER, ctx -> new MessageResolver(ctx.get(STRING_RESOLVER)));
         addFallback(PLACEHOLDER_RESOLVER, _ -> new PlaceholderResolver());
+        addFallback(LOCALIZATION_FUNCTION, ctx -> new JDACLocalizationFunction(ctx.get(MESSAGE_RESOLVER)));
 
         addFallback(EMOJI_RESOLVER, ctx -> {
             Helpers.registerAppEmojis(ctx.get(JDA_CONTEXT), ctx.get(EMOJI_SOURCES));
@@ -367,7 +369,7 @@ public class JDACBuilder {
                 InteractionRegistry interactionRegistry = new InteractionRegistry(
                         new Validators(introspection.get(VALIDATOR)),
                         introspection.get(MESSAGE_RESOLVER),
-                        introspection.get(LOCALIZE_COMMANDS) ? introspection.get(I18N).localizationFunction() : (_) -> Map.of(),
+                        introspection.get(LOCALIZE_COMMANDS) ? introspection.get(LOCALIZATION_FUNCTION) : (_) -> Map.of(),
                         introspection.get(DESCRIPTOR)
                 );
                 Middlewares middlewares = new Middlewares(introspection.get(MIDDLEWARE), introspection.get(ERROR_MESSAGE_FACTORY), introspection.get(PERMISSION_PROVIDER));

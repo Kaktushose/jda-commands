@@ -8,7 +8,6 @@ import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.message.i18n.internal.JDACLocalizationFunction;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.apache.commons.collections4.map.LRUMap;
 import org.jspecify.annotations.Nullable;
 
@@ -137,7 +136,6 @@ public class I18n implements Resolver<String> {
 
     private final Descriptor descriptor;
     private final Localizer localizer;
-    private final LocalizationFunction localizationFunction = new JDACLocalizationFunction(this);
     private final ThreadLocal<ClassDescription> last = new ThreadLocal<>();
 
 
@@ -235,11 +233,6 @@ public class I18n implements Resolver<String> {
     private Optional<String> readAnnotation(Description description) {
         return description.findAnnotation(Bundle.class)
                 .map(Bundle::value);
-    }
-
-    /// @return the [LocalizationFunction] bases on this class, for use with JDA
-    public LocalizationFunction localizationFunction() {
-        return localizationFunction;
     }
 
     /// @return 2000
