@@ -11,6 +11,8 @@ import java.util.Map;
 @ApiStatus.Internal
 public final class JDACLocalizationFunction implements LocalizationFunction {
 
+    public static final ScopedValue<Boolean> JDA_LOCALIZATION = ScopedValue.newInstance();
+
     private final I18n localizer;
 
     public JDACLocalizationFunction(I18n localizer) {
@@ -23,7 +25,8 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
         for (DiscordLocale locale : DiscordLocale.values()) {
             if (locale == DiscordLocale.UNKNOWN) continue;
 
-            String result = localizer.resolve(localizationKey, locale.toLocale(), Map.of());
+
+            String result = ScopedValue.where(JDA_LOCALIZATION, true).call(() -> localizer.resolve(localizationKey, locale.toLocale(), Map.of()));
             if (!result.equals(localizationKey)) {
                 localizations.put(locale, result);
             } else if (localizationKey.contains("description")) {

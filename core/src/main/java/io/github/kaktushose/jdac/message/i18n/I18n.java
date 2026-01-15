@@ -180,8 +180,9 @@ public class I18n implements Resolver<String> {
                     .orElseThrow(() -> new InternalException("default-msg-not-in-bundle", entry("key", key)));
         }
 
-        return localizer.localize(locale, bundle, key, placeholder)
-                .orElse(combinedKey);
+        return (JDACLocalizationFunction.JDA_LOCALIZATION.orElse(false)
+                ? localizer.localizeJDA(locale, bundle, key, placeholder)
+                : localizer.localize(locale, bundle, key, placeholder)).orElse(combinedKey);
     }
 
     private String findBundle() {
