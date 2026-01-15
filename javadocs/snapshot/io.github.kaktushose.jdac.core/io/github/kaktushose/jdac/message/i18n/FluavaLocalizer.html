@@ -64,6 +64,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#localize(java.util.Locale,java.lang.String,java.lang.String,java.util.Map)" tabindex="0">localize(Locale, String, String, Map)</a></li>
+<li><a href="#localizeJDA(java.util.Locale,java.lang.String,java.lang.String,java.util.Map)" tabindex="0">localizeJDA(Locale, String, String, Map)</a></li>
 </ol>
 </li>
 </ol>
@@ -129,9 +130,17 @@ is created with <code>FluavaBuilder.FunctionConfig.fallbackToString(boolean)</co
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localize(java.util.Locale,java.lang.String,java.lang.String,java.util.Map)" class="member-name-link">localize</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bundle,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;arguments)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;arguments)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">This method localizes a given key for a specific bundle and locale.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizeJDA(java.util.Locale,java.lang.String,java.lang.String,java.util.Map)" class="member-name-link">localizeJDA</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bundle,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;arguments)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">This method localizes a given key (coming from JDA's <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link"><code>LocalizationFunction</code></a>) for a specific bundle and locale.</div>
 </div>
 </div>
 </div>
@@ -177,11 +186,11 @@ is created with <code>FluavaBuilder.FunctionConfig.fallbackToString(boolean)</co
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">localize</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bundle,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;arguments)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;arguments)</span></div>
 <div class="block"><p>This method localizes a given key for a specific bundle and locale.
 If no message is found for this combination of locale, bundle and key or an error occurred
-<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html#empty()" title="class or interface in java.util" class="external-link"><code>Optional.empty()</code></a> should be returned.
-For further information regarding functionality, you can take a look at the documentation of:</p>
+<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html#empty()" title="class or interface in java.util" class="external-link"><code>Optional.empty()</code></a> should be returned.</p>
+<p>For further information regarding functionality, you can take a look at the documentation of:</p>
 <ul>
 <li><code>Fluava.loadBundle(String)</code> for bundle loading</li>
 <li><code>Bundle.apply(java.util.Locale, java.lang.String, java.util.Map)</code> for localization of a given key</li>
@@ -194,6 +203,42 @@ For further information regarding functionality, you can take a look at the docu
 <dd><code>locale</code> - the asked for locale</dd>
 <dd><code>bundle</code> - the bundle to search the key in</dd>
 <dd><code>key</code> - the key to be searched for. Note that all dots will be replaced by <code>-</code>.</dd>
+<dd><code>arguments</code> - values for placeholder in the message</dd>
+<dt>Returns:</dt>
+<dd>the localized message or <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html#empty()" title="class or interface in java.util" class="external-link"><code>Optional.empty()</code></a> if no key is found/an error occurred</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="localizeJDA(java.util.Locale,java.lang.String,java.lang.String,java.util.Map)">
+<h3>localizeJDA</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">localizeJDA</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bundle,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;arguments)</span></div>
+<div class="block"><p>This method localizes a given key (coming from JDA's <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link"><code>LocalizationFunction</code></a>) for a specific bundle and locale.
+If no message is found for this combination of locale, bundle and key or an error occurred
+<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html#empty()" title="class or interface in java.util" class="external-link"><code>Optional.empty()</code></a> should be returned.</p>
+<p>The difference to <a href="Localizer.html#localize(java.util.Locale,java.lang.String,java.lang.String,java.util.Map)"><code>Localizer.localize(Locale, String, String, Map)</code></a> is, that this method is only
+used inside our implementation of <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link"><code>LocalizationFunction</code></a>, thus the keys always follow the JDA format (parts are separated by a dot <code>.</code>).</p>
+<p>For example, project fluent (<code>Fluava</code>) disallows <code>.</code> as a &quot;normal&quot; separator in localization keys, therefore
+we have to replace all <code>.</code> with <code>-</code> and then pass it to the <a href="Localizer.html#localize(java.util.Locale,java.lang.String,java.lang.String,java.util.Map)"><code>Localizer.localize(Locale, String, String, Map)</code></a> method.</p>
+
+<p>For further information regarding functionality, you can take a look at the documentation of:</p>
+<ul>
+<li><code>Fluava.loadBundle(String)</code> for bundle loading</li>
+<li><code>Bundle.apply(java.util.Locale, java.lang.String, java.util.Map)</code> for localization of a given key</li>
+</ul>
+</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Localizer.html#localizeJDA(java.util.Locale,java.lang.String,java.lang.String,java.util.Map)">localizeJDA</a></code>&nbsp;in interface&nbsp;<code><a href="Localizer.html" title="interface in io.github.kaktushose.jdac.message.i18n">Localizer</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>locale</code> - the asked for locale</dd>
+<dd><code>bundle</code> - the bundle to search the key in</dd>
+<dd><code>key</code> - the key to be searched for. Note that all dots (<code>.</code>) will be replaced by <code>-</code></dd>
 <dd><code>arguments</code> - values for placeholder in the message</dd>
 <dt>Returns:</dt>
 <dd>the localized message or <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html#empty()" title="class or interface in java.util" class="external-link"><code>Optional.empty()</code></a> if no key is found/an error occurred</dd>
