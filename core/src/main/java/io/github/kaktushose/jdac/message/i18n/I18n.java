@@ -6,6 +6,7 @@ import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.Description;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.message.i18n.internal.JDACLocalizationFunction;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import org.apache.commons.collections4.map.LRUMap;
 import org.jspecify.annotations.Nullable;
