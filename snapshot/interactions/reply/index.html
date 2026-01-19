@@ -2203,8 +2203,8 @@ object, but also directly to the <code>#embed(...)</code> method:</p>
 </div>
 <h2 id="replyconfig">ReplyConfig<a class="headerlink" href="#replyconfig" title="Permanent link">&para;</a></h2>
 <p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/ReplyConfig.html"><code>ReplyConfig</code></a>
-annotation provides a way to modify the default behaviour for the <code>editReply</code>, <code>ephemeral</code> and <code>keepComponents</code> settings. 
-You can either annotate single methods or entire interaction controllers. </p>
+annotation provides a way to modify the default behavior of your replies. You can either annotate single methods or 
+entire interaction controllers. For a list of all possible configurations see the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/InteractionDefinition.ReplyConfig.Builder.html"><code>InteractionDefinition.ReplyConfig.Builder</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">ReplyConfig Annotation</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nd">@Interaction</span>
@@ -2223,7 +2223,7 @@ at the builder:</p>
 <div class="admonition example">
 <p class="admonition-title">Global ReplyConfig</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span><span class="p">.</span><span class="na">globalReplyConfig</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ReplyConfig</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">))</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span><span class="p">.</span><span class="na">globalReplyConfig</span><span class="p">(</span><span class="n">ReplyConfig</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">config</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="na">ephemeral</span><span class="p">(</span><span class="kc">false</span><span class="p">)))</span>
 </span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
 </span></code></pre></div>
 </div>
