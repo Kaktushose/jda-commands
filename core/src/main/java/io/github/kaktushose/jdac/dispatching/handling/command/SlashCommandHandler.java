@@ -107,6 +107,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                             event.replyComponents(errorMessageFactory.getTypeAdaptingFailedMessage(Helpers.errorContext(event, command), failure))
                                     .useComponentsV2()
                                     .setEphemeral(replyConfig.ephemeral())
+                                    .setSuppressedNotifications(replyConfig.silent())
+                                    .setAllowedMentions(replyConfig.allowedMentions())
                                     .queue();
                             return Optional.empty();
                         }

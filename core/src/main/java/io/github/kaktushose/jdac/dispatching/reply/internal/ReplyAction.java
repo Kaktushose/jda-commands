@@ -12,8 +12,10 @@ import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.components.tree.MessageComponentTree;
+import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Message.MentionType;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -27,12 +29,10 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -44,11 +44,14 @@ public final class ReplyAction {
 
     private static final Logger log = JDACLogger.getLogger(ReplyAction.class);
     private final ComponentResolver<MessageTopLevelComponentUnion> componentResolver;
+    private final Set<IMentionable> mentions;
     private MessageCreateBuilder builder;
     private boolean ephemeral;
     private boolean editReply;
     private boolean keepComponents;
     private boolean keepSelections;
+    private boolean silent;
+    private EnumSet<MentionType> allowedMentions;
 
     public ReplyAction(ReplyConfig replyConfig) {
         log.debug("Reply Debug: [Runtime={}]", scopedRuntime().id());
@@ -58,6 +61,9 @@ public final class ReplyAction {
         editReply = replyConfig.editReply();
         keepComponents = replyConfig.keepComponents();
         keepSelections = replyConfig.keepSelections();
+        silent = replyConfig.silent();
+        allowedMentions = replyConfig.allowedMentions();
+        mentions = new HashSet<>();
     }
 
     public void ephemeral(boolean ephemeral) {
@@ -76,8 +82,24 @@ public final class ReplyAction {
         this.keepSelections = keepSelections;
     }
 
+    public void silent(boolean silent) {
+        this.silent = silent;
+    }
+
+    public void allowedMentions(@Nullable Collection<MentionType> allowedMentions) {
+        if (allowedMentions == null) {
+            this.allowedMentions = EnumSet.allOf(MentionType.class);
+        } else {
+            this.allowedMentions = allowedMentions.isEmpty() ? EnumSet.noneOf(MentionType.class) : EnumSet.copyOf(allowedMentions);
+        }
+    }
+
+    public void mention(Collection<IMentionable> mentions) {
+        this.mentions.addAll(mentions);
+    }
+
     public ReplyConfig replyConfig() {
-        return new ReplyConfig(ephemeral, editReply, keepComponents, keepSelections);
+        return new ReplyConfig(ephemeral, editReply, keepComponents, keepSelections, silent, allowedMentions);
     }
 
     public MessageComponentTree componentTree() {
@@ -143,9 +165,17 @@ public final class ReplyAction {
 
         var hook = ((IDeferrableCallback) scopedJdaEvent()).getHook();
         if (editReply) {
-            return hook.editOriginal(MessageEditData.fromCreateData(builder.build())).complete();
+            return hook.editOriginal(MessageEditData.fromCreateData(builder.build()))
+                    .setAllowedMentions(allowedMentions)
+                    .mention(mentions)
+                    .complete();
         }
-        return hook.setEphemeral(ephemeral).sendMessage(builder.build()).complete();
+        return hook.setEphemeral(ephemeral)
+                .sendMessage(builder.build())
+                .setSuppressedNotifications(silent)
+                .setAllowedMentions(allowedMentions)
+                .mention(mentions)
+                .complete();
     }
 
     private List<MessageTopLevelComponentUnion> retrieveComponents(Message original) {

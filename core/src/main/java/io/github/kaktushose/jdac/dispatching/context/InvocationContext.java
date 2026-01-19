@@ -58,7 +58,14 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
     }
 
     private ReplyAction replyAction() {
-        return new ReplyAction(new ReplyConfig(replyConfig().ephemeral(), false, false, false));
+        return new ReplyAction(new ReplyConfig(
+                replyConfig().ephemeral(),
+                false,
+                false,
+                false,
+                replyConfig.silent(),
+                replyConfig.allowedMentions())
+        );
     }
 
     /// @return if the current invocation is canceled

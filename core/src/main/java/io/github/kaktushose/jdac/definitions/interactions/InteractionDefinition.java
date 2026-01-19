@@ -12,9 +12,13 @@ import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDef
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import io.github.kaktushose.jdac.dispatching.middleware.impl.PermissionsMiddleware;
+import net.dv8tion.jda.api.entities.Message.MentionType;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
+import java.util.List;
 import java.util.function.Consumer;
 
 /// Common interface for all definitions that represent an interaction.
@@ -54,7 +58,12 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     /// [`ReplyConfig`][io.github.kaktushose.jdac.annotations.interactions.ReplyConfig].
     ///
     /// @see io.github.kaktushose.jdac.annotations.interactions.ReplyConfig ReplyConfig
-    record ReplyConfig(boolean ephemeral, boolean keepComponents, boolean keepSelections, boolean editReply) {
+    record ReplyConfig(boolean ephemeral,
+                       boolean keepComponents,
+                       boolean keepSelections,
+                       boolean editReply,
+                       boolean silent,
+                       EnumSet<MentionType> allowedMentions) {
 
         /// Constructs a new [ReplyConfig] using the following default values:
         /// - ephemeral: `false`
@@ -62,14 +71,21 @@ public sealed interface InteractionDefinition extends Definition, Invokable
         /// - keepSelections: `true`
         /// - editReply: `true`
         public ReplyConfig() {
-            this(false, true, true, true);
+            this(false, true, true, true, false, EnumSet.allOf(MentionType.class));
         }
 
         /// Constructs a new ReplyConfig.
         ///
         /// @param replyConfig the [`ReplyConfig`][io.github.kaktushose.jdac.annotations.interactions.ReplyConfig] to represent
         public ReplyConfig(io.github.kaktushose.jdac.annotations.interactions.ReplyConfig replyConfig) {
-            this(replyConfig.ephemeral(), replyConfig.keepComponents(), replyConfig.keepSelections(), replyConfig.editReply());
+            List<MentionType> allowedMentions = Arrays.asList(replyConfig.allowedMentions());
+            this(replyConfig.ephemeral(),
+                    replyConfig.keepComponents(),
+                    replyConfig.keepSelections(),
+                    replyConfig.editReply(),
+                    replyConfig.silent(),
+                    allowedMentions.isEmpty() ? EnumSet.noneOf(MentionType.class) : EnumSet.copyOf(allowedMentions)
+            );
         }
 
         /// Constructs a new ReplyConfig after the given [Consumer] modified the [Builder].
@@ -86,6 +102,8 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             private boolean keepComponents;
             private boolean keepSelections;
             private boolean editReply;
+            private boolean silent;
+            private EnumSet<MentionType> allowedMentions;
 
             /// Constructs a new Builder.
             public Builder() {
@@ -93,6 +111,8 @@ public sealed interface InteractionDefinition extends Definition, Invokable
                 keepComponents = true;
                 keepSelections = true;
                 editReply = true;
+                silent = false;
+                allowedMentions = EnumSet.allOf(MentionType.class);
             }
 
             /// Whether to send ephemeral replies. Default value is `false`.
@@ -134,8 +154,26 @@ public sealed interface InteractionDefinition extends Definition, Invokable
                 return this;
             }
 
+            /// Whether to suppress notifications of a message. Defaults to `false`.
+            ///
+            /// @see net.dv8tion.jda.api.utils.messages.MessageCreateRequest#setSuppressedNotifications(boolean)
+            public Builder silent(boolean silent) {
+                this.silent = silent;
+                return this;
+            }
+
+            /// Sets the [MentionType]s that should be parsed. By default, all [MentionType]s are allowed.
+            ///
+            /// @implNote This will always override the old value.
+            ///
+            /// @see net.dv8tion.jda.api.utils.messages.MessageCreateRequest#setAllowedMentions(Collection)
+            public Builder allowedMentions(Collection<MentionType> allowedMentions) {
+                this.allowedMentions = EnumSet.copyOf(allowedMentions);
+                return this;
+            }
+
             private ReplyConfig build() {
-                return new ReplyConfig(ephemeral, keepComponents, keepSelections, editReply);
+                return new ReplyConfig(ephemeral, keepComponents, keepSelections, editReply, silent, allowedMentions);
             }
         }
     }

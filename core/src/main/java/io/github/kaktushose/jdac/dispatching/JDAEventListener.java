@@ -2,6 +2,8 @@ package io.github.kaktushose.jdac.dispatching;
 
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
@@ -72,10 +74,14 @@ public final class JDAEventListener extends ListenerAdapter {
         } else {
             componentEvent.deferReply(true).queue();
         }
+
+        ReplyConfig replyConfig = introspection.get(Property.GLOBAL_REPLY_CONFIG);
         componentEvent.getHook()
                 .sendMessageComponents(introspection.get(Property.ERROR_MESSAGE_FACTORY).getTimedOutComponentMessage(jdaEvent))
                 .useComponentsV2()
                 .setEphemeral(true)
+                .setSuppressedNotifications(replyConfig.silent())
+                .setAllowedMentions(replyConfig.allowedMentions())
                 .queue();
     }
 
