@@ -8,6 +8,7 @@ import io.github.kaktushose.jdac.definitions.interactions.ModalDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.SelectMenuDefinition;
+import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.ButtonComponent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.internal.UnspecificComponent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;

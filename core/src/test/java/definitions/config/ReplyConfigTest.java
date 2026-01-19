@@ -33,6 +33,7 @@ class ReplyConfigTest {
         assertEquals(config.editReply(), fallback.editReply());
         assertEquals(config.keepComponents(), fallback.keepComponents());
         assertEquals(config.keepSelections(), fallback.keepSelections());
+        assertEquals(config.silent(), fallback.silent());
     }
 
     @Test
@@ -43,6 +44,7 @@ class ReplyConfigTest {
         assertFalse(config.editReply());
         assertFalse(config.keepComponents());
         assertFalse(config.keepSelections());
+        assertTrue(config.silent());
     }
 
     @Test
@@ -52,6 +54,7 @@ class ReplyConfigTest {
         assertFalse(config.editReply());
         assertFalse(config.keepComponents());
         assertFalse(config.keepSelections());
+        assertTrue(config.silent());
     }
 
     @Test
@@ -63,6 +66,7 @@ class ReplyConfigTest {
         assertEquals(first.editReply(), second.editReply());
         assertEquals(first.keepComponents(), second.keepComponents());
         assertEquals(first.keepSelections(), second.keepSelections());
+        assertEquals(first.silent(), second.silent());
     }
 
     @Test
@@ -72,6 +76,7 @@ class ReplyConfigTest {
         assertTrue(config.editReply());
         assertTrue(config.keepComponents());
         assertTrue(config.keepSelections());
+        assertFalse(config.silent());
     }
 
     @Interaction
@@ -82,13 +87,13 @@ class ReplyConfigTest {
         }
 
         @Button
-        @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false)
+        @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false, silent = true)
         public void customValues(ComponentEvent event) {
         }
     }
 
     @Interaction
-    @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false)
+    @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false, silent = true)
     private static class ClassLevelConfig {
 
         @Button
@@ -96,7 +101,7 @@ class ReplyConfigTest {
         }
 
         @Button
-        @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false)
+        @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false, silent = true)
         public void sameValues(ComponentEvent event) {
         }
 

@@ -61,6 +61,15 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
         return this;
     }
 
+    /// Whether to suppress notifications of this message. Defaults to `false`.
+    ///
+    /// @return the current instance for fluent interface
+    /// @see net.dv8tion.jda.api.utils.messages.MessageCreateRequest#setSuppressedNotifications(boolean)
+    public ConfigurableReply silent(boolean silent) {
+        replyAction.silent(silent);
+        return this;
+    }
+
     /// Acknowledgement of this event with V2 Components.
     ///
     /// Using V2 components removes the top-level component limit,
@@ -79,7 +88,7 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
     ///   - URLs don't create embeds
     ///   - You cannot switch this message back to not using Components V2 (you can however upgrade a message to V2)
     ///
-    /// @param component the [MessageTopLevelComponent] to reply with
+    /// @param component   the [MessageTopLevelComponent] to reply with
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
     public Message reply(MessageTopLevelComponent component, Entry... placeholder) {
         return reply(List.of(component), placeholder);
@@ -103,7 +112,7 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
     ///   - URLs don't create embeds
     ///   - You cannot switch this message back to not using Components V2 (you can however upgrade a message to V2)
     ///
-    /// @param components a [Collection] of [MessageTopLevelComponent]s to reply with
+    /// @param components  a [Collection] of [MessageTopLevelComponent]s to reply with
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
     public Message reply(Collection<MessageTopLevelComponent> components, Entry... placeholder) {
         MessageComponentTree componentTree = ComponentTree.forMessage(components);

@@ -49,6 +49,7 @@ public final class ReplyAction {
     private boolean editReply;
     private boolean keepComponents;
     private boolean keepSelections;
+    private boolean silent;
 
     public ReplyAction(ReplyConfig replyConfig) {
         log.debug("Reply Debug: [Runtime={}]", scopedRuntime().id());
@@ -58,6 +59,7 @@ public final class ReplyAction {
         editReply = replyConfig.editReply();
         keepComponents = replyConfig.keepComponents();
         keepSelections = replyConfig.keepSelections();
+        silent = replyConfig.silent();
     }
 
     public void ephemeral(boolean ephemeral) {
@@ -76,8 +78,12 @@ public final class ReplyAction {
         this.keepSelections = keepSelections;
     }
 
+    public void silent(boolean silent) {
+        this.silent = silent;
+    }
+
     public ReplyConfig replyConfig() {
-        return new ReplyConfig(ephemeral, editReply, keepComponents, keepSelections);
+        return new ReplyConfig(ephemeral, editReply, keepComponents, keepSelections, silent);
     }
 
     public MessageComponentTree componentTree() {
@@ -145,7 +151,7 @@ public final class ReplyAction {
         if (editReply) {
             return hook.editOriginal(MessageEditData.fromCreateData(builder.build())).complete();
         }
-        return hook.setEphemeral(ephemeral).sendMessage(builder.build()).complete();
+        return hook.setEphemeral(ephemeral).sendMessage(builder.build()).setSuppressedNotifications(silent).complete();
     }
 
     private List<MessageTopLevelComponentUnion> retrieveComponents(Message original) {

@@ -151,8 +151,13 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
             // we don't call invocation#cancel here so we have control over the edit behavior. If removing the component
             // would make the message invalid we just replace it with the error message
-            new ReplyAction(
-                    new ReplyConfig(invocation.replyConfig().ephemeral(), false, false, edit)
+            new ReplyAction(new ReplyConfig(
+                    invocation.replyConfig().ephemeral(),
+                    false,
+                    false,
+                    edit,
+                    invocation.replyConfig().silent()
+            )
             ).reply(errorMessageFactory.getInteractionExecutionFailedMessage(invocation, throwable));
         }
     }

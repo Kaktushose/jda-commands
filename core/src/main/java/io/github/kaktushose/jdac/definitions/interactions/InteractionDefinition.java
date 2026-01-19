@@ -54,7 +54,11 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     /// [`ReplyConfig`][io.github.kaktushose.jdac.annotations.interactions.ReplyConfig].
     ///
     /// @see io.github.kaktushose.jdac.annotations.interactions.ReplyConfig ReplyConfig
-    record ReplyConfig(boolean ephemeral, boolean keepComponents, boolean keepSelections, boolean editReply) {
+    record ReplyConfig(boolean ephemeral,
+                       boolean keepComponents,
+                       boolean keepSelections,
+                       boolean editReply,
+                       boolean silent) {
 
         /// Constructs a new [ReplyConfig] using the following default values:
         /// - ephemeral: `false`
@@ -62,14 +66,19 @@ public sealed interface InteractionDefinition extends Definition, Invokable
         /// - keepSelections: `true`
         /// - editReply: `true`
         public ReplyConfig() {
-            this(false, true, true, true);
+            this(false, true, true, true, false);
         }
 
         /// Constructs a new ReplyConfig.
         ///
         /// @param replyConfig the [`ReplyConfig`][io.github.kaktushose.jdac.annotations.interactions.ReplyConfig] to represent
         public ReplyConfig(io.github.kaktushose.jdac.annotations.interactions.ReplyConfig replyConfig) {
-            this(replyConfig.ephemeral(), replyConfig.keepComponents(), replyConfig.keepSelections(), replyConfig.editReply());
+            this(replyConfig.ephemeral(),
+                    replyConfig.keepComponents(),
+                    replyConfig.keepSelections(),
+                    replyConfig.editReply(),
+                    replyConfig.silent()
+            );
         }
 
         /// Constructs a new ReplyConfig after the given [Consumer] modified the [Builder].
@@ -86,6 +95,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             private boolean keepComponents;
             private boolean keepSelections;
             private boolean editReply;
+            private boolean silent;
 
             /// Constructs a new Builder.
             public Builder() {
@@ -93,6 +103,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
                 keepComponents = true;
                 keepSelections = true;
                 editReply = true;
+                silent = false;
             }
 
             /// Whether to send ephemeral replies. Default value is `false`.
@@ -134,8 +145,16 @@ public sealed interface InteractionDefinition extends Definition, Invokable
                 return this;
             }
 
+            /// Whether to suppress notifications of a message. Defaults to `false`.
+            ///
+            /// @see net.dv8tion.jda.api.utils.messages.MessageCreateRequest#setSuppressedNotifications(boolean)
+            public Builder silent(boolean silent) {
+                this.silent = silent;
+                return this;
+            }
+
             private ReplyConfig build() {
-                return new ReplyConfig(ephemeral, keepComponents, keepSelections, editReply);
+                return new ReplyConfig(ephemeral, keepComponents, keepSelections, editReply, silent);
             }
         }
     }

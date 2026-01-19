@@ -63,6 +63,14 @@ public @interface ReplyConfig {
 
     /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
     /// [#keepComponents()] `true`.
+    ///
+    /// @return `true` if to keep selections
     boolean keepSelections() default true;
+
+    /// Whether to suppress notifications of a message. Defaults to `false`.
+    ///
+    /// @return `true` if to suppress mentions
+    /// @see net.dv8tion.jda.api.utils.messages.MessageCreateRequest#setSuppressedNotifications(boolean)
+    boolean silent() default false;
 
 }
