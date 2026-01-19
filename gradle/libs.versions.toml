@@ -3,11 +3,11 @@
 
 [versions]
 com-fasterxml-jackson-core = "2.17.2"
-net-dv8tion-jda = "6.1.1"
+net-dv8tion-jda = "6.3.0"
 org-jetbrains-annotations = "24.0.1"
 org-slf4j-slf4j = "2.0.5"
 com-google-inject-guice = "7.0.0"
-dev-goldmensch-fluava = "1.2.1"
+dev-goldmensch-fluava = "1.2.2"
 org-junit-jupiter = "5.13.0"
 org-mockito = "5.18.0"
 
