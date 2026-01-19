@@ -210,4 +210,15 @@ public final class JDACommands {
     public Introspection introspection() {
         return introspection;
     }
+
+    /// Gets the value of a property.
+    ///
+    /// This is a shortcut for `JDACommands#introscpection#get`
+    ///
+    /// @param property the [Property] description
+    /// @return T
+    /// @param <T> the type of property
+    public <T> T property(Property<T> property) {
+        return introspection.get(property);
+    }
 }
