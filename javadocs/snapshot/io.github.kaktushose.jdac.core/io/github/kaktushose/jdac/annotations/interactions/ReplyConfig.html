@@ -61,6 +61,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#keepComponents()" tabindex="0">keepComponents</a></li>
 <li><a href="#editReply()" tabindex="0">editReply</a></li>
 <li><a href="#keepSelections()" tabindex="0">keepSelections</a></li>
+<li><a href="#silent()" tabindex="0">silent</a></li>
+<li><a href="#allowedMentions()" tabindex="0">allowedMentions</a></li>
 </ol>
 </li>
 </ol>
@@ -113,25 +115,35 @@ will be used instead.</p>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Optional Element</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>boolean</code></div>
-<div class="col-second even-row-color"><code><a href="#editReply()" class="member-name-link">editReply</a></code></div>
+<div class="col-first even-row-color"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.MentionType.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message.MentionType</a>[]</code></div>
+<div class="col-second even-row-color"><code><a href="#allowedMentions()" class="member-name-link">allowedMentions</a></code></div>
 <div class="col-last even-row-color">
+<div class="block">Sets the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.MentionType.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message.MentionType</code></a>s to parse.</div>
+</div>
+<div class="col-first odd-row-color"><code>boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#editReply()" class="member-name-link">editReply</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">Whether to edit the original message or to send a new one.</div>
 </div>
-<div class="col-first odd-row-color"><code>boolean</code></div>
-<div class="col-second odd-row-color"><code><a href="#ephemeral()" class="member-name-link">ephemeral</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>boolean</code></div>
+<div class="col-second even-row-color"><code><a href="#ephemeral()" class="member-name-link">ephemeral</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">Whether to send ephemeral replies.</div>
 </div>
-<div class="col-first even-row-color"><code>boolean</code></div>
-<div class="col-second even-row-color"><code><a href="#keepComponents()" class="member-name-link">keepComponents</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#keepComponents()" class="member-name-link">keepComponents</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">Whether to keep the original components when editing a message.</div>
 </div>
-<div class="col-first odd-row-color"><code>boolean</code></div>
-<div class="col-second odd-row-color"><code><a href="#keepSelections()" class="member-name-link">keepSelections</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>boolean</code></div>
+<div class="col-second even-row-color"><code><a href="#keepSelections()" class="member-name-link">keepSelections</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">Whether to keep the selections of a string select menu when sending edits.</div>
+</div>
+<div class="col-first odd-row-color"><code>boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#silent()" class="member-name-link">silent</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Whether to suppress notifications of a message.</div>
 </div>
 </div>
 </section>
@@ -219,8 +231,56 @@ For example if this event is a ButtonEvent, the original message will be the mes
 <div class="block">Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
 <a href="#keepComponents()"><code>keepComponents()</code></a> <code>true</code>.</div>
 <dl class="notes">
+<dt>Returns:</dt>
+<dd><code>true</code> if to keep selections</dd>
+</dl>
+<dl class="notes">
 <dt>Default:</dt>
 <dd><code>true</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="silent()">
+<h3>silent</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">silent</span></div>
+<div class="block">Whether to suppress notifications of a message. Defaults to <code>false</code>.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd><code>true</code> if to suppress mentions</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateRequest.html#setSuppressedNotifications(boolean)" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateRequest.setSuppressedNotifications(boolean)</code></a></li>
+</ul>
+</dd>
+</dl>
+<dl class="notes">
+<dt>Default:</dt>
+<dd><code>false</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="allowedMentions()">
+<h3>allowedMentions</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.MentionType.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message.MentionType</a>[]</span>&nbsp;<span class="element-name">allowedMentions</span></div>
+<div class="block">Sets the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.MentionType.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message.MentionType</code></a>s to parse. By default, all mentions are allowed.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageRequest.html#setAllowedMentions(java.util.Collection)" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageRequest.setAllowedMentions(Collection)</code></a></li>
+</ul>
+</dd>
+</dl>
+<dl class="notes">
+<dt>Default:</dt>
+<dd><code>{CHANNEL, USER, ROLE, HERE, EVERYONE, EMOJI, SLASH_COMMAND}</code></dd>
 </dl>
 </div>
 </section>

@@ -67,6 +67,9 @@ loadScripts(document, 'script');</script>
 <li><a href="#editReply(boolean)" tabindex="0">editReply(boolean)</a></li>
 <li><a href="#keepComponents(boolean)" tabindex="0">keepComponents(boolean)</a></li>
 <li><a href="#keepSelections(boolean)" tabindex="0">keepSelections(boolean)</a></li>
+<li><a href="#silent(boolean)" tabindex="0">silent(boolean)</a></li>
+<li><a href="#allowedMentions(java.util.Collection)" tabindex="0">allowedMentions(Collection)</a></li>
+<li><a href="#mention(java.util.Collection)" tabindex="0">mention(Collection)</a></li>
 <li><a href="#replyConfig()" tabindex="0">replyConfig()</a></li>
 <li><a href="#componentTree()" tabindex="0">componentTree()</a></li>
 <li><a href="#reply(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">reply(String, Entry...)</a></li>
@@ -132,22 +135,28 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addEmbeds(net.dv8tion.jda.api.entities.MessageEmbed...)" class="member-name-link">addEmbeds</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/MessageEmbed.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">MessageEmbed</a>...&nbsp;embeds)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#builder(java.util.function.Consumer)" class="member-name-link">builder</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateBuilder.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateBuilder</a>&gt;&nbsp;builder)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/tree/MessageComponentTree.html" title="class or interface in net.dv8tion.jda.api.components.tree" class="external-link">MessageComponentTree</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#componentTree()" class="member-name-link">componentTree</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#editReply(boolean)" class="member-name-link">editReply</a><wbr>(boolean&nbsp;editReply)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#allowedMentions(java.util.Collection)" class="member-name-link">allowedMentions</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.MentionType.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message.MentionType</a>&gt;&nbsp;allowedMentions)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ephemeral(boolean)" class="member-name-link">ephemeral</a><wbr>(boolean&nbsp;ephemeral)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#builder(java.util.function.Consumer)" class="member-name-link">builder</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateBuilder.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateBuilder</a>&gt;&nbsp;builder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keepComponents(boolean)" class="member-name-link">keepComponents</a><wbr>(boolean&nbsp;keepComponents)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/tree/MessageComponentTree.html" title="class or interface in net.dv8tion.jda.api.components.tree" class="external-link">MessageComponentTree</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#componentTree()" class="member-name-link">componentTree</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keepSelections(boolean)" class="member-name-link">keepSelections</a><wbr>(boolean&nbsp;keepSelections)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#editReply(boolean)" class="member-name-link">editReply</a><wbr>(boolean&nbsp;editReply)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ephemeral(boolean)" class="member-name-link">ephemeral</a><wbr>(boolean&nbsp;ephemeral)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keepComponents(boolean)" class="member-name-link">keepComponents</a><wbr>(boolean&nbsp;keepComponents)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keepSelections(boolean)" class="member-name-link">keepSelections</a><wbr>(boolean&nbsp;keepSelections)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#mention(java.util.Collection)" class="member-name-link">mention</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/IMentionable.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">IMentionable</a>&gt;&nbsp;mentions)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply()" class="member-name-link">reply</a>()</code></div>
@@ -178,6 +187,9 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../definitions/interactions/InteractionDefinition.ReplyConfig.html" title="class in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition.ReplyConfig</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#replyConfig()" class="member-name-link">replyConfig</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#silent(boolean)" class="member-name-link">silent</a><wbr>(boolean&nbsp;silent)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -240,6 +252,31 @@ loadScripts(document, 'script');</script>
 <h3>keepSelections</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">keepSelections</span><wbr><span class="parameters">(boolean&nbsp;keepSelections)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="silent(boolean)">
+<h3>silent</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">silent</span><wbr><span class="parameters">(boolean&nbsp;silent)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="allowedMentions(java.util.Collection)">
+<h3>allowedMentions</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">allowedMentions</span><wbr><span class="parameters">(@Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.MentionType.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message.MentionType</a>&gt;&nbsp;allowedMentions)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="mention(java.util.Collection)">
+<h3>mention</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">mention</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/IMentionable.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">IMentionable</a>&gt;&nbsp;mentions)</span></div>
 </div>
 </section>
 </li>

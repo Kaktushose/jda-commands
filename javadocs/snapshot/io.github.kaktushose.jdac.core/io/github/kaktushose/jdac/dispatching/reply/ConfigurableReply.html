@@ -65,6 +65,10 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#ephemeral(boolean)" tabindex="0">ephemeral(boolean)</a></li>
+<li><a href="#silent(boolean)" tabindex="0">silent(boolean)</a></li>
+<li><a href="#allowedMentions(java.util.Collection)" tabindex="0">allowedMentions(Collection)</a></li>
+<li><a href="#mention(net.dv8tion.jda.api.entities.IMentionable...)" tabindex="0">mention(IMentionable...)</a></li>
+<li><a href="#mention(java.util.Collection)" tabindex="0">mention(Collection)</a></li>
 <li><a href="#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">reply(MessageTopLevelComponent, Entry...)</a></li>
 <li><a href="#reply(java.util.Collection,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">reply(Collection, Entry...)</a></li>
 </ol>
@@ -149,21 +153,41 @@ public class ExampleCommand {
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ephemeral(boolean)" class="member-name-link">ephemeral</a><wbr>(boolean&nbsp;ephemeral)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#allowedMentions(java.util.Collection)" class="member-name-link">allowedMentions</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.MentionType.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message.MentionType</a>&gt;&nbsp;allowedMentions)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.MentionType.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message.MentionType</code></a>s to be parsed.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ephemeral(boolean)" class="member-name-link">ephemeral</a><wbr>(boolean&nbsp;ephemeral)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Whether to send ephemeral replies.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#mention(java.util.Collection)" class="member-name-link">mention</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/IMentionable.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">IMentionable</a>&gt;&nbsp;mentions)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Used to provide a whitelist for Users, Members and Roles that should be pinged.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#mention(net.dv8tion.jda.api.entities.IMentionable...)" class="member-name-link">mention</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/IMentionable.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">IMentionable</a>...&nbsp;mentions)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Used to provide a whitelist for Users, Members and Roles that should be pinged.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(java.util.Collection,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>&gt;&nbsp;components,
+ <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Acknowledgement of this event with V2 Components.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(java.util.Collection,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>&gt;&nbsp;components,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>&nbsp;component,
  <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acknowledgement of this event with V2 Components.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>&nbsp;component,
- <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#silent(boolean)" class="member-name-link">silent</a><wbr>(boolean&nbsp;silent)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Acknowledgement of this event with V2 Components.</div>
+<div class="block">Whether to suppress notifications of this message.</div>
 </div>
 </div>
 </div>
@@ -226,6 +250,101 @@ Limitations:</p>
 <dd><code>ephemeral</code> - <code>true</code> if to send ephemeral replies</dd>
 <dt>Returns:</dt>
 <dd>the current instance for fluent interface</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="silent(boolean)">
+<h3>silent</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></span>&nbsp;<span class="element-name">silent</span><wbr><span class="parameters">(boolean&nbsp;silent)</span></div>
+<div class="block"><p>Whether to suppress notifications of this message. Defaults to <code>false</code>.</p>
+<p><strong>This will override both <a href="../../JDACBuilder.html#globalReplyConfig(io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig)"><code>JDACBuilder.globalReplyConfig(InteractionDefinition.ReplyConfig)</code></a> and any <a href="../../annotations/interactions/ReplyConfig.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>ReplyConfig</code></a> annotation!</strong></p>
+</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the current instance for fluent interface</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateRequest.html#setSuppressedNotifications(boolean)" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageCreateRequest.setSuppressedNotifications(boolean)</code></a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="allowedMentions(java.util.Collection)">
+<h3>allowedMentions</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></span>&nbsp;<span class="element-name">allowedMentions</span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.MentionType.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message.MentionType</a>&gt;&nbsp;allowedMentions)</span></div>
+<div class="block"><p>Sets the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.MentionType.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message.MentionType</code></a>s to be parsed.</p>
+<p><strong>This will override <a href="../../JDACBuilder.html#globalReplyConfig(io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig)"><code>JDACBuilder.globalReplyConfig(InteractionDefinition.ReplyConfig)</code></a>, any <a href="../../annotations/interactions/ReplyConfig.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>ReplyConfig</code></a> annotation
+as well as previous method calls!</strong></p>
+<p>If <code>null</code> is provided to this method, then all Types will be mentionable (unless whitelisting via
+<a href="#mention(net.dv8tion.jda.api.entities.IMentionable...)"><code>mention(IMentionable...)</code></a> or <a href="#mention(java.util.Collection)"><code>mention(Collection)</code></a>).</p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>allowedMentions</code> - <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.MentionType.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message.MentionType</code></a>s that are allowed to be parsed and mentioned. All other mention types will
+not be mentioned by this message. You can pass <code>null</code> or
+<code>EnumSet.allOf(MentionType.class)</code> to allow all mentions.</dd>
+<dt>Returns:</dt>
+<dd>the current instance for fluent interface</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageRequest.html#setAllowedMentions(java.util.Collection)" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageRequest.setAllowedMentions(Collection)</code></a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="mention(net.dv8tion.jda.api.entities.IMentionable...)">
+<h3>mention</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></span>&nbsp;<span class="element-name">mention</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/IMentionable.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">IMentionable</a>...&nbsp;mentions)</span></div>
+<div class="block"><p>Used to provide a whitelist for Users, Members and Roles that should be pinged. See the JDA docs for details.</p>
+<p>This will add up to previous method calls.</p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mentions</code> - Users, Members and Roles that should be explicitly whitelisted to be pingable.</dd>
+<dt>Returns:</dt>
+<dd>the current instance for fluent interface</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageRequest.html#mention(net.dv8tion.jda.api.entities.IMentionable...)" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageRequest.mention(IMentionable...)</code></a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="mention(java.util.Collection)">
+<h3>mention</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ConfigurableReply.html" title="class in io.github.kaktushose.jdac.dispatching.reply">ConfigurableReply</a></span>&nbsp;<span class="element-name">mention</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/IMentionable.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">IMentionable</a>&gt;&nbsp;mentions)</span></div>
+<div class="block"><p>Used to provide a whitelist for Users, Members and Roles that should be pinged. See the JDA docs for details.</p>
+<p>This will add up to previous method calls.</p>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mentions</code> - Users, Members and Roles that should be explicitly whitelisted to be pingable.</dd>
+<dt>Returns:</dt>
+<dd>the current instance for fluent interface</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageRequest.html#mention(java.util.Collection)" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link"><code>MessageRequest.mention(Collection)</code></a></li>
+</ul>
+</dd>
 </dl>
 </div>
 </section>
