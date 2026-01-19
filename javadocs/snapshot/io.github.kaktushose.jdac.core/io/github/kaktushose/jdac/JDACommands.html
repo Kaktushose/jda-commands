@@ -69,6 +69,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#embed(java.lang.String)" tabindex="0">embed(String)</a></li>
 <li><a href="#findEmbed(java.lang.String)" tabindex="0">findEmbed(String)</a></li>
 <li><a href="#introspection()" tabindex="0">introspection()</a></li>
+<li><a href="#property(io.github.kaktushose.jdac.configuration.Property)" tabindex="0">property(Property)</a></li>
 </ol>
 </li>
 </ol>
@@ -144,29 +145,34 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selecti
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the <a href="introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> instance with stage <a href="introspection/Stage.html#INITIALIZED"><code>Stage.INITIALIZED</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#shutdown()" class="member-name-link">shutdown</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T&gt;&nbsp;T</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#property(io.github.kaktushose.jdac.configuration.Property)" class="member-name-link">property</a><wbr>(<a href="configuration/Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;T&gt;&nbsp;property)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the value of a property.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#shutdown()" class="member-name-link">shutdown</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Shuts down this JDACommands instance, making it unable to receive any events from Discord.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="JDACommands.html" title="class in io.github.kaktushose.jdac">JDACommands</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#start(net.dv8tion.jda.api.JDA)" class="member-name-link">start</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&nbsp;jda)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.</div>
-</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="JDACommands.html" title="class in io.github.kaktushose.jdac">JDACommands</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#start(net.dv8tion.jda.api.sharding.ShardManager)" class="member-name-link">start</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/sharding/ShardManager.html" title="class or interface in net.dv8tion.jda.api.sharding" class="external-link">ShardManager</a>&nbsp;shardManager)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#start(net.dv8tion.jda.api.JDA)" class="member-name-link">start</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html" title="class or interface in net.dv8tion.jda.api" class="external-link">JDA</a>&nbsp;jda)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateGuildCommands()" class="member-name-link">updateGuildCommands</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Updates all slash commands that are registered with <a href="annotations/interactions/CommandScope.html#GUILD"><code>CommandScope.GUILD</code></a></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="JDACommands.html" title="class in io.github.kaktushose.jdac">JDACommands</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#start(net.dv8tion.jda.api.sharding.ShardManager)" class="member-name-link">start</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/sharding/ShardManager.html" title="class or interface in net.dv8tion.jda.api.sharding" class="external-link">ShardManager</a>&nbsp;shardManager)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateGuildCommands(java.util.Collection)" class="member-name-link">updateGuildCommands</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Guild.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Guild</a>&gt;&nbsp;guilds)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateGuildCommands()" class="member-name-link">updateGuildCommands</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Updates all slash commands that are registered with <a href="annotations/interactions/CommandScope.html#GUILD"><code>CommandScope.GUILD</code></a></div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateGuildCommands(java.util.Collection)" class="member-name-link">updateGuildCommands</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Guild.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Guild</a>&gt;&nbsp;guilds)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Updates all slash commands that are registered with <a href="annotations/interactions/CommandScope.html#GUILD"><code>CommandScope.GUILD</code></a> for the given <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Guild.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Guild</code></a>s.</div>
 </div>
 </div>
@@ -375,6 +381,25 @@ This may be useful if you want to send a component without using the framework.<
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the <a href="introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> instance</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="property(io.github.kaktushose.jdac.configuration.Property)">
+<h3>property</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">property</span><wbr><span class="parameters">(<a href="configuration/Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;T&gt;&nbsp;property)</span></div>
+<div class="block"><p>Gets the value of a property.</p>
+<p>This is a shortcut for <code>JDACommands#introscpection#get</code></p>
+</div>
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><span id="property(io.github.kaktushose.jdac.configuration.Property)-type-param-T"><code>T</code> - the type of property</span></dd>
+<dt>Parameters:</dt>
+<dd><code>property</code> - the <a href="configuration/Property.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Property</code></a> description</dd>
+<dt>Returns:</dt>
+<dd>T</dd>
 </dl>
 </div>
 </section>
