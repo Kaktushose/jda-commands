@@ -108,6 +108,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                                     .useComponentsV2()
                                     .setEphemeral(replyConfig.ephemeral())
                                     .setSuppressedNotifications(replyConfig.silent())
+                                    .setAllowedMentions(replyConfig.allowedMentions())
                                     .queue();
                             return Optional.empty();
                         }

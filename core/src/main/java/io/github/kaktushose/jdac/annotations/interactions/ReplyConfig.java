@@ -4,11 +4,13 @@ import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.dispatching.events.ReplyableEvent;
 import io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply;
 import io.github.kaktushose.jdac.dispatching.reply.EditableConfigurableReply;
+import net.dv8tion.jda.api.entities.Message.MentionType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Collection;
 
 /// Used to configure the reply behaviour of interaction replies.
 ///
@@ -72,5 +74,10 @@ public @interface ReplyConfig {
     /// @return `true` if to suppress mentions
     /// @see net.dv8tion.jda.api.utils.messages.MessageCreateRequest#setSuppressedNotifications(boolean)
     boolean silent() default false;
+
+    /// Sets the [MentionType]s to parse. By default, all mentions are allowed.
+    ///
+    /// @see net.dv8tion.jda.api.utils.messages.MessageCreateRequest#setAllowedMentions(Collection)
+    MentionType[] allowedMentions() default {MentionType.CHANNEL, MentionType.USER, MentionType.ROLE, MentionType.HERE, MentionType.EVERYONE, MentionType.EMOJI, MentionType.SLASH_COMMAND};
 
 }

@@ -10,9 +10,14 @@ import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.components.tree.ComponentTree;
 import net.dv8tion.jda.api.components.tree.MessageComponentTree;
+import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Message.MentionType;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.utils.messages.MessageCreateRequest;
+import org.jspecify.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -63,10 +68,53 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
 
     /// Whether to suppress notifications of this message. Defaults to `false`.
     ///
+    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any [ReplyConfig] annotation!**
+    ///
     /// @return the current instance for fluent interface
-    /// @see net.dv8tion.jda.api.utils.messages.MessageCreateRequest#setSuppressedNotifications(boolean)
+    /// @see MessageCreateRequest#setSuppressedNotifications(boolean)
     public ConfigurableReply silent(boolean silent) {
         replyAction.silent(silent);
+        return this;
+    }
+
+    /// Sets the [MentionType]s to be parsed.
+    ///
+    /// **This will override [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)], any [ReplyConfig] annotation
+    /// as well as previous method calls!**
+    ///
+    /// If `null` is provided to this method, then all Types will be mentionable (unless whitelisting via
+    /// [#mention(IMentionable...)] or [#mention(Collection)]).
+    ///
+    /// @param allowedMentions [MentionType]s that are allowed to be parsed and mentioned. All other mention types will
+    ///                        not be mentioned by this message. You can pass `null` or
+    ///                        `EnumSet.allOf(MentionType.class)` to allow all mentions.
+    /// @return the current instance for fluent interface
+    /// @see MessageCreateRequest#setAllowedMentions(Collection)
+    public ConfigurableReply allowedMentions(@Nullable Collection<MentionType> allowedMentions) {
+        replyAction.allowedMentions(allowedMentions);
+        return this;
+    }
+
+    /// Used to provide a whitelist for Users, Members and Roles that should be pinged. See the JDA docs for details.
+    ///
+    /// This will add up to previous method calls.
+    ///
+    /// @param mentions Users, Members and Roles that should be explicitly whitelisted to be pingable.
+    /// @return the current instance for fluent interface
+    /// @see MessageCreateRequest#mention(IMentionable...)
+    public ConfigurableReply mention(IMentionable... mentions) {
+        return mention(Arrays.asList(mentions));
+    }
+
+    /// Used to provide a whitelist for Users, Members and Roles that should be pinged. See the JDA docs for details.
+    ///
+    /// This will add up to previous method calls.
+    ///
+    /// @param mentions Users, Members and Roles that should be explicitly whitelisted to be pingable.
+    /// @return the current instance for fluent interface
+    /// @see MessageCreateRequest#mention(Collection)
+    public ConfigurableReply mention(Collection<IMentionable> mentions) {
+        replyAction.mention(mentions);
         return this;
     }
 

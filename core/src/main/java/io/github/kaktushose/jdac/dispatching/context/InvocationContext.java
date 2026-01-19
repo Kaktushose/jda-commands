@@ -63,7 +63,8 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
                 false,
                 false,
                 false,
-                replyConfig.silent())
+                replyConfig.silent(),
+                replyConfig.allowedMentions())
         );
     }
 
