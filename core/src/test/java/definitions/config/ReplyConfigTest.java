@@ -81,7 +81,7 @@ class ReplyConfigTest {
         assertTrue(config.keepComponents());
         assertTrue(config.keepSelections());
         assertFalse(config.silent());
-        assertTrue(config.allowedMentions().isEmpty());
+        assertFalse(config.allowedMentions().isEmpty());
     }
 
     @Interaction
