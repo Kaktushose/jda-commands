@@ -299,8 +299,8 @@ object, but also directly to the `#embed(...)` method:
 
 ## ReplyConfig
 The <io.github.kaktushose.jdac.annotations.interactions.ReplyConfig>
-annotation provides a way to modify the default behaviour for the `editReply`, `ephemeral` and `keepComponents` settings. 
-You can either annotate single methods or entire interaction controllers. 
+annotation provides a way to modify the default behavior of your replies. You can either annotate single methods or 
+entire interaction controllers. For a list of all possible configurations see the <ReplyConfig.Builder>.
 
 !!! example "ReplyConfig Annotation"
     ```java
@@ -321,7 +321,7 @@ at the builder:
 !!! example "Global ReplyConfig"
     ```java
     JDACommands.builder(jda, Main.class)
-        .globalReplyConfig(new ReplyConfig(true, false, false))
+        .globalReplyConfig(ReplyConfig.of(config -> config.ephemeral(false)))
         .start();
     ```
 
