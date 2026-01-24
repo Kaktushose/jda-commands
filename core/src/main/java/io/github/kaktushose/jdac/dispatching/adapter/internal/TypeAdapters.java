@@ -1,8 +1,9 @@
 package io.github.kaktushose.jdac.dispatching.adapter.internal;
 
+import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
-import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
+import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.mapping.Mapper;
@@ -56,8 +57,8 @@ public class TypeAdapters {
 
         proteus.from(MEMBER).into(USER, uni((source, _) -> lossless(source.getUser())), IGNORE);
         proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure(messageResolver.resolve("jdac$member-required-got-user",
-                        SlashCommandHandler.USER_LOCALE.isBound()
-                        ? SlashCommandHandler.USER_LOCALE.get()
+                        Introspection.accessible()
+                        ? Introspection.scopedGet(Property.JDA_EVENT).getUserLocale().toLocale()
                         : Locale.ENGLISH))), IGNORE);
 
         proteus.into(MENTIONABLE)

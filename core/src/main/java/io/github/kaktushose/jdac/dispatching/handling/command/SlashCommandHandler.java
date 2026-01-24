@@ -28,8 +28,6 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 @ApiStatus.Internal
 public final class SlashCommandHandler extends EventHandler<SlashCommandInteractionEvent> {
 
-    public static final ScopedValue<Locale> USER_LOCALE = ScopedValue.newInstance();
-
     private static final Map<Class<?>, Object> DEFAULT_MAPPINGS = Map.of(
             byte.class, ((byte) 0),
             short.class, ((short) 0),
@@ -54,9 +52,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
         );
 
         // Scope values needed for user locale in proteus mapper, see type adapter
-        return ScopedValue.where(USER_LOCALE, event.getUserLocale().toLocale())
-                .call(() -> parseArguments(command, event).map(args -> new PreparationResult(command, args)))
-                .orElse(null);
+        return parseArguments(command, event).map(args -> new PreparationResult(command, args)).orElse(null);
 
     }
 
