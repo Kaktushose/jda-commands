@@ -84,6 +84,6 @@ public final class EditableConfigurableReply extends ConfigurableReply {
 
         replyAction.keepComponents(true);
 
-        return replyAction.reply(ComponentReplacer.all(replacer, resolver()), placeholder);
+        return replyAction.reply(replacer, resolver(), placeholder);
     }
 }

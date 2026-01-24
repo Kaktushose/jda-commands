@@ -132,8 +132,8 @@ public final class ReplyAction {
         return reply();
     }
 
-    public Message reply(ComponentReplacer componentReplacer, Entry... placeholder) {
-        replacer = new Replacer(componentReplacer, Entry.toMap(placeholder));
+    public Message reply(ComponentReplacer userProvided, ComponentReplacer resolver, Entry... placeholder) {
+        replacer = new Replacer(userProvided, resolver, Entry.toMap(placeholder));
         return reply();
     }
 
@@ -187,7 +187,7 @@ public final class ReplyAction {
         ));
 
         if (replacer != null) {
-            componentTree = componentTree.replace(replacer.replacer());
+            componentTree = componentTree.replace(replacer.userProvided()).replace(replacer.resolver());
             componentTree = MessageComponentTree.of(
                     componentResolver.resolve(componentTree.getComponents(), scopedUserLocale(), replacer.placeholders())
             );
@@ -255,6 +255,6 @@ public final class ReplyAction {
         }
     }
 
-    private record Replacer(ComponentReplacer replacer, Map<String, Object> placeholders) {}
+    private record Replacer(ComponentReplacer userProvided, ComponentReplacer resolver, Map<String, Object> placeholders) {}
 
 }
