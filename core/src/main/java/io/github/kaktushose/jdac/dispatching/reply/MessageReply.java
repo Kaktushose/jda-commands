@@ -32,10 +32,7 @@ import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.slf4j.Logger;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.function.Consumer;
 
 import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
@@ -214,8 +211,10 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
         ActionRowChildComponent item = switch (definition) {
             case ButtonDefinition buttonDefinition ->
                     buttonDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
-            case SelectMenuDefinition<?> menuDefinition ->
-                    menuDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
+            case SelectMenuDefinition<?> menuDefinition -> {
+                int uniqueId = Objects.requireNonNullElse(menuDefinition.uniqueId(), -1);
+                yield  menuDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled()).withUniqueId(uniqueId);
+            }
         };
 
         item = switch (component) {
