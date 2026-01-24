@@ -168,7 +168,7 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             ///
             /// @see net.dv8tion.jda.api.utils.messages.MessageCreateRequest#setAllowedMentions(Collection)
             public Builder allowedMentions(Collection<MentionType> allowedMentions) {
-                this.allowedMentions = EnumSet.copyOf(allowedMentions);
+                this.allowedMentions = allowedMentions.isEmpty() ? EnumSet.noneOf(MentionType.class) : EnumSet.copyOf(allowedMentions);
                 return this;
             }
 
