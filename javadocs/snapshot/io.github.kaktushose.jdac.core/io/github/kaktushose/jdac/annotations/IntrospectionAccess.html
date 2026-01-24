@@ -77,10 +77,11 @@ loadScripts(document, 'script');</script>
 <div class="block"><p>This annotation indicates that <a href="../introspection/Introspection.html#accessScoped()"><code>Introspection.accessScoped()</code></a> and <a href="../introspection/Introspection.html#scopedGet(io.github.kaktushose.jdac.configuration.Property)"><code>Introspection.scopedGet(Property)</code></a> can be used
 inside the method annotated with this annotation.</p>
 <p>If this annotation is present on a Class like <a href="../introspection/lifecycle/events/RuntimeCloseEvent.html" title="class in io.github.kaktushose.jdac.introspection.lifecycle.events"><code>RuntimeCloseEvent</code></a> it's up to the use case which meaning this has, please
-read the javadocs there.</p>
+read the Javadocs there.</p>
 <p>Only properties having at least the stage of <a href="#value()"><code>value()</code></a> can be used.</p>
 <ul>
-<li><a href="../introspection/Stage.html#INTERACTION"><code>Stage.INTERACTION</code></a> includes <a href="../introspection/Stage.html#CONFIGURATION"><code>Stage.CONFIGURATION</code></a>, <a href="../introspection/Stage.html#INITIALIZED"><code>Stage.INITIALIZED</code></a> and <a href="../introspection/Stage.html#RUNTIME"><code>Stage.RUNTIME</code></a></li>
+<li><a href="../introspection/Stage.html#INTERACTION"><code>Stage.INTERACTION</code></a> includes <a href="../introspection/Stage.html#CONFIGURATION"><code>Stage.CONFIGURATION</code></a>, <a href="../introspection/Stage.html#INITIALIZED"><code>Stage.INITIALIZED</code></a>, <a href="../introspection/Stage.html#RUNTIME"><code>Stage.RUNTIME</code></a> and <a href="../introspection/Stage.html#PREPARATION"><code>Stage.PREPARATION</code></a></li>
+<li><a href="../introspection/Stage.html#PREPARATION"><code>Stage.PREPARATION</code></a> includes <a href="../introspection/Stage.html#CONFIGURATION"><code>Stage.CONFIGURATION</code></a>, <a href="../introspection/Stage.html#INITIALIZED"><code>Stage.INITIALIZED</code></a> and <a href="../introspection/Stage.html#RUNTIME"><code>Stage.RUNTIME</code></a></li>
 <li><a href="../introspection/Stage.html#RUNTIME"><code>Stage.RUNTIME</code></a> includes <a href="../introspection/Stage.html#CONFIGURATION"><code>Stage.CONFIGURATION</code></a> and <a href="../introspection/Stage.html#INITIALIZED"><code>Stage.INITIALIZED</code></a></li>
 <li><a href="../introspection/Stage.html#INITIALIZED"><code>Stage.INITIALIZED</code></a> includes <a href="../introspection/Stage.html#CONFIGURATION"><code>Stage.CONFIGURATION</code></a></li>
 </ul>

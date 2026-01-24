@@ -62,6 +62,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#CONFIGURATION" tabindex="0">CONFIGURATION</a></li>
 <li><a href="#INITIALIZED" tabindex="0">INITIALIZED</a></li>
 <li><a href="#RUNTIME" tabindex="0">RUNTIME</a></li>
+<li><a href="#PREPARATION" tabindex="0">PREPARATION</a></li>
 <li><a href="#INTERACTION" tabindex="0">INTERACTION</a></li>
 </ol>
 </li>
@@ -93,16 +94,18 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public enum </span><span class="element-name type-name-label">Stage</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;<a href="Stage.html" title="enum class in io.github.kaktushose.jdac.introspection">Stage</a>&gt;</span></div>
 <div class="block"><p>The stage or &quot;level&quot; inside the framework at which a properties value is set.</p>
-<p>JDACommands has the following stages in this order:</p>
+<p>JDA-Commands has the following stages in this order:</p>
 <ol>
 <li><a href="#CONFIGURATION"><code>CONFIGURATION</code></a> -&gt; setting of builder properties, extension loading, construction of framework components</li>
 <li><a href="#INITIALIZED"><code>INITIALIZED</code></a> -&gt; after starting the framework (basically after <a href="../JDACBuilder.html#start()"><code>JDACBuilder.start()</code></a> completed), e.g. all definitions are indexed etc.</li>
 <li><a href="#RUNTIME"><code>RUNTIME</code></a> -&gt; inside a runtime but outside of processing an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a>, e.g. when <a href="../dispatching/instance/InteractionControllerInstantiator.html#instance(java.lang.Class,io.github.kaktushose.jdac.introspection.Introspection)"><code>InteractionControllerInstantiator.instance(Class, Introspection)</code></a> is called</li>
+<li><a href="#PREPARATION"><code>PREPARATION</code></a> -&gt; during the preparation of an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a> for the <a href="#INTERACTION"><code>INTERACTION</code></a> stage, e.g. where type adapters get called</li>
 <li><a href="#INTERACTION"><code>INTERACTION</code></a> -&gt; when processing an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericInteractionCreateEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericInteractionCreateEvent</code></a>, e.g. in <a href="../dispatching/middleware/Middleware.html#accept(io.github.kaktushose.jdac.dispatching.context.InvocationContext)"><code>Middleware.accept(InvocationContext)</code></a> or inside a user defined interaction controller method</li>
 </ol>
 <p>Generally, a stage includes all properties that were set in a former stage:</p>
 <ul>
-<li><a href="#INTERACTION"><code>INTERACTION</code></a> includes <a href="#CONFIGURATION"><code>CONFIGURATION</code></a>, <a href="#INITIALIZED"><code>INITIALIZED</code></a> and <a href="#RUNTIME"><code>RUNTIME</code></a></li>
+<li><a href="#INTERACTION"><code>INTERACTION</code></a> includes <a href="#CONFIGURATION"><code>CONFIGURATION</code></a>, <a href="#INITIALIZED"><code>INITIALIZED</code></a>, <a href="#RUNTIME"><code>RUNTIME</code></a> and <a href="#PREPARATION"><code>PREPARATION</code></a></li>
+<li><a href="#PREPARATION"><code>PREPARATION</code></a> includes <a href="#CONFIGURATION"><code>CONFIGURATION</code></a>, <a href="#INITIALIZED"><code>INITIALIZED</code></a> and <a href="#RUNTIME"><code>RUNTIME</code></a></li>
 <li><a href="#RUNTIME"><code>RUNTIME</code></a> includes <a href="#CONFIGURATION"><code>CONFIGURATION</code></a> and <a href="#INITIALIZED"><code>INITIALIZED</code></a></li>
 <li><a href="#INITIALIZED"><code>INITIALIZED</code></a> includes <a href="#CONFIGURATION"><code>CONFIGURATION</code></a></li>
 </ul>
@@ -139,8 +142,10 @@ will be called by JDA-Commands you can take a look at <a href="../annotations/In
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code><a href="#INTERACTION" class="member-name-link">INTERACTION</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="#RUNTIME" class="member-name-link">RUNTIME</a></code></div>
+<div class="col-first odd-row-color"><code><a href="#PREPARATION" class="member-name-link">PREPARATION</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code><a href="#RUNTIME" class="member-name-link">RUNTIME</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -207,6 +212,14 @@ the order they are declared.</div>
 <h3>RUNTIME</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Stage.html" title="enum class in io.github.kaktushose.jdac.introspection">Stage</a></span>&nbsp;<span class="element-name">RUNTIME</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="PREPARATION">
+<h3>PREPARATION</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Stage.html" title="enum class in io.github.kaktushose.jdac.introspection">Stage</a></span>&nbsp;<span class="element-name">PREPARATION</span></div>
 </div>
 </section>
 </li>
