@@ -193,11 +193,13 @@ public final class ReplyAction {
     private ActionComponent retrieveSelections(ActionComponent component) {
         return switch (component) {
             case StringSelectMenu selectMenu
-                    when scopedJdaEvent() instanceof StringSelectInteractionEvent selectEvent -> selectMenu.createCopy()
-                    .setDefaultValues(selectEvent.getValues())
-                    .build();
+                    when scopedJdaEvent() instanceof StringSelectInteractionEvent selectEvent
+                         && selectEvent.getInteraction().getUniqueId() == selectMenu.getUniqueId() ->
+                    selectMenu.createCopy().setDefaultValues(selectEvent.getValues()).build();
 
-            case EntitySelectMenu selectMenu when scopedJdaEvent() instanceof EntitySelectInteractionEvent selectEvent -> {
+            case EntitySelectMenu selectMenu
+                    when scopedJdaEvent() instanceof EntitySelectInteractionEvent selectEvent
+                         && selectEvent.getInteraction().getUniqueId() == selectMenu.getUniqueId() -> {
 
                 Collection<EntitySelectMenu.DefaultValue> defaultValues = new HashSet<>();
                 Mentions mentions = selectEvent.getInteraction().getMentions();
