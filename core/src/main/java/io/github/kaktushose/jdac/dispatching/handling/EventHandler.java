@@ -71,7 +71,12 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     public final void accept(T e, Runtime runtime) {
         log.debug("Got event {}", e);
 
-        PreparationResult preparationResult = prepare(e, runtime);
+        IntrospectionImpl preparationIntrospection = Properties.Builder.newRestricted()
+                .addFallback(Property.JDA_EVENT, _ -> e)
+                .createIntrospection(this.runtimeIntrospection, Stage.PREPARATION);
+
+        PreparationResult preparationResult = ScopedValue.where(IntrospectionImpl.INTROSPECTION, preparationIntrospection)
+                .call(() -> prepare(e, runtime));
 
         if (preparationResult == null || Thread.interrupted()) {
             log.debug("Interaction execution cancelled by preparation task");
@@ -86,7 +91,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         IntrospectionImpl interactionIntrospection = Properties.Builder.newRestricted()
                 .addFallback(Property.JDA_EVENT, _ -> e)
                 .addFallback(Property.INVOCATION_CONTEXT, _ -> invocationContext)
-                .createIntrospection(this.runtimeIntrospection, Stage.INTERACTION);
+                .createIntrospection(preparationIntrospection, Stage.INTERACTION);
 
         ScopedValue.where(IntrospectionImpl.INTROSPECTION, interactionIntrospection).run(() -> {
             log.debug("Executing middlewares...");
