@@ -87,7 +87,7 @@ public interface Validator<T, A extends Annotation> {
         /// @see I18n
         public MessageTopLevelComponent failMessage(String content, Entry... placeholder) {
             String localized = IntrospectionAccess.scopedMessageResolver()
-                    .resolve(content, IntrospectionAccess.scopedUserLocale(), Entry.toMap(placeholder));
+                    .resolve(content, IntrospectionAccess.scopedUserLocale(), placeholder);
 
             return errorMessageFactory.getConstraintFailedMessage(invocationContext, localized);
         }

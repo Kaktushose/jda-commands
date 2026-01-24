@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.message.resolver;
 
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
@@ -29,6 +30,16 @@ public interface Resolver<T> {
     /// @param placeholders the placeholders to use if supported by the used localization system
     /// @return the resolved object
     T resolve(T object, Locale locale, Map<String, @Nullable Object> placeholders);
+
+    /// Resolves the given object for the provided locale.
+    ///
+    /// @param object       the object to resolve
+    /// @param locale       the [Locale] to use for localization
+    /// @param placeholders the placeholders to use if supported by the used localization system
+    /// @return the resolved object
+    default T resolve(T object, Locale locale, Entry... placeholders) {
+        return resolve(object, locale, Entry.toMap(placeholders));
+    }
 
     /// The priority of this resolver influences the order in which resolver are applied in a resolution pipeline.
     ///

@@ -52,7 +52,7 @@ public record SlashCommandDefinition(
         var interaction = context.interaction();
         var command = method.annotation(Command.class);
         String description = command.desc().equals("N/A")
-                ? context.messageResolver().resolve("jdac$no-description", Locale.ENGLISH, Map.of())
+                ? context.messageResolver().resolve("jdac$no-description", Locale.ENGLISH)
                 : command.desc();
 
         String name = String.join(" ", interaction.value(), command.value())

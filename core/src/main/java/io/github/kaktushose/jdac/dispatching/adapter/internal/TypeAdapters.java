@@ -58,7 +58,7 @@ public class TypeAdapters {
         proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure(messageResolver.resolve("jdac$member-required-got-user",
                         SlashCommandHandler.USER_LOCALE.isBound()
                         ? SlashCommandHandler.USER_LOCALE.get()
-                        : Locale.ENGLISH, Map.of()))), IGNORE);
+                        : Locale.ENGLISH))), IGNORE);
 
         proteus.into(MENTIONABLE)
                 .from(USER, uni((source, _) -> lossless(source)), IGNORE)

@@ -169,7 +169,7 @@ public record OptionDataDefinition(
 
         // Param
         String name = parameter.name();
-        String description = messageResolver.resolve("jdac$no-description", Locale.ENGLISH, Map.of());
+        String description = messageResolver.resolve("jdac$no-description", Locale.ENGLISH);
         boolean isOptional = parameter.type().equals(Optional.class);
         OptionType optionType = CLASS_TO_OPTION_TYPE.getOrDefault(resolvedType, OptionType.STRING);
         var param = parameter.findAnnotation(Param.class);

@@ -189,7 +189,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         return resolver.resolve(
                 container.withAccentColor(color),
                 locale.toLocale(),
-                Entry.toMap(placeholders)
+                placeholders
         );
     }
 }

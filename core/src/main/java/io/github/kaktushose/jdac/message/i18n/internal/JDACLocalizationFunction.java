@@ -26,11 +26,11 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
             if (locale == DiscordLocale.UNKNOWN) continue;
 
 
-            String result = ScopedValue.where(JDA_LOCALIZATION, true).call(() -> resolver.resolve(localizationKey, locale.toLocale(), Map.of()));
+            String result = ScopedValue.where(JDA_LOCALIZATION, true).call(() -> resolver.resolve(localizationKey, locale.toLocale()));
             if (!result.equals(localizationKey)) {
                 localizations.put(locale, result);
             } else if (localizationKey.contains("description")) {
-                String noDescriptionLocalized = resolver.resolve("jdac$no-description", locale.toLocale(), Map.of());
+                String noDescriptionLocalized = resolver.resolve("jdac$no-description", locale.toLocale());
                 localizations.put(locale, noDescriptionLocalized);
             }
         }

@@ -111,7 +111,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// @return the resolved message
     public String resolve(String message, Entry... placeholders) {
-        return messageResolver().resolve(message, jdaEvent().getUserLocale().toLocale(), Entry.toMap(placeholders));
+        return messageResolver().resolve(message, jdaEvent().getUserLocale().toLocale(), placeholders);
     }
 
 

@@ -107,7 +107,7 @@ public final class ReplyAction {
     }
 
     public Message reply(String message, Entry... placeholder) {
-        builder.setContent(scopedMessageResolver().resolve(message, scopedUserLocale(), Entry.toMap(placeholder)));
+        builder.setContent(scopedMessageResolver().resolve(message, scopedUserLocale(), placeholder));
         return reply();
     }
 
