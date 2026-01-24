@@ -7,7 +7,6 @@ import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
-import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.components.tree.ComponentTree;
 import net.dv8tion.jda.api.components.tree.MessageComponentTree;
 import net.dv8tion.jda.api.entities.IMentionable;
@@ -164,11 +163,7 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
     public Message reply(Collection<MessageTopLevelComponent> components, Entry... placeholder) {
         MessageComponentTree componentTree = ComponentTree.forMessage(components);
-        componentTree = componentTree.replace(ComponentReplacer.of(
-                io.github.kaktushose.jdac.dispatching.reply.Component.class,
-                _ -> true,
-                this::resolve
-        ));
+        componentTree = componentTree.replace(resolver());
         return replyAction.reply(componentTree.getComponents(), placeholder);
     }
 }

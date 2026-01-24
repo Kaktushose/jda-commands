@@ -23,6 +23,7 @@ import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 import net.dv8tion.jda.api.components.buttons.Button;
+import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.entities.Message;
@@ -199,7 +200,11 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
         return new SendableReply(this);
     }
 
-    protected ActionRowChildComponent resolve(Component<?, ?, ?, ?> component) {
+    protected ComponentReplacer resolver() {
+        return ComponentReplacer.of(Component.class, _ -> true, this::resolve);
+    }
+
+    private ActionRowChildComponent resolve(Component<?, ?, ?, ?> component) {
         var className = component.origin().map(Class::getName)
                 .orElseGet(() -> scopedInvocationContext().definition().methodDescription().declaringClass().getName());
         String definitionId = InteractionDefinition.createDefinitionId(className, component.name());

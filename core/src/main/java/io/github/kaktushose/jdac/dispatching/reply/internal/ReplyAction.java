@@ -52,6 +52,7 @@ public final class ReplyAction {
     private boolean keepSelections;
     private boolean silent;
     private EnumSet<MentionType> allowedMentions;
+    private @Nullable Replacer replacer;
 
     public ReplyAction(ReplyConfig replyConfig) {
         log.debug("Reply Debug: [Runtime={}]", scopedRuntime().id());
@@ -131,10 +132,8 @@ public final class ReplyAction {
         return reply();
     }
 
-    public Message reply(ComponentReplacer replacer, Entry... placeholder) {
-        Collection<MessageTopLevelComponentUnion> components = builder.getComponentTree().replace(replacer).getComponents();
-        components = componentResolver.resolve(components, scopedUserLocale(), Entry.toMap(placeholder));
-        builder.setComponents(components);
+    public Message reply(ComponentReplacer componentReplacer, Entry... placeholder) {
+        replacer = new Replacer(componentReplacer, Entry.toMap(placeholder));
         return reply();
     }
 
@@ -180,6 +179,13 @@ public final class ReplyAction {
 
     private List<MessageTopLevelComponentUnion> retrieveComponents(Message original) {
         MessageComponentTree componentTree = original.getComponentTree();
+
+        if (replacer != null) {
+            componentTree = componentTree.replace(replacer.replacer());
+            componentTree = MessageComponentTree.of(
+                    componentResolver.resolve(componentTree.getComponents(), scopedUserLocale(), replacer.placeholders())
+            );
+        }
 
         componentTree = componentTree.replace(ComponentReplacer.of(
                 ActionComponent.class,
@@ -243,4 +249,7 @@ public final class ReplyAction {
             callback.deferEdit().complete();
         }
     }
+
+    private record Replacer(ComponentReplacer replacer, Map<String, Object> placeholders) {}
+
 }

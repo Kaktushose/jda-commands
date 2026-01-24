@@ -70,7 +70,7 @@ public final class EditableConfigurableReply extends ConfigurableReply {
     ///
     /// This method will always set [#keepComponents(boolean)] to `true` to retrieve the original components.
     ///
-    /// @param replacer the [ComponentReplacer] to apply to the original components
+    /// @param replacer    the [ComponentReplacer] to apply to the original components
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
     /// @throws UnsupportedOperationException if the original message didn't use V2 Components
     public Message reply(ComponentReplacer replacer, Entry... placeholder) {
@@ -80,6 +80,6 @@ public final class EditableConfigurableReply extends ConfigurableReply {
 
         replyAction.keepComponents(true);
 
-        return replyAction.reply(replacer, placeholder);
+        return replyAction.reply(ComponentReplacer.all(replacer, resolver()), placeholder);
     }
 }
