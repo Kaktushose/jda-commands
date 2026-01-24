@@ -11,10 +11,11 @@ import java.lang.annotation.*;
 /// inside the method annotated with this annotation.
 ///
 /// If this annotation is present on a Class like [RuntimeCloseEvent] it's up to the use case which meaning this has, please
-/// read the javadocs there.
+/// read the Javadocs there.
 ///
 /// Only properties having at least the stage of [#value()] can be used.
-/// - [Stage#INTERACTION] includes [Stage#CONFIGURATION], [Stage#INITIALIZED] and [Stage#RUNTIME]
+/// - [Stage#INTERACTION] includes [Stage#CONFIGURATION], [Stage#INITIALIZED], [Stage#RUNTIME] and [Stage#PREPARATION]
+/// - [Stage#PREPARATION] includes [Stage#CONFIGURATION], [Stage#INITIALIZED] and [Stage#RUNTIME]
 /// - [Stage#RUNTIME] includes [Stage#CONFIGURATION] and [Stage#INITIALIZED]
 /// - [Stage#INITIALIZED] includes [Stage#CONFIGURATION]
 ///

@@ -5,7 +5,7 @@ import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
 import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
@@ -154,10 +154,10 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     Property<CommandDefinition.CommandConfig> GLOBAL_COMMAND_CONFIG =
             new Singleton<>("GLOBAL_COMMAND_CONFIG", Category.USER_SETTABLE, CommandDefinition.CommandConfig.class, Stage.CONFIGURATION);
 
-    /// @see JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)
+    /// @see JDACBuilder#globalReplyConfig(ReplyConfig)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.USER_SETTABLE)
-    Property<InteractionDefinition.ReplyConfig> GLOBAL_REPLY_CONFIG =
-            new Singleton<>("GLOBAL_REPLY_CONFIG", Category.USER_SETTABLE, InteractionDefinition.ReplyConfig.class, Stage.CONFIGURATION);
+    Property<ReplyConfig> GLOBAL_REPLY_CONFIG =
+            new Singleton<>("GLOBAL_REPLY_CONFIG", Category.USER_SETTABLE, ReplyConfig.class, Stage.CONFIGURATION);
 
     /// @see JDACBuilder#packages(String...)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.USER_SETTABLE, fallbackBehaviour = ACCUMULATE)
@@ -269,13 +269,13 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     Property<KeyValueStore> KEY_VALUE_STORE =
             new Singleton<>("KEY_VALUE_STORE", Category.PROVIDED, KeyValueStore.class, Stage.RUNTIME);
 
+    // ------ preparation ---------
+    /// The [GenericInteractionCreateEvent] of this interaction. Same as [Event#jdaEvent()].
+    @PropertyInformation(stage = Stage.PREPARATION, category = Category.PROVIDED)
+    Property<GenericInteractionCreateEvent> JDA_EVENT =
+            new Singleton<>("JDA_EVENT", Category.PROVIDED, GenericInteractionCreateEvent.class, Stage.PREPARATION);
 
     // ------ interaction ---------
-    /// The [GenericInteractionCreateEvent] of this interaction. Same as [Event#jdaEvent()].
-    @PropertyInformation(stage = Stage.INTERACTION, category = Category.PROVIDED)
-    Property<GenericInteractionCreateEvent> JDA_EVENT =
-            new Singleton<>("JDA_EVENT", Category.PROVIDED, GenericInteractionCreateEvent.class, Stage.INTERACTION);
-
     /// The [InvocationContext] of this interaction. Same as in [Middleware#accept(InvocationContext)].
     @PropertyInformation(stage = Stage.INTERACTION, category = Category.PROVIDED)
     Property<InvocationContext<?>> INVOCATION_CONTEXT =
