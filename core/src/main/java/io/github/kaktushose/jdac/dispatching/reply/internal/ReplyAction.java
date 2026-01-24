@@ -180,6 +180,12 @@ public final class ReplyAction {
     private List<MessageTopLevelComponentUnion> retrieveComponents(Message original) {
         MessageComponentTree componentTree = original.getComponentTree();
 
+        componentTree = componentTree.replace(ComponentReplacer.of(
+                ActionComponent.class,
+                _ -> keepSelections,
+                this::retrieveSelections
+        ));
+
         if (replacer != null) {
             componentTree = componentTree.replace(replacer.replacer());
             componentTree = MessageComponentTree.of(
@@ -187,17 +193,12 @@ public final class ReplyAction {
             );
         }
 
-        componentTree = componentTree.replace(ComponentReplacer.of(
-                ActionComponent.class,
-                _ -> keepSelections,
-                this::retrieveSelections
-        ));
-
         return componentTree.getComponents();
     }
 
     private ActionComponent retrieveSelections(ActionComponent component) {
-        return switch (component) {
+        int uniqueId = component.getUniqueId();
+        component = switch (component) {
             case StringSelectMenu selectMenu
                     when scopedJdaEvent() instanceof StringSelectInteractionEvent selectEvent
                          && selectEvent.getInteraction().getUniqueId() == selectMenu.getUniqueId() ->
@@ -221,6 +222,10 @@ public final class ReplyAction {
             }
             default -> component;
         };
+        if (uniqueId > 0) {
+            component = component.withUniqueId(uniqueId);
+        }
+        return component;
     }
 
     private void defer() {

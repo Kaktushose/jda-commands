@@ -65,14 +65,18 @@ public final class EditableConfigurableReply extends ConfigurableReply {
         return this;
     }
 
-    /// Acknowledgement of this event with the V2 Components of the original reply. Will also apply the passed
+    /// Acknowledgement of this event with the V2 Components of the original replyWill also apply the passed
     /// [ComponentReplacer] before sending the reply.
     ///
-    /// This method will always set [#keepComponents(boolean)] to `true` to retrieve the original components.
+    /// Calling this method will enforce [#keepComponents(boolean)] to `true` to retrieve the original components.
     ///
     /// @param replacer    the [ComponentReplacer] to apply to the original components
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
     /// @throws UnsupportedOperationException if the original message didn't use V2 Components
+    /// @implNote The [ComponentReplacer] only gets applied after the original components were retrieved and, if
+    /// [#keepSelections(boolean)] is set to `true`, after the selections are retrieved.
+    ///
+    /// This method will always set [#keepComponents(boolean)] to `true` to retrieve the original components.
     public Message reply(ComponentReplacer replacer, Entry... placeholder) {
         if (!interaction.getMessage().isUsingComponentsV2()) {
             throw new UnsupportedOperationException(JDACException.errorMessage("component-replacer-v1"));

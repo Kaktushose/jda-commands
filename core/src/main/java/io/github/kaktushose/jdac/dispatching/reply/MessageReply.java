@@ -208,13 +208,12 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
         var definition = findDefinition(component, definitionId, className);
 
+        int uniqueId = Objects.requireNonNullElse(definition.uniqueId(), -1);
         ActionRowChildComponent item = switch (definition) {
             case ButtonDefinition buttonDefinition ->
                     buttonDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
-            case SelectMenuDefinition<?> menuDefinition -> {
-                int uniqueId = Objects.requireNonNullElse(menuDefinition.uniqueId(), -1);
-                yield  menuDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled()).withUniqueId(uniqueId);
-            }
+            case SelectMenuDefinition<?> menuDefinition ->
+                    menuDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled()).withUniqueId(uniqueId);
         };
 
         item = switch (component) {
@@ -226,6 +225,9 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
             case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
         };
 
+        if (uniqueId > 0) {
+            item = item.withUniqueId(uniqueId);
+        }
         item = resolver.resolve(item, scopedUserLocale(), component.placeholder());
         log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
         return item;
