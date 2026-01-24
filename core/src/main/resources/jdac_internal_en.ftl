@@ -119,6 +119,8 @@ modal-as-component = Modals cannot be attached as components! "{ $method }" is a
 # EditableConfigurableReply
 component-replacer-v1 = Cannot use ComponentReplacers on a message that isn't Components V2. Upgrade this message to Components V2 first or
     use the V1 API for editing action components.
+component-no-op-v1 = Cannot use no-op reply on a message that isn't Components V2. Upgrade this message to Components V2 first or
+    use the V1 API for replying.
 
 # ComponentEvent
 remove-components-v2 = Cannot remove components on a message with Components V2. This would result in an empty message.
