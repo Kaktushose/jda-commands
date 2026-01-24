@@ -66,10 +66,4 @@ public final class ButtonComponent extends Component<ButtonComponent, Button, Bu
     public Thumbnail asThumbnail() {
         throw new UnsupportedOperationException();
     }
-
-    @Override
-    public ButtonComponent withUniqueId(int uniqueId) {
-        super.withUniqueId(uniqueId);
-        return this;
-    }
 }

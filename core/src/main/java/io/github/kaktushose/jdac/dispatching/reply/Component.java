@@ -253,9 +253,9 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     }
 
     @Override
-    public Component<S, T, B, D> withUniqueId(int uniqueId) {
+    public S withUniqueId(int uniqueId) {
         this.uniqueId = uniqueId;
-        return this;
+        return self();
     }
 
     @Override
