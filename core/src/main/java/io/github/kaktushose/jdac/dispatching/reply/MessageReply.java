@@ -213,7 +213,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
             case ButtonDefinition buttonDefinition ->
                     buttonDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
             case SelectMenuDefinition<?> menuDefinition ->
-                    menuDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled()).withUniqueId(uniqueId);
+                    menuDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
         };
 
         item = switch (component) {
