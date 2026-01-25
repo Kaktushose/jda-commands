@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.interactions.IntegrationType;
 import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,9 +28,6 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
 
     /// The [Command.Type] of this command.
     Command.Type commandType();
-
-    /// The [LocalizationFunction] to use for this command.
-    LocalizationFunction localizationFunction();
 
     /// Stores the configuration values for registering commands. This acts as a representation of
     /// [io.github.kaktushose.jdac.annotations.interactions.CommandConfig]

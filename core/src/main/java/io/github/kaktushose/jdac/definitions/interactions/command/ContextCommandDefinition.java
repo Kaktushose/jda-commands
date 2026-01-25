@@ -27,15 +27,13 @@ import java.util.Optional;
 /// @param name                 the name of the command
 /// @param commandType          the [Command.Type] of this command
 /// @param commandConfig        the [CommandConfig] to use
-/// @param localizationFunction the [LocalizationFunction] to use for this command
 public record ContextCommandDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,
         Collection<String> permissions,
         String name,
         Command.Type commandType,
-        CommandConfig commandConfig,
-        LocalizationFunction localizationFunction
+        CommandConfig commandConfig
 ) implements CommandDefinition {
 
     /// Builds a new [ContextCommandDefinition] from the given [MethodBuildContext].
@@ -63,8 +61,7 @@ public record ContextCommandDefinition(
                 Helpers.permissions(context),
                 command.value(),
                 command.type(),
-                commandConfig,
-                context.localizationFunction()
+                commandConfig
         );
     }
 
@@ -77,6 +74,8 @@ public record ContextCommandDefinition(
 
     /// Transforms this definition into [CommandData].
     ///
+    /// This does not call [CommandData#setLocalizationFunction(LocalizationFunction)]!
+    ///
     /// @return the [CommandData]
     @Override
     public CommandData toJDAEntity() {
@@ -85,8 +84,7 @@ public record ContextCommandDefinition(
             command.setContexts(commandConfig.context());
             command.setIntegrationTypes(commandConfig.integration())
                     .setNSFW(commandConfig.isNSFW())
-                    .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()))
-                    .setLocalizationFunction(localizationFunction);
+                    .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()));
             return command;
         } catch (IllegalArgumentException e) {
             throw Helpers.jdaException(e, this);

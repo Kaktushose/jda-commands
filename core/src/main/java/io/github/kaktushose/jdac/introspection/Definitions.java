@@ -5,6 +5,7 @@ import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
 
 import java.util.Collection;
+import java.util.SequencedCollection;
 import java.util.function.Predicate;
 
 /// This interface provides read-only access to the indexed [Definition]s which are used to build and execute interactions.
@@ -26,7 +27,7 @@ public sealed interface Definitions permits InteractionRegistry {
     /// @param predicate the [Predicate] to filter the [InteractionDefinition]s of the passed type
     ///
     /// @return the [InteractionDefinition]s matching the provided criteria
-    <T extends Definition> Collection<T> find(Class<T> type, Predicate<T> predicate);
+    <T extends Definition> SequencedCollection<T> find(Class<T> type, Predicate<T> predicate);
 
     /// Gets the first [InteractionDefinition] with the given [type][Object#getClass()] that
     /// match the passed [Predicate]
@@ -42,7 +43,7 @@ public sealed interface Definitions permits InteractionRegistry {
     /// @param type the [type][Object#getClass()] of the needed [InteractionDefinition]
     ///
     /// @return the [InteractionDefinition]s matching the provided type
-    default <T extends Definition> Collection<T> find(Class<T> type) {
+    default <T extends Definition> SequencedCollection<T> find(Class<T> type) {
         return find(type, _ -> true);
     }
 }

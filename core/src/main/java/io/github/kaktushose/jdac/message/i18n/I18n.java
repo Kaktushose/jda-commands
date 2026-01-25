@@ -2,19 +2,14 @@ package io.github.kaktushose.jdac.message.i18n;
 
 import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.annotations.i18n.Bundle;
-import io.github.kaktushose.jdac.definitions.description.ClassDescription;
-import io.github.kaktushose.jdac.definitions.description.Description;
-import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.message.i18n.internal.BundleFinder;
 import io.github.kaktushose.jdac.message.i18n.internal.JDACLocalizationFunction;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
-import org.apache.commons.collections4.map.LRUMap;
 import org.jspecify.annotations.Nullable;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
@@ -117,33 +112,19 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// would be called in, for example, `B$bTwo` the bundle would be `mB_bundle`.
 public class I18n implements Resolver<String> {
 
-    // skipped classes during stack scanning (Class.getName().startWith(X))
-    private static final List<String> SKIPPED = List.of(
-            "io.github.kaktushose.jdac",
-            "net.dv8tion.jda",
-            "java."
-    );
-
+    public static final String DEFAULT_BUNDLE = "default";
     private final String JDAC_BUNDLE = "jdac";
     private final FluavaLocalizer defaultsLocalizer = new FluavaLocalizer(Fluava.create(Locale.ENGLISH));
 
-    // TODO make this configurable
-    private final LRUMap<Class<?>, String> cache = new LRUMap<>(64);
-
-    private final StackWalker walker = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
-
-    public final String DEFAULT_BUNDLE = "default";
-
-    private final Descriptor descriptor;
+    private final BundleFinder bundleFinder;
     private final Localizer localizer;
-    private final ThreadLocal<ClassDescription> last = new ThreadLocal<>();
 
 
-    /// @param descriptor the [Description] to be used to get the [Bundle] annotation
+    /// @param bundleFinder the [BundleFinder] to be used to get the [Bundle] annotation
     /// @param localizer the used [Localizer] to retrieve the messages
-    public I18n(Descriptor descriptor, Localizer localizer) {
-        this.descriptor = descriptor;
+    public I18n(BundleFinder bundleFinder, Localizer localizer) {
         this.localizer = localizer;
+        this.bundleFinder = bundleFinder;
     }
 
     /// This method returns the localized method found by the provided [Locale] and key
@@ -166,7 +147,7 @@ public class I18n implements Resolver<String> {
         String[] bundleSplit = combinedKey.split("\\$", 2);
         String bundle = bundleSplit.length == 2 && !bundleSplit[0].isEmpty()
                 ? bundleSplit[0].trim()
-                : findBundle();
+                : bundleFinder.findBundle();
 
         String key = bundleSplit.length == 2
                 ? bundleSplit[1]
@@ -181,58 +162,6 @@ public class I18n implements Resolver<String> {
         return (JDACLocalizationFunction.JDA_LOCALIZATION.orElse(false)
                 ? localizer.localizeJDA(locale, bundle, key, placeholder)
                 : localizer.localize(locale, bundle, key, placeholder)).orElse(combinedKey);
-    }
-
-    private String findBundle() {
-        return walker.walk(stream -> stream
-                .map(this::checkFrame)
-                .filter(b -> !b.isEmpty())
-                .findAny()
-        ).orElseGet(() -> {
-            String found = checkClass(last.get());
-            return found.isEmpty()
-                    ? DEFAULT_BUNDLE
-                    : found;
-        });
-    }
-
-    private String checkFrame(StackWalker.StackFrame frame) {
-        Class<?> klass = frame.getDeclaringClass();
-
-        String name = klass.getName();
-
-        // just some optimization
-        if (SKIPPED.stream().anyMatch(name::startsWith)) {
-            return "";
-        }
-
-        ClassDescription classDescription = descriptor.describe(klass);
-
-        ClassDescription lastDes = last.get();
-        if (lastDes != null && !lastDes.clazz().equals(classDescription.clazz())) {
-            String found = checkClass(lastDes);
-            if (!found.isEmpty()) return found;
-        }
-
-        last.set(classDescription);
-
-        return classDescription.methods()
-                .stream()
-                .filter(method -> method.toMethodType().equals(frame.getMethodType()))
-                .findFirst()
-                .flatMap(this::readAnnotation)
-                .orElse("");
-    }
-
-    private String checkClass(@Nullable ClassDescription classDescription) {
-        if (classDescription == null) return "";
-        return cache.computeIfAbsent(classDescription.clazz(), _ -> readAnnotation(classDescription)
-                                .orElseGet(() -> readAnnotation(classDescription.packageDescription()).orElse("")));
-    }
-
-    private Optional<String> readAnnotation(Description description) {
-        return description.findAnnotation(Bundle.class)
-                .map(Bundle::value);
     }
 
     /// @return 2000

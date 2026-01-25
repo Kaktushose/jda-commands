@@ -27,7 +27,6 @@ import java.util.function.Predicate;
 /// Central registry for all [InteractionDefinition]s.
 public record InteractionRegistry(Validators validators,
                                   MessageResolver messageResolver,
-                                  LocalizationFunction localizationFunction,
                                   Descriptor descriptor,
                                   Set<InteractionDefinition> definitions
 ) implements Definitions {
@@ -37,11 +36,10 @@ public record InteractionRegistry(Validators validators,
     /// Constructs a new [InteractionRegistry]
     ///
     /// @param registry   the corresponding [Validators]
-    /// @param function   the [LocalizationFunction] to use
     /// @param messageResolver the [MessageResolver] instance to use
     /// @param descriptor the [Descriptor] to use
-    public InteractionRegistry(Validators registry, MessageResolver messageResolver, LocalizationFunction function, Descriptor descriptor) {
-        this(registry, messageResolver, function, descriptor, new HashSet<>());
+    public InteractionRegistry(Validators registry, MessageResolver messageResolver, Descriptor descriptor) {
+        this(registry, messageResolver, descriptor, new HashSet<>());
     }
 
     /// Scans all given classes and registers the interactions defined in them.
@@ -86,7 +84,6 @@ public record InteractionRegistry(Validators validators,
         return interactionDefinitions(
                 clazz,
                 validators,
-                localizationFunction,
                 messageResolver,
                 interaction,
                 permissions,
@@ -113,7 +110,6 @@ public record InteractionRegistry(Validators validators,
 
     private Set<InteractionDefinition> interactionDefinitions(ClassDescription clazz,
                                                    Validators validators,
-                                                   LocalizationFunction localizationFunction,
                                                    MessageResolver messageResolver,
                                                    Interaction interaction,
                                                    Set<String> permissions,
@@ -123,7 +119,6 @@ public record InteractionRegistry(Validators validators,
         for (MethodDescription method : clazz.methods()) {
             final MethodBuildContext context = new MethodBuildContext(
                     validators,
-                    localizationFunction,
                     messageResolver,
                     interaction,
                     permissions,
@@ -215,7 +210,7 @@ public record InteractionRegistry(Validators validators,
     ///                                  This is a rare occasion and can be considered a framework bug
     /// @throws IllegalArgumentException if no [Definition] was found, because the [Predicate] didn't include any elements
     @Override
-    public <T extends Definition> Collection<T> find(Class<T> type, Predicate<T> predicate) {
+    public <T extends Definition> SequencedCollection<T> find(Class<T> type, Predicate<T> predicate) {
         return definitions.stream()
                 .filter(type::isInstance)
                 .map(type::cast)

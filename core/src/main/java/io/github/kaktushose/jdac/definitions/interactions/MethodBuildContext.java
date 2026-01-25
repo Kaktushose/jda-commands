@@ -6,7 +6,6 @@ import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition.CommandConfig;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Collection;
@@ -16,7 +15,6 @@ import java.util.Set;
 @ApiStatus.Internal
 public record MethodBuildContext(
         Validators validators,
-        LocalizationFunction localizationFunction,
         MessageResolver messageResolver,
         Interaction interaction,
         Set<String> permissions,
