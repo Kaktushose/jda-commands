@@ -93,7 +93,7 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
     /// @throws UnsupportedOperationException if the original message didn't use V2 Components
     /// @implNote The [ComponentReplacer] only gets applied after the original components were retrieved and, if
-    /// [#keepSelections(boolean)] is set to `true`, after the selections are retrieved.
+    /// [EditableConfigurableReply#keepSelections(boolean)] is set to `true`, after the selections are retrieved.
     public Message reply(ComponentReplacer replacer, Entry... placeholder) {
         return with().reply(replacer, placeholder);
     }
