@@ -1043,6 +1043,34 @@ You're not viewing the latest stable version.
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Default Dependency Injection Framework - Guice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interaction-controller-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interaction controller classes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-providing-a-custom-injector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration (providing a custom Injector)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1744,38 +1772,64 @@ configuration part. </p>
 </div>
 <p>If your using JDA-Commands via the <code>io.github.kaktushose:jda-commands:VERSION</code> artifact, an integration for 
 <a href="https://github.com/google/guice">Googles Guice</a> is shipped by default. </p>
+<h3 id="interaction-controller-classes">Interaction controller classes<a class="headerlink" href="#interaction-controller-classes" title="Permanent link">&para;</a></h3>
+<p>You can annotate the constructor (or fields) of your interaction controller class with <a href="https://javadoc.io/static/jakarta.platform/jakarta.jakartaee-api/11.0.0/jakarta/inject/Inject.html"><code>@Inject</code></a>
+to either inject <a href="../misc/property/">framework components (properties)</a> or your own 
+objects provided by a custom <a href="https://google.github.io/guice/api-docs/latest/javadoc/com/google/inject/Injector.html"><code>Injector</code></a>.</p>
+<p>You can directly inject following classes:</p>
+<ul>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACommands.html"><code>JDACommands</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Definitions.html"><code>Definitions</code></a></li>
+<li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html"><code>JDA</code></a> (the instance bound to this interaction)</li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html"><code>I18n</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html"><code>MessageResolver</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html"><code>EmojiResolver</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/placeholder/PlaceholderResolver.html"><code>PlaceholderResolver</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Descriptor.html"><code>Descriptor</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/ClassFinder.html"><code>ClassFinder</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Introspection.html"><code>Introspection</code></a> (see <a href="../misc/introspection/">here fore more information</a>)</li>
+</ul>
+<p>If you need any other <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html"><code>Property</code></a>, just inject them via the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Introspection.html"><code>Introspection</code></a> instance manually.
+During instantiation (inside the constructor) of an interaction controller class, the stage is set to <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Stage.html#RUNTIME"><code>Stage#RUNTIME</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Interaction</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">class</span> <span class="nc">MyCommand</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nd">@Inject</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">MyCommand</span><span class="p">(</span><span class="n">JDA</span><span class="w"> </span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="c1">//(1)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">              </span><span class="n">MessageResolver</span><span class="w"> </span><span class="n">resolver</span><span class="p">,</span><span class="w"> </span><span class="c1">//(2)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">              </span><span class="n">Introspection</span><span class="w"> </span><span class="n">introspection</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">//(3)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="c1">// do whatever you want with them</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">        </span><span class="p">...</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/JDA.html"><code>JDA</code></a> instance used. If you're using <a href="https://docs.jda.wiki/net/dv8tion/jda/api/sharding/ShardManager.html"><code>ShardManager</code></a>, this is the one the guild executing the command is paired to.</li>
+<li>the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html"><code>MessageResolver</code></a> instance used by JDA-Commands. It's a "framework component".</li>
+<li>the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Introspection.html"><code>Introspection</code></a> instance used in this scope with stage set to <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Stage.html#RUNTIME"><code>Stage#RUNTIME</code></a></li>
+</ol>
+</div>
+<h3 id="configuration-providing-a-custom-injector">Configuration (providing a custom <a href="https://google.github.io/guice/api-docs/latest/javadoc/com/google/inject/Injector.html"><code>Injector</code></a>)<a class="headerlink" href="#configuration-providing-a-custom-injector" title="Permanent link">&para;</a></h3>
 <p>To customize this integration you can pass an instance of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/GuiceExtensionData.html"><code>GuiceExtensionData</code></a>
-to the JDA-Commands builder, which allows you to provide an own instance of <a href="https://google.github.io/guice/api-docs/7.0.0/javadoc/com/google/inject/Injector.html">Guices Injector</a>.</p>
+to the JDA-Commands builder, which allows you to provide an own instance of <a href="https://google.github.io/guice/api-docs/latest/javadoc/com/google/inject/Injector.html"><code>Injector</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Configuring Guice</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">Injector</span><span class="w"> </span><span class="n">yourInjector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Guice</span><span class="p">.</span><span class="na">createInjector</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">YourOwnGuiceModule</span><span class="p">());</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="p">.</span><span class="na">extensionData</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">GuiceExtensionData</span><span class="p">(</span><span class="n">yourInjector</span><span class="p">))</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">Injector</span><span class="w"> </span><span class="n">yourInjector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Guice</span><span class="p">.</span><span class="na">createInjector</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">YourOwnGuiceModule</span><span class="p">());</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="p">.</span><span class="na">extensionData</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">GuiceExtensionData</span><span class="p">(</span><span class="n">yourInjector</span><span class="p">))</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
 </span></code></pre></div>
-</div>
-<div class="admonition tip">
-<p class="admonition-title">JDA Object</p>
-<p>The <code>JDA</code> instance is provided by JDA-Commands and can be obtained via Guice.
-<div class="language-java highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Interaction</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GreetCommand</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">JDA</span><span class="w"> </span><span class="n">jda</span><span class="p">;</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nd">@Inject</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">GreetCommand</span><span class="p">(</span><span class="n">JDA</span><span class="w"> </span><span class="n">jda</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">jda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jda</span><span class="p">;</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nd">@Command</span><span class="p">(</span><span class="s">&quot;greet&quot;</span><span class="p">)</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onCommand</span><span class="p">(</span><span class="n">CommandEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">}</span>
-</span></code></pre></div></p>
 </div>
 <h2 id="implementation-annotation"><code>@Implementation</code> annotation<a class="headerlink" href="#implementation-annotation" title="Permanent link">&para;</a></h2>
 <p>JDA-Commands has many interfaces to customize specific framework behaviour. 
-If you're using the Guice integration you can benefit from the convenient <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>Implementation</code></a>
+If you're using the Guice integration you can benefit from the convenient <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>@Implementation</code></a>
 annotation. </p>
 <p>This annotation allows the automatic instantiation and registration for implementations of following interfaces:</p>
 <div class="admonition note inline end">
@@ -1792,7 +1846,7 @@ annotation. </p>
 <li>
 <p><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/middleware/Middleware.html"><code>Middleware</code></a> + <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.Middleware.html#priority()"><code>Implementation.Middleware#priority()</code></a> set</p>
 </li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.html"><code>Validator</code></a> + <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.Validator.html#annotation()"><code>Implementation.Validator#annotation()</code></a> set</li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.html"><code>@Validator</code></a> + <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.Validator.html#annotation()"><code>Implementation.Validator#annotation()</code></a> set</li>
 <li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/TypeAdapter.html"><code>TypeAdapter</code></a> + <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.TypeAdapter.html#source()"><code>Implementation.TypeAdapter#source()</code></a> &amp; <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.TypeAdapter.html#target()"><code>Implementation.TypeAdapter#target()</code></a> set</li>
 </ul>
 <p>The annotated classes will be instantiated with help of <code>com.google.inject.Injector</code> similar to interaction controllers.</p>
@@ -1814,6 +1868,9 @@ annotation. </p>
 </span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="p">}</span>
 </span></code></pre></div>
 </div>
+<p>Just like in <a href="#interaction-controller-classes">interaction controller methods</a>, you can
+inject framework components and custom objects in your classes.
+Take a look at the Javadocs of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>@Implementation</code></a> to know what you can inject here.</p>
 <h2 id="custom-dependency-injection-integrations">Custom dependency injection integrations<a class="headerlink" href="#custom-dependency-injection-integrations" title="Permanent link">&para;</a></h2>
 <p>If you want to integrate another dependency injection framework, you have to provide your own 
 implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html"><code>InteractionControllerInstantiator</code></a>.</p>

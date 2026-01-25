@@ -1776,7 +1776,7 @@ JDA-Commands using a builder to fine tune some settings:</p>
 <h2 id="defining-interactions">Defining Interactions<a class="headerlink" href="#defining-interactions" title="Permanent link">&para;</a></h2>
 <p>You define interactions as methods. They are made up from the method annotations and in some cases the method signature, e.g. 
 for command options.
-These methods must be contained in a class annotated with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Interaction.html"><code>Interaction</code></a>.</p>
+These methods must be contained in a class annotated with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Interaction.html"><code>@Interaction</code></a>.</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nd">@Interaction</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">HelloWorld</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
@@ -1789,13 +1789,13 @@ These methods must be contained in a class annotated with <a href="https://kaktu
 </span></code></pre></div>
 <p>The following interaction types are available:</p>
 <ul>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Command.html"><code>Command</code></a></li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/AutoComplete.html"><code>AutoComplete</code></a></li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Command.html"><code>Command</code></a></li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Button.html"><code>Button</code></a></li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringMenu.html"><code>StringMenu</code></a></li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntityMenu.html"><code>EntityMenu</code></a></li>
-<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Modal.html"><code>Modal</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Command.html"><code>@Command</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/AutoComplete.html"><code>@AutoComplete</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Command.html"><code>@Command</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Button.html"><code>@Button</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringMenu.html"><code>@StringMenu</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntityMenu.html"><code>@EntityMenu</code></a></li>
+<li><a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Modal.html"><code>@Modal</code></a></li>
 </ul>
 <p>You can read more about the different interaction types <a href="../../interactions/overview/">here</a>.</p>
 

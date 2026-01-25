@@ -1930,7 +1930,7 @@ In this example, the bundle <code>component</code> will be searched for the key 
 </div>
 <h2 id="bundles">Bundles<a class="headerlink" href="#bundles" title="Permanent link">&para;</a></h2>
 <p>Localization bundles are a known concept from Javas <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ResourceBundle.html"><code>ResourceBundle</code></a>. JDA-Commands supports different bundles of
-localization files by adding them to the localization key or using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/i18n/Bundle.html"><code>Bundle</code></a>
+localization files by adding them to the localization key or using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/i18n/Bundle.html"><code>@Bundle</code></a>
 annotation.</p>
 <div class="admonition warning">
 <p class="admonition-title">The Dollar Sign ($)</p>
@@ -1942,7 +1942,7 @@ Additionally, the bundle name <code>jdac</code>is reserved, for more information
 For example a message with key <code>user$not-found</code> will be searched for in the bundle <code>user</code> and the key <code>not-found</code>.</p>
 <h3 id="via-annotation">Via Annotation<a class="headerlink" href="#via-annotation" title="Permanent link">&para;</a></h3>
 <p>If no bundle is specified, JDA-Commands will traverse the stack (the called methods) and search for the nearest
-<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/i18n/Bundle.html"><code>Bundle</code></a>
+<a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/i18n/Bundle.html"><code>@Bundle</code></a>
 annotation with following order:</p>
 <ol>
 <li>Method that called <I18n#localize(Locale,String,Entry...)`></li>
@@ -2005,8 +2005,8 @@ per default. For most cases the default values for these messages shipped with J
 localize them. </p>
 <p>For this task the reserved bundle <code>jdac</code> was defined, allowing the customization of following messages (localization keys):</p>
 <ul>
-<li><code>member-missing-permission</code>: if a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Member.html"><code>Member</code></a> doesn't have the permission required by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/Perm.html"><code>Perm</code></a></li>
-<li><code>member-has-unallowed-permission</code>: if a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Member.html"><code>Member</code></a> has the permission forbidden by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/NotPerm.html"><code>NotPerm</code></a></li>
+<li><code>member-missing-permission</code>: if a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Member.html"><code>Member</code></a> doesn't have the permission required by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/Perm.html"><code>@Perm</code></a></li>
+<li><code>member-has-unallowed-permission</code>: if a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Member.html"><code>Member</code></a> has the permission forbidden by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/constraints/NotPerm.html"><code>@NotPerm</code></a></li>
 <li><code>member-required-got-user</code>: if a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Member.html"><code>Member</code></a> is required, but only a user was given as a slash command option input</li>
 <li><code>no-description</code>: if no description was stated for a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/SlashCommandDefinition.html">slash command</a> or <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/interactions/command/OptionDataDefinition.html">slash command option</a></li>
 </ul>

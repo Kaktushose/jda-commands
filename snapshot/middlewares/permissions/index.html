@@ -1764,10 +1764,10 @@ have no influence on.</p>
 or secure a critical command further you should use the permissions system of JDA-Commands.</p>
 </div>
 <h2 id="adding-permissions-to-an-interaction">Adding Permissions to an Interaction<a class="headerlink" href="#adding-permissions-to-an-interaction" title="Permanent link">&para;</a></h2>
-<p>Use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Permissions.html"><code>Permissions</code></a>
+<p>Use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Permissions.html"><code>@Permissions</code></a>
 annotation to add permissions to an interaction. This isn't limited to slash commands, but can
 be any type of interaction. </p>
-<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Permissions.html"><code>Permissions</code></a>
+<p>The <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Permissions.html"><code>@Permissions</code></a>
 annotation takes an arbitrary amount of Strings as input. Each String defines a <code>permission</code> that must be present. By default,
 you can pass Discord Permissions, like <code>BAN_MEMBERS</code>. JDA-Commands will then check if the executor has the respective
 Discord Permission before executing the interaction. </p>

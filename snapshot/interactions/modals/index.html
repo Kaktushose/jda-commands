@@ -1770,7 +1770,7 @@ You're not viewing the latest stable version.
 
 <h1 id="modals">Modals<a class="headerlink" href="#modals" title="Permanent link">&para;</a></h1>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>Modals are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Modal.html"><code>Modal</code></a>.
+<p>Modals are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Modal.html"><code>@Modal</code></a>.
 The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ModalEvent.html"><code>ModalEvent</code></a>.</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Modal</span><span class="p">(</span><span class="s">&quot;My Modal&quot;</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onModal</span><span class="p">(</span><span class="n">ModalEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
@@ -1794,7 +1794,7 @@ on the event.</p>
 </span></code></pre></div>
 </div>
 <h2 id="modal-components">Modal Components<a class="headerlink" href="#modal-components" title="Permanent link">&para;</a></h2>
-<p>Modals consist of a title, which is set via the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Modal.html"><code>Modal</code></a> annotation, 
+<p>Modals consist of a title, which is set via the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Modal.html"><code>@Modal</code></a> annotation, 
 and of up to 5 components. </p>
 <p>These components aren't defined via annotations, but are just passed over to the reply method.</p>
 <div class="admonition example">

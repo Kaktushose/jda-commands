@@ -1751,10 +1751,10 @@ in the following order:</p>
 <h2 id="default-middlewares">Default Middlewares<a class="headerlink" href="#default-middlewares" title="Permanent link">&para;</a></h2>
 <p>JDA-Commands uses its own Middleware API internally to implement some features. All these features can either be 
 <em>extended</em> or <em>replaced</em> by the user. You can either register your own implementations at the respective builder method
-or use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>Implementation</code></a> annotation.</p>
+or use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>@Implementation</code></a> annotation.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>Implementation</code></a>
+<p>Using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>@Implementation</code></a>
 annotation requires the guice integration (shipped by default). You can read more about it <a href="../../di/">here</a>.</p>
 </div>
 <p>Middlewares provided by JDA-Commands include:</p>
@@ -1782,7 +1782,7 @@ You can cancel an execution by calling <a href="https://kaktushose.github.io/jda
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="p">.</span><span class="na">middleware</span><span class="p">(</span><span class="n">Priority</span><span class="p">.</span><span class="na">NORMAL</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LoggingMiddleware</span><span class="p">());</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
 </span></code></pre></div></p>
-<p>or use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>Implementation</code></a>
+<p>or use the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>@Implementation</code></a>
 annotation:
 <div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@Implementation.Middleware</span><span class="p">(</span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="na">NORMAL</span><span class="p">)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoggingMiddleware</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Middleware</span><span class="w"> </span><span class="p">{...}</span>
