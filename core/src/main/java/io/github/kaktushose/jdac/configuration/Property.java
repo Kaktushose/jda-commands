@@ -21,6 +21,7 @@ import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.introspection.Definitions;
+import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiSource;
@@ -196,6 +197,13 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
 
     // -------- provided ------------
     // -------- configuration -------
+    /// The [Introspection] instance itself used to retrieve properties in this scope.
+    /// Can also be used to retrieve the used [Introspection] instance via [PropertyProvider.Context#get(Property)].
+    /// (which will have stage = [Stage#CONFIGURATION])
+    @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.PROVIDED)
+    Property<Introspection> INTROSPECTION =
+            new Singleton<>("INTROSPECTION", Category.PROVIDED, Introspection.class, Stage.CONFIGURATION);
+
     /// The [I18n] service provided by JDA-Commands.
     /// Needs the values of [#DESCRIPTOR] and [#LOCALIZER].
     ///

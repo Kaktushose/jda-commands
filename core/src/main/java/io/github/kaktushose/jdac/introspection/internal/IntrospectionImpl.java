@@ -20,8 +20,12 @@ public final class IntrospectionImpl implements Introspection {
     private final Stage stage;
 
     public IntrospectionImpl(Lifecycle lifecycle, Resolver resolver, Stage stage) {
+        Properties introspectionProperty = Properties.Builder.newRestricted()
+                .addFallback(Property.INTROSPECTION, _ -> this)
+                .build();
+
         this.lifecycle = lifecycle;
-        this.resolver = resolver;
+        this.resolver = resolver.createSub(introspectionProperty);;
         this.stage = stage;
     }
 
