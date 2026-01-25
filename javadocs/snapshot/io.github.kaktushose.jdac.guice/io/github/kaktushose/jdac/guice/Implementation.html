@@ -86,6 +86,22 @@ and instantiated by guice. Following types are candidates for automatic registra
 <li><a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/adapter/TypeAdapter.html" title="interface in io.github.kaktushose.jdac.dispatching.adapter"><code>TypeAdapter</code></a> (via <a href="Implementation.TypeAdapter.html" title="annotation interface in io.github.kaktushose.jdac.guice"><code>@Implementation.TypeAdapter</code></a>)</li>
 <li><a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation"><code>Validator</code></a> (via <a href="Implementation.Validator.html" title="annotation interface in io.github.kaktushose.jdac.guice"><code>@Implementation.Validator</code></a>)</li>
 </ul>
+<h3 id="dependencies-on-other-framework-components-heading">Dependencies on other framework components</h3>
+<p>If you need access to other components of <a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACommands.html" title="class in io.github.kaktushose.jdac"><code>JDACommands</code></a>, you can get all <a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/Property.html" title="interface in io.github.kaktushose.jdac.configuration">Properties</a> of stage <a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Stage.html#CONFIGURATION"><code>Stage.CONFIGURATION</code></a>
+by either injecting (see list underneath) or using <a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a>.</p>
+<p>Please note that this could lead to cycling dependencies errors,
+for more information see <a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/configuration/PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration"><code>PropertyProvider</code></a>.</p>
+<p>Following components are directly injectable by Guice:</p>
+<ul>
+<li><a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a></li>
+<li><a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a></li>
+<li><a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/emoji/EmojiResolver.html" title="class in io.github.kaktushose.jdac.message.emoji"><code>EmojiResolver</code></a></li>
+<li><a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description"><code>Descriptor</code></a></li>
+<li><a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/definitions/description/ClassFinder.html" title="interface in io.github.kaktushose.jdac.definitions.description"><code>ClassFinder</code></a></li>
+<li><a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a></li>
+</ul>
+<p>If you need other properties of stage <a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Stage.html#CONFIGURATION"><code>Stage.CONFIGURATION</code></a>, just inject the <a href="../../../../../../io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> instance and retrieve
+them manually.</p>
 </div>
 </div>
 </section>

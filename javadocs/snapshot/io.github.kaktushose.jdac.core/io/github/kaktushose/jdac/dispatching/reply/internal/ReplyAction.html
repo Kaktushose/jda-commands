@@ -77,7 +77,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#reply(net.dv8tion.jda.api.utils.messages.MessageCreateData)" tabindex="0">reply(MessageCreateData)</a></li>
 <li><a href="#reply(net.dv8tion.jda.api.components.MessageTopLevelComponent,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">reply(MessageTopLevelComponent, Entry...)</a></li>
 <li><a href="#reply(java.util.Collection,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">reply(Collection, Entry...)</a></li>
-<li><a href="#reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">reply(ComponentReplacer, Entry...)</a></li>
+<li><a href="#reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer,net.dv8tion.jda.api.components.replacer.ComponentReplacer,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">reply(ComponentReplacer, ComponentReplacer, Entry...)</a></li>
 <li><a href="#builder(java.util.function.Consumer)" tabindex="0">builder(Consumer)</a></li>
 <li><a href="#addComponents(net.dv8tion.jda.api.components.MessageTopLevelComponent...)" tabindex="0">addComponents(MessageTopLevelComponent...)</a></li>
 <li><a href="#addEmbeds(net.dv8tion.jda.api.entities.MessageEmbed...)" tabindex="0">addEmbeds(MessageEmbed...)</a></li>
@@ -174,7 +174,8 @@ loadScripts(document, 'script');</script>
  <a href="../../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link">ComponentReplacer</a>&nbsp;componentReplacer,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer,net.dv8tion.jda.api.components.replacer.ComponentReplacer,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">reply</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link">ComponentReplacer</a>&nbsp;userProvided,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link">ComponentReplacer</a>&nbsp;resolver,
  <a href="../../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></code></div>
@@ -341,10 +342,11 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer,io.github.kaktushose.jdac.message.placeholder.Entry...)">
+<section class="detail" id="reply(net.dv8tion.jda.api.components.replacer.ComponentReplacer,net.dv8tion.jda.api.components.replacer.ComponentReplacer,io.github.kaktushose.jdac.message.placeholder.Entry...)">
 <h3>reply</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link">ComponentReplacer</a>&nbsp;componentReplacer,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link">Message</a></span>&nbsp;<span class="element-name">reply</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link">ComponentReplacer</a>&nbsp;userProvided,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link">ComponentReplacer</a>&nbsp;resolver,
  <a href="../../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</span></div>
 </div>
 </section>
