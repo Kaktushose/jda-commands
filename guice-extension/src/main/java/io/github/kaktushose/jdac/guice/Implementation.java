@@ -39,8 +39,10 @@ import java.lang.annotation.*;
 /// - [`Validator`][io.github.kaktushose.jdac.dispatching.validation.Validator] (via [`@Implementation.Validator`][Validator])
 ///
 /// ## Dependencies on other framework components
-/// If you need access to other components of [JDACommands], you can inject all [Properties][Property]
-/// with their stage set to [Stage#CONFIGURATION]. Please note that this could lead to cycling dependencies errors,
+/// If you need access to other components of [JDACommands], you can get all [Properties][Property] of stage [Stage#CONFIGURATION]
+/// by either injecting (see list underneath) or using [Introspection].
+///
+/// Please note that this could lead to cycling dependencies errors,
 /// for more information see [PropertyProvider].
 ///
 /// Following components are directly injectable by Guice:
