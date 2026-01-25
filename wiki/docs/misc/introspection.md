@@ -42,6 +42,7 @@ methods of JDA-Commands.
 
 When accessing the Introspection API inside an [interaction controller method](../interactions/overview.md#structure)
 the stage is always <Stage#INTERACTION> providing access to all properties.
+During instantiation (inside the constructor) of an interaction controller class, the stage is set to <Stage#RUNTIME>.
 
 ## Subscribing to <FrameworkEvent>s
 Sometimes it's convenient to execute some custom code at some point during the runtime.
