@@ -1,11 +1,19 @@
 package io.github.kaktushose.jdac.guice;
 
+import io.github.kaktushose.jdac.JDACommands;
+import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
+import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiSource;
+import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import jakarta.inject.Scope;
@@ -29,6 +37,24 @@ import java.lang.annotation.*;
 /// - [`Middleware`][io.github.kaktushose.jdac.dispatching.middleware.Middleware] (via [`@Implementation.Middleware`][Middleware])
 /// - [`TypeAdapter`][io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter] (via [`@Implementation.TypeAdapter`][TypeAdapter])
 /// - [`Validator`][io.github.kaktushose.jdac.dispatching.validation.Validator] (via [`@Implementation.Validator`][Validator])
+///
+/// ## Dependencies on other framework components
+/// If you need access to other components of [JDACommands], you can get all [Properties][Property] of stage [Stage#CONFIGURATION]
+/// by either injecting (see list underneath) or using [Introspection].
+///
+/// Please note that this could lead to cycling dependencies errors,
+/// for more information see [PropertyProvider].
+///
+/// Following components are directly injectable by Guice:
+/// - [I18n]
+/// - [MessageResolver]
+/// - [EmojiResolver]
+/// - [Descriptor]
+/// - [ClassFinder]
+/// - [Introspection]
+///
+/// If you need other properties of stage [Stage#CONFIGURATION], just inject the [Introspection] instance and retrieve
+/// them manually.
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Scope

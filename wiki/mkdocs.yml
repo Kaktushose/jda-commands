@@ -74,6 +74,12 @@ markdown_extensions:
   - pymdownx.superfences
   - markdown_javadoc_references: # docs: https://github.com/Goldmensch/pymarkdown-java-references
       urls:
+        - alias: 'jakarta'
+          url: 'https://javadoc.io/doc/jakarta.platform/jakarta.jakartaee-api/latest/'
+          auto_searched: 'false'
+        - alias: 'guice'
+          url: 'https://google.github.io/guice/api-docs/latest/javadoc/'
+          auto_searched: 'false'
         - 'https://docs.oracle.com/en/java/javase/25/docs/api/'
         - 'https://docs.jda.wiki/'
         - 'https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/'
@@ -88,7 +94,7 @@ markdown_extensions:
         name = None
         match ref:
           case Klass():
-            name = ref.name
+            name = f"@{ref.name}" if ref.type == Type.ANN_INTERFACE else ref.name
           case Field():
             name = f'{ref.klass.name}#{ref.name}'
           case Method():

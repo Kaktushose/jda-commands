@@ -14,6 +14,7 @@ import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.guice.GuiceExtensionData;
 import io.github.kaktushose.jdac.guice.Implementation;
 import io.github.kaktushose.jdac.guice.internal.guice.GuiceExtensionModule;
+import io.github.kaktushose.jdac.guice.internal.guice.PropertyProviderModule;
 import io.github.kaktushose.jdac.guice.internal.guice.RuntimeBoundScope;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
@@ -41,9 +42,8 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 @ApiStatus.Internal
 public class GuiceExtension implements Extension<GuiceExtensionData> {
 
-    @Nullable
     private Injector injector;
-    private RuntimeBoundScope runtimeBoundScope = new RuntimeBoundScope();
+    private final RuntimeBoundScope runtimeBoundScope = new RuntimeBoundScope();
 
     @Override
     public void init(@Nullable GuiceExtensionData data) {
@@ -135,10 +135,13 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
     }
 
     private <T> Stream<T> instances(PropertyProvider.Context ctx, Class<? extends Annotation> annotation, Class<T> type) {
+        Introspection introspection = ctx.get(Property.INTROSPECTION);
+        Injector childInjector = injector.createChildInjector(new PropertyProviderModule(introspection));
+
         return ctx.get(Property.MERGED_CLASS_FINDER)
                 .search(annotation, type)
                 .stream()
-                .map(injector::getInstance);
+                .map(childInjector::getInstance);
     }
 
     @Override

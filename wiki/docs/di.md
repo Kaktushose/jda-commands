@@ -19,8 +19,55 @@ To allow the injection of own Objects in these instances, JDA-Commands provides 
 If your using JDA-Commands via the `io.github.kaktushose:jda-commands:VERSION` artifact, an integration for 
 [Googles Guice](https://github.com/google/guice) is shipped by default. 
 
+### Interaction controller classes
+
+You can annotate the constructor (or fields) of your interaction controller class with <jakarta -> Inject>
+to either inject [framework components (properties)](misc/property.md) or your own 
+objects provided by a custom <guice -> Injector>.
+
+You can directly inject following classes:
+
+- <JDACommands>
+- <Definitions>
+- <JDA> (the instance bound to this interaction)
+- <I18n>
+- <MessageResolver>
+- <EmojiResolver>
+- <PlaceholderResolver>
+- <io.github.kaktushose.jdac.definitions.description.Descriptor>
+- <ClassFinder>
+- <Introspection> (see [here fore more information](misc/introspection.md))
+
+If you need any other <Property>, just inject them via the <Introspection> instance manually.
+During instantiation (inside the constructor) of an interaction controller class, the stage is set to <Stage#RUNTIME>.
+
+!!! example 
+    ```java
+    @Interaction
+    class MyCommand {
+        
+        @Inject
+        MyCommand(JDA jda, //(1)
+                  MessageResolver resolver, //(2)
+                  Introspection introspection) { //(3)
+            // do whatever you want with them
+        }
+        
+        @Command("hello")
+        public void onCommand(CommandEvent event) {
+            ...
+        }
+    }
+    ```
+    
+    1. the <JDA> instance used. If you're using <ShardManager>, this is the one the guild executing the command is paired to.
+    2. the <MessageResolver> instance used by JDA-Commands. It's a "framework component".
+    3. the <Introspection> instance used in this scope with stage set to <Stage#RUNTIME>
+
+### Configuration (providing a custom <guice -> Injector>)
+
 To customize this integration you can pass an instance of <GuiceExtensionData>
-to the JDA-Commands builder, which allows you to provide an own instance of [Guices Injector](https://google.github.io/guice/api-docs/7.0.0/javadoc/com/google/inject/Injector.html).
+to the JDA-Commands builder, which allows you to provide an own instance of <guice -> Injector>.
 
 !!! example "Configuring Guice"
     ```java
@@ -29,24 +76,6 @@ to the JDA-Commands builder, which allows you to provide an own instance of [Gui
     JDACommands.builder(jda, Main.class)
             .extensionData(new GuiceExtensionData(yourInjector))
             .start();
-    ```
-
-!!! tip "JDA Object"
-    The `JDA` instance is provided by JDA-Commands and can be obtained via Guice.
-    ```java
-    @Interaction
-    public class GreetCommand {
-        
-        private final JDA jda;
-
-        @Inject
-        public GreetCommand(JDA jda) {
-            this.jda = jda;
-        }
-
-        @Command("greet")
-        public void onCommand(CommandEvent event) { ... }
-    }
     ```
 
 ## `@Implementation` annotation
@@ -88,6 +117,10 @@ The annotated classes will be instantiated with help of `com.google.inject.Injec
     }
 
     ```
+
+Just like in [interaction controller methods](#interaction-controller-classes), you can
+inject framework components and custom objects in your classes.
+Take a look at the Javadocs of <Implementation> to know what you can inject here.
 
 ## Custom dependency injection integrations
 If you want to integrate another dependency injection framework, you have to provide your own 

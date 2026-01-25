@@ -55,6 +55,10 @@ public final class Resolver {
         Resolver sub = new Resolver(new HashMap<>(this.properties));
         sub.properties.putAll(additional.properties());
         sub.cache.putAll(this.cache);
+
+        // remove newly added properties from cache, because already set properties may get a new provider (e.g. Property.INTROSPECTION)
+        sub.cache.keySet().removeAll(additional.properties().keySet());
+
         return sub;
     }
 
