@@ -14,6 +14,7 @@ import static org.mockito.Mockito.mock;
 public final class EntitySelectInvocation extends ComponentInvocation<EntitySelectInteractionEvent> {
 
     private Mentions mentions;
+    private int uniqueId;
 
     public EntitySelectInvocation(TestScenario.Context context, String customId, @Nullable MessageEditData lastMessage) {
         super(context, customId, lastMessage, EntitySelectInteractionEvent.class);
@@ -23,6 +24,7 @@ public final class EntitySelectInvocation extends ComponentInvocation<EntitySele
 
         EntitySelectInteraction interaction = mock(EntitySelectInteraction.class);
         lenient().when(event.getInteraction()).thenReturn(interaction);
+        lenient().when(interaction.getUniqueId()).then(_ -> uniqueId);
         lenient().when(interaction.getMentions()).then(_ -> mentions);
     }
 
@@ -30,6 +32,11 @@ public final class EntitySelectInvocation extends ComponentInvocation<EntitySele
     /// the fly when testing
     public EntitySelectInvocation mentions(Mentions mentions) {
         this.mentions = mentions;
+        return this;
+    }
+
+    public EntitySelectInvocation uniqueId(int uniqueId) {
+        this.uniqueId = uniqueId;
         return this;
     }
 }

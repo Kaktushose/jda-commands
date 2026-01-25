@@ -84,9 +84,10 @@ class ComponentsV1Test {
         when(mentions.getMembers()).thenAnswer(_ -> List.of(member));
         when(mentions.getChannels()).thenReturn(List.of());
         when(mentions.getRoles()).thenReturn(List.of());
-        reply = reply.entitySelect("entitySelect").mentions(mentions).invoke();
-
         var entitySelectMenu = reply.findEntitySelect("entitySelect").orElseThrow();
+        reply = reply.entitySelect("entitySelect").mentions(mentions).uniqueId(entitySelectMenu.getUniqueId()).invoke();
+
+        entitySelectMenu = reply.findEntitySelect("entitySelect").orElseThrow();
 
         assertEquals(1, entitySelectMenu.getDefaultValues().size());
         assertEquals(SelectTarget.USER, entitySelectMenu.getDefaultValues().getFirst().getType());
