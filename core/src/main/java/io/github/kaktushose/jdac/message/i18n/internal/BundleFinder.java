@@ -6,12 +6,14 @@ import io.github.kaktushose.jdac.definitions.description.Description;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import org.apache.commons.collections4.map.LRUMap;
+import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
+@ApiStatus.Internal
 public class BundleFinder {
     // skipped classes during stack scanning (Class.getName().startWith(X))
     private static final List<String> SKIPPED = List.of(
