@@ -114,7 +114,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param button the name of the button defining method
     /// @return the JDA [Button]
     public Button getButton(Class<?> origin, String button) {
-        return getComponent(button, null, ButtonDefinition.class);
+        return getComponent(button, origin, ButtonDefinition.class);
     }
 
     /// Gets a [StringMenu] or [EntityMenu] based on the method name and transforms it into a JDA [SelectMenu].
