@@ -59,6 +59,8 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#resolve(T,java.util.Locale,java.util.Map)" tabindex="0">resolve(T, Locale, Map)</a></li>
 <li><a href="#resolve(T,java.util.Locale,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">resolve(T, Locale, Entry...)</a></li>
+<li><a href="#resolve(T,net.dv8tion.jda.api.interactions.DiscordLocale,java.util.Map)" tabindex="0">resolve(T, DiscordLocale, Map)</a></li>
+<li><a href="#resolve(T,net.dv8tion.jda.api.interactions.DiscordLocale,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">resolve(T, DiscordLocale, Entry...)</a></li>
 <li><a href="#priority()" tabindex="0">priority()</a></li>
 </ol>
 </li>
@@ -133,6 +135,20 @@ of the frameworks resolving logic for dynamic values if needed.</p>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Resolves the given object for the provided locale.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="#type-param-T" title="type parameter in Resolver">T</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resolve(T,net.dv8tion.jda.api.interactions.DiscordLocale,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">resolve</a><wbr>(<a href="#type-param-T" title="type parameter in Resolver">T</a>&nbsp;object,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/DiscordLocale.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">DiscordLocale</a>&nbsp;locale,
+ <a href="../placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholders)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Resolves the given object for the provided locale.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="#type-param-T" title="type parameter in Resolver">T</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resolve(T,net.dv8tion.jda.api.interactions.DiscordLocale,java.util.Map)" class="member-name-link">resolve</a><wbr>(<a href="#type-param-T" title="type parameter in Resolver">T</a>&nbsp;object,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/DiscordLocale.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">DiscordLocale</a>&nbsp;locale,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Resolves the given object for the provided locale.</div>
+</div>
 </div>
 </div>
 </div>
@@ -178,6 +194,44 @@ of the frameworks resolving logic for dynamic values if needed.</p>
 <dt>Parameters:</dt>
 <dd><code>object</code> - the object to resolve</dd>
 <dd><code>locale</code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> to use for localization</dd>
+<dd><code>placeholders</code> - the placeholders to use if supported by the used localization system</dd>
+<dt>Returns:</dt>
+<dd>the resolved object</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="resolve(T,net.dv8tion.jda.api.interactions.DiscordLocale,java.util.Map)">
+<h3 id="resolve(java.lang.Object,net.dv8tion.jda.api.interactions.DiscordLocale,java.util.Map)">resolve</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="#type-param-T" title="type parameter in Resolver">T</a></span>&nbsp;<span class="element-name">resolve</span><wbr><span class="parameters">(<a href="#type-param-T" title="type parameter in Resolver">T</a>&nbsp;object,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/DiscordLocale.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">DiscordLocale</a>&nbsp;locale,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders)</span></div>
+<div class="block">Resolves the given object for the provided locale.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>object</code> - the object to resolve</dd>
+<dd><code>locale</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/DiscordLocale.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link"><code>DiscordLocale</code></a> to use for localization</dd>
+<dd><code>placeholders</code> - the placeholders to use if supported by the used localization system</dd>
+<dt>Returns:</dt>
+<dd>the resolved object</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="resolve(T,net.dv8tion.jda.api.interactions.DiscordLocale,io.github.kaktushose.jdac.message.placeholder.Entry...)">
+<h3 id="resolve(java.lang.Object,net.dv8tion.jda.api.interactions.DiscordLocale,io.github.kaktushose.jdac.message.placeholder.Entry[])">resolve</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="#type-param-T" title="type parameter in Resolver">T</a></span>&nbsp;<span class="element-name">resolve</span><wbr><span class="parameters">(<a href="#type-param-T" title="type parameter in Resolver">T</a>&nbsp;object,
+ <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/DiscordLocale.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link">DiscordLocale</a>&nbsp;locale,
+ <a href="../placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholders)</span></div>
+<div class="block">Resolves the given object for the provided locale.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>object</code> - the object to resolve</dd>
+<dd><code>locale</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/DiscordLocale.html" title="class or interface in net.dv8tion.jda.api.interactions" class="external-link"><code>DiscordLocale</code></a> to use for localization</dd>
 <dd><code>placeholders</code> - the placeholders to use if supported by the used localization system</dd>
 <dt>Returns:</dt>
 <dd>the resolved object</dd>
