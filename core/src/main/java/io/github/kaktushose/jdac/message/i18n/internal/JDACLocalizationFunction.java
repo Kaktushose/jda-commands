@@ -39,13 +39,11 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
         for (DiscordLocale locale : DiscordLocale.values()) {
             if (locale == DiscordLocale.UNKNOWN) continue;
 
-            Locale javaLocale = locale.toLocale();
-
-            tryLocalize(bundle + "$" + localizationKey, javaLocale) // with found bundle (or default)
-                    .or(() -> tryLocalize(localizationKey, javaLocale)) // fallback to default bundle if not found in special bundle
+            tryLocalize(bundle + "$" + localizationKey, locale) // with found bundle (or default)
+                    .or(() -> tryLocalize(localizationKey, locale)) // fallback to default bundle if not found in special bundle
                     .or(() -> {
                         if (localizationKey.endsWith(".description")) {
-                            String result = resolver.resolve("jdac$no-description", locale.toLocale());
+                            String result = resolver.resolve("jdac$no-description", locale);
                             return Optional.of(result);
                         }
                         return Optional.empty();
@@ -56,7 +54,7 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
         return localizations;
     }
 
-    private Optional<String> tryLocalize(String key, Locale locale) {
+    private Optional<String> tryLocalize(String key, DiscordLocale locale) {
         String result = ScopedValue.where(JDA_LOCALIZATION, true).call(() -> resolver.resolve(key, locale));
         return result.equals(key)
                 ? Optional.empty()
