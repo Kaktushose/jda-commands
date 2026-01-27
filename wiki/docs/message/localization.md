@@ -178,11 +178,19 @@ For this task the reserved bundle `jdac` was defined, allowing the customization
 
 ## LocalizationFunction (JDA) / Slash Command Localization
 JDA uses the <LocalizationFunction> for localizing slash commands.
-We implement this interface based on our `I18n` class as described above.
+We implement this interface based on <MessageResolver> (see [here](overview.md#resolution)).
 
 If you want to disable slash commands localization just call [`JDACBuilder#localizeCommands(false)`][[JDACBuilder#localizeCommands(boolean)]].
 
-See the [JDA Docs](https://github.com/discord-jda/JDA/blob/master/src/examples/java/LocalizationExample.java) for details.
+### Used Bundle
+The [bundle](#bundles) used here is generally `default`. 
+
+If the [interaction controller class](../interactions/overview.md#structure) or the `package-info.java` in the same package as the class
+is annotated by <Bundle>, the specified bundle will be used instead. If the localization key isn't found in this bundle, the `default`
+bundle will be searched as a fallback option.
+
+See the [JDA Docs](https://github.com/discord-jda/JDA/blob/master/src/examples/java/LocalizationExample.java) for more details about the localization keys and locales.
+(We use <DiscordLocale#toLocale()> to convert the locales)
 
 ## Default Implementation
 By default, JDA-Commands supports localization with help of the [Fluava](https://github.com/Goldmensch/fluava) library, a [Project Fluent](https://projectfluent.org/) implementation for Java.
