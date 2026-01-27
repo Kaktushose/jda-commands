@@ -5,6 +5,7 @@ import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.exceptions.ParsingException;
 import net.dv8tion.jda.api.utils.data.DataObject;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,5 +86,5 @@ public interface EmbedDataSource {
     /// @return an [Optional] holding the [Embed] constructed from the retrieved embed json or an empty [Optional]
     /// if no embed was found for the given name
     /// @throws ParsingException If the embed json is incorrect
-    Optional<Embed> get(String embed, Map<String, Object> placeholders, MessageResolver messageResolver);
+    Optional<Embed> get(String embed, Map<String, @Nullable Object> placeholders, MessageResolver messageResolver);
 }

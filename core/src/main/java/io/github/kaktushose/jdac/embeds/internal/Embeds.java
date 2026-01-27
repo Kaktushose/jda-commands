@@ -9,11 +9,11 @@ import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.ProteusBuilder.ConflictStrategy;
 import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static io.github.kaktushose.proteus.mapping.Mapper.uni;
 import static io.github.kaktushose.proteus.mapping.MappingResult.lossless;
@@ -23,7 +23,7 @@ import static io.github.kaktushose.proteus.mapping.MappingResult.lossless;
 /// @param sources      the [EmbedDataSource]s [Embed]s can be loaded from
 /// @param placeholders the global placeholders as defined in [EmbedConfig#placeholders(Map)]
 @ApiStatus.Internal
-public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> placeholders, MessageResolver messageResolver) {
+public record Embeds(Collection<EmbedDataSource> sources, Map<String, @Nullable Object> placeholders, MessageResolver messageResolver) {
 
     static {
         Proteus.global().from(Type.of(Color.class)).into(Type.of(String.class),
@@ -73,7 +73,7 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
     public static class Configuration implements EmbedConfig {
 
         private final List<EmbedDataSource> sources;
-        private final Map<String, Object> placeholders;
+        private final Map<String, @Nullable Object> placeholders;
         private final MessageResolver messageResolver;
 
         /// Constructs a new embed configuration builder.
@@ -85,7 +85,7 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, Object> pl
 
         @Override
         public Configuration placeholders(Entry... placeholders) {
-            this.placeholders.putAll(Arrays.stream(placeholders).collect(Collectors.toUnmodifiableMap(Entry::name, Entry::value)));
+            this.placeholders.putAll(Entry.toMap(placeholders));
             return this;
         }
 
