@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.message.resolver;
 
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import net.dv8tion.jda.api.interactions.DiscordLocale;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
@@ -38,6 +39,26 @@ public interface Resolver<T> {
     /// @param placeholders the placeholders to use if supported by the used localization system
     /// @return the resolved object
     default T resolve(T object, Locale locale, Entry... placeholders) {
+        return resolve(object, locale, Entry.toMap(placeholders));
+    }
+
+    /// Resolves the given object for the provided locale.
+    ///
+    /// @param object       the object to resolve
+    /// @param locale       the [DiscordLocale] to use for localization
+    /// @param placeholders the placeholders to use if supported by the used localization system
+    /// @return the resolved object
+    default T resolve(T object, DiscordLocale locale, Map<String, @Nullable Object> placeholders) {
+        return resolve(object, locale.toLocale(), placeholders);
+    }
+
+    /// Resolves the given object for the provided locale.
+    ///
+    /// @param object       the object to resolve
+    /// @param locale       the [DiscordLocale] to use for localization
+    /// @param placeholders the placeholders to use if supported by the used localization system
+    /// @return the resolved object
+    default T resolve(T object, DiscordLocale locale, Entry... placeholders) {
         return resolve(object, locale, Entry.toMap(placeholders));
     }
 

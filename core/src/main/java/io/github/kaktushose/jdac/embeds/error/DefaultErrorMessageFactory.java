@@ -188,7 +188,7 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     private MessageTopLevelComponent build(Container container, Color color, DiscordLocale locale, Entry... placeholders) {
         return resolver.resolve(
                 container.withAccentColor(color),
-                locale.toLocale(),
+                locale,
                 placeholders
         );
     }
