@@ -31,7 +31,6 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// @param permissions          a [Collection] of permissions for this command
 /// @param name                 the name of the command
 /// @param commandConfig        the [CommandConfig] to use
-/// @param localizationFunction the [LocalizationFunction] to use for this command
 /// @param description          the command description
 /// @param commandOptions       a [SequencedCollection] of [OptionDataDefinition]s
 public record SlashCommandDefinition(
