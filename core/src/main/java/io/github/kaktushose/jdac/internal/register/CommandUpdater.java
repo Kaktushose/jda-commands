@@ -36,11 +36,12 @@ public final class CommandUpdater {
     /// Constructs a new CommandUpdater.
     public CommandUpdater(JDAContext jdaContext,
                           GuildScopeProvider guildScopeProvider,
-                          InteractionRegistry registry) {
+                          InteractionRegistry registry,
+                          LocalizationFunction localizationFunction) {
         this.jdaContext = jdaContext;
         this.guildScopeProvider = guildScopeProvider;
         this.interactionRegistry = registry;
-        this.localizationFunction = registry.localizationFunction();
+        this.localizationFunction = localizationFunction;
     }
 
     /// Sends the [SlashCommandData] to Discord. This is equivalent to calling [#updateGlobalCommands()] and
@@ -62,6 +63,12 @@ public final class CommandUpdater {
                         .map(ContextCommandDefinition::toJDAEntity)
                         .toList()
         );
+
+        // set LocalizationFunction
+        for (CommandData command : commands) {
+            command.setLocalizationFunction(localizationFunction);
+        }
+
         return commands;
     }
 
@@ -88,6 +95,7 @@ public final class CommandUpdater {
         update.forEach(guild -> {
             log.debug("Updating guild commands for guild: {}", guild);
             var commands = guildMapping.getOrDefault(guild.getIdLong(), Collections.emptySet());
+
             guild.updateCommands().addCommands(commands).queue();
             log.debug("Registered guild command(s) {} for {}", commands.stream().map(CommandData::getName).collect(Collectors.toSet()), guild);
         });

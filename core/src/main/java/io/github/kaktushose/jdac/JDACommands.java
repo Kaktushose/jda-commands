@@ -32,10 +32,10 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+
+import static io.github.kaktushose.jdac.configuration.Property.LOCALIZATION_FUNCTION;
+import static io.github.kaktushose.jdac.configuration.Property.LOCALIZE_COMMANDS;
 
 /// The main entry point of the JDA-Commands framework. This class includes methods to manage the overall framework
 /// while running.
@@ -56,7 +56,8 @@ public final class JDACommands {
         this.updater = new CommandUpdater(
                 introspection.get(InternalProperties.JDA_CONTEXT),
                 introspection.get(Property.GUILD_SCOPE_PROVIDER),
-                introspection.get(InternalProperties.INTERACTION_REGISTRY)
+                introspection.get(InternalProperties.INTERACTION_REGISTRY),
+                introspection.get(LOCALIZE_COMMANDS) ? introspection.get(LOCALIZATION_FUNCTION) : (_) -> Map.of()
         );
 
         this.jdaEventListener = new JDAEventListener(introspection);

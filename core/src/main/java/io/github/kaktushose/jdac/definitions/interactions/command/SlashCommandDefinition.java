@@ -12,6 +12,7 @@ import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.internal.Helpers;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
@@ -30,7 +31,6 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// @param permissions          a [Collection] of permissions for this command
 /// @param name                 the name of the command
 /// @param commandConfig        the [CommandConfig] to use
-/// @param localizationFunction the [LocalizationFunction] to use for this command
 /// @param description          the command description
 /// @param commandOptions       a [SequencedCollection] of [OptionDataDefinition]s
 public record SlashCommandDefinition(
@@ -39,7 +39,6 @@ public record SlashCommandDefinition(
         Collection<String> permissions,
         String name,
         CommandConfig commandConfig,
-        LocalizationFunction localizationFunction,
         String description,
         SequencedCollection<OptionDataDefinition> commandOptions
 ) implements CommandDefinition {
@@ -93,7 +92,6 @@ public record SlashCommandDefinition(
                 Helpers.permissions(context),
                 name,
                 Helpers.commandConfig(context),
-                context.localizationFunction(),
                 description,
                 commandOptions
         );
@@ -125,6 +123,8 @@ public record SlashCommandDefinition(
 
     /// Transforms this definition into [SlashCommandData].
     ///
+    /// This does not set [CommandData#setLocalizationFunction(LocalizationFunction)]!
+    ///
     /// @return the [SlashCommandData]
     @Override
     public SlashCommandData toJDAEntity() {
@@ -137,7 +137,6 @@ public record SlashCommandDefinition(
             command.setIntegrationTypes(commandConfig.integration())
                     .setContexts(commandConfig.context())
                     .setNSFW(commandConfig.isNSFW())
-                    .setLocalizationFunction(localizationFunction)
                     .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()))
                     .addOptions(commandOptions.stream()
                             .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))

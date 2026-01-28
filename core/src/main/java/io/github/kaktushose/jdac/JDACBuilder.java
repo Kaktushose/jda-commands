@@ -38,6 +38,7 @@ import io.github.kaktushose.jdac.message.emoji.EmojiSource;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
+import io.github.kaktushose.jdac.message.i18n.internal.BundleFinder;
 import io.github.kaktushose.jdac.message.i18n.internal.JDACLocalizationFunction;
 import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
@@ -154,12 +155,13 @@ public class JDACBuilder {
         });
         addFallback(EMBEDS, ctx -> ctx.get(EMBED_CONFIG_INTERNAL).build());
 
-        addFallback(I18N, ctx -> new I18n(ctx.get(DESCRIPTOR), ctx.get(LOCALIZER)));
+        addFallback(LOCALIZATION_FUNCTION, ctx -> new JDACLocalizationFunction(ctx.get(BUNDLE_FINDER), ctx.get(DEFINITIONS), ctx.get(MESSAGE_RESOLVER)));
+        addFallback(BUNDLE_FINDER, ctx -> new BundleFinder(ctx.get(DESCRIPTOR)));
+        addFallback(I18N, ctx -> new I18n(ctx.get(BUNDLE_FINDER), ctx.get(LOCALIZER)));
 
         addFallback(STRING_RESOLVER, ctx -> List.of(ctx.get(I18N), ctx.get(EMOJI_RESOLVER), ctx.get(PLACEHOLDER_RESOLVER)));
         addFallback(MESSAGE_RESOLVER, ctx -> new MessageResolver(ctx.get(STRING_RESOLVER)));
         addFallback(PLACEHOLDER_RESOLVER, _ -> new PlaceholderResolver());
-        addFallback(LOCALIZATION_FUNCTION, ctx -> new JDACLocalizationFunction(ctx.get(MESSAGE_RESOLVER)));
 
         addFallback(EMOJI_RESOLVER, ctx -> {
             Helpers.registerAppEmojis(ctx.get(JDA_CONTEXT), ctx.get(EMOJI_SOURCES));
@@ -366,17 +368,15 @@ public class JDACBuilder {
             try {
                 log.info("Starting JDA-Commands...");
 
-                InteractionRegistry interactionRegistry = new InteractionRegistry(
-                        new Validators(introspection.get(VALIDATOR)),
-                        introspection.get(MESSAGE_RESOLVER),
-                        introspection.get(LOCALIZE_COMMANDS) ? introspection.get(LOCALIZATION_FUNCTION) : (_) -> Map.of(),
-                        introspection.get(DESCRIPTOR)
-                );
                 Middlewares middlewares = new Middlewares(introspection.get(MIDDLEWARE), introspection.get(ERROR_MESSAGE_FACTORY), introspection.get(PERMISSION_PROVIDER));
                 TypeAdapters typeAdapters = new TypeAdapters(introspection.get(TYPE_ADAPTER), introspection.get(MESSAGE_RESOLVER));
 
                 IntrospectionImpl initIntrospection = Properties.Builder.newRestricted()
-                        .addFallback(INTERACTION_REGISTRY, _ -> interactionRegistry)
+                        .addFallback(INTERACTION_REGISTRY, ctx -> new InteractionRegistry(
+                                new Validators(ctx.get(VALIDATOR)),
+                                ctx.get(MESSAGE_RESOLVER),
+                                ctx.get(DESCRIPTOR)
+                        ))
                         .addFallback(DEFINITIONS, ctx -> ctx.get(INTERACTION_REGISTRY))
                         .addFallback(MIDDLEWARES, _ -> middlewares)
                         .addFallback(TYPE_ADAPTERS, _ -> typeAdapters)

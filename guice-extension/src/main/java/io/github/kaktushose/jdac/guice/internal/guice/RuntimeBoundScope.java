@@ -21,7 +21,14 @@ public class RuntimeBoundScope implements Scope {
         return () -> {
             Map<Key<?>, Object> runtimeBoundCache = store.computeIfAbsent(Introspection.scopedGet(Property.RUNTIME_ID), _ -> new ConcurrentHashMap<>());
 
-            return (T) runtimeBoundCache.computeIfAbsent(key, _ -> unscoped.get());
+            // runtimeBundCache is never accessed concurrently, that's fine
+            // cannot use computeIfAbsent, will throw recursive update
+            if (!runtimeBoundCache.containsKey(key)) {
+                T val = unscoped.get();
+                runtimeBoundCache.put(key, val);
+                return val;
+            }
+            return (T) runtimeBoundCache.get(key);
         };
     }
 
