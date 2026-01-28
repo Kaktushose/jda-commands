@@ -20,7 +20,6 @@ public class ReflectiveDescriptor implements Descriptor {
     public ClassDescription describe(Class<?> clazz) {
         List<MethodDescription> methods = Arrays.stream(clazz.getDeclaredMethods())
                 .map(this::method)
-                .filter(Objects::nonNull)
                 .toList();
 
         return new ClassDescription(
@@ -39,9 +38,7 @@ public class ReflectiveDescriptor implements Descriptor {
         );
     }
 
-    @Nullable
     private MethodDescription method(Method method) {
-        if (!Modifier.isPublic(method.getModifiers())) return null;
         List<ParameterDescription> parameters = Arrays.stream(method.getParameters())
                 .map(this::parameter)
                 .toList();
