@@ -10,7 +10,10 @@ import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.SequencedCollection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -20,7 +23,7 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
 
     public static final ScopedValue<Boolean> JDA_LOCALIZATION = ScopedValue.newInstance();
     private static final Logger log = LoggerFactory.getLogger(JDACLocalizationFunction.class);
-
+    private static final Pattern OPTIONS_SEPARATOR = Pattern.compile("[.]options.*([.]name|[.]description)$");
     private final BundleFinder bundleFinder;
     private final Definitions definitions;
     private final MessageResolver resolver;
@@ -93,9 +96,6 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
         return Optional.of(found.getFirst());
 
     }
-
-
-    private static final Pattern OPTIONS_SEPARATOR = Pattern.compile("[.]options.*([.]name|[.]description)$");
 
     private Optional<String> extractCommand(String key) {
         Matcher matcher = OPTIONS_SEPARATOR.matcher(key);
