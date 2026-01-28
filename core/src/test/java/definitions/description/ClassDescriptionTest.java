@@ -58,7 +58,7 @@ class ClassDescriptionTest {
         assertEquals(Void.TYPE, description.returnType());
         assertTrue(description.parameters().isEmpty());
 
-        assertTrue(method("privateMethod").isEmpty());
+        assertFalse(method("privateMethod").isEmpty());
 
         description = method("returnType").orElseThrow();
         assertEquals(BaseClass.class, description.declaringClass());
