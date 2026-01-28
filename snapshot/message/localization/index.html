@@ -1316,6 +1316,23 @@ You're not viewing the latest stable version.
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="LocalizationFunction (JDA) / Slash Command Localization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#used-bundle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Used Bundle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2018,9 +2035,15 @@ localize them. </p>
 </div>
 <h2 id="localizationfunction-jda-slash-command-localization">LocalizationFunction (JDA) / Slash Command Localization<a class="headerlink" href="#localizationfunction-jda-slash-command-localization" title="Permanent link">&para;</a></h2>
 <p>JDA uses the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html"><code>LocalizationFunction</code></a> for localizing slash commands.
-We implement this interface based on our <code>I18n</code> class as described above.</p>
+We implement this interface based on <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/resolver/MessageResolver.html"><code>MessageResolver</code></a> (see <a href="../overview/#resolution">here</a>).</p>
 <p>If you want to disable slash commands localization just call <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/JDACBuilder.html#localizeCommands(boolean)"><code>JDACBuilder#localizeCommands(false)</code></a>.</p>
-<p>See the <a href="https://github.com/discord-jda/JDA/blob/master/src/examples/java/LocalizationExample.java">JDA Docs</a> for details.</p>
+<h3 id="used-bundle">Used Bundle<a class="headerlink" href="#used-bundle" title="Permanent link">&para;</a></h3>
+<p>The <a href="#bundles">bundle</a> used here is generally <code>default</code>. </p>
+<p>If the <a href="../../interactions/overview/#structure">interaction controller class</a> or the <code>package-info.java</code> in the same package as the class
+is annotated by <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/i18n/Bundle.html"><code>@Bundle</code></a>, the specified bundle will be used instead. If the localization key isn't found in this bundle, the <code>default</code>
+bundle will be searched as a fallback option.</p>
+<p>See the <a href="https://github.com/discord-jda/JDA/blob/master/src/examples/java/LocalizationExample.java">JDA Docs</a> for more details about the localization keys and locales.
+(We use <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/DiscordLocale.html#toLocale()"><code>DiscordLocale#toLocale()</code></a> to convert the locales)</p>
 <h2 id="default-implementation">Default Implementation<a class="headerlink" href="#default-implementation" title="Permanent link">&para;</a></h2>
 <p>By default, JDA-Commands supports localization with help of the <a href="https://github.com/Goldmensch/fluava">Fluava</a> library, a <a href="https://projectfluent.org/">Project Fluent</a> implementation for Java.
 You can provide an own instance of the <a href="https://goldmensch.github.io/fluava/javadocs/snapshot/dev.goldmensch.fluava/dev/goldmensch/fluava/Fluava.html">Fluava</a> class by calling
