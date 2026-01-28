@@ -26,7 +26,6 @@ jakarta = { module = "jakarta.inject:jakarta.inject-api", version = "2.0.1" }
 junit = { module = "org.junit.jupiter:junit-jupiter", version = "6.0.2" }
 mockito-core = { module = "org.mockito:mockito-core", version = "5.21.0" }
 
-
 [bundles]
 slf4j = [
     "slf4j-api",
@@ -35,3 +34,4 @@ slf4j = [
 
 [plugins]
 aggregate-javadoc = "io.freefair.aggregate-javadoc:8.12.2.1"
+spotless = "com.diffplug.spotless:8.2.1"
