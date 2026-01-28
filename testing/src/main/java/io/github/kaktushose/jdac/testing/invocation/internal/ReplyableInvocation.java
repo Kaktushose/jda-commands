@@ -88,8 +88,7 @@ public sealed class ReplyableInvocation<T extends IReplyCallback> extends Invoca
         return builder.setComponents(tree.getComponents()).build();
     }
 
-    @Nullable
-    public MessageEditData lastMessage() {
+    @Nullable public MessageEditData lastMessage() {
         return lastMessage;
     }
 

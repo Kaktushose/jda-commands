@@ -167,4 +167,3 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
         return replyAction.reply(componentTree.getComponents(), placeholder);
     }
 }
-

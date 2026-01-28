@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.testing.invocation.commands;
 
-import io.github.kaktushose.jdac.testing.invocation.internal.CommandInvocation;
 import io.github.kaktushose.jdac.testing.TestScenario.Context;
+import io.github.kaktushose.jdac.testing.invocation.internal.CommandInvocation;
 import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;

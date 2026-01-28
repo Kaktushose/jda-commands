@@ -9,8 +9,8 @@ import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInsta
 import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal

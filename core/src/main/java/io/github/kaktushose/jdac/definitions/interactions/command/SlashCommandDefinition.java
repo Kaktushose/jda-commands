@@ -97,8 +97,7 @@ public record SlashCommandDefinition(
         );
     }
 
-    @Nullable
-    private static AutoCompleteDefinition findAutoComplete(List<AutoCompleteDefinition> autoCompletes, ParameterDescription parameter, String command) {
+    @Nullable private static AutoCompleteDefinition findAutoComplete(List<AutoCompleteDefinition> autoCompletes, ParameterDescription parameter, String command) {
         var possibleAutoCompletes = autoCompletes.stream()
                 .filter(definition -> definition.rules().stream()
                         .flatMap(rule -> rule.options().stream())

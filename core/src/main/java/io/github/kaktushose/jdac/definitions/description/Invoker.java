@@ -21,6 +21,5 @@ public interface Invoker {
     /// @throws IllegalAccessException    if this Method object is enforcing Java language access control and the
     ///                                   underlying method is inaccessible
     /// @throws InvocationTargetException if an exception was thrown by the invoked method or constructor
-    @Nullable
-    Object invoke(Object instance, SequencedCollection<Object> arguments) throws IllegalAccessException, InvocationTargetException;
+    @Nullable Object invoke(Object instance, SequencedCollection<Object> arguments) throws IllegalAccessException, InvocationTargetException;
 }

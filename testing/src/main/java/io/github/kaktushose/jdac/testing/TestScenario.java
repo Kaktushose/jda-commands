@@ -10,13 +10,13 @@ import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInsta
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
-import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.testing.invocation.AutoCompleteInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.ContextCommandInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.SlashCommandInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.ButtonInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.EntitySelectInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.StringSelectInvocation;
+import dev.goldmensch.fluava.Fluava;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -119,14 +119,12 @@ public class TestScenario {
                     });
         }
 
-        @NotNull
-        public Builder replyConfig(@NotNull InteractionDefinition.ReplyConfig config) {
+        @NotNull public Builder replyConfig(@NotNull InteractionDefinition.ReplyConfig config) {
             jdacBuilder.globalReplyConfig(config);
             return this;
         }
 
-        @NotNull
-        public Builder commandConfig(@NotNull CommandDefinition.CommandConfig config) {
+        @NotNull public Builder commandConfig(@NotNull CommandDefinition.CommandConfig config) {
             jdacBuilder.globalCommandConfig(config);
             return this;
         }

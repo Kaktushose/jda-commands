@@ -1,12 +1,12 @@
 package io.github.kaktushose.jdac.exceptions.internal;
 
-import dev.goldmensch.fluava.Bundle;
-import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.exceptions.ParsingException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import dev.goldmensch.fluava.Bundle;
+import dev.goldmensch.fluava.Fluava;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;

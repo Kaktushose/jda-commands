@@ -2,15 +2,15 @@ package io.github.kaktushose.jdac.processor.property;
 
 import com.palantir.javapoet.*;
 
-import javax.annotation.processing.Messager;
-import javax.annotation.processing.RoundEnvironment;
-import javax.lang.model.element.Modifier;
-import javax.lang.model.element.TypeElement;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.processing.Messager;
+import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
 
 public class ListCreatorProcessor extends PropertyProcessor {
 

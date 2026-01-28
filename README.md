@@ -15,18 +15,13 @@ any boilerplate code, so you can focus solely on the business logic of your bot 
 
 - Simple and intuitive syntax following an annotation-driven and declarative style
 
-
 - Built-in support for slash commands, components, embeds, context menus and modals
-
 
 - Automatic and customizable type adapting and constraint validation of parameters
 
-
 - Expandable executing chain (Middleware API)
 
-
 - Multithreaded event handling using VirtualThreads
-
 
 - First-hand localization support (via [project fluent](https://projectfluent.org/) or custom implementation)
 
@@ -67,7 +62,9 @@ public class CookieClicker {
 ## Download
 
 You can download the latest version [here](https://github.com/Kaktushose/jda-commands/releases/latest).
+
 ### Maven
+
 ```xml
 <dependency>
    <groupId>io.github.kaktushose</groupId>
@@ -77,6 +74,7 @@ You can download the latest version [here](https://github.com/Kaktushose/jda-com
 ```
 
 ### Gradle
+
 ```groovy
 repositories {
    mavenCentral()

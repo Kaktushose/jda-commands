@@ -25,8 +25,7 @@ public sealed interface ComponentDefinition<T> extends InteractionDefinition, JD
     ///
     /// @param <T> the type of the value
     /// @return if present the newValue, else the oldValue
-    @Nullable
-    static <T> T override(@Nullable T oldValue, @Nullable T newValue) {
+    @Nullable static <T> T override(@Nullable T oldValue, @Nullable T newValue) {
         return newValue != null
                 ? newValue
                 : oldValue;

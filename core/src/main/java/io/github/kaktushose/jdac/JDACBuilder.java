@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac;
 
-import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.configuration.Extension;
 import io.github.kaktushose.jdac.configuration.ExtensionFilter;
 import io.github.kaktushose.jdac.configuration.Property;
@@ -51,6 +50,7 @@ import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.mapping.Mapper;
 import io.github.kaktushose.proteus.mapping.MappingResult;
 import io.github.kaktushose.proteus.type.Type;
+import dev.goldmensch.fluava.Fluava;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;

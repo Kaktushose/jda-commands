@@ -1,9 +1,9 @@
 package io.github.kaktushose.jdac.message.resolver.internal;
 
+import io.github.kaktushose.jdac.message.resolver.Resolver;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.github.kaktushose.jdac.message.resolver.Resolver;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 

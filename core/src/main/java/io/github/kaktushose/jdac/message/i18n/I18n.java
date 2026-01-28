@@ -1,11 +1,11 @@
 package io.github.kaktushose.jdac.message.i18n;
 
-import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.annotations.i18n.Bundle;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.message.i18n.internal.BundleFinder;
 import io.github.kaktushose.jdac.message.i18n.internal.JDACLocalizationFunction;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
+import dev.goldmensch.fluava.Fluava;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;

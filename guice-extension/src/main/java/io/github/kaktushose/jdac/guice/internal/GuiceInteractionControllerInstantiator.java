@@ -1,11 +1,11 @@
 package io.github.kaktushose.jdac.guice.internal;
 
-import com.google.inject.Injector;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
 import io.github.kaktushose.jdac.guice.internal.guice.PerInteractionModule;
 import io.github.kaktushose.jdac.guice.internal.guice.RuntimeBoundScope;
 import io.github.kaktushose.jdac.introspection.Introspection;
+import com.google.inject.Injector;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal

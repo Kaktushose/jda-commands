@@ -1,11 +1,11 @@
 package io.github.kaktushose.jdac.embeds;
 
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.message.resolver.DataObjectResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
-import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.DataObjectResolver;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;

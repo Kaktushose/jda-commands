@@ -1,6 +1,5 @@
 package definitions;
 
-import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.annotations.interactions.AutoComplete;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.annotations.interactions.Permissions;
@@ -17,6 +16,7 @@ import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.internal.BundleFinder;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import dev.goldmensch.fluava.Fluava;
 
 import java.util.*;
 import java.util.stream.Collectors;

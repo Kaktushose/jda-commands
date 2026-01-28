@@ -1,9 +1,9 @@
 package io.github.kaktushose.jdac.configuration;
 
-import dev.goldmensch.fluava.Bundle;
-import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import dev.goldmensch.fluava.Bundle;
+import dev.goldmensch.fluava.Fluava;
 
 import java.util.Locale;
 

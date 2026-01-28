@@ -9,8 +9,8 @@ import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess;
 import io.github.kaktushose.jdac.message.i18n.I18n;
-import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 
 import java.lang.annotation.Annotation;

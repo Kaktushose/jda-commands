@@ -1,11 +1,11 @@
 package io.github.kaktushose.jdac.guice.internal.guice;
 
-import com.google.inject.Provides;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.introspection.Definitions;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import net.dv8tion.jda.api.JDA;
+import com.google.inject.Provides;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal

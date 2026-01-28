@@ -82,8 +82,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// that is bound to the underlying [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
     ///
     /// @return the interaction class instance
-    @Nullable
-    public <I> I interactionInstance(Class<I> interactionClass) {
+    @Nullable public <I> I interactionInstance(Class<I> interactionClass) {
         return scopedRuntime().interactionInstance(interactionClass);
     }
 
@@ -125,8 +124,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return jdaEvent().getToken();
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public Guild getGuild() {
         return jdaEvent().getGuild();
     }
@@ -136,8 +134,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return jdaEvent().getUser();
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public Member getMember() {
         return jdaEvent().getMember();
     }
@@ -147,8 +144,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return jdaEvent().isAcknowledged();
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public Channel getChannel() {
         return jdaEvent().getChannel();
     }

@@ -29,8 +29,7 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
     /// @throws IllegalAccessException    if the method object is enforcing Java language access control and the
     ///                                   underlying method is inaccessible
     /// @throws InvocationTargetException if an exception was thrown by the invoked method or constructor
-    @Nullable
-    @ApiStatus.Internal
+    @Nullable @ApiStatus.Internal
     default Object invoke(Object instance, InvocationContext<?> invocation) throws IllegalAccessException, InvocationTargetException {
         if (!EventHandler.INVOCATION_PERMITTED.orElse(false)) {
             throw new InternalException("invocation-not-permitted");

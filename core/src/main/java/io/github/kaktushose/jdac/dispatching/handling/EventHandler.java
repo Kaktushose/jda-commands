@@ -64,8 +64,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         this.errorMessageFactory = runtimeIntrospection.get(Property.ERROR_MESSAGE_FACTORY);
     }
 
-    @Nullable
-    protected abstract PreparationResult prepare(T event, Runtime runtime);
+    @Nullable protected abstract PreparationResult prepare(T event, Runtime runtime);
 
     @Override
     public final void accept(T e, Runtime runtime) {

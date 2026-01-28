@@ -23,8 +23,7 @@ class Executor {
         this.resolver = resolver;
     }
 
-    @Nullable
-    <T> T applyProvider(PropertyProvider<T> provider) {
+    @Nullable <T> T applyProvider(PropertyProvider<T> provider) {
         SequencedMap<Property<?>, PropertyProvider<?>> stack = new LinkedHashMap<>(STACK.orElse(new LinkedHashMap<>()));
 
         checkCycling(stack, provider);

@@ -141,8 +141,7 @@ public record InteractionRegistry(Validators validators,
         return definitions;
     }
 
-    @Nullable
-    private InteractionDefinition construct(MethodDescription method, MethodBuildContext context) {
+    @Nullable private InteractionDefinition construct(MethodDescription method, MethodBuildContext context) {
         // index commands
         if (method.hasAnnotation(Command.class)) {
             Command command = method.findAnnotation(Command.class).get();

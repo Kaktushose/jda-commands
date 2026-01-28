@@ -1,11 +1,11 @@
 package io.github.kaktushose.jdac.message.emoji;
 
+import io.github.kaktushose.jdac.exceptions.ConfigurationException;
+import net.dv8tion.jda.api.entities.Icon;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.Resource;
 import io.github.classgraph.ResourceList;
 import io.github.classgraph.ScanResult;
-import io.github.kaktushose.jdac.exceptions.ConfigurationException;
-import net.dv8tion.jda.api.entities.Icon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
