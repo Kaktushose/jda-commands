@@ -64,7 +64,7 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.Descriptor,io.github.kaktushose.jdac.message.i18n.Localizer)" tabindex="0">I18n(Descriptor, Localizer)</a></li>
+<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.message.i18n.internal.BundleFinder,io.github.kaktushose.jdac.message.i18n.Localizer)" tabindex="0">I18n(BundleFinder, Localizer)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -191,7 +191,7 @@ would be called in, for example, <code>B$bTwo</code> the bundle would be <code>m
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#DEFAULT_BUNDLE" class="member-name-link">DEFAULT_BUNDLE</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -205,7 +205,7 @@ would be called in, for example, <code>B$bTwo</code> the bundle would be <code>m
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.definitions.description.Descriptor,io.github.kaktushose.jdac.message.i18n.Localizer)" class="member-name-link">I18n</a><wbr>(<a href="../../definitions/description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description">Descriptor</a>&nbsp;descriptor,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.message.i18n.internal.BundleFinder,io.github.kaktushose.jdac.message.i18n.Localizer)" class="member-name-link">I18n</a><wbr>(<a href="internal/BundleFinder.html" title="class in io.github.kaktushose.jdac.message.i18n.internal">BundleFinder</a>&nbsp;bundleFinder,
  <a href="Localizer.html" title="interface in io.github.kaktushose.jdac.message.i18n">Localizer</a>&nbsp;localizer)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -259,7 +259,7 @@ in the given bundle.</div>
 <section class="detail" id="DEFAULT_BUNDLE">
 <h3>DEFAULT_BUNDLE</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">DEFAULT_BUNDLE</span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">DEFAULT_BUNDLE</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -280,14 +280,14 @@ in the given bundle.</div>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.definitions.description.Descriptor,io.github.kaktushose.jdac.message.i18n.Localizer)">
+<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.message.i18n.internal.BundleFinder,io.github.kaktushose.jdac.message.i18n.Localizer)">
 <h3>I18n</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">I18n</span><wbr><span class="parameters">(<a href="../../definitions/description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description">Descriptor</a>&nbsp;descriptor,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">I18n</span><wbr><span class="parameters">(<a href="internal/BundleFinder.html" title="class in io.github.kaktushose.jdac.message.i18n.internal">BundleFinder</a>&nbsp;bundleFinder,
  <a href="Localizer.html" title="interface in io.github.kaktushose.jdac.message.i18n">Localizer</a>&nbsp;localizer)</span></div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>descriptor</code> - the <a href="../../definitions/description/Description.html" title="interface in io.github.kaktushose.jdac.definitions.description"><code>Description</code></a> to be used to get the <a href="../../annotations/i18n/Bundle.html" title="annotation interface in io.github.kaktushose.jdac.annotations.i18n"><code>Bundle</code></a> annotation</dd>
+<dd><code>bundleFinder</code> - the <a href="internal/BundleFinder.html" title="class in io.github.kaktushose.jdac.message.i18n.internal"><code>BundleFinder</code></a> to be used to get the <a href="../../annotations/i18n/Bundle.html" title="annotation interface in io.github.kaktushose.jdac.annotations.i18n"><code>Bundle</code></a> annotation</dd>
 <dd><code>localizer</code> - the used <a href="Localizer.html" title="interface in io.github.kaktushose.jdac.message.i18n"><code>Localizer</code></a> to retrieve the messages</dd>
 </dl>
 </div>

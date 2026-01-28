@@ -58,8 +58,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,io.github.kaktushose.jdac.definitions.description.Descriptor)" tabindex="0">InteractionRegistry(Validators, MessageResolver, LocalizationFunction, Descriptor)</a></li>
-<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,io.github.kaktushose.jdac.definitions.description.Descriptor,java.util.Set)" tabindex="0">InteractionRegistry(Validators, MessageResolver, LocalizationFunction, Descriptor, Set)</a></li>
+<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,io.github.kaktushose.jdac.definitions.description.Descriptor)" tabindex="0">InteractionRegistry(Validators, MessageResolver, Descriptor)</a></li>
+<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,io.github.kaktushose.jdac.definitions.description.Descriptor,java.util.Set)" tabindex="0">InteractionRegistry(Validators, MessageResolver, Descriptor, Set)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -74,7 +74,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#equals(java.lang.Object)" tabindex="0">equals(Object)</a></li>
 <li><a href="#validators()" tabindex="0">validators()</a></li>
 <li><a href="#messageResolver()" tabindex="0">messageResolver()</a></li>
-<li><a href="#localizationFunction()" tabindex="0">localizationFunction()</a></li>
 <li><a href="#descriptor()" tabindex="0">descriptor()</a></li>
 <li><a href="#definitions()" tabindex="0">definitions()</a></li>
 </ol>
@@ -98,7 +97,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">InteractionRegistry</span>(<a href="../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a>&nbsp;validators, <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction, <a href="../description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description">Descriptor</a>&nbsp;descriptor, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition</a>&gt;&nbsp;definitions)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">InteractionRegistry</span>(<a href="../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a>&nbsp;validators, <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver, <a href="../description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description">Descriptor</a>&nbsp;descriptor, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition</a>&gt;&nbsp;definitions)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="../../introspection/Definitions.html" title="interface in io.github.kaktushose.jdac.introspection">Definitions</a></span></div>
 <div class="block">Central registry for all <a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition</code></a>s.</div>
@@ -114,16 +113,14 @@ implements <a href="../../introspection/Definitions.html" title="interface in io
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,io.github.kaktushose.jdac.definitions.description.Descriptor)" class="member-name-link">InteractionRegistry</a><wbr>(<a href="../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a>&nbsp;registry,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,io.github.kaktushose.jdac.definitions.description.Descriptor)" class="member-name-link">InteractionRegistry</a><wbr>(<a href="../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a>&nbsp;registry,
  <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver,
- <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;function,
  <a href="../description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description">Descriptor</a>&nbsp;descriptor)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructs a new <a href="InteractionRegistry.html" title="class in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionRegistry</code></a></div>
 </div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,io.github.kaktushose.jdac.definitions.description.Descriptor,java.util.Set)" class="member-name-link">InteractionRegistry</a><wbr>(<a href="../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a>&nbsp;validators,
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,io.github.kaktushose.jdac.definitions.description.Descriptor,java.util.Set)" class="member-name-link">InteractionRegistry</a><wbr>(<a href="../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a>&nbsp;validators,
  <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver,
- <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction,
  <a href="../description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description">Descriptor</a>&nbsp;descriptor,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition</a>&gt;&nbsp;definitions)</code></div>
 <div class="col-last odd-row-color">
@@ -170,7 +167,7 @@ implements <a href="../../introspection/Definitions.html" title="interface in io
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Attempts to find a <a href="../Definition.html" title="interface in io.github.kaktushose.jdac.definitions"><code>Definition</code></a> of type <a href="#find(java.lang.Class,boolean,java.util.function.Predicate)-type-param-T"><code>T</code></a> based on the given <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T extends <a href="../Definition.html" title="interface in io.github.kaktushose.jdac.definitions">Definition</a>&gt;<br><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;T&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T extends <a href="../Definition.html" title="interface in io.github.kaktushose.jdac.definitions">Definition</a>&gt;<br><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a><wbr>&lt;T&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#find(java.lang.Class,java.util.function.Predicate)" class="member-name-link">find</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;type,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;T&gt;&nbsp;predicate)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -194,24 +191,19 @@ match the passed <a href="https://docs.oracle.com/en/java/javase/25/docs/api/jav
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Scans all given classes and registers the interactions defined in them.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#localizationFunction()" class="member-name-link">localizationFunction</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#messageResolver()" class="member-name-link">messageResolver</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <code>localizationFunction</code> record component.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#messageResolver()" class="member-name-link">messageResolver</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>messageResolver</code> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validators()" class="member-name-link">validators</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validators()" class="member-name-link">validators</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>validators</code> record component.</div>
 </div>
 </div>
@@ -235,31 +227,28 @@ match the passed <a href="https://docs.oracle.com/en/java/javase/25/docs/api/jav
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,io.github.kaktushose.jdac.definitions.description.Descriptor)">
+<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,io.github.kaktushose.jdac.definitions.description.Descriptor)">
 <h3>InteractionRegistry</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InteractionRegistry</span><wbr><span class="parameters">(<a href="../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a>&nbsp;registry,
  <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver,
- <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;function,
  <a href="../description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description">Descriptor</a>&nbsp;descriptor)</span></div>
 <div class="block">Constructs a new <a href="InteractionRegistry.html" title="class in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionRegistry</code></a></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>registry</code> - the corresponding <a href="../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal"><code>Validators</code></a></dd>
 <dd><code>messageResolver</code> - the <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a> instance to use</dd>
-<dd><code>function</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link"><code>LocalizationFunction</code></a> to use</dd>
 <dd><code>descriptor</code> - the <a href="../description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description"><code>Descriptor</code></a> to use</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction,io.github.kaktushose.jdac.definitions.description.Descriptor,java.util.Set)">
+<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.dispatching.validation.internal.Validators,io.github.kaktushose.jdac.message.resolver.MessageResolver,io.github.kaktushose.jdac.definitions.description.Descriptor,java.util.Set)">
 <h3>InteractionRegistry</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InteractionRegistry</span><wbr><span class="parameters">(<a href="../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a>&nbsp;validators,
  <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver,
- <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a>&nbsp;localizationFunction,
  <a href="../description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description">Descriptor</a>&nbsp;descriptor,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition</a>&gt;&nbsp;definitions)</span></div>
 <div class="block">Creates an instance of a <code>InteractionRegistry</code> record class.</div>
@@ -267,7 +256,6 @@ match the passed <a href="https://docs.oracle.com/en/java/javase/25/docs/api/jav
 <dt>Parameters:</dt>
 <dd><code>validators</code> - the value for the <code>validators</code> record component</dd>
 <dd><code>messageResolver</code> - the value for the <code>messageResolver</code> record component</dd>
-<dd><code>localizationFunction</code> - the value for the <code>localizationFunction</code> record component</dd>
 <dd><code>descriptor</code> - the value for the <code>descriptor</code> record component</dd>
 <dd><code>definitions</code> - the value for the <code>definitions</code> record component</dd>
 </dl>
@@ -347,7 +335,8 @@ match the passed <a href="https://docs.oracle.com/en/java/javase/25/docs/api/jav
 <section class="detail" id="find(java.lang.Class,java.util.function.Predicate)">
 <h3>find</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="../Definition.html" title="interface in io.github.kaktushose.jdac.definitions">Definition</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;T&gt;</span>&nbsp;<span class="element-name">find</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;type,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="../Definition.html" title="interface in io.github.kaktushose.jdac.definitions">Definition</a>&gt;</span>
+<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html" title="class or interface in java.util" class="external-link">SequencedCollection</a>&lt;T&gt;</span>&nbsp;<span class="element-name">find</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;type,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;T&gt;&nbsp;predicate)</span></div>
 <div class="block">Attempts to find all <a href="../Definition.html" title="interface in io.github.kaktushose.jdac.definitions"><code>Definition</code></a>s of type <a href="#find(java.lang.Class,java.util.function.Predicate)-type-param-T"><code>T</code></a> based on the given <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a>.</div>
 <dl class="notes">
@@ -453,19 +442,6 @@ This is a rare occasion and can be considered a framework bug</dd>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the <code>messageResolver</code> record component</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="localizationFunction()">
-<h3>localizationFunction</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/localization/LocalizationFunction.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.localization" class="external-link">LocalizationFunction</a></span>&nbsp;<span class="element-name">localizationFunction</span>()</div>
-<div class="block">Returns the value of the <code>localizationFunction</code> record component.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the value of the <code>localizationFunction</code> record component</dd>
 </dl>
 </div>
 </section>
