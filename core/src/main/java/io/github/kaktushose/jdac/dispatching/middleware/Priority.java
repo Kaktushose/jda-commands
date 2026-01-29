@@ -6,7 +6,7 @@ package io.github.kaktushose.jdac.dispatching.middleware;
 // !! order matters, because enums are compared by ordinal number (java.lang.Comparable)
 public enum Priority {
     /// Middlewares with priority PERMISSIONS will always be executed first
-    PERMISSIONS,
+    HIGHEST,
     /// Highest priority for custom implementation, will be executed right after internal middlewares.
     HIGH,
     /// Default priority.
