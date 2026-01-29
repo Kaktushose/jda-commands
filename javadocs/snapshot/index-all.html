@@ -2267,6 +2267,10 @@ into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selecti
 <dd>
 <div class="block">Highest priority for custom implementation, will be executed right after internal middlewares.</div>
 </dd>
+<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/middleware/Priority.html#HIGHEST" class="member-name-link">HIGHEST</a> - Enum constant in enum class io.github.kaktushose.jdac.dispatching.middleware.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/middleware/Priority.html" title="enum class in io.github.kaktushose.jdac.dispatching.middleware">Priority</a></dt>
+<dd>
+<div class="block">Middlewares with priority PERMISSIONS will always be executed first</div>
+</dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/internal/Helpers.html#humanReadableType(net.dv8tion.jda.api.interactions.commands.OptionMapping)" class="member-name-link">humanReadableType(OptionMapping)</a> - Static method in class io.github.kaktushose.jdac.internal.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/internal/Helpers.html" title="class in io.github.kaktushose.jdac.internal">Helpers</a></dt>
 <dd>
 <div class="block">Gets the human-readable representation of an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/OptionMapping.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>OptionMapping</code></a>.</div>
@@ -3594,10 +3598,6 @@ and resource.</div>
 <div class="block"><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/Interaction.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Interaction</code></a> classes or
 interaction methods (commands, components or modals) annotated with Permission will
 require the user to have the given permissions in order to execute the command.</div>
-</dd>
-<dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/middleware/Priority.html#PERMISSIONS" class="member-name-link">PERMISSIONS</a> - Enum constant in enum class io.github.kaktushose.jdac.dispatching.middleware.<a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/middleware/Priority.html" title="enum class in io.github.kaktushose.jdac.dispatching.middleware">Priority</a></dt>
-<dd>
-<div class="block">Middlewares with priority PERMISSIONS will always be executed first</div>
 </dd>
 <dt><a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/middleware/impl/PermissionsMiddleware.html" class="type-name-link" title="class in io.github.kaktushose.jdac.dispatching.middleware.impl">PermissionsMiddleware</a> - Class in <a href="io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/middleware/impl/package-summary.html">io.github.kaktushose.jdac.dispatching.middleware.impl</a></dt>
 <dd>
