@@ -1,9 +1,9 @@
 package io.github.kaktushose.jdac.processor.property;
 
+import java.util.function.Function;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.VariableElement;
-import java.util.function.Function;
 
 public class ValidationProcessor extends PropertyProcessor {
 

@@ -1,11 +1,11 @@
 package io.github.kaktushose.jdac.message.emoji;
 
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
+import net.dv8tion.jda.api.entities.Icon;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.Resource;
 import io.github.classgraph.ResourceList;
 import io.github.classgraph.ScanResult;
-import net.dv8tion.jda.api.entities.Icon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,9 +65,13 @@ public interface EmojiSource {
                                     try (Resource resource = file.resource; InputStream i = resource.open()) {
                                         return Icon.from(i);
                                     } catch (IOException e) {
-                                        throw new ConfigurationException("emoji-not-loadable-from-resource", e,
-                                                                         entry("name", file.name), entry("path",
-                                                                                                         file.resource.getPath()));
+                                        throw new ConfigurationException(
+                                                "emoji-not-loadable-from-resource", e,
+                                                entry("name", file.name), entry(
+                                                "path",
+                                                file.resource.getPath()
+                                        )
+                                        );
                                     }
                                 }
                         ));

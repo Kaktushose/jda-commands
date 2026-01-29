@@ -152,7 +152,7 @@ public class PlaceholderResolverTest {
 
         String text = """
                 { number
-                
+
                 }""";
         String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("12", resolved);
@@ -234,15 +234,15 @@ public class PlaceholderResolverTest {
 
         String text = """
                 \\\\\\ \\ some backslash \\
-                
+
                 \\ { number
-                
+
                 }""";
         String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals(
                 """
                         \\\\\\ \\ some backslash \\
-                        
+
                         \\ 12""", resolved
         );
     }

@@ -16,9 +16,9 @@ import io.github.kaktushose.jdac.guice.internal.guice.PropertyProviderModule;
 import io.github.kaktushose.jdac.guice.internal.guice.RuntimeBoundScope;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
+import io.github.kaktushose.proteus.type.Type;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 

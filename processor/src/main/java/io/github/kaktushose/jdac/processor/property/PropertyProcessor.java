@@ -4,6 +4,8 @@ import io.github.kaktushose.jdac.processor.property.api.PropertyProcessed;
 import com.sun.source.tree.*;
 import com.sun.source.util.Trees;
 
+import java.util.List;
+import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.RoundEnvironment;
@@ -13,8 +15,6 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
-import java.util.List;
-import java.util.Set;
 
 public abstract class PropertyProcessor extends AbstractProcessor {
 
