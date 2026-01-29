@@ -101,6 +101,6 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
         );
 
         log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(), modalDefinition.displayName(), runtimeId());
-        callback.replyModal(modalDefinition.toJDAEntity(new CustomId(runtimeId(), definitionId))).queue();
+        callback.replyModal(modalDefinition.toJDAEntity(new CustomId(runtimeId(), definitionId))).complete();
     }
 }

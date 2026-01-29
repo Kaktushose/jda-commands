@@ -33,7 +33,7 @@ public final class AutoCompleteEvent extends Event<CommandAutoCompleteInteractio
      *                                  </ul>
      */
     public void replyChoices(Collection<Command.Choice> choices) {
-        jdaEvent().replyChoices(choices).queue();
+        jdaEvent().replyChoices(choices).complete();
     }
 
     /**
