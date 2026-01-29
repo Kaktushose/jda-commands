@@ -46,7 +46,6 @@ spotless {
 
         importOrder("io.github.kaktushose|dev.goldmensch|net.dv8tion|", "java|javax", "\\#")
         forbidModuleImports()
-        formatAnnotations()
 		trimTrailingWhitespace()
         endWithNewline()
     }
