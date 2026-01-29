@@ -10,7 +10,8 @@ import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
 
-/// Subtype of [ConfigurableReply] that is used for [ComponentInteractions][net.dv8tion.jda.api.interactions.components.ComponentInteraction],
+/// Subtype of [ConfigurableReply] that is used for
+///  [ComponentInteractions][net.dv8tion.jda.api.interactions.components.ComponentInteraction],
 /// where you can also edit the original reply instead of sending a new one.
 public final class EditableConfigurableReply extends ConfigurableReply {
 
@@ -32,7 +33,8 @@ public final class EditableConfigurableReply extends ConfigurableReply {
     ///
     /// Subsequent replies to the same slash command event or the button event cannot be edited.
     ///
-    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any [ReplyConfig] annotation!**
+    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any
+    ///  [ReplyConfig] annotation!**
     ///
     /// @param editReply `true` if to keep the original components
     /// @return the current instance for fluent interface
@@ -43,10 +45,12 @@ public final class EditableConfigurableReply extends ConfigurableReply {
 
     /// Whether to keep the original components when editing a message. Default value is `true`.
     ///
-    /// More formally, if editing a message and `keepComponents` is `true`, the original message will first be queried and
+    /// More formally, if editing a message and `keepComponents` is `true`, the original message will first be
+    /// queried and
     /// its components get added to the reply before it is sent.
     ///
-    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any [ReplyConfig] annotation!**
+    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any
+    ///  [ReplyConfig] annotation!**
     ///
     /// @param keepComponents `true` if to edit the original method
     /// @return the current instance for fluent interface

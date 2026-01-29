@@ -35,7 +35,8 @@ public class Extensions {
     public void register(Properties properties) {
         for (Extension<Extension.Data> extension : loaded) {
             if (extension.getClass().getName().startsWith("io.github.kaktushose.jdac")) {
-                ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.addAll(extension.properties()));
+                ScopedValue.where(Properties.INSIDE_FRAMEWORK, true)
+                        .run(() -> properties.addAll(extension.properties()));
             } else {
                 properties.addAll(extension.properties());
             }

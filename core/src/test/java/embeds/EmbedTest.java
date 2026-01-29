@@ -25,7 +25,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Bundle("embeds")
 class EmbedTest {
@@ -36,11 +37,14 @@ class EmbedTest {
     @BeforeAll
     static void init() {
         EmbedDataSource embedDataSource = EmbedDataSource.resource("embeds/embeds.json");
-        I18n i18n = new I18n(new BundleFinder(Descriptor.REFLECTIVE), new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
-        MessageResolver messageResolver = new MessageResolver(List.of(new PlaceholderResolver(), i18n, new EmojiResolver(List.of())));
+        I18n i18n = new I18n(new BundleFinder(Descriptor.REFLECTIVE),
+                             new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
+        MessageResolver messageResolver = new MessageResolver(List.of(new PlaceholderResolver(), i18n,
+                                                                      new EmojiResolver(List.of())));
         embeds = new Embeds(List.of(embedDataSource), Map.of(), messageResolver);
         expected = new EmbedBuilder()
-                .setAuthor("Kaktushose", "https://cdn.discordapp.com/embed/avatars/0.png", "https://cdn.discordapp.com/embed/avatars/0.png")
+                .setAuthor("Kaktushose", "https://cdn.discordapp.com/embed/avatars/0.png", "https://cdn.discordapp" +
+                                                                                           ".com/embed/avatars/0.png")
                 .setTitle("Test Title")
                 .setDescription("Test Description")
                 .addField("Test Field name", "Test Field value", false)
@@ -61,7 +65,8 @@ class EmbedTest {
     @Test
     void testDirectModification() {
         MessageEmbed expected = new EmbedBuilder()
-                .setAuthor("Goldmensch", "https://cdn.discordapp.com/embed/avatars/1.png", "https://cdn.discordapp.com/embed/avatars/1.png")
+                .setAuthor("Goldmensch", "https://cdn.discordapp.com/embed/avatars/1.png", "https://cdn.discordapp" +
+                                                                                           ".com/embed/avatars/1.png")
                 .setTitle("Test Title 2", "https://discord.com")
                 .setDescription("Test Description 2")
                 .addField("Test Field name 2", "Test Field value 2", false)
@@ -71,8 +76,9 @@ class EmbedTest {
                 .setTimestamp(OffsetDateTime.parse("2025-09-05T15:28:20Z"))
                 .setColor(0)
                 .build();
-        Embed actual =  embeds.get("modification")
-                .author("Goldmensch", "https://cdn.discordapp.com/embed/avatars/1.png", "https://cdn.discordapp.com/embed/avatars/1.png")
+        Embed actual = embeds.get("modification")
+                .author("Goldmensch", "https://cdn.discordapp.com/embed/avatars/1.png", "https://cdn.discordapp" +
+                                                                                        ".com/embed/avatars/1.png")
                 .title("Test Title 2")
                 .description("Test Description 2")
                 .thumbnail("https://cdn.discordapp.com/embed/avatars/1.png")

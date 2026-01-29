@@ -31,28 +31,34 @@ import java.util.NoSuchElementException;
 /// [IntrospectionAccess] annotation on user implementable methods provided by the framework.
 ///
 /// Inside of interaction controller methods
-/// (the ones having [ComponentEvent], [CommandEvent] etc. as a parameter and are defined inside a class annotated with [Interaction] )
+/// (the ones having [ComponentEvent], [CommandEvent] etc. as a parameter and are defined inside a class annotated
+/// with [Interaction] )
 /// the [Introspection] instance is always set with the stage [Stage#INTERACTION], providing access to all [Property]s.
 ///
 /// ## [Stage] and [Properties][Property] access
 /// The [Property] API allows accessing all public components and configuration options of JDA-Commands.
-/// It can be used to retrieve framework services like [MessageResolver], config options like [Property#GLOBAL_REPLY_CONFIG]
+/// It can be used to retrieve framework services like [MessageResolver], config options like
+///  [Property#GLOBAL_REPLY_CONFIG]
 /// or context dependent information like [InvocationContext].
 ///
 /// Please note that access is read-only, you can't set the value of a [Property] after starting the framework.
 ///
 /// Based on the location (in code) where you access this api, the available [Properties][Property] may very.
-/// To know what property is accessible, take a look at [Introspection#currentStage()] and compare it to [Property#stage()].
+/// To know what property is accessible, take a look at [Introspection#currentStage()] and compare it to
+///  [Property#stage()].
 /// A hint on the current stage is also provided by [IntrospectionAccess#value()].
 ///
 /// ## [FrameworkEvent]s
-/// Sometimes it's convenient to execute some custom code at some point during runtime based on events inside the framework.
+/// Sometimes it's convenient to execute some custom code at some point during runtime based on events inside the
+/// framework.
 ///
 /// An example can be found inside the guice extension, were we use a [RuntimeCloseEvent] to remove
 /// the interaction controller instances inside the cache at the end of a conversation.
 ///
-/// To subscribe to a [FrameworkEvent] you use [#subscribe(Class, Subscriber)] which returns a [Subscription] allowing you
-/// to "unsubscribe" from this event later. If an [FrameworkEvent] is fired by JDA-Commands all [Subscriber]s of that event
+/// To subscribe to a [FrameworkEvent] you use [#subscribe(Class, Subscriber)] which returns a [Subscription]
+///  allowing you
+/// to "unsubscribe" from this event later. If an [FrameworkEvent] is fired by JDA-Commands all [Subscriber]s of that
+///  event
 /// are called.
 ///
 /// It's important to know that the events are published by multiple threads perhaps concurrently, thus [Subscriber]s
@@ -90,7 +96,6 @@ public sealed interface Introspection permits IntrospectionImpl {
     /// @param property the requested [Property]
     /// @return the property's value
     /// @throws NoSuchElementException if no [Introspection] instance is set
-    ///
     /// @see Introspection#accessScoped()
     /// @see Introspection#get(Property)
     static <T> T scopedGet(Property<T> property) {
@@ -114,9 +119,9 @@ public sealed interface Introspection permits IntrospectionImpl {
 
     /// Subscribes to specific [FrameworkEvent] allowing you to execute custom logic at multiple points during runtime.
     ///
-    /// @param event the concrete class of [FrameworkEvent], e.g. [`RuntimeCloseEvent.class`][RuntimeCloseEvent#getClass()]
+    /// @param event      the concrete class of [FrameworkEvent], e.g.
+    ///  [`RuntimeCloseEvent.class`][RuntimeCloseEvent#getClass()]
     /// @param subscriber the [Subscriber] holding the logic to be executed
-    ///
     /// @return the [Subscription] instance as a unique reference to your subscription, allowing you to later cancel it.
     <T extends FrameworkEvent> Subscription subscribe(Class<T> event, Subscriber<T> subscriber);
 

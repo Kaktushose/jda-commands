@@ -24,8 +24,9 @@ public final class ComponentHandler extends EventHandler<GenericComponentInterac
 
     @Override
     protected PreparationResult prepare(GenericComponentInteractionCreateEvent genericEvent, Runtime runtime) {
-        var component = interactionRegistry.find(ComponentDefinition.class, true, it ->
-                it.definitionId().equals(CustomId.fromMerged(genericEvent.getComponentId()).definitionId())
+        var component = interactionRegistry.find(
+                ComponentDefinition.class, true, it ->
+                        it.definitionId().equals(CustomId.fromMerged(genericEvent.getComponentId()).definitionId())
         );
 
         List<Object> arguments = switch (genericEvent) {

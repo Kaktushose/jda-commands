@@ -56,7 +56,8 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
     /// - Cannot be reacted to
     /// - Cannot be retrieved
     ///
-    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any [ReplyConfig] annotation!**
+    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any
+    ///  [ReplyConfig] annotation!**
     ///
     /// @param ephemeral `true` if to send ephemeral replies
     /// @return the current instance for fluent interface
@@ -67,7 +68,8 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
 
     /// Whether to suppress notifications of this message. Defaults to `false`.
     ///
-    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any [ReplyConfig] annotation!**
+    /// **This will override both [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)] and any
+    ///  [ReplyConfig] annotation!**
     ///
     /// @return the current instance for fluent interface
     /// @see MessageCreateRequest#setSuppressedNotifications(boolean)
@@ -78,15 +80,16 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
 
     /// Sets the [MentionType]s to be parsed.
     ///
-    /// **This will override [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)], any [ReplyConfig] annotation
+    /// **This will override [JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)], any [ReplyConfig]
+    ///  annotation
     /// as well as previous method calls!**
     ///
     /// If `null` is provided to this method, then all Types will be mentionable (unless whitelisting via
     /// [#mention(IMentionable...)] or [#mention(Collection)]).
     ///
     /// @param allowedMentions [MentionType]s that are allowed to be parsed and mentioned. All other mention types will
-    ///                        not be mentioned by this message. You can pass `null` or
-    ///                        `EnumSet.allOf(MentionType.class)` to allow all mentions.
+    ///                                               not be mentioned by this message. You can pass `null` or
+    ///                                               `EnumSet.allOf(MentionType.class)` to allow all mentions.
     /// @return the current instance for fluent interface
     /// @see MessageCreateRequest#setAllowedMentions(Collection)
     public ConfigurableReply allowedMentions(@Nullable Collection<MentionType> allowedMentions) {
@@ -122,7 +125,8 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
     /// Using V2 components removes the top-level component limit,
     /// and allows more components in total ({@value Message#MAX_COMPONENT_COUNT_IN_COMPONENT_TREE}).
     ///
-    /// They also allow you to use a larger choice of components, such as any component extending [MessageTopLevelComponent],
+    /// They also allow you to use a larger choice of components, such as any component extending
+    ///  [MessageTopLevelComponent],
     /// as long as they are [compatible][Component.Type#isMessageCompatible()].
     ///
     /// The character limit for the messages also gets changed to {@value Message#MAX_CONTENT_LENGTH_COMPONENT_V2}.
@@ -146,7 +150,8 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
     /// Using V2 components removes the top-level component limit,
     /// and allows more components in total ({@value Message#MAX_COMPONENT_COUNT_IN_COMPONENT_TREE}).
     ///
-    /// They also allow you to use a larger choice of components, such as any component extending [MessageTopLevelComponent],
+    /// They also allow you to use a larger choice of components, such as any component extending
+    ///  [MessageTopLevelComponent],
     /// as long as they are [compatible][Component.Type#isMessageCompatible()].
     ///
     /// The character limit for the messages also gets changed to {@value Message#MAX_CONTENT_LENGTH_COMPONENT_V2}.

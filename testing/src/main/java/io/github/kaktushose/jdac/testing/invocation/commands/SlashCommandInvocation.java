@@ -28,7 +28,8 @@ public final class SlashCommandInvocation extends CommandInvocation<SlashCommand
 
         lenient().when(event.getInteraction()).thenReturn(mock(SlashCommandInteraction.class));
 
-        lenient().when(event.getOption(anyString())).then(invocation -> optionMappings.get((String) invocation.getArgument(0)));
+        lenient().when(event.getOption(anyString()))
+                .then(invocation -> optionMappings.get((String) invocation.getArgument(0)));
     }
 
     public SlashCommandInvocation option(String name, OptionMapping mapping) {

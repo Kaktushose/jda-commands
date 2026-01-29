@@ -25,7 +25,7 @@ import java.util.Map;
 ///       "description": "Hello World!"
 ///    }
 /// }
-///```
+/// ```
 /// # Localization
 /// The Embed API supports localization via the [I18n] class. The embed fields can either contain a localization key
 /// a direct localization message in a format supported by the [Localizer] implementation.
@@ -37,14 +37,15 @@ import java.util.Map;
 ///       "title": "example-title", // localization key
 ///       "description": "Hello {$user}!" // localization message
 ///    }
-///}
-///```
+/// }
+/// ```
 ///
 /// # Global Placeholders
 /// Use [#placeholders(Entry...)] to define placeholders that will be globally available for any [Embed].
 public interface EmbedConfig {
 
-    /// Adds one or more new global placeholders. Global placeholders will be available for any [Embed] loaded by this API.
+    /// Adds one or more new global placeholders. Global placeholders will be available for any [Embed] loaded by
+    /// this API.
     ///
     /// @param placeholders the [`entries`][Entry] to add
     /// @return this instance for fluent interface

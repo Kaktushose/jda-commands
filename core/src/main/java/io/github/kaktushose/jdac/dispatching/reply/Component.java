@@ -28,8 +28,10 @@ import java.util.function.Function;
 /// to enable or disable the component
 /// ### independent:
 ///
-/// whether the component should be executed in the same [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) as the command it is bound to or not. If `true`,
-/// every component interaction will create a new [`Runtime`]({@docRoot}/index.html#runtime-concept-heading). Furthermore, the component cannot expire and will always
+/// whether the component should be executed in the same [`Runtime`]({@docRoot}/index.html#runtime-concept-heading)
+///  as the command it is bound to or not. If `true`,
+/// every component interaction will create a new [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
+/// Furthermore, the component cannot expire and will always
 /// get executed, even after a bot restart.
 ///
 /// ## Example:
@@ -77,14 +79,15 @@ import java.util.function.Function;
 /// @see ButtonComponent
 /// @see StringSelectComponent
 /// @see EntitySelectMenuComponent
-public abstract sealed class Component<S extends Component<S, T, B, D>, T extends ActionComponent, B, D extends ComponentDefinition<T>>
+public abstract sealed class Component<S extends Component<S, T, B, D>, T extends ActionComponent, B,
+        D extends ComponentDefinition<T>>
         implements ActionRowChildComponentUnion, SectionAccessoryComponentUnion
         permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
 
-    protected @Nullable Integer uniqueId;
     private final Entry[] placeholder;
     private final String method;
     private final @Nullable Class<?> origin;
+    protected @Nullable Integer uniqueId;
     private boolean enabled = true;
     private boolean independent = false;
     private Function<B, B> callback = Function.identity();
@@ -148,7 +151,12 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// @param independent whether the [Component] should be runtime-bound or independent
     /// @param component   the name of the method that represents the component
     /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
-    public static Component<?, ?, ?, ?> of(boolean enabled, boolean independent, String component, Entry... placeholder) {
+    public static Component<?, ?, ?, ?> of(
+            boolean enabled,
+            boolean independent,
+            String component,
+            Entry... placeholder
+    ) {
         return new UnspecificComponent(enabled, independent, component, null, placeholder);
     }
 
@@ -169,7 +177,13 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// @param origin      the [Class] the `component` is defined in
     /// @param component   the name of the method that represents the component
     /// @param placeholder the placeholders to use to perform [message resolution][MessageResolver]
-    public static Component<?, ?, ?, ?> of(boolean enabled, boolean independent, Class<?> origin, String component, Entry... placeholder) {
+    public static Component<?, ?, ?, ?> of(
+            boolean enabled,
+            boolean independent,
+            Class<?> origin,
+            String component,
+            Entry... placeholder
+    ) {
         return new UnspecificComponent(enabled, independent, component, origin, placeholder);
     }
 
@@ -240,8 +254,10 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     }
 
     /// @param callback a [Function] that allows to modify the resulting jda object.
-    ///                                                 The passed function will be called after all modifications except localization are made by jda-commands,
-    ///                                                 shortly before the component is localized and then registered in the message
+    ///                                                                 The passed function will be called after all
+    /// modifications except localization are made by jda-commands,
+    ///                                                                 shortly before the component is localized and
+    ///  then registered in the message
     public S modify(Function<B, B> callback) {
         this.callback = callback;
         return self();
@@ -250,12 +266,6 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     @Override
     public int getUniqueId() {
         return uniqueId == null ? -1 : uniqueId;
-    }
-
-    @Override
-    public S withUniqueId(int uniqueId) {
-        this.uniqueId = uniqueId;
-        return self();
     }
 
     @Override
@@ -271,6 +281,12 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     @Override
     public net.dv8tion.jda.api.components.selections.EntitySelectMenu asEntitySelectMenu() {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public S withUniqueId(int uniqueId) {
+        this.uniqueId = uniqueId;
+        return self();
     }
 
     @Override

@@ -119,12 +119,14 @@ public class TestScenario {
                     });
         }
 
-        @NotNull public Builder replyConfig(@NotNull InteractionDefinition.ReplyConfig config) {
+        @NotNull
+        public Builder replyConfig(@NotNull InteractionDefinition.ReplyConfig config) {
             jdacBuilder.globalReplyConfig(config);
             return this;
         }
 
-        @NotNull public Builder commandConfig(@NotNull CommandDefinition.CommandConfig config) {
+        @NotNull
+        public Builder commandConfig(@NotNull CommandDefinition.CommandConfig config) {
             jdacBuilder.globalCommandConfig(config);
             return this;
         }
@@ -178,6 +180,11 @@ public class TestScenario {
         }
 
         @Override
+        public void queue(@Nullable Consumer success, @Nullable Consumer failure) {
+
+        }
+
+        @Override
         public Object complete(boolean shouldQueue) {
             return List.of();
         }
@@ -185,11 +192,6 @@ public class TestScenario {
         @Override
         public @NotNull CompletableFuture submit(boolean shouldQueue) {
             return null;
-        }
-
-        @Override
-        public void queue(@Nullable Consumer success, @Nullable Consumer failure) {
-
         }
     }
 

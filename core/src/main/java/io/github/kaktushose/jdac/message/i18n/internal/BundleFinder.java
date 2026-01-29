@@ -64,7 +64,9 @@ public class BundleFinder {
         ClassDescription lastDes = last.get();
         if (lastDes != null && !lastDes.clazz().equals(classDescription.clazz())) {
             String found = checkClass(lastDes);
-            if (!found.isEmpty()) return found;
+            if (!found.isEmpty()) {
+                return found;
+            }
         }
 
         last.set(classDescription);
@@ -78,9 +80,13 @@ public class BundleFinder {
     }
 
     public String checkClass(@Nullable ClassDescription classDescription) {
-        if (classDescription == null) return "";
-        return cache.computeIfAbsent(classDescription.clazz(), _ -> readAnnotation(classDescription)
-                .orElseGet(() -> readAnnotation(classDescription.packageDescription()).orElse("")));
+        if (classDescription == null) {
+            return "";
+        }
+        return cache.computeIfAbsent(
+                classDescription.clazz(), _ -> readAnnotation(classDescription)
+                        .orElseGet(() -> readAnnotation(classDescription.packageDescription()).orElse(""))
+        );
     }
 
     private Optional<String> readAnnotation(Description description) {

@@ -26,6 +26,7 @@ import java.lang.annotation.Target;
 ///     event.replyModal("onModal", TextDisplay.of("Hello World"));
 /// }
 /// ```
+///
 /// @see Interaction
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

@@ -16,7 +16,8 @@ public class KeyValueStore {
     /// @param <T>   the type of the value
     /// @return an [Optional] holding the value
     public <T> Optional<T> get(String key, Class<? extends T> clazz) {
-        return Optional.ofNullable(values.get(key)).filter(it -> it.getClass().isAssignableFrom(clazz)).map(clazz::cast);
+        return Optional.ofNullable(values.get(key)).filter(it -> it.getClass().isAssignableFrom(clazz))
+                .map(clazz::cast);
     }
 
     /// Associates the specified value with the specified key.

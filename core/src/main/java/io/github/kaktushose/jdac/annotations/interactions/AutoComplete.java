@@ -16,17 +16,16 @@ import java.lang.annotation.Target;
 ///
 ///     If referenced by the command name the handler will handle any command thats name starts with the given name:
 ///     ```
-///     @SlashCommand("favourite fruit")
+///
+/// @SlashCommand("favourite fruit")
 ///     public void fruitCommand(CommandEvent event, String fruit) {
 ///         event.reply("You've chosen: %s", fruit);
 ///     }
-///     @SlashCommand("favourite vegetable")
+/// @SlashCommand("favourite vegetable")
 ///     public void vegetableCommand(CommandEvent event, String vegetable) {
 ///         event.reply("You've chosen: %s", vegetable);
 ///     }
-///
-///     @AutoComplete("favourite")
-///     public void onFavouriteAutoComplete(AutoCompleteEvent event) {
+/// @AutoComplete("favourite")     public void onFavouriteAutoComplete(AutoCompleteEvent event) {
 ///         event.replyChoices(...);
 ///     }
 ///     ```
@@ -34,13 +33,11 @@ import java.lang.annotation.Target;
 ///
 ///     If referenced by the method name the handler will only handle the command of the given method:
 ///     ```
-///     @SlashCommand("favourite fruit")
+/// @SlashCommand("favourite fruit")
 ///     public void fruitCommand(CommandEvent event, String fruit) {
 ///         event.reply("You've chosen: %s", fruit);
 ///     }
-///
-///     @AutoComplete("fruitCommand")
-///     public void onFruitAutoComplete(AutoCompleteEvent event) {
+/// @AutoComplete("fruitCommand")     public void onFruitAutoComplete(AutoCompleteEvent event) {
 ///         event.replyChoices(...);
 ///     }
 ///     ```

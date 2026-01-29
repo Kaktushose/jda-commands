@@ -7,7 +7,7 @@ import io.github.kaktushose.jdac.message.placeholder.Entry;
 public final class ParsingException extends JDACException {
 
     /// @param placeholder the placeholders to insert
-    /// @param cause the cause of the internal exception
+    /// @param cause       the cause of the internal exception
     public ParsingException(Throwable cause, Entry... placeholder) {
         super("localization-json-error", cause, placeholder);
     }

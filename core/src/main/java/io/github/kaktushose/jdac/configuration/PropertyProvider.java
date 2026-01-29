@@ -43,11 +43,12 @@ import java.util.function.Function;
 /// }
 /// ```
 ///
-/// @param type the [Property] for which this [PropertyProvider] creates values.
-/// @param priority the priority of this provider
-/// @param referenceClass   The Class to which this [PropertyProvider] 'belongs'. It's only used for logging purposes.
-///                         For example, all fallback/default values have [JDACBuilder] as their reference class.
-/// @param supplier the [Function] returning the properties value, provides access to [Context]
+/// @param type           the [Property] for which this [PropertyProvider] creates values.
+/// @param priority       the priority of this provider
+/// @param referenceClass The Class to which this [PropertyProvider] 'belongs'. It's only used for logging purposes.
+///                                               For example, all fallback/default values have [JDACBuilder] as
+/// their reference class.
+/// @param supplier       the [Function] returning the properties value, provides access to [Context]
 public record PropertyProvider<T>(
         Property<T> type,
         int priority,
@@ -59,13 +60,16 @@ public record PropertyProvider<T>(
 
     /// Creates a new [PropertyProvider] where its [#referenceClass()] is the caller of this method.
     ///
-    /// @param type the [Property] for which this [PropertyProvider] creates values
+    /// @param type     the [Property] for which this [PropertyProvider] creates values
     /// @param priority the priority of this provider
     /// @param supplier the [Function] returning the properties value, provides access to [Context]
     /// @return the [PropertyProvider] instance
-    ///
     /// @see StackWalker#getCallerClass()
-    public static <T> PropertyProvider<T> create(Property<T> type, int priority, Function<Context, @Nullable T> supplier) {
+    public static <T> PropertyProvider<T> create(
+            Property<T> type,
+            int priority,
+            Function<Context, @Nullable T> supplier
+    ) {
         Class<?> referenceClass = WALKER.getCallerClass();
         return new PropertyProvider<>(type, priority, referenceClass, supplier);
     }
@@ -85,9 +89,7 @@ public record PropertyProvider<T>(
         /// This method will resolve the value of a [Property].
         ///
         /// @return the value associated with the given [Property]
-        ///
         /// @throws ConfigurationException may be thrown if cycling dependencies are detected
-        ///
         /// @implNote The values are resolved lazily and cached. Each value will only be resolved once.
         <T> T get(Property<T> type);
     }

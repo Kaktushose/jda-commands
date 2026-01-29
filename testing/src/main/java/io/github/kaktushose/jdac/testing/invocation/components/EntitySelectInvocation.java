@@ -16,7 +16,11 @@ public final class EntitySelectInvocation extends ComponentInvocation<EntitySele
     private Mentions mentions;
     private int uniqueId;
 
-    public EntitySelectInvocation(TestScenario.Context context, String customId, @Nullable MessageEditData lastMessage) {
+    public EntitySelectInvocation(
+            TestScenario.Context context,
+            String customId,
+            @Nullable MessageEditData lastMessage
+    ) {
         super(context, customId, lastMessage, EntitySelectInteractionEvent.class);
 
         mentions = mock(Mentions.class);

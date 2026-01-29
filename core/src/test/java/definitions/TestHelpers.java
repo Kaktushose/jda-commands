@@ -23,7 +23,8 @@ import java.util.stream.Collectors;
 
 public class TestHelpers {
 
-    public static final I18n I18N = new I18n(new BundleFinder(Descriptor.REFLECTIVE), new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
+    public static final I18n I18N = new I18n(new BundleFinder(Descriptor.REFLECTIVE),
+                                             new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
     public static final MessageResolver MESSAGE_RESOLVER = new MessageResolver(List.of(I18N));
 
     public static final Validators validators = new Validators(Map.of());
@@ -32,7 +33,11 @@ public class TestHelpers {
         return getBuildContextOptionalAutoComplete(controller, method, false);
     }
 
-    public static MethodBuildContext getBuildContextOptionalAutoComplete(Class<?> controller, String method, boolean autoComplete) {
+    public static MethodBuildContext getBuildContextOptionalAutoComplete(
+            Class<?> controller,
+            String method,
+            boolean autoComplete
+    ) {
         var clazz = new ReflectiveDescriptor().describe(controller);
 
         return new MethodBuildContext(

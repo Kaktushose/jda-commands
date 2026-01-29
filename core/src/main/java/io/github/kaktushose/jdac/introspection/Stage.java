@@ -12,10 +12,14 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 ///
 /// JDA-Commands has the following stages in this order:
 /// 1. [#CONFIGURATION] -> setting of builder properties, extension loading, construction of framework components
-/// 2. [#INITIALIZED] -> after starting the framework (basically after [JDACBuilder#start()] completed), e.g. all definitions are indexed etc.
-/// 3. [#RUNTIME] -> inside a runtime but outside of processing an [GenericInteractionCreateEvent], e.g. when [InteractionControllerInstantiator#instance(Class, Introspection)] is called
-/// 4. [#PREPARATION] -> during the preparation of an [GenericInteractionCreateEvent] for the [#INTERACTION] stage, e.g. where type adapters get called
-/// 5. [#INTERACTION] -> when processing an [GenericInteractionCreateEvent], e.g. in [Middleware#accept(InvocationContext)] or inside a user defined interaction controller method
+/// 2. [#INITIALIZED] -> after starting the framework (basically after [JDACBuilder#start()] completed), e.g. all
+/// definitions are indexed etc.
+/// 3. [#RUNTIME] -> inside a runtime but outside of processing an [GenericInteractionCreateEvent], e.g. when
+///  [InteractionControllerInstantiator#instance(Class, Introspection)] is called
+/// 4. [#PREPARATION] -> during the preparation of an [GenericInteractionCreateEvent] for the [#INTERACTION] stage, e
+/// .g. where type adapters get called
+/// 5. [#INTERACTION] -> when processing an [GenericInteractionCreateEvent], e.g. in
+///  [Middleware#accept(InvocationContext)] or inside a user defined interaction controller method
 ///
 /// Generally, a stage includes all properties that were set in a former stage:
 /// - [#INTERACTION] includes [#CONFIGURATION], [#INITIALIZED], [#RUNTIME] and [#PREPARATION]

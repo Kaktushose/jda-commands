@@ -91,9 +91,13 @@ public final class Helpers {
 
             String prefix = !parameters.isEmpty() && parameters.getFirst().equals(methodSignature.getFirst())
                     ? ""
-                    : JDACException.errorMessage("incorrect-method-signature", entry("parameter", methodSignature.getFirst().getName()));
+                    : JDACException.errorMessage(
+                            "incorrect-method-signature", entry(
+                                    "parameter", methodSignature.getFirst().getName())
+                    );
 
-            throw new InvalidDeclarationException("incorrect-method-signature",
+            throw new InvalidDeclarationException(
+                    "incorrect-method-signature",
                     entry("prefix", prefix),
                     entry("expected", methodSignature.stream().toList().toString()),
                     entry("actual", method.parameters().stream().map(ParameterDescription::type).toList().toString())
@@ -109,9 +113,11 @@ public final class Helpers {
 
             String prefix = !parameters.isEmpty() && parameters.getFirst().equals(CommandEvent.class)
                     ? ""
-                    : JDACException.errorMessage("incorrect-method-signature", entry("parameter", CommandEvent.class.getName()));
+                    : JDACException.errorMessage("incorrect-method-signature", entry("parameter",
+                                                                                     CommandEvent.class.getName()));
 
-            throw new InvalidDeclarationException("incorrect-method-signature",
+            throw new InvalidDeclarationException(
+                    "incorrect-method-signature",
                     entry("prefix", prefix),
                     entry("expected", "[%s, %s OR %s]".formatted(CommandEvent.class, User.class, Member.class)),
                     entry("actual", method.parameters().stream().map(ParameterDescription::type).toList().toString())
@@ -121,11 +127,15 @@ public final class Helpers {
 
     public static void checkDetached(IDetachableEntity entity, Class<?> origin) {
         if (entity.isDetached()) {
-            throw new IllegalArgumentException(JDACException.errorMessage("detached-entity", entry("class", origin.getName())));
+            throw new IllegalArgumentException(JDACException.errorMessage("detached-entity", entry("class",
+                                                                                                   origin.getName())));
         }
     }
 
-    public static InvalidDeclarationException jdaException(IllegalArgumentException cause, InteractionDefinition definition) {
+    public static InvalidDeclarationException jdaException(
+            IllegalArgumentException cause,
+            InteractionDefinition definition
+    ) {
         return new InvalidDeclarationException(
                 "jda-exception",
                 entry("cause", cause.getMessage()),
@@ -143,11 +153,15 @@ public final class Helpers {
 
     /// The [InteractionDefinition.ReplyConfig] that should be used when sending replies.
     ///
-    /// @param definition the [`interaction definition`][Invokable] to build the [InteractionDefinition.ReplyConfig] from
+    /// @param definition the [`interaction definition`][Invokable] to build the [InteractionDefinition.ReplyConfig]
+    ///  from
     /// @param fallback   the [InteractionDefinition.ReplyConfig] to use as a fallback
     /// @implNote This will first attempt to use the [ReplyConfig] annotation of the method and then of the class. If
     /// neither is present will fall back to the global [InteractionDefinition.ReplyConfig] provided by [JDACBuilder].
-    public static InteractionDefinition.ReplyConfig replyConfig(Invokable definition, InteractionDefinition.ReplyConfig fallback) {
+    public static InteractionDefinition.ReplyConfig replyConfig(
+            Invokable definition,
+            InteractionDefinition.ReplyConfig fallback
+    ) {
         return computeConfig(
                 ReplyConfig.class,
                 definition.classDescription(),
@@ -185,11 +199,13 @@ public final class Helpers {
     /// @param <A>        the annotation type of the config
     /// @param <C>        the data class representing the config/ annotation
     /// @return C
-    private static <A extends Annotation, C> C computeConfig(Class<A> annotation,
-                                                             ClassDescription clazz,
-                                                             MethodDescription method,
-                                                             Function<A, C> mapper,
-                                                             C fallback) {
+    private static <A extends Annotation, C> C computeConfig(
+            Class<A> annotation,
+            ClassDescription clazz,
+            MethodDescription method,
+            Function<A, C> mapper,
+            C fallback
+    ) {
         var clazzAnn = clazz.findAnnotation(annotation);
         var methodAnn = method.findAnnotation(annotation);
 
@@ -221,39 +237,45 @@ public final class Helpers {
     }
 
     public static void registerAppEmojis(JDAContext context, Collection<EmojiSource> emojiSources) {
-        context.performTask(jda -> emojiSources.stream()
-                .map(EmojiSource::get)
-                .map(Map::entrySet)
-                .flatMap(Set::stream)
-                .forEach(entry -> {
-                    Result<ApplicationEmoji> result = jda.createApplicationEmoji(entry.getKey(), entry.getValue())
-                            .mapToResult()
-                            .complete();
+        context.performTask(
+                jda -> emojiSources.stream()
+                        .map(EmojiSource::get)
+                        .map(Map::entrySet)
+                        .flatMap(Set::stream)
+                        .forEach(entry -> {
+                            Result<ApplicationEmoji> result = jda.createApplicationEmoji(entry.getKey(),
+                                                                                         entry.getValue())
+                                    .mapToResult()
+                                    .complete();
 
-                    if (result.isSuccess()) {
-                        log.debug("Registered new application emoji with name {}", entry.getKey());
-                        return;
-                    }
+                            if (result.isSuccess()) {
+                                log.debug("Registered new application emoji with name {}", entry.getKey());
+                                return;
+                            }
 
-                    if (result.isFailure() && result.getFailure() instanceof ErrorResponseException e) {
-                        List<String> codes = e.getSchemaErrors()
-                                .stream()
-                                .map(ErrorResponseException.SchemaError::getErrors)
-                                .flatMap(List::stream)
-                                .map(ErrorResponseException.ErrorCode::getCode)
-                                .toList();
+                            if (result.isFailure() && result.getFailure() instanceof ErrorResponseException e) {
+                                List<String> codes = e.getSchemaErrors()
+                                        .stream()
+                                        .map(ErrorResponseException.SchemaError::getErrors)
+                                        .flatMap(List::stream)
+                                        .map(ErrorResponseException.ErrorCode::getCode)
+                                        .toList();
 
-                        if (codes.size() == 1 && codes.contains("APPLICATION_EMOJI_NAME_ALREADY_TAKEN")) {
-                            log.debug("Application emoji with name {} already registered", entry.getKey());
-                            return;
-                        }
-                    }
+                                if (codes.size() == 1 && codes.contains("APPLICATION_EMOJI_NAME_ALREADY_TAKEN")) {
+                                    log.debug("Application emoji with name {} already registered", entry.getKey());
+                                    return;
+                                }
+                            }
 
-                    log.error("Couldn't register emoji with name {}", entry.getKey(), result.getFailure());
-                }), true);
+                            log.error("Couldn't register emoji with name {}", entry.getKey(), result.getFailure());
+                        }), true
+        );
     }
 
-    public static Collection<Property<?>> propertyCategoryList(Property.Category category, Collection<Property<?>> properties) {
+    public static Collection<Property<?>> propertyCategoryList(
+            Property.Category category,
+            Collection<Property<?>> properties
+    ) {
         for (Property<?> property : properties) {
             if (property.category() != (category)) {
                 throw new IllegalArgumentException("The property %s doesn't belong to category %s!".formatted(property.name(), category));

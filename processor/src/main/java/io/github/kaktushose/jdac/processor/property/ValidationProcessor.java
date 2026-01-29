@@ -1,9 +1,9 @@
 package io.github.kaktushose.jdac.processor.property;
 
-import java.util.function.Function;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.VariableElement;
+import java.util.function.Function;
 
 public class ValidationProcessor extends PropertyProcessor {
 
@@ -21,14 +21,15 @@ public class ValidationProcessor extends PropertyProcessor {
         }
 
         if (!field.stage().equals("CONFIGURATION") && !field.category().equals("PROVIDED")) {
-            messager.printError("Properties with stage CONFIGURATION must have category set to PROVIDED", field.element());
+            messager.printError("Properties with stage CONFIGURATION must have category set to PROVIDED",
+                                field.element());
         }
     }
 
     private boolean equalsContent(Property one, Property other) {
         return one.category().equals(other.category())
-                && one.stage().equals(other.stage())
-                && one.fallbackBehaviour().equals(other.fallbackBehaviour());
+               && one.stage().equals(other.stage())
+               && one.fallbackBehaviour().equals(other.fallbackBehaviour());
     }
 
     private String addMismatch(Property field, Property annotation, String name, Function<Property, String> getter) {
@@ -36,7 +37,7 @@ public class ValidationProcessor extends PropertyProcessor {
         String annotationVal = getter.apply(annotation);
 
         if (!fieldVal.equals(annotationVal)) {
-            return "\n  %s: %s (field) vs. %s (annotation)".formatted(name, fieldVal,  annotationVal);
+            return "\n  %s: %s (field) vs. %s (annotation)".formatted(name, fieldVal, annotationVal);
         }
 
         return "";

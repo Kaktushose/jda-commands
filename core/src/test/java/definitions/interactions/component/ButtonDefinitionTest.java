@@ -12,7 +12,6 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 import static definitions.TestHelpers.getBuildContext;
 import static org.junit.jupiter.api.Assertions.*;

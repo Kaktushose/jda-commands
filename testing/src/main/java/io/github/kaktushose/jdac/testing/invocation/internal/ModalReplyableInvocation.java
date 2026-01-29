@@ -18,7 +18,11 @@ public abstract sealed class ModalReplyableInvocation<T extends IReplyCallback> 
 
     protected final CompletableFuture<Modal> modal;
 
-    public ModalReplyableInvocation(TestScenario.Context context, Class<T> eventClass, InteractionType interactionType) {
+    public ModalReplyableInvocation(
+            TestScenario.Context context,
+            Class<T> eventClass,
+            InteractionType interactionType
+    ) {
         super(context, eventClass, interactionType);
         modal = new CompletableFuture<>();
     }

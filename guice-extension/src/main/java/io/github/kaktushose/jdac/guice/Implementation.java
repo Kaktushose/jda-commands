@@ -34,12 +34,16 @@ import java.lang.annotation.*;
 ///
 /// Additionally, the following classes can be also automatically registered via their dedicated annotations.
 ///
-/// - [`Middleware`][io.github.kaktushose.jdac.dispatching.middleware.Middleware] (via [`@Implementation.Middleware`][Middleware])
-/// - [`TypeAdapter`][io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter] (via [`@Implementation.TypeAdapter`][TypeAdapter])
-/// - [`Validator`][io.github.kaktushose.jdac.dispatching.validation.Validator] (via [`@Implementation.Validator`][Validator])
+/// - [`Middleware`][io.github.kaktushose.jdac.dispatching.middleware.Middleware] (via
+///  [`@Implementation.Middleware`][Middleware])
+/// - [`TypeAdapter`][io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter] (via
+///  [`@Implementation.TypeAdapter`][TypeAdapter])
+/// - [`Validator`][io.github.kaktushose.jdac.dispatching.validation.Validator] (via
+///  [`@Implementation.Validator`][Validator])
 ///
 /// ## Dependencies on other framework components
-/// If you need access to other components of [JDACommands], you can get all [Properties][Property] of stage [Stage#CONFIGURATION]
+/// If you need access to other components of [JDACommands], you can get all [Properties][Property] of stage
+///  [Stage#CONFIGURATION]
 /// by either injecting (see list underneath) or using [Introspection].
 ///
 /// Please note that this could lead to cycling dependencies errors,
@@ -80,7 +84,8 @@ public @interface Implementation {
     @Scope
     @interface Middleware {
 
-        /// Gets the [Priority] to register the [`Middleware`][io.github.kaktushose.jdac.dispatching.middleware.Middleware] with.
+        /// Gets the [Priority] to register the
+        ///  [`Middleware`][io.github.kaktushose.jdac.dispatching.middleware.Middleware] with.
         ///
         /// @return the [Priority]
         Priority priority() default Priority.NORMAL;
@@ -105,13 +110,15 @@ public @interface Implementation {
     @Scope
     @interface TypeAdapter {
 
-        /// Gets the [Class] this [`TypeAdapter`][io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter] will convert from.
+        /// Gets the [Class] this [`TypeAdapter`][io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter] will
+        /// convert from.
         ///
         /// @return the class the [`TypeAdapter`][io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter]
         /// will convert from
         Class<?> source();
 
-        /// Gets the [Class] this [`TypeAdapter`][io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter] will convert into.
+        /// Gets the [Class] this [`TypeAdapter`][io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter] will
+        /// convert into.
         ///
         /// @return the class the [`TypeAdapter`][io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter]
         /// will convert into

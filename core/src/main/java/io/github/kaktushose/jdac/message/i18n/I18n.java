@@ -24,18 +24,22 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// ## dollar sign
 /// The dollar (`$`) is a reserved character for [bundle name separation](#bundles).
 ///
-/// Practically, in all cases this doesn't really bother, there are only 2 niche situations where the dollar has to be escaped:
+/// Practically, in all cases this doesn't really bother, there are only 2 niche situations where the dollar has to
+/// be escaped:
 ///   - your message key contains `$` and no bundle is explicitly stated, e.g. `key.with$.in.it`
-///   - the string is a directly inserted localization messages containing `$`, that happens to have it's prior `$` part to match a bundle name and its after `$` part to match a message key, e.g.
+///   - the string is a directly inserted localization messages containing `$`, that happens to have it's prior `$`
+///  part to match a bundle name and its after `$` part to match a message key, e.g.
 ///     - you have a bundle called `my_bundle`
 ///     - you have a message key called `my-key` in that bundle
-///     - and you want to print the message `my_bundle$my-key` to the user (not the message stored under "my-key" in the bundle "my_bundle")
+///     - and you want to print the message `my_bundle$my-key` to the user (not the message stored under "my-key" in
+/// the bundle "my_bundle")
 ///
 /// In these cases just prefix your whole message with a `$`, e.g. `$my_bundle$my-key` or `$key.with$.in.it`.
 /// Now the bundle will be treated as not stated explicitly and the dollar sign will be preserved.
 ///
 /// ## Special bundle names
-/// JDA-Commands uses a special bundle called 'jdac' to allow the customization of certain error messages and general strings
+/// JDA-Commands uses a special bundle called 'jdac' to allow the customization of certain error messages and general
+///  strings
 /// used by the framework that are presented to the user of the discord bot later. That means:
 /// The bundle name 'jdac' is reserved by JDA-Commands and cannot be used for your own localization messages.
 ///
@@ -121,7 +125,7 @@ public class I18n implements Resolver<String> {
 
 
     /// @param bundleFinder the [BundleFinder] to be used to get the [Bundle] annotation
-    /// @param localizer the used [Localizer] to retrieve the messages
+    /// @param localizer    the used [Localizer] to retrieve the messages
     public I18n(BundleFinder bundleFinder, Localizer localizer) {
         this.localizer = localizer;
         this.bundleFinder = bundleFinder;
@@ -137,10 +141,9 @@ public class I18n implements Resolver<String> {
     /// Please note that the character `$` is forbidden in bundle names and the bundle name 'jdac' is reserved.
     /// For further information visit the class docs.
     ///
-    /// @param locale the [Locale] to be used to localize the key
+    /// @param locale      the [Locale] to be used to localize the key
     /// @param combinedKey the messages key
     /// @param placeholder the placeholder to be used
-    ///
     /// @return the localized message or the key if not found
     @Override
     public String resolve(String combinedKey, Locale locale, Map<String, @Nullable Object> placeholder) {

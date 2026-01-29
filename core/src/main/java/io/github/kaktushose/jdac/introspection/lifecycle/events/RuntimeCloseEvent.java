@@ -4,7 +4,8 @@ import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.lifecycle.FrameworkEvent;
 
-/// Published when a [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) is started, e.g. when the user executed a slash command.
+/// Published when a [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) is started, e.g. when the user
+/// executed a slash command.
 ///
 /// @param runtimeId the runtimes id
 @IntrospectionAccess(Stage.RUNTIME)

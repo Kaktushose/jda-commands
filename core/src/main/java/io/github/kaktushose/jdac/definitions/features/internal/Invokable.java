@@ -27,18 +27,22 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
     /// @return the result of the method invocation
     /// @throws IllegalStateException     if the definition must not be invoked at the moment this method gets called
     /// @throws IllegalAccessException    if the method object is enforcing Java language access control and the
-    ///                                   underlying method is inaccessible
+    ///                                                                     underlying method is inaccessible
     /// @throws InvocationTargetException if an exception was thrown by the invoked method or constructor
-    @Nullable @ApiStatus.Internal
-    default Object invoke(Object instance, InvocationContext<?> invocation) throws IllegalAccessException, InvocationTargetException {
+    @Nullable
+    @ApiStatus.Internal
+    default Object invoke(Object instance, InvocationContext<?> invocation)
+            throws IllegalAccessException, InvocationTargetException {
         if (!EventHandler.INVOCATION_PERMITTED.orElse(false)) {
             throw new InternalException("invocation-not-permitted");
         }
         SequencedCollection<Object> arguments = invocation.rawArguments();
 
-        // ScopedValue#call uses a generic for the exception, thus we have to handle the most common type between IllegalAccessException and InvocationTargetException
+        // ScopedValue#call uses a generic for the exception, thus we have to handle the most common type between
+        // IllegalAccessException and InvocationTargetException
         try {
-            return ScopedValue.where(EventHandler.INVOCATION_PERMITTED, false).call(() -> methodDescription().invoker().invoke(instance, arguments));
+            return ScopedValue.where(EventHandler.INVOCATION_PERMITTED, false).call(() -> methodDescription().invoker()
+                    .invoke(instance, arguments));
         } catch (IllegalAccessException | InternalException | InvocationTargetException e) {
             throw e;
         } catch (ReflectiveOperationException e) {

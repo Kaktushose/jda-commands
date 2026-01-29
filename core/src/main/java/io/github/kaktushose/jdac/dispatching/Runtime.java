@@ -34,7 +34,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /// A [Runtime] delegates the jda events to their corresponding [EventHandler] and manages the used virtual threads.
 ///
-/// A new [Runtime] is created each time an [SlashCommandInteractionEvent], [GenericContextInteractionEvent] or [CommandAutoCompleteInteractionEvent] is provided by jda
+/// A new [Runtime] is created each time an [SlashCommandInteractionEvent], [GenericContextInteractionEvent] or
+///  [CommandAutoCompleteInteractionEvent] is provided by jda
 /// or if an interaction is marked as 'independent'.
 /// Runtimes are executed in parallel, but events are processed sequentially by each runtime.
 /// Every [EventHandler] called by this [Runtime] is executed in its own virtual thread, isolated from the runtime one.
@@ -42,7 +43,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 /// @implNote Each [Runtime] is based on a [BlockingQueue] in which jda events, belonging to this
 /// runtime, are put by the [JDAEventListener] running on the jda event thread.
 /// Each runtime than has its own virtual thread that takes events from this queue and executes them sequentially but
-/// each in its own (sub) virtual thread. Therefore, the virtual thread in which the user code will be called, only exists for
+/// each in its own (sub) virtual thread. Therefore, the virtual thread in which the user code will be called, only
+/// exists for
 /// the lifespan of one "interaction" and cannot interfere with other interactions on the same or other runtimes.
 @ApiStatus.Internal
 public final class Runtime implements Closeable {
@@ -104,7 +106,8 @@ public final class Runtime implements Closeable {
                 while (!Thread.interrupted()) {
                     GenericInteractionCreateEvent incomingEvent = eventQueue.take();
 
-                    Thread.ofVirtual().name("JDAC EventHandler-Thread %s".formatted(id)).start(() -> executeHandler(incomingEvent)).join();
+                    Thread.ofVirtual().name("JDAC EventHandler-Thread %s".formatted(id))
+                            .start(() -> executeHandler(incomingEvent)).join();
                 }
             } catch (InterruptedException _) {
             }

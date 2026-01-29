@@ -57,7 +57,10 @@ class ValidatorTest {
         OptionDataDefinition definition = optionData("constraint");
 
         assertEquals(1, definition.constraints().size());
-        assertEquals(PermissionValidator.class, definition.constraints().stream().findAny().orElseThrow().validator().getClass());
+        assertEquals(
+                PermissionValidator.class, definition.constraints().stream().findAny().orElseThrow().validator()
+                        .getClass()
+        );
     }
 
     private OptionDataDefinition optionData(String method) {
@@ -66,6 +69,12 @@ class ValidatorTest {
 
     private SlashCommandDefinition build(String method) {
         return SlashCommandDefinition.build(getBuildContext(TestController.class, method));
+    }
+
+    @Target(ElementType.PARAMETER)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Constraint(String.class)
+    public @interface NoValidator {
     }
 
     @Interaction
@@ -94,12 +103,6 @@ class ValidatorTest {
         @Command("constraint")
         public void constraint(CommandEvent event, @Perm(Permission.ADMINISTRATOR) Member member) {
         }
-    }
-
-    @Target(ElementType.PARAMETER)
-    @Retention(RetentionPolicy.RUNTIME)
-    @Constraint(String.class)
-    public @interface NoValidator {
     }
 
 }

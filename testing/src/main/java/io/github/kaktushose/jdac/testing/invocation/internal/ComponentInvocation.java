@@ -19,10 +19,16 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
-public abstract sealed class ComponentInvocation<T extends GenericComponentInteractionCreateEvent> extends ModalReplyableInvocation<T>
+public abstract sealed class ComponentInvocation<T extends GenericComponentInteractionCreateEvent>
+        extends ModalReplyableInvocation<T>
         permits EntitySelectInvocation, ButtonInvocation, StringSelectInvocation {
 
-    public ComponentInvocation(Context context, String customId, @Nullable MessageEditData lastMessage, Class<T> klass) {
+    public ComponentInvocation(
+            Context context,
+            String customId,
+            @Nullable MessageEditData lastMessage,
+            Class<T> klass
+    ) {
         super(context, klass, InteractionType.COMPONENT);
 
         when(event.getComponentId()).thenReturn(customId);
@@ -31,7 +37,9 @@ public abstract sealed class ComponentInvocation<T extends GenericComponentInter
 
         Message message = mock(Message.class);
         lenient().when(event.getMessage()).thenReturn(message);
-        lenient().when(message.getComponents()).thenReturn(Optional.ofNullable(lastMessage).map(MessageEditData::getComponents).orElse(List.of()));
+        lenient().when(message.getComponents()).thenReturn(Optional.ofNullable(lastMessage)
+                                                                   .map(MessageEditData::getComponents)
+                                                                   .orElse(List.of()));
         lenient().when(message.getComponentTree()).then(_ -> ComponentTree.forMessage(message.getComponents()));
 
         lenient().when(event.replyModal(any(Modal.class))).then(invocation -> {

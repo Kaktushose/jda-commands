@@ -12,7 +12,9 @@ import java.util.SequencedCollection;
 /// Published after an interaction controller method is called.
 ///
 /// @param invocationContext the [InvocationContext] that was used to invoke the interaction controller method
-/// @param exception the [Exception] thrown by [Invoker#invoke(Object, SequencedCollection)] or `null` if no exception was thrown
+/// @param exception         the [Exception] thrown by [Invoker#invoke(Object, SequencedCollection)] or `null` if no
+/// exception was thrown
 @IntrospectionAccess(Stage.INTERACTION)
-public record InteractionFinishedEvent(InvocationContext<?> invocationContext, @Nullable Exception exception) implements FrameworkEvent {
+public record InteractionFinishedEvent(InvocationContext<?> invocationContext, @Nullable Exception exception)
+        implements FrameworkEvent {
 }

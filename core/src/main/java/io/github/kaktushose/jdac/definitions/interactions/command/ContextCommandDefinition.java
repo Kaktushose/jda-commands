@@ -21,12 +21,12 @@ import java.util.Optional;
 
 /// Representation of a context command.
 ///
-/// @param classDescription     the [ClassDescription] of the declaring class of the [#methodDescription()]
-/// @param methodDescription    the [MethodDescription] of the method this definition is bound to
-/// @param permissions          a [Collection] of permissions for this command
-/// @param name                 the name of the command
-/// @param commandType          the [Command.Type] of this command
-/// @param commandConfig        the [CommandConfig] to use
+/// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param methodDescription the [MethodDescription] of the method this definition is bound to
+/// @param permissions       a [Collection] of permissions for this command
+/// @param name              the name of the command
+/// @param commandType       the [Command.Type] of this command
+/// @param commandConfig     the [CommandConfig] to use
 public record ContextCommandDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,
@@ -46,7 +46,7 @@ public record ContextCommandDefinition(
         switch (command.type()) {
             case USER -> Helpers.checkSignatureUserContext(method);
             case MESSAGE -> Helpers.checkSignature(method, List.of(CommandEvent.class, Message.class));
-            default ->  throw new InvalidDeclarationException("invalid-context-command-type");
+            default -> throw new InvalidDeclarationException("invalid-context-command-type");
         }
 
         CommandConfig commandConfig = Helpers.commandConfig(context);

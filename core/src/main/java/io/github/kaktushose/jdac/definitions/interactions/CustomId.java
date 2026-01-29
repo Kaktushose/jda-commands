@@ -5,8 +5,9 @@ import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 
 /// Representation of a custom id used in modals, buttons or select menus.
 ///
-/// @param runtimeId    the id of the [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) this custom id is bound to
-///                     or the literal `independent`.
+/// @param runtimeId    the id of the [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) this custom id is
+/// bound to
+///                                         or the literal `independent`.
 /// @param definitionId the [Definition#definitionId()]
 /// @implNote the custom id has the following format: `jdac.runtimeId.definitionId`
 public record CustomId(String runtimeId, String definitionId) {

@@ -19,8 +19,9 @@ public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
 
     @Override
     protected PreparationResult prepare(ModalInteractionEvent event, Runtime runtime) {
-        var modal = interactionRegistry.find(ModalDefinition.class, true, it ->
-                it.definitionId().equals(CustomId.fromMerged(event.getModalId()).definitionId())
+        var modal = interactionRegistry.find(
+                ModalDefinition.class, true, it ->
+                        it.definitionId().equals(CustomId.fromMerged(event.getModalId()).definitionId())
         );
 
         return new PreparationResult(modal, List.of(new ModalEvent()));

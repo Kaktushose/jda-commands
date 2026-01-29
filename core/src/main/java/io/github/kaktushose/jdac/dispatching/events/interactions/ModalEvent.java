@@ -34,7 +34,8 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     ///
     /// **You only have 3 seconds to acknowledge an interaction!**
     ///
-    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
+    /// When the acknowledgement is sent after the interaction expired, you will receive
+    ///  [ErrorResponse#UNKNOWN_INTERACTION].
     ///
     /// Use [#reply(String, Entry...)] to edit it directly.
     public void deferEdit() {
@@ -59,7 +60,8 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     /// @throws IllegalArgumentException If the provided id is null
     /// @see #values()
     public ModalMapping value(String customId) {
-        return Objects.requireNonNull(jdaEvent().getValue(customId), "No value present for custom id '%s'".formatted(customId));
+        return Objects.requireNonNull(jdaEvent().getValue(customId),
+                                      "No value present for custom id '%s'".formatted(customId));
     }
 
     /// Convenience method to get a [ModalMapping][ModalMapping] by its numeric
@@ -71,16 +73,17 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     /// @throws IllegalArgumentException If the provided id is null
     /// @see #values()
     public ModalMapping value(int uniqueId) {
-        return Objects.requireNonNull(jdaEvent().getValueByUniqueId(uniqueId), "No value present for unique id '%d'".formatted(uniqueId));
+        return Objects.requireNonNull(jdaEvent().getValueByUniqueId(uniqueId),
+                                      "No value present for unique id '%d'".formatted(uniqueId));
     }
 
     /// Convenience method to get the value of a [TextInput] and convert it to the given type [T] via
     /// [Proteus].
     ///
     /// @param customId The custom id of the [TextInput]
-    /// @param type the [Class] of the type to convert to
+    /// @param type     the [Class] of the type to convert to
+    /// @param <T>      the type to convert to
     /// @return the [ConversionResult]
-    /// @param <T> the type to convert to
     public <T> ConversionResult<T> value(String customId, Class<T> type) {
         return Proteus.global().convert(value(customId).getAsString(), Type.of(String.class), Type.of(type));
     }
@@ -89,9 +92,9 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     /// [Proteus].
     ///
     /// @param uniqueId The unique id of the [TextInput]
-    /// @param type the [Class] of the type to convert to
+    /// @param type     the [Class] of the type to convert to
+    /// @param <T>      the type to convert to
     /// @return the [ConversionResult]
-    /// @param <T> the type to convert to
     public <T> ConversionResult<T> value(int uniqueId, Class<T> type) {
         return Proteus.global().convert(value(uniqueId).getAsString(), Type.of(String.class), Type.of(type));
     }

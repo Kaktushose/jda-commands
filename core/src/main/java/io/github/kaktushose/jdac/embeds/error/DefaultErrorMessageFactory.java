@@ -39,7 +39,8 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// - `adapting-failed-details`
 /// - `adapting-failed-message`
 /// ### Variables
-/// - `command`: The full command with parameter names, with the failed argument underlined, for instance: **/example** arg1 <u>arg2</u>
+/// - `command`: The full command with parameter names, with the failed argument underlined, for instance:
+/// **/example** arg1 <u>arg2</u>
 /// - `expected`: The expected argument type
 /// - `actual`: The provided argument type
 /// - `raw`: The raw, textual user input
@@ -84,7 +85,10 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
 
     /// {@inheritDoc}
     @Override
-    public MessageTopLevelComponent getTypeAdaptingFailedMessage(ErrorContext context, ConversionResult.Failure<?> failure) {
+    public MessageTopLevelComponent getTypeAdaptingFailedMessage(
+            ErrorContext context,
+            ConversionResult.Failure<?> failure
+    ) {
         SlashCommandDefinition command = (SlashCommandDefinition) context.definition();
         SlashCommandInteractionEvent event = (SlashCommandInteractionEvent) context.event();
         List<OptionDataDefinition> commandOptions = new ArrayList<>(command.commandOptions());
@@ -103,10 +107,12 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
             Type<?> into = Type.of(commandOption.declaredType());
             if (failure.context() != null && into.equals(failure.context().into())) {
                 name = "%s __%s__".formatted(name, commandOption.name());
-                name = "%s %s".formatted(name, commandOptions.subList(i + 1, commandOptions.size())
-                        .stream()
-                        .map(OptionDataDefinition::name)
-                        .collect(Collectors.joining(" ")));
+                name = "%s %s".formatted(
+                        name, commandOptions.subList(i + 1, commandOptions.size())
+                                .stream()
+                                .map(OptionDataDefinition::name)
+                                .collect(Collectors.joining(" "))
+                );
                 expected = commandOption.declaredType().getSimpleName();
                 actual = optionMapping.map(Helpers::humanReadableType).orElse("null");
                 raw = optionMapping.map(OptionMapping::getAsString).orElse("null");
@@ -139,7 +145,9 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     public MessageTopLevelComponent getInsufficientPermissionsMessage(ErrorContext context) {
         StringBuilder sbPermissions = new StringBuilder();
         context.definition().permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
-        String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
+        String permissions = sbPermissions.toString().isEmpty()
+                ? "N/A"
+                : sbPermissions.substring(0, sbPermissions.length() - 2);
 
         return build(
                 Container.of(TextDisplay.of("jdac$insufficient-permissions")),
@@ -153,7 +161,8 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     /// {@inheritDoc}
     @Override
     public MessageTopLevelComponent getConstraintFailedMessage(ErrorContext context, String message) {
-        return build(Container.of(
+        return build(
+                Container.of(
                         TextDisplay.of("jdac$constraint-failed")),
                 Color.ORANGE,
                 context.event().getUserLocale(),
@@ -185,7 +194,12 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
         return build(Container.of(TextDisplay.of("jdac$unknown-interaction")), Color.RED, event.getUserLocale());
     }
 
-    private MessageTopLevelComponent build(Container container, Color color, DiscordLocale locale, Entry... placeholders) {
+    private MessageTopLevelComponent build(
+            Container container,
+            Color color,
+            DiscordLocale locale,
+            Entry... placeholders
+    ) {
         return resolver.resolve(
                 container.withAccentColor(color),
                 locale,

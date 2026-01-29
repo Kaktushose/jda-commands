@@ -14,20 +14,24 @@ import java.util.Collection;
 
 /// Used to configure the reply behaviour of interaction replies.
 ///
-/// Interaction methods annotated with [ReplyConfig] will use the configured values of this annotation when sending a reply.
+/// Interaction methods annotated with [ReplyConfig] will use the configured values of this annotation when sending a
+///  reply.
 /// Interaction classes annotated with [ReplyConfig] will apply the configured values of this annotation to
 /// every method, if and only if no annotation is present at method level. If the [ReplyConfig] annotation is neither
-/// present at the class level nor the method level, the global [`ReplyConfig`][io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig]
+/// present at the class level nor the method level, the global
+///  [`ReplyConfig`][io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig]
 ///  will be used instead.
 ///
 /// **These values are always overridden by [ConfigurableReply#ephemeral(boolean)],
-/// [EditableConfigurableReply#keepComponents(boolean)] or respectively [EditableConfigurableReply#editReply(boolean)].**
+/// [EditableConfigurableReply#keepComponents(boolean)] or respectively
+///  [EditableConfigurableReply#editReply(boolean)].**
 ///
 /// In other words the hierarchy is as following:
 /// 1. [ConfigurableReply]
 /// 2. [ReplyConfig] method annotation
 /// 3. [ReplyConfig] class annotation
-/// 4. global [`ReplyConfig`][io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig] provided in [JDACBuilder]
+/// 4. global [`ReplyConfig`][io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig]
+///  provided in [JDACBuilder]
 ///
 /// @see ReplyableEvent
 @Target({ElementType.TYPE, ElementType.METHOD})
@@ -47,7 +51,8 @@ public @interface ReplyConfig {
 
     /// Whether to keep the original components when editing a message. Default value is `true`.
     ///
-    /// More formally, if editing a message and `keepComponents` is `true`, the original message will first be queried and
+    /// More formally, if editing a message and `keepComponents` is `true`, the original message will first be
+    /// queried and
     /// its components get added to the reply before it is sent.
     ///
     /// @return `true` if to keep the original components
@@ -56,7 +61,8 @@ public @interface ReplyConfig {
     /// Whether to edit the original message or to send a new one. Default value is `true`.
     ///
     /// The original message is the message, from which this event (interaction) originates.
-    /// For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
+    /// For example if this event is a ButtonEvent, the original message will be the message to which the pressed
+    /// button is attached to.
     ///
     /// Subsequent replies to the same slash command event or the button event cannot be edited.
     ///
@@ -78,6 +84,14 @@ public @interface ReplyConfig {
     /// Sets the [MentionType]s to parse. By default, all mentions are allowed.
     ///
     /// @see net.dv8tion.jda.api.utils.messages.MessageCreateRequest#setAllowedMentions(Collection)
-    MentionType[] allowedMentions() default {MentionType.CHANNEL, MentionType.USER, MentionType.ROLE, MentionType.HERE, MentionType.EVERYONE, MentionType.EMOJI, MentionType.SLASH_COMMAND};
+    MentionType[] allowedMentions() default {
+            MentionType.CHANNEL,
+            MentionType.USER,
+            MentionType.ROLE,
+            MentionType.HERE,
+            MentionType.EVERYONE,
+            MentionType.EMOJI,
+            MentionType.SLASH_COMMAND
+    };
 
 }

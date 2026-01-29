@@ -12,7 +12,7 @@ import org.jspecify.annotations.Nullable;
 
 /// An implementation of [Component] specific to [Button]
 public final class ButtonComponent extends Component<ButtonComponent, Button, Button, ButtonDefinition>
-        implements SectionAccessoryComponentUnion  {
+        implements SectionAccessoryComponentUnion {
 
     private @Nullable Emoji emoji;
     private @Nullable ButtonStyle buttonStyle;
@@ -48,16 +48,6 @@ public final class ButtonComponent extends Component<ButtonComponent, Button, Bu
     }
 
     @Override
-    protected Class<ButtonDefinition> definitionClass() {
-        return ButtonDefinition.class;
-    }
-
-    @Override
-    protected ButtonDefinition build(ButtonDefinition definition) {
-        return definition.with(label, emoji, url, buttonStyle, uniqueId);
-    }
-
-    @Override
     public Type getType() {
         return Type.BUTTON;
     }
@@ -65,5 +55,15 @@ public final class ButtonComponent extends Component<ButtonComponent, Button, Bu
     @Override
     public Thumbnail asThumbnail() {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    protected Class<ButtonDefinition> definitionClass() {
+        return ButtonDefinition.class;
+    }
+
+    @Override
+    protected ButtonDefinition build(ButtonDefinition definition) {
+        return definition.with(label, emoji, url, buttonStyle, uniqueId);
     }
 }

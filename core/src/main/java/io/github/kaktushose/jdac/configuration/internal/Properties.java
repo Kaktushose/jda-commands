@@ -15,11 +15,9 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 @ApiStatus.Internal
 public class Properties {
 
-    public static ScopedValue<Boolean> INSIDE_FRAMEWORK = ScopedValue.newInstance();
-
     public static final int FALLBACK_PRIORITY = 0;
     public static final int USER_PRIORITY = Integer.MAX_VALUE;
-
+    public static ScopedValue<Boolean> INSIDE_FRAMEWORK = ScopedValue.newInstance();
     private final Map<Property<?>, SortedSet<PropertyProvider<?>>> properties = new HashMap<>();
 
     private void checkCategory(PropertyProvider<?> provider) {
@@ -80,7 +78,8 @@ public class Properties {
         }
 
         public <T> Builder addFallback(Property<T> type, Function<PropertyProvider.Context, T> supplier) {
-            ScopedValue.where(Properties.INSIDE_FRAMEWORK, restricted).run(() -> properties.add(PropertyProvider.create(type, Properties.FALLBACK_PRIORITY, supplier)));
+            ScopedValue.where(Properties.INSIDE_FRAMEWORK, restricted)
+                    .run(() -> properties.add(PropertyProvider.create(type, Properties.FALLBACK_PRIORITY, supplier)));
             return this;
         }
 

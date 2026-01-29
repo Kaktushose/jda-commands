@@ -23,7 +23,8 @@ public final class SendableReply extends MessageReply {
     /// [InteractionHook#sendMessage(MessageCreateData)] or respectively [InteractionHook#editOriginal(MessageEditData)]
     /// will be called.
     ///
-    /// If `keepComponents` is `true`, queries the original message first and adds its components to the reply before sending it.
+    /// If `keepComponents` is `true`, queries the original message first and adds its components to the reply before
+    ///  sending it.
     public Message reply() {
         return replyAction.reply();
     }

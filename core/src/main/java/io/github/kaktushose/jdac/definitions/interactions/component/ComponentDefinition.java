@@ -25,7 +25,8 @@ public sealed interface ComponentDefinition<T> extends InteractionDefinition, JD
     ///
     /// @param <T> the type of the value
     /// @return if present the newValue, else the oldValue
-    @Nullable static <T> T override(@Nullable T oldValue, @Nullable T newValue) {
+    @Nullable
+    static <T> T override(@Nullable T oldValue, @Nullable T newValue) {
         return newValue != null
                 ? newValue
                 : oldValue;
@@ -37,7 +38,9 @@ public sealed interface ComponentDefinition<T> extends InteractionDefinition, JD
     /// @param <T> the type of the collection
     /// @return if present the newValue, else the oldValue
     static <E, T extends Collection<E>> T override(Supplier<T> newSupp, T oldValue, @Nullable T newValues) {
-        if (newValues == null) return oldValue;
+        if (newValues == null) {
+            return oldValue;
+        }
 
         T collection = newSupp.get();
         collection.addAll(oldValue);

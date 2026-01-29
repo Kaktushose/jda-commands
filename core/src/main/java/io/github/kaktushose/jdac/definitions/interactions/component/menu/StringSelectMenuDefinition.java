@@ -75,12 +75,14 @@ public record StringSelectMenuDefinition(
 
     /// Builds a new [StringSelectMenuDefinition] with the given values.
 
-    public StringSelectMenuDefinition with(Set<SelectOption> selectOptions,
-                                           Collection<String> defaultValues,
-                                           @Nullable String placeholder,
-                                           @Nullable Integer minValue,
-                                           @Nullable Integer maxValue,
-                                           @Nullable Integer uniqueId) {
+    public StringSelectMenuDefinition with(
+            Set<SelectOption> selectOptions,
+            Collection<String> defaultValues,
+            @Nullable String placeholder,
+            @Nullable Integer minValue,
+            @Nullable Integer maxValue,
+            @Nullable Integer uniqueId
+    ) {
         return new StringSelectMenuDefinition(
                 this.classDescription,
                 this.methodDescription,
@@ -94,10 +96,12 @@ public record StringSelectMenuDefinition(
     }
 
     private Set<MenuOptionDefinition> createOptions(Set<SelectOption> selectOptions, Collection<String> defaultValues) {
-        return override(HashSet::new, this.selectOptions, selectOptions
-                .stream()
-                .map(MenuOptionDefinition::new)
-                .collect(Collectors.toSet()))
+        return override(
+                HashSet::new, this.selectOptions, selectOptions
+                        .stream()
+                        .map(MenuOptionDefinition::new)
+                        .collect(Collectors.toSet())
+        )
                 .stream()
                 .map(selectOption -> defaultValues.contains(selectOption.value())
                         ? selectOption.withDefault()
@@ -125,7 +129,8 @@ public record StringSelectMenuDefinition(
             StringSelectMenu menu = StringSelectMenu.create(customId.merged())
                     .setPlaceholder(placeholder)
                     .setRequiredRange(minValue, maxValue)
-                    .addOptions(selectOptions.stream().map(MenuOptionDefinition::toJDAEntity).collect(Collectors.toSet()))
+                    .addOptions(selectOptions.stream().map(MenuOptionDefinition::toJDAEntity)
+                                        .collect(Collectors.toSet()))
                     .build();
             if (uniqueId != null) {
                 menu = menu.withUniqueId(uniqueId);
@@ -169,7 +174,8 @@ public record StringSelectMenuDefinition(
             } else {
                 emoji = Emoji.fromFormatted(emojiString);
             }
-            return new MenuOptionDefinition(option.value(), option.label(), option.description(), emoji, option.isDefault());
+            return new MenuOptionDefinition(option.value(), option.label(), option.description(), emoji,
+                                            option.isDefault());
         }
 
         private MenuOptionDefinition withDefault() {

@@ -76,10 +76,12 @@ public sealed interface InteractionDefinition extends Definition, Invokable
 
         /// Constructs a new ReplyConfig.
         ///
-        /// @param replyConfig the [`ReplyConfig`][io.github.kaktushose.jdac.annotations.interactions.ReplyConfig] to represent
+        /// @param replyConfig the [`ReplyConfig`][io.github.kaktushose.jdac.annotations.interactions.ReplyConfig] to
+        ///  represent
         public ReplyConfig(io.github.kaktushose.jdac.annotations.interactions.ReplyConfig replyConfig) {
             List<MentionType> allowedMentions = Arrays.asList(replyConfig.allowedMentions());
-            this(replyConfig.ephemeral(),
+            this(
+                    replyConfig.ephemeral(),
                     replyConfig.keepComponents(),
                     replyConfig.keepSelections(),
                     replyConfig.editReply(),
@@ -129,14 +131,16 @@ public sealed interface InteractionDefinition extends Definition, Invokable
 
             /// Whether to keep the original components when editing a message. Default value is `true`.
             ///
-            /// More formally, if editing a message and `keepComponents` is `true`, the original message will first be queried and
+            /// More formally, if editing a message and `keepComponents` is `true`, the original message will first
+            /// be queried and
             /// its components get added to the reply before it is sent.
             public Builder keepComponents(boolean keepComponents) {
                 this.keepComponents = keepComponents;
                 return this;
             }
 
-            /// Whether to keep the selections of a string select menu when sending edits. This setting only has an effect with
+            /// Whether to keep the selections of a string select menu when sending edits. This setting only has an
+            /// effect with
             /// [#keepComponents()] `true`.
             public Builder keepSelections(boolean keepSelections) {
                 this.keepSelections = keepSelections;
@@ -146,7 +150,8 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             /// Whether to edit the original message or to send a new one. Default value is `true`.
             ///
             /// The original message is the message, from which this event (interaction) originates.
-            /// For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
+            /// For example if this event is a ButtonEvent, the original message will be the message to which the
+            /// pressed button is attached to.
             ///
             /// Subsequent replies to the same slash command event or the button event cannot be edited.
             public Builder editReply(boolean editReply) {
@@ -165,10 +170,11 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             /// Sets the [MentionType]s that should be parsed. By default, all [MentionType]s are allowed.
             ///
             /// @implNote This will always override the old value.
-            ///
             /// @see net.dv8tion.jda.api.utils.messages.MessageCreateRequest#setAllowedMentions(Collection)
             public Builder allowedMentions(Collection<MentionType> allowedMentions) {
-                this.allowedMentions = allowedMentions.isEmpty() ? EnumSet.noneOf(MentionType.class) : EnumSet.copyOf(allowedMentions);
+                this.allowedMentions = allowedMentions.isEmpty()
+                        ? EnumSet.noneOf(MentionType.class)
+                        : EnumSet.copyOf(allowedMentions);
                 return this;
             }
 

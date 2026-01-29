@@ -81,14 +81,16 @@ public sealed class ReplyableInvocation<T extends IReplyCallback> extends Invoca
         AtomicInteger uniqueId = new AtomicInteger(1);
         MessageComponentTree tree = builder.getComponentTree();
         tree = tree.replace(ComponentReplacer.of(
-                Component.class,
-                _ -> true,
-                old -> old.withUniqueId(uniqueId.getAndIncrement()))
+                                    Component.class,
+                                    _ -> true,
+                                    old -> old.withUniqueId(uniqueId.getAndIncrement())
+                            )
         );
         return builder.setComponents(tree.getComponents()).build();
     }
 
-    @Nullable public MessageEditData lastMessage() {
+    @Nullable
+    public MessageEditData lastMessage() {
         return lastMessage;
     }
 

@@ -105,24 +105,28 @@ public record OptionDataDefinition(
             entry(AudioChannel.class, Collections.singletonList(ChannelType.VOICE)),
             entry(VoiceChannel.class, Collections.singletonList(ChannelType.VOICE)),
             entry(StageChannel.class, Collections.singletonList(ChannelType.STAGE)),
-            entry(ThreadChannel.class, Arrays.asList(
-                    ChannelType.GUILD_NEWS_THREAD,
-                    ChannelType.GUILD_PUBLIC_THREAD,
-                    ChannelType.GUILD_PRIVATE_THREAD
-            ))
+            entry(
+                    ThreadChannel.class, Arrays.asList(
+                            ChannelType.GUILD_NEWS_THREAD,
+                            ChannelType.GUILD_PUBLIC_THREAD,
+                            ChannelType.GUILD_PRIVATE_THREAD
+                    )
+            )
     );
 
     /// Builds a new [OptionDataDefinition].
     ///
-    /// @param parameter            the [ParameterDescription] to build the [OptionDataDefinition] from
-    /// @param autoComplete         the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
-    /// @param messageResolver      the [MessageResolver] instance to use
-    /// @param validatorRegistry    the corresponding [Validators]
+    /// @param parameter         the [ParameterDescription] to build the [OptionDataDefinition] from
+    /// @param autoComplete      the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
+    /// @param messageResolver   the [MessageResolver] instance to use
+    /// @param validatorRegistry the corresponding [Validators]
     /// @return the [OptionDataDefinition]
-    public static OptionDataDefinition build(ParameterDescription parameter,
-                                             @Nullable AutoCompleteDefinition autoComplete,
-                                             MessageResolver messageResolver,
-                                             Validators validatorRegistry) {
+    public static OptionDataDefinition build(
+            ParameterDescription parameter,
+            @Nullable AutoCompleteDefinition autoComplete,
+            MessageResolver messageResolver,
+            Validators validatorRegistry
+    ) {
         Class<?> resolvedType = resolveType(parameter.type(), parameter);
 
         if (Event.class.isAssignableFrom(resolvedType)) {
@@ -156,14 +160,16 @@ public record OptionDataDefinition(
                                         "validator-type-not-supported",
                                         entry("annotation", it.type().getName()),
                                         entry("parameter", parameter.name()),
-                                        entry("supportedTypes", supportedTypes.stream()
-                                                .map(Class::getName)
-                                                .collect(Collectors.joining("\n    -> "))
+                                        entry(
+                                                "supportedTypes", supportedTypes.stream()
+                                                        .map(Class::getName)
+                                                        .collect(Collectors.joining("\n    -> "))
                                         )
                                 );
                         case Validators.Result.Success(Validator<?, ?> validator) ->
                                 constraints.add(new ConstraintDefinition(validator, it));
-                        case Validators.Result.DiscordHandled _ -> {}
+                        case Validators.Result.DiscordHandled _ -> {
+                        }
                     }
                 });
 
@@ -236,8 +242,10 @@ public record OptionDataDefinition(
     /// @return the [OptionData]
     @Override
     public OptionData toJDAEntity() {
-        if (!declaredType.equals(Optional.class) && !Proteus.global().existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(declaredType))) {
-            throw new ConfigurationException("no-type-adapting-path",
+        if (!declaredType.equals(Optional.class) && !Proteus.global()
+                .existsPath(Type.of(OPTION_TYPE_TO_CLASS.get(optionType)), Type.of(declaredType))) {
+            throw new ConfigurationException(
+                    "no-type-adapting-path",
                     entry("optionType", optionType.name()),
                     entry("source", OPTION_TYPE_TO_CLASS.get(optionType).getName()),
                     entry("target", declaredType.getName())
@@ -257,14 +265,15 @@ public record OptionDataDefinition(
         }
 
         constraints.stream().filter(constraint ->
-                constraint.annotation().value() instanceof Min
+                                            constraint.annotation().value() instanceof Min
         ).findFirst().ifPresent(constraint -> optionData.setMinValue(((Min) constraint.annotation().value()).value()));
 
         constraints.stream().filter(constraint ->
-                constraint.annotation().value() instanceof Max
+                                            constraint.annotation().value() instanceof Max
         ).findFirst().ifPresent(constraint -> optionData.setMaxValue(((Max) constraint.annotation().value()).value()));
 
-        java.util.Optional.ofNullable(CHANNEL_TYPE_RESTRICTIONS.get(declaredType)).ifPresent(optionData::setChannelTypes);
+        java.util.Optional.ofNullable(CHANNEL_TYPE_RESTRICTIONS.get(declaredType))
+                .ifPresent(optionData::setChannelTypes);
 
         return optionData;
     }
@@ -273,7 +282,8 @@ public record OptionDataDefinition(
     ///
     /// @param validator  the corresponding [Validator]
     /// @param annotation the corresponding annotation object
-    public record ConstraintDefinition(Validator<?, ?> validator, AnnotationDescription<?> annotation) implements Definition {
+    public record ConstraintDefinition(Validator<?, ?> validator, AnnotationDescription<?> annotation)
+            implements Definition {
 
         @Override
         public String displayName() {

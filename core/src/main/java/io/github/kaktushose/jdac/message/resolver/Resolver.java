@@ -15,13 +15,14 @@ import java.util.Map;
 /// any emoji references. Other Resolver implementations are responsible for more complex objects,
 /// like [components][ComponentResolver].
 ///
-/// Most Resolvers are not intended to be directly used by end users but part of the public api to allow manual execution
+/// Most Resolvers are not intended to be directly used by end users but part of the public api to allow manual
+/// execution
 /// of the frameworks resolving logic for dynamic values if needed.
 ///
+/// @param <T> the type to resolve
 /// @see MessageResolver
 /// @see DataObjectResolver
 /// @see ComponentResolver
-/// @param <T> the type to resolve
 public interface Resolver<T> {
 
     /// Resolves the given object for the provided locale.
@@ -64,7 +65,8 @@ public interface Resolver<T> {
 
     /// The priority of this resolver influences the order in which resolver are applied in a resolution pipeline.
     ///
-    /// Currently, this only applies to `Resolver<String>`, when using [MessageResolver] (as JDA-Commands does internally).
+    /// Currently, this only applies to `Resolver<String>`, when using [MessageResolver] (as JDA-Commands does
+    /// internally).
     /// Generally speaking, resolvers with lower priority run first.
     ///
     /// If the priority isn't important (e.g. for [ComponentResolver]) this should return `0`.

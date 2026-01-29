@@ -22,8 +22,9 @@ public final class ContextCommandHandler extends EventHandler<GenericContextInte
 
     @Override
     protected PreparationResult prepare(GenericContextInteractionEvent<?> event, Runtime runtime) {
-        CommandDefinition command = interactionRegistry.find(ContextCommandDefinition.class, true, it ->
-                it.name().equals(event.getFullCommandName())
+        CommandDefinition command = interactionRegistry.find(
+                ContextCommandDefinition.class, true, it ->
+                        it.name().equals(event.getFullCommandName())
         );
 
         Object target = event.getTarget();

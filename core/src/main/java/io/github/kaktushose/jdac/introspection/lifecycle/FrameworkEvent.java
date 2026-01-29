@@ -5,8 +5,10 @@ import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.*;
 
-/// A [FrameworkEvent] is published at multiple points during the lifespan of the framework. It is always created by the framework
-/// and can be [subscribed to][Introspection#subscribe(Class, Subscriber)] by users, who can provide own logic to run when
+/// A [FrameworkEvent] is published at multiple points during the lifespan of the framework. It is always created by
+/// the framework
+/// and can be [subscribed to][Introspection#subscribe(Class, Subscriber)] by users, who can provide own logic to run
+///  when
 /// a certain event is published.
 ///
 /// The currently available events are:
@@ -19,5 +21,7 @@ import io.github.kaktushose.jdac.introspection.lifecycle.events.*;
 /// - [RuntimeCloseEvent] - fired at the end of a user interaction, e.g. due to inactivity
 ///
 /// For further information on each event visit the corresponding javadoc.
-public sealed interface FrameworkEvent permits FrameworkShutdownEvent, FrameworkStartEvent, InteractionFinishedEvent, InteractionStartEvent, RuntimeCloseEvent, RuntimeOpenEvent {
+public sealed interface FrameworkEvent
+        permits FrameworkShutdownEvent, FrameworkStartEvent, InteractionFinishedEvent, InteractionStartEvent,
+        RuntimeCloseEvent, RuntimeOpenEvent {
 }

@@ -16,7 +16,11 @@ public final class StringSelectInvocation extends ComponentInvocation<StringSele
 
     private List<String> values;
 
-    public StringSelectInvocation(TestScenario.Context context, String customId, @Nullable MessageEditData lastMessage) {
+    public StringSelectInvocation(
+            TestScenario.Context context,
+            String customId,
+            @Nullable MessageEditData lastMessage
+    ) {
         super(context, customId, lastMessage, StringSelectInteractionEvent.class);
 
         values = new ArrayList<>();

@@ -16,20 +16,26 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 public interface InternalProperties {
 
-    Property<Embeds.Configuration> EMBED_CONFIG_INTERNAL = new Singleton<>("EMBED_CONFIG_INTERNAL", Category.PROVIDED, Embeds.Configuration.class, Stage.CONFIGURATION);
+    Property<Embeds.Configuration> EMBED_CONFIG_INTERNAL = new Singleton<>("EMBED_CONFIG_INTERNAL", Category.PROVIDED
+            , Embeds.Configuration.class, Stage.CONFIGURATION);
 
-    Property<JDAContext> JDA_CONTEXT = new Singleton<>("JDA_CONTEXT", Category.PROVIDED, JDAContext.class, Stage.CONFIGURATION);
+    Property<JDAContext> JDA_CONTEXT = new Singleton<>("JDA_CONTEXT", Category.PROVIDED, JDAContext.class,
+                                                       Stage.CONFIGURATION);
 
     Property<Embeds> EMBEDS = new Singleton<>("EMBEDS", Category.PROVIDED, Embeds.class, Stage.CONFIGURATION);
 
-    Property<Middlewares> MIDDLEWARES = new Singleton<>("MIDDLEWARES", Category.PROVIDED, Middlewares.class, Stage.INITIALIZED);
+    Property<Middlewares> MIDDLEWARES = new Singleton<>("MIDDLEWARES", Category.PROVIDED, Middlewares.class,
+                                                        Stage.INITIALIZED);
 
-    Property<TypeAdapters> TYPE_ADAPTERS = new Singleton<>("TYPE_ADAPTERS", Category.PROVIDED, TypeAdapters.class, Stage.INITIALIZED);
+    Property<TypeAdapters> TYPE_ADAPTERS = new Singleton<>("TYPE_ADAPTERS", Category.PROVIDED, TypeAdapters.class,
+                                                           Stage.INITIALIZED);
 
-    Property<InteractionRegistry> INTERACTION_REGISTRY = new Singleton<>("INTERACTION_REGISTRY", Category.PROVIDED, InteractionRegistry.class, Stage.INITIALIZED);
+    Property<InteractionRegistry> INTERACTION_REGISTRY = new Singleton<>("INTERACTION_REGISTRY", Category.PROVIDED,
+                                                                         InteractionRegistry.class, Stage.INITIALIZED);
 
     Property<Runtime> RUNTIME = new Singleton<>("RUNTIME", Category.PROVIDED, Runtime.class, Stage.INTERACTION);
 
-    Property<BundleFinder> BUNDLE_FINDER = new Singleton<>("BUNDLE_FINDER", Category.PROVIDED, BundleFinder.class, Stage.CONFIGURATION);
+    Property<BundleFinder> BUNDLE_FINDER = new Singleton<>("BUNDLE_FINDER", Category.PROVIDED, BundleFinder.class,
+                                                           Stage.CONFIGURATION);
 
 }

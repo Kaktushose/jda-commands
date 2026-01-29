@@ -1,2 +1,3 @@
-/// This package contains logic needed to get instances of classes annotated with [io.github.kaktushose.jdac.annotations.interactions.Interaction]
+/// This package contains logic needed to get instances of classes annotated with
+///  [io.github.kaktushose.jdac.annotations.interactions.Interaction]
 package io.github.kaktushose.jdac.dispatching.instance;

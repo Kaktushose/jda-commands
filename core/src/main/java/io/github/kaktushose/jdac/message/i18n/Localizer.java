@@ -32,7 +32,8 @@ public interface Localizer {
     /// [Optional#empty()] should be returned.
     ///
     /// The difference to [#localize(Locale, String, String, Map)] is, that this method is only
-    /// used inside our implementation of [LocalizationFunction], thus the keys always follow the JDA format (parts are separated by a dot `.`).
+    /// used inside our implementation of [LocalizationFunction], thus the keys always follow the JDA format (parts
+    /// are separated by a dot `.`).
     ///
     /// For example, project fluent ([Fluava]) disallows `.` as a "normal" separator in localization keys, therefore
     /// we have to replace all `.` with `-` and then pass it to the [#localize(Locale, String, String, Map)] method.
@@ -42,7 +43,12 @@ public interface Localizer {
     /// @param key       the key of the message as provided by JDA
     /// @param arguments values for placeholder in the message
     /// @return the localized message or [Optional#empty()] if no key is found/an error occurred
-    default Optional<String> localizeJDA(Locale locale, String bundle, String key, Map<String, @Nullable Object> arguments) {
+    default Optional<String> localizeJDA(
+            Locale locale,
+            String bundle,
+            String key,
+            Map<String, @Nullable Object> arguments
+    ) {
         return localize(locale, bundle, key, arguments);
     }
 }

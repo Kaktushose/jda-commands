@@ -18,7 +18,8 @@ import java.lang.annotation.Annotation;
 /// Validators check if a command option fulfills the given constraint.
 ///
 /// Register them at the [JDACBuilder#validator(Class, Validator)()] or use the
-/// [`@Implementation.Validator`]({@docRoot}/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.Validator.html)
+/// [`@Implementation.Validator`]({@docRoot}/io.github.kaktushose.jda.commands.extension
+/// .guice/com/github/kaktushose/jda/commands/guice/Implementation.Validator.html)
 /// annotation of the guice extension.
 ///
 /// ### Example
@@ -45,6 +46,7 @@ import java.lang.annotation.Annotation;
 /// The fail messages of the two default [Validator]s for [Perm] and [NotPerm]
 /// can be localized with the localization keys `validator.noperm.fail` and
 /// `validator.perm.fail` respectively.
+///
 /// @see Constraint
 @FunctionalInterface
 public interface Validator<T, A extends Annotation> {
@@ -78,11 +80,11 @@ public interface Validator<T, A extends Annotation> {
             return invocationContext;
         }
 
-        /// This method returns a formatted, optionally resolved (and localized), error message based on [ErrorMessageFactory#getConstraintFailedMessage(ErrorMessageFactory.ErrorContext, String)].
+        /// This method returns a formatted, optionally resolved (and localized), error message based on
+        ///  [ErrorMessageFactory#getConstraintFailedMessage(ErrorMessageFactory.ErrorContext, String)].
         ///
         /// @param content     the message or localization key
         /// @param placeholder the variables used for localization
-        ///
         /// @see MessageResolver
         /// @see I18n
         public MessageTopLevelComponent failMessage(String content, Entry... placeholder) {

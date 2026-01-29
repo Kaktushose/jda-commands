@@ -74,11 +74,21 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// @param components   a [Collection] of [ModalTopLevelComponent]s to add to this modal
     /// @param placeholders the [Entry] placeholders to use for [message resolution][MessageResolver]
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
-    public void replyModal(Class<?> origin, String modal, Collection<ModalTopLevelComponent> components, Entry... placeholders) {
+    public void replyModal(
+            Class<?> origin,
+            String modal,
+            Collection<ModalTopLevelComponent> components,
+            Entry... placeholders
+    ) {
         reply(origin, modal, components, placeholders);
     }
 
-    private void reply(@Nullable Class<?> origin, String modal, Collection<ModalTopLevelComponent> components, Entry... placeholders) {
+    private void reply(
+            @Nullable Class<?> origin,
+            String modal,
+            Collection<ModalTopLevelComponent> components,
+            Entry... placeholders
+    ) {
         if (!(jdaEvent() instanceof IModalCallback callback)) {
             throw new InternalException("reply-failed", entry("event", jdaEvent().getClass().getName()));
         }
@@ -94,13 +104,15 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
         );
 
         var entryMap = Entry.toMap(placeholders);
-        ComponentResolver<ModalTopLevelComponent> resolver = new ComponentResolver<>(scopedMessageResolver(), ModalTopLevelComponent.class);
+        ComponentResolver<ModalTopLevelComponent> resolver = new ComponentResolver<>(scopedMessageResolver(),
+                                                                                     ModalTopLevelComponent.class);
         modalDefinition = modalDefinition.with(
                 scopedMessageResolver().resolve(modalDefinition.title(), scopedUserLocale(), entryMap),
                 resolver.resolve(components, scopedUserLocale(), entryMap)
         );
 
-        log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(), modalDefinition.displayName(), runtimeId());
+        log.debug("Replying to interaction \"{}\" with Modal: \"{}\". [Runtime={}]", definition.displayName(),
+                  modalDefinition.displayName(), runtimeId());
         callback.replyModal(modalDefinition.toJDAEntity(new CustomId(runtimeId(), definitionId))).queue();
     }
 }

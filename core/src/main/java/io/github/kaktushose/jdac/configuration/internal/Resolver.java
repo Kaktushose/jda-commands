@@ -33,18 +33,25 @@ public final class Resolver {
 
     @SuppressWarnings("unchecked")
     public <T> T get(Property<T> type) {
-        if (cache.containsKey(type)) return (T) cache.get(type);
+        if (cache.containsKey(type)) {
+            return (T) cache.get(type);
+        }
 
         // safe by invariant
         SortedSet<PropertyProvider<T>> providers = Helpers.castUnsafe(properties.getOrDefault(type, new TreeSet<>()));
 
         Result<T> result = switch (type) {
             case Property.Singleton<T> _ -> handleOne(providers, type);
-            case Property.Enumeration<?> _ -> (Result<T>) handleMany(Helpers.<SortedSet<PropertyProvider<Collection<Object>>>>castUnsafe(providers), ArrayList::new, List::addAll);
-            case Property.Map<?, ?> _ -> (Result<T>) handleMany(Helpers.<SortedSet<PropertyProvider<Map<Object, Object>>>>castUnsafe(providers), HashMap::new, java.util.Map::putAll);
+            case Property.Enumeration<?> _ ->
+                    (Result<T>) handleMany(Helpers.<SortedSet<PropertyProvider<Collection<Object>>>>castUnsafe(providers), ArrayList::new, List::addAll);
+            case Property.Map<?, ?> _ ->
+                    (Result<T>) handleMany(Helpers.<SortedSet<PropertyProvider<Map<Object, Object>>>>castUnsafe(providers), HashMap::new, java.util.Map::putAll);
         };
 
-        log.debug("Property {} got from provider(s) in {}", type.name(), result.refClasses.stream().map(Class::getName).collect(Collectors.joining(",")));
+        log.debug(
+                "Property {} got from provider(s) in {}", type.name(), result.refClasses.stream().map(Class::getName)
+                        .collect(Collectors.joining(","))
+        );
 
         cache.put(type, result.value);
 
@@ -56,7 +63,8 @@ public final class Resolver {
         sub.properties.putAll(additional.properties());
         sub.cache.putAll(this.cache);
 
-        // remove newly added properties from cache, because already set properties may get a new provider (e.g. Property.INTROSPECTION)
+        // remove newly added properties from cache, because already set properties may get a new provider (e.g.
+        // Property.INTROSPECTION)
         sub.cache.keySet().removeAll(additional.properties().keySet());
 
         return sub;
@@ -64,21 +72,27 @@ public final class Resolver {
 
     private <T> boolean shouldSkip(SortedSet<PropertyProvider<T>> providers, PropertyProvider<T> provider) {
         return providers.size() > 1
-                && provider.priority() == Properties.FALLBACK_PRIORITY
-                && provider.type().fallbackBehaviour() == Property.FallbackBehaviour.OVERRIDE;
+               && provider.priority() == Properties.FALLBACK_PRIORITY
+               && provider.type().fallbackBehaviour() == Property.FallbackBehaviour.OVERRIDE;
     }
 
     private <T> Result<T> handleOne(SortedSet<PropertyProvider<T>> providers, Property<T> type) {
         return providers.stream()
                 .flatMap(provider -> {
                     T obj = executor.applyProvider(provider);
-                    return obj == null ? Stream.empty() : Stream.of(new Result<>(obj, List.of(provider.referenceClass())));
+                    return obj == null
+                            ? Stream.empty()
+                            : Stream.of(new Result<>(obj, List.of(provider.referenceClass())));
                 })
                 .findFirst()
                 .orElseThrow(() -> new ConfigurationException("property-not-set", entry("property", type.name())));
     }
 
-    private <T, B extends T> Result<T> handleMany(SortedSet<PropertyProvider<T>> providers, Supplier<B> collectionSup, BiConsumer<B, T> adder) {
+    private <T, B extends T> Result<T> handleMany(
+            SortedSet<PropertyProvider<T>> providers,
+            Supplier<B> collectionSup,
+            BiConsumer<B, T> adder
+    ) {
         Collection<Class<?>> usedProviders = new ArrayList<>();
 
         B collection = collectionSup.get();
@@ -88,7 +102,9 @@ public final class Resolver {
             }
 
             T applied = executor.applyProvider(provider);
-            if (applied == null) continue;
+            if (applied == null) {
+                continue;
+            }
             adder.accept(collection, applied);
             usedProviders.add(provider.referenceClass());
         }
@@ -96,5 +112,5 @@ public final class Resolver {
         return new Result<>(collection, usedProviders);
     }
 
-    private record Result<T>(T value, Collection<Class<?>> refClasses) {}
+    private record Result<T>(T value, Collection<Class<?>> refClasses) { }
 }

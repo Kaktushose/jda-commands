@@ -71,11 +71,13 @@ public record ButtonDefinition(
 
     /// Builds a new [ButtonDefinition] with the given values
 
-    public ButtonDefinition with(@Nullable String label,
-                                 @Nullable Emoji emoji,
-                                 @Nullable String link,
-                                 @Nullable ButtonStyle style,
-                                 @Nullable Integer uniqueId) {
+    public ButtonDefinition with(
+            @Nullable String label,
+            @Nullable Emoji emoji,
+            @Nullable String link,
+            @Nullable ButtonStyle style,
+            @Nullable Integer uniqueId
+    ) {
         return new ButtonDefinition(
                 classDescription,
                 methodDescription,
@@ -84,7 +86,8 @@ public record ButtonDefinition(
                 override(this.emoji, emoji),
                 override(this.link, link),
                 override(this.style, style),
-                override(this.uniqueId, uniqueId));
+                override(this.uniqueId, uniqueId)
+        );
     }
 
     /// Transforms this definition to an [Button] with an independent custom id.

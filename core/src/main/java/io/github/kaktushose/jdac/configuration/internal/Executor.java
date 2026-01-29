@@ -39,13 +39,17 @@ class Executor {
             SequencedCollection<PropertyProvider<?>> callchain = stack.sequencedValues();
 
             if (callchain.getLast().type().equals(type)) {
-                throw new ConfigurationException("cycling-calls-itself", entry("property", type.name()),
-                        entry("class", current.referenceClass()));
+                throw new ConfigurationException(
+                        "cycling-calls-itself", entry("property", type.name()),
+                        entry("class", current.referenceClass())
+                );
             }
 
             String tree = formatTree(callchain, current);
-            throw new ConfigurationException("cycling-tree", entry("property", type.name()),
-                    entry("tree", tree));
+            throw new ConfigurationException(
+                    "cycling-tree", entry("property", type.name()),
+                    entry("tree", tree)
+            );
         }
     }
 
@@ -53,11 +57,16 @@ class Executor {
         SequencedCollection<PropertyProvider<?>> shortStack = new ArrayList<>();
         for (PropertyProvider<?> p : stack.reversed()) {
             shortStack.add(p);
-            if (p.type().equals(current.type())) break;
+            if (p.type().equals(current.type())) {
+                break;
+            }
         }
 
         List<String> lines = shortStack.reversed().stream()
-                .flatMap(frame -> Stream.of("↓ [requires]", "%s (provider in %s)".formatted(frame.type().name(), frame.referenceClass())))
+                .flatMap(frame -> Stream.of(
+                        "↓ [requires]", "%s (provider in %s)".formatted(
+                                frame.type().name(), frame.referenceClass())
+                ))
                 .skip(1)
                 .collect(Collectors.toList());
 

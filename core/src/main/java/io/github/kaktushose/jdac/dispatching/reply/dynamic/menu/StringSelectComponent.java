@@ -16,7 +16,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /// An implementation of [Component] specific to [StringSelectMenu]
-public final class StringSelectComponent extends SelectMenuComponent<StringSelectComponent, StringSelectMenu, Builder, StringSelectMenuDefinition> {
+public final class StringSelectComponent
+        extends SelectMenuComponent<StringSelectComponent, StringSelectMenu, Builder, StringSelectMenuDefinition> {
 
     private final Set<SelectOption> selectOptions = new HashSet<>();
     private final Collection<String> defaultValues = new HashSet<>();
@@ -38,10 +39,15 @@ public final class StringSelectComponent extends SelectMenuComponent<StringSelec
     }
 
     /// @see StringSelectMenu.Builder#addOption(String, String, String, Emoji)
-    public StringSelectComponent option(String label, String value, @Nullable String description, @Nullable Emoji emoji) {
+    public StringSelectComponent option(
+            String label,
+            String value,
+            @Nullable String description,
+            @Nullable Emoji emoji
+    ) {
         selectOptions.add(SelectOption.of(label, value)
-                .withDescription(description)
-                .withEmoji(emoji)
+                                  .withDescription(description)
+                                  .withEmoji(emoji)
         );
         return this;
     }

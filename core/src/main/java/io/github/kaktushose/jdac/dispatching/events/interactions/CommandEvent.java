@@ -5,7 +5,8 @@ import io.github.kaktushose.jdac.dispatching.events.ModalReplyableEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-/// This class is a subclass of [Event]. It provides additional features for replying to a [GenericCommandInteractionEvent].
+/// This class is a subclass of [Event]. It provides additional features for replying to a
+///  [GenericCommandInteractionEvent].
 ///
 /// @see Event
 /// @see ModalReplyableEvent

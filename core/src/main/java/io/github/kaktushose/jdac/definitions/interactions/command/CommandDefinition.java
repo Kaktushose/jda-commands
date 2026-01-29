@@ -19,7 +19,8 @@ import java.util.function.Consumer;
 ///
 /// @see SlashCommandDefinition
 /// @see ContextCommandDefinition
-public sealed interface CommandDefinition extends InteractionDefinition, JDAEntity<CommandData> permits ContextCommandDefinition, SlashCommandDefinition {
+public sealed interface CommandDefinition extends InteractionDefinition, JDAEntity<CommandData>
+        permits ContextCommandDefinition, SlashCommandDefinition {
 
     /// The name of the command.
     String name();
@@ -45,7 +46,8 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
             if (integration.length == 0) {
                 integration = new IntegrationType[]{IntegrationType.GUILD_INSTALL};
             }
-            // Permission.UNKNOWN is the default value in the @CommandConfig annotation indicating DefaultMemberPermissions.ENABLED
+            // Permission.UNKNOWN is the default value in the @CommandConfig annotation indicating
+            // DefaultMemberPermissions.ENABLED
             // which must be represented as an empty array
             if (enabledPermissions.length == 1 && enabledPermissions[0] == Permission.UNKNOWN) {
                 enabledPermissions = new Permission[0];
@@ -63,7 +65,8 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
 
         /// Constructs a new CommandConfig.
         ///
-        /// @param config the [`@CommandConfig`][io.github.kaktushose.jdac.annotations.interactions.CommandConfig] to represent
+        /// @param config the [`@CommandConfig`][io.github.kaktushose.jdac.annotations.interactions.CommandConfig] to
+        ///  represent
         public CommandConfig(io.github.kaktushose.jdac.annotations.interactions.CommandConfig config) {
             this(config.context(), config.integration(), config.scope(), config.isNSFW(), config.enabledFor());
         }

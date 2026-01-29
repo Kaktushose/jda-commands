@@ -64,7 +64,8 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         this.errorMessageFactory = runtimeIntrospection.get(Property.ERROR_MESSAGE_FACTORY);
     }
 
-    @Nullable protected abstract PreparationResult prepare(T event, Runtime runtime);
+    @Nullable
+    protected abstract PreparationResult prepare(T event, Runtime runtime);
 
     @Override
     public final void accept(T e, Runtime runtime) {
@@ -74,7 +75,8 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                 .addFallback(Property.JDA_EVENT, _ -> e)
                 .createIntrospection(this.runtimeIntrospection, Stage.PREPARATION);
 
-        PreparationResult preparationResult = ScopedValue.where(IntrospectionImpl.INTROSPECTION, preparationIntrospection)
+        PreparationResult preparationResult = ScopedValue.where(IntrospectionImpl.INTROSPECTION,
+                                                                preparationIntrospection)
                 .call(() -> prepare(e, runtime));
 
         if (preparationResult == null || Thread.interrupted()) {
@@ -83,9 +85,12 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         }
 
         InvocationContext<T> invocationContext =
-                new InvocationContext<>(e, runtime.keyValueStore(), preparationResult.definition,
-                        Helpers.replyConfig(preparationResult.definition, runtimeIntrospection.get(Property.GLOBAL_REPLY_CONFIG)),
-                        preparationResult.rawArguments);
+                new InvocationContext<>(
+                        e, runtime.keyValueStore(), preparationResult.definition,
+                        Helpers.replyConfig(preparationResult.definition,
+                                            runtimeIntrospection.get(Property.GLOBAL_REPLY_CONFIG)),
+                        preparationResult.rawArguments
+                );
 
         IntrospectionImpl interactionIntrospection = Properties.Builder.newRestricted()
                 .addFallback(Property.JDA_EVENT, _ -> e)
@@ -96,10 +101,12 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             log.debug("Executing middlewares...");
 
             Middlewares middlewares = Introspection.scopedGet(InternalProperties.MIDDLEWARES);
-            middlewares.forOrdered(invocationContext.definition().classDescription().clazz(), middleware -> {
-                log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
-                middleware.accept(invocationContext);
-            });
+            middlewares.forOrdered(
+                    invocationContext.definition().classDescription().clazz(), middleware -> {
+                        log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
+                        middleware.accept(invocationContext);
+                    }
+            );
 
             if (Thread.interrupted()) {
                 log.debug("Interaction execution cancelled by middleware");
@@ -115,7 +122,10 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
         var definition = invocation.definition();
 
-        log.info("Executing interaction \"{}\" for user \"{}\"", definition.displayName(), invocation.event().getUser().getEffectiveName());
+        log.info(
+                "Executing interaction \"{}\" for user \"{}\"", definition.displayName(), invocation.event().getUser()
+                        .getEffectiveName()
+        );
         try {
             introspection.publish(new InteractionStartEvent(invocation));
 
@@ -124,7 +134,8 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                 return;
             }
 
-            log.debug("Invoking method \"{}.{}\" with following arguments: {}",
+            log.debug(
+                    "Invoking method \"{}.{}\" with following arguments: {}",
                     definition.classDescription().name(),
                     definition.methodDescription().name(),
                     arguments
@@ -168,5 +179,6 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         }
     }
 
-    public record PreparationResult(InteractionDefinition definition, SequencedCollection<@Nullable Object> rawArguments) {}
+    public record PreparationResult(InteractionDefinition definition,
+                                    SequencedCollection<@Nullable Object> rawArguments) { }
 }

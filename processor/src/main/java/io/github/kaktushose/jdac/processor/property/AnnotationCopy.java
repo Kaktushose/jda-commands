@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.processor.property;
 
-import java.util.Optional;
 import javax.lang.model.element.*;
+import java.util.Optional;
 
 public class AnnotationCopy {
     private final AnnotationMirror mirror;
@@ -16,7 +16,8 @@ public class AnnotationCopy {
     public String getValue(String name) {
         return getExplicitValue(name)
                 .or(() -> getFallback(name))
-                .orElseThrow(() -> new IllegalArgumentException("Field %s not found on %s".formatted(name, element.getSimpleName())));
+                .orElseThrow(() -> new IllegalArgumentException("Field %s not found on %s".formatted(name,
+                                                                                                     element.getSimpleName())));
     }
 
     public String typeName() {

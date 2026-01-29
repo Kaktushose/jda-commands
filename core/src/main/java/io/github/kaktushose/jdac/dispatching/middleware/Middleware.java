@@ -15,7 +15,8 @@ import java.util.function.Consumer;
 /// on execution.
 ///
 /// Register them at the [io.github.kaktushose.jdac.JDACBuilder#middleware(Priority, Middleware)]  or use the
-/// [`@Implementation.Validator`]({@docRoot}/io.github.kaktushose.jda.commands.extension.guice/com/github/kaktushose/jda/commands/guice/Implementation.Middleware.html)
+/// [`@Implementation.Validator`]({@docRoot}/io.github.kaktushose.jda.commands.extension
+/// .guice/com/github/kaktushose/jda/commands/guice/Implementation.Middleware.html)
 /// annotation of the guice extension.
 ///
 /// If you want a [Middleware] to only run for certain interaction controllers, just implement [#runFor()]
@@ -54,7 +55,8 @@ import java.util.function.Consumer;
 @FunctionalInterface
 public interface Middleware extends Consumer<InvocationContext<?>> {
 
-    /// Executes this middleware with the given [InvocationContext]. Use [InvocationContext#cancel(MessageCreateData)] to cancel the execution chain.
+    /// Executes this middleware with the given [InvocationContext]. Use
+    ///  [InvocationContext#cancel(MessageCreateData)] to cancel the execution chain.
     ///
     /// @param context the [InvocationContext] of the current interaction event
     @IntrospectionAccess(Stage.INTERACTION)
@@ -65,7 +67,8 @@ public interface Middleware extends Consumer<InvocationContext<?>> {
     /// If this method returns `null`, then this [Middleware] runs for all interaction controllers.
     ///
     /// @return the classes of the interaction controllers or null (run for all interaction controllers)
-    @Nullable default Collection<Class<?>> runFor() {
+    @Nullable
+    default Collection<Class<?>> runFor() {
         return null;
     }
 }

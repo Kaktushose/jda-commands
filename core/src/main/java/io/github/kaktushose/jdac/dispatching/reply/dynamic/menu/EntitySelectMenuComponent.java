@@ -16,7 +16,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /// An implementation of [Component] specific to [EntitySelectMenu]
-public final class EntitySelectMenuComponent extends SelectMenuComponent<EntitySelectMenuComponent, EntitySelectMenu, Builder, EntitySelectMenuDefinition> {
+public final class EntitySelectMenuComponent
+        extends SelectMenuComponent<EntitySelectMenuComponent, EntitySelectMenu, Builder, EntitySelectMenuDefinition> {
 
     private final Set<SelectTarget> entityTypes = new HashSet<>();
     private final Set<ChannelType> channelTypes = new HashSet<>();

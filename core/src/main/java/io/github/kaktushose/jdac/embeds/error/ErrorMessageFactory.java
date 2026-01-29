@@ -5,7 +5,8 @@ import io.github.kaktushose.proteus.conversion.ConversionResult;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 
-/// Generic interface for factory classes that provide a [MessageTopLevelComponent] that should be sent for common errors
+/// Generic interface for factory classes that provide a [MessageTopLevelComponent] that should be sent for common
+/// errors
 /// that happen during an interaction execution, such as missing permissions or failing constraints.
 ///
 /// @see DefaultErrorMessageFactory

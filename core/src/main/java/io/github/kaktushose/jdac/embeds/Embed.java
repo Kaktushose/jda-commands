@@ -36,7 +36,12 @@ public class Embed {
     private DataObject data;
     private Locale locale;
 
-    private Embed(DataObject object, String name, Map<String, @Nullable Object> placeholders, MessageResolver messageResolver) {
+    private Embed(
+            DataObject object,
+            String name,
+            Map<String, @Nullable Object> placeholders,
+            MessageResolver messageResolver
+    ) {
         this.name = name;
         this.placeholders = new HashMap<>(placeholders);
         this.embedResolver = new DataObjectResolver(messageResolver, Set.of());
@@ -49,7 +54,12 @@ public class Embed {
     /// @param embedBuilder the [EmbedBuilder] to construct the [Embed] from
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
     /// @param placeholders the global placeholders as defined in [Embeds]
-    public static Embed of(EmbedBuilder embedBuilder, String name, Map<String, @Nullable Object> placeholders, MessageResolver messageResolver) {
+    public static Embed of(
+            EmbedBuilder embedBuilder,
+            String name,
+            Map<String, @Nullable Object> placeholders,
+            MessageResolver messageResolver
+    ) {
         return of(embedBuilder.build().toData(), name, placeholders, messageResolver);
     }
 
@@ -58,7 +68,12 @@ public class Embed {
     /// @param object       the [DataObject] to construct the [Embed] from
     /// @param name         the name of this embed used to identify it in [EmbedDataSource]s
     /// @param placeholders the global placeholders as defined in [Embeds]
-    public static Embed of(DataObject object, String name, Map<String, @Nullable Object> placeholders, MessageResolver messageResolver) {
+    public static Embed of(
+            DataObject object,
+            String name,
+            Map<String, @Nullable Object> placeholders,
+            MessageResolver messageResolver
+    ) {
         return new Embed(object, name, placeholders, messageResolver);
     }
 
@@ -94,9 +109,11 @@ public class Embed {
 
     /// Sets the URL of the embed.
     ///
-    /// The Discord client mostly only uses this property in combination with the [title][#title(String)] for a clickable Hyperlink.
+    /// The Discord client mostly only uses this property in combination with the [title][#title(String)] for a
+    /// clickable Hyperlink.
     ///
-    /// If multiple embeds in a message use the same URL, the Discord client will merge them into a single embed and aggregate images into a gallery view.
+    /// If multiple embeds in a message use the same URL, the Discord client will merge them into a single embed and
+    /// aggregate images into a gallery view.
     ///
     /// @return the builder after the URL has been set
     /// @see EmbedBuilder#setUrl(String)
@@ -159,7 +176,8 @@ public class Embed {
 
     /// Sets the Footer of the embed.
     ///
-    /// @param footer the text of the footer of the embed. If this is not set or set to null, the footer will not appear in the embed.
+    /// @param footer the text of the footer of the embed. If this is not set or set to null, the footer will not
+    /// appear in the embed.
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setFooter(String)
     public Embed footer(@Nullable String footer) {
@@ -168,7 +186,8 @@ public class Embed {
 
     /// Sets the Footer of the embed.
     ///
-    /// @param footer  the text of the footer of the embed. If this is not set or set to null, the footer will not appear in the embed.
+    /// @param footer  the text of the footer of the embed. If this is not set or set to null, the footer will not
+    /// appear in the embed.
     /// @param iconUrl the url of the icon for the footer
     /// @return this instance for fluent interface
     /// @see EmbedBuilder#setFooter(String, String)
@@ -317,11 +336,13 @@ public class Embed {
         return this;
     }
 
-    /// Adds all the provided placeholders to this embed instance. The values will be replaced when [#build()] is called.
+    /// Adds all the provided placeholders to this embed instance. The values will be replaced when [#build()] is
+    /// called.
     ///
     /// Existing entries with the same keys will be overwritten.
     ///
-    /// Internally this uses the localization system, thus placeholders are limited by the used [Localizer] implementation
+    /// Internally this uses the localization system, thus placeholders are limited by the used [Localizer]
+    ///  implementation
     ///
     /// @param placeholders a map of placeholder names to their corresponding values
     /// @return this instance for fluent interface
@@ -330,17 +351,19 @@ public class Embed {
         return this;
     }
 
-    /// Adds all the provided [`placeholders`][Entry] to this embed instance. The values will be replaced when [#build()] is called.
+    /// Adds all the provided [`placeholders`][Entry] to this embed instance. The values will be replaced when
+    ///  [#build()] is called.
     ///
     /// Existing entries with the same keys will be overwritten.
     ///
-    /// Internally this uses the localization system, thus placeholders are limited by the used [Localizer] implementation
+    /// Internally this uses the localization system, thus placeholders are limited by the used [Localizer]
+    ///  implementation
     ///
     /// @param placeholders the [`entries`][Entry] to add
     /// @return this instance for fluent interface
     public Embed placeholders(Entry... placeholders) {
         this.placeholders.putAll(Arrays.stream(placeholders)
-                .collect(HashMap::new, (m,e)->m.put(e.name(), e.value()), HashMap::putAll));
+                                         .collect(HashMap::new, (m, e) -> m.put(e.name(), e.value()), HashMap::putAll));
         return this;
     }
 
@@ -397,8 +420,10 @@ public class Embed {
 
         /// Adds a blank (empty) Field to the embed.
         ///
-        /// [Example of Inline](https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/07-addField.png)
-        /// [Example of Non-inline](https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/08-addField.png)
+        /// [Example of Inline](https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/07
+        /// -addField.png)
+        /// [Example of Non-inline](https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/08
+        /// -addField.png)
         ///
         /// @param inline whether this field should display inline
         /// @return the builder after the field has been added
@@ -411,16 +436,28 @@ public class Embed {
         /// Note: If a blank string is provided to either `name` or `value`, the blank string is replaced
         /// with [EmbedBuilder#ZERO_WIDTH_SPACE].
         ///
-        /// [Example of Inline](https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/07-addField.png)
-        /// [Example of Non-inline](https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/08-addField.png)
+        /// [Example of Inline](https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/07
+        /// -addField.png)
+        /// [Example of Non-inline](https://raw.githubusercontent.com/discord-jda/JDA/assets/assets/docs/embeds/08
+        /// -addField.png)
         ///
         /// @param name   the name of the Field, displayed in bold above the `value`.
         /// @param value  the contents of the field.
         /// @param inline whether this field should display inline.
         /// @return the builder after the field has been added
         /// @throws java.lang.IllegalArgumentException - If `null` is provided
-        ///                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              - If the character limit of {@value MessageEmbed#TITLE_MAX_LENGTH} for `name` is exceeded.
-        ///                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              - If the character limit of {@value MessageEmbed#VALUE_MAX_LENGTH} for `value` is exceeded.
+        ///
+        ///
+        ///
+        ///
+        ///                                                                                                     - If
+        /// the character limit of {@value MessageEmbed#TITLE_MAX_LENGTH} for `name` is exceeded.
+        ///
+        ///
+        ///
+        ///
+        ///                                                                                                     - If
+        /// the character limit of {@value MessageEmbed#VALUE_MAX_LENGTH} for `value` is exceeded.
         ///
         Fields add(String name, String value, boolean inline);
 

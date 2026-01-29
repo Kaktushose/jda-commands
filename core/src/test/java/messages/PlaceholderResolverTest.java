@@ -42,8 +42,11 @@ public class PlaceholderResolverTest {
 
     @Test
     void found_variable_proteus() {
-        record Data(String value) {}
-        Proteus.global().register(Type.of(Data.class), Type.of(String.class), Mapper.uni((data, _) -> MappingResult.lossless(data.value)), ProteusBuilder.ConflictStrategy.OVERRIDE);
+        record Data(String value) { }
+        Proteus.global()
+                .register(Type.of(Data.class), Type.of(String.class),
+                          Mapper.uni((data, _) -> MappingResult.lossless(data.value)),
+                          ProteusBuilder.ConflictStrategy.OVERRIDE);
 
         Map<String, Object> variables = Map.of(
                 "var", "this is a variable",
@@ -149,7 +152,7 @@ public class PlaceholderResolverTest {
 
         String text = """
                 { number
-
+                
                 }""";
         String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
         Assertions.assertEquals("12", resolved);
@@ -231,20 +234,18 @@ public class PlaceholderResolverTest {
 
         String text = """
                 \\\\\\ \\ some backslash \\
-
+                
                 \\ { number
-
+                
                 }""";
         String resolved = PLACEHOLDER_RESOLVER.resolve(text, Locale.ENGLISH, variables);
-        Assertions.assertEquals("""
-                \\\\\\ \\ some backslash \\
-
-                \\ 12""", resolved);
+        Assertions.assertEquals(
+                """
+                        \\\\\\ \\ some backslash \\
+                        
+                        \\ 12""", resolved
+        );
     }
-
-
-
-
 
 
 }

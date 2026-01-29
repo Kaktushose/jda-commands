@@ -50,7 +50,13 @@ class FallbackLogger extends LegacyAbstractLogger {
     }
 
     @Override
-    protected void handleNormalizedLoggingCall(Level level, Marker marker, String s, Object[] objects, Throwable throwable) {
+    protected void handleNormalizedLoggingCall(
+            Level level,
+            Marker marker,
+            String s,
+            Object[] objects,
+            Throwable throwable
+    ) {
         String formatted = MessageFormatter.basicArrayFormat(s, objects);
         LogRecord record = new LogRecord(translateLevel(level), formatted);
 
@@ -70,21 +76,14 @@ class FallbackLogger extends LegacyAbstractLogger {
                 .findFirst()
                 .map(frame -> {
                     String[] nameSplit = frame.getClassName().split("[.]");
-                    return new Location(nameSplit[nameSplit.length-1], frame.getMethodName()); // only use class name
+                    return new Location(nameSplit[nameSplit.length - 1], frame.getMethodName()); // only use class name
                 })
         );
     }
 
-    private record Location(String klass, String method) {}
-
     @Override
     public boolean isTraceEnabled() {
         return logger.isLoggable(translateLevel(Level.TRACE));
-    }
-
-    @Override
-    public boolean isTraceEnabled(Marker marker) {
-        return isTraceEnabled();
     }
 
     @Override
@@ -93,18 +92,8 @@ class FallbackLogger extends LegacyAbstractLogger {
     }
 
     @Override
-    public boolean isDebugEnabled(Marker marker) {
-        return isDebugEnabled();
-    }
-
-    @Override
     public boolean isInfoEnabled() {
         return logger.isLoggable(translateLevel(Level.INFO));
-    }
-
-    @Override
-    public boolean isInfoEnabled(Marker marker) {
-        return isInfoEnabled();
     }
 
     @Override
@@ -113,17 +102,34 @@ class FallbackLogger extends LegacyAbstractLogger {
     }
 
     @Override
-    public boolean isWarnEnabled(Marker marker) {
-        return isWarnEnabled();
+    public boolean isErrorEnabled() {
+        return logger.isLoggable(translateLevel(Level.ERROR));
     }
 
     @Override
-    public boolean isErrorEnabled() {
-        return logger.isLoggable(translateLevel(Level.ERROR));
+    public boolean isTraceEnabled(Marker marker) {
+        return isTraceEnabled();
+    }
+
+    @Override
+    public boolean isDebugEnabled(Marker marker) {
+        return isDebugEnabled();
+    }
+
+    @Override
+    public boolean isInfoEnabled(Marker marker) {
+        return isInfoEnabled();
+    }
+
+    @Override
+    public boolean isWarnEnabled(Marker marker) {
+        return isWarnEnabled();
     }
 
     @Override
     public boolean isErrorEnabled(Marker marker) {
         return isErrorEnabled();
     }
+
+    private record Location(String klass, String method) { }
 }

@@ -1,6 +1,9 @@
 package definitions.interactions.component;
 
-import io.github.kaktushose.jdac.annotations.interactions.*;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.annotations.interactions.MenuOption;
+import io.github.kaktushose.jdac.annotations.interactions.Permissions;
+import io.github.kaktushose.jdac.annotations.interactions.StringMenu;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringSelectMenuDefinition.MenuOptionDefinition;
@@ -36,13 +39,15 @@ class StringSelectMenuDefinitionTest {
 
         assertEquals("Choose one", definition.placeholder());
         assertEquals(1, definition.selectOptions().size());
-        assertEquals(Set.of(new MenuOptionDefinition(
-                "v1",
-                "Label 1",
-                "desc",
-                Emoji.fromFormatted("👍"),
-                false
-        )), definition.selectOptions());
+        assertEquals(
+                Set.of(new MenuOptionDefinition(
+                        "v1",
+                        "Label 1",
+                        "desc",
+                        Emoji.fromFormatted("👍"),
+                        false
+                )), definition.selectOptions()
+        );
 
         var menu = definition.toJDAEntity();
         assertEquals(definition.minValue(), menu.getMinValues());
@@ -79,7 +84,8 @@ class StringSelectMenuDefinitionTest {
         assertEquals(3, overridden.maxValue());
         assertEquals(1, overridden.uniqueId());
 
-        Set<String> values = overridden.selectOptions().stream().map(MenuOptionDefinition::value).collect(Collectors.toSet());
+        Set<String> values = overridden.selectOptions().stream().map(MenuOptionDefinition::value)
+                .collect(Collectors.toSet());
         assertTrue(values.contains("v1"));
         assertTrue(values.contains("v2"));
     }

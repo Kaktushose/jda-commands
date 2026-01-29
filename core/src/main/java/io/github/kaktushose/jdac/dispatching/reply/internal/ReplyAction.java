@@ -91,7 +91,9 @@ public final class ReplyAction {
         if (allowedMentions == null) {
             this.allowedMentions = EnumSet.allOf(MentionType.class);
         } else {
-            this.allowedMentions = allowedMentions.isEmpty() ? EnumSet.noneOf(MentionType.class) : EnumSet.copyOf(allowedMentions);
+            this.allowedMentions = allowedMentions.isEmpty()
+                    ? EnumSet.noneOf(MentionType.class)
+                    : EnumSet.copyOf(allowedMentions);
         }
     }
 
@@ -158,8 +160,10 @@ public final class ReplyAction {
         }
 
         log.debug(
-                "Replying to interaction \"{}\" with content: {} [ephemeral={}, editReply={}, keepComponents={}, keepSelections={}]",
-                scopedInvocationContext().definition().displayName(), builder.build().toData(), ephemeral, editReply, keepComponents, keepSelections
+                "Replying to interaction \"{}\" with content: {} [ephemeral={}, editReply={}, keepComponents={}, " +
+                "keepSelections={}]",
+                scopedInvocationContext().definition().displayName(), builder.build()
+                        .toData(), ephemeral, editReply, keepComponents, keepSelections
         );
 
         var hook = ((IDeferrableCallback) scopedJdaEvent()).getHook();
@@ -189,7 +193,8 @@ public final class ReplyAction {
         if (replacer != null) {
             componentTree = componentTree.replace(replacer.userProvided()).replace(replacer.resolver());
             componentTree = MessageComponentTree.of(
-                    componentResolver.resolve(componentTree.getComponents(), scopedUserLocale(), replacer.placeholders())
+                    componentResolver.resolve(componentTree.getComponents(), scopedUserLocale(),
+                                              replacer.placeholders())
             );
         }
 
@@ -235,8 +240,10 @@ public final class ReplyAction {
                     deferEdit(modalEvent);
             case IMessageEditCallback callback when editReply -> deferEdit(callback);
             case IReplyCallback callback -> deferReply(callback);
-            default ->
-                    throw new InternalException("reply-failed", entry("getJdaEvent()", jdaEvent.getClass().getName()));
+            default -> throw new InternalException(
+                    "reply-failed", entry(
+                    "getJdaEvent()", jdaEvent.getClass().getName())
+            );
         }
         if (jdaEvent instanceof ModalInteractionEvent modalEvent) {
             editReply = modalEvent.getMessage() != null;
@@ -255,6 +262,8 @@ public final class ReplyAction {
         }
     }
 
-    private record Replacer(ComponentReplacer userProvided, ComponentReplacer resolver, Map<String, Object> placeholders) {}
+    private record Replacer(ComponentReplacer userProvided,
+                            ComponentReplacer resolver,
+                            Map<String, Object> placeholders) { }
 
 }

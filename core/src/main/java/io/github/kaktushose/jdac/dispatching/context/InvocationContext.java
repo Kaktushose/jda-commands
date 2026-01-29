@@ -22,7 +22,8 @@ import java.util.SequencedCollection;
 /// @param keyValueStore the [KeyValueStore] belonging to this interaction over its whole lifetime
 /// @param definition    the [InteractionDefinition] defining this interaction (referring to the user defined method)
 /// @param replyConfig   the [InteractionDefinition.ReplyConfig] to use
-/// @param rawArguments  the arguments used to call the final user defined method via [Invokable#invoke(java.lang.Object, io.github.kaktushose.jdac.dispatching.context.InvocationContext)]
+/// @param rawArguments  the arguments used to call the final user defined method via
+///  [Invokable#invoke(java.lang.Object, io.github.kaktushose.jdac.dispatching.context.InvocationContext)]
 public record InvocationContext<T extends GenericInteractionCreateEvent>(
         T event,
         KeyValueStore keyValueStore,
@@ -31,7 +32,8 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
         SequencedCollection<@Nullable Object> rawArguments
 ) implements ErrorContext {
 
-    /// @return same as [`data()#rawArguements`][InvocationContext#rawArguments()] but with [Optional]s replaced by `null`
+    /// @return same as [`data()#rawArguements`][InvocationContext#rawArguments()] but with [Optional]s replaced by `
+    /// null`
     public SequencedCollection<@Nullable Object> arguments() {
         return rawArguments.stream()
                 .map(arg -> arg instanceof Optional<?> opt ? opt.orElse(null) : arg)
@@ -64,7 +66,8 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
                 false,
                 false,
                 replyConfig.silent(),
-                replyConfig.allowedMentions())
+                replyConfig.allowedMentions()
+        )
         );
     }
 

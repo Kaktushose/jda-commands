@@ -2,7 +2,6 @@ package io.github.kaktushose.jdac.dispatching;
 
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
@@ -22,7 +21,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-/// Handles incoming [GenericInteractionCreateEvent]s and maps them to their corresponding [Runtime], creating new ones if needed.
+/// Handles incoming [GenericInteractionCreateEvent]s and maps them to their corresponding [Runtime], creating new
+/// ones if needed.
 @ApiStatus.Internal
 public final class JDAEventListener extends ListenerAdapter {
 
@@ -42,8 +42,8 @@ public final class JDAEventListener extends ListenerAdapter {
         Runtime runtime = switch (jdaEvent) {
             // always create new one for command events (starter)
             case SlashCommandInteractionEvent _, GenericContextInteractionEvent<?> _,
-                 CommandAutoCompleteInteractionEvent _ ->
-                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, introspection, jdaEvent.getJDA()));
+                 CommandAutoCompleteInteractionEvent _ -> runtimes.compute(
+                    UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, introspection, jdaEvent.getJDA()));
             // check events with custom id (components or modals)
             case ICustomIdInteraction interaction -> {
                 if (CustomId.isInvalid(interaction.getCustomId())) {
@@ -53,7 +53,10 @@ public final class JDAEventListener extends ListenerAdapter {
                 if (customId.isBound()) {
                     yield runtimes.get(customId.runtimeId());
                 }
-                yield runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, introspection, jdaEvent.getJDA()));
+                yield runtimes.compute(
+                        UUID.randomUUID()
+                                .toString(), (id, _) -> Runtime.startNew(id, introspection, jdaEvent.getJDA())
+                );
             }
             default -> null;
         };
@@ -77,7 +80,8 @@ public final class JDAEventListener extends ListenerAdapter {
 
         ReplyConfig replyConfig = introspection.get(Property.GLOBAL_REPLY_CONFIG);
         componentEvent.getHook()
-                .sendMessageComponents(introspection.get(Property.ERROR_MESSAGE_FACTORY).getTimedOutComponentMessage(jdaEvent))
+                .sendMessageComponents(introspection.get(Property.ERROR_MESSAGE_FACTORY)
+                                               .getTimedOutComponentMessage(jdaEvent))
                 .useComponentsV2()
                 .setEphemeral(true)
                 .setSuppressedNotifications(replyConfig.silent())

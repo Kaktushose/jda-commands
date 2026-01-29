@@ -56,10 +56,14 @@ public class TypeAdapters {
         proteus.from(NUMBER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
 
         proteus.from(MEMBER).into(USER, uni((source, _) -> lossless(source.getUser())), IGNORE);
-        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure(messageResolver.resolve("jdac$member-required-got-user",
+        proteus.from(USER).into(
+                MEMBER, uni((_, _) -> failure(messageResolver.resolve(
+                        "jdac$member-required-got-user",
                         Introspection.accessible()
-                        ? Introspection.scopedGet(Property.JDA_EVENT).getUserLocale().toLocale()
-                        : Locale.ENGLISH))), IGNORE);
+                                ? Introspection.scopedGet(Property.JDA_EVENT).getUserLocale().toLocale()
+                                : Locale.ENGLISH
+                ))), IGNORE
+        );
 
         proteus.into(MENTIONABLE)
                 .from(USER, uni((source, _) -> lossless(source)), IGNORE)
@@ -77,7 +81,8 @@ public class TypeAdapters {
                 .into(Type.of(VoiceChannel.class), channel(GuildChannelUnion::asVoiceChannel), IGNORE);
 
         typeAdapters.forEach(((entry, adapter) ->
-                proteus.register((Type<Object>) entry.source(), (Type<Object>) entry.target(), (Mapper.UniMapper<Object, Object>) adapter))
+                proteus.register((Type<Object>) entry.source(), (Type<Object>) entry.target(),
+                                 (Mapper.UniMapper<Object, Object>) adapter))
         );
     }
 

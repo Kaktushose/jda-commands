@@ -13,7 +13,8 @@ import java.lang.annotation.Target;
 
 /// Used to configure the registration of commands.
 ///
-/// Interaction methods annotated with [CommandConfig] will use the configured values of this annotation when registering.
+/// Interaction methods annotated with [CommandConfig] will use the configured values of this annotation when
+/// registering.
 /// Interaction classes annotated with [CommandConfig] will apply the configured values of this annotation to
 /// every method, if and only if no annotation is present at method level. If the [CommandConfig] annotation is neither
 /// present at the class level nor the method level, the global [`CommandConfig`][CommandDefinition.CommandConfig]

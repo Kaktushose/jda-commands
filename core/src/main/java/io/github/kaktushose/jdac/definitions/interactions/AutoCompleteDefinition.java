@@ -28,12 +28,17 @@ public record AutoCompleteDefinition(ClassDescription classDescription,
         Helpers.checkSignature(method, List.of(AutoCompleteEvent.class));
 
         return method.findAnnotation(AutoComplete.class).map(autoComplete ->
-                new AutoCompleteDefinition(clazz, method, Arrays.stream(autoComplete.value())
-                        .map(command -> new AutoCompleteRule(command, Arrays.stream(autoComplete.options())
-                                .filter(it -> !it.isBlank())
-                                .collect(Collectors.toSet()))
-                        ).collect(Collectors.toSet())
-                )).orElseThrow();
+                                                                     new AutoCompleteDefinition(
+                                                                             clazz, method,
+                                                                             Arrays.stream(autoComplete.value())
+                                                                             .map(command -> new AutoCompleteRule(
+                                                                                          command,
+                                                                                          Arrays.stream(autoComplete.options())
+                                                                                          .filter(it -> !it.isBlank())
+                                                                                          .collect(Collectors.toSet())
+                                                                                  )
+                                                                             ).collect(Collectors.toSet())
+                                                                     )).orElseThrow();
     }
 
     @Override
@@ -50,7 +55,9 @@ public record AutoCompleteDefinition(ClassDescription classDescription,
     ///
     /// @param command the name of the slash command or the name of the method handling the command
     /// @param options a possibly-empty Set of the names of the options the auto complete should exclusively handle. If
-    ///                                                                                                                                                       empty, the auto complete will handle every option of the given command.
-    public record AutoCompleteRule(String command, Set<String> options) {}
+    ///
+    ///                                                         empty, the auto complete will handle every option of
+    /// the given command.
+    public record AutoCompleteRule(String command, Set<String> options) { }
 
 }

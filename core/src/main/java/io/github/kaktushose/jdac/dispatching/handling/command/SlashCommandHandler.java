@@ -21,7 +21,10 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
@@ -45,9 +48,11 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
     }
 
     @Override
-    @Nullable protected PreparationResult prepare(SlashCommandInteractionEvent event, Runtime runtime) {
-        SlashCommandDefinition command = interactionRegistry.find(SlashCommandDefinition.class, true, it ->
-                it.name().equals(event.getFullCommandName())
+    @Nullable
+    protected PreparationResult prepare(SlashCommandInteractionEvent event, Runtime runtime) {
+        SlashCommandDefinition command = interactionRegistry.find(
+                SlashCommandDefinition.class, true, it ->
+                        it.name().equals(event.getFullCommandName())
         );
 
         // Scope values needed for user locale in proteus mapper, see type adapter
@@ -56,13 +61,17 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
     }
 
     @SuppressWarnings("unchecked")
-    private Optional<List<@Nullable Object>> parseArguments(SlashCommandDefinition command, SlashCommandInteractionEvent event) {
+    private Optional<List<@Nullable Object>> parseArguments(
+            SlashCommandDefinition command,
+            SlashCommandInteractionEvent event
+    ) {
         List<@Nullable OptionMapping> optionMappings = command
                 .commandOptions()
                 .stream()
                 .map(it -> event.getOption(it.name()))
                 .toList();
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, runtimeIntrospection.get(Property.GLOBAL_REPLY_CONFIG));
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command,
+                                                                            runtimeIntrospection.get(Property.GLOBAL_REPLY_CONFIG));
         List<@Nullable Object> parsedArguments = new ArrayList<>();
 
         log.debug("Type adapting arguments...");
@@ -85,7 +94,8 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             Type<?> targetType = Type.of(optionData.resolvedType());
 
             log.debug("Trying to adapt input '{}' as type '{}' to type '{}'", optionMapping, sourceType, targetType);
-            ConversionResult<?> result = proteus.convert(toValue(optionMapping), (Type<Object>) sourceType, (Type<Object>) targetType);
+            ConversionResult<?> result = proteus.convert(toValue(optionMapping), (Type<Object>) sourceType,
+                                                         (Type<Object>) targetType);
 
             switch (result) {
                 case ConversionResult.Success<?>(Object success, boolean _) -> {

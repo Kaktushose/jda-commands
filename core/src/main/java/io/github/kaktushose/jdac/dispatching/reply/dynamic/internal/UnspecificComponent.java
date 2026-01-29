@@ -9,9 +9,16 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 @ApiStatus.Internal
-public final class UnspecificComponent extends Component<UnspecificComponent, ActionComponent, ActionRowChildComponent, ComponentDefinition<ActionComponent>> {
+public final class UnspecificComponent extends
+        Component<UnspecificComponent, ActionComponent, ActionRowChildComponent, ComponentDefinition<ActionComponent>> {
 
-    public UnspecificComponent(boolean enabled, boolean independent, String component, @Nullable Class<?> origin, Entry[] placeholder) {
+    public UnspecificComponent(
+            boolean enabled,
+            boolean independent,
+            String component,
+            @Nullable Class<?> origin,
+            Entry[] placeholder
+    ) {
         super(component, origin, placeholder);
         enabled(enabled);
         independent(independent);

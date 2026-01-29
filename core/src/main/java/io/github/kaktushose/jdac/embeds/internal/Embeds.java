@@ -23,10 +23,13 @@ import static io.github.kaktushose.proteus.mapping.MappingResult.lossless;
 /// @param sources      the [EmbedDataSource]s [Embed]s can be loaded from
 /// @param placeholders the global placeholders as defined in [EmbedConfig#placeholders(Map)]
 @ApiStatus.Internal
-public record Embeds(Collection<EmbedDataSource> sources, Map<String, @Nullable Object> placeholders, MessageResolver messageResolver) {
+public record Embeds(Collection<EmbedDataSource> sources,
+                     Map<String, @Nullable Object> placeholders,
+                     MessageResolver messageResolver) {
 
     static {
-        Proteus.global().from(Type.of(Color.class)).into(Type.of(String.class),
+        Proteus.global().from(Type.of(Color.class)).into(
+                Type.of(String.class),
                 uni((color, _) -> lossless(String.valueOf(color.getRGB()))),
                 ConflictStrategy.OVERRIDE
         );
@@ -36,7 +39,8 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, @Nullable 
     ///
     /// @param name the name of the [Embed]
     /// @return the [Embed]
-    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured
+    ///  [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed get(String name) {
         return sources.stream()
                 .map(source -> source.get(name, placeholders, messageResolver))
@@ -51,7 +55,8 @@ public record Embeds(Collection<EmbedDataSource> sources, Map<String, @Nullable 
     /// @param name   the name of the [Embed]
     /// @param locale the [Locale] to use for localization
     /// @return the [Embed]
-    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured
+    ///  [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed get(String name, Locale locale) {
         return sources.stream()
                 .map(source -> source.get(name, placeholders, messageResolver))

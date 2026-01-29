@@ -16,9 +16,9 @@ import io.github.kaktushose.jdac.guice.internal.guice.PropertyProviderModule;
 import io.github.kaktushose.jdac.guice.internal.guice.RuntimeBoundScope;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
-import io.github.kaktushose.proteus.type.Type;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import io.github.kaktushose.proteus.type.Type;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
@@ -35,15 +35,16 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// The implementation of [Extension] for using Googles [Guice] as an [InteractionControllerInstantiator].
 ///
-/// Additionally, this extension allows the automatic registration of some types annotated with [`@Implementation`][Implementation].
+/// Additionally, this extension allows the automatic registration of some types annotated with
+///  [`@Implementation`][Implementation].
 /// For further information please see the docs on [`@Implementation`][Implementation].
 ///
 /// @see GuiceExtensionData
 @ApiStatus.Internal
 public class GuiceExtension implements Extension<GuiceExtensionData> {
 
-    private Injector injector;
     private final RuntimeBoundScope runtimeBoundScope = new RuntimeBoundScope();
+    private Injector injector;
 
     @Override
     public void init(@Nullable GuiceExtensionData data) {
@@ -52,11 +53,6 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
                 : Guice.createInjector();
 
         this.injector = found.createChildInjector(new GuiceExtensionModule());
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> PropertyProvider<T> provider(Property<?> type, Function<PropertyProvider.Context, ?> supplier) {
-        return PropertyProvider.create((Property<T>) type, 10, (Function<PropertyProvider.Context, T>) supplier);
     }
 
     @Override
@@ -72,69 +68,112 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         return implementations;
     }
 
+    @Override
+    public void onStart(JDACommands commands) {
+        Introspection introspection = commands.introspection();
+
+        introspection.subscribe(RuntimeCloseEvent.class,
+                                (event, _) -> runtimeBoundScope.removeRuntime(event.runtimeId()));
+    }
+
+    @Override
+    public Class<GuiceExtensionData> dataType() {
+        return GuiceExtensionData.class;
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> PropertyProvider<T> provider(Property<?> type, Function<PropertyProvider.Context, ?> supplier) {
+        return PropertyProvider.create((Property<T>) type, 10, (Function<PropertyProvider.Context, T>) supplier);
+    }
+
     private boolean shouldSkip(Property<?> property) {
         return property == Property.INTERACTION_CONTROLLER_INSTANTIATOR
-                || property == Property.CLASS_FINDER
-                || property == Property.TYPE_ADAPTER
-                || property == Property.MIDDLEWARE
-                || property == Property.VALIDATOR;
+               || property == Property.CLASS_FINDER
+               || property == Property.TYPE_ADAPTER
+               || property == Property.MIDDLEWARE
+               || property == Property.VALIDATOR;
     }
 
     private void addDynamicImplementations(List<PropertyProvider<?>> list) {
         // load single types
         for (var property : Property.LOADABLE) {
-            if (shouldSkip(property)) continue;
+            if (shouldSkip(property)) {
+                continue;
+            }
 
             switch (property) {
-                case Property.Map<?, ?> m -> throw new GuiceException("invalid-implementation", entry("class", m.value().getName()));
-                case Property.Enumeration<?> e -> list.add(provider(e, ctx -> instances(ctx, Implementation.class, e.type()).toList()));
-                case Property.Singleton<?> i -> list.add(provider(i, ctx -> {
-                    List<?> instances = instances(ctx, Implementation.class, i.type()).toList();
-                    if (instances.size() == 1) return instances.getFirst();
-                    if (instances.isEmpty()) return null;
+                case Property.Map<?, ?> m -> throw new GuiceException(
+                        "invalid-implementation", entry(
+                        "class", m.value().getName())
+                );
+                case Property.Enumeration<?> e ->
+                        list.add(provider(e, ctx -> instances(ctx, Implementation.class, e.type()).toList()));
+                case Property.Singleton<?> i -> list.add(provider(
+                        i, ctx -> {
+                            List<?> instances = instances(ctx, Implementation.class, i.type()).toList();
+                            if (instances.size() == 1) {
+                                return instances.getFirst();
+                            }
+                            if (instances.isEmpty()) {
+                                return null;
+                            }
 
-                    throw new GuiceException("multiple-instances",
-                            entry("type", i.type().getName()),
-                            entry("found", instances.stream().map(obj -> obj.getClass().getName()).collect(Collectors.joining(", ")))
-                    );
-                }));
+                            throw new GuiceException(
+                                    "multiple-instances",
+                                    entry("type", i.type().getName()),
+                                    entry(
+                                            "found", instances.stream().map(obj -> obj.getClass().getName())
+                                                    .collect(Collectors.joining(", "))
+                                    )
+                            );
+                        }
+                ));
             }
         }
 
         // load multiple implementable types
         list.add(provider(
-                Property.TYPE_ADAPTER,
-                ctx -> instances(ctx, Implementation.TypeAdapter.class, TypeAdapter.class)
-                        .map(adapter -> {
-                            Implementation.TypeAdapter ann = adapter.getClass().getAnnotation(Implementation.TypeAdapter.class);
-                            return Map.entry(new AdapterType<>(Type.of(ann.source()), Type.of(ann.target())), adapter);
-                        })
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-           )
+                         Property.TYPE_ADAPTER,
+                         ctx -> instances(ctx, Implementation.TypeAdapter.class, TypeAdapter.class)
+                                 .map(adapter -> {
+                                     Implementation.TypeAdapter ann = adapter.getClass()
+                                             .getAnnotation(Implementation.TypeAdapter.class);
+                                     return Map.entry(new AdapterType<>(Type.of(ann.source()), Type.of(ann.target()))
+                                             , adapter);
+                                 })
+                                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+                 )
         );
 
         list.add(provider(
                 Property.VALIDATOR,
                 ctx -> instances(ctx, Implementation.Validator.class, Validator.class)
                         .collect(Collectors.toMap(
-                                instance -> instance.getClass().getAnnotation(Implementation.Validator.class).annotation(),
-                                Function.identity())
+                                         instance -> instance.getClass().getAnnotation(Implementation.Validator.class)
+                                                 .annotation(),
+                                         Function.identity()
+                                 )
                         )
         ));
 
         list.add(provider(
-                Property.MIDDLEWARE,
-                ctx -> instances(ctx, Implementation.Middleware.class, Middleware.class)
-                        .map(middleware -> {
-                            Implementation.Middleware ann = middleware.getClass().getAnnotation(Implementation.Middleware.class);
-                            return Map.entry(ann.priority(), middleware);
-                        })
-                        .toList()
-                )
+                         Property.MIDDLEWARE,
+                         ctx -> instances(ctx, Implementation.Middleware.class, Middleware.class)
+                                 .map(middleware -> {
+                                     Implementation.Middleware ann = middleware.getClass()
+                                             .getAnnotation(Implementation.Middleware.class);
+                                     return Map.entry(ann.priority(), middleware);
+                                 })
+                                 .toList()
+                 )
         );
     }
 
-    private <T> Stream<T> instances(PropertyProvider.Context ctx, Class<? extends Annotation> annotation, Class<T> type) {
+    private <T> Stream<T> instances(
+            PropertyProvider.Context ctx,
+            Class<? extends Annotation> annotation,
+            Class<T> type
+    ) {
         Introspection introspection = ctx.get(Property.INTROSPECTION);
         Injector childInjector = injector.createChildInjector(new PropertyProviderModule(introspection));
 
@@ -142,17 +181,5 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
                 .search(annotation, type)
                 .stream()
                 .map(childInjector::getInstance);
-    }
-
-    @Override
-    public void onStart(JDACommands commands) {
-        Introspection introspection = commands.introspection();
-
-        introspection.subscribe(RuntimeCloseEvent.class, (event, _) -> runtimeBoundScope.removeRuntime(event.runtimeId()));
-    }
-
-    @Override
-    public Class<GuiceExtensionData> dataType() {
-        return GuiceExtensionData.class;
     }
 }

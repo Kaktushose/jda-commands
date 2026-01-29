@@ -24,7 +24,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 import java.util.Optional;
 
-import static definitions.TestHelpers.*;
+import static definitions.TestHelpers.MESSAGE_RESOLVER;
+import static definitions.TestHelpers.getBuildContext;
 import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -118,7 +119,8 @@ class OptionDataTest {
         ParameterDescription description = build("notAnnotated").methodDescription().parameters().getLast();
 
         for (Class<?> type : CLASS_TO_OPTION_TYPE.keySet()) {
-            OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), null, MESSAGE_RESOLVER, validators);
+            OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), null, MESSAGE_RESOLVER
+                    , validators);
             assertEquals(CLASS_TO_OPTION_TYPE.get(type), build.optionType());
         }
     }
@@ -129,7 +131,8 @@ class OptionDataTest {
         ParameterDescription description = build("notAnnotated").methodDescription().parameters().getLast();
 
         for (Class<?> type : PRIMITIVE_TO_BOXED.keySet()) {
-            OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), null, MESSAGE_RESOLVER, validators);
+            OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), null, MESSAGE_RESOLVER
+                    , validators);
             assertEquals(PRIMITIVE_TO_BOXED.get(type), build.resolvedType());
         }
     }
@@ -138,7 +141,7 @@ class OptionDataTest {
     void optionData_withOptionTypeInAnnotation_shouldNotHaveDefaultType() {
         OptionDataDefinition definition = optionData("annotatedParameter");
 
-        assertEquals(OptionType.INTEGER,  definition.optionType());
+        assertEquals(OptionType.INTEGER, definition.optionType());
     }
 
     @Test
@@ -165,7 +168,8 @@ class OptionDataTest {
     }
 
     private ParameterDescription modify(Class<?> type, ParameterDescription description) {
-        return new ParameterDescription(type, description.typeArguments(), description.name(), description.annotations());
+        return new ParameterDescription(type, description.typeArguments(), description.name(),
+                                        description.annotations());
     }
 
     private OptionDataDefinition optionData(String method) {
@@ -188,8 +192,12 @@ class OptionDataTest {
         }
 
         @Command("eventType")
-        public void annotatedParameter(CommandEvent event, @Param(name = "annotation",
-                value = "custom description", optional = true, type = OptionType.INTEGER) String name) {
+        public void annotatedParameter(
+                CommandEvent event, @Param(
+                        name = "annotation",
+                        value = "custom description", optional = true, type = OptionType.INTEGER
+                ) String name
+        ) {
         }
 
         @Command("wildCardOptional")

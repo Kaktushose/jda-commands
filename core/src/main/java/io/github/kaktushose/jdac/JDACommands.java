@@ -63,7 +63,8 @@ public final class JDACommands {
         this.jdaEventListener = new JDAEventListener(introspection);
     }
 
-    /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
+    /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated
+    /// classes.
     /// This uses reflections for some functionality.
     ///
     /// If any exception while configuration/start of JDA-Commands is thrown, the JDA instance if shutdown per default.
@@ -75,7 +76,8 @@ public final class JDACommands {
         return builder(jda).start();
     }
 
-    /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
+    /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated
+    /// classes.
     /// This uses reflections for some functionality.
     ///
     /// If any exception while configuration/start of JDA-Commands is thrown, the JDA instance if shutdown per default.
@@ -107,10 +109,12 @@ public final class JDACommands {
         ScopedValue.where(IntrospectionImpl.INTROSPECTION, introspection).run(() -> {
             ClassFinder classFinder = introspection.get(Property.MERGED_CLASS_FINDER);
 
-            introspection.get(InternalProperties.INTERACTION_REGISTRY).index(classFinder.search(Interaction.class), introspection.get(Property.GLOBAL_COMMAND_CONFIG));
+            introspection.get(InternalProperties.INTERACTION_REGISTRY)
+                    .index(classFinder.search(Interaction.class), introspection.get(Property.GLOBAL_COMMAND_CONFIG));
             updater.updateAllCommands();
 
-            introspection.get(InternalProperties.JDA_CONTEXT).performTask(it -> it.addEventListener(jdaEventListener), false);
+            introspection.get(InternalProperties.JDA_CONTEXT)
+                    .performTask(it -> it.addEventListener(jdaEventListener), false);
 
             log.debug("Run Extension#onStart()");
             extensions.callOnStart(this);
@@ -160,7 +164,8 @@ public final class JDACommands {
     /// @return the JDA [Button]
     public Button getButton(Class<?> origin, String button) {
         var id = String.valueOf((origin.getName() + button).hashCode());
-        var definition = introspection.get(InternalProperties.INTERACTION_REGISTRY).find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = introspection.get(InternalProperties.INTERACTION_REGISTRY)
+                .find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
         return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
@@ -175,7 +180,8 @@ public final class JDACommands {
     /// @return the JDA [SelectMenu]
     public SelectMenu getSelectMenu(Class<?> origin, String menu) {
         var id = String.valueOf((origin.getName() + menu).hashCode());
-        var definition = introspection.get(InternalProperties.INTERACTION_REGISTRY).find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = introspection.get(InternalProperties.INTERACTION_REGISTRY)
+                .find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
         return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
@@ -185,7 +191,8 @@ public final class JDACommands {
     ///
     /// @param name the name of the [Embed]
     /// @return the [Embed]
-    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured
+    ///  [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
         return introspection.get(InternalProperties.EMBEDS).get(name);
     }
@@ -217,8 +224,8 @@ public final class JDACommands {
     /// This is a shortcut for `JDACommands#introscpection#get`
     ///
     /// @param property the [Property] description
+    /// @param <T>      the type of property
     /// @return T
-    /// @param <T> the type of property
     public <T> T property(Property<T> property) {
         return introspection.get(property);
     }

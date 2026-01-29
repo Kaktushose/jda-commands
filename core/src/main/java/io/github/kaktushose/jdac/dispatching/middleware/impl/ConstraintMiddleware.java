@@ -39,7 +39,9 @@ public class ConstraintMiddleware implements Middleware {
     @SuppressWarnings("unchecked")
     @Override
     public void accept(InvocationContext<?> context) {
-        if (!(context.definition() instanceof SlashCommandDefinition command)) return;
+        if (!(context.definition() instanceof SlashCommandDefinition command)) {
+            return;
+        }
 
         var arguments = new ArrayList<>(context.arguments());
         arguments.removeIf(Event.class::isInstance);
@@ -71,14 +73,22 @@ public class ConstraintMiddleware implements Middleware {
                         .findAny()
                         .map(result -> ((ConversionResult.Success<?>) result).value())
                         .orElseThrow(() ->
-                                new IllegalArgumentException("Couldn't convert value (type: %s) of option %s of command %s to any of the following types supported by @%s: %s".formatted(
-                                        argument.getClass().getName(), optionData.name(), command.name(), constraint.annotation().type().getName(), Arrays.stream(supportedTypes).map(Class::getName).collect(Collectors.joining(", "))
-                                ))
+                                             new IllegalArgumentException(("Couldn't convert value (type: %s) of " +
+                                                                           "option %s of command %s to any of the " +
+                                                                           "following types supported by @%s: %s").formatted(
+                                                     argument.getClass()
+                                                             .getName(), optionData.name(), command.name(),
+                                                     constraint.annotation()
+                                                             .type().getName(), Arrays.stream(supportedTypes)
+                                                             .map(Class::getName).collect(Collectors.joining(", "))
+                                             ))
                         );
 
                 validator.apply(converted, constraint.annotation().value(), validatorContext);
 
-                if (context.cancelled()) return;
+                if (context.cancelled()) {
+                    return;
+                }
             }
         }
         log.debug("All constraints passed");

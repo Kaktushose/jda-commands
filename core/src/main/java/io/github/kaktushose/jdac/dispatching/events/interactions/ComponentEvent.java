@@ -18,7 +18,8 @@ import org.slf4j.Logger;
 
 import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.scopedReplyConfig;
 
-/// This class is a subclass of [Event]. It provides additional features for replying to a [GenericComponentInteractionCreateEvent].
+/// This class is a subclass of [Event]. It provides additional features for replying to a
+///  [GenericComponentInteractionCreateEvent].
 ///
 /// @see Event
 /// @see ModalReplyableEvent
@@ -29,7 +30,7 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// Returns the underlying [GenericComponentInteractionCreateEvent] and casts it to the given type.
     ///
     /// @param type a subtype of [GenericComponentInteractionCreateEvent], namely [ButtonInteractionEvent],
-    ///                                     [EntitySelectInteractionEvent] or [StringSelectInteractionEvent]
+    ///                                                 [EntitySelectInteractionEvent] or [StringSelectInteractionEvent]
     /// @param <T>  a subtype of [GenericComponentInteractionCreateEvent]
     /// @return [T] the event
     public <T extends GenericComponentInteractionCreateEvent> T jdaEvent(Class<T> type) {
@@ -41,6 +42,11 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
         jdaEvent().deferReply(ephemeral).complete();
     }
 
+    @Override
+    public EditableConfigurableReply with() {
+        return new EditableConfigurableReply(scopedReplyConfig(), jdaEvent());
+    }
+
     /// No-op acknowledgement of this interaction.
     ///
     /// This tells discord you intend to update the message that the triggering component is a part of instead of
@@ -49,7 +55,8 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     ///
     /// **You only have 3 seconds to acknowledge an interaction!**
     ///
-    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
+    /// When the acknowledgement is sent after the interaction expired, you will receive
+    ///  [ErrorResponse#UNKNOWN_INTERACTION].
     ///
     /// Use [#reply(String, Entry...)] to edit it directly.
     public void deferEdit() {
@@ -58,7 +65,8 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
 
     /// Removes all components from the original message.
     ///
-    /// The original message is the message, from which this event (interaction) originates. For example if this event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
+    /// The original message is the message, from which this event (interaction) originates. For example if this
+    /// event is a ButtonEvent, the original message will be the message to which the pressed button is attached to.
     public void removeComponents() {
         log.debug("Reply Debug: Removing components from original message");
         if (jdaEvent().getMessage().isUsingComponentsV2()) {
@@ -70,14 +78,10 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
         jdaEvent().getHook().editOriginalComponents().complete();
     }
 
-    @Override
-    public EditableConfigurableReply with() {
-        return new EditableConfigurableReply(scopedReplyConfig(), jdaEvent());
-    }
-
     /// No-op acknowledgement of this event with the V2 Components of the original reply.
     ///
-    /// Calling this method will enforce [EditableConfigurableReply#keepComponents(boolean)] to `true` to retrieve the original components.
+    /// Calling this method will enforce [EditableConfigurableReply#keepComponents(boolean)] to `true` to retrieve
+    /// the original components.
     ///
     /// @throws UnsupportedOperationException if the original message didn't use V2 Components
     public Message reply() {
@@ -87,7 +91,8 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// Acknowledgement of this event with the V2 Components of the original reply. Will also apply the passed
     /// [ComponentReplacer] before sending the reply.
     ///
-    /// Calling this method will enforce [EditableConfigurableReply#keepComponents(boolean)] to `true` to retrieve the original components.
+    /// Calling this method will enforce [EditableConfigurableReply#keepComponents(boolean)] to `true` to retrieve
+    /// the original components.
     ///
     /// @param replacer    the [ComponentReplacer] to apply to the original components
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]

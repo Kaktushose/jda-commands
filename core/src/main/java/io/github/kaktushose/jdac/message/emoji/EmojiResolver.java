@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
 /// enclosed by a colon `:`. For example the Unicode alias `:joy:` will be replaced by 😂 and the
 /// app emoji `:app_emote:` by its uploaded file.
 ///
-/// Normally it shouldn't be necessary to escape the colons in messages (that shouldn't be an emoji alias), but in case any troubles occur you can
+/// Normally it shouldn't be necessary to escape the colons in messages (that shouldn't be an emoji alias), but in
+/// case any troubles occur you can
 /// just prefix it with `\` (in java `\\`) to escape it.
 ///
 /// Supported are all discord emojis, their skin tone variants and the app emotes for this bot.
@@ -24,7 +25,8 @@ public final class EmojiResolver implements Resolver<String> {
 
     private final Map<String, Emoji> emojis;
 
-    /// Constructs a new instance of [EmojiResolver] with the given application emojis and all Unicode emojis supported by discord.
+    /// Constructs a new instance of [EmojiResolver] with the given application emojis and all Unicode emojis
+    /// supported by discord.
     /// If one of the passed application emojis has the same alias as a Unicode emoji, the app emojis takes precedence.
     ///
     /// @param applicationEmojis a list of all application emojis of this bot
@@ -47,7 +49,6 @@ public final class EmojiResolver implements Resolver<String> {
     /// Resolves the emoji aliases of a string according to the javadocs of this class.
     ///
     /// @param msg The string to be resolved
-    ///
     /// @return the resolved string
     public String resolve(String msg) {
         return parse(msg)
@@ -77,7 +78,8 @@ public final class EmojiResolver implements Resolver<String> {
                 referenceStart = -1;
             }
 
-            outer: if (c == ':') {
+            outer:
+            if (c == ':') {
                 if (i >= 1 && msg.charAt(i - 1) == '\\') {
                     String literal = msg.substring(nextLiteralStart, i - 1);
                     components.add(new Component.Literal(literal));

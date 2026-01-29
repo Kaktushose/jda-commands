@@ -58,15 +58,20 @@ import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 /// ## Categories
 /// Properties are primarily categorized by 3 groups:
 /// - [_user settable_][Category#USER_SETTABLE] -> only configurable by using the designated [JDACBuilder] method
-/// - [_user settable + loadable from extension_][Category#LOADABLE] -> above applies plus values can be provided by [Extension]s
-/// - [_provided_][Category#PROVIDED] -> service that are provided by JDA-Commands, the user can use but not create/replace them
+/// - [_user settable + loadable from extension_][Category#LOADABLE] -> above applies plus values can be provided by
+///  [Extension]s
+/// - [_provided_][Category#PROVIDED] -> service that are provided by JDA-Commands, the user can use but not
+/// create/replace them
 ///
 /// ## Types
 /// Additionally, there are 3 types of properties:
-/// - [Singleton] -> the property will have the value of the provider with the highest [priority][PropertyProvider#priority()]
-/// - [Map] -> the property represents a Map with a key and value. The value of all [providers][PropertyProvider] will be
+/// - [Singleton] -> the property will have the value of the provider with the highest
+///  [priority][PropertyProvider#priority()]
+/// - [Map] -> the property represents a Map with a key and value. The value of all [providers][PropertyProvider]
+///  will be
 ///                accumulated and providers with higher [priorities][PropertyProvider#priority()] take precedence
-/// - [Enumeration] -> the property represents a [Collection]. The value of all [providers][PropertyProvider] will be accumulated
+/// - [Enumeration] -> the property represents a [Collection]. The value of all [providers][PropertyProvider] will be
+///  accumulated
 ///
 /// The only exception to this general accumulation rule are fallback values. Whether they are accumulated with other
 /// providers or overwritten is defined by [Property#fallbackBehaviour()].
@@ -94,7 +99,8 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// @see EmbedConfig#sources(EmbedDataSource...)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = ACCUMULATE)
     Property<Collection<EmbedDataSource>> EMBED_SOURCES =
-            new Enumeration<>("EMBED_SOURCES", Category.LOADABLE, EmbedDataSource.class, ACCUMULATE, Stage.CONFIGURATION);
+            new Enumeration<>("EMBED_SOURCES", Category.LOADABLE, EmbedDataSource.class, ACCUMULATE,
+                              Stage.CONFIGURATION);
 
     /// @see JDACBuilder#descriptor(Descriptor)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE)
@@ -109,25 +115,33 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// @see JDACBuilder#instanceProvider(InteractionControllerInstantiator)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE)
     Property<InteractionControllerInstantiator> INTERACTION_CONTROLLER_INSTANTIATOR =
-            new Singleton<>("INTERACTION_CONTROLLER_INSTANTIATOR", Category.LOADABLE, InteractionControllerInstantiator.class, Stage.CONFIGURATION);
+            new Singleton<>("INTERACTION_CONTROLLER_INSTANTIATOR", Category.LOADABLE,
+                            InteractionControllerInstantiator.class, Stage.CONFIGURATION);
 
     /// MIDDLEWARE property holds multiple [Middleware]s associated with their [Priority]
+    ///
     /// @see JDACBuilder#middleware(Priority, Middleware)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = ACCUMULATE)
     Property<Collection<java.util.Map.Entry<Priority, Middleware>>> MIDDLEWARE =
-            new Enumeration<>("MIDDLEWARE", Category.LOADABLE, castUnsafe(java.util.Map.Entry.class), ACCUMULATE, Stage.CONFIGURATION);
+            new Enumeration<>("MIDDLEWARE", Category.LOADABLE, castUnsafe(java.util.Map.Entry.class), ACCUMULATE,
+                              Stage.CONFIGURATION);
 
-    /// The TYPE_ADAPTER property maps [AdapterType]s containing the source and targets [Type]s to their associated [TypeAdapter]
+    /// The TYPE_ADAPTER property maps [AdapterType]s containing the source and targets [Type]s to their associated
+    ///  [TypeAdapter]
+    ///
     /// @see JDACBuilder#adapter(Class, Class, TypeAdapter)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = ACCUMULATE)
     Property<java.util.Map<AdapterType<?, ?>, TypeAdapter<?, ?>>> TYPE_ADAPTER =
-            new Map<>("TYPE_ADAPTER", Category.LOADABLE, castUnsafe(AdapterType.class), castUnsafe(TypeAdapter.class), ACCUMULATE, Stage.CONFIGURATION);
+            new Map<>("TYPE_ADAPTER", Category.LOADABLE, castUnsafe(AdapterType.class), castUnsafe(TypeAdapter.class)
+                    , ACCUMULATE, Stage.CONFIGURATION);
 
     /// The VALIDATOR property maps a [Validator] to its identifying annotation.
+    ///
     /// @see JDACBuilder#validator(Class, Validator)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = ACCUMULATE)
     Property<java.util.Map<Class<? extends Annotation>, Validator<?, ?>>> VALIDATOR =
-            new Map<>("VALIDATOR", Category.LOADABLE, castUnsafe(Class.class), castUnsafe(Validator.class), ACCUMULATE, Stage.CONFIGURATION);
+            new Map<>("VALIDATOR", Category.LOADABLE, castUnsafe(Class.class), castUnsafe(Validator.class),
+                      ACCUMULATE, Stage.CONFIGURATION);
 
     /// @see JDACBuilder#permissionsProvider(PermissionsProvider)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE)
@@ -147,13 +161,15 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// @see JDACBuilder#stringResolver(Resolver...)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = ACCUMULATE)
     Property<Collection<Resolver<String>>> STRING_RESOLVER =
-            new Enumeration<>("STRING_RESOLVER", Category.LOADABLE, castUnsafe(Resolver.class), ACCUMULATE, Stage.CONFIGURATION);
+            new Enumeration<>("STRING_RESOLVER", Category.LOADABLE, castUnsafe(Resolver.class), ACCUMULATE,
+                              Stage.CONFIGURATION);
 
     // -------- user settable --------
     /// @see JDACBuilder#globalCommandConfig(CommandDefinition.CommandConfig)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.USER_SETTABLE)
     Property<CommandDefinition.CommandConfig> GLOBAL_COMMAND_CONFIG =
-            new Singleton<>("GLOBAL_COMMAND_CONFIG", Category.USER_SETTABLE, CommandDefinition.CommandConfig.class, Stage.CONFIGURATION);
+            new Singleton<>("GLOBAL_COMMAND_CONFIG", Category.USER_SETTABLE, CommandDefinition.CommandConfig.class,
+                            Stage.CONFIGURATION);
 
     /// @see JDACBuilder#globalReplyConfig(ReplyConfig)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.USER_SETTABLE)
@@ -168,7 +184,8 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// @see JDACBuilder#expirationStrategy(ExpirationStrategy)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.USER_SETTABLE)
     Property<ExpirationStrategy> EXPIRATION_STRATEGY =
-            new Singleton<>("EXPIRATION_STRATEGY", Category.USER_SETTABLE, ExpirationStrategy.class, Stage.CONFIGURATION);
+            new Singleton<>("EXPIRATION_STRATEGY", Category.USER_SETTABLE, ExpirationStrategy.class,
+                            Stage.CONFIGURATION);
 
     /// @see JDACBuilder#localizeCommands(boolean)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.USER_SETTABLE)
@@ -183,17 +200,20 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// @see JDACBuilder#extensionData(Extension.Data...)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.USER_SETTABLE, fallbackBehaviour = ACCUMULATE)
     Property<java.util.Map<Class<? extends Extension.Data>, Extension.Data>> EXTENSION_DATA =
-            new Map<>("EXTENSION_DATA", Category.USER_SETTABLE, castUnsafe(Class.class), Extension.Data.class, ACCUMULATE, Stage.CONFIGURATION);
+            new Map<>("EXTENSION_DATA", Category.USER_SETTABLE, castUnsafe(Class.class), Extension.Data.class,
+                      ACCUMULATE, Stage.CONFIGURATION);
 
     /// @see JDACBuilder#filterExtensions(ExtensionFilter.FilterStrategy, String...)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.USER_SETTABLE)
     Property<ExtensionFilter> EXTENSION_FILTER =
-            new Singleton<>("EXTENSION_FILTER", Property.Category.USER_SETTABLE, ExtensionFilter.class, Stage.CONFIGURATION);
+            new Singleton<>("EXTENSION_FILTER", Property.Category.USER_SETTABLE, ExtensionFilter.class,
+                            Stage.CONFIGURATION);
 
     /// @see JDACBuilder#embeds(Consumer)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.USER_SETTABLE)
     Property<Consumer<EmbedConfig>> EMBED_CONFIG =
-            new Singleton<>("EMBED_CONFIG", Property.Category.USER_SETTABLE, castUnsafe(Consumer.class), Stage.CONFIGURATION);
+            new Singleton<>("EMBED_CONFIG", Property.Category.USER_SETTABLE, castUnsafe(Consumer.class),
+                            Stage.CONFIGURATION);
 
     // -------- provided ------------
     // -------- configuration -------
@@ -217,7 +237,8 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// @see LocalizationFunction
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.PROVIDED)
     Property<LocalizationFunction> LOCALIZATION_FUNCTION =
-            new Singleton<>("LOCALIZATION_FUNCTION", Category.PROVIDED, LocalizationFunction.class, Stage.CONFIGURATION);
+            new Singleton<>("LOCALIZATION_FUNCTION", Category.PROVIDED, LocalizationFunction.class,
+                            Stage.CONFIGURATION);
 
     /// The [MessageResolver] service provided byt JDA-Commands.
     /// Needs the values of [#I18N] and [#EMOJI_RESOLVER].
@@ -248,7 +269,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.PROVIDED)
     Property<ClassFinder> MERGED_CLASS_FINDER =
-             new Singleton<>("MERGED_CLASS_FINDER", Category.PROVIDED, ClassFinder.class, Stage.CONFIGURATION);
+            new Singleton<>("MERGED_CLASS_FINDER", Category.PROVIDED, ClassFinder.class, Stage.CONFIGURATION);
 
     // ------- initialized --------
     /// The [JDACommands] instance available after fully starting the framework.
@@ -287,24 +308,28 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// The [InvocationContext] of this interaction. Same as in [Middleware#accept(InvocationContext)].
     @PropertyInformation(stage = Stage.INTERACTION, category = Category.PROVIDED)
     Property<InvocationContext<?>> INVOCATION_CONTEXT =
-            new Singleton<>("INVOCATION_CONTEXT", Category.PROVIDED, castUnsafe(InvocationContext.class), Stage.INTERACTION);
+            new Singleton<>("INVOCATION_CONTEXT", Category.PROVIDED, castUnsafe(InvocationContext.class),
+                            Stage.INTERACTION);
 
 
     /// A collection consisting of all [Property]s that are
     /// [settable by the user and loadable through extensions][Category#LOADABLE]
     ///
     /// @see Category#LOADABLE
-    Collection<Property<?>> LOADABLE = PropertyListAccessor.getLoadable(); // automatically generated by 'processor' module
+    Collection<Property<?>> LOADABLE = PropertyListAccessor.getLoadable(); // automatically generated by 'processor'
+    // module
 
     /// A collection consisting of all [Property]s that are [settable by the user][Category#USER_SETTABLE]
     ///
     /// @see Category#USER_SETTABLE
-    Collection<Property<?>> USER_SETTABLE = PropertyListAccessor.getSettable(); // automatically generated by 'processor' module
+    Collection<Property<?>> USER_SETTABLE = PropertyListAccessor.getSettable(); // automatically generated by
+    // 'processor' module
 
     /// A collection consisting of all [Property]s that are [provided by JDA-Commands][Category#PROVIDED]
     ///
     /// @see Category#PROVIDED
-    Collection<Property<?>> PROVIDED = PropertyListAccessor.getProvided(); // automatically generated by 'processor' module
+    Collection<Property<?>> PROVIDED = PropertyListAccessor.getProvided(); // automatically generated by 'processor'
+    // module
 
     /// Whether the fallback values provided by JDA-Commands should be accumulated together
     /// with other user provided [PropertyProvider]s for this property.
@@ -362,21 +387,21 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
 
     /// A [Map] property basically represents a [java.util.Map], where each value belongs target a specific key.
     ///
-    /// @param category the [Category] of this property
-    /// @param key the key type
-    /// @param value the value type
-    /// @param name the property's name
+    /// @param category          the [Category] of this property
+    /// @param key               the key type
+    /// @param value             the value type
+    /// @param name              the property's name
     /// @param fallbackBehaviour the property's [FallbackBehaviour]
-    /// @param stage the property's stage
+    /// @param stage             the property's stage
     record Map<K, V>(String name, Category category, Class<K> key, Class<V> value,
-                     FallbackBehaviour fallbackBehaviour, Stage stage) implements Property<java.util.Map<K, V>> {}
+                     FallbackBehaviour fallbackBehaviour, Stage stage) implements Property<java.util.Map<K, V>> { }
 
     /// A [Singleton] property just hols one value. The value with the highest priority takes precedence.
     ///
-    /// @param name the property's name
+    /// @param name     the property's name
     /// @param category the property's category
-    /// @param type the property's type
-    /// @param stage the property's stage
+    /// @param type     the property's type
+    /// @param stage    the property's stage
     record Singleton<T>(String name, Category category, Class<T> type, Stage stage) implements Property<T> {
         @Override
         public FallbackBehaviour fallbackBehaviour() {
@@ -386,11 +411,11 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
 
     /// A [Enumeration] property basically represents a [Collection] of multiple values.
     ///
-    /// @param category the property's category
-    /// @param name the property's name
-    /// @param type the property's type
+    /// @param category          the property's category
+    /// @param name              the property's name
+    /// @param type              the property's type
     /// @param fallbackBehaviour the property's [FallbackBehaviour]
-    /// @param stage the property's stage
+    /// @param stage             the property's stage
     record Enumeration<E>(String name, Category category, Class<E> type,
-                          FallbackBehaviour fallbackBehaviour, Stage stage) implements Property<Collection<E>> {}
+                          FallbackBehaviour fallbackBehaviour, Stage stage) implements Property<Collection<E>> { }
 }

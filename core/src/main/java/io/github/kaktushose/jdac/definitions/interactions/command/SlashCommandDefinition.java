@@ -26,13 +26,13 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// Representation of a slash command.
 ///
-/// @param classDescription     the [ClassDescription] of the declaring class of the [#methodDescription()]
-/// @param methodDescription    the [MethodDescription] of the method this definition is bound to
-/// @param permissions          a [Collection] of permissions for this command
-/// @param name                 the name of the command
-/// @param commandConfig        the [CommandConfig] to use
-/// @param description          the command description
-/// @param commandOptions       a [SequencedCollection] of [OptionDataDefinition]s
+/// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param methodDescription the [MethodDescription] of the method this definition is bound to
+/// @param permissions       a [Collection] of permissions for this command
+/// @param name              the name of the command
+/// @param commandConfig     the [CommandConfig] to use
+/// @param description       the command description
+/// @param commandOptions    a [SequencedCollection] of [OptionDataDefinition]s
 public record SlashCommandDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,
@@ -77,7 +77,8 @@ public record SlashCommandDefinition(
         List<OptionDataDefinition> commandOptions = method.parameters().stream()
                 .filter(it -> !(CommandEvent.class.isAssignableFrom(it.type())))
                 .map(parameter ->
-                        OptionDataDefinition.build(parameter, findAutoComplete(autoCompletes, parameter, name), context.messageResolver(), context.validators())
+                             OptionDataDefinition.build(parameter, findAutoComplete(autoCompletes, parameter, name),
+                                                        context.messageResolver(), context.validators())
                 )
                 .toList();
 
@@ -97,18 +98,27 @@ public record SlashCommandDefinition(
         );
     }
 
-    @Nullable private static AutoCompleteDefinition findAutoComplete(List<AutoCompleteDefinition> autoCompletes, ParameterDescription parameter, String command) {
+    @Nullable
+    private static AutoCompleteDefinition findAutoComplete(
+            List<AutoCompleteDefinition> autoCompletes,
+            ParameterDescription parameter,
+            String command
+    ) {
         var possibleAutoCompletes = autoCompletes.stream()
                 .filter(definition -> definition.rules().stream()
                         .flatMap(rule -> rule.options().stream())
                         .anyMatch(it -> it.equals(parameter.name()))
                 ).toList();
         if (possibleAutoCompletes.size() > 1) {
-            log.error(JDACException.errorMessage("multiple-autocomplete",
+            log.error(JDACException.errorMessage(
+                    "multiple-autocomplete",
                     entry("name", parameter.name()),
                     entry("command", command),
-                    entry("possibleAutoCompletes", possibleAutoCompletes.stream().map(AutoCompleteDefinition::displayName).collect(Collectors.joining("\n     -> "))
-                    )));
+                    entry(
+                            "possibleAutoCompletes", possibleAutoCompletes.stream()
+                                    .map(AutoCompleteDefinition::displayName).collect(Collectors.joining("\n     -> "))
+                    )
+            ));
             return null;
         }
         if (possibleAutoCompletes.isEmpty()) {
@@ -138,9 +148,9 @@ public record SlashCommandDefinition(
                     .setNSFW(commandConfig.isNSFW())
                     .setDefaultPermissions(DefaultMemberPermissions.enabledFor(commandConfig.enabledPermissions()))
                     .addOptions(commandOptions.stream()
-                            .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))
-                            .map(OptionDataDefinition::toJDAEntity)
-                            .toList()
+                                        .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))
+                                        .map(OptionDataDefinition::toJDAEntity)
+                                        .toList()
                     );
             return command;
         } catch (IllegalArgumentException e) {
@@ -155,9 +165,9 @@ public record SlashCommandDefinition(
         try {
             return new SubcommandData(name, description)
                     .addOptions(commandOptions.stream()
-                            .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))
-                            .map(OptionDataDefinition::toJDAEntity)
-                            .toList()
+                                        .filter(it -> !CommandEvent.class.isAssignableFrom(it.declaredType()))
+                                        .map(OptionDataDefinition::toJDAEntity)
+                                        .toList()
                     );
         } catch (IllegalArgumentException e) {
             throw Helpers.jdaException(e, this);

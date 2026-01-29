@@ -2,15 +2,15 @@ package io.github.kaktushose.jdac.processor.property;
 
 import com.palantir.javapoet.*;
 
+import javax.annotation.processing.Messager;
+import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.processing.Messager;
-import javax.annotation.processing.RoundEnvironment;
-import javax.lang.model.element.Modifier;
-import javax.lang.model.element.TypeElement;
 
 public class ListCreatorProcessor extends PropertyProcessor {
 
@@ -23,8 +23,22 @@ public class ListCreatorProcessor extends PropertyProcessor {
     private boolean alreadyRun = false;
 
     @Override
+    void processField(Property property, RoundEnvironment roundEnvironment, Messager messager) {
+        Collection<String> list = switch (property.category()) {
+            case "LOADABLE" -> loadable;
+            case "USER_SETTABLE" -> userSettable;
+            case "PROVIDED" -> provided;
+            default -> throw new IllegalArgumentException("Unknown category: %s".formatted(property.category()));
+        };
+
+        list.add(property.name());
+    }
+
+    @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        if (alreadyRun) return false;
+        if (alreadyRun) {
+            return false;
+        }
 
         super.process(annotations, roundEnv);
         alreadyRun = true;
@@ -37,18 +51,6 @@ public class ListCreatorProcessor extends PropertyProcessor {
         }
 
         return false;
-    }
-
-    @Override
-    void processField(Property property, RoundEnvironment roundEnvironment, Messager messager) {
-        Collection<String> list = switch (property.category()) {
-            case "LOADABLE" -> loadable;
-            case "USER_SETTABLE" -> userSettable;
-            case "PROVIDED" -> provided;
-            default -> throw new IllegalArgumentException("Unknown category: %s".formatted(property.category()));
-        };
-
-        list.add(property.name());
     }
 
     private JavaFile createListFile() {
@@ -64,7 +66,8 @@ public class ListCreatorProcessor extends PropertyProcessor {
 
     private MethodSpec createGetterMethod(String name, List<String> fields) {
         ClassName propertyClassName = ClassName.get(PROPERTY_PACKAGE, "Property");
-        TypeName propertyTypeName = ParameterizedTypeName.get(propertyClassName, WildcardTypeName.subtypeOf(Object.class));
+        TypeName propertyTypeName = ParameterizedTypeName.get(propertyClassName,
+                                                              WildcardTypeName.subtypeOf(Object.class));
 
         MethodSpec.Builder spec = MethodSpec.methodBuilder("get" + name)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
@@ -73,7 +76,9 @@ public class ListCreatorProcessor extends PropertyProcessor {
 
         for (String field : fields) {
             spec.addCode("$T.$L", propertyClassName, field);
-            if (!fields.getLast().equals(field)) spec.addCode(",");
+            if (!fields.getLast().equals(field)) {
+                spec.addCode(",");
+            }
         }
 
         return spec.addStatement(")")

@@ -4,4 +4,10 @@ import com.sun.source.tree.NewClassTree;
 
 import javax.lang.model.element.VariableElement;
 
-public record Property(VariableElement element, NewClassTree initializer, String name, String type, String category, String fallbackBehaviour, String stage) {}
+public record Property(VariableElement element,
+                       NewClassTree initializer,
+                       String name,
+                       String type,
+                       String category,
+                       String fallbackBehaviour,
+                       String stage) { }

@@ -23,7 +23,8 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 ///
 /// @see CommandTree
 @ApiStatus.Internal
-public record TreeNode(String name, SlashCommandDefinition command, List<TreeNode> children) implements Iterable<TreeNode> {
+public record TreeNode(String name, SlashCommandDefinition command, List<TreeNode> children)
+        implements Iterable<TreeNode> {
 
     /// Constructs a new TreeNode.
     ///
@@ -45,7 +46,8 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// This guarantees to create a [CommandTree] that respects Subcommands and SubcommandGroups.
     public void addChild(String[] labels, SlashCommandDefinition command) {
         if (labels.length == 0) {
-            throw new InternalException("wrong-labels", entry("command", command.displayName()), entry("labelCount", 0));
+            throw new InternalException("wrong-labels", entry("command", command.displayName()), entry("labelCount",
+                                                                                                       0));
         }
 
         String rootLabel = labels[0];
@@ -59,7 +61,8 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
         }
         // framework error, SlashCommandDefinition should have prevented this
         if (labels.length > 3) {
-            throw new InternalException("wrong-labels", entry("command", command.displayName()), entry("labelCount", 0));
+            throw new InternalException("wrong-labels", entry("command", command.displayName()), entry("labelCount",
+                                                                                                       0));
         }
         // get or create node for current label
         TreeNode child = getChild(rootLabel).orElseGet(() -> {
@@ -81,8 +84,14 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
         throw new ConfigurationException(
                 "duplicate-commands",
                 entry("display", command.displayName()),
-                entry("command", "%s.%s".formatted(command.classDescription().name(), command.methodDescription().name())),
-                entry("command", "%s.%s".formatted(duplicate.classDescription().name(), duplicate.methodDescription().name()))
+                entry(
+                        "command", "%s.%s".formatted(
+                                command.classDescription().name(), command.methodDescription().name())
+                ),
+                entry(
+                        "command", "%s.%s".formatted(
+                                duplicate.classDescription().name(), duplicate.methodDescription().name())
+                )
         );
     }
 
@@ -108,7 +117,8 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
         return (command.toJDAEntity());
     }
 
-    /// Transforms this TreeNode into [SubcommandGroupData] if it has children, else transforms it directly to [SubcommandData].
+    /// Transforms this TreeNode into [SubcommandGroupData] if it has children, else transforms it directly to
+    ///  [SubcommandData].
     /// If this TreeNode has children, they will be added as [SubcommandData] to the [SubcommandGroupData].
     ///
     /// The [SubcommandGroupData] (or [SubcommandData]) will be added to the passed root [SlashCommandData].
@@ -137,7 +147,8 @@ public record TreeNode(String name, SlashCommandDefinition command, List<TreeNod
     /// Combines the settings of the given [SlashCommandData] and the given [SlashCommandDefinition].
     ///
     /// @param root       the [SlashCommandData] that is the root command for the given [SlashCommandDefinition]
-    /// @param definition a [SlashCommandDefinition] that will be added as a subcommand to the given root [SlashCommandData]
+    /// @param definition a [SlashCommandDefinition] that will be added as a subcommand to the given root
+    ///  [SlashCommandData]
     private void combine(SlashCommandData root, SlashCommandDefinition definition) {
         Long permissionsRaw = root.getDefaultPermissions().getPermissionsRaw();
         Set<Permission> permissions = permissionsRaw == null

@@ -59,7 +59,8 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return scopedRuntime().id();
     }
 
-    /// Closes the underlying [`Runtime`]({@docRoot}/index.html#runtime-concept-heading). This will ignore any new jda events belonging to this interaction, resulting
+    /// Closes the underlying [`Runtime`]({@docRoot}/index.html#runtime-concept-heading). This will ignore any new
+    /// jda events belonging to this interaction, resulting
     /// in the freeing of occupied resources for gc.
     ///
     /// This is only needed if the expiration strategy
@@ -71,18 +72,21 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// Returns the [KeyValueStore] of this [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
     ///
     /// The [KeyValueStore] can be accessed during the [Middleware] execution as well as any
-    /// interaction execution. Its content will be the same as long as the executions take place in the same [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
+    /// interaction execution. Its content will be the same as long as the executions take place in the same [`
+    /// Runtime`]({@docRoot}/index.html#runtime-concept-heading).
     ///
     /// @return the [KeyValueStore]
     public KeyValueStore kv() {
         return scopedRuntime().keyValueStore();
     }
 
-    /// Returns an instance of a class annotated with [`Interaction`][io.github.kaktushose.jdac.annotations.interactions.Interaction],
+    /// Returns an instance of a class annotated with
+    ///  [`Interaction`][io.github.kaktushose.jdac.annotations.interactions.Interaction],
     /// that is bound to the underlying [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
     ///
     /// @return the interaction class instance
-    @Nullable public <I> I interactionInstance(Class<I> interactionClass) {
+    @Nullable
+    public <I> I interactionInstance(Class<I> interactionClass) {
         return scopedRuntime().interactionInstance(interactionClass);
     }
 
@@ -90,6 +94,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// Gets the [Introspection] instance of this interaction.
     ///
     /// Same as [Introspection#accessScoped()]
+    ///
     /// @return the [Introspection] instance with stage set to [Stage#INTERACTION].
     public Introspection introspection() {
         return Introspection.accessScoped();
@@ -106,7 +111,8 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// thus performing localization and emoji resolution.
     ///
     /// Automatically resolves the [Locale] using [GenericInteractionCreateEvent#getUserLocale()].
-    /// Use [MessageResolver#resolve(String, Locale, Map)] (obtained via [#messageResolver()]) if you want to use a different locale.
+    /// Use [MessageResolver#resolve(String, Locale, Map)] (obtained via [#messageResolver()]) if you want to use a
+    /// different locale.
     ///
     /// @return the resolved message
     public String resolve(String message, Entry... placeholders) {
@@ -124,7 +130,8 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return jdaEvent().getToken();
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public Guild getGuild() {
         return jdaEvent().getGuild();
     }
@@ -134,7 +141,8 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return jdaEvent().getUser();
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public Member getMember() {
         return jdaEvent().getMember();
     }
@@ -144,7 +152,8 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return jdaEvent().isAcknowledged();
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public Channel getChannel() {
         return jdaEvent().getChannel();
     }
@@ -165,13 +174,8 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     }
 
     @Override
-    public JDA getJDA() {
-        return jdaEvent().getJDA();
-    }
-
-    @Override
-    public long getIdLong() {
-        return jdaEvent().getIdLong();
+    public InteractionContextType getContext() {
+        return jdaEvent().getContext();
     }
 
     @Override
@@ -180,7 +184,12 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     }
 
     @Override
-    public InteractionContextType getContext() {
-        return jdaEvent().getContext();
+    public JDA getJDA() {
+        return jdaEvent().getJDA();
+    }
+
+    @Override
+    public long getIdLong() {
+        return jdaEvent().getIdLong();
     }
 }

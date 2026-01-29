@@ -53,6 +53,7 @@ import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAcce
 ///     event.reply("Hello World");
 /// }
 /// ```
+///
 /// @see ModalEvent
 /// @see CommandEvent
 /// @see ComponentEvent
@@ -65,11 +66,13 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// This will send a `<Bot> is thinking...` message in chat that will be updated later. This will use the respective
     /// [InteractionDefinition.ReplyConfig] to set the ephemeral flag. If your initial deferred message is ephemeral it
-    /// cannot be made non-ephemeral later. Use [#deferReply(boolean)] to override the [InteractionDefinition.ReplyConfig].
+    /// cannot be made non-ephemeral later. Use [#deferReply(boolean)] to override the
+    ///  [InteractionDefinition.ReplyConfig].
     ///
     /// **You only have 3 seconds to acknowledge an interaction!**
     ///
-    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
+    /// When the acknowledgement is sent after the interaction expired, you will receive
+    ///  [ErrorResponse#UNKNOWN_INTERACTION].
     ///
     /// Use [#reply(String, Entry...)] to reply directly.
     public void deferReply() {
@@ -85,7 +88,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// **You only have 3 seconds to acknowledge an interaction!**
     ///
-    /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
+    /// When the acknowledgement is sent after the interaction expired, you will receive
+    ///  [ErrorResponse#UNKNOWN_INTERACTION].
     ///
     /// Use [#reply(String, Entry...)] to reply directly.
     ///
@@ -119,7 +123,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     /// Gets a [StringMenu] or [EntityMenu] based on the method name and transforms it into a JDA [SelectMenu].
     ///
-    /// The select menu will be linked to the current [`Runtime`]({@docRoot}/index.html#runtime-concept-heading). This may be useful if you want to send a component
+    /// The select menu will be linked to the current [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
+    /// This may be useful if you want to send a component
     /// without using the framework.
     ///
     /// @param menu the name of the select menu
@@ -141,8 +146,14 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     }
 
     @SuppressWarnings("unchecked")
-    private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(String component, @Nullable Class<?> origin, Class<E> type) {
-        var className = origin == null ? scopedInvocationContext().definition().classDescription().name() : origin.getName();
+    private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(
+            String component,
+            @Nullable Class<?> origin,
+            Class<E> type
+    ) {
+        var className = origin == null
+                ? scopedInvocationContext().definition().classDescription().name()
+                : origin.getName();
         var id = String.valueOf((className + component).hashCode());
         var definition = scopedInteractionRegistry().find(type, false, it -> it.definitionId().equals(id));
         return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
@@ -154,7 +165,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param name the name of the [Embed]
     /// @return the [Embed]
-    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
+    /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured
+    ///  [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
         return scopedEmbeds().get(name, jdaEvent().getUserLocale().toLocale());
     }
@@ -187,7 +199,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// Using V2 components removes the top-level component limit,
     /// and allows more components in total ({@value Message#MAX_COMPONENT_COUNT_IN_COMPONENT_TREE}).
     ///
-    /// They also allow you to use a larger choice of components, such as any component extending [MessageTopLevelComponent],
+    /// They also allow you to use a larger choice of components, such as any component extending
+    ///  [MessageTopLevelComponent],
     /// as long as they are [compatible][Component.Type#isMessageCompatible()].
     ///
     /// The character limit for the messages also gets changed to {@value Message#MAX_CONTENT_LENGTH_COMPONENT_V2}.
@@ -200,7 +213,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///   - URLs don't create embeds
     ///   - You cannot switch this message back to not using Components V2 (you can however upgrade a message to V2)
     ///
-    /// @param component the [MessageTopLevelComponent] to reply with
+    /// @param component   the [MessageTopLevelComponent] to reply with
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
     public Message reply(MessageTopLevelComponent component, Entry... placeholder) {
         return reply(List.of(component), placeholder);
@@ -211,7 +224,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// Using V2 components removes the top-level component limit,
     /// and allows more components in total ({@value Message#MAX_COMPONENT_COUNT_IN_COMPONENT_TREE}).
     ///
-    /// They also allow you to use a larger choice of components, such as any component extending [MessageTopLevelComponent],
+    /// They also allow you to use a larger choice of components, such as any component extending
+    ///  [MessageTopLevelComponent],
     /// as long as they are [compatible][Component.Type#isMessageCompatible()].
     ///
     /// The character limit for the messages also gets changed to {@value Message#MAX_CONTENT_LENGTH_COMPONENT_V2}.
@@ -224,7 +238,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///   - URLs don't create embeds
     ///   - You cannot switch this message back to not using Components V2 (you can however upgrade a message to V2)
     ///
-    /// @param components a [Collection] of [MessageTopLevelComponent]s to reply with
+    /// @param components  a [Collection] of [MessageTopLevelComponent]s to reply with
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
     public Message reply(Collection<MessageTopLevelComponent> components, Entry... placeholder) {
         return with().reply(components, placeholder);
@@ -233,7 +247,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// Acknowledgement of this event with a text message.
     ///
     /// @param message     the message to send or the localization key
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale , String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform localization, see
+    ///  [I18n#localize(Locale , String, Entry...) ]
     /// @return the [Message] that got created
     /// @implSpec Internally this method calls [RestAction#complete()], thus the [Message] object can get
     /// returned directly.

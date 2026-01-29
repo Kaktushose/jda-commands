@@ -20,7 +20,14 @@ public record MethodDescription(
         Collection<AnnotationDescription<?>> annotations,
         Invoker invoker
 ) implements Description {
-    public MethodDescription(Class<?> declaringClass, Class<?> returnType, String name, SequencedCollection<ParameterDescription> parameters, Collection<AnnotationDescription<?>> annotations, Invoker invoker) {
+    public MethodDescription(
+            Class<?> declaringClass,
+            Class<?> returnType,
+            String name,
+            SequencedCollection<ParameterDescription> parameters,
+            Collection<AnnotationDescription<?>> annotations,
+            Invoker invoker
+    ) {
         this.declaringClass = declaringClass;
         this.returnType = returnType;
         this.name = name;
@@ -47,7 +54,6 @@ public record MethodDescription(
     ///
     /// @param name the parameters name
     /// @return the matching [ParameterDescription]
-    ///
     /// @throws NoSuchElementException if no element was found
     /// @see Optional#orElseThrow()
     public ParameterDescription parameter(String name) {
@@ -56,7 +62,8 @@ public record MethodDescription(
 
     /// @return the return type and parameters of this method as a [MethodType]
     public MethodType toMethodType() {
-        return MethodType.methodType(returnType, parameters.stream().map(ParameterDescription::type).toArray(Class[]::new));
+        return MethodType.methodType(
+                returnType, parameters.stream().map(ParameterDescription::type).toArray(Class[]::new));
     }
 
     @Override

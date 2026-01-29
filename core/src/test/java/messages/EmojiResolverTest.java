@@ -81,17 +81,19 @@ class EmojiResolverTest {
     @Test
     void multiline() {
         String text = """
-                Currently following channels are registered as release channels:\s
-                - this one :joy:
-                - and this not :not_joy:
-               """;
+                 Currently following channels are registered as release channels:\s
+                 - this one :joy:
+                 - and this not :not_joy:
+                """;
 
 
         String resolved = new EmojiResolver(List.of()).resolve(text);
-        Assertions.assertEquals("""
-                Currently following channels are registered as release channels:\s
-                - this one 😂
-                - and this not :not_joy:
-               """, resolved);
+        Assertions.assertEquals(
+                """
+                         Currently following channels are registered as release channels:\s
+                         - this one 😂
+                         - and this not :not_joy:
+                        """, resolved
+        );
     }
 }

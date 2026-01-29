@@ -15,9 +15,14 @@ public class Middlewares {
 
     private final SortedMap<Priority, Set<Middleware>> middlewares;
 
-    public Middlewares(Collection<Map.Entry<Priority, Middleware>> userDefined, ErrorMessageFactory errorMessageFactory, PermissionsProvider permissionsProvider) {
+    public Middlewares(
+            Collection<Map.Entry<Priority, Middleware>> userDefined,
+            ErrorMessageFactory errorMessageFactory,
+            PermissionsProvider permissionsProvider
+    ) {
         SortedMap<Priority, Set<Middleware>> middlewareMap = new TreeMap<>(Map.of(
-                Priority.PERMISSIONS, new HashSet<>(List.of(new PermissionsMiddleware(permissionsProvider, errorMessageFactory))),
+                Priority.PERMISSIONS, new HashSet<>(List.of(new PermissionsMiddleware(permissionsProvider,
+                                                                                      errorMessageFactory))),
                 Priority.NORMAL, new HashSet<>(List.of(new ConstraintMiddleware(errorMessageFactory))),
                 Priority.HIGH, new HashSet<>(),
                 Priority.LOW, new HashSet<>()
@@ -51,7 +56,7 @@ public class Middlewares {
     /// ordered by their [Priority].
     ///
     /// @param controllerClass the interaction controllers class
-    /// @param task The task to be executed
+    /// @param task            The task to be executed
     public void forOrdered(Class<?> controllerClass, Consumer<Middleware> task) {
         forAllOrdered(middleware -> {
             if (middleware.runFor() == null || middleware.runFor().contains(controllerClass)) {

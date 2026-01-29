@@ -14,15 +14,15 @@ import java.util.Map;
 
 /// Base exception for all exceptions known to JDA-Commands.
 ///
-/// @implNote Error messages can be loaded from a Fluava bundle file called "jdac_internal_en.ftl" located in the resources folder.
+/// @implNote Error messages can be loaded from a Fluava bundle file called "jdac_internal_en.ftl" located in the
+/// resources folder.
 public sealed class JDACException extends RuntimeException
         permits ConfigurationException, InternalException, InvalidDeclarationException, ParsingException {
 
     protected static final Bundle errorMessages = Fluava.create(Locale.ENGLISH).loadBundle("jdac_internal");
-
-    protected Bundle bundle = errorMessages;
     private final String key;
     private final Map<String, @Nullable Object> placeholder;
+    protected Bundle bundle = errorMessages;
 
     /// Creates a new JDACException and loads the error message from the given key.
     ///
@@ -56,8 +56,8 @@ public sealed class JDACException extends RuntimeException
     /// Creates a new JDACException with the given cause, loads the error message from the given key and inserts
     /// the placeholders.
     ///
-    /// @param key   the key of the error message
-    /// @param cause the cause of the exception
+    /// @param key         the key of the error message
+    /// @param cause       the cause of the exception
     /// @param placeholder the [placeholders][Entry] to insert
     public JDACException(String key, Throwable cause, Entry... placeholder) {
         super(cause);

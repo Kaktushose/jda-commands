@@ -19,7 +19,8 @@ public interface Invoker {
     /// @param arguments a [SequencedCollection] of the arguments the method should be invoked with
     /// @return the result of the method invocation
     /// @throws IllegalAccessException    if this Method object is enforcing Java language access control and the
-    ///                                   underlying method is inaccessible
+    ///                                                                     underlying method is inaccessible
     /// @throws InvocationTargetException if an exception was thrown by the invoked method or constructor
-    @Nullable Object invoke(Object instance, SequencedCollection<Object> arguments) throws IllegalAccessException, InvocationTargetException;
+    @Nullable Object invoke(Object instance, SequencedCollection<Object> arguments)
+            throws IllegalAccessException, InvocationTargetException;
 }

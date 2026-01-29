@@ -54,15 +54,21 @@ public record EntitySelectMenuDefinition(
 
         Set<DefaultValue> defaultValueSet = new HashSet<>();
         for (long id : selectMenu.defaultChannels()) {
-            if (id < 0) continue;
+            if (id < 0) {
+                continue;
+            }
             defaultValueSet.add(DefaultValue.channel(id));
         }
         for (long id : selectMenu.defaultUsers()) {
-            if (id < 0) continue;
+            if (id < 0) {
+                continue;
+            }
             defaultValueSet.add(DefaultValue.user(id));
         }
         for (long id : selectMenu.defaultRoles()) {
-            if (id < 0) continue;
+            if (id < 0) {
+                continue;
+            }
             defaultValueSet.add(DefaultValue.role(id));
         }
 
@@ -82,13 +88,15 @@ public record EntitySelectMenuDefinition(
 
     /// Builds a new [EntitySelectMenuDefinition] with the given values.
 
-    public EntitySelectMenuDefinition with(@Nullable Set<SelectTarget> selectTargets,
-                                           @Nullable Set<DefaultValue> defaultValues,
-                                           @Nullable Set<ChannelType> channelTypes,
-                                           @Nullable String placeholder,
-                                           @Nullable Integer minValue,
-                                           @Nullable Integer maxValue,
-                                           @Nullable Integer uniqueId) {
+    public EntitySelectMenuDefinition with(
+            @Nullable Set<SelectTarget> selectTargets,
+            @Nullable Set<DefaultValue> defaultValues,
+            @Nullable Set<ChannelType> channelTypes,
+            @Nullable String placeholder,
+            @Nullable Integer minValue,
+            @Nullable Integer maxValue,
+            @Nullable Integer uniqueId
+    ) {
         return new EntitySelectMenuDefinition(
                 classDescription,
                 methodDescription,
@@ -124,7 +132,8 @@ public record EntitySelectMenuDefinition(
                     .setPlaceholder(placeholder)
                     .setRequiredRange(minValue, maxValue);
 
-            // ChannelType.UNKNOWN is the default value inside the annotation. if this statement is true, we can assume that
+            // ChannelType.UNKNOWN is the default value inside the annotation. if this statement is true, we can
+            // assume that
             // no channel type was selected
             channelTypes.remove(ChannelType.UNKNOWN);
             if (!channelTypes.isEmpty()) {

@@ -12,7 +12,8 @@ import java.util.Collection;
 /// can have _n_ children, however the maximum depth is _3_ due to Discords limitations on SubcommandGroups.
 ///
 /// @see TreeNode
-/// @see <a href="https://discord.com/developers/docs/interactions/application-commands#subcommands-and-subcommand-groups">Discord Subcommands and Subcommand Groups Documentation</a>
+/// @see
+/// <a href="https://discord.com/developers/docs/interactions/application-commands#subcommands-and-subcommand-groups">Discord Subcommands and Subcommand Groups Documentation</a>
 @ApiStatus.Internal
 public record CommandTree(TreeNode root) {
 

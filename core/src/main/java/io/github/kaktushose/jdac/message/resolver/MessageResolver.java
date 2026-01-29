@@ -33,10 +33,9 @@ public final class MessageResolver implements Resolver<String> {
     /// Applies all registered [`Resolver<String>`][Property#STRING_RESOLVER] to the given message with
     /// the passed locale and placeholders. See class docs for more information.
     ///
-    /// @param message the message to be resolved
-    /// @param locale the locale to use for i18n
+    /// @param message     the message to be resolved
+    /// @param locale      the locale to use for i18n
     /// @param placeholder the placeholders to use for i18n
-    ///
     /// @return the resolved message
     @Override
     public String resolve(String message, Locale locale, Map<String, @Nullable Object> placeholder) {

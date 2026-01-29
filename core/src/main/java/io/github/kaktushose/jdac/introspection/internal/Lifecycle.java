@@ -13,11 +13,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @ApiStatus.Internal
 public class Lifecycle {
 
-    private final Map<Class<? extends FrameworkEvent>, Set<Subscriber<FrameworkEvent>>> subscriptions = new ConcurrentHashMap<>();
+    private final Map<Class<? extends FrameworkEvent>, Set<Subscriber<FrameworkEvent>>> subscriptions =
+            new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked")
     public <T extends FrameworkEvent> Subscription subscribe(Class<T> event, Subscriber<T> subscriber) {
-        subscriptions.computeIfAbsent(event, _ -> ConcurrentHashMap.newKeySet()).add((Subscriber<@NonNull FrameworkEvent>) subscriber);
+        subscriptions.computeIfAbsent(event, _ -> ConcurrentHashMap.newKeySet())
+                .add((Subscriber<@NonNull FrameworkEvent>) subscriber);
         return new Subscription(event, subscriber, this);
     }
 

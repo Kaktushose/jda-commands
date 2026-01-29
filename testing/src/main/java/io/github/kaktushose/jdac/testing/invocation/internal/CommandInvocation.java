@@ -14,7 +14,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.*;
 
-public abstract sealed class CommandInvocation<T extends GenericCommandInteractionEvent> extends ModalReplyableInvocation<T>
+public abstract sealed class CommandInvocation<T extends GenericCommandInteractionEvent>
+        extends ModalReplyableInvocation<T>
         permits SlashCommandInvocation, ContextCommandInvocation {
 
     public CommandInvocation(TestScenario.Context context, String command, Class<T> klass) {

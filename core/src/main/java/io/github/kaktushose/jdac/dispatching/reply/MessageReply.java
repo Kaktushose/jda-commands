@@ -47,7 +47,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     /// Constructs a new MessageReply.
     ///
-    ///  @param replyConfig the [ReplyConfig] to use
+    /// @param replyConfig the [ReplyConfig] to use
     public MessageReply(ReplyConfig replyConfig) {
         replyAction = new ReplyAction(replyConfig);
         resolver = new ComponentResolver<>(scopedMessageResolver(), ActionRowChildComponent.class);
@@ -55,7 +55,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     /// Constructs a new MessageReply.
     ///
-    ///  @param reply the [MessageReply] to copy from
+    /// @param reply the [MessageReply] to copy from
     public MessageReply(MessageReply reply) {
         replyAction = reply.replyAction;
         resolver = new ComponentResolver<>(scopedMessageResolver(), ActionRowChildComponent.class);
@@ -64,7 +64,8 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     /// Acknowledgement of this event with a text message.
     ///
     /// @param message     the message to send or the localization key
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale , String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform localization, see
+    ///  [I18n#localize(Locale , String, Entry...) ]
     /// @return the [Message] that got created
     /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
@@ -99,8 +100,8 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     /// @return this instance for fluent interface
     public SendableReply embeds(String... embeds) {
         return embeds(Arrays.stream(embeds)
-                .map(it -> scopedEmbeds().get(it, scopedUserLocale()))
-                .toArray(Embed[]::new));
+                              .map(it -> scopedEmbeds().get(it, scopedUserLocale()))
+                              .toArray(Embed[]::new));
     }
 
     /// Acknowledgement of this event with one or more [Embed]s.
@@ -145,7 +146,8 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     /// Adds an [ActionRow] to the reply and adds the passed components to it.
     ///
-    /// The components will always be enabled and runtime-bound. Use [#components(Component...)] if you want to modify these
+    /// The components will always be enabled and runtime-bound. Use [#components(Component...)] if you want to
+    /// modify these
     /// settings.
     ///
     /// **The components must be defined in the same class where this method gets called!**
@@ -188,6 +190,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     ///     }
     ///  }
     /// ```
+    ///
     /// @see Component
     public SendableReply components(Component<?, ?, ?, ?>... components) {
         List<ActionRowChildComponent> items = Arrays.stream(components).map(this::resolve).toList();
@@ -211,9 +214,11 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
         int uniqueId = Objects.requireNonNullElse(definition.uniqueId(), -1);
         ActionRowChildComponent item = switch (definition) {
             case ButtonDefinition buttonDefinition ->
-                    buttonDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
+                    buttonDefinition.toJDAEntity(createId(definition, component.independent()))
+                            .withDisabled(!component.enabled());
             case SelectMenuDefinition<?> menuDefinition ->
-                    menuDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
+                    menuDefinition.toJDAEntity(createId(definition, component.independent()))
+                            .withDisabled(!component.enabled());
         };
 
         item = switch (component) {
@@ -233,21 +238,28 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
         return item;
     }
 
-    private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(Component<T, ?, ?, D> component, String definitionId, String className) {
+    private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(
+            Component<T, ?, ?, D> component,
+            String definitionId,
+            String className
+    ) {
         InteractionRegistry registry = scopedInteractionRegistry();
 
         try {
             // this cast is effective safe
-            D definition = registry.find(component.definitionClass(), false, it ->
-                    it.definitionId().equals(definitionId)
+            D definition = registry.find(
+                    component.definitionClass(), false, it ->
+                            it.definitionId().equals(definitionId)
             );
 
             return component.build(definition);
         } catch (IllegalArgumentException e) { // only check if search failed
-            Collection<ModalDefinition> found = registry.find(ModalDefinition.class, it -> it.definitionId().equals(definitionId));
+            Collection<ModalDefinition> found = registry.find(
+                    ModalDefinition.class, it -> it.definitionId().equals(definitionId));
             if (!found.isEmpty()) {
                 throw new IllegalArgumentException(
-                        JDACException.errorMessage("modal-as-component", entry("method", "%s#%s".formatted(className, component.name())))
+                        JDACException.errorMessage("modal-as-component", entry("method", "%s#%s".formatted(className,
+                                                                                                           component.name())))
                 );
             }
             throw e;

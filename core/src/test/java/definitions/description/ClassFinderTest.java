@@ -25,7 +25,8 @@ class ClassFinderTest {
     void classFinder_withReflective_shouldReturnAllClasses() {
         ClassFinder classFinder = ClassFinder.reflective("definitions.description.environment");
 
-        assertEquals(List.of(BaseClass.class, BaseClass.BaserInnerClass.class, NestedClass.class), classFinder.search(Interaction.class));
+        assertEquals(List.of(BaseClass.class, BaseClass.BaserInnerClass.class, NestedClass.class),
+                     classFinder.search(Interaction.class));
     }
 
     @Test

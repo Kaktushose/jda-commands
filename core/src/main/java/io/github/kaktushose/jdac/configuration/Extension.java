@@ -30,7 +30,8 @@ import java.util.List;
 ///
 /// ## Extension Configuration ([Extension.Data])
 /// If the [Extension] needs additional configuration data, implementations have to provide an
-/// own implementation of [Data] that the user has to register in the builder by calling [JDACBuilder#extensionData(Data...)].
+/// own implementation of [Data] that the user has to register in the builder by calling
+///  [JDACBuilder#extensionData(Data...)].
 ///
 /// ## On Framework Start
 /// At the time that framework is fully initialized and started (practically at the end of [JDACBuilder#start()]),
@@ -77,9 +78,11 @@ import java.util.List;
 /// ```
 public interface Extension<T extends Extension.Data> {
 
-    /// Initialises the [Extension] with the provided [Data]. Will be called right after jda-commands loaded the Extension.
+    /// Initialises the [Extension] with the provided [Data]. Will be called right after jda-commands loaded the
+    /// Extension.
     ///
-    /// @param data The custom implementation of [Data] if given by the User. This can be safely cast to the type returned by [#dataType()].
+    /// @param data The custom implementation of [Data] if given by the User. This can be safely cast to the type
+    /// returned by [#dataType()].
     void init(@Nullable T data);
 
     /// Gets a collection of [PropertyProvider]s this [Extension] provides.
@@ -91,18 +94,22 @@ public interface Extension<T extends Extension.Data> {
         return List.of();
     }
 
-    /// This method will be called after the framework was fully started, practically at the end of [JDACBuilder#start()].
+    /// This method will be called after the framework was fully started, practically at the end of
+    ///  [JDACBuilder#start()].
     ///
     /// @param framework the fully initialized [JDACommands] instance.
     @IntrospectionAccess(Stage.INITIALIZED)
-    default void onStart(JDACommands framework) {}
+    default void onStart(JDACommands framework) {
+    }
 
-    /// @return the [Class] of the custom [Data] implementation or null if the extension doesn't support additional configuration
-    @Nullable default Class<T> dataType() {
+    /// @return the [Class] of the custom [Data] implementation or null if the extension doesn't support additional
+    /// configuration
+    @Nullable
+    default Class<T> dataType() {
         return null;
     }
 
     /// Implementations of this interface are providing additional configuration to implementations of [Extension].
-    interface Data {}
+    interface Data { }
 
 }

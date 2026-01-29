@@ -9,8 +9,7 @@ import java.util.function.Predicate;
 /// A [Predicate] to test whether an [Extension] should be loaded or not.
 ///
 /// @param filterStrategy the [FilterStrategy] to use
-/// @param classes the names of base packages of the [Class]es to filter according to the used [FilterStrategy]
-///
+/// @param classes        the names of base packages of the [Class]es to filter according to the used [FilterStrategy]
 /// @see JDACBuilder#filterExtensions(FilterStrategy, String...)
 /// @see #test(Provider)
 @SuppressWarnings("rawtypes") // because of stream in Extensions must handle raw type Provider<Extension>
@@ -21,9 +20,8 @@ public record ExtensionFilter(FilterStrategy filterStrategy, Collection<String> 
     /// The
     ///
     /// @param provider the 'unloaded' [Extension] to test (still wrapped by [Provider])
-    ///
     /// @return whether to use the extension
-    /// @implNote   This method compares the [`fully classified class name`][Class#getName()]
+    /// @implNote This method compares the [`fully classified class name`][Class#getName()]
     ///             of the [Extension] implementation to [#classes()] by using [String#startsWith(String)],
     ///             so it's possible to include/exclude an extensions by
     ///             only using a part of the full name/packages.

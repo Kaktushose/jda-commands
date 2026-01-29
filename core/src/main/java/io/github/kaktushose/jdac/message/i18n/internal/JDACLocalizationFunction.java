@@ -40,10 +40,13 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
 
         HashMap<DiscordLocale, String> localizations = new HashMap<>();
         for (DiscordLocale locale : DiscordLocale.values()) {
-            if (locale == DiscordLocale.UNKNOWN) continue;
+            if (locale == DiscordLocale.UNKNOWN) {
+                continue;
+            }
 
             tryLocalize(bundle + "$" + localizationKey, locale) // with found bundle (or default)
-                    .or(() -> tryLocalize(localizationKey, locale)) // fallback to default bundle if not found in special bundle
+                    .or(() -> tryLocalize(localizationKey, locale)) // fallback to default bundle if not found in
+                    // special bundle
                     .or(() -> {
                         if (localizationKey.endsWith(".description")) {
                             String result = resolver.resolve("jdac$no-description", locale);
@@ -74,10 +77,12 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
     }
 
     private Optional<CommandDefinition> findCommand(String name) {
-        SequencedCollection<CommandDefinition> found = definitions.find(CommandDefinition.class, def -> {
-            String normalized = def.name().replace(" ", ".");
-            return normalized.equals(name);
-        });
+        SequencedCollection<CommandDefinition> found = definitions.find(
+                CommandDefinition.class, def -> {
+                    String normalized = def.name().replace(" ", ".");
+                    return normalized.equals(name);
+                }
+        );
 
         if (found.isEmpty()) {
             log.warn("Found no command for name {}, falling back to default bundle.", name);
@@ -89,7 +94,8 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
                     .map(CommandDefinition::name)
                     .collect(Collectors.joining(", "));
 
-            log.warn("Found multiple commands for name {}, falling back to default bundle. Found commands: {}", name, foundNames);
+            log.warn("Found multiple commands for name {}, falling back to default bundle. Found commands: {}", name,
+                     foundNames);
             return Optional.empty();
         }
 

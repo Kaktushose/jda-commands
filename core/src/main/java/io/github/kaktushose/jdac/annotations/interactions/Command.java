@@ -22,13 +22,16 @@ import java.util.Optional;
 /// The method signature has to meet the following conditions:
 ///
 ///   - First parameter must be of type [CommandEvent]
-///   - Remaining parameter types must be registered at the [TypeAdapters]. Please note that [Optional] are handled special, see next headline.
+///   - Remaining parameter types must be registered at the [TypeAdapters]. Please note that [Optional] are handled
+/// special, see next headline.
 ///
 /// ### [Optional] as parameter type
 /// Beside defining parameters with [Param#optional()] set to true, it's also possible to wrap it in an [Optional]
-/// with the appropriated type set as the generic type parameter. (Example: `@Param(optional = true) String one` -> `Optional<String> one`.
+/// with the appropriated type set as the generic type parameter. (Example: `@Param(optional = true) String one` -> `
+/// Optional<String> one`.
 ///
-/// JDA-Commands will register this parameter as optional to discord. If the option isn't provided by the user, [Optional#empty()] is passed.
+/// JDA-Commands will register this parameter as optional to discord. If the option isn't provided by the user,
+///  [Optional#empty()] is passed.
 ///
 ///
 ///
@@ -40,7 +43,8 @@ import java.util.Optional;
 /// }
 ///
 /// @Command(value="moderation ban", desc="Bans a member", enabledFor=Permission.BAN_MEMBERS)
-/// public void onCommand(CommandEvent event, @Param("The member to ban") Member target, @Param(optional = true, fallback = "no reason given") String reason) { ... }
+/// public void onCommand(CommandEvent event, @Param("The member to ban") Member target, @Param(optional = true,
+///  fallback = "no reason given") String reason) { ... }
 ///
 /// @Command(value = "favourite fruit")
 /// public void onCommand(CommandEvent event, @Choices({"Apple", "Banana", "Orange"}) String fruit) {
@@ -65,6 +69,7 @@ import java.util.Optional;
 /// public void onCommand(CommandEvent event, Member target) { ... }
 /// ```
 /// **Using [Member] will enforce [InteractionContextType#GUILD] on the command!**
+///
 /// @see Interaction
 /// @see io.github.kaktushose.jdac.annotations.interactions.Interaction Interaction
 /// @see io.github.kaktushose.jdac.annotations.constraints.Constraint Constraint

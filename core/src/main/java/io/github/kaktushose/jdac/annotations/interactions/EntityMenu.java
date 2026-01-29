@@ -29,6 +29,7 @@ import java.lang.annotation.Target;
 /// @EntityMenu(value = SelectTarget.USER, placeholder = "Who's your favourite user?")
 /// public void onMenu(ComponentEvent event, Mentions mentions) { ... }
 /// ```
+///
 /// @see Interaction
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -86,6 +87,7 @@ public @interface EntityMenu {
     /// @return the maximum amount of values a user can select
     int maxValue() default 1;
 
-    /// The uniqueId of this component. Must be greater than 0. Default value is `-1` which will result in Discord auto assigning an id.
+    /// The uniqueId of this component. Must be greater than 0. Default value is `-1` which will result in Discord
+    /// auto assigning an id.
     int uniqueId() default -1;
 }

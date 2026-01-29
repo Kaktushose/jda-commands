@@ -12,7 +12,8 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.function.Consumer;
 
-/// Wrapper class for [JDA] and [ShardManager]. Use [#performTask(Consumer, boolean)] when you need to do work with an [JDA] object.
+/// Wrapper class for [JDA] and [ShardManager]. Use [#performTask(Consumer, boolean)] when you need to do work with
+/// an [JDA] object.
 public final class JDAContext {
 
     public static final Logger log = LoggerFactory.getLogger(JDAContext.class);
@@ -35,7 +36,7 @@ public final class JDAContext {
 
     /// Performs an operation on either the [JDA] object or on all shards.
     ///
-    /// @param consumer the operation to perform
+    /// @param consumer       the operation to perform
     /// @param onlyFirstShard whether this task should only be executed on the first shard if a [ShardManager] is used
     public void performTask(Consumer<JDA> consumer, boolean onlyFirstShard) {
         switch (context) {
@@ -81,7 +82,8 @@ public final class JDAContext {
 
     /// Shutdown the underlying [JDA] or [ShardManager] instance
     public void shutdown() {
-        log.warn("JDA was shutdown by JDA-Commands, this might be due to an exception during the init/start process. To disable this behaviour set JDACBuilder#shutdownJDA(boolean) to false");
+        log.warn("JDA was shutdown by JDA-Commands, this might be due to an exception during the init/start process. " +
+                 "To disable this behaviour set JDACBuilder#shutdownJDA(boolean) to false");
         switch (context) {
             case ShardManager manager -> manager.shutdown();
             case JDA jda -> jda.shutdown();

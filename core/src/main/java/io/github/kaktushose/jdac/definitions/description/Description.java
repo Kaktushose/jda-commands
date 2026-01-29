@@ -13,7 +13,8 @@ import java.util.Optional;
 /// @see ClassDescription
 /// @see MethodDescription
 /// @see ParameterDescription
-public sealed interface Description permits AnnotationDescription, ClassDescription, MethodDescription, PackageDescription, ParameterDescription {
+public sealed interface Description
+        permits AnnotationDescription, ClassDescription, MethodDescription, PackageDescription, ParameterDescription {
 
     /// Gets all [Annotation]s this element is annotated with
     ///
@@ -36,7 +37,6 @@ public sealed interface Description permits AnnotationDescription, ClassDescript
     ///
     /// @param type the type of the annotation to get
     /// @return an [Optional] holding the [Annotation]
-    ///
     /// @throws NoSuchElementException if no element was found
     /// @see Optional#orElseThrow()
     default <T extends Annotation> T annotation(Class<T> type) {

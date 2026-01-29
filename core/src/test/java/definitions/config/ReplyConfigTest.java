@@ -18,7 +18,11 @@ class ReplyConfigTest {
         return getReplyConfig(clazz, method, new InteractionDefinition.ReplyConfig());
     }
 
-    private static InteractionDefinition.ReplyConfig getReplyConfig(Class<?> clazz, String method, InteractionDefinition.ReplyConfig fallback) {
+    private static InteractionDefinition.ReplyConfig getReplyConfig(
+            Class<?> clazz,
+            String method,
+            InteractionDefinition.ReplyConfig fallback
+    ) {
         var definition = ButtonDefinition.build(TestHelpers.getBuildContext(clazz, method));
         return Helpers.replyConfig(definition, fallback);
     }
@@ -92,13 +96,27 @@ class ReplyConfigTest {
         }
 
         @Button
-        @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false, silent = true, allowedMentions = {})
+        @ReplyConfig(
+                ephemeral = true,
+                editReply = false,
+                keepComponents = false,
+                keepSelections = false,
+                silent = true,
+                allowedMentions = { }
+        )
         public void customValues(ComponentEvent event) {
         }
     }
 
     @Interaction
-    @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false, silent = true, allowedMentions = {})
+    @ReplyConfig(
+            ephemeral = true,
+            editReply = false,
+            keepComponents = false,
+            keepSelections = false,
+            silent = true,
+            allowedMentions = { }
+    )
     private static class ClassLevelConfig {
 
         @Button
@@ -106,7 +124,14 @@ class ReplyConfigTest {
         }
 
         @Button
-        @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false, silent = true, allowedMentions = {})
+        @ReplyConfig(
+                ephemeral = true,
+                editReply = false,
+                keepComponents = false,
+                keepSelections = false,
+                silent = true,
+                allowedMentions = { }
+        )
         public void sameValues(ComponentEvent event) {
         }
 

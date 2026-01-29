@@ -10,7 +10,8 @@ import java.lang.annotation.*;
 /// This annotation indicates that [Introspection#accessScoped()] and [Introspection#scopedGet(Property)] can be used
 /// inside the method annotated with this annotation.
 ///
-/// If this annotation is present on a Class like [RuntimeCloseEvent] it's up to the use case which meaning this has, please
+/// If this annotation is present on a Class like [RuntimeCloseEvent] it's up to the use case which meaning this has,
+///  please
 /// read the Javadocs there.
 ///
 /// Only properties having at least the stage of [#value()] can be used.

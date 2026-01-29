@@ -34,10 +34,12 @@ public final class CommandUpdater {
     private final LocalizationFunction localizationFunction;
 
     /// Constructs a new CommandUpdater.
-    public CommandUpdater(JDAContext jdaContext,
-                          GuildScopeProvider guildScopeProvider,
-                          InteractionRegistry registry,
-                          LocalizationFunction localizationFunction) {
+    public CommandUpdater(
+            JDAContext jdaContext,
+            GuildScopeProvider guildScopeProvider,
+            InteractionRegistry registry,
+            LocalizationFunction localizationFunction
+    ) {
         this.jdaContext = jdaContext;
         this.guildScopeProvider = guildScopeProvider;
         this.interactionRegistry = registry;
@@ -77,7 +79,10 @@ public final class CommandUpdater {
         log.debug("Updating global commands...");
         var commands = getCommands(CommandScope.GLOBAL);
         jdaContext.performTask(jda -> jda.updateCommands().addCommands(commands).queue(), false);
-        log.debug("Registered global command(s): {}", commands.stream().map(CommandData::getName).collect(Collectors.toSet()));
+        log.debug(
+                "Registered global command(s): {}", commands.stream().map(CommandData::getName)
+                        .collect(Collectors.toSet())
+        );
     }
 
     /// Sends the guild scope [SlashCommandData] to Discord.
@@ -97,13 +102,19 @@ public final class CommandUpdater {
             var commands = guildMapping.getOrDefault(guild.getIdLong(), Collections.emptySet());
 
             guild.updateCommands().addCommands(commands).queue();
-            log.debug("Registered guild command(s) {} for {}", commands.stream().map(CommandData::getName).collect(Collectors.toSet()), guild);
+            log.debug(
+                    "Registered guild command(s) {} for {}", commands.stream().map(CommandData::getName)
+                            .collect(Collectors.toSet()), guild
+            );
         });
     }
 
     private Map<Long, Set<CommandData>> getGuildMapping() {
         var commands = getCommands(CommandScope.GUILD);
-        log.debug("Interactions eligible for registration: {}", commands.stream().map(CommandData::getName).collect(Collectors.toSet()));
+        log.debug(
+                "Interactions eligible for registration: {}", commands.stream().map(CommandData::getName)
+                        .collect(Collectors.toSet())
+        );
 
         Map<Long, Set<CommandData>> guildMapping = new HashMap<>();
         for (var command : commands) {
