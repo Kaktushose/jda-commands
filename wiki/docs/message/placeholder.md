@@ -39,6 +39,10 @@ as a static import) it's possible for you to define placeholders for a given sco
     event.reply("Hello { $user }!", Entry.entry("user", event.getUser().getAsMention()));
     ```
 
+!!! tip
+    When using [Fluava](localization.md#default-implementation) (default) for localization, we can omit the call to
+    <IMentionable#getAsMention> because Fluava will automatically format any <IMentionable> for you.
+
 ## String Representation
 To get a variables string representation, JDA-Commands will 
 
