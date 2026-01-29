@@ -1,12 +1,26 @@
 version: 2
 updates:
-  - package-ecosystem: "maven"
+  - package-ecosystem: "github-actions"
     directory: "/"
-    target-branch: "dev"
+    cooldown:
+      default-days: 7
     schedule:
-      interval: "monthly"
-    ignore:
-      - dependency-name: "jda*"
-        update-types: [ "version-update:semver-major" ]
-      - dependency-name: "*"
-        update-types: [ "version-update:semver-patch" ]
+      interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    assignees:
+      - Goldmensch
+  - package-ecosystem: "gradle"
+    directory: "/"
+    cooldown:
+      default-days: 7
+    schedule:
+      interval: "weekly"
+    groups:
+      dependencies:
+        patterns:
+          - "*"
+    assignees:
+      - Kaktushose
