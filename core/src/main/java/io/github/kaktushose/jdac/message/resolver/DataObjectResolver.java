@@ -3,8 +3,8 @@ package io.github.kaktushose.jdac.message.resolver;
 import io.github.kaktushose.jdac.exceptions.ParsingException;
 import io.github.kaktushose.jdac.message.resolver.internal.JsonResolver;
 import net.dv8tion.jda.api.utils.data.DataObject;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
