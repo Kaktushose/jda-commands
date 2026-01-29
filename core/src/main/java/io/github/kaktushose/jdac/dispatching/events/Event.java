@@ -27,6 +27,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
 
@@ -114,6 +115,16 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return messageResolver().resolve(message, jdaEvent().getUserLocale(), placeholders);
     }
 
+    /// Resolved the given message with help of the underlying [MessageResolver] instance,
+    /// thus performing localization and emoji resolution.
+    ///
+    /// Automatically resolves the [Locale] using [GenericInteractionCreateEvent#getUserLocale()].
+    /// Use [MessageResolver#resolve(String, Locale, Map)] (obtained via [#messageResolver()]) if you want to use a different locale.
+    ///
+    /// @return the resolved message
+    public String resolve(String message, Map<String, @Nullable Object> placeholders) {
+        return messageResolver().resolve(message, jdaEvent().getUserLocale(), placeholders);
+    }
 
     @Override
     public int getTypeRaw() {
