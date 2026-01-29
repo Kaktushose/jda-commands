@@ -1,6 +1,6 @@
 plugins {
     // don't change order!
-    id("io.freefair.aggregate-javadoc") version("8.12.2.1")
+    alias(libs.plugins.aggregate.javadoc)
 
     id("io.github.kaktushose.jda.commands.convention.java")
     id("io.github.kaktushose.jda.commands.convention.maven-central-deploy")
