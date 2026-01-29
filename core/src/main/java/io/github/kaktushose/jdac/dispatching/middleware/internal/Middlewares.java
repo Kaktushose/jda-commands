@@ -17,7 +17,7 @@ public class Middlewares {
 
     public Middlewares(Collection<Map.Entry<Priority, Middleware>> userDefined, ErrorMessageFactory errorMessageFactory, PermissionsProvider permissionsProvider) {
         SortedMap<Priority, Set<Middleware>> middlewareMap = new TreeMap<>(Map.of(
-                Priority.PERMISSIONS, new HashSet<>(List.of(new PermissionsMiddleware(permissionsProvider, errorMessageFactory))),
+                Priority.HIGHEST, new HashSet<>(List.of(new PermissionsMiddleware(permissionsProvider, errorMessageFactory))),
                 Priority.NORMAL, new HashSet<>(List.of(new ConstraintMiddleware(errorMessageFactory))),
                 Priority.HIGH, new HashSet<>(),
                 Priority.LOW, new HashSet<>()
@@ -25,7 +25,7 @@ public class Middlewares {
 
         userDefined.forEach(entry -> middlewareMap.get(entry.getKey()).add(entry.getValue()));
 
-        middlewareMap.computeIfPresent(Priority.PERMISSIONS, (_, set) -> Collections.unmodifiableSet(set));
+        middlewareMap.computeIfPresent(Priority.HIGHEST, (_, set) -> Collections.unmodifiableSet(set));
         middlewareMap.computeIfPresent(Priority.HIGH, (_, set) -> Collections.unmodifiableSet(set));
         middlewareMap.computeIfPresent(Priority.NORMAL, (_, set) -> Collections.unmodifiableSet(set));
         middlewareMap.computeIfPresent(Priority.LOW, (_, set) -> Collections.unmodifiableSet(set));
