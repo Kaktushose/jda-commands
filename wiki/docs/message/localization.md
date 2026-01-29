@@ -198,7 +198,7 @@ You can provide an own instance of the [Fluava](https://goldmensch.github.io/flu
 the appropriate builder method.
 
 !!! tip
-    By default, Fluava will automatically format any <IMentionable> for you by calling <IMentionable#getAsMention>. 
+    By default, Fluava will automatically format any <IMentionable> for you by calling <IMentionable#getAsMention()>. 
     See the Javadocs of <FluavaLocalizer> for details.
 
 ```java
