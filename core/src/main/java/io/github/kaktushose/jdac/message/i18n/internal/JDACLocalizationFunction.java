@@ -80,7 +80,7 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
         });
 
         if (found.isEmpty()) {
-            log.warn("Found no command for name {}, falling back to default bundle.", name);
+            log.debug("Found no command for name {}, falling back to default bundle.", name);
             return Optional.empty();
         }
 
