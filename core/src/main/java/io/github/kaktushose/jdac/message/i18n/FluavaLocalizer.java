@@ -1,12 +1,13 @@
 package io.github.kaktushose.jdac.message.i18n;
 
-import net.dv8tion.jda.api.entities.IMentionable;
 import dev.goldmensch.fluava.Bundle;
 import dev.goldmensch.fluava.Fluava;
+import dev.goldmensch.fluava.FluavaBuilder;
 import dev.goldmensch.fluava.FluavaBuilder.FunctionConfig;
 import dev.goldmensch.fluava.Result;
 import dev.goldmensch.fluava.function.Function;
 import dev.goldmensch.fluava.function.Value;
+import net.dv8tion.jda.api.entities.IMentionable;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
@@ -26,8 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /// [IMentionable#getAsMention()]. This allows you to directly pass subtypes of [IMentionable] such as member or role
 /// as your placeholders.
 ///
-/// You can disable this behavior by calling `#FluavaLocalizer(Fluava, false)`. Alternatively, you can register your
-/// own Fluava function at the parent instance called `MENTIONABLE` to override this default implementation.
+/// You can disable this behavior by calling [`FluavaLocalizer.Builder#mentionableFunction(false)`][Builder#mentionableFunction(boolean)].
+/// Alternatively, you can register your own Fluava function at the parent instance called `MENTIONABLE` to override this default implementation.
 ///
 /// @implNote This class caches all loaded bundles. Also, a [sub instance][Fluava#builder(Fluava)] of the passed
 /// Fluava instance is created with [FunctionConfig#fallbackToString(boolean)] set to `true`.
@@ -40,22 +41,35 @@ public final class FluavaLocalizer implements Localizer {
     /// Constructs a new FluavaLocalizer and adds a Fluava function for [IMentionable].
     ///
     /// @param parent the [Fluava] instance to use
-    public FluavaLocalizer(Fluava parent) {
-        this(parent, true);
+    private FluavaLocalizer(Fluava parent) {
+        this.fluava = parent;
     }
 
-    /// Constructs a new FluavaLocalizer.
+
+    /// Creates a new [FluavaLocalizer.Builder] backed by the passed [Fluava] instance.
     ///
-    /// @param parent              the [Fluava] instance to use
-    /// @param mentionableFunction whether to add a Fluava function that automatically formats [IMentionable]
-    public FluavaLocalizer(Fluava parent, boolean mentionableFunction) {
-        this.fluava = Fluava.builder(parent)
-                .functions(config -> {
-                    config.fallbackToString(true);
-                    if (mentionableFunction) {
-                        config.register("MENTIONABLE", mentionableFunction());
-                    }
-                }).build();
+    /// @param parent the backing [Fluava] instance
+    /// @return the newly created [FluavaLocalizer.Builder]
+    public static FluavaLocalizer.Builder builder(Fluava parent) {
+        return new Builder(parent);
+    }
+
+    /// Creates a new [FluavaLocalizer] instance backed by the passed [Fluava] instance.
+    ///
+    /// @param parent the backing [Fluava] instance
+    /// @return the newly created [FluavaLocalizer]
+    public static FluavaLocalizer create(Fluava parent) {
+        return builder(parent).build();
+    }
+
+
+    /// Creates a new [FluavaLocalizer] with [Fluava#fallback()] set to passed locale.
+    /// This is just a shorthand for: `FluavaLocalizer.create(Fluava.create(<your locale>))`
+    ///
+    /// @param fallback the [Locale] used for [FluavaBuilder#fallback(Locale)]
+    /// @return the newly created [FluavaLocalizer]
+    public static FluavaLocalizer create(Locale fallback) {
+        return create(Fluava.create(fallback));
     }
 
     /// {@inheritDoc}
@@ -95,7 +109,40 @@ public final class FluavaLocalizer implements Localizer {
         return localize(locale, bundle, formattedKey, arguments);
     }
 
-    private Function<?, ?> mentionableFunction() {
+    /// A builder allowing the customization of [FluavaLocalizer]
+    public static class Builder {
+        private boolean mentionableFunction = true;
+        private final Fluava parent;
+
+        private Builder(Fluava parent) {
+            this.parent = parent;
+        }
+
+        /// Whether to create the default [IMentionable] function.
+        /// See [FluavaLocalizer] Javadocs for more information.
+        ///
+        /// @param add `true` if the function should be added
+        ///
+        /// @return this builder
+        public Builder mentionableFunction(boolean add) {
+            this.mentionableFunction = add;
+            return this;
+        }
+
+        public FluavaLocalizer build() {
+            Fluava instance = Fluava.builder(parent)
+                    .functions(config -> {
+                        config.fallbackToString(true);
+                        if (mentionableFunction) {
+                            config.register("MENTIONABLE", createMentionableFunction(), false);
+                        }
+                    }).build();
+
+            return new FluavaLocalizer(instance);
+        }
+    }
+
+    private static Function<?, ?> createMentionableFunction() {
         return Function.implicit(
                 (_, mentionable, _) ->
                         new Result.Success<>(new Value.Text(mentionable.getAsMention())), IMentionable.class
