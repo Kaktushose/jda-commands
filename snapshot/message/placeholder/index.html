@@ -1771,6 +1771,11 @@ as a static import) it's possible for you to define placeholders for a given sco
 <div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="s">&quot;Hello { $user }!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Entry</span><span class="p">.</span><span class="na">entry</span><span class="p">(</span><span class="s">&quot;user&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">getUser</span><span class="p">().</span><span class="na">getAsMention</span><span class="p">()));</span>
 </span></code></pre></div>
 </div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>When using <a href="../localization/#default-implementation">Fluava</a> (default) for localization, we can omit the call to
+<a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/IMentionable.html#getAsMention()"><code>IMentionable#getAsMention()</code></a> because Fluava will automatically format any <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/IMentionable.html"><code>IMentionable</code></a> for you.</p>
+</div>
 <h2 id="string-representation">String Representation<a class="headerlink" href="#string-representation" title="Permanent link">&para;</a></h2>
 <p>To get a variables string representation, JDA-Commands will </p>
 <ol>

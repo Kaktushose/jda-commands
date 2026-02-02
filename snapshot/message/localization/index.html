@@ -2048,6 +2048,11 @@ bundle will be searched as a fallback option.</p>
 <p>By default, JDA-Commands supports localization with help of the <a href="https://github.com/Goldmensch/fluava">Fluava</a> library, a <a href="https://projectfluent.org/">Project Fluent</a> implementation for Java.
 You can provide an own instance of the <a href="https://goldmensch.github.io/fluava/javadocs/snapshot/dev.goldmensch.fluava/dev/goldmensch/fluava/Fluava.html">Fluava</a> class by calling
 the appropriate builder method.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>By default, Fluava will automatically format any <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/IMentionable.html"><code>IMentionable</code></a> for you by calling <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/IMentionable.html#getAsMention()"><code>IMentionable#getAsMention()</code></a>. 
+See the Javadocs of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/FluavaLocalizer.html"><code>FluavaLocalizer</code></a> for details.</p>
+</div>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">Fluava</span><span class="w"> </span><span class="n">myFluava</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fluava</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">Locale</span><span class="p">.</span><span class="na">GERMAN</span><span class="p">);</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
