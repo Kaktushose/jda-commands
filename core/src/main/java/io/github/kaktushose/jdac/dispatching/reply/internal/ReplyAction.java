@@ -236,7 +236,7 @@ public final class ReplyAction {
             case IMessageEditCallback callback when editReply -> deferEdit(callback);
             case IReplyCallback callback -> deferReply(callback);
             default ->
-                    throw new InternalException("reply-failed", entry("getJdaEvent()", jdaEvent.getClass().getName()));
+                    throw new InternalException("reply-failed", entry("event", jdaEvent.getClass().getName()));
         }
         if (jdaEvent instanceof ModalInteractionEvent modalEvent) {
             editReply = modalEvent.getMessage() != null;

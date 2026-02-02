@@ -34,10 +34,7 @@ default-msg-not-in-bundle = "No messages could be found for key { $key }, search
 
 # Invalid Declaration
 command-name-length = Invalid command name "{ $name }" for slash command "{ $method }". Slash commands can only have up to 3 labels.
-invalid-option-data = { $type } is no valid option data type. { $guessedType ->
-        [other] Perhaps you wanted to write { $guessedType }?
-        *[None]
-    }
+invalid-option-data = { $type } is no valid option data type. { $guessedType }
 no-validator-found = No Validator implementation found for annotation "{ $annotation }" used at parameter "{ $parameter }".
 validator-type-not-supported =
     The "{ $annotation }" constraint doesn't support the type of parameter "{ $parameter }". Supported types:

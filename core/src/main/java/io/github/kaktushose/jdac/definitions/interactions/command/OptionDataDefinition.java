@@ -13,6 +13,7 @@ import io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition
 import io.github.kaktushose.jdac.dispatching.events.Event;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
+import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
@@ -128,10 +129,13 @@ public record OptionDataDefinition(
         if (Event.class.isAssignableFrom(resolvedType)) {
             String guessedType = "";
             if (resolvedType.equals(ComponentEvent.class)) {
-                guessedType = "CommandEvent";
+                guessedType = "Perhaps you wanted to write CommandEvent?";
             }
             if (resolvedType.equals(CommandEvent.class)) {
-                guessedType = "ComponentEvent";
+                guessedType = "Perhaps you wanted to write ComponentEvent?";
+            }
+            if (resolvedType.equals(ModalEvent.class)) {
+                guessedType = "Perhaps you wanted to write CommandEvent or ComponentEvent?";
             }
             throw new InvalidDeclarationException(
                     "invalid-option-data",
