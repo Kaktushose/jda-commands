@@ -11,10 +11,10 @@ repositories {
 }
 
 dependencies {
-    api(libs.com.google.inject.guice)
+    api(libs.guice)
     api(project(":core"))
 
-    implementation("org.ow2.asm:asm:9.9")
+    implementation(libs.asm)
 }
 
 tasks.test {
