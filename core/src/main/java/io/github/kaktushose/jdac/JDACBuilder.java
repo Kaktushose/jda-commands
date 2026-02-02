@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac;
 
-import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.configuration.Extension;
 import io.github.kaktushose.jdac.configuration.ExtensionFilter;
 import io.github.kaktushose.jdac.configuration.Property;
@@ -127,7 +126,7 @@ public class JDACBuilder {
         addFallback(GLOBAL_REPLY_CONFIG, _ -> new ReplyConfig());
         addFallback(SHUTDOWN_JDA, _ -> true);
         addFallback(LOCALIZE_COMMANDS, _ -> true);
-        addFallback(LOCALIZER, _ -> new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
+        addFallback(LOCALIZER, _ -> FluavaLocalizer.create(Locale.ENGLISH));
         addFallback(PERMISSION_PROVIDER, _ -> new DefaultPermissionsProvider());
         addFallback(ERROR_MESSAGE_FACTORY, ctx -> new DefaultErrorMessageFactory(ctx.get(MESSAGE_RESOLVER)));
         addFallback(GUILD_SCOPE_PROVIDER, _ -> new DefaultGuildScopeProvider());

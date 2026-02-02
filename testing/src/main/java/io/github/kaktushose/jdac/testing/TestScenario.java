@@ -42,7 +42,7 @@ import static org.mockito.Mockito.*;
 
 public class TestScenario {
 
-    private static final Localizer localizer = new FluavaLocalizer(Fluava.create(Locale.ENGLISH));
+    private static final Localizer localizer = FluavaLocalizer.create(Fluava.create(Locale.ENGLISH));
     private final Context context;
 
     private TestScenario(Context context) {

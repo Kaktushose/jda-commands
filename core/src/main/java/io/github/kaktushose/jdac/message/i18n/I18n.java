@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac.message.i18n;
 
-import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.annotations.i18n.Bundle;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.message.i18n.internal.BundleFinder;
@@ -114,7 +113,7 @@ public class I18n implements Resolver<String> {
 
     public static final String DEFAULT_BUNDLE = "default";
     private final String JDAC_BUNDLE = "jdac";
-    private final FluavaLocalizer defaultsLocalizer = new FluavaLocalizer(Fluava.create(Locale.ENGLISH));
+    private final FluavaLocalizer defaultsLocalizer = FluavaLocalizer.create(Locale.ENGLISH);
 
     private final BundleFinder bundleFinder;
     private final Localizer localizer;
