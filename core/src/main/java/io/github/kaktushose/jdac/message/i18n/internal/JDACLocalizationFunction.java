@@ -52,28 +52,30 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
     }
 
     private void logNotFound() {
-        String msg = missingLocalizations.isEmpty()
-                ? ""
-                : "Missing messages for JDA localization keys:";
+        if (!missingLocalizations.isEmpty()) {
+            log.info("There are missing messages for JDA localization keys. For more information see debug logs.");
 
-        DiscordLocale[] all = DiscordLocale.values();
-        for (String key : missingLocalizations.keySet()) {
-            Collection<DiscordLocale> missingLocales = missingLocalizations.getOrDefault(key, Set.of());
-            List<DiscordLocale> foundLocales = Arrays.stream(all)
-                    .filter(locale -> !missingLocales.contains(locale))
-                    .toList();
 
-            msg += """
+            String msg = "Missing messages for JDA localization keys:";
+            DiscordLocale[] all = DiscordLocale.values();
+            for (String key : missingLocalizations.keySet()) {
+                Collection<DiscordLocale> missingLocales = missingLocalizations.getOrDefault(key, Set.of());
+                List<DiscordLocale> foundLocales = Arrays.stream(all)
+                        .filter(locale -> !missingLocales.contains(locale))
+                        .toList();
+
+                msg += """
                     \n%s:
                         found       -> %s
                         not found   -> %s""".formatted(key,
-                    formatLocaleList(foundLocales),
-                    formatLocaleList(missingLocales)
-            );
+                        formatLocaleList(foundLocales),
+                        formatLocaleList(missingLocales)
+                );
 
+            }
+
+            log.debug(msg);
         }
-
-        log.debug(msg);
     }
 
     private String formatLocaleList(Collection<DiscordLocale> locales) {
