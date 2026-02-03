@@ -154,7 +154,7 @@ public class JDACBuilder {
         });
         addFallback(EMBEDS, ctx -> ctx.get(EMBED_CONFIG_INTERNAL).build());
 
-        addFallback(LOCALIZATION_FUNCTION, ctx -> new JDACLocalizationFunction(ctx.get(BUNDLE_FINDER), ctx.get(DEFINITIONS), ctx.get(MESSAGE_RESOLVER)));
+        addFallback(LOCALIZATION_FUNCTION, JDACLocalizationFunction.PROVIDER_FUNC);
         addFallback(BUNDLE_FINDER, ctx -> new BundleFinder(ctx.get(DESCRIPTOR)));
         addFallback(I18N, ctx -> new I18n(ctx.get(BUNDLE_FINDER), ctx.get(LOCALIZER)));
 
