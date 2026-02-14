@@ -59,6 +59,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#mentionableFunction(boolean)" tabindex="0">mentionableFunction(boolean)</a></li>
+<li><a href="#fallbackToString(boolean)" tabindex="0">fallbackToString(boolean)</a></li>
 <li><a href="#build()" tabindex="0">build()</a></li>
 </ol>
 </li>
@@ -99,10 +100,18 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="FluavaLocalizer.html" title="class in io.github.kaktushose.jdac.message.i18n">FluavaLocalizer</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#build()" class="member-name-link">build</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Builds a new <a href="FluavaLocalizer.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>FluavaLocalizer</code></a> instance based on the options of this builder.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="FluavaLocalizer.Builder.html" title="class in io.github.kaktushose.jdac.message.i18n">FluavaLocalizer.Builder</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#mentionableFunction(boolean)" class="member-name-link">mentionableFunction</a><wbr>(boolean&nbsp;add)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fallbackToString(boolean)" class="member-name-link">fallbackToString</a><wbr>(boolean&nbsp;enable)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Whether to use <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> if no fluent function was found
+to format a placeholder.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="FluavaLocalizer.Builder.html" title="class in io.github.kaktushose.jdac.message.i18n">FluavaLocalizer.Builder</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#mentionableFunction(boolean)" class="member-name-link">mentionableFunction</a><wbr>(boolean&nbsp;add)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Whether to create the default <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/IMentionable.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>IMentionable</code></a> function.</div>
 </div>
 </div>
@@ -139,10 +148,31 @@ See <a href="FluavaLocalizer.html" title="class in io.github.kaktushose.jdac.mes
 </section>
 </li>
 <li>
+<section class="detail" id="fallbackToString(boolean)">
+<h3>fallbackToString</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="FluavaLocalizer.Builder.html" title="class in io.github.kaktushose.jdac.message.i18n">FluavaLocalizer.Builder</a></span>&nbsp;<span class="element-name">fallbackToString</span><wbr><span class="parameters">(boolean&nbsp;enable)</span></div>
+<div class="block">Whether to use <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> if no fluent function was found
+to format a placeholder.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>enable</code> - <code>true</code> if <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> should be used. Default: <code>true</code></dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><code>FluavaBuilder.FunctionConfig.fallbackToString(boolean)</code></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="build()">
 <h3>build</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="FluavaLocalizer.html" title="class in io.github.kaktushose.jdac.message.i18n">FluavaLocalizer</a></span>&nbsp;<span class="element-name">build</span>()</div>
+<div class="block">Builds a new <a href="FluavaLocalizer.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>FluavaLocalizer</code></a> instance based on the options of this builder.</div>
 </div>
 </section>
 </li>
