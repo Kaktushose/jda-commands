@@ -154,7 +154,7 @@ public class JDACBuilder {
         });
         addFallback(EMBEDS, ctx -> ctx.get(EMBED_CONFIG_INTERNAL).build());
 
-        addFallback(LOCALIZATION_FUNCTION, ctx -> new JDACLocalizationFunction(ctx.get(BUNDLE_FINDER), ctx.get(DEFINITIONS), ctx.get(MESSAGE_RESOLVER)));
+        addFallback(LOCALIZATION_FUNCTION, JDACLocalizationFunction.PROVIDER_FUNC);
         addFallback(BUNDLE_FINDER, ctx -> new BundleFinder(ctx.get(DESCRIPTOR)));
         addFallback(I18N, ctx -> new I18n(ctx.get(BUNDLE_FINDER), ctx.get(LOCALIZER)));
 
@@ -359,14 +359,14 @@ public class JDACBuilder {
     /// This method applies all found implementations of [Extension],
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
+        log.info("Starting JDA-Commands...");
+
         Extensions extensions = loadExtensions();
 
         IntrospectionImpl introspection = new IntrospectionImpl(new Lifecycle(), properties.createResolver(), Stage.CONFIGURATION);
 
         return ScopedValue.where(IntrospectionImpl.INTROSPECTION, introspection).call(() -> {
             try {
-                log.info("Starting JDA-Commands...");
-
                 Middlewares middlewares = new Middlewares(introspection.get(MIDDLEWARE), introspection.get(ERROR_MESSAGE_FACTORY), introspection.get(PERMISSION_PROVIDER));
                 TypeAdapters typeAdapters = new TypeAdapters(introspection.get(TYPE_ADAPTER), introspection.get(MESSAGE_RESOLVER));
 
