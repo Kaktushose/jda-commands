@@ -25,6 +25,9 @@ import static io.github.kaktushose.jdac.configuration.internal.InternalPropertie
 @ApiStatus.Internal
 public final class JDACLocalizationFunction implements LocalizationFunction {
 
+    public static final ScopedValue<Boolean> JDA_LOCALIZATION = ScopedValue.newInstance();
+    private static final Logger log = LoggerFactory.getLogger(JDACLocalizationFunction.class);
+    private static final Pattern OPTIONS_SEPARATOR = Pattern.compile("[.]options.*([.]name|[.]description)$");
     public static Function<PropertyProvider.Context, LocalizationFunction> PROVIDER_FUNC = ctx -> {
         JDACLocalizationFunction func = new JDACLocalizationFunction(
                 ctx.get(BUNDLE_FINDER),
@@ -35,12 +38,7 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
         ctx.get(INTROSPECTION).subscribe(FrameworkStartEvent.class, (_, _) -> func.logNotFound());
         return func;
     };
-
     private final Map<String, Collection<DiscordLocale>> missingLocalizations = new HashMap<>();
-
-    public static final ScopedValue<Boolean> JDA_LOCALIZATION = ScopedValue.newInstance();
-    private static final Logger log = LoggerFactory.getLogger(JDACLocalizationFunction.class);
-    private static final Pattern OPTIONS_SEPARATOR = Pattern.compile("[.]options.*([.]name|[.]description)$");
     private final BundleFinder bundleFinder;
     private final Definitions definitions;
     private final MessageResolver resolver;
@@ -52,30 +50,27 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
     }
 
     private void logNotFound() {
-        if (!missingLocalizations.isEmpty()) {
+        if (missingLocalizations.isEmpty()) {
             log.info("There are missing messages for JDA localization keys. For more information see debug logs.");
+            return;
+        }
 
+        StringBuilder msg = new StringBuilder("Missing messages for JDA localization keys:");
+        for (String key : missingLocalizations.keySet()) {
+            Collection<DiscordLocale> missingLocales = missingLocalizations.getOrDefault(key, Set.of());
+            List<DiscordLocale> foundLocales = Arrays.stream(DiscordLocale.values())
+                    .filter(locale -> !missingLocales.contains(locale))
+                    .toList();
 
-            String msg = "Missing messages for JDA localization keys:";
-            DiscordLocale[] all = DiscordLocale.values();
-            for (String key : missingLocalizations.keySet()) {
-                Collection<DiscordLocale> missingLocales = missingLocalizations.getOrDefault(key, Set.of());
-                List<DiscordLocale> foundLocales = Arrays.stream(all)
-                        .filter(locale -> !missingLocales.contains(locale))
-                        .toList();
-
-                msg += """
+            msg.append("""
                     \n%s:
                         found       -> %s
-                        not found   -> %s""".formatted(key,
-                        formatLocaleList(foundLocales),
-                        formatLocaleList(missingLocales)
-                );
+                        not found   -> %s"""
+                    .formatted(key, formatLocaleList(foundLocales), formatLocaleList(missingLocales)));
 
-            }
-
-            log.debug(msg);
         }
+
+        log.debug(msg.toString());
     }
 
     private String formatLocaleList(Collection<DiscordLocale> locales) {
@@ -93,7 +88,9 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
 
         HashMap<DiscordLocale, String> localizations = new HashMap<>();
         for (DiscordLocale locale : DiscordLocale.values()) {
-            if (locale == DiscordLocale.UNKNOWN) continue;
+            if (locale == DiscordLocale.UNKNOWN) {
+                continue;
+            }
 
             tryLocalize(bundle + "$" + localizationKey, locale) // with found bundle (or default)
                     .or(() -> tryLocalize(localizationKey, locale)) // fallback to default bundle if not found in special bundle

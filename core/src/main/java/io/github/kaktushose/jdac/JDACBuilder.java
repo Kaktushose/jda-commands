@@ -359,14 +359,14 @@ public class JDACBuilder {
     /// This method applies all found implementations of [Extension],
     /// instantiates an instance of [JDACommands] and starts the framework.
     public JDACommands start() {
+        log.info("Starting JDA-Commands...");
+
         Extensions extensions = loadExtensions();
 
         IntrospectionImpl introspection = new IntrospectionImpl(new Lifecycle(), properties.createResolver(), Stage.CONFIGURATION);
 
         return ScopedValue.where(IntrospectionImpl.INTROSPECTION, introspection).call(() -> {
             try {
-                log.info("Starting JDA-Commands...");
-
                 Middlewares middlewares = new Middlewares(introspection.get(MIDDLEWARE), introspection.get(ERROR_MESSAGE_FACTORY), introspection.get(PERMISSION_PROVIDER));
                 TypeAdapters typeAdapters = new TypeAdapters(introspection.get(TYPE_ADAPTER), introspection.get(MESSAGE_RESOLVER));
 
