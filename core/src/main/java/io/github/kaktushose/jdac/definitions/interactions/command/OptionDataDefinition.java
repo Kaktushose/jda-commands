@@ -119,11 +119,11 @@ public record OptionDataDefinition(
 
     /// Builds a new [OptionDataDefinition].
     ///
-    /// @param parameter         the [ParameterDescription] to build the [OptionDataDefinition] from
-    /// @param classDescription  the [ClassDescription] of the method where the parameter is defined
-    /// @param autoComplete      the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
-    /// @param messageResolver   the [MessageResolver] instance to use
-    /// @param validators the corresponding [Validators]
+    /// @param parameter        the [ParameterDescription] to build the [OptionDataDefinition] from
+    /// @param classDescription the [ClassDescription] of the method where the parameter is defined
+    /// @param autoComplete     the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
+    /// @param messageResolver  the [MessageResolver] instance to use
+    /// @param validators       the corresponding [Validators]
     /// @return the [OptionDataDefinition]
     public static OptionDataDefinition build(ParameterDescription parameter,
                                              ClassDescription classDescription,
@@ -235,7 +235,7 @@ public record OptionDataDefinition(
         parameter.findAnnotation(Choices.class).ifPresent(choicesAnn -> {
             List<String> options = new ArrayList<>(Arrays.asList(choicesAnn.value()));
 
-            classDescription.findMethod(choicesAnn.provider()).ifPresent(method -> {
+            classDescription.findMethod(choicesAnn.provider()).ifPresentOrElse(method -> {
                 try {
                     List<String> result = (List<String>) method.invoker().invoke(null, List.of());
                     if (result == null) {
@@ -249,6 +249,8 @@ public record OptionDataDefinition(
                 } catch (InvocationTargetException e) {
                     throw new RuntimeException("Command Choices Provider has thrown an exception!", e.getCause());
                 }
+            }, () -> {
+                throw new InvalidDeclarationException("TODO: Cannot find provider");
             });
 
             for (String option : options) {
