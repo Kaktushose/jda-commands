@@ -4,17 +4,47 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.List;
 
-/// Annotation used to add choices to parameters.
+/// Annotation used to add choices to command options.
+///
+/// # Static Choices
+/// Most of the time, choices are static and can be passed to the annotation directly:
+/// ```
+/// public void onCommand(CommandEvent event, @Choices({"Apple", "Banana", "Cherry"}) String option) {...}
+/// ```
+/// The example above will use the given String for both the name and the value. You can use the name:value format to
+/// specify both.
+///
+/// # Dynamic Choices
+/// If needed, choices can also be provided by a static method returning a [List] of [String]s.
+/// ```
+/// public void onCommand(CommandEvent event, @Choices(provider = "getChoices") String option) {...}
+///
+/// public static List<String> getChoices() {
+///     return List.of("Apple", "Banana", "Cherry");
+/// }
+/// ```
+/// If both static values and a provider is present, the values will be combined.
+///
+/// This static provider method also supports dependency injection via the Guice Extension.
+/// ```
+/// public static List<String> getChoices(MyChoiceProvider provider) {
+///     return provider.getChoices();
+/// }
+/// ```
 ///
 /// @see Command
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Choices {
 
-    /// Returns the choices of a parameter. This value will only be used for slash commands.
+    /// Returns the choices of a command option.
     ///
-    /// @return the choices of the parameter
-    String[] value();
+    /// @return the choices of the command option
+    String[] value() default "";
+
+    /// Returns the name of the choices provider
+    String provider() default "";
 
 }
