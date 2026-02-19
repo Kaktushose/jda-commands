@@ -17,6 +17,7 @@ import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
+import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.internal.register.CommandUpdater;
@@ -115,7 +116,7 @@ public final class JDACommands {
             log.debug("Run Extension#onStart()");
             extensions.callOnStart(this);
 
-            log.info("Finished loading!");
+            System.out.printf("\n%s\n\n", JDACException.errorMessage("starting-message"));
 
             introspection.publish(new FrameworkStartEvent());
         });

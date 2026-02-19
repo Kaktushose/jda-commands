@@ -9,6 +9,23 @@ multiple-autocomplete =
         -> { $possibleAutoCompletes }
     Every command option can only have one auto complete handler. Please exclude the unwanted ones to enable auto complete for this command option.
 
+starting-message =
+           _ _____                _____                                          _       _____  ___   ___
+          | |  __ \   /\         / ____|                                        | |     | ____|/ _ \ / _ \
+          | | |  | | /  \ ______| |     ___  _ __ ___  _ __ ___   __ _ _ __   __| |___  | |__ | | | | | | |
+      _   | | |  | |/ /\ \______| |    / _ \| '_ ` _ \| '_ ` _ \ / _` | '_ \ / _` / __| |___ \| | | | | | |
+     | |__| | |__| / ____ \     | |___| (_) | | | | | | | | | | | (_| | | | | (_| \__ \  ___) | |_| | |_| |
+      \____/|_____/_/    \_\     \_____\___/|_| |_| |_|_| |_| |_|\__,_|_| |_|\__,_|___/ |____(_)___(_)___/
+
+        Welcome to JDA-Commands 5.0.0! What's new?
+        -> Components V2
+        -> Support for new Modals
+
+        Resources:
+        -> Wiki:        https://kaktushose.github.io/jda-commands/wiki/
+        -> Javadocs:    https://kaktushose.github.io/jda-commands/javadocs/5.0/
+        -> Discord:     https://discord.gg/tmq9BrZEKb
+
 # Internal Errors
 internal-error = Please report this error the the devs of { -project-name } at: { -github }/issues
 
