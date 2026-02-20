@@ -17,7 +17,6 @@ import io.github.kaktushose.jdac.dispatching.events.Event;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
-import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
@@ -25,8 +24,6 @@ import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.type.Type;
@@ -265,7 +262,7 @@ public record OptionDataDefinition(
                 Helpers.checkParametrizedType(method.genericReturnType(), List.class, String.class);
 
                 try {
-                    var instantiator = introspection.get(Property.INTERACTION_CONTROLLER_INSTANTIATOR);
+                    var instantiator = introspection.get(Property.INSTANTIATOR);
                     List<Object> arguments = method.parameters().stream()
                             .map(ParameterDescription::type)
                             .map(it -> (Object) instantiator.instance(it, introspection))

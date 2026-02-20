@@ -13,7 +13,7 @@ import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
 import io.github.kaktushose.jdac.dispatching.events.Event;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
-import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
@@ -106,10 +106,9 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     Property<Localizer> LOCALIZER =
             new Singleton<>("LOCALIZER", Category.LOADABLE, Localizer.class, Stage.CONFIGURATION);
 
-    /// @see JDACBuilder#instanceProvider(InteractionControllerInstantiator)
+    /// @see JDACBuilder#instantiator(Instantiator)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE)
-    Property<InteractionControllerInstantiator> INTERACTION_CONTROLLER_INSTANTIATOR =
-            new Singleton<>("INTERACTION_CONTROLLER_INSTANTIATOR", Category.LOADABLE, InteractionControllerInstantiator.class, Stage.CONFIGURATION);
+    Property<Instantiator> INSTANTIATOR = new Singleton<>("INSTANTIATOR", Category.LOADABLE, Instantiator.class, Stage.CONFIGURATION);
 
     /// MIDDLEWARE property holds multiple [Middleware]s associated with their [Priority]
     /// @see JDACBuilder#middleware(Priority, Middleware)

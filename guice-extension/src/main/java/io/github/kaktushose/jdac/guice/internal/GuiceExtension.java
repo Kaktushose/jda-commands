@@ -8,7 +8,7 @@ import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
-import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.guice.GuiceExtensionData;
@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
-/// The implementation of [Extension] for using Googles [Guice] as an [InteractionControllerInstantiator].
+/// The implementation of [Extension] for using Googles [Guice] as an [Instantiator].
 ///
 /// Additionally, this extension allows the automatic registration of some types annotated with [`@Implementation`][Implementation].
 /// For further information please see the docs on [`@Implementation`][Implementation].
@@ -64,8 +64,8 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         List<PropertyProvider<?>> implementations = new ArrayList<>();
 
         implementations.add(provider(
-                Property.INTERACTION_CONTROLLER_INSTANTIATOR,
-                _ -> new GuiceInteractionControllerInstantiator(runtimeBoundScope, injector)
+                Property.INSTANTIATOR,
+                _ -> new GuiceInstantiator(runtimeBoundScope, injector)
         ));
 
         addDynamicImplementations(implementations);
@@ -73,7 +73,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
     }
 
     private boolean shouldSkip(Property<?> property) {
-        return property == Property.INTERACTION_CONTROLLER_INSTANTIATOR
+        return property == Property.INSTANTIATOR
                 || property == Property.CLASS_FINDER
                 || property == Property.TYPE_ADAPTER
                 || property == Property.MIDDLEWARE
