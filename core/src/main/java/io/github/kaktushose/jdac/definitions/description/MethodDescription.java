@@ -9,6 +9,7 @@ import java.util.*;
 /// @param declaringClass the declaring [Class] of this method
 /// @param returnType     the [Class] this method returns
 /// @param name           the name of the method
+/// @param modifiers      the Java language modifiers of this method
 /// @param parameters     a [SequencedCollection] of the [ParameterDescription]s of this method
 /// @param annotations    a [Collection] of all [Annotation]s this method is annotated with
 /// @param invoker        the corresponding [Invoker], used to invoke this method
@@ -16,6 +17,7 @@ public record MethodDescription(
         Class<?> declaringClass,
         Class<?> returnType,
         String name,
+        int modifiers,
         SequencedCollection<ParameterDescription> parameters,
         Collection<AnnotationDescription<?>> annotations,
         Invoker invoker

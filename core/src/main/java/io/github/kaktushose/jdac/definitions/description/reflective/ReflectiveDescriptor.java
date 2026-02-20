@@ -48,6 +48,7 @@ public class ReflectiveDescriptor implements Descriptor {
                 method.getDeclaringClass(),
                 method.getReturnType(),
                 method.getName(),
+                method.getModifiers(),
                 parameters,
                 annotationList(method.getAnnotations()),
                 (instance, arguments) -> method.invoke(instance, arguments.toArray())
