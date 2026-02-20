@@ -23,6 +23,16 @@ public record ClassDescription(
         methods = Collections.unmodifiableCollection(methods);
     }
 
+    /// Gets methods that matches the given name.
+    ///
+    /// @param name the method name
+    ///
+    /// @return a [Collection] of the found [MethodDescription]s or an empty [Collection] if no methods were found
+    public Collection<MethodDescription> findMethods(String name) {
+        return methods.stream().filter(desc -> desc.name().equals(name)).toList();
+    }
+
+
     /// Gets a method that matches the given name and parameter types if found.
     ///
     /// @param name the method name

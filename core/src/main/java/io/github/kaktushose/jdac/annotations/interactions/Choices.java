@@ -25,14 +25,20 @@ import java.util.List;
 ///     return List.of("Apple", "Banana", "Cherry");
 /// }
 /// ```
+/// Providers can also be defined in a different class than the command:
+/// ```
+/// public void onCommand(CommandEvent event, @Choices(source = Other.class, provider = "getChoices") String option) {...}
+/// ```
 /// If both static values and a provider is present, the values will be combined.
 ///
+/// ## Dependency Injection
 /// This static provider method also supports dependency injection via the Guice Extension.
 /// ```
 /// public static List<String> getChoices(MyChoiceProvider provider) {
 ///     return provider.getChoices();
 /// }
 /// ```
+/// If the provider method is overloaded, all methods will be called and combined.
 ///
 /// @see Command
 @Target(ElementType.PARAMETER)
@@ -46,5 +52,8 @@ public @interface Choices {
 
     /// Returns the name of the choices provider
     String provider() default "";
+
+    /// Returns the class of the provider method
+    Class<?> source() default Choices.class;
 
 }

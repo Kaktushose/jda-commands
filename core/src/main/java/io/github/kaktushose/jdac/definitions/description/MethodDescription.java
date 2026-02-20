@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.definitions.description;
 
 import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodType;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /// A [Description] that describes a method.
@@ -16,6 +17,7 @@ import java.util.*;
 public record MethodDescription(
         Class<?> declaringClass,
         Class<?> returnType,
+        Type genericReturnType,
         String name,
         int modifiers,
         SequencedCollection<ParameterDescription> parameters,

@@ -47,6 +47,7 @@ public class ReflectiveDescriptor implements Descriptor {
         return new MethodDescription(
                 method.getDeclaringClass(),
                 method.getReturnType(),
+                method.getGenericReturnType(),
                 method.getName(),
                 method.getModifiers(),
                 parameters,

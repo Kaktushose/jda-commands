@@ -5,9 +5,11 @@ import io.github.kaktushose.jdac.annotations.constraints.Max;
 import io.github.kaktushose.jdac.annotations.constraints.Min;
 import io.github.kaktushose.jdac.annotations.interactions.Choices;
 import io.github.kaktushose.jdac.annotations.interactions.Param;
+import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.definitions.Definition;
 import io.github.kaktushose.jdac.definitions.description.AnnotationDescription;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
+import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.description.ParameterDescription;
 import io.github.kaktushose.jdac.definitions.features.JDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition;
@@ -18,7 +20,9 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
+import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.type.Type;
@@ -37,6 +41,8 @@ import org.jspecify.annotations.Nullable;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -235,22 +241,42 @@ public record OptionDataDefinition(
         parameter.findAnnotation(Choices.class).ifPresent(choicesAnn -> {
             List<String> options = new ArrayList<>(Arrays.asList(choicesAnn.value()));
 
-            classDescription.findMethod(choicesAnn.provider()).ifPresentOrElse(method -> {
+            ClassDescription source = classDescription;
+            if (choicesAnn.source() != Choices.class) {
+                source = Introspection.scopedGet(Property.DESCRIPTOR).describe(choicesAnn.source());
+            }
+
+            Collection<MethodDescription> methods = source.findMethods(choicesAnn.provider());
+            if (!choicesAnn.provider().isBlank() && methods.isEmpty()) {
+                throw new InvalidDeclarationException("TODO: Cannot find provider");
+
+            }
+
+            methods.forEach(method -> {
+                int modifiers = method.modifiers();
+                if (!Modifier.isPublic(modifiers) || !Modifier.isStatic(modifiers)) {
+                    throw new InvalidDeclarationException("TODO: provider is not public static");
+                }
+                if (method.returnType().equals(List.class) && method.genericReturnType() instanceof ParameterizedType type) {
+                    var typeArguments = type.getActualTypeArguments();
+                    if (typeArguments.length != 1 || typeArguments[0] != String.class) {
+                        throw new InvalidDeclarationException("TODO: provider returned wrong wrong type");
+                    }
+                } else {
+                    throw new InvalidDeclarationException("TODO: provider returned wrong wrong type");
+                }
                 try {
                     List<String> result = (List<String>) method.invoker().invoke(null, List.of());
                     if (result == null) {
                         throw new InvalidDeclarationException("TODO: provider returned null");
                     }
                     options.addAll(result);
-                } catch (IllegalAccessException | NullPointerException _) {
-                    throw new InvalidDeclarationException("TODO: provider is not public static");
-                } catch (ClassCastException _) {
-                    throw new InvalidDeclarationException("TODO: provider returned wrong wrong type");
-                } catch (InvocationTargetException e) {
-                    throw new RuntimeException("Command Choices Provider has thrown an exception!", e.getCause());
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    if (e instanceof InvocationTargetException) {
+                        throw new RuntimeException("Command Choices Provider has thrown an exception!", e.getCause());
+                    }
+                    throw new InternalException("TODO: method invocation failed", e);
                 }
-            }, () -> {
-                throw new InvalidDeclarationException("TODO: Cannot find provider");
             });
 
             for (String option : options) {
