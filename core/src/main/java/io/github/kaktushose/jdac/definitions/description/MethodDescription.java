@@ -20,13 +20,10 @@ public record MethodDescription(
         Collection<AnnotationDescription<?>> annotations,
         Invoker invoker
 ) implements Description {
-    public MethodDescription(Class<?> declaringClass, Class<?> returnType, String name, SequencedCollection<ParameterDescription> parameters, Collection<AnnotationDescription<?>> annotations, Invoker invoker) {
-        this.declaringClass = declaringClass;
-        this.returnType = returnType;
-        this.name = name;
-        this.parameters = Collections.unmodifiableSequencedCollection(parameters);
-        this.annotations = Collections.unmodifiableCollection(annotations);
-        this.invoker = invoker;
+
+    public MethodDescription {
+        parameters = Collections.unmodifiableSequencedCollection(parameters);
+        annotations = Collections.unmodifiableCollection(annotations);
     }
 
     /// Gets the parameter matching the given name if any.
