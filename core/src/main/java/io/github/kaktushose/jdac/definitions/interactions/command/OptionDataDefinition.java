@@ -22,6 +22,7 @@ import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.proteus.Proteus;
@@ -42,7 +43,6 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -257,14 +257,7 @@ public record OptionDataDefinition(
                 if (!Modifier.isPublic(modifiers) || !Modifier.isStatic(modifiers)) {
                     throw new InvalidDeclarationException("TODO: provider is not public static");
                 }
-                if (method.returnType().equals(List.class) && method.genericReturnType() instanceof ParameterizedType type) {
-                    var typeArguments = type.getActualTypeArguments();
-                    if (typeArguments.length != 1 || typeArguments[0] != String.class) {
-                        throw new InvalidDeclarationException("TODO: provider returned wrong wrong type");
-                    }
-                } else {
-                    throw new InvalidDeclarationException("TODO: provider returned wrong wrong type");
-                }
+                Helpers.checkParametrizedType(method.genericReturnType(), List.class, String.class);
                 try {
                     List<String> result = (List<String>) method.invoker().invoke(null, List.of());
                     if (result == null) {
