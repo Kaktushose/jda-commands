@@ -197,6 +197,10 @@ By default, JDA-Commands supports localization with help of the [Fluava](https:/
 You can provide an own instance of the [Fluava](https://goldmensch.github.io/fluava/javadocs/snapshot/dev.goldmensch.fluava/dev/goldmensch/fluava/Fluava.html) class by calling
 the appropriate builder method.
 
+!!! tip
+    By default, Fluava will automatically format any <IMentionable> for you by calling <IMentionable#getAsMention()>. 
+    See the Javadocs of <FluavaLocalizer> for details.
+
 ```java
 Fluava myFluava = Fluava.create(Locale.GERMAN);
 

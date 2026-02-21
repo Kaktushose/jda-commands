@@ -105,7 +105,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                                     .setEphemeral(replyConfig.ephemeral())
                                     .setSuppressedNotifications(replyConfig.silent())
                                     .setAllowedMentions(replyConfig.allowedMentions())
-                                    .queue();
+                                    .complete();
                             return Optional.empty();
                         }
                         case NO_PATH_FOUND, NO_LOSSLESS_CONVERSION -> throw new InternalException(

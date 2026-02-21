@@ -1,6 +1,5 @@
 package definitions;
 
-import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.annotations.interactions.AutoComplete;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.annotations.interactions.Permissions;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 
 public class TestHelpers {
 
-    public static final I18n I18N = new I18n(new BundleFinder(Descriptor.REFLECTIVE), new FluavaLocalizer(Fluava.create(Locale.ENGLISH)));
+    public static final I18n I18N = new I18n(new BundleFinder(Descriptor.REFLECTIVE), FluavaLocalizer.create(Locale.ENGLISH));
     public static final MessageResolver MESSAGE_RESOLVER = new MessageResolver(List.of(I18N));
 
     public static final Validators validators = new Validators(Map.of());

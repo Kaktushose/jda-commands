@@ -148,7 +148,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             if (invocation.event() instanceof GenericComponentInteractionCreateEvent componentEvent && !edit) {
                 Message message = componentEvent.getMessage();
                 if (Helpers.isValidWithoutComponents(message)) {
-                    message.editMessageComponents().queue();
+                    message.editMessageComponents().complete();
                 } else {
                     edit = true;
                 }
