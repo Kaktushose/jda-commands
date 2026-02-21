@@ -126,7 +126,11 @@ public final class Helpers {
                 || parameterizedType.getActualTypeArguments().length != 1
                 || parameterizedType.getActualTypeArguments()[0] != typeArgument
         ) {
-            throw new InvalidDeclarationException("TODO: Wrong type, expected: %s<%s>".formatted(klass.getSimpleName(), typeArgument.getSimpleName()));
+            throw new InvalidDeclarationException(
+                    "invalid-parameterized-type",
+                    entry("class", klass.getSimpleName()),
+                    entry("type", typeArgument.getSimpleName())
+            );
         }
     }
 

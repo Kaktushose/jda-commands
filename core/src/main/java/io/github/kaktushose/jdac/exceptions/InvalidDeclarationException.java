@@ -23,6 +23,13 @@ public final class InvalidDeclarationException extends JDACException {
         super(key, placeholder);
     }
 
+    /// @param key   the key of the error message
+    /// @param cause the cause of the exception
+    /// @param placeholder the [placeholders][Entry] to insert
+    public InvalidDeclarationException(String key, Throwable cause, Entry... placeholder) {
+        super(key, cause, placeholder);
+    }
+
     @SuppressWarnings("ConstantValue")
     @Override
     public String getMessage() {

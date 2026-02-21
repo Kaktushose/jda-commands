@@ -26,6 +26,13 @@ public final class InternalException extends JDACException {
         super(key, cause);
     }
 
+    /// @param key   the key of the error message
+    /// @param cause the cause of the exception
+    /// @param placeholder the [placeholders][Entry] to insert
+    public InternalException(String key, Throwable cause, Entry... placeholder) {
+        super(key, cause, placeholder);
+    }
+
     @Override
     public String getMessage() {
         return "%s %s".formatted(super.getMessage(), errorMessages.apply(Locale.ENGLISH, "internal-error", Map.of()));

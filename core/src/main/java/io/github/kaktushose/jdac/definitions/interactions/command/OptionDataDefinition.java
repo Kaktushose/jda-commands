@@ -24,6 +24,7 @@ import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.type.Type;
@@ -248,15 +249,19 @@ public record OptionDataDefinition(
             }
 
             Collection<MethodDescription> methods = source.findMethods(choicesAnn.provider());
+            Entry[] entries = new Entry[] {
+                    entry("class", classDescription.clazz().getSimpleName()),
+                    entry("method", choicesAnn.provider())
+            };
             if (!choicesAnn.provider().isBlank() && methods.isEmpty()) {
-                throw new InvalidDeclarationException("TODO: Cannot find provider");
+                throw new InvalidDeclarationException("provider-not-found", entries);
 
             }
 
             methods.forEach(method -> {
                 int modifiers = method.modifiers();
                 if (!Modifier.isPublic(modifiers) || !Modifier.isStatic(modifiers)) {
-                    throw new InvalidDeclarationException("TODO: provider is not public static");
+                    throw new InvalidDeclarationException("provider-modifiers", entries);
                 }
 
                 Helpers.checkParametrizedType(method.genericReturnType(), List.class, String.class);
@@ -270,15 +275,15 @@ public record OptionDataDefinition(
 
                     List<String> result = (List<String>) method.invoker().invoke(null, arguments);
                     if (result == null) {
-                        throw new InvalidDeclarationException("TODO: provider returned null");
+                        throw new InvalidDeclarationException("provider-null", entries);
                     }
 
                     options.addAll(result);
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     if (e instanceof InvocationTargetException) {
-                        throw new RuntimeException("Command Choices Provider has thrown an exception!", e.getCause());
+                        throw new InvalidDeclarationException("provider-exception", e.getCause(), entries);
                     }
-                    throw new InternalException("TODO: method invocation failed", e);
+                    throw new InternalException("provider-invocation-failed", e, entries);
                 }
             });
 
