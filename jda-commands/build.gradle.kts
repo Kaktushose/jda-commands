@@ -16,7 +16,7 @@ repositories {
 dependencies {
     javadoc(project(":core"))
     javadoc(project(":guice-extension"))
-    
+
     api(project(":core"))
     api(project(":guice-extension"))
 

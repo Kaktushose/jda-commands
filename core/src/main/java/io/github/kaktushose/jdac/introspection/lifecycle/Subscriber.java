@@ -9,7 +9,6 @@ import java.util.function.BiConsumer;
 /// A [Subscriber] holds logic that will be executed when a certain [FrameworkEvent] is published by the framework.
 ///
 /// @param <T> the subscribed to [FrameworkEvent]
-///
 /// @see Introspection#subscribe(Class, Subscriber)
 public interface Subscriber<T extends FrameworkEvent> extends BiConsumer<T, Introspection> {
 
@@ -22,7 +21,7 @@ public interface Subscriber<T extends FrameworkEvent> extends BiConsumer<T, Intr
     ///
     /// This method will be executed in different threads, thus the logic inside needs to be threadsafe!
     ///
-    /// @param t the published [FrameworkEvent]
+    /// @param t             the published [FrameworkEvent]
     /// @param introspection the [Introspection] instance used to publish this event.
     @Override
     void accept(T t, Introspection introspection);

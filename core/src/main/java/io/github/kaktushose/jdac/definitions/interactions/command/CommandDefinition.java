@@ -33,8 +33,10 @@ public sealed interface CommandDefinition extends InteractionDefinition, JDAEnti
     /// [io.github.kaktushose.jdac.annotations.interactions.CommandConfig]
     ///
     /// @see io.github.kaktushose.jdac.annotations.interactions.CommandConfig
-    record CommandConfig(InteractionContextType[] context, IntegrationType[] integration,
-                         CommandScope scope, boolean isNSFW, Permission[] enabledPermissions) {
+    record CommandConfig(
+            InteractionContextType[] context, IntegrationType[] integration,
+            CommandScope scope, boolean isNSFW, Permission[] enabledPermissions
+    ) {
 
         /// Compact constructor ensuring that [#context] and [#integration] is always set. If empty defaults to
         /// [InteractionContextType#GUILD] and [IntegrationType#GUILD_INSTALL].

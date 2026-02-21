@@ -23,7 +23,11 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 ///
 /// @see CommandTree
 @ApiStatus.Internal
-public record TreeNode(String name, SlashCommandDefinition command, List<TreeNode> children) implements Iterable<TreeNode> {
+public record TreeNode(
+        String name,
+        SlashCommandDefinition command,
+        List<TreeNode> children
+) implements Iterable<TreeNode> {
 
     /// Constructs a new TreeNode.
     ///

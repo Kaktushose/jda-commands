@@ -23,25 +23,22 @@ public sealed interface Definitions permits InteractionRegistry {
     /// Gets a subset of all registered [InteractionDefinition] filtered by their [type][Object#getClass()]
     /// and the passed [Predicate].
     ///
-    /// @param type the [type][Object#getClass()] of the needed [InteractionDefinition]s
+    /// @param type      the [type][Object#getClass()] of the needed [InteractionDefinition]s
     /// @param predicate the [Predicate] to filter the [InteractionDefinition]s of the passed type
-    ///
     /// @return the [InteractionDefinition]s matching the provided criteria
     <T extends Definition> SequencedCollection<T> find(Class<T> type, Predicate<T> predicate);
 
     /// Gets the first [InteractionDefinition] with the given [type][Object#getClass()] that
     /// match the passed [Predicate]
     ///
-    /// @param type the [type][Object#getClass()] of the needed [InteractionDefinition]
+    /// @param type      the [type][Object#getClass()] of the needed [InteractionDefinition]
     /// @param predicate the [Predicate] that has to match the needed [InteractionDefinition]
-    ///
     /// @return the frist [InteractionDefinition] matching the provided criteria
     <T extends Definition> T findFirst(Class<T> type, Predicate<T> predicate);
 
     /// Gets all registered [InteractionDefinition]s matching the passed type
     ///
     /// @param type the [type][Object#getClass()] of the needed [InteractionDefinition]
-    ///
     /// @return the [InteractionDefinition]s matching the provided type
     default <T extends Definition> SequencedCollection<T> find(Class<T> type) {
         return find(type, _ -> true);

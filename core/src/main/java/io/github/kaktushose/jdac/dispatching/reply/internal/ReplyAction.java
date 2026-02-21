@@ -91,7 +91,9 @@ public final class ReplyAction {
         if (allowedMentions == null) {
             this.allowedMentions = EnumSet.allOf(MentionType.class);
         } else {
-            this.allowedMentions = allowedMentions.isEmpty() ? EnumSet.noneOf(MentionType.class) : EnumSet.copyOf(allowedMentions);
+            this.allowedMentions = allowedMentions.isEmpty()
+                    ? EnumSet.noneOf(MentionType.class)
+                    : EnumSet.copyOf(allowedMentions);
         }
     }
 
@@ -201,12 +203,12 @@ public final class ReplyAction {
         component = switch (component) {
             case StringSelectMenu selectMenu
                     when scopedJdaEvent() instanceof StringSelectInteractionEvent selectEvent
-                         && selectEvent.getInteraction().getUniqueId() == selectMenu.getUniqueId() ->
+                    && selectEvent.getInteraction().getUniqueId() == selectMenu.getUniqueId() ->
                     selectMenu.createCopy().setDefaultValues(selectEvent.getValues()).build();
 
             case EntitySelectMenu selectMenu
                     when scopedJdaEvent() instanceof EntitySelectInteractionEvent selectEvent
-                         && selectEvent.getInteraction().getUniqueId() == selectMenu.getUniqueId() -> {
+                    && selectEvent.getInteraction().getUniqueId() == selectMenu.getUniqueId() -> {
 
                 Collection<EntitySelectMenu.DefaultValue> defaultValues = new HashSet<>();
                 Mentions mentions = selectEvent.getInteraction().getMentions();
@@ -255,6 +257,10 @@ public final class ReplyAction {
         }
     }
 
-    private record Replacer(ComponentReplacer userProvided, ComponentReplacer resolver, Map<String, Object> placeholders) {}
+    private record Replacer(
+            ComponentReplacer userProvided,
+            ComponentReplacer resolver,
+            Map<String, Object> placeholders
+    ) { }
 
 }

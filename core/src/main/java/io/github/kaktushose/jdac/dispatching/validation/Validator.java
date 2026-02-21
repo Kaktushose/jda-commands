@@ -9,8 +9,8 @@ import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess;
 import io.github.kaktushose.jdac.message.i18n.I18n;
-import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 
 import java.lang.annotation.Annotation;
@@ -45,6 +45,7 @@ import java.lang.annotation.Annotation;
 /// The fail messages of the two default [Validator]s for [Perm] and [NotPerm]
 /// can be localized with the localization keys `validator.noperm.fail` and
 /// `validator.perm.fail` respectively.
+///
 /// @see Constraint
 @FunctionalInterface
 public interface Validator<T, A extends Annotation> {
@@ -82,7 +83,6 @@ public interface Validator<T, A extends Annotation> {
         ///
         /// @param content     the message or localization key
         /// @param placeholder the variables used for localization
-        ///
         /// @see MessageResolver
         /// @see I18n
         public MessageTopLevelComponent failMessage(String content, Entry... placeholder) {

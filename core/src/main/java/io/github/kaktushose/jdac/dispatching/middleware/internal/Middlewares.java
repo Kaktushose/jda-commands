@@ -51,7 +51,7 @@ public class Middlewares {
     /// ordered by their [Priority].
     ///
     /// @param controllerClass the interaction controllers class
-    /// @param task The task to be executed
+    /// @param task            The task to be executed
     public void forOrdered(Class<?> controllerClass, Consumer<Middleware> task) {
         forAllOrdered(middleware -> {
             if (middleware.runFor() == null || middleware.runFor().contains(controllerClass)) {

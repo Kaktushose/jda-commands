@@ -39,10 +39,9 @@ public final class PlaceholderResolver implements Resolver<String> {
 
     /// Resolves the given string according to the class docs.
     ///
-    /// @param content the string to be resolved
-    /// @param locale the locale - unused in this resolver
+    /// @param content      the string to be resolved
+    /// @param locale       the locale - unused in this resolver
     /// @param placeholders the placeholders to be used
-    ///
     /// @return the string with placeholders replaced by their value
     @Override
     public String resolve(String content, Locale locale, Map<String, @Nullable Object> placeholders) {
@@ -57,7 +56,9 @@ public final class PlaceholderResolver implements Resolver<String> {
 
     private static String getPlaceholder(String name, Map<String, @Nullable Object> placeholder) {
         Object value = placeholder.get(name);
-        if (value == null) return "null";
+        if (value == null) {
+            return "null";
+        }
         ConversionResult<String> result = Proteus.global().convert(value, Type.dynamic(value), Type.of(String.class));
 
         return switch (result) {
@@ -111,7 +112,7 @@ public final class PlaceholderResolver implements Resolver<String> {
                 components.add(new Component.PlaceholderReference(reference));
 
                 i = closingBracket;
-                nextLiteralStart = i+1;
+                nextLiteralStart = i + 1;
 
             }
 

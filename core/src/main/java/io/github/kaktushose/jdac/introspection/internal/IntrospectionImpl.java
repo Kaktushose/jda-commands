@@ -25,7 +25,8 @@ public final class IntrospectionImpl implements Introspection {
                 .build();
 
         this.lifecycle = lifecycle;
-        this.resolver = resolver.createSub(introspectionProperty);;
+        this.resolver = resolver.createSub(introspectionProperty);
+        ;
         this.stage = stage;
     }
 

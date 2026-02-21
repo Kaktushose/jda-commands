@@ -14,10 +14,11 @@ import java.util.stream.Collectors;
 /// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
 /// @param methodDescription the [MethodDescription] of the method this definition is bound to
 /// @param rules             the rules this autocomplete handler can handle
-public record AutoCompleteDefinition(ClassDescription classDescription,
-                                     MethodDescription methodDescription,
-                                     Set<AutoCompleteRule> rules)
-        implements InteractionDefinition {
+public record AutoCompleteDefinition(
+        ClassDescription classDescription,
+        MethodDescription methodDescription,
+        Set<AutoCompleteRule> rules
+) implements InteractionDefinition {
 
     /// Builds a new [AutoCompleteDefinition] from the given class and method description.
     ///
@@ -50,7 +51,7 @@ public record AutoCompleteDefinition(ClassDescription classDescription,
     ///
     /// @param command the name of the slash command or the name of the method handling the command
     /// @param options a possibly-empty Set of the names of the options the auto complete should exclusively handle. If
-    ///                                                                                                                                                       empty, the auto complete will handle every option of the given command.
-    public record AutoCompleteRule(String command, Set<String> options) {}
+    ///                empty, the auto complete will handle every option of the given command.
+    public record AutoCompleteRule(String command, Set<String> options) { }
 
 }

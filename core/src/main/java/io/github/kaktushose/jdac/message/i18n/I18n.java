@@ -121,7 +121,7 @@ public class I18n implements Resolver<String> {
 
 
     /// @param bundleFinder the [BundleFinder] to be used to get the [Bundle] annotation
-    /// @param localizer the used [Localizer] to retrieve the messages
+    /// @param localizer    the used [Localizer] to retrieve the messages
     public I18n(BundleFinder bundleFinder, Localizer localizer) {
         this.localizer = localizer;
         this.bundleFinder = bundleFinder;
@@ -137,10 +137,9 @@ public class I18n implements Resolver<String> {
     /// Please note that the character `$` is forbidden in bundle names and the bundle name 'jdac' is reserved.
     /// For further information visit the class docs.
     ///
-    /// @param locale the [Locale] to be used to localize the key
+    /// @param locale      the [Locale] to be used to localize the key
     /// @param combinedKey the messages key
     /// @param placeholder the placeholder to be used
-    ///
     /// @return the localized message or the key if not found
     @Override
     public String resolve(String combinedKey, Locale locale, Map<String, @Nullable Object> placeholder) {

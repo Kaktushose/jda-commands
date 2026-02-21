@@ -54,7 +54,9 @@ class Executor {
         SequencedCollection<PropertyProvider<?>> shortStack = new ArrayList<>();
         for (PropertyProvider<?> p : stack.reversed()) {
             shortStack.add(p);
-            if (p.type().equals(current.type())) break;
+            if (p.type().equals(current.type())) {
+                break;
+            }
         }
 
         List<String> lines = shortStack.reversed().stream()

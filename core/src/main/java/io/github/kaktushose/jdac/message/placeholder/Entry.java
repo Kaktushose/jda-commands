@@ -9,8 +9,7 @@ import java.util.Map;
 
 /// A placeholder identified by its name with the value to be substituted.
 ///
-///
-/// @param name the placeholders name
+/// @param name  the placeholders name
 /// @param value the value to be substituted
 /// @see PlaceholderResolver
 /// @see I18n
@@ -20,7 +19,6 @@ public record Entry(String name, @Nullable Object value) {
     /// [Entry#value()] will be mapped to.
     ///
     /// @param placeholder the [Entries][Entry] to transform into a [Map]
-    ///
     /// @return a [Map] representing the passed [Entries][Entry]
     public static Map<String, @Nullable Object> toMap(Entry... placeholder) {
         return Arrays.stream(placeholder)
@@ -30,9 +28,8 @@ public record Entry(String name, @Nullable Object value) {
     /// This method returns an [Entry] containing the name and value provided.
     /// It comes in handy when imported with a static import.
     ///
-    /// @param name the name of the placeholder
+    /// @param name  the name of the placeholder
     /// @param value the value of the placeholder
-    ///
     /// @return the [Entry] consisting of the name and value
     public static Entry entry(String name, @Nullable Object value) {
         return new Entry(name, value);

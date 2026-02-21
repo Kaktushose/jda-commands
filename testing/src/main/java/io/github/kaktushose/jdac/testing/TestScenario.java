@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.testing;
 
+import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
@@ -10,7 +11,6 @@ import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInsta
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
-import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.testing.invocation.AutoCompleteInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.ContextCommandInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.SlashCommandInvocation;
@@ -195,8 +195,10 @@ public class TestScenario {
         }
     }
 
-    public record Context(IEventManager eventManager, Class<?> klass, JDACommands jdaCommands,
-                          List<CommandData> commands) {
+    public record Context(
+            IEventManager eventManager, Class<?> klass, JDACommands jdaCommands,
+            List<CommandData> commands
+    ) {
 
         public Context {
             commands = Collections.unmodifiableList(commands);

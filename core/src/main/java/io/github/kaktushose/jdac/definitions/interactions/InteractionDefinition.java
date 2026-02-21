@@ -58,12 +58,14 @@ public sealed interface InteractionDefinition extends Definition, Invokable
     /// [`ReplyConfig`][io.github.kaktushose.jdac.annotations.interactions.ReplyConfig].
     ///
     /// @see io.github.kaktushose.jdac.annotations.interactions.ReplyConfig ReplyConfig
-    record ReplyConfig(boolean ephemeral,
-                       boolean keepComponents,
-                       boolean keepSelections,
-                       boolean editReply,
-                       boolean silent,
-                       EnumSet<MentionType> allowedMentions) {
+    record ReplyConfig(
+            boolean ephemeral,
+            boolean keepComponents,
+            boolean keepSelections,
+            boolean editReply,
+            boolean silent,
+            EnumSet<MentionType> allowedMentions
+    ) {
 
         /// Constructs a new [ReplyConfig] using the following default values:
         /// - ephemeral: `false`
@@ -165,10 +167,11 @@ public sealed interface InteractionDefinition extends Definition, Invokable
             /// Sets the [MentionType]s that should be parsed. By default, all [MentionType]s are allowed.
             ///
             /// @implNote This will always override the old value.
-            ///
             /// @see net.dv8tion.jda.api.utils.messages.MessageCreateRequest#setAllowedMentions(Collection)
             public Builder allowedMentions(Collection<MentionType> allowedMentions) {
-                this.allowedMentions = allowedMentions.isEmpty() ? EnumSet.noneOf(MentionType.class) : EnumSet.copyOf(allowedMentions);
+                this.allowedMentions = allowedMentions.isEmpty()
+                        ? EnumSet.noneOf(MentionType.class)
+                        : EnumSet.copyOf(allowedMentions);
                 return this;
             }
 

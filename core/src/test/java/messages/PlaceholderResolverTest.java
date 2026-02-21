@@ -15,7 +15,7 @@ import java.util.Map;
 public class PlaceholderResolverTest {
 
     private static final PlaceholderResolver PLACEHOLDER_RESOLVER = new PlaceholderResolver();
-    
+
     @Test
     void variable_not_found() {
         Map<String, Object> variables = Map.of(
@@ -42,7 +42,7 @@ public class PlaceholderResolverTest {
 
     @Test
     void found_variable_proteus() {
-        record Data(String value) {}
+        record Data(String value) { }
         Proteus.global().register(Type.of(Data.class), Type.of(String.class), Mapper.uni((data, _) -> MappingResult.lossless(data.value)), ProteusBuilder.ConflictStrategy.OVERRIDE);
 
         Map<String, Object> variables = Map.of(
@@ -241,10 +241,6 @@ public class PlaceholderResolverTest {
                 
                 \\ 12""", resolved);
     }
-
-
-
-
 
 
 }

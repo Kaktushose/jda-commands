@@ -1,8 +1,8 @@
 package io.github.kaktushose.jdac.definitions.description.reflective;
 
-import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
+import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.lang.annotation.Annotation;
@@ -19,7 +19,7 @@ public class ReflectiveClassFinder implements ClassFinder {
 
     @Override
     public SequencedCollection<Class<?>> search(Class<? extends Annotation> annotationClass) {
-        try(ScanResult result = new ClassGraph()
+        try (ScanResult result = new ClassGraph()
                 .acceptPackages(packages)
                 .enableAnnotationInfo()
                 .enableClassInfo()

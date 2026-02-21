@@ -65,6 +65,7 @@ import java.util.Optional;
 /// public void onCommand(CommandEvent event, Member target) { ... }
 /// ```
 /// **Using [Member] will enforce [InteractionContextType#GUILD] on the command!**
+///
 /// @see Interaction
 /// @see io.github.kaktushose.jdac.annotations.interactions.Interaction Interaction
 /// @see io.github.kaktushose.jdac.annotations.constraints.Constraint Constraint

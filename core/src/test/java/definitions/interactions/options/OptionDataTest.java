@@ -24,7 +24,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 import java.util.Optional;
 
-import static definitions.TestHelpers.*;
+import static definitions.TestHelpers.MESSAGE_RESOLVER;
+import static definitions.TestHelpers.getBuildContext;
 import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -138,7 +139,7 @@ class OptionDataTest {
     void optionData_withOptionTypeInAnnotation_shouldNotHaveDefaultType() {
         OptionDataDefinition definition = optionData("annotatedParameter");
 
-        assertEquals(OptionType.INTEGER,  definition.optionType());
+        assertEquals(OptionType.INTEGER, definition.optionType());
     }
 
     @Test

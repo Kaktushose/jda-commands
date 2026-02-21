@@ -19,7 +19,7 @@ public interface InteractionControllerInstantiator {
     /// The provided [Introspection] instance or [Introspection#accessScoped()] can be used to retrieve other components/parts
     /// of this framework, e.g. [MessageResolver].
     ///
-    /// @param clazz   the [Class] of needed instance
+    /// @param clazz         the [Class] of needed instance
     /// @param introspection the [Introspection] instance of this runtime (stage = [Stage#RUNTIME]).
     @IntrospectionAccess(Stage.RUNTIME)
     <T> T instance(Class<T> clazz, Introspection introspection);

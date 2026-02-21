@@ -40,7 +40,9 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
 
         HashMap<DiscordLocale, String> localizations = new HashMap<>();
         for (DiscordLocale locale : DiscordLocale.values()) {
-            if (locale == DiscordLocale.UNKNOWN) continue;
+            if (locale == DiscordLocale.UNKNOWN) {
+                continue;
+            }
 
             tryLocalize(bundle + "$" + localizationKey, locale) // with found bundle (or default)
                     .or(() -> tryLocalize(localizationKey, locale)) // fallback to default bundle if not found in special bundle

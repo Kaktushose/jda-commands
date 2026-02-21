@@ -169,5 +169,8 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         }
     }
 
-    public record PreparationResult(InteractionDefinition definition, SequencedCollection<@Nullable Object> rawArguments) {}
+    public record PreparationResult(
+            InteractionDefinition definition,
+            SequencedCollection<@Nullable Object> rawArguments
+    ) { }
 }

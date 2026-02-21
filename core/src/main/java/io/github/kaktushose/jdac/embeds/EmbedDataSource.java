@@ -80,8 +80,8 @@ public interface EmbedDataSource {
 
     /// Retrieves an [Embed] based on the given name.
     ///
-    /// @param embed        the name of the embed to retrieve
-    /// @param placeholders a [Map] of placeholders to use
+    /// @param embed           the name of the embed to retrieve
+    /// @param placeholders    a [Map] of placeholders to use
     /// @param messageResolver the [MessageResolver] instance to use
     /// @return an [Optional] holding the [Embed] constructed from the retrieved embed json or an empty [Optional]
     /// if no embed was found for the given name

@@ -1,17 +1,17 @@
 package embeds;
 
+import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.annotations.i18n.Bundle;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
+import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.internal.BundleFinder;
 import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
-import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
-import dev.goldmensch.fluava.Fluava;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
@@ -25,7 +25,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Bundle("embeds")
 class EmbedTest {
@@ -71,7 +72,7 @@ class EmbedTest {
                 .setTimestamp(OffsetDateTime.parse("2025-09-05T15:28:20Z"))
                 .setColor(0)
                 .build();
-        Embed actual =  embeds.get("modification")
+        Embed actual = embeds.get("modification")
                 .author("Goldmensch", "https://cdn.discordapp.com/embed/avatars/1.png", "https://cdn.discordapp.com/embed/avatars/1.png")
                 .title("Test Title 2")
                 .description("Test Description 2")

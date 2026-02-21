@@ -1,5 +1,6 @@
 package definitions.config;
 
+import definitions.TestHelpers;
 import io.github.kaktushose.jdac.annotations.interactions.Button;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
@@ -7,7 +8,6 @@ import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.internal.Helpers;
-import definitions.TestHelpers;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -92,13 +92,23 @@ class ReplyConfigTest {
         }
 
         @Button
-        @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false, silent = true, allowedMentions = {})
+        @ReplyConfig(ephemeral = true,
+                editReply = false,
+                keepComponents = false,
+                keepSelections = false,
+                silent = true,
+                allowedMentions = { })
         public void customValues(ComponentEvent event) {
         }
     }
 
     @Interaction
-    @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false, silent = true, allowedMentions = {})
+    @ReplyConfig(ephemeral = true,
+            editReply = false,
+            keepComponents = false,
+            keepSelections = false,
+            silent = true,
+            allowedMentions = { })
     private static class ClassLevelConfig {
 
         @Button
@@ -106,7 +116,12 @@ class ReplyConfigTest {
         }
 
         @Button
-        @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false, silent = true, allowedMentions = {})
+        @ReplyConfig(ephemeral = true,
+                editReply = false,
+                keepComponents = false,
+                keepSelections = false,
+                silent = true,
+                allowedMentions = { })
         public void sameValues(ComponentEvent event) {
         }
 

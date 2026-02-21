@@ -23,7 +23,11 @@ import static io.github.kaktushose.proteus.mapping.MappingResult.lossless;
 /// @param sources      the [EmbedDataSource]s [Embed]s can be loaded from
 /// @param placeholders the global placeholders as defined in [EmbedConfig#placeholders(Map)]
 @ApiStatus.Internal
-public record Embeds(Collection<EmbedDataSource> sources, Map<String, @Nullable Object> placeholders, MessageResolver messageResolver) {
+public record Embeds(
+        Collection<EmbedDataSource> sources,
+        Map<String, @Nullable Object> placeholders,
+        MessageResolver messageResolver
+) {
 
     static {
         Proteus.global().from(Type.of(Color.class)).into(Type.of(String.class),

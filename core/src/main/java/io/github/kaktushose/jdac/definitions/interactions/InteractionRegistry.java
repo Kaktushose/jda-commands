@@ -17,7 +17,6 @@ import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.introspection.Definitions;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -25,19 +24,20 @@ import java.util.*;
 import java.util.function.Predicate;
 
 /// Central registry for all [InteractionDefinition]s.
-public record InteractionRegistry(Validators validators,
-                                  MessageResolver messageResolver,
-                                  Descriptor descriptor,
-                                  Set<InteractionDefinition> definitions
+public record InteractionRegistry(
+        Validators validators,
+        MessageResolver messageResolver,
+        Descriptor descriptor,
+        Set<InteractionDefinition> definitions
 ) implements Definitions {
 
     private static final Logger log = JDACLogger.getLogger(InteractionRegistry.class);
 
     /// Constructs a new [InteractionRegistry]
     ///
-    /// @param registry   the corresponding [Validators]
+    /// @param registry        the corresponding [Validators]
     /// @param messageResolver the [MessageResolver] instance to use
-    /// @param descriptor the [Descriptor] to use
+    /// @param descriptor      the [Descriptor] to use
     public InteractionRegistry(Validators registry, MessageResolver messageResolver, Descriptor descriptor) {
         this(registry, messageResolver, descriptor, new HashSet<>());
     }
@@ -109,12 +109,12 @@ public record InteractionRegistry(Validators validators,
 
 
     private Set<InteractionDefinition> interactionDefinitions(ClassDescription clazz,
-                                                   Validators validators,
-                                                   MessageResolver messageResolver,
-                                                   Interaction interaction,
-                                                   Set<String> permissions,
-                                                   Collection<AutoCompleteDefinition> autocompletes,
-                                                   CommandDefinition.CommandConfig globalCommandConfig) {
+                                                              Validators validators,
+                                                              MessageResolver messageResolver,
+                                                              Interaction interaction,
+                                                              Set<String> permissions,
+                                                              Collection<AutoCompleteDefinition> autocompletes,
+                                                              CommandDefinition.CommandConfig globalCommandConfig) {
         Set<InteractionDefinition> definitions = new HashSet<>(autocompletes);
         for (MethodDescription method : clazz.methods()) {
             final MethodBuildContext context = new MethodBuildContext(
@@ -176,12 +176,12 @@ public record InteractionRegistry(Validators validators,
     ///
     /// @param type          the type of the [Definition] to find
     /// @param internalError `true` if the [Definition] must be found and not finding it
-    ///                       indicates a framework bug
+    ///                                            indicates a framework bug
     /// @param predicate     the [Predicate] used to find the [Definition]
     /// @param <T>           a subtype of [Definition]
     /// @return [T]          the definition
     /// @throws IllegalStateException    if no [Definition] was found, although this mandatory should have been the case.
-    ///                                  This is a rare occasion and can be considered a framework bug
+    ///                                                                   This is a rare occasion and can be considered a framework bug
     /// @throws IllegalArgumentException if no [Definition] was found, because the [Predicate] didn't include any elements
     public <T extends Definition> T find(Class<T> type, boolean internalError, Predicate<T> predicate) {
         return definitions.stream()
@@ -207,7 +207,7 @@ public record InteractionRegistry(Validators validators,
     /// @param <T>       a subtype of [Definition]
     /// @return a possibly-empty [Collection] of all [Definition]s that match the given [Predicate]
     /// @throws IllegalStateException    if no [Definition] was found, although this mandatory should have been the case.
-    ///                                  This is a rare occasion and can be considered a framework bug
+    ///                                                                   This is a rare occasion and can be considered a framework bug
     /// @throws IllegalArgumentException if no [Definition] was found, because the [Predicate] didn't include any elements
     @Override
     public <T extends Definition> SequencedCollection<T> find(Class<T> type, Predicate<T> predicate) {

@@ -1,11 +1,11 @@
 package definitions.description;
 
-import io.github.kaktushose.jdac.annotations.interactions.Interaction;
-import io.github.kaktushose.jdac.definitions.description.ClassFinder;
-import io.github.kaktushose.jdac.guice.Implementation;
 import definitions.description.environment.BaseClass;
 import definitions.description.environment.SubClass;
 import definitions.description.environment.nested.NestedClass;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.definitions.description.ClassFinder;
+import io.github.kaktushose.jdac.guice.Implementation;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

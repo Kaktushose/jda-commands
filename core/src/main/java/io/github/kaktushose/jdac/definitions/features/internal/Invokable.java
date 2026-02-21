@@ -27,7 +27,7 @@ public sealed interface Invokable extends Definition permits InteractionDefiniti
     /// @return the result of the method invocation
     /// @throws IllegalStateException     if the definition must not be invoked at the moment this method gets called
     /// @throws IllegalAccessException    if the method object is enforcing Java language access control and the
-    ///                                   underlying method is inaccessible
+    ///                                                                     underlying method is inaccessible
     /// @throws InvocationTargetException if an exception was thrown by the invoked method or constructor
     @Nullable
     @ApiStatus.Internal

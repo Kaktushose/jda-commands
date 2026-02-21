@@ -91,6 +91,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// Gets the [Introspection] instance of this interaction.
     ///
     /// Same as [Introspection#accessScoped()]
+    ///
     /// @return the [Introspection] instance with stage set to [Stage#INTERACTION].
     public Introspection introspection() {
         return Introspection.accessScoped();

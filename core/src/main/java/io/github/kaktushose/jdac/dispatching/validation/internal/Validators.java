@@ -1,10 +1,6 @@
 package io.github.kaktushose.jdac.dispatching.validation.internal;
 
-import io.github.kaktushose.jdac.annotations.constraints.Constraint;
-import io.github.kaktushose.jdac.annotations.constraints.Max;
-import io.github.kaktushose.jdac.annotations.constraints.Min;
-import io.github.kaktushose.jdac.annotations.constraints.NotPerm;
-import io.github.kaktushose.jdac.annotations.constraints.Perm;
+import io.github.kaktushose.jdac.annotations.constraints.*;
 import io.github.kaktushose.jdac.definitions.description.AnnotationDescription;
 import io.github.kaktushose.jdac.dispatching.middleware.impl.ConstraintMiddleware;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
@@ -65,13 +61,13 @@ public class Validators {
 
     public sealed interface Result {
 
-        record NotFound() implements Result {}
+        record NotFound() implements Result { }
 
-        record UnsupportedType(Collection<Class<?>> supportedTypes) implements Result {}
+        record UnsupportedType(Collection<Class<?>> supportedTypes) implements Result { }
 
-        record Success(Validator<?, ?> validator) implements Result {}
+        record Success(Validator<?, ?> validator) implements Result { }
 
         /// This currently only applies to [Min] and [Max]
-        record DiscordHandled() implements Result {}
+        record DiscordHandled() implements Result { }
     }
 }

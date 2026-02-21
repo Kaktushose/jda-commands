@@ -114,10 +114,10 @@ public record OptionDataDefinition(
 
     /// Builds a new [OptionDataDefinition].
     ///
-    /// @param parameter            the [ParameterDescription] to build the [OptionDataDefinition] from
-    /// @param autoComplete         the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
-    /// @param messageResolver      the [MessageResolver] instance to use
-    /// @param validatorRegistry    the corresponding [Validators]
+    /// @param parameter         the [ParameterDescription] to build the [OptionDataDefinition] from
+    /// @param autoComplete      the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
+    /// @param messageResolver   the [MessageResolver] instance to use
+    /// @param validatorRegistry the corresponding [Validators]
     /// @return the [OptionDataDefinition]
     public static OptionDataDefinition build(ParameterDescription parameter,
                                              @Nullable AutoCompleteDefinition autoComplete,
@@ -163,7 +163,8 @@ public record OptionDataDefinition(
                                 );
                         case Validators.Result.Success(Validator<?, ?> validator) ->
                                 constraints.add(new ConstraintDefinition(validator, it));
-                        case Validators.Result.DiscordHandled _ -> {}
+                        case Validators.Result.DiscordHandled _ -> {
+                        }
                     }
                 });
 
@@ -273,7 +274,10 @@ public record OptionDataDefinition(
     ///
     /// @param validator  the corresponding [Validator]
     /// @param annotation the corresponding annotation object
-    public record ConstraintDefinition(Validator<?, ?> validator, AnnotationDescription<?> annotation) implements Definition {
+    public record ConstraintDefinition(
+            Validator<?, ?> validator,
+            AnnotationDescription<?> annotation
+    ) implements Definition {
 
         @Override
         public String displayName() {

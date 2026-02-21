@@ -29,7 +29,7 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// Returns the underlying [GenericComponentInteractionCreateEvent] and casts it to the given type.
     ///
     /// @param type a subtype of [GenericComponentInteractionCreateEvent], namely [ButtonInteractionEvent],
-    ///                                     [EntitySelectInteractionEvent] or [StringSelectInteractionEvent]
+    ///                                                 [EntitySelectInteractionEvent] or [StringSelectInteractionEvent]
     /// @param <T>  a subtype of [GenericComponentInteractionCreateEvent]
     /// @return [T] the event
     public <T extends GenericComponentInteractionCreateEvent> T jdaEvent(Class<T> type) {

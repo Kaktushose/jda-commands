@@ -47,7 +47,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     /// Constructs a new MessageReply.
     ///
-    ///  @param replyConfig the [ReplyConfig] to use
+    /// @param replyConfig the [ReplyConfig] to use
     public MessageReply(ReplyConfig replyConfig) {
         replyAction = new ReplyAction(replyConfig);
         resolver = new ComponentResolver<>(scopedMessageResolver(), ActionRowChildComponent.class);
@@ -55,7 +55,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     /// Constructs a new MessageReply.
     ///
-    ///  @param reply the [MessageReply] to copy from
+    /// @param reply the [MessageReply] to copy from
     public MessageReply(MessageReply reply) {
         replyAction = reply.replyAction;
         resolver = new ComponentResolver<>(scopedMessageResolver(), ActionRowChildComponent.class);
@@ -188,6 +188,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     ///     }
     ///  }
     /// ```
+    ///
     /// @see Component
     public SendableReply components(Component<?, ?, ?, ?>... components) {
         List<ActionRowChildComponent> items = Arrays.stream(components).map(this::resolve).toList();

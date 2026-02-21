@@ -112,18 +112,21 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
             new Singleton<>("INTERACTION_CONTROLLER_INSTANTIATOR", Category.LOADABLE, InteractionControllerInstantiator.class, Stage.CONFIGURATION);
 
     /// MIDDLEWARE property holds multiple [Middleware]s associated with their [Priority]
+    ///
     /// @see JDACBuilder#middleware(Priority, Middleware)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = ACCUMULATE)
     Property<Collection<java.util.Map.Entry<Priority, Middleware>>> MIDDLEWARE =
             new Enumeration<>("MIDDLEWARE", Category.LOADABLE, castUnsafe(java.util.Map.Entry.class), ACCUMULATE, Stage.CONFIGURATION);
 
     /// The TYPE_ADAPTER property maps [AdapterType]s containing the source and targets [Type]s to their associated [TypeAdapter]
+    ///
     /// @see JDACBuilder#adapter(Class, Class, TypeAdapter)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = ACCUMULATE)
     Property<java.util.Map<AdapterType<?, ?>, TypeAdapter<?, ?>>> TYPE_ADAPTER =
             new Map<>("TYPE_ADAPTER", Category.LOADABLE, castUnsafe(AdapterType.class), castUnsafe(TypeAdapter.class), ACCUMULATE, Stage.CONFIGURATION);
 
     /// The VALIDATOR property maps a [Validator] to its identifying annotation.
+    ///
     /// @see JDACBuilder#validator(Class, Validator)
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.LOADABLE, fallbackBehaviour = ACCUMULATE)
     Property<java.util.Map<Class<? extends Annotation>, Validator<?, ?>>> VALIDATOR =
@@ -248,7 +251,7 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
     /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
     @PropertyInformation(stage = Stage.CONFIGURATION, category = Category.PROVIDED)
     Property<ClassFinder> MERGED_CLASS_FINDER =
-             new Singleton<>("MERGED_CLASS_FINDER", Category.PROVIDED, ClassFinder.class, Stage.CONFIGURATION);
+            new Singleton<>("MERGED_CLASS_FINDER", Category.PROVIDED, ClassFinder.class, Stage.CONFIGURATION);
 
     // ------- initialized --------
     /// The [JDACommands] instance available after fully starting the framework.
@@ -362,21 +365,23 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
 
     /// A [Map] property basically represents a [java.util.Map], where each value belongs target a specific key.
     ///
-    /// @param category the [Category] of this property
-    /// @param key the key type
-    /// @param value the value type
-    /// @param name the property's name
+    /// @param category          the [Category] of this property
+    /// @param key               the key type
+    /// @param value             the value type
+    /// @param name              the property's name
     /// @param fallbackBehaviour the property's [FallbackBehaviour]
-    /// @param stage the property's stage
-    record Map<K, V>(String name, Category category, Class<K> key, Class<V> value,
-                     FallbackBehaviour fallbackBehaviour, Stage stage) implements Property<java.util.Map<K, V>> {}
+    /// @param stage             the property's stage
+    record Map<K, V>(
+            String name, Category category, Class<K> key, Class<V> value,
+            FallbackBehaviour fallbackBehaviour, Stage stage
+    ) implements Property<java.util.Map<K, V>> { }
 
     /// A [Singleton] property just hols one value. The value with the highest priority takes precedence.
     ///
-    /// @param name the property's name
+    /// @param name     the property's name
     /// @param category the property's category
-    /// @param type the property's type
-    /// @param stage the property's stage
+    /// @param type     the property's type
+    /// @param stage    the property's stage
     record Singleton<T>(String name, Category category, Class<T> type, Stage stage) implements Property<T> {
         @Override
         public FallbackBehaviour fallbackBehaviour() {
@@ -386,11 +391,13 @@ public sealed interface Property<T> permits Property.Enumeration, Property.Singl
 
     /// A [Enumeration] property basically represents a [Collection] of multiple values.
     ///
-    /// @param category the property's category
-    /// @param name the property's name
-    /// @param type the property's type
+    /// @param category          the property's category
+    /// @param name              the property's name
+    /// @param type              the property's type
     /// @param fallbackBehaviour the property's [FallbackBehaviour]
-    /// @param stage the property's stage
-    record Enumeration<E>(String name, Category category, Class<E> type,
-                          FallbackBehaviour fallbackBehaviour, Stage stage) implements Property<Collection<E>> {}
+    /// @param stage             the property's stage
+    record Enumeration<E>(
+            String name, Category category, Class<E> type,
+            FallbackBehaviour fallbackBehaviour, Stage stage
+    ) implements Property<Collection<E>> { }
 }

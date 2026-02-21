@@ -106,6 +106,7 @@ import static io.github.kaktushose.jdac.configuration.internal.InternalPropertie
 ///     .classFinders(ClassFinder.reflective(Main.class), ClassFinders.explicit(ButtonInteraction.class))
 ///     .start();
 /// ```
+///
 /// @see Extension
 public class JDACBuilder {
 
@@ -139,7 +140,7 @@ public class JDACBuilder {
             return List.of(ClassFinder.reflective(resources));
         });
 
-        addFallback(EMBED_CONFIG, _ -> _ -> {});
+        addFallback(EMBED_CONFIG, _ -> _ -> { });
 
         // non settable/provided services
         addFallback(EMBED_CONFIG_INTERNAL, ctx -> {
@@ -147,7 +148,9 @@ public class JDACBuilder {
             try {
                 ctx.get(EMBED_CONFIG).accept(embedConfig);
             } catch (Exception e) {
-                if (ctx.get(SHUTDOWN_JDA)) ctx.get(JDA_CONTEXT).shutdown();
+                if (ctx.get(SHUTDOWN_JDA)) {
+                    ctx.get(JDA_CONTEXT).shutdown();
+                }
                 throw e;
             }
 
@@ -198,7 +201,6 @@ public class JDACBuilder {
     }
 
     /// @param classFinders the to be used [ClassFinder]s
-    ///
     /// @apiNote This method overrides the default/fallback value but adds to the loaded ones.
     /// If you want to add own [ClassFinder]s while keeping the default reflective implementation, you have to add it explicitly via
     /// [ClassFinder#reflective(String...)] too.
@@ -322,7 +324,6 @@ public class JDACBuilder {
     /// @param classes  the classes to be filtered
     /// @apiNote This method compares the [`fully classified class name`][Class#getName()] of all [Extension] implementations by using [String#startsWith(String)],
     /// so it's possible to include/exclude a bunch of extensions sharing the same base package by just providing the package name.
-    ///
     /// @see ExtensionFilter
     public JDACBuilder filterExtensions(ExtensionFilter.FilterStrategy strategy, String... classes) {
         return addUserProperty(EXTENSION_FILTER, _ -> new ExtensionFilter(strategy, Arrays.asList(classes)));
@@ -334,7 +335,6 @@ public class JDACBuilder {
     /// This method adds to the default resolvers like localization, placeholders and emojis
     ///
     /// @param resolvers the [Resolver]s to add
-    ///
     /// @see MessageResolver
     /// @see Resolver
     @SafeVarargs
@@ -347,12 +347,10 @@ public class JDACBuilder {
     ///
     /// @param property the [Property] to be set
     /// @param supplier the function providing the custom value for it ([PropertyProvider#supplier()])
-    ///
-    /// @see Property
-    /// @see PropertyProvider#supplier()
-    ///
     /// @implNote the values will be added as [PropertyProvider]s with priority set to [Integer#MAX_VALUE]
     /// like they were set by any other method of this class.
+    /// @see Property
+    /// @see PropertyProvider#supplier()
     public <T> JDACBuilder setProperty(Property<T> property, Function<PropertyProvider.Context, T> supplier) {
         return addUserProperty(property, supplier);
     }

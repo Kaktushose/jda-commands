@@ -36,7 +36,7 @@ public class ValidationProcessor extends PropertyProcessor {
         String annotationVal = getter.apply(annotation);
 
         if (!fieldVal.equals(annotationVal)) {
-            return "\n  %s: %s (field) vs. %s (annotation)".formatted(name, fieldVal,  annotationVal);
+            return "\n  %s: %s (field) vs. %s (annotation)".formatted(name, fieldVal, annotationVal);
         }
 
         return "";

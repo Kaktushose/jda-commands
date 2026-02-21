@@ -90,7 +90,6 @@ public sealed interface Introspection permits IntrospectionImpl {
     /// @param property the requested [Property]
     /// @return the property's value
     /// @throws NoSuchElementException if no [Introspection] instance is set
-    ///
     /// @see Introspection#accessScoped()
     /// @see Introspection#get(Property)
     static <T> T scopedGet(Property<T> property) {
@@ -114,9 +113,8 @@ public sealed interface Introspection permits IntrospectionImpl {
 
     /// Subscribes to specific [FrameworkEvent] allowing you to execute custom logic at multiple points during runtime.
     ///
-    /// @param event the concrete class of [FrameworkEvent], e.g. [`RuntimeCloseEvent.class`][RuntimeCloseEvent#getClass()]
+    /// @param event      the concrete class of [FrameworkEvent], e.g. [`RuntimeCloseEvent.class`][RuntimeCloseEvent#getClass()]
     /// @param subscriber the [Subscriber] holding the logic to be executed
-    ///
     /// @return the [Subscription] instance as a unique reference to your subscription, allowing you to later cancel it.
     <T extends FrameworkEvent> Subscription subscribe(Class<T> event, Subscriber<T> subscriber);
 

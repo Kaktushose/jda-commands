@@ -4,9 +4,9 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.reply.Component;
 import io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu.DefaultValue;
+import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
 import net.dv8tion.jda.api.entities.Mentions;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
-import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -29,6 +29,7 @@ import java.lang.annotation.Target;
 /// @EntityMenu(value = SelectTarget.USER, placeholder = "Who's your favourite user?")
 /// public void onMenu(ComponentEvent event, Mentions mentions) { ... }
 /// ```
+///
 /// @see Interaction
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

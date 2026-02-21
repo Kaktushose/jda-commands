@@ -46,7 +46,7 @@ public final class FluavaLocalizer implements Localizer {
     /// @param arguments {@inheritDoc}
     /// @return {@inheritDoc}
     @Override
-    public Optional<String> localize(Locale locale, String bundle, String key, Map<String, @Nullable  Object> arguments) {
+    public Optional<String> localize(Locale locale, String bundle, String key, Map<String, @Nullable Object> arguments) {
         String result = cache.computeIfAbsent(bundle, fluava::loadBundle).apply(locale, key, arguments);
         return result.equals(key)
                 ? Optional.empty()

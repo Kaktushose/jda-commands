@@ -149,7 +149,7 @@ public final class Runtime implements Closeable {
 
     public boolean isClosed() {
         if (introspection.get(Property.EXPIRATION_STRATEGY) instanceof ExpirationStrategy.Inactivity(long minutes) &&
-            lastActivity.isBefore(LocalDateTime.now().minusMinutes(minutes))) {
+                lastActivity.isBefore(LocalDateTime.now().minusMinutes(minutes))) {
             close();
             return true;
         }

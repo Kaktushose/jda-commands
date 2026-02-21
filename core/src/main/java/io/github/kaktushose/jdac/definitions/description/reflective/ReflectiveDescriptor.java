@@ -5,12 +5,10 @@ import org.jspecify.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /// An [Descriptor] implementation that uses `java.lang.reflect` to create the [ClassDescription].
@@ -55,7 +53,7 @@ public class ReflectiveDescriptor implements Descriptor {
     }
 
     private ParameterDescription parameter(Parameter parameter) {
-        @Nullable Class<?>[] arguments = {};
+        @Nullable Class<?>[] arguments = { };
         if (parameter.getParameterizedType() instanceof ParameterizedType type) {
             arguments = Arrays.stream(type.getActualTypeArguments())
                     .map(it -> it instanceof ParameterizedType pT ? pT.getRawType() : it)

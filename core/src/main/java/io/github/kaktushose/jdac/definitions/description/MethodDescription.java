@@ -47,7 +47,6 @@ public record MethodDescription(
     ///
     /// @param name the parameters name
     /// @return the matching [ParameterDescription]
-    ///
     /// @throws NoSuchElementException if no element was found
     /// @see Optional#orElseThrow()
     public ParameterDescription parameter(String name) {

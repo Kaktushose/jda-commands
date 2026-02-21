@@ -11,7 +11,7 @@ import io.github.kaktushose.proteus.mapping.MappingResult;
 /// @param <T> the target type
 @FunctionalInterface
 public interface TypeAdapter<S, T> extends UniMapper<S, T> {
-    
+
     /// {@inheritDoc}
     @IntrospectionAccess(Stage.PREPARATION)
     MappingResult<T> from(S source, MappingContext<S, T> context);

@@ -26,13 +26,13 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// Representation of a slash command.
 ///
-/// @param classDescription     the [ClassDescription] of the declaring class of the [#methodDescription()]
-/// @param methodDescription    the [MethodDescription] of the method this definition is bound to
-/// @param permissions          a [Collection] of permissions for this command
-/// @param name                 the name of the command
-/// @param commandConfig        the [CommandConfig] to use
-/// @param description          the command description
-/// @param commandOptions       a [SequencedCollection] of [OptionDataDefinition]s
+/// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
+/// @param methodDescription the [MethodDescription] of the method this definition is bound to
+/// @param permissions       a [Collection] of permissions for this command
+/// @param name              the name of the command
+/// @param commandConfig     the [CommandConfig] to use
+/// @param description       the command description
+/// @param commandOptions    a [SequencedCollection] of [OptionDataDefinition]s
 public record SlashCommandDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,

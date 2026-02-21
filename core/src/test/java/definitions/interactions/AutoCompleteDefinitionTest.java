@@ -23,38 +23,38 @@ import static definitions.TestHelpers.getBuildContextOptionalAutoComplete;
 public class AutoCompleteDefinitionTest {
 
     @Test
-    void testOnlyCommand_shouldWork(){
+    void testOnlyCommand_shouldWork() {
         AutoCompleteDefinition definition = Assertions.assertDoesNotThrow(() -> build("wholeCommand"));
-        List<AutoCompleteDefinition.AutoCompleteRule> rules =  new ArrayList<>(definition.rules());
+        List<AutoCompleteDefinition.AutoCompleteRule> rules = new ArrayList<>(definition.rules());
         Assertions.assertEquals("command", rules.getFirst().command());
         Assertions.assertEquals(Set.of(), rules.getFirst().options());
     }
 
     @Test
-    void testCommandWithSubCommand_shouldWork(){
-        AutoCompleteDefinition definition =Assertions.assertDoesNotThrow(() -> build("subCommand"));
+    void testCommandWithSubCommand_shouldWork() {
+        AutoCompleteDefinition definition = Assertions.assertDoesNotThrow(() -> build("subCommand"));
 
-        List<AutoCompleteDefinition.AutoCompleteRule> rules =  new ArrayList<>(definition.rules());
+        List<AutoCompleteDefinition.AutoCompleteRule> rules = new ArrayList<>(definition.rules());
         Assertions.assertEquals("command sub", rules.getFirst().command());
         Assertions.assertEquals(Set.of(), rules.getFirst().options());
     }
 
     @Test
-    void testWithOption_shouldWork(){
-        AutoCompleteDefinition definition =Assertions.assertDoesNotThrow(() -> build("option"));
+    void testWithOption_shouldWork() {
+        AutoCompleteDefinition definition = Assertions.assertDoesNotThrow(() -> build("option"));
 
-        List<AutoCompleteDefinition.AutoCompleteRule> rules =  new ArrayList<>(definition.rules());
+        List<AutoCompleteDefinition.AutoCompleteRule> rules = new ArrayList<>(definition.rules());
         Assertions.assertEquals("command", rules.getFirst().command());
         Assertions.assertEquals(Set.of("name"), rules.getFirst().options());
     }
 
     @Test
-    void testWithWrongEvent_shouldThrow(){
+    void testWithWrongEvent_shouldThrow() {
         Assertions.assertThrows(InvalidDeclarationException.class, () -> build("wrongEvent"));
     }
 
     @Test
-    void testWithNoEvent_shouldThrow(){
+    void testWithNoEvent_shouldThrow() {
         Assertions.assertThrows(InvalidDeclarationException.class, () -> build("noEvent"));
     }
 

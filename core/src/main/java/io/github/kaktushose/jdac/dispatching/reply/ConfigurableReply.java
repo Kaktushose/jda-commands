@@ -85,8 +85,8 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
     /// [#mention(IMentionable...)] or [#mention(Collection)]).
     ///
     /// @param allowedMentions [MentionType]s that are allowed to be parsed and mentioned. All other mention types will
-    ///                        not be mentioned by this message. You can pass `null` or
-    ///                        `EnumSet.allOf(MentionType.class)` to allow all mentions.
+    ///                                               not be mentioned by this message. You can pass `null` or
+    ///                                               `EnumSet.allOf(MentionType.class)` to allow all mentions.
     /// @return the current instance for fluent interface
     /// @see MessageCreateRequest#setAllowedMentions(Collection)
     public ConfigurableReply allowedMentions(@Nullable Collection<MentionType> allowedMentions) {

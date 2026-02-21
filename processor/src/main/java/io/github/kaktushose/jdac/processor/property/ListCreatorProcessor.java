@@ -24,7 +24,9 @@ public class ListCreatorProcessor extends PropertyProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        if (alreadyRun) return false;
+        if (alreadyRun) {
+            return false;
+        }
 
         super.process(annotations, roundEnv);
         alreadyRun = true;
@@ -73,7 +75,9 @@ public class ListCreatorProcessor extends PropertyProcessor {
 
         for (String field : fields) {
             spec.addCode("$T.$L", propertyClassName, field);
-            if (!fields.getLast().equals(field)) spec.addCode(",");
+            if (!fields.getLast().equals(field)) {
+                spec.addCode(",");
+            }
         }
 
         return spec.addStatement(")")

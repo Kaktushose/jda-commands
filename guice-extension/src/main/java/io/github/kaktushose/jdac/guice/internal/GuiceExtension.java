@@ -83,15 +83,23 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
     private void addDynamicImplementations(List<PropertyProvider<?>> list) {
         // load single types
         for (var property : Property.LOADABLE) {
-            if (shouldSkip(property)) continue;
+            if (shouldSkip(property)) {
+                continue;
+            }
 
             switch (property) {
-                case Property.Map<?, ?> m -> throw new GuiceException("invalid-implementation", entry("class", m.value().getName()));
-                case Property.Enumeration<?> e -> list.add(provider(e, ctx -> instances(ctx, Implementation.class, e.type()).toList()));
+                case Property.Map<?, ?> m ->
+                        throw new GuiceException("invalid-implementation", entry("class", m.value().getName()));
+                case Property.Enumeration<?> e ->
+                        list.add(provider(e, ctx -> instances(ctx, Implementation.class, e.type()).toList()));
                 case Property.Singleton<?> i -> list.add(provider(i, ctx -> {
                     List<?> instances = instances(ctx, Implementation.class, i.type()).toList();
-                    if (instances.size() == 1) return instances.getFirst();
-                    if (instances.isEmpty()) return null;
+                    if (instances.size() == 1) {
+                        return instances.getFirst();
+                    }
+                    if (instances.isEmpty()) {
+                        return null;
+                    }
 
                     throw new GuiceException("multiple-instances",
                             entry("type", i.type().getName()),
@@ -103,14 +111,14 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
 
         // load multiple implementable types
         list.add(provider(
-                Property.TYPE_ADAPTER,
-                ctx -> instances(ctx, Implementation.TypeAdapter.class, TypeAdapter.class)
-                        .map(adapter -> {
-                            Implementation.TypeAdapter ann = adapter.getClass().getAnnotation(Implementation.TypeAdapter.class);
-                            return Map.entry(new AdapterType<>(Type.of(ann.source()), Type.of(ann.target())), adapter);
-                        })
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-           )
+                        Property.TYPE_ADAPTER,
+                        ctx -> instances(ctx, Implementation.TypeAdapter.class, TypeAdapter.class)
+                                .map(adapter -> {
+                                    Implementation.TypeAdapter ann = adapter.getClass().getAnnotation(Implementation.TypeAdapter.class);
+                                    return Map.entry(new AdapterType<>(Type.of(ann.source()), Type.of(ann.target())), adapter);
+                                })
+                                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+                )
         );
 
         list.add(provider(
@@ -123,13 +131,13 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         ));
 
         list.add(provider(
-                Property.MIDDLEWARE,
-                ctx -> instances(ctx, Implementation.Middleware.class, Middleware.class)
-                        .map(middleware -> {
-                            Implementation.Middleware ann = middleware.getClass().getAnnotation(Implementation.Middleware.class);
-                            return Map.entry(ann.priority(), middleware);
-                        })
-                        .toList()
+                        Property.MIDDLEWARE,
+                        ctx -> instances(ctx, Implementation.Middleware.class, Middleware.class)
+                                .map(middleware -> {
+                                    Implementation.Middleware ann = middleware.getClass().getAnnotation(Implementation.Middleware.class);
+                                    return Map.entry(ann.priority(), middleware);
+                                })
+                                .toList()
                 )
         );
     }

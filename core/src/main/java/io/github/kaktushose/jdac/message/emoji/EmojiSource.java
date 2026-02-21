@@ -36,7 +36,7 @@ public interface EmojiSource {
     ///
     /// @param paths the paths to scan (resource directories)
     static EmojiSource reflective(String... paths) {
-        record EmojiFile(Resource resource, String name) {}
+        record EmojiFile(Resource resource, String name) { }
 
         String[] acceptedPaths = paths.length == 0
                 ? new String[]{"emojis"}
@@ -52,7 +52,9 @@ public interface EmojiSource {
                         .map(resource -> {
                             String path = resource.getPath();
                             Matcher matcher = RESOURCE_PATTERN.matcher(path);
-                            if (!matcher.matches()) return null;
+                            if (!matcher.matches()) {
+                                return null;
+                            }
                             return new EmojiFile(resource, matcher.group(1));
                         })
                         .filter(Objects::nonNull)
@@ -70,7 +72,7 @@ public interface EmojiSource {
     /// Loads an emoji from a given URL.
     ///
     /// @param name the name of the emoji
-    /// @param url the [URL] the emoji should be loaded from
+    /// @param url  the [URL] the emoji should be loaded from
     static EmojiSource fromUrl(String name, URL url) {
         return () -> {
             try (InputStream i = url.openStream()) {
@@ -93,7 +95,6 @@ public interface EmojiSource {
     /// This method is called during startup to load the to be registered application emojis.
     ///
     /// @return a map, mapping the emojis name to it's [Icon] instance
-    ///
     /// @apiNote This method will be called blocking and sequentially, I/O will therefore delay startup.
     Map<String, Icon> get();
 }

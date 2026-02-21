@@ -27,7 +27,9 @@ public abstract class PropertyProcessor extends AbstractProcessor {
             Set<? extends Element> annotatedElements
                     = roundEnv.getElementsAnnotatedWith(validated);
             for (Element annotatedElement : annotatedElements) {
-                if (!(annotatedElement instanceof TypeElement typeElement)) continue;
+                if (!(annotatedElement instanceof TypeElement typeElement)) {
+                    continue;
+                }
                 for (Element child : typeElement.getEnclosedElements()) {
                     if (!(child instanceof VariableElement variable && variable.getKind() == ElementKind.FIELD)) {
                         continue;
@@ -35,7 +37,9 @@ public abstract class PropertyProcessor extends AbstractProcessor {
 
                     TypeMirror type = variable.asType();
                     Element element = processingEnv.getTypeUtils().asElement(type);
-                    if (!element.getSimpleName().contentEquals("Property")) return false;
+                    if (!element.getSimpleName().contentEquals("Property")) {
+                        return false;
+                    }
 
                     VariableTree tree = (VariableTree) trees.getPath(variable).getLeaf();
                     ExpressionTree initializer = tree.getInitializer();
@@ -74,14 +78,16 @@ public abstract class PropertyProcessor extends AbstractProcessor {
             case "Enumeration" -> getValue(arguments.get(4));
             case "Singleton" -> getValue(arguments.get(3));
             case "Map" -> getValue(arguments.get(5));
-            default -> throw new IllegalStateException("Unknown property type: %s".formatted(nc.getIdentifier().toString()));
+            default ->
+                    throw new IllegalStateException("Unknown property type: %s".formatted(nc.getIdentifier().toString()));
         };
 
         String fallbackBehaviour = switch (type) {
             case "Enumeration" -> getValue(arguments.get(3));
             case "Singleton" -> "NONE";
             case "Map" -> getValue(arguments.get(4));
-            default -> throw new IllegalStateException("Unknown property type: %s".formatted(nc.getIdentifier().toString()));
+            default ->
+                    throw new IllegalStateException("Unknown property type: %s".formatted(nc.getIdentifier().toString()));
         };
 
 

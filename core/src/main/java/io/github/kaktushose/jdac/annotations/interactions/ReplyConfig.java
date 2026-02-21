@@ -78,6 +78,9 @@ public @interface ReplyConfig {
     /// Sets the [MentionType]s to parse. By default, all mentions are allowed.
     ///
     /// @see net.dv8tion.jda.api.utils.messages.MessageCreateRequest#setAllowedMentions(Collection)
-    MentionType[] allowedMentions() default {MentionType.CHANNEL, MentionType.USER, MentionType.ROLE, MentionType.HERE, MentionType.EVERYONE, MentionType.EMOJI, MentionType.SLASH_COMMAND};
+    MentionType[] allowedMentions() default {
+            MentionType.CHANNEL, MentionType.USER, MentionType.ROLE, MentionType.HERE, MentionType.EVERYONE,
+            MentionType.EMOJI, MentionType.SLASH_COMMAND
+    };
 
 }

@@ -1,9 +1,9 @@
 package io.github.kaktushose.jdac.embeds;
 
+import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
-import dev.goldmensch.fluava.Fluava;
 
 import java.nio.file.Path;
 import java.util.Map;
@@ -25,7 +25,7 @@ import java.util.Map;
 ///       "description": "Hello World!"
 ///    }
 /// }
-///```
+/// ```
 /// # Localization
 /// The Embed API supports localization via the [I18n] class. The embed fields can either contain a localization key
 /// a direct localization message in a format supported by the [Localizer] implementation.
@@ -37,8 +37,8 @@ import java.util.Map;
 ///       "title": "example-title", // localization key
 ///       "description": "Hello {$user}!" // localization message
 ///    }
-///}
-///```
+/// }
+/// ```
 ///
 /// # Global Placeholders
 /// Use [#placeholders(Entry...)] to define placeholders that will be globally available for any [Embed].

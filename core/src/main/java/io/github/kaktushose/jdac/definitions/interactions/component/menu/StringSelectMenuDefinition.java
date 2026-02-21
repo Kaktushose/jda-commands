@@ -148,11 +148,12 @@ public record StringSelectMenuDefinition(
     /// @param description the description of the select option
     /// @param emoji       the [Emoji] of the select option or `null`
     /// @param isDefault   whether the select option is a default value
-    public record MenuOptionDefinition(String value,
-                                       String label,
-                                       @Nullable String description,
-                                       @Nullable Emoji emoji,
-                                       boolean isDefault
+    public record MenuOptionDefinition(
+            String value,
+            String label,
+            @Nullable String description,
+            @Nullable Emoji emoji,
+            boolean isDefault
     ) implements JDAEntity<SelectOption>, Definition {
 
         public MenuOptionDefinition(SelectOption option) {

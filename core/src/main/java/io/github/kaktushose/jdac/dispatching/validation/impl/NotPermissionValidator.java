@@ -15,8 +15,8 @@ public class NotPermissionValidator implements Validator<Member, NotPerm> {
     /// permission.
     ///
     /// @param context the corresponding [InvocationContext]
-    /// @param member the [Member] to check
-    /// @param perm the [NotPerm] to use
+    /// @param member  the [Member] to check
+    /// @param perm    the [NotPerm] to use
     @Override
     public void apply(Member member, NotPerm perm, Context context) {
         Helpers.checkDetached(member, NotPermissionValidator.class);
