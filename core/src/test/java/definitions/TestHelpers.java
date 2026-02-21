@@ -3,6 +3,9 @@ package definitions;
 import io.github.kaktushose.jdac.annotations.interactions.AutoComplete;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.annotations.interactions.Permissions;
+import io.github.kaktushose.jdac.configuration.Property;
+import io.github.kaktushose.jdac.configuration.internal.Properties;
+import io.github.kaktushose.jdac.configuration.internal.Resolver;
 import io.github.kaktushose.jdac.definitions.description.AnnotationDescription;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
@@ -11,12 +14,19 @@ import io.github.kaktushose.jdac.definitions.description.reflective.ReflectiveDe
 import io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
+import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
+import io.github.kaktushose.jdac.guice.internal.GuiceInstantiator;
+import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.introspection.internal.Lifecycle;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.internal.BundleFinder;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 
+import java.lang.reflect.Constructor;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,6 +34,16 @@ public class TestHelpers {
 
     public static final I18n I18N = new I18n(new BundleFinder(Descriptor.REFLECTIVE), FluavaLocalizer.create(Locale.ENGLISH));
     public static final MessageResolver MESSAGE_RESOLVER = new MessageResolver(List.of(I18N));
+    public static final IntrospectionImpl INTROSPECTION = Properties.Builder.newRestricted()
+            .addFallback(Property.DESCRIPTOR, (_) -> Descriptor.REFLECTIVE)
+            .addFallback(Property.INSTANTIATOR, (_) -> new Instantiator() {
+                @Override
+                public <T> T instance(Class<T> clazz, Introspection introspection) {
+                    return null;
+                }
+            })
+            .createIntrospection(new IntrospectionImpl(new Lifecycle(), new Resolver(Map.of()), Stage.INITIALIZED), Stage.INITIALIZED);
+
 
     public static final Validators validators = new Validators(Map.of());
 

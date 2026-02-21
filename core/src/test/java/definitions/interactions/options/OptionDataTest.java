@@ -1,5 +1,6 @@
 package definitions.interactions.options;
 
+import definitions.TestHelpers;
 import io.github.kaktushose.jdac.annotations.interactions.Choices;
 import io.github.kaktushose.jdac.annotations.interactions.Command;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
@@ -13,6 +14,7 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.concrete.*;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
@@ -27,7 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static definitions.TestHelpers.*;
+import static definitions.TestHelpers.MESSAGE_RESOLVER;
+import static definitions.TestHelpers.getBuildContext;
 import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -118,31 +121,36 @@ class OptionDataTest {
 
     @Test
     void optionData_withNoExplicitType_shouldInferCorrectType() {
-        Validators validators = new Validators(Map.of());
-        ParameterDescription description = build("notAnnotated").methodDescription().parameters().getLast();
+        ScopedValue.where(IntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).run(() -> {
+            Validators validators = new Validators(Map.of());
+            ParameterDescription description = build("notAnnotated").methodDescription().parameters().getLast();
 
-        for (Class<?> type : CLASS_TO_OPTION_TYPE.keySet()) {
-            OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), CLASS_DESCRIPTION, null, MESSAGE_RESOLVER, validators);
-            assertEquals(CLASS_TO_OPTION_TYPE.get(type), build.optionType());
-        }
+            for (Class<?> type : CLASS_TO_OPTION_TYPE.keySet()) {
+                OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), CLASS_DESCRIPTION, null, MESSAGE_RESOLVER, validators);
+                assertEquals(CLASS_TO_OPTION_TYPE.get(type), build.optionType());
+            }
+        });
     }
 
     @Test
     void optionData_withPrimitiveType_shouldBoxCorrectly() {
-        Validators validators = new Validators(Map.of());
-        ParameterDescription description = build("notAnnotated").methodDescription().parameters().getLast();
+        ScopedValue.where(IntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).run(() -> {
+            Validators validators = new Validators(Map.of());
+            ParameterDescription description = build("notAnnotated").methodDescription().parameters().getLast();
 
-        for (Class<?> type : PRIMITIVE_TO_BOXED.keySet()) {
-            OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), CLASS_DESCRIPTION, null, MESSAGE_RESOLVER, validators);
-            assertEquals(PRIMITIVE_TO_BOXED.get(type), build.resolvedType());
-        }
+
+            for (Class<?> type : PRIMITIVE_TO_BOXED.keySet()) {
+                OptionDataDefinition build = OptionDataDefinition.build(modify(type, description), CLASS_DESCRIPTION, null, MESSAGE_RESOLVER, validators);
+                assertEquals(PRIMITIVE_TO_BOXED.get(type), build.resolvedType());
+            }
+        });
     }
 
     @Test
     void optionData_withOptionTypeInAnnotation_shouldNotHaveDefaultType() {
         OptionDataDefinition definition = optionData("annotatedParameter");
 
-        assertEquals(OptionType.INTEGER,  definition.optionType());
+        assertEquals(OptionType.INTEGER, definition.optionType());
     }
 
     @Test
@@ -203,11 +211,29 @@ class OptionDataTest {
     }
 
     private SlashCommandDefinition build(String method) {
-        return SlashCommandDefinition.build(getBuildContext(TestController.class, method));
+        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).call(() ->
+                SlashCommandDefinition.build(getBuildContext(TestController.class, method))
+        );
     }
 
     @Interaction
     public static class TestController {
+
+        public static String wrongTypeProvider() {
+            return null;
+        }
+
+        public static List<Integer> wrongListProvider() {
+            return null;
+        }
+
+        public static List<String> nullProvider() {
+            return null;
+        }
+
+        public static List<String> correctProvider() {
+            return List.of("Bar");
+        }
 
         @Command("eventType")
         public void eventType(CommandEvent event, ComponentEvent componentEvent) {
@@ -243,25 +269,33 @@ class OptionDataTest {
         }
 
         @Command("providerPrivate")
-        public void providerPrivate(CommandEvent event, @Choices(provider = "privateProvider") String option) { }
+        public void providerPrivate(CommandEvent event, @Choices(provider = "privateProvider") String option) {
+        }
 
         @Command("providerPublic")
-        public void providerPublic(CommandEvent event, @Choices(provider = "publicProvider") String option) { }
+        public void providerPublic(CommandEvent event, @Choices(provider = "publicProvider") String option) {
+        }
 
         @Command("providerWrongType")
-        public void providerWrongType(CommandEvent event, @Choices(provider = "wrongTypeProvider") String option) { }
+        public void providerWrongType(CommandEvent event, @Choices(provider = "wrongTypeProvider") String option) {
+        }
 
         @Command("providerWrongList")
-        public void providerWrongList(CommandEvent event, @Choices(provider = "wrongListProvider") String option) { }
+        public void providerWrongList(CommandEvent event, @Choices(provider = "wrongListProvider") String option) {
+        }
 
         @Command("providerNull")
-        public void providerNull(CommandEvent event, @Choices(provider = "nullProvider") String option) { }
+        public void providerNull(CommandEvent event, @Choices(provider = "nullProvider") String option) {
+        }
 
         @Command("providerCorrect")
-        public void providerCorrect(CommandEvent event, @Choices(provider = "correctProvider") String option) { }
+        public void providerCorrect(CommandEvent event, @Choices(provider = "correctProvider") String option) {
+        }
 
         @Command("providerCombined")
-        public void providerCombined(CommandEvent event, @Choices(value = "Foo", provider = "correctProvider") String option) { }
+        public void providerCombined(CommandEvent event, @Choices(value = "Foo",
+                provider = "correctProvider") String option) {
+        }
 
         private List<String> privateProvider() {
             return null;
@@ -269,22 +303,6 @@ class OptionDataTest {
 
         public List<String> publicProvider() {
             return null;
-        }
-
-        public static String wrongTypeProvider() {
-            return null;
-        }
-
-        public static List<Integer> wrongListProvider() {
-            return null;
-        }
-
-        public static List<String> nullProvider() {
-            return null;
-        }
-
-        public static List<String> correctProvider() {
-            return List.of("Bar");
         }
     }
 }
