@@ -88,21 +88,21 @@ public class AutoCompleteDefinitionTest {
     }
 
     private AutoCompleteDefinition build(String method) {
-        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).call(() -> {
+        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, INTROSPECTION).call(() -> {
             MethodBuildContext context = getBuildContext(TestController.class, method);
             return AutoCompleteDefinition.build(context.clazz(), context.method());
         });
     }
 
     private AutoCompleteDefinition buildWorking(String method) {
-        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).call(() -> {
+        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, INTROSPECTION).call(() -> {
             MethodBuildContext context = getBuildContextOptionalAutoComplete(TestControllerWorking.class, method, true);
             return AutoCompleteDefinition.build(context.clazz(), context.method());
         });
     }
 
     private SlashCommandDefinition buildSlash(String method) {
-        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).call(() -> {
+        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, INTROSPECTION).call(() -> {
             MethodBuildContext context = getBuildContextOptionalAutoComplete(TestControllerWorking.class, method, true);
             return SlashCommandDefinition.build(context);
         });
