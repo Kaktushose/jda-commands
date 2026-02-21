@@ -185,6 +185,35 @@ public void onBanMember(CommandEvent event,
 }
 ```
 
+The examples above all provided the choices statically via the annotation value. However, if needed choices can also be provided by a public static 
+method returning `List<String>`.
+```java
+public void onCommand(CommandEvent event, @Choices(provider = "getChoices") String option) {...}
+
+public static List<String> getChoices() {
+ return List.of("Apple", "Banana", "Cherry");
+}
+```
+If both static values and a provider is present, the values will be combined.
+
+!!! tip
+    Providers can also be defined in a different class than the command:
+    ```java
+    public void onCommand(CommandEvent event, @Choices(source = Other.class, provider = "getChoices") String option) {...}
+    ```
+
+**Dependency Injection**
+
+This static provider method also supports dependency injection via the [Guice Extension](../di.md#default-dependency-injection-framework-guice).
+```java
+public static List<String> getChoices(MyChoiceProvider provider) {
+ return provider.getChoices();
+}
+```
+
+!!! note
+    If the provider method is overloaded, all provider methods will be called and combined.
+
 #### Auto Complete
 You can add auto complete to a command option by defining an auto complete handler for it by annotating a method with
 <AutoComplete>. Auto Complete handlers are always bound to 

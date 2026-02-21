@@ -17,7 +17,7 @@ import java.util.List;
 /// specify both.
 ///
 /// # Dynamic Choices
-/// If needed, choices can also be provided by a static method returning a [List] of [String]s.
+/// If needed, choices can also be provided by a public static method returning a `List<String>`.
 /// ```
 /// public void onCommand(CommandEvent event, @Choices(provider = "getChoices") String option) {...}
 ///
