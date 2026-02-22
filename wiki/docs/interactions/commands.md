@@ -211,6 +211,9 @@ public static List<String> getChoices(MyChoiceProvider provider) {
 }
 ```
 
+Injectable are all types listed [here](../di.md#interaction-controller-classes) except <JDA>.
+The stage is set to <Stage#INITIALIZED>.
+
 !!! note
     If the provider method is overloaded, all provider methods will be called and combined.
 

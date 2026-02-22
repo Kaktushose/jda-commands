@@ -3,19 +3,19 @@ package io.github.kaktushose.jdac.guice.internal;
 import com.google.inject.Injector;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
-import io.github.kaktushose.jdac.guice.internal.guice.PerInteractionModule;
 import io.github.kaktushose.jdac.guice.internal.guice.RuntimeBoundScope;
+import io.github.kaktushose.jdac.guice.internal.guice.modules.InitializedScopeModule;
+import io.github.kaktushose.jdac.guice.internal.guice.modules.RuntimeScopeModule;
 import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.Stage;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 public class GuiceInstantiator implements Instantiator {
 
-    private final RuntimeBoundScope scope;
     private final Injector injector;
 
     public GuiceInstantiator(RuntimeBoundScope scope, Injector injector) {
-        this.scope = scope;
         this.injector = injector.createChildInjector(binder -> {
             binder.bindScope(Interaction.class, scope);
         });
@@ -23,11 +23,14 @@ public class GuiceInstantiator implements Instantiator {
 
     @Override
     public <T> T instance(Class<T> clazz, Introspection introspection) {
-        Injector childInjector = injector.createChildInjector(new PerInteractionModule(introspection));
-        return childInjector.getInstance(clazz);
-    }
+        Stage stage = introspection.currentStage();
 
-    RuntimeBoundScope scope() {
-        return scope;
+        Injector scoped = switch (stage) {
+            case RUNTIME -> injector.createChildInjector(new RuntimeScopeModule(introspection)); // runtime -> create interaction controller
+            case INITIALIZED -> injector.createChildInjector(new InitializedScopeModule(introspection)); // option data: choices provider method
+            default -> throw new UnsupportedOperationException("Unsupported stage of introspection: %s".formatted(introspection.currentStage()));
+        };
+
+        return scoped.getInstance(clazz);
     }
 }
