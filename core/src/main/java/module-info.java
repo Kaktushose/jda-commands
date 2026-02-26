@@ -81,5 +81,8 @@ module io.github.kaktushose.jdac.core {
     exports io.github.kaktushose.jdac.message.placeholder;
     exports io.github.kaktushose.jdac.message.resolver;
 
+    // components
+    exports io.github.kaktushose.jdac.components.container;
+
     uses Extension;
 }
