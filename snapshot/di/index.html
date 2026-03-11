@@ -1873,12 +1873,12 @@ inject framework components and custom objects in your classes.
 Take a look at the Javadocs of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.guice/io/github/kaktushose/jdac/guice/Implementation.html"><code>@Implementation</code></a> to know what you can inject here.</p>
 <h2 id="custom-dependency-injection-integrations">Custom dependency injection integrations<a class="headerlink" href="#custom-dependency-injection-integrations" title="Permanent link">&para;</a></h2>
 <p>If you want to integrate another dependency injection framework, you have to provide your own 
-implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/InteractionControllerInstantiator.html"><code>InteractionControllerInstantiator</code></a>.</p>
+implementation of <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/instance/Instantiator.html"><code>Instantiator</code></a>.</p>
 <p>You can do this by either passing it to the builder or by creating your own <a href="../misc/extension/writing/">extension</a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">        </span><span class="p">.</span><span class="na">instanceProvider</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">OwnInterationControllerInstantiator</span><span class="p">(</span><span class="n">someContext</span><span class="p">))</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">        </span><span class="p">.</span><span class="na">instanceProvider</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">MyInstantiator</span><span class="p">(</span><span class="n">someContext</span><span class="p">))</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">        </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
 </span></code></pre></div>
 </div>
