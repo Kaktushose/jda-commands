@@ -11,30 +11,32 @@ import java.util.stream.Collectors;
 public final class InvalidDeclarationException extends JDACException {
 
     public static final ScopedValue<MethodDescription> CONTEXT = ScopedValue.newInstance();
+    private final String prefix;
 
     /// @param key the bundle key of the error message
     public InvalidDeclarationException(String key) {
-        super(key);
+        this(key, new Entry[0]);
     }
 
     /// @param key         the bundle key of the error message
     /// @param placeholder the placeholders to insert
     public InvalidDeclarationException(String key, Entry... placeholder) {
         super(key, placeholder);
+        if (CONTEXT.isBound()) {
+            MethodDescription method = CONTEXT.get();
+
+            prefix = "Error while constructing definition of method '%s#%s(%s)': ".formatted(
+                    method.declaringClass().getSimpleName(),
+                    method.name(),
+                    method.parameters().stream().map(ParameterDescription::type).map(Class::getSimpleName).collect(Collectors.joining(", "))
+            );
+        } else {
+            prefix = "";
+        }
     }
 
-    @SuppressWarnings("ConstantValue")
     @Override
     public String getMessage() {
-        if (!CONTEXT.isBound()) return super.getMessage();
-        MethodDescription method = CONTEXT.get();
-
-        String prefix = "Error while constructing definition of method '%s#%s(%s)': ".formatted(
-                method.declaringClass().getName(),
-                method.name(),
-                method.parameters().stream().map(ParameterDescription::type).map(Class::getName).collect(Collectors.joining(", "))
-        );
-
         return prefix + super.getMessage();
     }
 }
