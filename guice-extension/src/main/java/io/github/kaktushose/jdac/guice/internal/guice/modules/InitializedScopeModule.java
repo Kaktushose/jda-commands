@@ -1,23 +1,14 @@
-package io.github.kaktushose.jdac.guice.internal.guice;
+package io.github.kaktushose.jdac.guice.internal.guice.modules;
 
 import com.google.inject.Provides;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.introspection.Definitions;
 import io.github.kaktushose.jdac.introspection.Introspection;
-import net.dv8tion.jda.api.JDA;
-import org.jetbrains.annotations.ApiStatus;
 
-@ApiStatus.Internal
-public class PerInteractionModule extends PropertyProviderModule {
-
-    public PerInteractionModule(Introspection introspection) {
+public class InitializedScopeModule extends ConfigurationScopeModule {
+    public InitializedScopeModule(Introspection introspection) {
         super(introspection);
-    }
-
-    @Provides
-    public JDA jda() {
-        return introspection.get(Property.JDA);
     }
 
     @Provides

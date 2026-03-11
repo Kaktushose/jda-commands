@@ -77,7 +77,7 @@ public record SlashCommandDefinition(
         List<OptionDataDefinition> commandOptions = method.parameters().stream()
                 .filter(it -> !(CommandEvent.class.isAssignableFrom(it.type())))
                 .map(parameter ->
-                        OptionDataDefinition.build(parameter, findAutoComplete(autoCompletes, parameter, name), context.messageResolver(), context.validators())
+                        OptionDataDefinition.build(parameter, context.clazz(), findAutoComplete(autoCompletes, parameter, name), context.messageResolver(), context.validators())
                 )
                 .toList();
 

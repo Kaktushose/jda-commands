@@ -19,11 +19,9 @@ public record ParameterDescription(
         String name,
         Collection<AnnotationDescription<?>> annotations
 ) implements Description {
-    public ParameterDescription(Class<?> type, @Nullable Class<?>[] typeArguments, String name, Collection<AnnotationDescription<?>> annotations) {
-        this.type = type;
-        this.name = name;
-        this.typeArguments = typeArguments;
-        this.annotations = Collections.unmodifiableCollection(annotations);
+
+    public ParameterDescription {
+        annotations = Collections.unmodifiableCollection(annotations);
     }
 
     @Override

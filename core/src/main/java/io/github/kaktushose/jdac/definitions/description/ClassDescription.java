@@ -17,13 +17,21 @@ public record ClassDescription(
         Collection<AnnotationDescription<?>> annotations,
         Collection<MethodDescription> methods
 ) implements Description {
-    public ClassDescription(Class<?> clazz, String name, PackageDescription packageDescription, Collection<AnnotationDescription<?>> annotations, Collection<MethodDescription> methods) {
-        this.clazz = clazz;
-        this.name = name;
-        this.packageDescription = packageDescription;
-        this.annotations = Collections.unmodifiableCollection(annotations);
-        this.methods = Collections.unmodifiableCollection(methods);
+
+    public ClassDescription{
+        annotations = Collections.unmodifiableCollection(annotations);
+        methods = Collections.unmodifiableCollection(methods);
     }
+
+    /// Gets methods that matches the given name.
+    ///
+    /// @param name the method name
+    ///
+    /// @return a [Collection] of the found [MethodDescription]s or an empty [Collection] if no methods were found
+    public Collection<MethodDescription> findMethods(String name) {
+        return methods.stream().filter(desc -> desc.name().equals(name)).toList();
+    }
+
 
     /// Gets a method that matches the given name and parameter types if found.
     ///

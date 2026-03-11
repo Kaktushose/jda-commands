@@ -34,10 +34,10 @@ import java.util.function.Function;
 /// class Foo {
 ///     public bar(...) {
 ///         var provider = new PropertyProvider(
-///             Type.INTERACTION_CONTROLLER_INSTANTIATOR,
+///             Property.INSTANTIATOR,
 ///             2000, // just some random priority
 ///             Foo.class, // used as a waypoint for debugging
-///             ctx -> new MyInteractionControllerInstantiator(ctx.get(Property.I18N)) // needs the I18n instance
+///             ctx -> new MyInstantiator(ctx.get(Property.I18N)) // needs the I18n instance
 ///         )
 ///     }
 /// }
