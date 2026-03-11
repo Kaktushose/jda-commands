@@ -15,31 +15,36 @@ public final class InvalidDeclarationException extends JDACException {
 
     /// @param key the bundle key of the error message
     public InvalidDeclarationException(String key) {
-        this(key, new Entry[0]);
+        super(key);
+        prefix = cause();
     }
 
     /// @param key         the key of the error message
-    /// @param cause       the cause of the exception
     /// @param placeholder the [placeholders][Entry] to insert
-    public InvalidDeclarationException(String key, Throwable cause, Entry... placeholder) {
-        this(key, placeholder);
+    public InvalidDeclarationException(String key, Entry... placeholder) {
+        super(key, placeholder);
+        prefix = cause();
     }
 
     /// @param key         the bundle key of the error message
+    /// @param cause       the cause of the exception
     /// @param placeholder the placeholders to insert
-    public InvalidDeclarationException(String key, Entry... placeholder) {
-        super(key, placeholder);
+    public InvalidDeclarationException(String key, Throwable cause, Entry... placeholder) {
+        super(key, cause, placeholder);
+        prefix = cause();
+    }
+
+    private String cause() {
         if (CONTEXT.isBound()) {
             MethodDescription method = CONTEXT.get();
 
-            prefix = "Error while constructing definition of method '%s#%s(%s)': ".formatted(
+            return "Error while constructing definition of method '%s#%s(%s)': ".formatted(
                     method.declaringClass().getSimpleName(),
                     method.name(),
                     method.parameters().stream().map(ParameterDescription::type).map(Class::getSimpleName).collect(Collectors.joining(", "))
             );
-        } else {
-            prefix = "";
         }
+        return "";
     }
 
     @Override
