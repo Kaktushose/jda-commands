@@ -185,7 +185,7 @@ public void onBanMember(CommandEvent event,
 }
 ```
 
-The examples above all provided the choices statically via the annotation value. However, if needed choices can also be provided by a public static 
+The examples above all provide the choices statically via the annotation value. However, if needed, choices can also be provided by a public static 
 method returning `List<String>`.
 ```java
 public void onCommand(CommandEvent event, @Choices(provider = "getChoices") String option) {...}

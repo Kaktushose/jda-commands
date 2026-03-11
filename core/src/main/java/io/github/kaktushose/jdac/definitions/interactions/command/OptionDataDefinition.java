@@ -122,7 +122,6 @@ public record OptionDataDefinition(
                     ChannelType.GUILD_PRIVATE_THREAD
             ))
     );
-    private static final MethodHandles.Lookup lookup = MethodHandles.lookup();
 
     /// Builds a new [OptionDataDefinition].
     ///
@@ -260,7 +259,7 @@ public record OptionDataDefinition(
 
             methods.forEach(method -> {
                 int modifiers = method.modifiers();
-                if (!Modifier.isPublic(modifiers) || !Modifier.isStatic(modifiers)) {
+                if (!Modifier.isStatic(modifiers)) {
                     throw new InvalidDeclarationException("provider-modifiers", entries);
                 }
 

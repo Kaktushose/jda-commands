@@ -50,7 +50,7 @@ public @interface Choices {
     /// @return the choices of the command option
     String[] value() default "";
 
-    /// Returns the name of the choices provider
+    /// Returns the name of the choices provider method
     String provider() default "";
 
     /// Returns the class of the provider method
