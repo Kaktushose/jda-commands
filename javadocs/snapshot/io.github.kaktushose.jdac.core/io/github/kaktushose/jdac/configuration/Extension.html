@@ -96,7 +96,7 @@ in <a href="../JDACBuilder.html" title="class in io.github.kaktushose.jdac"><cod
 <p>This interface provides ways to extend the framework with own functionality:</p>
 <h3 id="properties-heading">Properties</h3>
 <p>By implementing <a href="#properties()"><code>properties()</code></a> and returning a collection of <a href="PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration"><code>PropertyProvider</code></a>s, you can
-for example provide an own implementation of <a href="../dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance"><code>InteractionControllerInstantiator</code></a>
+for example provide an own implementation of <a href="../dispatching/instance/Instantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance"><code>Instantiator</code></a>
 or <a href="../definitions/description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description"><code>Descriptor</code></a>. These implementations will override the default ones.</p>
 <p>It's important to know, that you can only return <a href="PropertyProvider.html" title="class in io.github.kaktushose.jdac.configuration"><code>PropertyProvider</code></a>s of <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Property</code></a>s
 with <a href="Property.html#category()"><code>Property.category()</code></a> set to <a href="Property.Category.html#LOADABLE"><code>Property.Category.LOADABLE</code></a>!</p>
@@ -108,7 +108,7 @@ own implementation of <a href="Extension.Data.html" title="interface in io.githu
 the <a href="#onStart(io.github.kaktushose.jdac.JDACommands)"><code>onStart(JDACommands)</code></a> method of all extensions will be called.
 This allows further configuration, e.g. through the <a href="../introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> API by using <a href="../JDACommands.html#introspection()"><code>JDACommands.introspection()</code></a>.</p>
 <h3 id="example-heading">Example</h3>
-<p>This example extension provides an own implementation of <a href="../dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance"><code>InteractionControllerInstantiator</code></a>.</p>
+<p>This example extension provides an own implementation of <a href="../dispatching/instance/Instantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance"><code>Instantiator</code></a>.</p>
 <pre><code class="language-java">public class DIExtension implements Extension&lt;DIExtensionData&gt; {
 
     private Injector injector;
@@ -123,7 +123,7 @@ This allows further configuration, e.g. through the <a href="../introspection/In
     @Override
     public Collection&lt;PropertyProvider&lt;?&gt;&gt; properties() {
         return List.of(PropertyProvider.create(
-                Property.INTERACTION_CONTROLLER_INSTANTIATOR,
+                Property.INSTANTIATOR,
                 2000,
                 _ -&gt; new CustomInteractionClassProvider(this))
         );

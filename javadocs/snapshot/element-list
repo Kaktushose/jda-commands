@@ -60,3 +60,4 @@ module:io.github.kaktushose.jdac.guice
 io.github.kaktushose.jdac.guice
 io.github.kaktushose.jdac.guice.internal
 io.github.kaktushose.jdac.guice.internal.guice
+io.github.kaktushose.jdac.guice.internal.guice.modules

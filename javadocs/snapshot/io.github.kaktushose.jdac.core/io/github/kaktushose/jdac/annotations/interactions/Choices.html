@@ -53,11 +53,22 @@ loadScripts(document, 'script');</script>
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset"></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
-<li><a href="#annotation-interface-required-element-summary" tabindex="0">Required Element Summary</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#static-choices-heading" tabindex="0">Static Choices</a></li>
+<li><a href="#dynamic-choices-heading" tabindex="0">Dynamic Choices</a>
+<ol class="toc-list">
+<li><a href="#dependency-injection-heading" tabindex="0">Dependency Injection</a></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><a href="#annotation-interface-optional-element-summary" tabindex="0">Optional Element Summary</a></li>
 <li><a href="#annotation-interface-element-detail" tabindex="0">Element Details</a>
 <ol class="toc-list">
 <li><a href="#value()" tabindex="0">value</a></li>
+<li><a href="#provider()" tabindex="0">provider</a></li>
+<li><a href="#source()" tabindex="0">source</a></li>
 </ol>
 </li>
 </ol>
@@ -73,7 +84,33 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Target.html" title="class or interface in java.lang.annotation" class="external-link">@Target</a>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/ElementType.html#PARAMETER" title="class or interface in java.lang.annotation" class="external-link">PARAMETER</a>)
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Retention.html" title="class or interface in java.lang.annotation" class="external-link">@Retention</a>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/RetentionPolicy.html#RUNTIME" title="class or interface in java.lang.annotation" class="external-link">RUNTIME</a>)
 </span><span class="modifiers">public @interface </span><span class="element-name type-name-label">Choices</span></div>
-<div class="block">Annotation used to add choices to parameters.</div>
+<div class="block"><p>Annotation used to add choices to command options.</p>
+<h2 id="static-choices-heading">Static Choices</h2>
+<p>Most of the time, choices are static and can be passed to the annotation directly:</p>
+<pre><code>public void onCommand(CommandEvent event, @Choices({&quot;Apple&quot;, &quot;Banana&quot;, &quot;Cherry&quot;}) String option) {...}
+</code></pre>
+<p>The example above will use the given String for both the name and the value. You can use the name:value format to
+specify both.</p>
+<h2 id="dynamic-choices-heading">Dynamic Choices</h2>
+<p>If needed, choices can also be provided by a public static method returning a <code>List&lt;String&gt;</code>.</p>
+<pre><code>public void onCommand(CommandEvent event, @Choices(provider = &quot;getChoices&quot;) String option) {...}
+
+public static List&lt;String&gt; getChoices() {
+    return List.of(&quot;Apple&quot;, &quot;Banana&quot;, &quot;Cherry&quot;);
+}
+</code></pre>
+<p>Providers can also be defined in a different class than the command:</p>
+<pre><code>public void onCommand(CommandEvent event, @Choices(source = Other.class, provider = &quot;getChoices&quot;) String option) {...}
+</code></pre>
+<p>If both static values and a provider is present, the values will be combined.</p>
+<h3 id="dependency-injection-heading">Dependency Injection</h3>
+<p>This static provider method also supports dependency injection via the Guice Extension.</p>
+<pre><code>public static List&lt;String&gt; getChoices(MyChoiceProvider provider) {
+    return provider.getChoices();
+}
+</code></pre>
+<p>If the provider method is overloaded, all methods will be called and combined.</p>
+</div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -86,19 +123,29 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
-<!-- =========== ANNOTATION INTERFACE REQUIRED MEMBER SUMMARY =========== -->
+<!-- =========== ANNOTATION INTERFACE OPTIONAL MEMBER SUMMARY =========== -->
 <li>
-<section class="member-summary" id="annotation-interface-required-element-summary">
-<h2>Required Element Summary</h2>
-<div class="caption"><span>Required Elements</span></div>
+<section class="member-summary" id="annotation-interface-optional-element-summary">
+<h2>Optional Element Summary</h2>
+<div class="caption"><span>Optional Elements</span></div>
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Required Element</div>
+<div class="table-header col-second">Optional Element</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#provider()" class="member-name-link">provider</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Returns the name of the choices provider method</div>
+</div>
+<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a><wbr>&lt;?&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#source()" class="member-name-link">source</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Returns the class of the provider method</div>
+</div>
 <div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
 <div class="col-second even-row-color"><code><a href="#value()" class="member-name-link">value</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Returns the choices of a parameter.</div>
+<div class="block">Returns the choices of a command option.</div>
 </div>
 </div>
 </section>
@@ -117,10 +164,40 @@ loadScripts(document, 'script');</script>
 <h3>value</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</span>&nbsp;<span class="element-name">value</span></div>
-<div class="block">Returns the choices of a parameter. This value will only be used for slash commands.</div>
+<div class="block">Returns the choices of a command option.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the choices of the parameter</dd>
+<dd>the choices of the command option</dd>
+</dl>
+<dl class="notes">
+<dt>Default:</dt>
+<dd><code>{""}</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="provider()">
+<h3>provider</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">provider</span></div>
+<div class="block">Returns the name of the choices provider method</div>
+<dl class="notes">
+<dt>Default:</dt>
+<dd><code>""</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="source()">
+<h3>source</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;</span>&nbsp;<span class="element-name">source</span></div>
+<div class="block">Returns the class of the provider method</div>
+<dl class="notes">
+<dt>Default:</dt>
+<dd><code>io.github.kaktushose.jdac.annotations.interactions.Choices.class</code></dd>
 </dl>
 </div>
 </section>

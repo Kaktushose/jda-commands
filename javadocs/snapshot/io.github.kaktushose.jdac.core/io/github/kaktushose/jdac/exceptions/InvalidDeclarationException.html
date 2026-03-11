@@ -66,6 +66,7 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#%3Cinit%3E(java.lang.String)" tabindex="0">InvalidDeclarationException(String)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">InvalidDeclarationException(String, Entry...)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,java.lang.Throwable,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">InvalidDeclarationException(String, Throwable, Entry...)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -144,6 +145,10 @@ loadScripts(document, 'script');</script>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">InvalidDeclarationException</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
  <a href="../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,java.lang.Throwable,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">InvalidDeclarationException</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;cause,
+ <a href="../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -220,7 +225,23 @@ loadScripts(document, 'script');</script>
  <a href="../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</span></div>
 <dl class="notes">
 <dt>Parameters:</dt>
+<dd><code>key</code> - the key of the error message</dd>
+<dd><code>placeholder</code> - the <a href="../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">placeholders</a> to insert</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,java.lang.Throwable,io.github.kaktushose.jdac.message.placeholder.Entry...)">
+<h3>InvalidDeclarationException</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InvalidDeclarationException</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;cause,
+ <a href="../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</span></div>
+<dl class="notes">
+<dt>Parameters:</dt>
 <dd><code>key</code> - the bundle key of the error message</dd>
+<dd><code>cause</code> - the cause of the exception</dd>
 <dd><code>placeholder</code> - the placeholders to insert</dd>
 </dl>
 </div>

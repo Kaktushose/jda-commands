@@ -137,10 +137,10 @@ The provider with the highest priority will be taken, thus its value is set for 
 <pre><code class="language-java">class Foo {
     public bar(...) {
         var provider = new PropertyProvider(
-            Type.INTERACTION_CONTROLLER_INSTANTIATOR,
+            Property.INSTANTIATOR,
             2000, // just some random priority
             Foo.class, // used as a waypoint for debugging
-            ctx -&gt; new MyInteractionControllerInstantiator(ctx.get(Property.I18N)) // needs the I18n instance
+            ctx -&gt; new MyInstantiator(ctx.get(Property.I18N)) // needs the I18n instance
         )
     }
 }

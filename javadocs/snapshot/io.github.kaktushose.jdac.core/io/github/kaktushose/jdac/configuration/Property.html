@@ -74,7 +74,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#EMBED_SOURCES" tabindex="0">EMBED_SOURCES</a></li>
 <li><a href="#DESCRIPTOR" tabindex="0">DESCRIPTOR</a></li>
 <li><a href="#LOCALIZER" tabindex="0">LOCALIZER</a></li>
-<li><a href="#INTERACTION_CONTROLLER_INSTANTIATOR" tabindex="0">INTERACTION_CONTROLLER_INSTANTIATOR</a></li>
+<li><a href="#INSTANTIATOR" tabindex="0">INSTANTIATOR</a></li>
 <li><a href="#MIDDLEWARE" tabindex="0">MIDDLEWARE</a></li>
 <li><a href="#TYPE_ADAPTER" tabindex="0">TYPE_ADAPTER</a></li>
 <li><a href="#VALIDATOR" tabindex="0">VALIDATOR</a></li>
@@ -267,8 +267,8 @@ accumulated together with the user defined ones or overwritten.</div>
 <div class="col-last even-row-color">
 <div class="block">The <a href="../message/i18n/I18n.html" title="class in io.github.kaktushose.jdac.message.i18n"><code>I18n</code></a> service provided by JDA-Commands.</div>
 </div>
-<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#INTERACTION_CONTROLLER_INSTANTIATOR" class="member-name-link">INTERACTION_CONTROLLER_INSTANTIATOR</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../dispatching/instance/Instantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">Instantiator</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#INSTANTIATOR" class="member-name-link">INSTANTIATOR</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a><wbr>&lt;<a href="../introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection">Introspection</a>&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#INTROSPECTION" class="member-name-link">INTROSPECTION</a></code></div>
@@ -517,17 +517,17 @@ with other user provided <a href="PropertyProvider.html" title="class in io.gith
 </section>
 </li>
 <li>
-<section class="detail" id="INTERACTION_CONTROLLER_INSTANTIATOR">
-<h3>INTERACTION_CONTROLLER_INSTANTIATOR</h3>
+<section class="detail" id="INSTANTIATOR">
+<h3>INSTANTIATOR</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@PropertyInformation(stage=<a href="../introspection/Stage.html#CONFIGURATION">CONFIGURATION</a>,
                      category=<a href="Property.Category.html#LOADABLE">LOADABLE</a>)
-</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../dispatching/instance/InteractionControllerInstantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">InteractionControllerInstantiator</a>&gt;</span>&nbsp;<span class="element-name">INTERACTION_CONTROLLER_INSTANTIATOR</span></div>
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;<a href="../dispatching/instance/Instantiator.html" title="interface in io.github.kaktushose.jdac.dispatching.instance">Instantiator</a>&gt;</span>&nbsp;<span class="element-name">INSTANTIATOR</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
 <ul class="tag-list-long">
-<li><a href="../JDACBuilder.html#instanceProvider(io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator)"><code>JDACBuilder.instanceProvider(InteractionControllerInstantiator)</code></a></li>
+<li><a href="../JDACBuilder.html#instantiator(io.github.kaktushose.jdac.dispatching.instance.Instantiator)"><code>JDACBuilder.instantiator(Instantiator)</code></a></li>
 </ul>
 </dd>
 </dl>
