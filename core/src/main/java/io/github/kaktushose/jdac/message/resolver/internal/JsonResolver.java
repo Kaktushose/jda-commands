@@ -1,9 +1,9 @@
 package io.github.kaktushose.jdac.message.resolver.internal;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
@@ -26,17 +26,14 @@ public final class JsonResolver implements Resolver<JsonNode> {
     @Override
     public JsonNode resolve(JsonNode node, Locale locale, Map<String, @Nullable Object> placeholders) {
         if (node instanceof ObjectNode objectNode) {
-            Iterator<Map.Entry<String, JsonNode>> iterator = objectNode.fields();
-            while (iterator.hasNext()) {
-                Map.Entry<String, JsonNode> entry = iterator.next();
-                JsonNode child = entry.getValue();
-                JsonNode newChild = resolve(child, locale, placeholders);
-                if (newChild.isTextual() && resolve(entry.getKey())) {
-                    objectNode.put(entry.getKey(), resolver.resolve(newChild.asText(), locale, placeholders));
+            objectNode.forEachEntry((key, entry) -> {
+                JsonNode newChild = resolve(entry, locale, placeholders);
+                if (newChild.isString() && resolve(key)) {
+                    objectNode.put(key, resolver.resolve(newChild.asString(), locale, placeholders));
                 } else {
-                    objectNode.set(entry.getKey(), newChild);
+                    objectNode.set(key, newChild);
                 }
-            }
+            });
         } else if (node instanceof ArrayNode arrayNode) {
             for (int i = 0; i < arrayNode.size(); i++) {
                 JsonNode child = arrayNode.get(i);
