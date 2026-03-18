@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.components.container;
 
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import net.dv8tion.jda.api.components.container.ContainerChildComponent;
 import net.dv8tion.jda.api.components.separator.Separator;
@@ -37,14 +38,14 @@ public final class SeparatorContainer extends BaseContainer<ContainerChildCompon
     }
 
     @Override
-    public SeparatorContainer add(ContainerChildComponent component) {
-        add(component, super::add);
+    public SeparatorContainer add(ContainerChildComponent component, Entry... entries) {
+        add(component, super::add, entries);
         super.add(separator);
         return this;
     }
 
-    public SeparatorContainer add(ContainerChildComponent component, @Nullable Separator separator) {
-        add(component, super::add);
+    public SeparatorContainer add(ContainerChildComponent component, @Nullable Separator separator, Entry... entries) {
+        add(component, super::add, entries);
         if (separator != null) {
             super.add(separator);
         }
@@ -52,24 +53,25 @@ public final class SeparatorContainer extends BaseContainer<ContainerChildCompon
     }
 
     @Override
-    public SeparatorContainer addFirst(ContainerChildComponent component) {
+    public SeparatorContainer addFirst(ContainerChildComponent component, Entry... entries) {
         super.addFirst(separator);
-        add(component, super::addFirst);
+        add(component, super::addFirst, entries);
         return this;
     }
 
     /// doesn't add separator
     @Override
-    public SeparatorContainer addLast(ContainerChildComponent component) {
-        add(component, super::addLast);
+    public SeparatorContainer addLast(ContainerChildComponent component, Entry... entries) {
+        add(component, super::addLast, entries);
         return this;
     }
 
-    private void add(ContainerChildComponent component, Consumer<ContainerChildComponent> consumer) {
+    private void add(ContainerChildComponent component, Consumer<ContainerChildComponent> consumer, Entry... entries) {
         if (component instanceof TextDisplayContainer textDisplay) {
             textDisplay.textDisplays().stream().map(ContainerChildComponent.class::cast).forEach(consumer);
         } else {
             consumer.accept(component);
         }
+        entries(entries);
     }
 }

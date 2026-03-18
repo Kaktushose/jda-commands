@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.components.container;
 
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import net.dv8tion.jda.api.components.textdisplay.TextDisplay;
 import net.dv8tion.jda.api.components.utils.ComponentSerializer;
@@ -48,18 +49,18 @@ public final class TextDisplayContainer extends TextDisplayImpl {
         );
     }
 
-    public TextDisplayContainer add(String content) {
-        container.add(TextDisplay.of(content));
+    public TextDisplayContainer add(String content, Entry... entries) {
+        container.add(TextDisplay.of(content), entries);
         return this;
     }
 
-    public TextDisplayContainer addFirst(String content) {
-        container.addFirst(TextDisplay.of(content));
+    public TextDisplayContainer addFirst(String content, Entry... entries) {
+        container.addFirst(TextDisplay.of(content), entries);
         return this;
     }
 
-    public TextDisplayContainer addLast(String content) {
-        container.addLast(TextDisplay.of(content));
+    public TextDisplayContainer addLast(String content, Entry... entries) {
+        container.addLast(TextDisplay.of(content), entries);
         return this;
     }
 
@@ -103,8 +104,13 @@ public final class TextDisplayContainer extends TextDisplayImpl {
         return withContent(TextDisplay.of(content));
     }
 
-    public TextDisplayContainer withContent(TextDisplay textDisplay) {
+    public TextDisplayContainer withContent(String content, Entry... entries) {
+        return withContent(TextDisplay.of(content), entries);
+    }
+
+    public TextDisplayContainer withContent(TextDisplay textDisplay, Entry... entries) {
         container = container.withComponents(textDisplay);
+        container.entries(entries);
         return this;
     }
 

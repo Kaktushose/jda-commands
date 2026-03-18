@@ -54,21 +54,24 @@ public sealed class BaseContainer<T extends ContainerChildComponent>
         }
     }
 
-    public BaseContainer<T> add(T component) {
+    public BaseContainer<T> add(T component, Entry... entries) {
+        entries(entries);
         var components = new ArrayList<>(container.getComponents());
         components.add((ContainerChildComponentUnion) component);
         container = Container.of(components);
         return this;
     }
 
-    public BaseContainer<T> addFirst(T component) {
+    public BaseContainer<T> addFirst(T component, Entry... entries) {
+        entries(entries);
         var components = new ArrayList<>(container.getComponents());
         components.addFirst((ContainerChildComponentUnion) component);
         container = Container.of(components);
         return this;
     }
 
-    public BaseContainer<T> addLast(T component) {
+    public BaseContainer<T> addLast(T component, Entry... entries) {
+        entries(entries);
         var components = new ArrayList<>(container.getComponents());
         components.addLast((ContainerChildComponentUnion) component);
         container = Container.of(components);
@@ -86,6 +89,16 @@ public sealed class BaseContainer<T extends ContainerChildComponent>
 
     public BaseContainer<T> locale(DiscordLocale locale) {
         this.locale = locale.toLocale();
+        return this;
+    }
+
+    public BaseContainer<T> entries(Entry... entry) {
+        entries.addAll(Arrays.asList(entry));
+        return this;
+    }
+
+    public BaseContainer<T> entries(Collection<Entry> entries) {
+        this.entries.addAll(entries);
         return this;
     }
 
