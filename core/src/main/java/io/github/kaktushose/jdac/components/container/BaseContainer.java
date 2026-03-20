@@ -78,6 +78,23 @@ public sealed class BaseContainer<T extends ContainerChildComponent>
         return this;
     }
 
+    @SuppressWarnings("unchecked")
+    public BaseContainer<T> addAll(T... component) {
+        var components = new ArrayList<>(container.getComponents());
+        components.addAll((Collection<ContainerChildComponentUnion>) List.of(component));
+        container = Container.of(components);
+        return this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public BaseContainer<T> addAll(Collection<T> component, Entry... entries) {
+        entries(entries);
+        var components = new ArrayList<>(container.getComponents());
+        components.addAll((Collection<ContainerChildComponentUnion>) component);
+        container = Container.of(components);
+        return this;
+    }
+
     public Locale locale() {
         return locale;
     }
