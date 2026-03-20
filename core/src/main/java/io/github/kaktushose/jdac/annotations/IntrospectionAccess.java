@@ -3,7 +3,7 @@ package io.github.kaktushose.jdac.annotations;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
-import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
+import io.github.kaktushose.jdac.property.events.RuntimeCloseEvent;
 
 import java.lang.annotation.*;
 

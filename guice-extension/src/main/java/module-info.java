@@ -1,4 +1,4 @@
-import io.github.kaktushose.jdac.configuration.Extension;
+import io.github.kaktushose.jdac.property.extension.Extension;
 import io.github.kaktushose.jdac.guice.internal.GuiceExtension;
 import org.jspecify.annotations.NullMarked;
 

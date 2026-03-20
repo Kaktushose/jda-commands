@@ -2,8 +2,8 @@ package io.github.kaktushose.jdac.message.i18n.internal;
 
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
-import io.github.kaktushose.jdac.introspection.Definitions;
-import io.github.kaktushose.jdac.introspection.lifecycle.events.FrameworkStartEvent;
+import io.github.kaktushose.jdac.property.Definitions;
+import io.github.kaktushose.jdac.property.events.FrameworkStartEvent;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static io.github.kaktushose.jdac.configuration.Property.*;
-import static io.github.kaktushose.jdac.configuration.internal.InternalProperties.BUNDLE_FINDER;
+import static io.github.kaktushose.jdac.property.internal.JDACInternalProperties.BUNDLE_FINDER;
 
 @ApiStatus.Internal
 public final class JDACLocalizationFunction implements LocalizationFunction {

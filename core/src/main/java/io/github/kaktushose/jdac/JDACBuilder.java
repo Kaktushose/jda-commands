@@ -1,10 +1,10 @@
 package io.github.kaktushose.jdac;
 
-import io.github.kaktushose.jdac.configuration.Extension;
-import io.github.kaktushose.jdac.configuration.ExtensionFilter;
+import io.github.kaktushose.jdac.property.extension.Extension;
+import io.github.kaktushose.jdac.property.extension.ExtensionFilter;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
-import io.github.kaktushose.jdac.configuration.internal.Extensions;
+import io.github.kaktushose.jdac.property.internal.extension.Extensions;
 import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
@@ -64,7 +64,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static io.github.kaktushose.jdac.configuration.Property.*;
-import static io.github.kaktushose.jdac.configuration.internal.InternalProperties.*;
+import static io.github.kaktushose.jdac.property.internal.JDACInternalProperties.*;
 
 /// This builder is used to build instances of [JDACommands].
 ///

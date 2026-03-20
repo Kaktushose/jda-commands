@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.dispatching;
 
 import io.github.kaktushose.jdac.configuration.Property;
-import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
+import io.github.kaktushose.jdac.property.internal.JDACInternalProperties;
 import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
@@ -15,8 +15,8 @@ import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
-import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
-import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeOpenEvent;
+import io.github.kaktushose.jdac.property.events.RuntimeCloseEvent;
+import io.github.kaktushose.jdac.property.events.RuntimeOpenEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -70,7 +70,7 @@ public final class Runtime implements Closeable {
 
         this.introspection = Properties.Builder.newRestricted()
                 .addFallback(Property.JDA, _ -> jda)
-                .addFallback(InternalProperties.RUNTIME, _ -> this)
+                .addFallback(JDACInternalProperties.RUNTIME, _ -> this)
                 .addFallback(Property.RUNTIME_ID, _ -> id)
                 .addFallback(Property.KEY_VALUE_STORE, _ -> keyValueStore())
                 .createIntrospection(baseIntrospection, Stage.RUNTIME);

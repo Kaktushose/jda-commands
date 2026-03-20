@@ -3,13 +3,11 @@ plugins {
     id("io.github.kaktushose.jda.commands.convention.maven-central-deploy")
 }
 
-repositories {
-    mavenCentral()
-}
-
 val mockitoAgent = configurations.create("mockitoAgent")
 
 dependencies {
+    annotationProcessor(libs.dev.goldmensch.propane)
+
     api(libs.org.jspecify)
     api(libs.net.dv8tion.jda)
     api(libs.org.slf4j.slf4j.api)
@@ -18,6 +16,7 @@ dependencies {
     api(libs.io.github.kaktushose.proteus)
     api(libs.dev.goldmensch.fluava)
     api(libs.net.fellbaum.jemoji)
+    api(libs.dev.goldmensch.propane)
 
     implementation(libs.io.github.classgraph)
 

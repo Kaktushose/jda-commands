@@ -1,6 +1,6 @@
 package io.github.kaktushose.jdac.guice.internal;
 
-import io.github.kaktushose.jdac.configuration.ExtensionException;
+import io.github.kaktushose.jdac.property.extension.ExtensionException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 
 public final class GuiceException extends ExtensionException {

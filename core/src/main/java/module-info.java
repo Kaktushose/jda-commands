@@ -1,4 +1,4 @@
-import io.github.kaktushose.jdac.configuration.Extension;
+import io.github.kaktushose.jdac.property.extension.Extension;
 import org.jspecify.annotations.NullMarked;
 
 /// The base module of jda-commands.
@@ -20,6 +20,7 @@ module io.github.kaktushose.jdac.core {
     requires io.github.classgraph;
     requires java.logging;
     requires static io.github.kaktushose.jdac.processor;
+    requires dev.goldmensch.propane;
 
     // base package
     exports io.github.kaktushose.jdac;
@@ -80,6 +81,9 @@ module io.github.kaktushose.jdac.core {
     exports io.github.kaktushose.jdac.message.emoji;
     exports io.github.kaktushose.jdac.message.placeholder;
     exports io.github.kaktushose.jdac.message.resolver;
+    exports io.github.kaktushose.jdac.property.extension;
+    exports io.github.kaktushose.jdac.property;
+    exports io.github.kaktushose.jdac.property.events;
 
     uses Extension;
 }

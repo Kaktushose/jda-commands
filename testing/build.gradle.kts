@@ -2,10 +2,6 @@ plugins {
     id("io.github.kaktushose.jda.commands.convention.java")
 }
 
-repositories {
-    mavenCentral()
-}
-
 val mockitoAgent = configurations.create("mockitoAgent")
 
 dependencies {

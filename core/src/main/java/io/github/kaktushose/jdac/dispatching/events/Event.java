@@ -27,9 +27,8 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
+import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
 
 
 /// Abstract base event for all interaction events, like [CommandEvent].

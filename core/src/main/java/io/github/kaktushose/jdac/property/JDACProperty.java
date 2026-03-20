@@ -1,0 +1,295 @@
+package io.github.kaktushose.jdac.property;
+
+import dev.goldmensch.propane.property.Property;
+import dev.goldmensch.propane.property.SpecificProperty;
+import io.github.kaktushose.jdac.JDACBuilder;
+import io.github.kaktushose.jdac.JDACommands;
+import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
+import io.github.kaktushose.jdac.property.extension.Extension;
+import io.github.kaktushose.jdac.property.extension.ExtensionFilter;
+import io.github.kaktushose.jdac.configuration.PropertyProvider;
+import io.github.kaktushose.jdac.definitions.description.ClassFinder;
+import io.github.kaktushose.jdac.definitions.description.Descriptor;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
+import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
+import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
+import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
+import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
+import io.github.kaktushose.jdac.dispatching.events.Event;
+import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
+import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
+import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
+import io.github.kaktushose.jdac.dispatching.middleware.Priority;
+import io.github.kaktushose.jdac.dispatching.validation.Validator;
+import io.github.kaktushose.jdac.embeds.EmbedConfig;
+import io.github.kaktushose.jdac.embeds.EmbedDataSource;
+import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
+import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
+import io.github.kaktushose.jdac.message.emoji.EmojiSource;
+import io.github.kaktushose.jdac.message.i18n.I18n;
+import io.github.kaktushose.jdac.message.i18n.Localizer;
+import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.message.resolver.Resolver;
+import io.github.kaktushose.jdac.permissions.PermissionsProvider;
+import io.github.kaktushose.jdac.property.internal.JDACCollectionProperty;
+import io.github.kaktushose.jdac.property.internal.JDACMappingProperty;
+import io.github.kaktushose.jdac.property.internal.JDACSingletonProperty;
+import io.github.kaktushose.jdac.scope.GuildScopeProvider;
+import io.github.kaktushose.proteus.type.Type;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
+
+import java.lang.annotation.Annotation;
+import java.util.Collection;
+import java.util.Map;
+import java.util.function.Consumer;
+
+import static dev.goldmensch.propane.property.Property.FallbackBehaviour.ACCUMULATE;
+import static dev.goldmensch.propane.property.Property.FallbackBehaviour.OVERRIDE;
+import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
+
+/// # Properties
+/// An [io.github.kaktushose.jdac.configuration.Property] represent either...
+/// - a config option to adjust the behaviour of JDA-Commands (like [JDACBuilder#shutdownJDA(boolean)])
+/// - an implementation of exposed services (like [Localizer])
+/// - or a service provided by the framework that are exposed to the user (like [I18n])
+///
+/// Although the user can [provide][PropertyProvider] _custom values_ for these properties,
+/// the properties itself are all defined by the JDA-Commands and exposed as public static fields in this interface.
+///
+/// ## Categories
+/// Properties are primarily categorized by 3 groups:
+/// - [_user settable_][io.github.kaktushose.jdac.configuration.Property.Category#USER_SETTABLE] -> only configurable by using the designated [JDACBuilder] method
+/// - [_user settable + loadable from extension_][io.github.kaktushose.jdac.configuration.Property.Category#LOADABLE] -> above applies plus values can be provided by [Extension]s
+/// - [_provided_][io.github.kaktushose.jdac.configuration.Property.Category#PROVIDED] -> service that are provided by JDA-Commands, the user can use but not create/replace them
+///
+/// ## Types
+/// Additionally, there are 3 types of properties:
+/// - [io.github.kaktushose.jdac.configuration.Property.Singleton] -> the property will have the value of the provider with the highest [priority][PropertyProvider#priority()]
+/// - [io.github.kaktushose.jdac.configuration.Property.Map] -> the property represents a Map with a key and value. The value of all [providers][PropertyProvider] will be
+///                accumulated and providers with higher [priorities][PropertyProvider#priority()] take precedence
+/// - [io.github.kaktushose.jdac.configuration.Property.Enumeration] -> the property represents a [Collection]. The value of all [providers][PropertyProvider] will be accumulated
+///
+/// The only exception to this general accumulation rule are fallback values. Whether they are accumulated with other
+/// providers or overwritten is defined by [io.github.kaktushose.jdac.configuration.Property#fallbackBehaviour()].
+///
+/// ## Stages
+/// A [io.github.kaktushose.jdac.configuration.Property]'s value is only set during some stages during the frameworks runtime and in the process of execution
+/// user interactions.
+/// To know in what stage a property's value is accessible take a look at the fields [IntrospectionAccess] annotation
+///
+public interface JDACProperty<T> extends SpecificProperty<T> {
+  // -------- settable by user + loadable from extension --------
+
+  /// @see JDACBuilder#classFinders(ClassFinder...)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = OVERRIDE)
+  JDACProperty<Collection<ClassFinder>> CLASS_FINDER =
+          new JDACCollectionProperty<>("CLASS_FINDER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, ClassFinder.class, ACCUMULATE);
+
+  /// @see JDACBuilder#emojiSource(EmojiSource...)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = OVERRIDE)
+  JDACProperty<Collection<EmojiSource>> EMOJI_SOURCES =
+          new JDACCollectionProperty<>("EMOJI_SOURCES", Property.Source.EXTENSION, JDACScope.CONFIGURATION, EmojiSource.class, OVERRIDE);
+
+  /// @see EmbedConfig#sources(EmbedDataSource...)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = ACCUMULATE)
+  JDACProperty<Collection<EmbedDataSource>> EMBED_SOURCES =
+          new JDACCollectionProperty<>("EMBED_SOURCES", Property.Source.EXTENSION, JDACScope.CONFIGURATION, EmbedDataSource.class, ACCUMULATE);
+
+  /// @see JDACBuilder#descriptor(Descriptor)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION)
+  JDACProperty<Descriptor> DESCRIPTOR =
+          new JDACSingletonProperty<>("DESCRIPTOR", Property.Source.EXTENSION, JDACScope.CONFIGURATION, Descriptor.class);
+
+  /// @see JDACBuilder#localizer(Localizer)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION)
+  JDACProperty<Localizer> LOCALIZER =
+          new JDACSingletonProperty<>("LOCALIZER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, Localizer.class);
+
+  /// @see JDACBuilder#instantiator(Instantiator)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION)
+  JDACProperty<Instantiator> INSTANTIATOR = new JDACSingletonProperty<>("INSTANTIATOR", Property.Source.EXTENSION, JDACScope.CONFIGURATION, Instantiator.class);
+
+  /// MIDDLEWARE property holds multiple [Middleware]s associated with their [Priority]
+  /// @see JDACBuilder#middleware(Priority, Middleware)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = ACCUMULATE)
+  JDACProperty<Collection<Map.Entry<Priority, Middleware>>> MIDDLEWARE =
+          new JDACCollectionProperty<>("MIDDLEWARE", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(java.util.Map.Entry.class), ACCUMULATE);
+
+  /// The TYPE_ADAPTER property maps [AdapterType]s containing the source and targets [Type]s to their associated [TypeAdapter]
+  /// @see JDACBuilder#adapter(Class, Class, TypeAdapter)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = ACCUMULATE)
+  JDACProperty<Map<AdapterType<?, ?>, TypeAdapter<?, ?>>> TYPE_ADAPTER =
+          new JDACMappingProperty<>("TYPE_ADAPTER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(AdapterType.class), castUnsafe(TypeAdapter.class), ACCUMULATE);
+
+  /// The VALIDATOR property maps a [Validator] to its identifying annotation.
+  /// @see JDACBuilder#validator(Class, Validator)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = ACCUMULATE)
+  JDACProperty<Map<Class<? extends Annotation>, Validator<?, ?>>> VALIDATOR =
+          new JDACMappingProperty<>("VALIDATOR", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(Class.class), castUnsafe(Validator.class), ACCUMULATE);
+
+  /// @see JDACBuilder#permissionsProvider(PermissionsProvider)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION)
+  JDACProperty<PermissionsProvider> PERMISSION_PROVIDER =
+          new JDACSingletonProperty<>("PERMISSION_PROVIDER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, PermissionsProvider.class);
+
+  /// @see JDACBuilder#errorMessageFactory(ErrorMessageFactory)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION)
+  JDACProperty<ErrorMessageFactory> ERROR_MESSAGE_FACTORY =
+          new JDACSingletonProperty<>("ERROR_MESSAGE_FACTORY", Property.Source.EXTENSION, JDACScope.CONFIGURATION, ErrorMessageFactory.class);
+
+  /// @see JDACBuilder#guildScopeProvider(GuildScopeProvider)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION)
+  JDACProperty<GuildScopeProvider> GUILD_SCOPE_PROVIDER =
+          new JDACSingletonProperty<>("GUILD_SCOPE_PROVIDER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, GuildScopeProvider.class);
+
+  /// @see JDACBuilder#stringResolver(Resolver...)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = ACCUMULATE)
+  JDACProperty<Collection<Resolver<String>>> STRING_RESOLVER =
+          new JDACCollectionProperty<>("STRING_RESOLVER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(Resolver.class), ACCUMULATE);
+
+  // -------- user settable --------
+  /// @see JDACBuilder#globalCommandConfig(CommandDefinition.CommandConfig)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER)
+  JDACProperty<CommandDefinition.CommandConfig> GLOBAL_COMMAND_CONFIG =
+          new JDACSingletonProperty<>("GLOBAL_COMMAND_CONFIG", Property.Source.BUILDER, JDACScope.CONFIGURATION, CommandDefinition.CommandConfig.class);
+
+  /// @see JDACBuilder#globalReplyConfig(InteractionDefinition.ReplyConfig)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER)
+  JDACProperty<InteractionDefinition.ReplyConfig> GLOBAL_REPLY_CONFIG =
+          new JDACSingletonProperty<>("GLOBAL_REPLY_CONFIG", Property.Source.BUILDER, JDACScope.CONFIGURATION, InteractionDefinition.ReplyConfig.class);
+
+  /// @see JDACBuilder#packages(String...)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER, fallbackBehaviour = ACCUMULATE)
+  JDACProperty<Collection<String>> PACKAGES =
+          new JDACCollectionProperty<>("PACKAGES", Property.Source.BUILDER, JDACScope.CONFIGURATION, String.class, ACCUMULATE);
+
+  /// @see JDACBuilder#expirationStrategy(ExpirationStrategy)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER)
+  JDACProperty<ExpirationStrategy> EXPIRATION_STRATEGY =
+          new JDACSingletonProperty<>("EXPIRATION_STRATEGY", Property.Source.BUILDER, JDACScope.CONFIGURATION, ExpirationStrategy.class);
+
+  /// @see JDACBuilder#localizeCommands(boolean)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER)
+  JDACProperty<Boolean> LOCALIZE_COMMANDS =
+          new JDACSingletonProperty<>("LOCALIZE_COMMANDS", Property.Source.BUILDER, JDACScope.CONFIGURATION, Boolean.class);
+
+  /// @see JDACBuilder#shutdownJDA(boolean)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER)
+  JDACProperty<Boolean> SHUTDOWN_JDA =
+          new JDACSingletonProperty<>("SHUTDOWN_JDA", Property.Source.BUILDER, JDACScope.CONFIGURATION, Boolean.class);
+
+  /// @see JDACBuilder#extensionData(Extension.Data...)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER, fallbackBehaviour = ACCUMULATE)
+  JDACProperty<Map<Class<? extends Extension.Data>, Extension.Data>> EXTENSION_DATA =
+          new JDACMappingProperty<>("EXTENSION_DATA", Property.Source.BUILDER, JDACScope.CONFIGURATION, castUnsafe(Class.class), Extension.Data.class, ACCUMULATE);
+
+  /// @see JDACBuilder#filterExtensions(ExtensionFilter.FilterStrategy, String...)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER)
+  JDACProperty<ExtensionFilter> EXTENSION_FILTER =
+          new JDACSingletonProperty<>("EXTENSION_FILTER", Property.Source.BUILDER, JDACScope.CONFIGURATION, ExtensionFilter.class);
+
+  /// @see JDACBuilder#embeds(Consumer)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER)
+  JDACProperty<Consumer<EmbedConfig>> EMBED_CONFIG =
+          new JDACSingletonProperty<>("EMBED_CONFIG", Property.Source.BUILDER, JDACScope.CONFIGURATION, castUnsafe(Consumer.class));
+
+  // -------- provided ------------
+  // -------- configuration -------
+  /// The [Introspection] instance itself used to retrieve properties in this scope.
+  /// Can also be used to retrieve the used [Introspection] instance via [PropertyProvider.Context#get(io.github.kaktushose.jdac.configuration.Property)].
+  /// (which will have scope = [Stage#CONFIGURATION])
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
+  JDACProperty<Introspection> INTROSPECTION =
+          new JDACSingletonProperty<>("INTROSPECTION", Property.Source.PROVIDED, JDACScope.CONFIGURATION, Introspection.class);
+
+  /// The [I18n] service provided by JDA-Commands.
+  /// Needs the values of [#DESCRIPTOR] and [#LOCALIZER].
+  ///
+  /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
+  JDACProperty<I18n> I18N =
+          new JDACSingletonProperty<>("I18N", Property.Source.PROVIDED, JDACScope.CONFIGURATION, I18n.class);
+
+  /// The [LocalizationFunction] backed by [MessageResolver] used to localize/resolve commands and descriptions.
+  ///
+  /// @see LocalizationFunction
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
+  JDACProperty<LocalizationFunction> LOCALIZATION_FUNCTION =
+          new JDACSingletonProperty<>("LOCALIZATION_FUNCTION", Property.Source.PROVIDED, JDACScope.CONFIGURATION, LocalizationFunction.class);
+
+  /// The [MessageResolver] service provided byt JDA-Commands.
+  /// Needs the values of [#I18N] and [#EMOJI_RESOLVER].
+  ///
+  /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
+  JDACProperty<MessageResolver> MESSAGE_RESOLVER =
+          new JDACSingletonProperty<>("MESSAGE_RESOLVER", Property.Source.PROVIDED, JDACScope.CONFIGURATION, MessageResolver.class);
+
+  /// The [EmojiResolver] service provided by JDA-Commands.
+  /// Needs the value of [#EMOJI_RESOLVER].
+  ///
+  /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
+  JDACProperty<EmojiResolver> EMOJI_RESOLVER =
+          new JDACSingletonProperty<>("EMOJI_RESOLVER", Property.Source.PROVIDED, JDACScope.CONFIGURATION, EmojiResolver.class);
+
+  /// The [PlaceholderResolver] service provided by JDA-Commands.
+  ///
+  /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
+  JDACProperty<PlaceholderResolver> PLACEHOLDER_RESOLVER =
+          new JDACSingletonProperty<>("PLACEHOLDER_RESOLVER", Property.Source.PROVIDED, JDACScope.CONFIGURATION, PlaceholderResolver.class);
+
+  /// An [ClassFinder] instance that is backed by all [ClassFinder] of [#CLASS_FINDER].
+  /// It will search in all registered [ClassFinder] for the requested class.
+  ///
+  /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
+  JDACProperty<ClassFinder> MERGED_CLASS_FINDER =
+          new JDACSingletonProperty<>("MERGED_CLASS_FINDER", Property.Source.PROVIDED, JDACScope.CONFIGURATION, ClassFinder.class);
+
+  // ------- initialized --------
+  /// The [JDACommands] instance available after fully starting the framework.
+  @PropertyInformation(scope = JDACScope.INITIALIZED, source = Property.Source.PROVIDED)
+  JDACProperty<JDACommands> JDA_COMMANDS =
+          new JDACSingletonProperty<>("JDA_COMMANDS", Property.Source.PROVIDED, JDACScope.INITIALIZED, JDACommands.class);
+
+  /// The [Definitions] instance available after fully starting the framework.
+  @PropertyInformation(scope = JDACScope.INITIALIZED, source = Property.Source.PROVIDED)
+  JDACProperty<Definitions> DEFINITIONS =
+          new JDACSingletonProperty<>("DEFINITIONS", Property.Source.PROVIDED, JDACScope.INITIALIZED, Definitions.class);
+
+  // ------- runtime ---------
+  /// The [JDA] instance bound to this specific Runtime.
+  @PropertyInformation(scope = JDACScope.RUNTIME, source = Property.Source.PROVIDED)
+  JDACProperty<JDA> JDA =
+          new JDACSingletonProperty<>("JDA", Property.Source.PROVIDED, JDACScope.RUNTIME, JDA.class);
+
+  /// The identifier bound to this runtime. Same as [Event#runtimeId()].
+  @PropertyInformation(scope = JDACScope.RUNTIME, source = Property.Source.PROVIDED)
+  JDACProperty<String> RUNTIME_ID =
+          new JDACSingletonProperty<>("RUNTIME_ID", Property.Source.PROVIDED, JDACScope.RUNTIME, String.class);
+
+  /// The [KeyValueStore] associated with this runtime. Same as [InvocationContext#keyValueStore()] or [Event#kv()].
+  @PropertyInformation(scope = JDACScope.RUNTIME, source = Property.Source.PROVIDED)
+  JDACProperty<KeyValueStore> KEY_VALUE_STORE =
+          new JDACSingletonProperty<>("KEY_VALUE_STORE", Property.Source.PROVIDED, JDACScope.RUNTIME, KeyValueStore.class);
+
+  // ------ preparation ---------
+  /// The [GenericInteractionCreateEvent] of this interaction. Same as [Event#jdaEvent()].
+  @PropertyInformation(scope = JDACScope.PREPARATION, source = Property.Source.PROVIDED)
+  JDACProperty<GenericInteractionCreateEvent> JDA_EVENT =
+          new JDACSingletonProperty<>("JDA_EVENT", Property.Source.PROVIDED, JDACScope.PREPARATION, GenericInteractionCreateEvent.class);
+
+  // ------ interaction ---------
+  /// The [InvocationContext] of this interaction. Same as in [Middleware#accept(InvocationContext)].
+  @PropertyInformation(scope = JDACScope.INTERACTION, source = Property.Source.PROVIDED)
+  JDACProperty<InvocationContext<?>> INVOCATION_CONTEXT =
+          new JDACSingletonProperty<>("INVOCATION_CONTEXT", Property.Source.PROVIDED, JDACScope.INTERACTION, castUnsafe(InvocationContext.class));
+}

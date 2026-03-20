@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.dispatching.handling;
 
 import io.github.kaktushose.jdac.configuration.Property;
-import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
+import io.github.kaktushose.jdac.property.internal.JDACInternalProperties;
 import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
@@ -19,7 +19,7 @@ import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
-import io.github.kaktushose.jdac.introspection.lifecycle.events.InteractionStartEvent;
+import io.github.kaktushose.jdac.property.events.InteractionStartEvent;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -60,7 +60,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     public EventHandler(IntrospectionImpl runtimeIntrospection) {
         this.runtimeIntrospection = runtimeIntrospection;
 
-        this.interactionRegistry = runtimeIntrospection.get(InternalProperties.INTERACTION_REGISTRY);
+        this.interactionRegistry = runtimeIntrospection.get(JDACInternalProperties.INTERACTION_REGISTRY);
         this.errorMessageFactory = runtimeIntrospection.get(Property.ERROR_MESSAGE_FACTORY);
     }
 
@@ -96,7 +96,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         ScopedValue.where(IntrospectionImpl.INTROSPECTION, interactionIntrospection).run(() -> {
             log.debug("Executing middlewares...");
 
-            Middlewares middlewares = Introspection.scopedGet(InternalProperties.MIDDLEWARES);
+            Middlewares middlewares = Introspection.scopedGet(JDACInternalProperties.MIDDLEWARES);
             middlewares.forOrdered(invocationContext.definition().classDescription().clazz(), middleware -> {
                 log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
                 middleware.accept(invocationContext);
