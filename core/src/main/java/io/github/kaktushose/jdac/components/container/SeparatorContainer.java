@@ -13,7 +13,7 @@ import java.util.Locale;
 import java.util.function.Consumer;
 
 /// special handling of [TextDisplayContainer]
-public final class SeparatorContainer extends BaseContainer<ContainerChildComponent> {
+public final class SeparatorContainer extends SequencedContainer<ContainerChildComponent> {
 
     private final Separator separator;
 
@@ -28,7 +28,7 @@ public final class SeparatorContainer extends BaseContainer<ContainerChildCompon
     }
 
     public static SeparatorContainer of(ContainerChildComponent header, Separator separator) {
-        BaseContainer.checkAccess();
+        SequencedContainer.checkAccess();
         return new SeparatorContainer(
                 Introspection.scopedGet(Property.MESSAGE_RESOLVER),
                 Introspection.scopedGet(Property.JDA_EVENT).getUserLocale().toLocale(),

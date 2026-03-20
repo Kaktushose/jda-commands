@@ -25,7 +25,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Stream;
 
-public sealed class BaseContainer<T extends ContainerChildComponent>
+public sealed class SequencedContainer<T extends ContainerChildComponent>
         extends AbstractComponentImpl
         implements Container, MessageTopLevelComponentUnion
         permits SeparatorContainer {
@@ -36,11 +36,11 @@ public sealed class BaseContainer<T extends ContainerChildComponent>
     protected Container container;
     private Locale locale;
 
-    public BaseContainer(Resolver<String> resolver, DiscordLocale locale, T header) {
+    public SequencedContainer(Resolver<String> resolver, DiscordLocale locale, T header) {
         this(resolver, locale.toLocale(), header);
     }
 
-    public BaseContainer(Resolver<String> resolver, Locale locale, T header) {
+    public SequencedContainer(Resolver<String> resolver, Locale locale, T header) {
         this.resolver = new ComponentResolver<>(resolver, Container.class);
         this.locale = locale;
         entries = new ArrayList<>();
@@ -54,7 +54,7 @@ public sealed class BaseContainer<T extends ContainerChildComponent>
         }
     }
 
-    public BaseContainer<T> add(T component, Entry... entries) {
+    public SequencedContainer<T> add(T component, Entry... entries) {
         entries(entries);
         var components = new ArrayList<>(container.getComponents());
         components.add((ContainerChildComponentUnion) component);
@@ -62,7 +62,7 @@ public sealed class BaseContainer<T extends ContainerChildComponent>
         return this;
     }
 
-    public BaseContainer<T> addFirst(T component, Entry... entries) {
+    public SequencedContainer<T> addFirst(T component, Entry... entries) {
         entries(entries);
         var components = new ArrayList<>(container.getComponents());
         components.addFirst((ContainerChildComponentUnion) component);
@@ -70,7 +70,7 @@ public sealed class BaseContainer<T extends ContainerChildComponent>
         return this;
     }
 
-    public BaseContainer<T> addLast(T component, Entry... entries) {
+    public SequencedContainer<T> addLast(T component, Entry... entries) {
         entries(entries);
         var components = new ArrayList<>(container.getComponents());
         components.addLast((ContainerChildComponentUnion) component);
@@ -79,7 +79,7 @@ public sealed class BaseContainer<T extends ContainerChildComponent>
     }
 
     @SuppressWarnings("unchecked")
-    public BaseContainer<T> addAll(T... component) {
+    public SequencedContainer<T> addAll(T... component) {
         var components = new ArrayList<>(container.getComponents());
         components.addAll((Collection<ContainerChildComponentUnion>) List.of(component));
         container = Container.of(components);
@@ -87,7 +87,7 @@ public sealed class BaseContainer<T extends ContainerChildComponent>
     }
 
     @SuppressWarnings("unchecked")
-    public BaseContainer<T> addAll(Collection<T> component, Entry... entries) {
+    public SequencedContainer<T> addAll(Collection<T> component, Entry... entries) {
         entries(entries);
         var components = new ArrayList<>(container.getComponents());
         components.addAll((Collection<ContainerChildComponentUnion>) component);
@@ -99,22 +99,22 @@ public sealed class BaseContainer<T extends ContainerChildComponent>
         return locale;
     }
 
-    public BaseContainer<T> locale(Locale locale) {
+    public SequencedContainer<T> locale(Locale locale) {
         this.locale = locale;
         return this;
     }
 
-    public BaseContainer<T> locale(DiscordLocale locale) {
+    public SequencedContainer<T> locale(DiscordLocale locale) {
         this.locale = locale.toLocale();
         return this;
     }
 
-    public BaseContainer<T> entries(Entry... entry) {
+    public SequencedContainer<T> entries(Entry... entry) {
         entries.addAll(Arrays.asList(entry));
         return this;
     }
 
-    public BaseContainer<T> entries(Collection<Entry> entries) {
+    public SequencedContainer<T> entries(Collection<Entry> entries) {
         this.entries.addAll(entries);
         return this;
     }
@@ -146,13 +146,13 @@ public sealed class BaseContainer<T extends ContainerChildComponent>
     }
 
     @Override
-    public BaseContainer<T> withUniqueId(int uniqueId) {
+    public SequencedContainer<T> withUniqueId(int uniqueId) {
         this.uniqueId = uniqueId;
         return this;
     }
 
     @Override
-    public BaseContainer<T> replace(ComponentReplacer replacer) {
+    public SequencedContainer<T> replace(ComponentReplacer replacer) {
         container = container.replace(replacer);
         return this;
     }
@@ -193,24 +193,24 @@ public sealed class BaseContainer<T extends ContainerChildComponent>
     }
 
     @Override
-    public BaseContainer<T> withAccentColor(@Nullable Integer accentColor) {
+    public SequencedContainer<T> withAccentColor(@Nullable Integer accentColor) {
         container = container.withAccentColor(accentColor);
         return this;
     }
 
     @Override
-    public BaseContainer<T> withSpoiler(boolean spoiler) {
+    public SequencedContainer<T> withSpoiler(boolean spoiler) {
         container = container.withSpoiler(spoiler);
         return this;
     }
 
     @Override
-    public BaseContainer<T> withComponents(ContainerChildComponent component, ContainerChildComponent... components) {
+    public SequencedContainer<T> withComponents(ContainerChildComponent component, ContainerChildComponent... components) {
         return withComponents(Stream.concat(Stream.of(component), Arrays.stream(components)).toList());
     }
 
     @Override
-    public BaseContainer<T> withComponents(Collection<? extends ContainerChildComponent> components) {
+    public SequencedContainer<T> withComponents(Collection<? extends ContainerChildComponent> components) {
         container = container.withComponents(components);
         return this;
     }

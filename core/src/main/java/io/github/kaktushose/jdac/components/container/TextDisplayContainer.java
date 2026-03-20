@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public final class TextDisplayContainer extends TextDisplayImpl {
 
     private static final ComponentSerializer componentSerializer = new ComponentSerializer();
-    private BaseContainer<TextDisplay> container;
+    private SequencedContainer<TextDisplay> container;
 
     public TextDisplayContainer(Resolver<String> resolver, DiscordLocale locale, String header) {
         this(resolver, locale.toLocale(), header);
@@ -33,7 +33,7 @@ public final class TextDisplayContainer extends TextDisplayImpl {
 
     public TextDisplayContainer(Resolver<String> resolver, Locale locale, TextDisplay header) {
         super(componentSerializer.serialize(header));
-        container = new BaseContainer<>(resolver, locale, header);
+        container = new SequencedContainer<>(resolver, locale, header);
     }
 
     public static TextDisplayContainer of(String content) {
@@ -41,7 +41,7 @@ public final class TextDisplayContainer extends TextDisplayImpl {
     }
 
     public static TextDisplayContainer of(TextDisplay header) {
-        BaseContainer.checkAccess();
+        SequencedContainer.checkAccess();
         return new TextDisplayContainer(
                 Introspection.scopedGet(Property.MESSAGE_RESOLVER),
                 Introspection.scopedGet(Property.JDA_EVENT).getUserLocale().toLocale(),
