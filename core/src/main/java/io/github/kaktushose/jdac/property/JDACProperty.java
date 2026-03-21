@@ -86,7 +86,7 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   /// @see JDACBuilder#classFinders(ClassFinder...)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = OVERRIDE)
   JDACProperty<Collection<ClassFinder>> CLASS_FINDER =
-          new JDACCollectionProperty<>("CLASS_FINDER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, ClassFinder.class, ACCUMULATE);
+          new JDACCollectionProperty<>("CLASS_FINDER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, ClassFinder.class, OVERRIDE);
 
   /// @see JDACBuilder#emojiSource(EmojiSource...)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = OVERRIDE)
