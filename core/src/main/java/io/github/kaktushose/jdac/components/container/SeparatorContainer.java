@@ -1,7 +1,9 @@
 package io.github.kaktushose.jdac.components.container;
 
+import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import net.dv8tion.jda.api.components.container.ContainerChildComponent;
@@ -12,21 +14,42 @@ import org.jspecify.annotations.Nullable;
 import java.util.Locale;
 import java.util.function.Consumer;
 
+/// An implementation of [SequencedContainer] that always adds a [Separator] between its elements.
+///
 /// special handling of [TextDisplayContainer]
 public final class SeparatorContainer extends SequencedContainer<ContainerChildComponent> {
 
     private final Separator separator;
 
+    /// Constructs a new [SeparatorContainer].
+    ///
+    /// @param resolver  the [Resolver] to use for localization
+    /// @param locale    the locale this container will be localized to
+    /// @param header    the first component of this container
+    /// @param separator the [Separator] to use to divide elements
     public SeparatorContainer(Resolver<String> resolver, DiscordLocale locale, ContainerChildComponent header, Separator separator) {
         this(resolver, locale.toLocale(), header, separator);
     }
 
+    /// Constructs a new [SeparatorContainer].
+    ///
+    /// @param resolver  the [Resolver] to use for localization
+    /// @param locale    the locale this container will be localized to
+    /// @param header    the first component of this container
+    /// @param separator the [Separator] to use to divide elements
     public SeparatorContainer(Resolver<String> resolver, Locale locale, ContainerChildComponent header, Separator separator) {
         super(resolver, locale, header);
         super.add(separator);
         this.separator = separator;
     }
 
+    /// Constructs a new [SeparatorContainer] from the given component.
+    ///
+    /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
+    ///
+    /// @param header    the first component of this container
+    /// @param separator the [Separator] to use to divide elements
+    /// @throws IllegalStateException if the [Stage#PREPARATION] isn't accessible.
     public static SeparatorContainer of(ContainerChildComponent header, Separator separator) {
         SequencedContainer.checkAccess();
         return new SeparatorContainer(
@@ -37,6 +60,12 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
         );
     }
 
+    /// {@inheritDoc} Automatically appends the default [Separator] after the component. Use
+    /// [#add(ContainerChildComponent, Separator, Entry...)] to override.
+    ///
+    /// @param component the component to add
+    /// @param entries   {@inheritDoc}
+    /// @return {@inheritDoc}
     @Override
     public SeparatorContainer add(ContainerChildComponent component, Entry... entries) {
         add(component, super::add, entries);
@@ -44,6 +73,13 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
         return this;
     }
 
+    /// Appends a component to the end of this container. Automatically appends the provided [Separator] after the
+    /// component. If `null` is provided, no [Separator] will be appended.
+    ///
+    /// @param component the component to add
+    /// @param separator the [Separator] to append, pass `null` for no [Separator]
+    /// @param entries   the [Entries][Entry] used for localization
+    /// @return this instance for fluent interface
     public SeparatorContainer add(ContainerChildComponent component, @Nullable Separator separator, Entry... entries) {
         add(component, super::add, entries);
         if (separator != null) {
@@ -52,6 +88,14 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
         return this;
     }
 
+    /// {@inheritDoc}
+    ///
+    /// Automatically appends the default [Separator] after the component. Use
+    /// [#add(ContainerChildComponent, Separator, Entry...)] to override.
+    ///
+    /// @param component the component to add
+    /// @param entries   {@inheritDoc}
+    /// @return {@inheritDoc}
     @Override
     public SeparatorContainer addFirst(ContainerChildComponent component, Entry... entries) {
         super.addFirst(separator);
@@ -59,7 +103,31 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
         return this;
     }
 
-    /// doesn't add separator
+    /// {@inheritDoc} Automatically appends the provided [Separator] after the component. If `null` is provided, no
+    /// [Separator] will be appended.
+    ///
+    /// Automatically appends the default [Separator] after the component. Use
+    /// [#add(ContainerChildComponent, Separator, Entry...)] to override.
+    ///
+    /// @param component the component to add
+    /// @param separator the [Separator] to append, pass `null` for no [Separator]
+    /// @param entries   {@inheritDoc}
+    /// @return {@inheritDoc}
+    public SeparatorContainer addFirst(ContainerChildComponent component, @Nullable Separator separator, Entry... entries) {
+        if (separator != null) {
+            super.add(separator);
+        }
+        add(component, super::addFirst, entries);
+        return this;
+    }
+
+    /// {@inheritDoc}
+    ///
+    /// This method doesn't append a [Separator] and should thus be used for the last component of the container.
+    ///
+    /// @param component the component to add
+    /// @param entries   {@inheritDoc}
+    /// @return {@inheritDoc}
     @Override
     public SeparatorContainer addLast(ContainerChildComponent component, Entry... entries) {
         add(component, super::addLast, entries);
