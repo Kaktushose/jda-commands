@@ -61,7 +61,7 @@ import java.util.stream.Stream;
 public sealed class SequencedContainer<T extends ContainerChildComponent>
         extends AbstractComponentImpl
         implements SequencedComponent<T>, Container, MessageTopLevelComponentUnion
-        permits TextDisplayContainer, SeparatorContainer {
+        permits TextDisplayContainer, SeparatedContainer {
 
     protected final List<Entry> entries;
     private final ComponentResolver<Container> resolver;

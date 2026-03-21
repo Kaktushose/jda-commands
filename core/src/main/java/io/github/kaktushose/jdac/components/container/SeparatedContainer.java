@@ -14,41 +14,41 @@ import org.jspecify.annotations.Nullable;
 import java.util.Locale;
 
 /// An implementation of [SequencedContainer] that always adds a [Separator] between its elements.
-public final class SeparatorContainer extends SequencedContainer<ContainerChildComponent> {
+public final class SeparatedContainer extends SequencedContainer<ContainerChildComponent> {
 
     private final Separator separator;
 
-    /// Constructs a new [SeparatorContainer].
+    /// Constructs a new [SeparatedContainer].
     ///
     /// @param resolver  the [Resolver] to use for localization
     /// @param locale    the locale this container will be localized to
     /// @param header    the first component of this container
     /// @param separator the [Separator] to use to divide elements
-    public SeparatorContainer(Resolver<String> resolver, DiscordLocale locale, ContainerChildComponent header, Separator separator) {
+    public SeparatedContainer(Resolver<String> resolver, DiscordLocale locale, ContainerChildComponent header, Separator separator) {
         this(resolver, locale.toLocale(), header, separator);
     }
 
-    /// Constructs a new [SeparatorContainer].
+    /// Constructs a new [SeparatedContainer].
     ///
     /// @param resolver  the [Resolver] to use for localization
     /// @param locale    the locale this container will be localized to
     /// @param header    the first component of this container
     /// @param separator the [Separator] to use to divide elements
-    public SeparatorContainer(Resolver<String> resolver, Locale locale, ContainerChildComponent header, Separator separator) {
+    public SeparatedContainer(Resolver<String> resolver, Locale locale, ContainerChildComponent header, Separator separator) {
         super(resolver, locale, header);
         this.separator = separator;
     }
 
-    /// Constructs a new [SeparatorContainer] from the given component.
+    /// Constructs a new [SeparatedContainer] from the given component.
     ///
     /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
     ///
     /// @param header    the first component of this container
     /// @param separator the [Separator] to use to divide elements
     /// @throws IllegalStateException if the [Stage#PREPARATION] isn't accessible.
-    public static SeparatorContainer of(ContainerChildComponent header, Separator separator) {
+    public static SeparatedContainer of(ContainerChildComponent header, Separator separator) {
         SequencedContainer.checkAccess();
-        return new SeparatorContainer(
+        return new SeparatedContainer(
                 Introspection.scopedGet(Property.MESSAGE_RESOLVER),
                 Introspection.scopedGet(Property.JDA_EVENT).getUserLocale().toLocale(),
                 header,
@@ -63,7 +63,7 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
     /// @param entries   {@inheritDoc}
     /// @return {@inheritDoc}
     @Override
-    public SeparatorContainer add(ContainerChildComponent component, Entry... entries) {
+    public SeparatedContainer add(ContainerChildComponent component, Entry... entries) {
         super.add(component, entries);
         super.add(separator);
         return this;
@@ -76,7 +76,7 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
     /// @param separator the [Separator] to append, pass `null` for no [Separator]
     /// @param entries   the [Entries][Entry] used for localization
     /// @return this instance for fluent interface
-    public SeparatorContainer add(ContainerChildComponent component, @Nullable Separator separator, Entry... entries) {
+    public SeparatedContainer add(ContainerChildComponent component, @Nullable Separator separator, Entry... entries) {
         super.add(component, entries);
         if (separator != null) {
             super.add(separator);
@@ -93,7 +93,7 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
     /// @param entries   {@inheritDoc}
     /// @return {@inheritDoc}
     @Override
-    public SeparatorContainer addFirst(ContainerChildComponent component, Entry... entries) {
+    public SeparatedContainer addFirst(ContainerChildComponent component, Entry... entries) {
         super.addFirst(separator);
         super.addFirst(component, entries);
         return this;
@@ -109,7 +109,7 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
     /// @param separator the [Separator] to append, pass `null` for no [Separator]
     /// @param entries   {@inheritDoc}
     /// @return {@inheritDoc}
-    public SeparatorContainer addFirst(ContainerChildComponent component, @Nullable Separator separator, Entry... entries) {
+    public SeparatedContainer addFirst(ContainerChildComponent component, @Nullable Separator separator, Entry... entries) {
         if (separator != null) {
             super.addFirst(separator);
         }
@@ -125,7 +125,7 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
     /// @param entries   {@inheritDoc}
     /// @return {@inheritDoc}
     @Override
-    public SeparatorContainer addLast(ContainerChildComponent component, Entry... entries) {
+    public SeparatedContainer addLast(ContainerChildComponent component, Entry... entries) {
         super.addLast(component, entries);
         return this;
     }
