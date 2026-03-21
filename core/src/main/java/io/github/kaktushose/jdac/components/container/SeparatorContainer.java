@@ -1,7 +1,6 @@
 package io.github.kaktushose.jdac.components.container;
 
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
-import io.github.kaktushose.jdac.components.SequencedTextDisplay;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
@@ -13,11 +12,8 @@ import net.dv8tion.jda.api.interactions.DiscordLocale;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
-import java.util.function.Consumer;
 
 /// An implementation of [SequencedContainer] that always adds a [Separator] between its elements.
-///
-/// special handling of [SequencedTextDisplay]
 public final class SeparatorContainer extends SequencedContainer<ContainerChildComponent> {
 
     private final Separator separator;
@@ -40,7 +36,6 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
     /// @param separator the [Separator] to use to divide elements
     public SeparatorContainer(Resolver<String> resolver, Locale locale, ContainerChildComponent header, Separator separator) {
         super(resolver, locale, header);
-        super.add(separator);
         this.separator = separator;
     }
 
@@ -69,7 +64,7 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
     /// @return {@inheritDoc}
     @Override
     public SeparatorContainer add(ContainerChildComponent component, Entry... entries) {
-        add(component, super::add, entries);
+        super.add(component, entries);
         super.add(separator);
         return this;
     }
@@ -82,7 +77,7 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
     /// @param entries   the [Entries][Entry] used for localization
     /// @return this instance for fluent interface
     public SeparatorContainer add(ContainerChildComponent component, @Nullable Separator separator, Entry... entries) {
-        add(component, super::add, entries);
+        super.add(component, entries);
         if (separator != null) {
             super.add(separator);
         }
@@ -100,7 +95,7 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
     @Override
     public SeparatorContainer addFirst(ContainerChildComponent component, Entry... entries) {
         super.addFirst(separator);
-        add(component, super::addFirst, entries);
+        super.addFirst(component, entries);
         return this;
     }
 
@@ -116,9 +111,9 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
     /// @return {@inheritDoc}
     public SeparatorContainer addFirst(ContainerChildComponent component, @Nullable Separator separator, Entry... entries) {
         if (separator != null) {
-            super.add(separator);
+            super.addFirst(separator);
         }
-        add(component, super::addFirst, entries);
+        super.addFirst(component, entries);
         return this;
     }
 
@@ -131,16 +126,7 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
     /// @return {@inheritDoc}
     @Override
     public SeparatorContainer addLast(ContainerChildComponent component, Entry... entries) {
-        add(component, super::addLast, entries);
+        super.addLast(component, entries);
         return this;
-    }
-
-    private void add(ContainerChildComponent component, Consumer<ContainerChildComponent> consumer, Entry... entries) {
-        if (component instanceof SequencedTextDisplay textDisplay) {
-            textDisplay.textDisplays().stream().map(ContainerChildComponent.class::cast).forEach(consumer);
-        } else {
-            consumer.accept(component);
-        }
-        entries(entries);
     }
 }

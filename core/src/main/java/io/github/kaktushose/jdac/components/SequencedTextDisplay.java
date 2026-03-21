@@ -87,8 +87,9 @@ public final class SequencedTextDisplay
     /// @param locale   the locale this container will be localized to
     /// @param header   the first [TextDisplay] of this container
     public SequencedTextDisplay(Resolver<String> resolver, Locale locale, TextDisplay header) {
-        super(componentSerializer.serialize(header));
+        super("");
         textDisplays = new ArrayList<>();
+        textDisplays.add(header);
         this.resolver = new ComponentResolver<>(resolver, TextDisplay.class);
         entries = new ArrayList<>();
         this.locale = locale;

@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.components.container;
 
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
+import io.github.kaktushose.jdac.components.SequencedTextDisplay;
 import io.github.kaktushose.jdac.components.internal.SequencedComponent;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.introspection.Introspection;
@@ -27,6 +28,7 @@ import org.jetbrains.annotations.Unmodifiable;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
 /// A [Container] implementation that allows adding [ContainerChildComponent]s sequentially.
@@ -86,7 +88,11 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
         this.locale = locale;
         entries = new ArrayList<>();
         uniqueId = -1;
-        container = Container.of(header);
+        if (header instanceof SequencedTextDisplay textDisplay) {
+            container = Container.of(textDisplay.textDisplays());
+        } else {
+            container = Container.of(header);
+        }
     }
 
     /// Constructs a new [SequencedContainer] from the given component [T].
@@ -113,36 +119,37 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
     @Override
     public SequencedContainer<T> add(T component, Entry... entries) {
         entries(entries);
-        var components = new ArrayList<>(container.getComponents());
-        components.add((ContainerChildComponentUnion) component);
-        container = Container.of(components);
-        return this;
+        return add(component, ArrayList::add);
     }
 
     @Override
     public SequencedContainer<T> addFirst(T component, Entry... entries) {
         entries(entries);
-        var components = new ArrayList<>(container.getComponents());
-        components.addFirst((ContainerChildComponentUnion) component);
-        container = Container.of(components);
-        return this;
+        return add(component, ArrayList::addFirst);
     }
 
     @Override
     public SequencedContainer<T> addLast(T component, Entry... entries) {
         entries(entries);
-        var components = new ArrayList<>(container.getComponents());
-        components.addLast((ContainerChildComponentUnion) component);
-        container = Container.of(components);
-        return this;
+        return add(component, ArrayList::addLast);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public SequencedContainer<T> addAll(Collection<T> component, Entry... entries) {
         entries(entries);
-        var components = new ArrayList<>(container.getComponents());
-        components.addAll((Collection<ContainerChildComponentUnion>) component);
+        component.forEach(this::add);
+        return this;
+    }
+
+    private SequencedContainer<T> add(T component, BiConsumer<ArrayList<ContainerChildComponent>, ContainerChildComponent> consumer) {
+        var components = new ArrayList<>(container.getComponents().stream().map(ContainerChildComponent.class::cast).toList());
+        if (component instanceof SequencedTextDisplay textDisplay) {
+            textDisplay.textDisplays().stream()
+                    .map(ContainerChildComponent.class::cast)
+                    .forEach(it -> consumer.accept(components, it));
+        } else {
+            consumer.accept(components, component);
+        }
         container = Container.of(components);
         return this;
     }
