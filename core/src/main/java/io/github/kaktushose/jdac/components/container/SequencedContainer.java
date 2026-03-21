@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.components.container;
 
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
+import io.github.kaktushose.jdac.components.internal.SequencedComponent;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
@@ -51,14 +52,14 @@ import java.util.stream.Stream;
 /// static `of` factory method is only usable in [Stage#PREPARATION]. If you want to use this class outside JDA-Commands
 /// call the constructor and pass the [Resolver] as well as the [Locale] manually.
 /// ```
-/// SequencedContainer<ContainerChildComponent> = new SequencedContainer(resolver, locale, TextDisplay.of("Hello World!));
+/// SequencedContainer<ContainerChildComponent> container = new SequencedContainer(resolver, locale, TextDisplay.of("Hello World!));
 /// ```
 ///
 /// @param <T> the component type this container supports.
 public sealed class SequencedContainer<T extends ContainerChildComponent>
         extends AbstractComponentImpl
-        implements Container, MessageTopLevelComponentUnion
-        permits SeparatorContainer {
+        implements SequencedComponent<T>, Container, MessageTopLevelComponentUnion
+        permits TextDisplayContainer, SeparatorContainer {
 
     protected final List<Entry> entries;
     private final ComponentResolver<Container> resolver;
@@ -109,11 +110,7 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
         }
     }
 
-    /// Appends a component to the end of this container.
-    ///
-    /// @param component the component to add
-    /// @param entries   the [Entries][Entry] used for localization
-    /// @return this instance for fluent interface
+    @Override
     public SequencedContainer<T> add(T component, Entry... entries) {
         entries(entries);
         var components = new ArrayList<>(container.getComponents());
@@ -122,11 +119,7 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
         return this;
     }
 
-    /// Adds a component to this container as the first component of this container.
-    ///
-    /// @param component the component to add
-    /// @param entries   the [Entries][Entry] used for localization
-    /// @return this instance for fluent interface
+    @Override
     public SequencedContainer<T> addFirst(T component, Entry... entries) {
         entries(entries);
         var components = new ArrayList<>(container.getComponents());
@@ -135,11 +128,7 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
         return this;
     }
 
-    /// Adds a component to this container as the last component of this container.
-    ///
-    /// @param component the component to add
-    /// @param entries   the [Entries][Entry] used for localization
-    /// @return this instance for fluent interface
+    @Override
     public SequencedContainer<T> addLast(T component, Entry... entries) {
         entries(entries);
         var components = new ArrayList<>(container.getComponents());
@@ -148,11 +137,7 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
         return this;
     }
 
-    /// Appends all the components in the specified collection to the end of this container.
-    ///
-    /// @param component the component to add
-    /// @param entries   the [Entries][Entry] used for localization
-    /// @return this instance for fluent interface
+    @Override
     @SuppressWarnings("unchecked")
     public SequencedContainer<T> addAll(Collection<T> component, Entry... entries) {
         entries(entries);
@@ -162,44 +147,18 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
         return this;
     }
 
-    /// Gets the [Locale] this container will be localized in
-    ///
-    /// @return the [Locale]
+    @Override
     public Locale locale() {
         return locale;
     }
 
-    /// Sets the [Locale] this container will be localized in
-    ///
-    /// @param locale the new [Locale] to use for localization
-    /// @return this instance for fluent interface
+    @Override
     public SequencedContainer<T> locale(Locale locale) {
         this.locale = locale;
         return this;
     }
 
-    /// Sets the [Locale] this container will be localized in
-    ///
-    /// @param locale the new [DiscordLocale] to use for localization
-    /// @return this instance for fluent interface
-    public SequencedContainer<T> locale(DiscordLocale locale) {
-        this.locale = locale.toLocale();
-        return this;
-    }
-
-    /// Adds [Entries][Entry] to use for localization.
-    ///
-    /// @param entry the [Entries][Entry]
-    /// @return this instance for fluent interface
-    public SequencedContainer<T> entries(Entry... entry) {
-        entries.addAll(Arrays.asList(entry));
-        return this;
-    }
-
-    /// Adds [Entries][Entry] to use for localization.
-    ///
-    /// @param entries the [Entries][Entry]
-    /// @return this instance for fluent interface
+    @Override
     public SequencedContainer<T> entries(Collection<Entry> entries) {
         this.entries.addAll(entries);
         return this;
@@ -212,9 +171,7 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
     /// @return {@inheritDoc}
     @Override
     public @Unmodifiable List<ContainerChildComponentUnion> getComponents() {
-        if (!Introspection.accessible()) {
-            container = resolver.resolve(container, locale, toMap());
-        }
+        container = resolver.resolve(container, locale, toMap());
         return container.getComponents();
     }
 
@@ -225,9 +182,7 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
     /// @return {@inheritDoc}
     @Override
     public DataObject toData() {
-        if (!Introspection.accessible()) {
-            container = resolver.resolve(container, locale, toMap());
-        }
+        container = resolver.resolve(container, locale, toMap());
         return ((ContainerImpl) container).toData();
     }
 

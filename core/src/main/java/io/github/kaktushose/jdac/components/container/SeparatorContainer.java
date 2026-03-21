@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.components.container;
 
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
+import io.github.kaktushose.jdac.components.SequencedTextDisplay;
 import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
@@ -16,7 +17,7 @@ import java.util.function.Consumer;
 
 /// An implementation of [SequencedContainer] that always adds a [Separator] between its elements.
 ///
-/// special handling of [TextDisplayContainer]
+/// special handling of [SequencedTextDisplay]
 public final class SeparatorContainer extends SequencedContainer<ContainerChildComponent> {
 
     private final Separator separator;
@@ -135,7 +136,7 @@ public final class SeparatorContainer extends SequencedContainer<ContainerChildC
     }
 
     private void add(ContainerChildComponent component, Consumer<ContainerChildComponent> consumer, Entry... entries) {
-        if (component instanceof TextDisplayContainer textDisplay) {
+        if (component instanceof SequencedTextDisplay textDisplay) {
             textDisplay.textDisplays().stream().map(ContainerChildComponent.class::cast).forEach(consumer);
         } else {
             consumer.accept(component);
