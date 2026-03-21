@@ -7,10 +7,9 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
-import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Entitlement;
 import net.dv8tion.jda.api.entities.Guild;
@@ -92,8 +91,8 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     ///
     /// Same as [Introspection#accessScoped()]
     /// @return the [Introspection] instance with stage set to [Stage#INTERACTION].
-    public Introspection introspection() {
-        return Introspection.accessScoped();
+    public JDACIntrospection introspection() {
+        return JDACIntrospection.accessScoped();
     }
 
     /// Gets the [MessageResolver] instance

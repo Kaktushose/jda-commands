@@ -3,11 +3,10 @@ package io.github.kaktushose.jdac.property.extension;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
-import io.github.kaktushose.jdac.configuration.Property.Category;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
-import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.property.JDACPropertyProvider;
+import io.github.kaktushose.jdac.property.JDACScope;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
@@ -87,14 +86,14 @@ public interface Extension<T extends Extension.Data> {
     /// The [Property]s provided by these providers must have [Property#category()] set to [Category#LOADABLE]!
     ///
     /// @return a collection of [PropertyProvider]s
-    default Collection<PropertyProvider<?>> properties() {
+    default Collection<JDACPropertyProvider<?>> properties() {
         return List.of();
     }
 
     /// This method will be called after the framework was fully started, practically at the end of [JDACBuilder#start()].
     ///
     /// @param framework the fully initialized [JDACommands] instance.
-    @IntrospectionAccess(Stage.INITIALIZED)
+    @IntrospectionAccess(JDACScope.INITIALIZED)
     default void onStart(JDACommands framework) {}
 
     /// @return the [Class] of the custom [Data] implementation or null if the extension doesn't support additional configuration

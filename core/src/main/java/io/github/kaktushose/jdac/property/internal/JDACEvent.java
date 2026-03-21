@@ -3,8 +3,6 @@ package io.github.kaktushose.jdac.property.internal;
 import dev.goldmensch.propane.event.Event;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.JDACommands;
-import io.github.kaktushose.jdac.introspection.lifecycle.FrameworkEvent;
-import io.github.kaktushose.jdac.introspection.lifecycle.Subscriber;
 import io.github.kaktushose.jdac.property.JDACScope;
 import io.github.kaktushose.jdac.property.events.*;
 

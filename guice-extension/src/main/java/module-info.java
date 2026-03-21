@@ -14,6 +14,7 @@ module io.github.kaktushose.jdac.guice {
     requires net.dv8tion.jda;
     requires org.slf4j;
     requires io.github.kaktushose.proteus;
+    requires dev.goldmensch.propane;
 
     exports io.github.kaktushose.jdac.guice;
 

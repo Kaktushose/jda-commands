@@ -1,11 +1,10 @@
 package io.github.kaktushose.jdac.message.i18n.internal;
 
-import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
-import io.github.kaktushose.jdac.property.Definitions;
-import io.github.kaktushose.jdac.property.events.FrameworkStartEvent;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.property.Definitions;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.ApiStatus;
@@ -13,13 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.Map;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static io.github.kaktushose.jdac.configuration.Property.*;
+import static io.github.kaktushose.jdac.property.JDACProperty.DEFINITIONS;
+import static io.github.kaktushose.jdac.property.JDACProperty.MESSAGE_RESOLVER;
 import static io.github.kaktushose.jdac.property.internal.JDACInternalProperties.BUNDLE_FINDER;
 
 @ApiStatus.Internal
@@ -28,14 +27,15 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
     public static final ScopedValue<Boolean> JDA_LOCALIZATION = ScopedValue.newInstance();
     private static final Logger log = LoggerFactory.getLogger(JDACLocalizationFunction.class);
     private static final Pattern OPTIONS_SEPARATOR = Pattern.compile("[.]options.*([.]name|[.]description)$");
-    public static Function<PropertyProvider.Context, LocalizationFunction> PROVIDER_FUNC = ctx -> {
+    public static Function<JDACIntrospection, LocalizationFunction> PROVIDER_FUNC = ctx -> {
         JDACLocalizationFunction func = new JDACLocalizationFunction(
                 ctx.get(BUNDLE_FINDER),
                 ctx.get(DEFINITIONS),
                 ctx.get(MESSAGE_RESOLVER)
         );
 
-        ctx.get(INTROSPECTION).subscribe(FrameworkStartEvent.class, (_, _) -> func.logNotFound());
+        // TODO reenable
+//        ctx.get(INTROSPECTION).subscribe(FrameworkStartEvent.class, (_, _) -> func.logNotFound());
         return func;
     };
     private final Map<String, Collection<DiscordLocale>> missingLocalizations = new HashMap<>();

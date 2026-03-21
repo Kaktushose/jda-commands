@@ -5,7 +5,6 @@ import io.github.kaktushose.jdac.annotations.constraints.Max;
 import io.github.kaktushose.jdac.annotations.constraints.Min;
 import io.github.kaktushose.jdac.annotations.interactions.Choices;
 import io.github.kaktushose.jdac.annotations.interactions.Param;
-import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.definitions.Definition;
 import io.github.kaktushose.jdac.definitions.description.AnnotationDescription;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
@@ -23,9 +22,9 @@ import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.internal.Helpers;
-import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.entities.*;
@@ -40,7 +39,6 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jspecify.annotations.Nullable;
 
-import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -238,13 +236,12 @@ public record OptionDataDefinition(
     @SuppressWarnings("unchecked")
     private static List<Choice> indexChoices(ClassDescription classDescription, ParameterDescription parameter) {
         List<Choice> choices = new ArrayList<>();
-        Introspection introspection = Introspection.scopedGet(Property.INTROSPECTION);
         parameter.findAnnotation(Choices.class).ifPresent(choicesAnn -> {
             List<String> options = new ArrayList<>(Arrays.asList(choicesAnn.value()));
 
             ClassDescription source = classDescription;
             if (choicesAnn.source() != Choices.class) {
-                source = introspection.get(Property.DESCRIPTOR).describe(choicesAnn.source());
+                source = JDACProperty.DESCRIPTOR.scopedGet().describe(choicesAnn.source());
             }
 
             Collection<MethodDescription> methods = source.findMethods(choicesAnn.provider());
@@ -266,10 +263,10 @@ public record OptionDataDefinition(
                 Helpers.checkParametrizedType(method.genericReturnType(), List.class, String.class);
 
                 try {
-                    var instantiator = introspection.get(Property.INSTANTIATOR);
+                    var instantiator = JDACProperty.INSTANTIATOR.scopedGet();
                     List<Object> arguments = method.parameters().stream()
                             .map(ParameterDescription::type)
-                            .map(it -> (Object) instantiator.instance(it, introspection))
+                            .map(it -> (Object) instantiator.instance(it, JDACProperty.INTROSPECTION.scopedGet()))
                             .toList();
 
                     List<String> result = (List<String>) method.invoker().invoke(null, arguments);

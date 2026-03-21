@@ -68,22 +68,17 @@ module io.github.kaktushose.jdac.core {
     // command scope api
     exports io.github.kaktushose.jdac.scope;
 
-    // extensions + configuration
-    exports io.github.kaktushose.jdac.configuration;
-
-    // introspection
-    exports io.github.kaktushose.jdac.introspection;
-    exports io.github.kaktushose.jdac.introspection.lifecycle;
-    exports io.github.kaktushose.jdac.introspection.lifecycle.events;
+    // extensions + property
+    exports io.github.kaktushose.jdac.property;
+    exports io.github.kaktushose.jdac.property.extension;
+    exports io.github.kaktushose.jdac.property.events;
 
     // i18n/messages/emojis/placeholder
     exports io.github.kaktushose.jdac.message.i18n;
     exports io.github.kaktushose.jdac.message.emoji;
     exports io.github.kaktushose.jdac.message.placeholder;
     exports io.github.kaktushose.jdac.message.resolver;
-    exports io.github.kaktushose.jdac.property.extension;
-    exports io.github.kaktushose.jdac.property;
-    exports io.github.kaktushose.jdac.property.events;
+
 
     uses Extension;
 }

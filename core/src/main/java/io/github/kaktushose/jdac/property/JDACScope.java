@@ -6,7 +6,6 @@ import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
-import io.github.kaktushose.jdac.introspection.Stage;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 
 /// The stage or "level" inside the framework at which a properties value is set.

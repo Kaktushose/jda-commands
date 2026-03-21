@@ -1,8 +1,7 @@
 package io.github.kaktushose.jdac.annotations;
 
-import io.github.kaktushose.jdac.configuration.Property;
-import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
+import io.github.kaktushose.jdac.property.JDACScope;
 import io.github.kaktushose.jdac.property.events.RuntimeCloseEvent;
 
 import java.lang.annotation.*;
@@ -29,6 +28,6 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.TYPE, ElementType.METHOD})
 public @interface IntrospectionAccess {
 
-    /// The [Stage] of the available [Introspection] instance.
-    Stage value();
+    /// The [JDACScope] of the available [JDACIntrospection] instance.
+    JDACScope value();
 }

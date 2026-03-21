@@ -1,11 +1,8 @@
 package definitions.interactions;
 
-import definitions.TestHelpers;
 import io.github.kaktushose.jdac.annotations.interactions.AutoComplete;
 import io.github.kaktushose.jdac.annotations.interactions.Command;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
-import io.github.kaktushose.jdac.configuration.Property;
-import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefinition;
@@ -13,12 +10,8 @@ import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDe
 import io.github.kaktushose.jdac.dispatching.events.interactions.AutoCompleteEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
-import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.Stage;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
-import io.github.kaktushose.jdac.introspection.internal.Lifecycle;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -88,21 +81,21 @@ public class AutoCompleteDefinitionTest {
     }
 
     private AutoCompleteDefinition build(String method) {
-        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, INTROSPECTION).call(() -> {
+        return ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, INTROSPECTION).call(() -> {
             MethodBuildContext context = getBuildContext(TestController.class, method);
             return AutoCompleteDefinition.build(context.clazz(), context.method());
         });
     }
 
     private AutoCompleteDefinition buildWorking(String method) {
-        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, INTROSPECTION).call(() -> {
+        return ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, INTROSPECTION).call(() -> {
             MethodBuildContext context = getBuildContextOptionalAutoComplete(TestControllerWorking.class, method, true);
             return AutoCompleteDefinition.build(context.clazz(), context.method());
         });
     }
 
     private SlashCommandDefinition buildSlash(String method) {
-        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, INTROSPECTION).call(() -> {
+        return ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, INTROSPECTION).call(() -> {
             MethodBuildContext context = getBuildContextOptionalAutoComplete(TestControllerWorking.class, method, true);
             return SlashCommandDefinition.build(context);
         });

@@ -1,11 +1,11 @@
 package io.github.kaktushose.jdac.property.internal.extension;
 
 import io.github.kaktushose.jdac.JDACommands;
-import io.github.kaktushose.jdac.configuration.internal.Properties;
-import io.github.kaktushose.jdac.configuration.internal.Resolver;
-import io.github.kaktushose.jdac.property.extension.Extension;
-import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.extension.Extension;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 
@@ -21,25 +21,27 @@ public class Extensions {
     private final Collection<Extension<Extension.Data>> loaded = new ArrayList<>();
 
     @SuppressWarnings("unchecked")
-    public void load(Resolver resolver) {
-        Map<Class<? extends Extension.Data>, Extension.Data> extensionData = resolver.get(Property.EXTENSION_DATA);
+    public void load(JDACIntrospection introspection) {
+        Map<Class<? extends Extension.Data>, Extension.Data> extensionData = introspection.get(JDACProperty.EXTENSION_DATA);
 
         ServiceLoader.load(Extension.class)
                 .stream()
                 .peek(provider -> log.debug("Found extension (filter not applied): {}", provider.type()))
-                .filter(resolver.get(Property.EXTENSION_FILTER))
+                .filter(introspection.get(JDACProperty.EXTENSION_FILTER))
                 .peek(provider -> log.debug("Using extension (filter applied): {}", provider.type()))
                 .map(ServiceLoader.Provider::get)
                 .peek(extension -> extension.init(extensionData.get(extension.dataType())))
                 .forEach(loaded::add);
     }
 
-    public void register(Properties properties) {
+    public void register(JDACIntrospectionImpl.Builder builder) {
         for (Extension<Extension.Data> extension : loaded) {
+
+            // TODO use this check later again
             if (extension.getClass().getName().startsWith("io.github.kaktushose.jdac")) {
-                ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.addAll(extension.properties()));
+                extension.properties().forEach(builder::add);
             } else {
-                properties.addAll(extension.properties());
+                extension.properties().forEach(builder::add);
             }
         }
     }

@@ -1,12 +1,11 @@
 package io.github.kaktushose.jdac.dispatching;
 
-import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
@@ -28,9 +27,9 @@ public final class JDAEventListener extends ListenerAdapter {
 
     private static final Logger log = JDACLogger.getLogger(JDAEventListener.class);
     private final Map<String, Runtime> runtimes = new ConcurrentHashMap<>();
-    private final IntrospectionImpl introspection;
+    private final JDACIntrospectionImpl introspection;
 
-    public JDAEventListener(IntrospectionImpl introspection) {
+    public JDAEventListener(JDACIntrospectionImpl introspection) {
         this.introspection = introspection;
     }
 
@@ -75,9 +74,9 @@ public final class JDAEventListener extends ListenerAdapter {
             componentEvent.deferReply(true).queue();
         }
 
-        ReplyConfig replyConfig = introspection.get(Property.GLOBAL_REPLY_CONFIG);
+        ReplyConfig replyConfig = introspection.get(JDACProperty.GLOBAL_REPLY_CONFIG);
         componentEvent.getHook()
-                .sendMessageComponents(introspection.get(Property.ERROR_MESSAGE_FACTORY).getTimedOutComponentMessage(jdaEvent))
+                .sendMessageComponents(introspection.get(JDACProperty.ERROR_MESSAGE_FACTORY).getTimedOutComponentMessage(jdaEvent))
                 .useComponentsV2()
                 .setEphemeral(true)
                 .setSuppressedNotifications(replyConfig.silent())

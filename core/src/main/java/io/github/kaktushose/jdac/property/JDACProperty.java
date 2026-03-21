@@ -5,9 +5,6 @@ import dev.goldmensch.propane.property.SpecificProperty;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
-import io.github.kaktushose.jdac.property.extension.Extension;
-import io.github.kaktushose.jdac.property.extension.ExtensionFilter;
-import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
@@ -25,8 +22,6 @@ import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
-import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiSource;
 import io.github.kaktushose.jdac.message.i18n.I18n;
@@ -35,6 +30,8 @@ import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
+import io.github.kaktushose.jdac.property.extension.Extension;
+import io.github.kaktushose.jdac.property.extension.ExtensionFilter;
 import io.github.kaktushose.jdac.property.internal.JDACCollectionProperty;
 import io.github.kaktushose.jdac.property.internal.JDACMappingProperty;
 import io.github.kaktushose.jdac.property.internal.JDACSingletonProperty;
@@ -205,8 +202,8 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   /// Can also be used to retrieve the used [Introspection] instance via [PropertyProvider.Context#get(io.github.kaktushose.jdac.configuration.Property)].
   /// (which will have scope = [Stage#CONFIGURATION])
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
-  JDACProperty<Introspection> INTROSPECTION =
-          new JDACSingletonProperty<>("INTROSPECTION", Property.Source.PROVIDED, JDACScope.CONFIGURATION, Introspection.class);
+  JDACProperty<JDACIntrospection> INTROSPECTION =
+          new JDACSingletonProperty<>("INTROSPECTION", Property.Source.PROVIDED, JDACScope.CONFIGURATION, JDACIntrospection.class);
 
   /// The [I18n] service provided by JDA-Commands.
   /// Needs the values of [#DESCRIPTOR] and [#LOCALIZER].
@@ -215,13 +212,6 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
   JDACProperty<I18n> I18N =
           new JDACSingletonProperty<>("I18N", Property.Source.PROVIDED, JDACScope.CONFIGURATION, I18n.class);
-
-  /// The [LocalizationFunction] backed by [MessageResolver] used to localize/resolve commands and descriptions.
-  ///
-  /// @see LocalizationFunction
-  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
-  JDACProperty<LocalizationFunction> LOCALIZATION_FUNCTION =
-          new JDACSingletonProperty<>("LOCALIZATION_FUNCTION", Property.Source.PROVIDED, JDACScope.CONFIGURATION, LocalizationFunction.class);
 
   /// The [MessageResolver] service provided byt JDA-Commands.
   /// Needs the values of [#I18N] and [#EMOJI_RESOLVER].
@@ -264,6 +254,13 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   @PropertyInformation(scope = JDACScope.INITIALIZED, source = Property.Source.PROVIDED)
   JDACProperty<Definitions> DEFINITIONS =
           new JDACSingletonProperty<>("DEFINITIONS", Property.Source.PROVIDED, JDACScope.INITIALIZED, Definitions.class);
+
+  /// The [LocalizationFunction] backed by [MessageResolver] used to localize/resolve commands and descriptions.
+  ///
+  /// @see LocalizationFunction
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
+  JDACProperty<LocalizationFunction> LOCALIZATION_FUNCTION =
+          new JDACSingletonProperty<>("LOCALIZATION_FUNCTION", Property.Source.PROVIDED, JDACScope.INITIALIZED, LocalizationFunction.class);
 
   // ------- runtime ---------
   /// The [JDA] instance bound to this specific Runtime.
