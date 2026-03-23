@@ -10,7 +10,7 @@ import net.dv8tion.jda.internal.utils.Helpers;
 
 import java.util.SequencedCollection;
 
-public interface Static extends PaginationLayout {
+public non-sealed interface Static extends PaginationLayout {
 
     static Static divider(Spacing spacing) {
         return of(Separator.createDivider(spacing));
@@ -35,4 +35,6 @@ public interface Static extends PaginationLayout {
     static Static of(SequencedCollection<ContainerChildComponent> components) {
         return new StaticImpl(components);
     }
+
+    SequencedCollection<ContainerChildComponent> components();
 }

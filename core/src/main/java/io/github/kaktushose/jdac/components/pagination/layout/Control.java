@@ -3,9 +3,9 @@ package io.github.kaktushose.jdac.components.pagination.layout;
 import io.github.kaktushose.jdac.components.pagination.internal.ControlImpl;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.ButtonComponent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComponent;
-import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponentUnion;
+import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 
-public interface Control {
+public interface Control extends Threshold {
 
     static Control start(ButtonComponent control) {
         return new ControlImpl(ControlType.START, control);
@@ -27,7 +27,10 @@ public interface Control {
         return new ControlImpl(ControlType.PAGE_SELECT, control);
     }
 
+    @Override
     Control threshold(int threshold);
+
+    ActionRowChildComponent component();
 
     enum ControlType {
         START,
