@@ -69,7 +69,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
     public final void accept(T e, Runtime runtime) {
         log.debug("Got event {}", e);
 
-        JDACIntrospectionImpl preparationIntrospection = JDACIntrospectionImpl.create(JDACScope.PREPARATION)
+        JDACIntrospectionImpl preparationIntrospection = runtimeIntrospection.createChild(JDACScope.PREPARATION)
                 .addFallback(JDACProperty.JDA_EVENT, _ -> e)
                 .build();
 
@@ -83,11 +83,10 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
         InvocationContext<T> invocationContext =
                 new InvocationContext<>(e, runtime.keyValueStore(), preparationResult.definition,
-                        Helpers.replyConfig(preparationResult.definition, runtimeIntrospection.get(JDACProperty.GLOBAL_REPLY_CONFIG)),
+                        Helpers.replyConfig(preparationResult.definition, preparationIntrospection.get(JDACProperty.GLOBAL_REPLY_CONFIG)),
                         preparationResult.rawArguments);
 
-        JDACIntrospectionImpl interactionIntrospection = JDACIntrospectionImpl.create(JDACScope.INTERACTION)
-                .addFallback(JDACProperty.JDA_EVENT, _ -> e)
+        JDACIntrospectionImpl interactionIntrospection = preparationIntrospection.createChild(JDACScope.INTERACTION)
                 .addFallback(JDACProperty.INVOCATION_CONTEXT, _ -> invocationContext)
                 .build();
 

@@ -25,7 +25,7 @@ class ComponentsV1Test {
 
     @BeforeAll
     static void init() {
-        scenario = TestScenario.with(TestController.class)
+        scenario = TestScenario.with(ComponentsV1Test.TestController.class)
                 .replyConfig(new ReplyConfig())
                 .create();
     }

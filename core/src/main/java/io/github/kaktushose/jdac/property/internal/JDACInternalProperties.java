@@ -27,7 +27,7 @@ public interface JDACInternalProperties {
 
     JDACProperty<InteractionRegistry> INTERACTION_REGISTRY = new JDACSingletonProperty<>("INTERACTION_REGISTRY", Property.Source.PROVIDED, JDACScope.INITIALIZED, InteractionRegistry.class);
 
-    JDACProperty<Runtime> RUNTIME = new JDACSingletonProperty<>("RUNTIME", Property.Source.PROVIDED, JDACScope.INTERACTION, Runtime.class);
+    JDACProperty<Runtime> RUNTIME = new JDACSingletonProperty<>("RUNTIME", Property.Source.PROVIDED, JDACScope.RUNTIME, Runtime.class);
 
     JDACProperty<BundleFinder> BUNDLE_FINDER = new JDACSingletonProperty<>("BUNDLE_FINDER", Property.Source.PROVIDED, JDACScope.CONFIGURATION, BundleFinder.class);
 
