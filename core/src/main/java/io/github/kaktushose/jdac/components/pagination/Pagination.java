@@ -10,13 +10,15 @@ import java.util.SequencedCollection;
 
 public interface Pagination {
 
-    static Pagination of(int maxPages, PaginationLayout component, PaginationLayout... components) {
-        return of(maxPages, Helpers.mergeVararg(component, components));
+    static Pagination of(PaginationLayout component, PaginationLayout... components) {
+        return of(Helpers.mergeVararg(component, components));
     }
 
-    static Pagination of(int maxPages, SequencedCollection<PaginationLayout> components) {
-        return new PaginationImpl(components, maxPages);
+    static Pagination of(SequencedCollection<PaginationLayout> components) {
+        return new PaginationImpl(components);
     }
+
+    Pagination maxPages(int maxPages);
 
     Pagination container(boolean container);
 
