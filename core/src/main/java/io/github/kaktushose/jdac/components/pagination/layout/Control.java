@@ -32,6 +32,12 @@ public interface Control extends Threshold {
 
     Control amount(int amount);
 
+    Direction direction();
+
+    int amount();
+
+    int threshold();
+
     ActionRowChildComponent component();
 
     enum Direction {

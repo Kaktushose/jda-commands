@@ -30,5 +30,19 @@ public interface Pagination {
 
     Pagination spoiler(boolean spoiler);
 
+    default Pagination forward() {
+        return forward(1);
+    }
+
+    Pagination forward(int amount);
+
+    default Pagination backward() {
+        return backward(1);
+    }
+
+    Pagination backward(int amount);
+
+    Pagination page(int page);
+
     SequencedCollection<MessageTopLevelComponent> build();
 }

@@ -78,7 +78,7 @@ import java.util.function.Function;
 /// @see StringSelectComponent
 /// @see EntitySelectMenuComponent
 public abstract sealed class Component<S extends Component<S, T, B, D>, T extends ActionComponent, B, D extends ComponentDefinition<T>>
-        implements ActionRowChildComponentUnion, SectionAccessoryComponentUnion
+        implements ActionComponent, ActionRowChildComponentUnion, SectionAccessoryComponentUnion
         permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
 
     protected @Nullable Integer uniqueId;
@@ -275,6 +275,22 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
 
     @Override
     public Thumbnail asThumbnail() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return !enabled;
+    }
+
+    @Override
+    public Component<S, T, B, D> withDisabled(boolean disabled) {
+        this.enabled = !disabled;
+        return this;
+    }
+
+    @Override
+    public String getCustomId() {
         throw new UnsupportedOperationException();
     }
 
