@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.components.pagination.internal;
 
+import io.github.kaktushose.jdac.components.pagination.Page;
 import io.github.kaktushose.jdac.components.pagination.Pagination;
 import io.github.kaktushose.jdac.components.pagination.PaginationLayout;
 import io.github.kaktushose.jdac.components.pagination.layout.*;
@@ -58,7 +59,7 @@ public record PaginationImpl(
 
             SequencedCollection<ContainerChildComponent> components = switch (paginationLayout) {
                 case Static staticImpl -> staticImpl.components();
-                case Dynamic dynamic -> dynamic.function().apply(currentPage, Objects.requireNonNullElse(maxPages, -1));
+                case Dynamic dynamic -> dynamic.function().apply(new Page(this, currentPage, maxPages));
                 case ControlRow controlRow -> List.of(ActionRow.of(controlRow.controls().stream()
                         .filter(it -> maxPages != null && it.threshold() <= maxPages)
                         .map(Control::component)
