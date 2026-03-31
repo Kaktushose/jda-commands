@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.property;
 
 import dev.goldmensch.propane.property.Property;
+import io.github.kaktushose.proteus.ProteusBuilder;
 
 import java.lang.annotation.*;
 
@@ -17,6 +18,6 @@ import java.lang.annotation.*;
 
     Property.Source source();
 
-    Property.FallbackBehaviour fallbackBehaviour() default Property.FallbackBehaviour.ACCUMULATE;
+    Property.FallbackStrategy fallbackBehaviour() default Property.FallbackStrategy.COMBINE;
 
 }

@@ -2,8 +2,8 @@ package io.github.kaktushose.jdac.guice.internal;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import dev.goldmensch.propane.PropertyProvider;
 import dev.goldmensch.propane.event.Listener;
+import dev.goldmensch.propane.property.PropertyProvider;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;

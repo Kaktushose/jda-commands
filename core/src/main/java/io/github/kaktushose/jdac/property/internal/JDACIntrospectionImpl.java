@@ -1,8 +1,8 @@
 package io.github.kaktushose.jdac.property.internal;
 
 import dev.goldmensch.propane.IntrospectionImpl;
-import dev.goldmensch.propane.PropertyProvider;
 import dev.goldmensch.propane.internal.exposed.Properties;
+import dev.goldmensch.propane.property.PropertyProvider;
 import io.github.kaktushose.jdac.property.JDACIntrospection;
 import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.JDACPropertyProvider;

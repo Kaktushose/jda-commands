@@ -46,9 +46,10 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static dev.goldmensch.propane.property.Property.FallbackBehaviour.ACCUMULATE;
-import static dev.goldmensch.propane.property.Property.FallbackBehaviour.OVERRIDE;
+import static dev.goldmensch.propane.property.Property.FallbackStrategy.COMBINE;
+import static dev.goldmensch.propane.property.Property.FallbackStrategy.IGNORE;
 import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
+
 
 /// # Properties
 /// An [io.github.kaktushose.jdac.configuration.Property] represent either...
@@ -69,10 +70,10 @@ import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 /// Additionally, there are 3 types of properties:
 /// - [io.github.kaktushose.jdac.configuration.Property.Singleton] -> the property will have the value of the provider with the highest [priority][PropertyProvider#priority()]
 /// - [io.github.kaktushose.jdac.configuration.Property.Map] -> the property represents a Map with a key and value. The value of all [providers][PropertyProvider] will be
-///                accumulated and providers with higher [priorities][PropertyProvider#priority()] take precedence
-/// - [io.github.kaktushose.jdac.configuration.Property.Enumeration] -> the property represents a [Collection]. The value of all [providers][PropertyProvider] will be accumulated
+///                COMBINEd and providers with higher [priorities][PropertyProvider#priority()] take precedence
+/// - [io.github.kaktushose.jdac.configuration.Property.Enumeration] -> the property represents a [Collection]. The value of all [providers][PropertyProvider] will be COMBINEd
 ///
-/// The only exception to this general accumulation rule are fallback values. Whether they are accumulated with other
+/// The only exception to this general accumulation rule are fallback values. Whether they are COMBINEd with other
 /// providers or overwritten is defined by [io.github.kaktushose.jdac.configuration.Property#fallbackBehaviour()].
 ///
 /// ## Stages
@@ -84,19 +85,19 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   // -------- settable by user + loadable from extension --------
 
   /// @see JDACBuilder#classFinders(ClassFinder...)
-  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = OVERRIDE)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = IGNORE)
   JDACProperty<Collection<ClassFinder>> CLASS_FINDER =
-          new JDACCollectionProperty<>("CLASS_FINDER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, ClassFinder.class, OVERRIDE);
+          new JDACCollectionProperty<>("CLASS_FINDER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, ClassFinder.class, IGNORE);
 
   /// @see JDACBuilder#emojiSource(EmojiSource...)
-  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = OVERRIDE)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = IGNORE)
   JDACProperty<Collection<EmojiSource>> EMOJI_SOURCES =
-          new JDACCollectionProperty<>("EMOJI_SOURCES", Property.Source.EXTENSION, JDACScope.CONFIGURATION, EmojiSource.class, OVERRIDE);
+          new JDACCollectionProperty<>("EMOJI_SOURCES", Property.Source.EXTENSION, JDACScope.CONFIGURATION, EmojiSource.class, IGNORE);
 
   /// @see EmbedConfig#sources(EmbedDataSource...)
-  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = ACCUMULATE)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = COMBINE)
   JDACProperty<Collection<EmbedDataSource>> EMBED_SOURCES =
-          new JDACCollectionProperty<>("EMBED_SOURCES", Property.Source.EXTENSION, JDACScope.CONFIGURATION, EmbedDataSource.class, ACCUMULATE);
+          new JDACCollectionProperty<>("EMBED_SOURCES", Property.Source.EXTENSION, JDACScope.CONFIGURATION, EmbedDataSource.class, COMBINE);
 
   /// @see JDACBuilder#descriptor(Descriptor)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION)
@@ -114,21 +115,21 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
 
   /// MIDDLEWARE property holds multiple [Middleware]s associated with their [Priority]
   /// @see JDACBuilder#middleware(Priority, Middleware)
-  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = ACCUMULATE)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = COMBINE)
   JDACProperty<Collection<Map.Entry<Priority, Middleware>>> MIDDLEWARE =
-          new JDACCollectionProperty<>("MIDDLEWARE", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(java.util.Map.Entry.class), ACCUMULATE);
+          new JDACCollectionProperty<>("MIDDLEWARE", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(java.util.Map.Entry.class), COMBINE);
 
   /// The TYPE_ADAPTER property maps [AdapterType]s containing the source and targets [Type]s to their associated [TypeAdapter]
   /// @see JDACBuilder#adapter(Class, Class, TypeAdapter)
-  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = ACCUMULATE)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = COMBINE)
   JDACProperty<Map<AdapterType<?, ?>, TypeAdapter<?, ?>>> TYPE_ADAPTER =
-          new JDACMappingProperty<>("TYPE_ADAPTER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(AdapterType.class), castUnsafe(TypeAdapter.class), ACCUMULATE);
+          new JDACMappingProperty<>("TYPE_ADAPTER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(AdapterType.class), castUnsafe(TypeAdapter.class), COMBINE);
 
   /// The VALIDATOR property maps a [Validator] to its identifying annotation.
   /// @see JDACBuilder#validator(Class, Validator)
-  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = ACCUMULATE)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = COMBINE)
   JDACProperty<Map<Class<? extends Annotation>, Validator<?, ?>>> VALIDATOR =
-          new JDACMappingProperty<>("VALIDATOR", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(Class.class), castUnsafe(Validator.class), ACCUMULATE);
+          new JDACMappingProperty<>("VALIDATOR", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(Class.class), castUnsafe(Validator.class), COMBINE);
 
   /// @see JDACBuilder#permissionsProvider(PermissionsProvider)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION)
@@ -146,9 +147,9 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
           new JDACSingletonProperty<>("GUILD_SCOPE_PROVIDER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, GuildScopeProvider.class);
 
   /// @see JDACBuilder#stringResolver(Resolver...)
-  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = ACCUMULATE)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = COMBINE)
   JDACProperty<Collection<Resolver<String>>> STRING_RESOLVER =
-          new JDACCollectionProperty<>("STRING_RESOLVER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(Resolver.class), ACCUMULATE);
+          new JDACCollectionProperty<>("STRING_RESOLVER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(Resolver.class), COMBINE);
 
   // -------- user settable --------
   /// @see JDACBuilder#globalCommandConfig(CommandDefinition.CommandConfig)
@@ -162,9 +163,9 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
           new JDACSingletonProperty<>("GLOBAL_REPLY_CONFIG", Property.Source.BUILDER, JDACScope.CONFIGURATION, InteractionDefinition.ReplyConfig.class);
 
   /// @see JDACBuilder#packages(String...)
-  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER, fallbackBehaviour = ACCUMULATE)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER, fallbackBehaviour = COMBINE)
   JDACProperty<Collection<String>> PACKAGES =
-          new JDACCollectionProperty<>("PACKAGES", Property.Source.BUILDER, JDACScope.CONFIGURATION, String.class, ACCUMULATE);
+          new JDACCollectionProperty<>("PACKAGES", Property.Source.BUILDER, JDACScope.CONFIGURATION, String.class, COMBINE);
 
   /// @see JDACBuilder#expirationStrategy(ExpirationStrategy)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER)
@@ -182,9 +183,9 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
           new JDACSingletonProperty<>("SHUTDOWN_JDA", Property.Source.BUILDER, JDACScope.CONFIGURATION, Boolean.class);
 
   /// @see JDACBuilder#extensionData(Extension.Data...)
-  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER, fallbackBehaviour = ACCUMULATE)
+  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER, fallbackBehaviour = COMBINE)
   JDACProperty<Map<Class<? extends Extension.Data>, Extension.Data>> EXTENSION_DATA =
-          new JDACMappingProperty<>("EXTENSION_DATA", Property.Source.BUILDER, JDACScope.CONFIGURATION, castUnsafe(Class.class), Extension.Data.class, ACCUMULATE);
+          new JDACMappingProperty<>("EXTENSION_DATA", Property.Source.BUILDER, JDACScope.CONFIGURATION, castUnsafe(Class.class), Extension.Data.class, COMBINE);
 
   /// @see JDACBuilder#filterExtensions(ExtensionFilter.FilterStrategy, String...)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER)

@@ -1,6 +1,6 @@
 package io.github.kaktushose.jdac.property;
 
-import dev.goldmensch.propane.PropertyProvider;
+import dev.goldmensch.propane.property.PropertyProvider;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 

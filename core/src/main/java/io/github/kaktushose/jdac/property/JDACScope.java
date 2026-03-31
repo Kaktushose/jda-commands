@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.property;
 
+import dev.goldmensch.propane.Scope;
 import dev.goldmensch.propane.property.Property;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
@@ -32,7 +33,7 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 /// Many user implementable methods are annotated with [IntrospectionAccess]. To get a hint in which stage this method
 /// will be called by JDA-Commands you can take a look at [IntrospectionAccess#value()].
 // don't change order!
-public enum JDACScope implements Property.Scope {
+public enum JDACScope implements Scope {
   CONFIGURATION,
 
   INITIALIZED,

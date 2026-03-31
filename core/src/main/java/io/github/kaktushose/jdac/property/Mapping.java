@@ -13,5 +13,5 @@ import java.lang.annotation.Target;
 
   JDACScope scope();
 
-  Property.FallbackBehaviour fallback();
+  Property.FallbackStrategy fallback();
 }
