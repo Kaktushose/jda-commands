@@ -19,6 +19,7 @@ import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.internal.register.CommandUpdater;
 import io.github.kaktushose.jdac.property.JDACIntrospection;
 import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACScope;
 import io.github.kaktushose.jdac.property.events.FrameworkShutdownEvent;
 import io.github.kaktushose.jdac.property.events.FrameworkStartEvent;
 import io.github.kaktushose.jdac.property.internal.JDACInternalProperties;
@@ -204,9 +205,9 @@ public final class JDACommands {
         return Optional.of(embeds.get(name));
     }
 
-    /// Gets the [Introspection] instance with stage [Stage#INITIALIZED].
+    /// Gets the [JDACIntrospection] instance with stage [JDACScope#INITIALIZED].
     ///
-    /// @return the [Introspection] instance
+    /// @return the [JDACIntrospection] instance
     public JDACIntrospection introspection() {
         return introspection;
     }
@@ -215,7 +216,7 @@ public final class JDACommands {
     ///
     /// This is a shortcut for `JDACommands#introscpection#get`
     ///
-    /// @param property the [Property] description
+    /// @param property the [JDACProperty] description
     /// @return T
     /// @param <T> the type of property
     public <T> T property(JDACProperty<T> property) {

@@ -16,11 +16,11 @@ public interface Instantiator {
 
     /// This method will be called each time an instance of a class is needed.
     ///
-    /// The provided [Introspection] instance or [Introspection#accessScoped()] can be used to retrieve other
+    /// The provided [JDACIntrospection] instance or [JDACIntrospection#accessScoped()] can be used to retrieve other
     /// components/parts of this framework, e.g. [MessageResolver].
     ///
     /// @param clazz         the [Class] of needed instance
-    /// @param introspection the [Introspection] instance of this runtime (stage = [JDACScope#RUNTIME]).
+    /// @param introspection the [JDACIntrospection] instance of this runtime (stage = [JDACScope#RUNTIME]).
     @IntrospectionAccess(JDACScope.RUNTIME)
     <T> T instance(Class<T> clazz, JDACIntrospection introspection);
 }

@@ -10,6 +10,7 @@ import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.property.JDACIntrospection;
+import io.github.kaktushose.jdac.property.JDACScope;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Entitlement;
 import net.dv8tion.jda.api.entities.Guild;
@@ -87,10 +88,10 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     }
 
 
-    /// Gets the [Introspection] instance of this interaction.
+    /// Gets the [JDACIntrospection] instance of this interaction.
     ///
-    /// Same as [Introspection#accessScoped()]
-    /// @return the [Introspection] instance with stage set to [Stage#INTERACTION].
+    /// Same as [JDACIntrospection#accessScoped()]
+    /// @return the [JDACIntrospection] instance with stage set to [JDACScope#INTERACTION].
     public JDACIntrospection introspection() {
         return JDACIntrospection.accessScoped();
     }

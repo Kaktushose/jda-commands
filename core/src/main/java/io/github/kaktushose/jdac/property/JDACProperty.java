@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac.property;
 
-import dev.goldmensch.propane.Introspection;
 import dev.goldmensch.propane.property.*;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.JDACommands;
@@ -188,9 +187,7 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
 
   // -------- provided ------------
   // -------- configuration -------
-  /// The [Introspection] instance itself used to retrieve properties in this scope.
-  /// Can also be used to retrieve the used [Introspection] instance via [PropertyProvider.Context#get(io.github.kaktushose.jdac.configuration.Property)].
-  /// (which will have scope = [Stage#CONFIGURATION])
+  /// The [JDACIntrospection] instance itself used to retrieve properties in this scope.
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
   JDACProperty<JDACIntrospection> INTROSPECTION =
           new JDACSingletonProperty<>("INTROSPECTION", Property.Source.PROVIDED, JDACScope.CONFIGURATION, JDACIntrospection.class);

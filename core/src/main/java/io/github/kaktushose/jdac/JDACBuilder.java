@@ -37,6 +37,7 @@ import io.github.kaktushose.jdac.permissions.DefaultPermissionsProvider;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
 import io.github.kaktushose.jdac.property.JDACIntrospection;
 import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACPropertyProvider;
 import io.github.kaktushose.jdac.property.JDACScope;
 import io.github.kaktushose.jdac.property.extension.Extension;
 import io.github.kaktushose.jdac.property.extension.ExtensionFilter;
@@ -334,15 +335,15 @@ public class JDACBuilder {
         return this;
     }
 
-    /// Allows the dynamic configuration of JDA-Commands by setting [Property]s directly.
+    /// Allows the dynamic configuration of JDA-Commands by setting [JDACProperty]s directly.
     ///
-    /// @param property the [Property] to be set
-    /// @param supplier the function providing the custom value for it ([PropertyProvider#supplier()])
+    /// @param property the [JDACProperty] to be set
+    /// @param supplier the function providing the custom value for it ([JDACPropertyProvider#supplier()])
     ///
-    /// @see Property
-    /// @see PropertyProvider#supplier()
+    /// @see JDACProperty
+    /// @see JDACPropertyProvider#supplier()
     ///
-    /// @implNote the values will be added as [PropertyProvider]s with priority set to [Integer#MAX_VALUE]
+    /// @implNote the values will be added as [JDACPropertyProvider]s with priority set to [Integer#MAX_VALUE]
     /// like they were set by any other method of this class.
     public <T> JDACBuilder setProperty(JDACProperty<T> property, Function<JDACIntrospection, T> supplier) {
         return addBuilderProperty(property, supplier);

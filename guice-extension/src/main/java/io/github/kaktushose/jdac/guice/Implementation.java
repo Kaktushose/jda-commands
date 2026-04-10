@@ -11,6 +11,10 @@ import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACPropertyProvider;
+import io.github.kaktushose.jdac.property.JDACScope;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import jakarta.inject.Scope;
 
@@ -35,11 +39,11 @@ import java.lang.annotation.*;
 /// - [`Validator`][io.github.kaktushose.jdac.dispatching.validation.Validator] (via [`@Implementation.Validator`][Validator])
 ///
 /// ## Dependencies on other framework components
-/// If you need access to other components of [JDACommands], you can get all [Properties][Property] of stage [Stage#CONFIGURATION]
-/// by either injecting (see list underneath) or using [Introspection].
+/// If you need access to other components of [JDACommands], you can get all [Properties][JDACProperty] of stage [JDACScope#CONFIGURATION]
+/// by either injecting (see list underneath) or using [JDACIntrospection].
 ///
 /// Please note that this could lead to cycling dependencies errors,
-/// for more information see [PropertyProvider].
+/// for more information see [JDACPropertyProvider].
 ///
 /// Following components are directly injectable by Guice:
 /// - [I18n]
@@ -47,9 +51,9 @@ import java.lang.annotation.*;
 /// - [EmojiResolver]
 /// - [Descriptor]
 /// - [ClassFinder]
-/// - [Introspection]
+/// - [JDACIntrospection]
 ///
-/// If you need other properties of stage [Stage#CONFIGURATION], just inject the [Introspection] instance and retrieve
+/// If you need other properties of stage [JDACScope#CONFIGURATION], just inject the [JDACIntrospection] instance and retrieve
 /// them manually.
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

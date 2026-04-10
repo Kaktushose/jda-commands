@@ -3,11 +3,12 @@ package io.github.kaktushose.jdac.message.resolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
+import io.github.kaktushose.jdac.property.JDACProperty;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
-/// The MessageResolver combines all registered [`Resolver<String>`][Property#STRING_RESOLVER]
+/// The MessageResolver combines all registered [`Resolver<String>`][JDACProperty#STRING_RESOLVER]
 /// and following default resolvers:
 ///
 /// 1. [PlaceholderResolver] (priority = 1000)
@@ -29,7 +30,7 @@ public final class MessageResolver implements Resolver<String> {
         this.resolvers.addAll(resolvers);
     }
 
-    /// Applies all registered [`Resolver<String>`][Property#STRING_RESOLVER] to the given message with
+    /// Applies all registered [`Resolver<String>`][JDACProperty#STRING_RESOLVER] to the given message with
     /// the passed locale and placeholders. See class docs for more information.
     ///
     /// @param message the message to be resolved

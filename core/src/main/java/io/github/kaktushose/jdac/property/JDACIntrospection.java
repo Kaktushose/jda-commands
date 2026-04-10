@@ -8,8 +8,6 @@ import dev.goldmensch.propane.property.*;
 import io.github.kaktushose.jdac.property.events.JDACEvent;
 import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 
-import java.util.NoSuchElementException;
-
 /// The [JDACIntrospection] type is the central element of the property system.
 /// Its purpose is to expose the property and event system to the user.
 ///
@@ -68,36 +66,14 @@ public interface JDACIntrospection extends Introspection<JDACIntrospection, JDAC
   /// @see JDACIntrospection JDACIntrospection' class documentation
   <T> T get(JDACProperty<T> specific);
 
-  /// Checks whether an [io.github.kaktushose.jdac.introspection.Introspection] instance can be access by [io.github.kaktushose.jdac.introspection.Introspection#accessScoped()]
-  ///
-  /// @return `true` when you can use [io.github.kaktushose.jdac.introspection.Introspection#accessScoped()], `false` when not.
-  /// @see ScopedValue#isBound()
   static boolean accessible() {
     return JDACIntrospectionImpl.INTROSPECTION.isBound();
   }
 
-  /// Gets the current [io.github.kaktushose.jdac.introspection.Introspection] instance of this scope if set.
-  /// For further information on when this is available take a look at the class docs.
-  ///
-  /// The available properties are based on the [Stage] of the current instance, you can
-  /// check the currently available stage via  [io.github.kaktushose.jdac.introspection.Introspection#currentStage()].
-  ///
-  /// @throws NoSuchElementException if no [io.github.kaktushose.jdac.introspection.Introspection] instance is set
-  /// @see ScopedValue#get()
   static JDACIntrospection accessScoped() {
     return JDACIntrospectionImpl.INTROSPECTION.get();
   }
 
-  /// Shorthand for `Introspection.access().get(Property)`.
-  ///
-  /// This method is scope dependent, see [#accessScoped()].
-  ///
-  /// @param property the requested [Property]
-  /// @return the property's value
-  /// @throws NoSuchElementException if no [io.github.kaktushose.jdac.introspection.Introspection] instance is set
-  ///
-  /// @see io.github.kaktushose.jdac.introspection.Introspection#accessScoped()
-  /// @see io.github.kaktushose.jdac.introspection.Introspection#get(Property)
   static <T> T scopedGet(JDACProperty<T> property) {
     return accessScoped().get(property);
   }

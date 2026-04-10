@@ -3,9 +3,9 @@ package io.github.kaktushose.jdac.property.events;
 import dev.goldmensch.propane.Introspection;
 import dev.goldmensch.propane.event.Event;
 import dev.goldmensch.propane.event.Listener;
+import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.property.JDACIntrospection;
 import io.github.kaktushose.jdac.property.JDACScope;
-import io.github.kaktushose.jdac.property.internal.IntrospectionAccess;
 import io.github.kaktushose.jdac.property.internal.Registry;
 
 /// An Event in general, is an occurrence of something during the runtime of JDA-Commands.
