@@ -1,10 +1,9 @@
 package io.github.kaktushose.jdac.property;
 
-import dev.goldmensch.propane.property.Property;
-import dev.goldmensch.propane.property.SpecificProperty;
+import dev.goldmensch.propane.Introspection;
+import dev.goldmensch.propane.property.*;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.JDACommands;
-import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
@@ -32,7 +31,7 @@ import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
 import io.github.kaktushose.jdac.property.extension.Extension;
 import io.github.kaktushose.jdac.property.extension.ExtensionFilter;
-import io.github.kaktushose.jdac.property.internal.JDACCollectionProperty;
+import io.github.kaktushose.jdac.property.internal.JDACEnumerationProperty;
 import io.github.kaktushose.jdac.property.internal.JDACMappingProperty;
 import io.github.kaktushose.jdac.property.internal.JDACSingletonProperty;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
@@ -51,53 +50,43 @@ import static dev.goldmensch.propane.property.Property.FallbackStrategy.IGNORE;
 import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 
 
-/// # Properties
-/// An [io.github.kaktushose.jdac.configuration.Property] represent either...
-/// - a config option to adjust the behaviour of JDA-Commands (like [JDACBuilder#shutdownJDA(boolean)])
-/// - an implementation of exposed services (like [Localizer])
-/// - or a service provided by the framework that are exposed to the user (like [I18n])
+/// A [JDACProperty] is an identifier for a certain component of a JDA-Commands.
 ///
-/// Although the user can [provide][PropertyProvider] _custom values_ for these properties,
-/// the properties itself are all defined by the JDA-Commands and exposed as public static fields in this interface.
+/// A JDA-Commands component is just some sort of arbitrary information. That could be some service like [MessageResolver],
+/// some setting configured by the user via a builder (like [JDACBuilder#localizeCommands(boolean)]), a custom implementation of an interface
+/// (like [Instantiator]) or something else.
 ///
-/// ## Categories
-/// Properties are primarily categorized by 3 groups:
-/// - [_user settable_][io.github.kaktushose.jdac.configuration.Property.Category#USER_SETTABLE] -> only configurable by using the designated [JDACBuilder] method
-/// - [_user settable + loadable from extension_][io.github.kaktushose.jdac.configuration.Property.Category#LOADABLE] -> above applies plus values can be provided by [Extension]s
-/// - [_provided_][io.github.kaktushose.jdac.configuration.Property.Category#PROVIDED] -> service that are provided by JDA-Commands, the user can use but not create/replace them
+/// There are basically 3 types of properties:
 ///
-/// ## Types
-/// Additionally, there are 3 types of properties:
-/// - [io.github.kaktushose.jdac.configuration.Property.Singleton] -> the property will have the value of the provider with the highest [priority][PropertyProvider#priority()]
-/// - [io.github.kaktushose.jdac.configuration.Property.Map] -> the property represents a Map with a key and value. The value of all [providers][PropertyProvider] will be
-///                COMBINEd and providers with higher [priorities][PropertyProvider#priority()] take precedence
-/// - [io.github.kaktushose.jdac.configuration.Property.Enumeration] -> the property represents a [Collection]. The value of all [providers][PropertyProvider] will be COMBINEd
+/// - [SingletonProperty] for values consisting of one instance
+/// - [EnumerationProperty] for values consisting of multiple instances (reference to [Collection])
+/// - [MappingProperty] for values representing a mapping between keys and values (reference to [Map])
 ///
-/// The only exception to this general accumulation rule are fallback values. Whether they are COMBINEd with other
-/// providers or overwritten is defined by [io.github.kaktushose.jdac.configuration.Property#fallbackBehaviour()].
-///
-/// ## Stages
-/// A [io.github.kaktushose.jdac.configuration.Property]'s value is only set during some stages during the frameworks runtime and in the process of execution
-/// user interactions.
-/// To know in what stage a property's value is accessible take a look at the fields [IntrospectionAccess] annotation
-///
+/// Beside their purpose, each type hold a slightly different set of information, but they share some common
+/// values:
+///     - a unique [name][Property#name()]
+///     - a [scope][JDACScope] to which this property is bound
+///     - a [source][Property.Source], from which the values of this property can be retrieved.
+/// @see JDACIntrospection
+/// @see Property
+/// @see SpecificProperty
 public interface JDACProperty<T> extends SpecificProperty<T> {
   // -------- settable by user + loadable from extension --------
 
   /// @see JDACBuilder#classFinders(ClassFinder...)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = IGNORE)
   JDACProperty<Collection<ClassFinder>> CLASS_FINDER =
-          new JDACCollectionProperty<>("CLASS_FINDER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, ClassFinder.class, IGNORE);
+          new JDACEnumerationProperty<>("CLASS_FINDER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, ClassFinder.class, IGNORE);
 
   /// @see JDACBuilder#emojiSource(EmojiSource...)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = IGNORE)
   JDACProperty<Collection<EmojiSource>> EMOJI_SOURCES =
-          new JDACCollectionProperty<>("EMOJI_SOURCES", Property.Source.EXTENSION, JDACScope.CONFIGURATION, EmojiSource.class, IGNORE);
+          new JDACEnumerationProperty<>("EMOJI_SOURCES", Property.Source.EXTENSION, JDACScope.CONFIGURATION, EmojiSource.class, IGNORE);
 
   /// @see EmbedConfig#sources(EmbedDataSource...)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = COMBINE)
   JDACProperty<Collection<EmbedDataSource>> EMBED_SOURCES =
-          new JDACCollectionProperty<>("EMBED_SOURCES", Property.Source.EXTENSION, JDACScope.CONFIGURATION, EmbedDataSource.class, COMBINE);
+          new JDACEnumerationProperty<>("EMBED_SOURCES", Property.Source.EXTENSION, JDACScope.CONFIGURATION, EmbedDataSource.class, COMBINE);
 
   /// @see JDACBuilder#descriptor(Descriptor)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION)
@@ -117,7 +106,7 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   /// @see JDACBuilder#middleware(Priority, Middleware)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = COMBINE)
   JDACProperty<Collection<Map.Entry<Priority, Middleware>>> MIDDLEWARE =
-          new JDACCollectionProperty<>("MIDDLEWARE", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(java.util.Map.Entry.class), COMBINE);
+          new JDACEnumerationProperty<>("MIDDLEWARE", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(java.util.Map.Entry.class), COMBINE);
 
   /// The TYPE_ADAPTER property maps [AdapterType]s containing the source and targets [Type]s to their associated [TypeAdapter]
   /// @see JDACBuilder#adapter(Class, Class, TypeAdapter)
@@ -149,7 +138,7 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   /// @see JDACBuilder#stringResolver(Resolver...)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = COMBINE)
   JDACProperty<Collection<Resolver<String>>> STRING_RESOLVER =
-          new JDACCollectionProperty<>("STRING_RESOLVER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(Resolver.class), COMBINE);
+          new JDACEnumerationProperty<>("STRING_RESOLVER", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(Resolver.class), COMBINE);
 
   // -------- user settable --------
   /// @see JDACBuilder#globalCommandConfig(CommandDefinition.CommandConfig)
@@ -165,7 +154,7 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   /// @see JDACBuilder#packages(String...)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER, fallbackBehaviour = COMBINE)
   JDACProperty<Collection<String>> PACKAGES =
-          new JDACCollectionProperty<>("PACKAGES", Property.Source.BUILDER, JDACScope.CONFIGURATION, String.class, COMBINE);
+          new JDACEnumerationProperty<>("PACKAGES", Property.Source.BUILDER, JDACScope.CONFIGURATION, String.class, COMBINE);
 
   /// @see JDACBuilder#expirationStrategy(ExpirationStrategy)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER)

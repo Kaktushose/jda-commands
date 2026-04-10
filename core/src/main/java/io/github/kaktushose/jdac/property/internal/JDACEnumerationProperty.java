@@ -12,9 +12,9 @@ import java.lang.Override;
 import java.lang.String;
 import java.util.Collection;
 
-public final class JDACCollectionProperty<T> extends EnumerationProperty<T> implements JDACProperty<Collection<T>> {
-  public JDACCollectionProperty(String name, Property.Source source, Scope scope, Class<T> type,
-                                Property.FallbackStrategy fallback) {
+public final class JDACEnumerationProperty<T> extends EnumerationProperty<T> implements JDACProperty<Collection<T>> {
+  public JDACEnumerationProperty(String name, Property.Source source, Scope scope, Class<T> type,
+                                 Property.FallbackStrategy fallback) {
     super(name, source, scope, type, fallback);
   }
 

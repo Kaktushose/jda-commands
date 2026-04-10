@@ -1,53 +1,47 @@
 package io.github.kaktushose.jdac.property;
 
+import dev.goldmensch.propane.property.Property;
 import dev.goldmensch.propane.property.PropertyProvider;
-import io.github.kaktushose.jdac.JDACBuilder;
-import io.github.kaktushose.jdac.exceptions.ConfigurationException;
+import io.github.kaktushose.jdac.property.internal.JDACEnumerationProperty;
+import io.github.kaktushose.jdac.property.internal.JDACMappingProperty;
+import io.github.kaktushose.jdac.property.internal.JDACSingletonProperty;
 
-import java.lang.Class;
+import java.util.Collection;
+import java.util.Map;
 import java.util.function.Function;
 
-/// # PropertyProviders
-/// An [io.github.kaktushose.jdac.configuration.PropertyProvider] provides values for the [Property] associated with it.
+/// A [JDACPropertyProvider] supplies the values for a [property][JDACProperty].
+/// Each [JDACPropertyProvider] is bound to _one_ property for which it can provide values.
 ///
-/// ## Dependencies
-/// Because many properties especially services depend on other properties, you can get the values
-/// of these properties through the [io.github.kaktushose.jdac.configuration.PropertyProvider.Context#get(Property)] that is available in the [#supplier()].
+/// Based on the [Property.Source] of the property, property providers can be registered via different ways. Visit the documentation
+/// of [Property.Source] for more information on that matter.
 ///
-/// If somehow recursive calls to the same [Property] are created (called cycling dependencies),
-/// then a [ConfigurationException] is thrown providing information on how this recursion occurs.
+/// The possibly [returned][PropertyProvider#supplier()] types vary based on the type of the property:
+/// - for [JDACSingletonProperty], a provider can "return" one instance
+/// - for [JDACEnumerationProperty], a provider can "return" an instance of [Collection]
+/// - for [JDACMappingProperty], a provider can "return" an instance of [Map]
 ///
-/// ## Priorities
-/// To decide which value is taken at the end for a property, each [io.github.kaktushose.jdac.configuration.PropertyProvider] defines a priority between
-/// 0 and [Integer#MAX_VALUE].
-/// The provider with the highest priority will be taken, thus its value is set for the property.
+/// The values are "provided" by the [supplier][PropertyProvider#supplier()], which is called during resolution.
+/// The supplier must be threadsafe and side effect free, as it could be called multiple times during resolution simultaneously.
+/// Although that, only one value is stored finally (using a "check-then-act" pattern).
 ///
-/// It's important to note that the priorities 0 to 100 and [Integer#MAX_VALUE] are reserved by JDA-Commands:
-/// - priority = 0                      are all fallback/default value provided by JDA-Commands
-/// - priority = [Integer#MAX_VALUE]    are all values set by the user manually in [JDACBuilder]
+/// Furthermore, each [JDACPropertyProvider] has a [priority][PropertyProvider.Priority] stating which providers take
+/// precedence over others. For more information on that, visit the documentation of [JDACSingletonProperty], [JDACEnumerationProperty]
+/// and [JDACMappingProperty].
 ///
-/// Usage of reserved priorities will result in an exception causing JDA-Commands to stop itself.
+/// For debugging purpose, [JDACPropertyProvider]s store their "owner", which is the class or "logical unit"
+/// (for example the library providing an extension for some property), that can be used to identify an [JDACPropertyProvider]
+/// during runtime.
 ///
-/// ## Example
-/// An example usage of this class would be:
-/// ```java
-/// class Foo {
-///     public bar(...) {
-///         var provider = new PropertyProvider(
-///             Property.INSTANTIATOR,
-///             2000, // just some random priority
-///             Foo.class, // used as a waypoint for debugging
-///             ctx -> new MyInstantiator(ctx.get(Property.I18N)) // needs the I18n instance
-///         )
-///     }
-/// }
-/// ```
+/// ## Dependencies on other properties
+/// The [supplier][PropertyProvider#supplier()] allows access to the [JDACIntrospection] instance used to resolve this
+/// property. This can be used to retrieve the values of other properties needed by this [JDACPropertyProvider], thus creating
+/// a dependency on that other property.
 ///
-/// @param type the [Property] for which this [io.github.kaktushose.jdac.configuration.PropertyProvider] creates values.
-/// @param priority the priority of this provider
-/// @param referenceClass   The Class to which this [io.github.kaktushose.jdac.configuration.PropertyProvider] 'belongs'. It's only used for logging purposes.
-///                         For example, all fallback/default values have [JDACBuilder] as their reference class.
-/// @param supplier the [Function] returning the properties value, provides access to [io.github.kaktushose.jdac.configuration.PropertyProvider.Context]
+/// JDA-Commands checks for cycling dependencies during runtime and will provide all needed information to identify the cycle.
+///
+/// @param <T> the type returned by the supplier
+/// @see PropertyProvider
 public class JDACPropertyProvider<T> extends PropertyProvider<T, JDACProperty<T>, JDACIntrospection> {
   public JDACPropertyProvider(JDACProperty<T> property, PropertyProvider.Priority priority,
       Class<?> owner, Function<JDACIntrospection, T> supplier) {

@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static java.util.Map.entry;
 
-final class Registry extends dev.goldmensch.propane.Registry<JDACScope> {
+public final class Registry extends dev.goldmensch.propane.Registry<JDACScope> {
   private static final Map<Class<? extends Event<JDACScope>>, JDACScope> eventScopes = Map.ofEntries(
           entry(FrameworkShutdownEvent.class, JDACScope.INITIALIZED),
           entry(FrameworkStartEvent.class, JDACScope.INITIALIZED),
@@ -19,7 +19,7 @@ final class Registry extends dev.goldmensch.propane.Registry<JDACScope> {
           entry(RuntimeOpenEvent.class, JDACScope.RUNTIME)
   );
 
-  static final Registry INSTANCE = new Registry();
+  public static final Registry INSTANCE = new Registry();
 
   Registry() {
     super(eventScopes);

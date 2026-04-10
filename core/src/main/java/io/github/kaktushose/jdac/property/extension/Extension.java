@@ -1,10 +1,12 @@
 package io.github.kaktushose.jdac.property.extension;
 
+import dev.goldmensch.propane.property.Property;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
+import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.JDACPropertyProvider;
 import io.github.kaktushose.jdac.property.JDACScope;
 import org.jspecify.annotations.Nullable;
@@ -20,12 +22,12 @@ import java.util.List;
 /// 
 /// 
 /// ## Properties
-/// By implementing [#properties()] and returning a collection of [PropertyProvider]s, you can
+/// By implementing [#properties()] and returning a collection of [JDACPropertyProvider]s, you can
 /// for example provide an own implementation of [Instantiator]
 /// or [Descriptor]. These implementations will override the default ones. 
 ///
-/// It's important to know, that you can only return [PropertyProvider]s of [Property]s 
-/// with [Property#category()] set to [Category#LOADABLE]!
+/// It's important to know, that you can only return [JDACPropertyProvider]s of [JDACProperty]s
+/// with [Property#source()] set to [Property.Source#EXTENSION]!
 ///
 /// ## Extension Configuration ([Extension.Data])
 /// If the [Extension] needs additional configuration data, implementations have to provide an
@@ -34,7 +36,7 @@ import java.util.List;
 /// ## On Framework Start
 /// At the time that framework is fully initialized and started (practically at the end of [JDACBuilder#start()]),
 /// the [Extension#onStart(JDACommands)] method of all extensions will be called.
-/// This allows further configuration, e.g. through the [Introspection] API by using [JDACommands#introspection()].
+/// This allows further configuration, e.g. through the Introspection API by using [JDACommands#introspection()].
 ///
 /// ## Example
 /// This example extension provides an own implementation of [Instantiator].
@@ -51,10 +53,11 @@ import java.util.List;
 ///     }
 ///
 ///     @Override
-///     public Collection<PropertyProvider<?>> properties() {
-///         return List.of(PropertyProvider.create(
-///                 Property.INSTANTIATOR,
-///                 2000,
+///     public Collection<JDACPropertyProvider<?>> properties() {
+///         return List.of(new JDACPropertyProvider(
+///                 JDACProperty.INSTANTIATOR,
+///                 Priority.of(2000),
+///                 DiExtension.class
 ///                 _ -> new CustomInteractionClassProvider(this))
 ///         );
 ///     }
@@ -63,7 +66,7 @@ import java.util.List;
 ///     public void onStart(JDACommands framework) {
 ///         Introspection introspection = framework.introspection();
 ///
-///         introspection.subscribe(RuntimeCloseEvent.class, (event, _) -> ...);
+///         introspection.subscribe(Listener.create(RuntimeCloseEvent.class, (event, _) -> ...));
 ///     }
 ///
 ///     @Override

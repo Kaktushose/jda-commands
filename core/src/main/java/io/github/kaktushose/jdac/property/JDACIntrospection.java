@@ -1,71 +1,71 @@
 package io.github.kaktushose.jdac.property;
 
 import dev.goldmensch.propane.Introspection;
+import dev.goldmensch.propane.Scope;
+import dev.goldmensch.propane.event.Event;
 import dev.goldmensch.propane.event.Listener;
-import io.github.kaktushose.jdac.JDACommands;
-import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
-import io.github.kaktushose.jdac.annotations.interactions.Interaction;
-import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
-import io.github.kaktushose.jdac.dispatching.events.Event;
-import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
-import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
-import io.github.kaktushose.jdac.property.events.RuntimeCloseEvent;
-import io.github.kaktushose.jdac.message.resolver.MessageResolver;
-import io.github.kaktushose.jdac.property.internal.JDACEvent;
+import dev.goldmensch.propane.property.*;
+import io.github.kaktushose.jdac.property.events.JDACEvent;
 import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 
 import java.util.NoSuchElementException;
 
-/// The introspection api provides read-only access to JDA-Commands [property system][JDACProperty] and allows
-/// subscribing to [JDACEvent]s in the frameworks interaction execution process.
+/// The [JDACIntrospection] type is the central element of the property system.
+/// Its purpose is to expose the property and event system to the user.
 ///
-/// To access the api, you can either
-/// - use [JDACommands#introspection()] or [Event#introspection()]
-/// - use [#accessScoped()] that will return the current instance of this scope
+/// Each [Introspection] instance is bound to a [Scope], allowing accessing the scopes' and its parents'
+/// [Properties][Property]. For more information visit the documentation of [Scope]. Unless
+/// the root scopes' [Introspection] instance, each [Introspection] instance is child of another, inheriting its values
+/// that are combines with its own. For more information, visit the section [below](#properties)
 ///
-/// When accessing trough [#accessScoped()], you have to pay attention where you do so.
-/// An [JDACIntrospection] instance is set in most but not in all places, to know where you can use it take a look at the
-/// [IntrospectionAccess] annotation on user implementable methods provided by the framework.
+/// ## Properties
+/// An instance of [Introspection] can hold [PropertyProvider]s for all [properties][Property]
+/// accessible by its [Scope]. An introspection instance
+/// will first compute its own value using the providers registered at it and possibly combine it with the
+/// values from the introspection instances' parent(s). For more information on how this is done, visit the documentation of
+/// [SingletonProperty], [MappingProperty] and [EnumerationProperty].
 ///
-/// Inside of interaction controller methods
-/// (the ones having [ComponentEvent], [CommandEvent] etc. as a parameter and are defined inside a class annotated with [Interaction] )
-/// the [JDACIntrospection] instance is always set with the stage [JDACScope#INTERACTION], providing access to all [JDACProperty]s.
+/// After [computing][PropertyProvider] a value, it will be cached for the lifetime of that introspection instance.
+/// Accessing such an instance is threadsafe, and it is guaranteed to always return the same instance.
 ///
-/// ## [JDACScope] and [Properties][JDACProperty] access
-/// The [JDACProperty] API allows accessing all public components and configuration options of JDA-Commands.
-/// It can be used to retrieve framework services like [MessageResolver], config options like [JDACProperty#GLOBAL_REPLY_CONFIG]
-/// or context dependent information like [InvocationContext].
+/// TODO: docs (scoped access)
 ///
-/// Please note that access is read-only, you can't set the value of a [JDACProperty] after starting the framework.
+/// ## Listeners
+/// A [Listener] registered on an [Introspection] instance is stored for the lifetime of this
+/// instance. It will be called if the event it is registered for, is either fired in this introspection instance itself
+/// or any children of it.
 ///
-/// Based on the location (in code) where you access this api, the available [Properties][JDACProperty] may very.
-/// To know what property is accessible, take a look at [#currentStage()] and compare it to [JDACProperty#stage()].
-/// A hint on the current stage is also provided by [IntrospectionAccess#value()].
+/// ```java
+/// Introspection A = ...;
+/// Introspection B with B is children of A
 ///
-/// ## [JDACEvent]s
-/// Sometimes it's convenient to execute some custom code at some point during runtime based on events inside the framework.
+/// A.subscribe(FooEvent.class, _ -> System.out.println("Foo fired"));
 ///
-/// An example can be found inside the guice extension, were we use a [RuntimeCloseEvent] to remove
-/// the interaction controller instances inside the cache at the end of a conversation.
+/// publish FooEvent in A -> "Foo fired" printed
+/// publish FooEvent in B -> "Foo fired" printed
 ///
-/// To subscribe to a [JDACEvent] you use [#subscribe(Class, Listener)] which returns a [Subscription] allowing you
-/// to "unsubscribe" from this event later. If an [JDACEvent] is fired by JDA-Commands all [Listener]s of that event
-/// are called.
+/// // ---------------------------------------
+/// B.subsribe(BarEvent.class, _ -> System.out.println("Bar fired"));
 ///
-/// It's important to know that the events are published by multiple threads perhaps concurrently, thus [Listener]s
-/// may be also called concurrently. They have to be written with threadsafety in mind!
+/// publish BarEvent in A -> nothing printed
+/// publish BarEvent in B -> "Bar fired" printed
 ///
-/// @implNote Internally [#accessScoped()] uses [ScopedValue]s.
-///           For further clarification on how this works with [Thread]s take a look there.
+/// ```
+///
+/// ## Note on Propane
+/// [Propane](https://github.com/Goldmensch/propane) is the underlying library, that JDA-Commands is using for its property system.
+/// In most cases, you won't directly access propane but the wrappers around it provided by JDA-Commands
+/// like [JDACIntrospection], [JDACProperty] etc. These are generated by propane as specializations
+/// of general types like [Introspection] and [Property]. If you debug your bot or encounter any problems, it may be helpful
+/// to visit the documentation or [source code]((https://github.com/Goldmensch/propane)) of Propane.
 public interface JDACIntrospection extends Introspection<JDACIntrospection, JDACScope> {
 
-  /// Gets the value of a property. At that point practically all properties should be resolved and caches,
-  /// you can expect nearly instant access time.
+  /// Returns the value for the requested property by either retrieving it from the cache
+  /// or computing it according to the [class' documentation][JDACIntrospection].
   ///
-  /// To exactly know what this does take a look at [JDACPropertyProvider] and [JDACPropertyProvider.].
-  ///
-  /// @param property the requested [Property]
-  /// @return the property's value
+  /// @param specific the requested property
+  /// @return the value of the requested property
+  /// @see JDACIntrospection JDACIntrospection' class documentation
   <T> T get(JDACProperty<T> specific);
 
   /// Checks whether an [io.github.kaktushose.jdac.introspection.Introspection] instance can be access by [io.github.kaktushose.jdac.introspection.Introspection#accessScoped()]
@@ -102,12 +102,13 @@ public interface JDACIntrospection extends Introspection<JDACIntrospection, JDAC
     return accessScoped().get(property);
   }
 
-  /// Subscribes to specific [FrameworkEvent] allowing you to execute custom logic at multiple points during runtime.
+  /// Subscribes to an [event][Event] with the given [Listener].
+  /// The provided listener will be stored in this instance, thus be available for the lifetime
+  /// of this introspection instance.
   ///
-  /// @param event the concrete class of [FrameworkEvent], e.g. [`RuntimeCloseEvent.class`][RuntimeCloseEvent#getClass()]
-  /// @param subscriber the [Subscriber] holding the logic to be executed
-  ///
-  /// @return the [Subscription] instance as a unique reference to your subscription, allowing you to later cancel it.
+  /// @param listener the [Listener] to be registered
+  /// @see JDACIntrospection JDACIntrospection' class documentation
+  /// @see JDACEvent
   @Override
-  void subscribe(Listener<? extends dev.goldmensch.propane.event.Event<JDACScope>, JDACScope, JDACIntrospection> listener);
+  void subscribe(Listener<? extends Event<JDACScope>, JDACScope, JDACIntrospection> listener);
 }

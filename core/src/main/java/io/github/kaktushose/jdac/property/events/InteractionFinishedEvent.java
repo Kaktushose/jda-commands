@@ -4,7 +4,6 @@ import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.definitions.description.Invoker;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.property.JDACScope;
-import io.github.kaktushose.jdac.property.internal.JDACEvent;
 import org.jspecify.annotations.Nullable;
 
 import java.util.SequencedCollection;
