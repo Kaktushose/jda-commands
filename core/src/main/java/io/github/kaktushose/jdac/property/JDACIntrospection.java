@@ -4,13 +4,12 @@ import dev.goldmensch.propane.IntrospectionSkeleton;
 import dev.goldmensch.propane.Scope;
 import dev.goldmensch.propane.event.Event;
 import dev.goldmensch.propane.event.Listener;
-import dev.goldmensch.propane.property.EnumerationPropertySkeleton;
-import dev.goldmensch.propane.property.MappingPropertySkeleton;
-import dev.goldmensch.propane.property.Property;
-import dev.goldmensch.propane.property.PropertyProviderSkeleton;
-import dev.goldmensch.propane.property.SingletonPropertySkeleton;
+import dev.goldmensch.propane.property.*;
+import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.property.events.JDACEvent;
 import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
+
+import java.util.NoSuchElementException;
 
 /// The [JDACIntrospection] type is the central element of the property system.
 /// Its purpose is to expose the property and event system to the user.
@@ -19,6 +18,58 @@ import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 /// [Properties][Property]. For more information visit the documentation of [Scope]. Unless
 /// the root scopes' [IntrospectionSkeleton] instance, each [IntrospectionSkeleton] instance is child of another, inheriting its values
 /// that are combines with its own. For more information, visit the section [below](#properties)
+///
+/// ### Scopes access
+/// Beside using [#get(SpecificProperty)] directly on an introspection instance, you can sometimes utilize
+/// Java's [ScopedValue] API to get a properties value. For that to work, the [JDACIntrospection] class
+/// features multiple static methods like [#scopedGet(JDACProperty)]. Methods using this scopes system, are always
+/// prefixed with "scoped".
+///
+/// For further understanding, it is helpful to know how the [ScopedValue] API works.
+/// In short: The [ScopedValue] API allows data to be available in a "context" whether only by field.
+/// A context is for example the callchain in which you are, take following example:
+///
+/// ```java
+/// static ScopedValue<JDACIntrospection> VAL = ScopedValue.newInstance();
+///
+/// void one() {
+///     inner();
+/// }
+///
+/// void two() {
+///     JDACIntrospection introspection = VAL.get();
+///     // the call above will fail
+/// }
+///
+/// void inner() {
+///     JDACIntrospection introspection = VAL.get();
+///     // use the introspection.instance()
+/// }
+///
+/// void main() {
+///     JDACIntrospection introspection = JDACIntrospectionImpl.create(...)
+///                                         ...
+///                                         .build();
+///
+///     // calls "one" with the ScopedValue "VAL" set to the introspection variable
+///     ScopedValue.where(VAL, introspection).run(() -> one());
+///
+///     two();
+/// }
+/// ```
+///
+/// The value for "VAL" is set for all method calls inside the lambda of `run(() -> one())`. This means
+/// that it's accessible inside "one", "inner" and any subsequent method call, but not inside `two` because
+/// it is called outside of `run()`.
+///
+///
+/// The [JDACIntrospection] class implements the above logic natively,
+/// covering up the underlying [ScopedValue]. Instead of [ScopedValue#get()]
+/// you can use [JDACIntrospection#scopedGet(JDACProperty)].
+///
+/// Please note, that the availability of scoped access to introspection instances vary widely and is different for
+/// places inside the callchain. Places where you can use it are marked by [IntrospectionAccess]
+/// and additionally include all interaction controller methods. For more information take a look at the wiki.
 ///
 /// ## Properties
 /// An instance of [IntrospectionSkeleton] can hold [PropertyProviderSkeleton]s for all [properties][Property]
@@ -70,14 +121,28 @@ public interface JDACIntrospection extends IntrospectionSkeleton<JDACIntrospecti
   /// @see JDACIntrospection JDACIntrospection' class documentation
   <T> T get(JDACProperty<T> specific);
 
+  /// Whether scoped access to the introspection instance (by calling [#scopedGet(JDACProperty)])
+  /// is possible.
+  ///
+  /// @return whether scoped access is possible
   static boolean accessible() {
     return JDACIntrospectionImpl.INTROSPECTION.isBound();
   }
 
+  /// Returns the introspection instance set via [ScopedValue] if set, else throws
+  /// [NoSuchElementException].
+  ///
+  /// @return the introspection instance of this scope
+  /// @see ScopedValue#get()
   static JDACIntrospection accessScoped() {
     return JDACIntrospectionImpl.INTROSPECTION.get();
   }
 
+  /// Shorthand for `accessScoped().get(property)`. Throws [NoSuchElementException]
+  /// if [#accessible()] returns `false`.
+  ///
+  /// @param property the property to get
+  /// @return the value for the property
   static <T> T scopedGet(JDACProperty<T> property) {
     return accessScoped().get(property);
   }
