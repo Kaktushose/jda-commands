@@ -124,13 +124,13 @@ Take a look at the Javadocs of <Implementation> to know what you can inject here
 
 ## Custom dependency injection integrations
 If you want to integrate another dependency injection framework, you have to provide your own 
-implementation of <InteractionControllerInstantiator>.
+implementation of <Instantiator>.
 
 You can do this by either passing it to the builder or by creating your own [extension](misc/extension/writing.md).
 
 !!! example
     ```java
     JDACommands.builder(jda, Main.class)
-            .instanceProvider(new OwnInterationControllerInstantiator(someContext))
+            .instanceProvider(new MyInstantiator(someContext))
             .start();
     ```

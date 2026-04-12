@@ -205,13 +205,13 @@ the appropriate builder method.
 Fluava myFluava = Fluava.create(Locale.GERMAN);
 
 JDACommands.builder(jda, Main.class)
-    .localizer(new FluavaLocalizer(myFluava))
+    .localizer(FluavaLocalizer.create(myFluava))
     .start();
 ```
 
 !!! tip "Fallback Bundle"
     To change the fallback bundle you have to pass it to the <fluava -> Fluava#create(Locale)> method. In the above example the fallback locale
-    is German. The default fallback locale of JDA-Commands is English.
+    is German. You can also call <FluavaLocalizer#create(Locale)>. The default fallback locale of JDA-Commands is English.
 
 !!! note
     JDA-Commands will set [`FluavaBuilder.FunctionConfig#fallbackToString(boolean)`](https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/FluavaBuilder.FunctionConfig.html#fallbackToString(boolean))

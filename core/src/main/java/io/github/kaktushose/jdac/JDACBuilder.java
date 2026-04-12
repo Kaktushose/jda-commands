@@ -15,7 +15,7 @@ import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.jdac.dispatching.adapter.internal.TypeAdapters;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
-import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
@@ -73,7 +73,7 @@ import static io.github.kaktushose.jdac.configuration.internal.InternalPropertie
 ///
 /// - [#descriptor(Descriptor)]
 /// - [#classFinders(ClassFinder...)]
-/// - [#instanceProvider(InteractionControllerInstantiator)]
+/// - [#instantiator(Instantiator)]
 ///
 ///
 /// In addition to manually configuring this builder, you can also provide implementations of [Extension] trough Javas [`service
@@ -233,9 +233,9 @@ public class JDACBuilder {
         return addUserProperty(LOCALIZER, _ -> localizer);
     }
 
-    /// @param instanceProvider the implementation of [InteractionControllerInstantiator] to use
-    public JDACBuilder instanceProvider(InteractionControllerInstantiator instanceProvider) {
-        return addUserProperty(INTERACTION_CONTROLLER_INSTANTIATOR, _ -> instanceProvider);
+    /// @param instantiator the implementation of [Instantiator] to use
+    public JDACBuilder instantiator(Instantiator instantiator) {
+        return addUserProperty(INSTANTIATOR, _ -> instantiator);
     }
 
     /// @param strategy The [ExpirationStrategy] to be used

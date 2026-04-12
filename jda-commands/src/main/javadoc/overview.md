@@ -114,7 +114,7 @@ extension system.
 This [`Extension`](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/extension/Extension.html)
 allows the use of [Google Guice](https://github.com/google/guice) as a dependency injection framework. 
 
-It replaces the default [`InteractionClassInstantiator`](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/instance/InteractionClassInstantiator.html) 
+It replaces the default [`Instantiator`](io.github.kaktushose.jda.commands.core/com/github/kaktushose/jda/commands/dispatching/instance/Instantiator.html) 
 implementation of the core module, which doesn't support 
 dependency injection, and configures Guice. See the [`Guice Wiki`](https://github.com/google/guice/wiki) for more information on how to use Guice. 
 

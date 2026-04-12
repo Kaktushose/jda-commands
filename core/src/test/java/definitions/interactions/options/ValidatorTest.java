@@ -1,5 +1,6 @@
 package definitions.interactions.options;
 
+import definitions.TestHelpers;
 import io.github.kaktushose.jdac.annotations.constraints.Constraint;
 import io.github.kaktushose.jdac.annotations.constraints.Max;
 import io.github.kaktushose.jdac.annotations.constraints.Min;
@@ -12,6 +13,7 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.validation.impl.PermissionValidator;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import org.jspecify.annotations.Nullable;
@@ -65,7 +67,9 @@ class ValidatorTest {
     }
 
     private SlashCommandDefinition build(String method) {
-        return SlashCommandDefinition.build(getBuildContext(TestController.class, method));
+        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).call(() ->
+                SlashCommandDefinition.build(getBuildContext(TestController.class, method))
+        );
     }
 
     @Interaction

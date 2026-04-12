@@ -31,6 +31,8 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.function.Function;
 
@@ -115,6 +117,19 @@ public final class Helpers {
                     entry("prefix", prefix),
                     entry("expected", "[%s, %s OR %s]".formatted(CommandEvent.class, User.class, Member.class)),
                     entry("actual", method.parameters().stream().map(ParameterDescription::type).toList().toString())
+            );
+        }
+    }
+
+    public static void checkParametrizedType(Type type, Class<?> klass, Class<?> typeArgument) {
+        if (!(type instanceof ParameterizedType parameterizedType)
+                || parameterizedType.getActualTypeArguments().length != 1
+                || parameterizedType.getActualTypeArguments()[0] != typeArgument
+        ) {
+            throw new InvalidDeclarationException(
+                    "invalid-parameterized-type",
+                    entry("class", klass.getSimpleName()),
+                    entry("type", typeArgument.getSimpleName())
             );
         }
     }

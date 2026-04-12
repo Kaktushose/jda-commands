@@ -1,4 +1,4 @@
-name: Wiki build & test
+name: Wiki CI
 
 on:
   push:

@@ -47,7 +47,8 @@ wrong-labels = Failed to add child command: { $command }. { $labelCount ->
 subcommand-with-children = Cannot transform node with children to SubcommandData.
 null-member-context-command = Member for context command is null (not executed in a guild). This should not be possible.
 emoji-not-loadable-from-resource = An error occoured while loading emoji called { $name } from resources at { $path }.
-default-msg-not-in-bundle = "No messages could be found for key { $key }, searched in bundle 'jdac' and 'jdac_default'"
+default-msg-not-in-bundle = No messages could be found for key { $key }, searched in bundle 'jdac' and 'jdac_default'
+provider-invocation-failed = Execution of provider method "{ $class }#{ $method }" failed.
 
 # Invalid Declaration
 command-name-length = Invalid command name "{ $name }" for slash command "{ $method }". Slash commands can only have up to 3 labels.
@@ -76,6 +77,10 @@ jda-exception =
     { $cause }
     Interaction: "{ $type }" defined at "{ $class }#{ $method }".
 should-never-be-thrown = This exception should never be thrown!
+provider-not-found = Provider method "{ $class }#{ $method }" for option data choices doesn't exist.
+provider-modifiers = Provider method "{ $class }#{ $method }" for option data choices must be public static.
+provider-null = Provider method "{ $class }#{ $method }" for option data choices returned null.
+provider-exception = Provider method "{ $class }#{ $method }" for option data choices has thrown an exception.
 
 # Configuration Errors
 resource-not-found = Failed to find resource "{ $resource }".
@@ -147,3 +152,4 @@ no-text-input-found =
 
 # Helpers
 detached-entity = { $class } doesn't support detached entities and cannot be used for user installable apps.
+invalid-parameterized-type = Wrong parameterized type. { $class }<{ $type }> is needed.

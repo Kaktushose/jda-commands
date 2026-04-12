@@ -8,13 +8,13 @@ import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
-import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.guice.GuiceExtensionData;
 import io.github.kaktushose.jdac.guice.Implementation;
 import io.github.kaktushose.jdac.guice.internal.guice.GuiceExtensionModule;
-import io.github.kaktushose.jdac.guice.internal.guice.PropertyProviderModule;
+import io.github.kaktushose.jdac.guice.internal.guice.modules.ConfigurationScopeModule;
 import io.github.kaktushose.jdac.guice.internal.guice.RuntimeBoundScope;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
-/// The implementation of [Extension] for using Googles [Guice] as an [InteractionControllerInstantiator].
+/// The implementation of [Extension] for using Googles [Guice] as an [Instantiator].
 ///
 /// Additionally, this extension allows the automatic registration of some types annotated with [`@Implementation`][Implementation].
 /// For further information please see the docs on [`@Implementation`][Implementation].
@@ -64,8 +64,8 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         List<PropertyProvider<?>> implementations = new ArrayList<>();
 
         implementations.add(provider(
-                Property.INTERACTION_CONTROLLER_INSTANTIATOR,
-                _ -> new GuiceInteractionControllerInstantiator(runtimeBoundScope, injector)
+                Property.INSTANTIATOR,
+                _ -> new GuiceInstantiator(runtimeBoundScope, injector)
         ));
 
         addDynamicImplementations(implementations);
@@ -73,7 +73,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
     }
 
     private boolean shouldSkip(Property<?> property) {
-        return property == Property.INTERACTION_CONTROLLER_INSTANTIATOR
+        return property == Property.INSTANTIATOR
                 || property == Property.CLASS_FINDER
                 || property == Property.TYPE_ADAPTER
                 || property == Property.MIDDLEWARE
@@ -136,7 +136,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
 
     private <T> Stream<T> instances(PropertyProvider.Context ctx, Class<? extends Annotation> annotation, Class<T> type) {
         Introspection introspection = ctx.get(Property.INTROSPECTION);
-        Injector childInjector = injector.createChildInjector(new PropertyProviderModule(introspection));
+        Injector childInjector = injector.createChildInjector(new ConfigurationScopeModule(introspection));
 
         return ctx.get(Property.MERGED_CLASS_FINDER)
                 .search(annotation, type)

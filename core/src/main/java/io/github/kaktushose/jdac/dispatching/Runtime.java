@@ -138,7 +138,7 @@ public final class Runtime implements Closeable {
     }
 
     public <T> T interactionInstance(Class<T> clazz) {
-        return introspection.get(Property.INTERACTION_CONTROLLER_INSTANTIATOR).instance(clazz, introspection);
+        return introspection.get(Property.INSTANTIATOR).instance(clazz, introspection);
     }
 
     @Override

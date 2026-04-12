@@ -5,8 +5,11 @@ import io.github.kaktushose.jdac.annotations.constraints.Max;
 import io.github.kaktushose.jdac.annotations.constraints.Min;
 import io.github.kaktushose.jdac.annotations.interactions.Choices;
 import io.github.kaktushose.jdac.annotations.interactions.Param;
+import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.definitions.Definition;
 import io.github.kaktushose.jdac.definitions.description.AnnotationDescription;
+import io.github.kaktushose.jdac.definitions.description.ClassDescription;
+import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.description.ParameterDescription;
 import io.github.kaktushose.jdac.definitions.features.JDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition;
@@ -17,7 +20,11 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
+import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.internal.Helpers;
+import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.type.Type;
@@ -28,12 +35,15 @@ import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
-import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.interactions.commands.Command.Choice;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jspecify.annotations.Nullable;
 
+import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -49,7 +59,7 @@ import static java.util.Map.entry;
 /// @param autoComplete he [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
 /// @param name         the name of the command option
 /// @param description  the description of the command option
-/// @param choices      a [SequencedCollection] of possible [Command.Choice]s for this command option
+/// @param choices      a [SequencedCollection] of possible [Choice]s for this command option
 /// @param constraints  a [Collection] of [ConstraintDefinition]s of this command option
 public record OptionDataDefinition(
         Class<?> declaredType,
@@ -59,7 +69,7 @@ public record OptionDataDefinition(
         @Nullable AutoCompleteDefinition autoComplete,
         String name,
         String description,
-        SequencedCollection<Command.Choice> choices,
+        SequencedCollection<Choice> choices,
         Collection<ConstraintDefinition> constraints
 ) implements Definition, JDAEntity<OptionData> {
 
@@ -115,15 +125,17 @@ public record OptionDataDefinition(
 
     /// Builds a new [OptionDataDefinition].
     ///
-    /// @param parameter            the [ParameterDescription] to build the [OptionDataDefinition] from
-    /// @param autoComplete         the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
-    /// @param messageResolver      the [MessageResolver] instance to use
-    /// @param validatorRegistry    the corresponding [Validators]
+    /// @param parameter        the [ParameterDescription] to build the [OptionDataDefinition] from
+    /// @param classDescription the [ClassDescription] of the method where the parameter is defined
+    /// @param autoComplete     the [AutoCompleteDefinition] for this option or `null` if no auto complete was defined
+    /// @param messageResolver  the [MessageResolver] instance to use
+    /// @param validators       the corresponding [Validators]
     /// @return the [OptionDataDefinition]
     public static OptionDataDefinition build(ParameterDescription parameter,
+                                             ClassDescription classDescription,
                                              @Nullable AutoCompleteDefinition autoComplete,
                                              MessageResolver messageResolver,
-                                             Validators validatorRegistry) {
+                                             Validators validators) {
         Class<?> resolvedType = resolveType(parameter.type(), parameter);
 
         if (Event.class.isAssignableFrom(resolvedType)) {
@@ -144,38 +156,15 @@ public record OptionDataDefinition(
             );
         }
 
-        // index constraints
-        List<ConstraintDefinition> constraints = new ArrayList<>();
-        parameter.annotations().stream()
-                .filter(it -> it.hasAnnotation(Constraint.class))
-                .forEach(it -> {
-                    switch (validatorRegistry.get(it, resolvedType)) {
-                        case Validators.Result.NotFound _ -> throw new ConfigurationException(
-                                "no-validator-found",
-                                entry("annotation", it.type().getName()),
-                                entry("parameter", parameter.name())
-                        );
-                        case Validators.Result.UnsupportedType(Collection<Class<?>> supportedTypes) ->
-                                throw new InvalidDeclarationException(
-                                        "validator-type-not-supported",
-                                        entry("annotation", it.type().getName()),
-                                        entry("parameter", parameter.name()),
-                                        entry("supportedTypes", supportedTypes.stream()
-                                                .map(Class::getName)
-                                                .collect(Collectors.joining("\n    -> "))
-                                        )
-                                );
-                        case Validators.Result.Success(Validator<?, ?> validator) ->
-                                constraints.add(new ConstraintDefinition(validator, it));
-                        case Validators.Result.DiscordHandled _ -> {}
-                    }
-                });
+        List<ConstraintDefinition> constraints = indexConstraints(parameter, validators, resolvedType);
+        List<Choice> commandChoices = indexChoices(classDescription, parameter);
 
         // Param
         String name = parameter.name();
         String description = messageResolver.resolve("jdac$no-description", Locale.ENGLISH);
         boolean isOptional = parameter.type().equals(Optional.class);
         OptionType optionType = CLASS_TO_OPTION_TYPE.getOrDefault(resolvedType, OptionType.STRING);
+
         var param = parameter.findAnnotation(Param.class);
         if (param.isPresent()) {
             Param annotation = param.get();
@@ -187,23 +176,6 @@ public record OptionDataDefinition(
             }
         }
         name = name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
-
-        // Options
-        List<Command.Choice> commandChoices = new ArrayList<>();
-        var choices = parameter.findAnnotation(Choices.class);
-        if (choices.isPresent()) {
-            for (String option : choices.get().value()) {
-                String[] parsed = option.split(":", 2);
-                if (parsed.length < 1) {
-                    continue;
-                }
-                if (parsed.length < 2) {
-                    commandChoices.add(new Command.Choice(parsed[0], parsed[0]));
-                    continue;
-                }
-                commandChoices.add(new Command.Choice(parsed[0], parsed[1]));
-            }
-        }
 
         return new OptionDataDefinition(
                 parameter.type(),
@@ -228,6 +200,105 @@ public record OptionDataDefinition(
         }
 
         return MethodType.methodType(type).wrap().returnType();
+    }
+
+    private static List<ConstraintDefinition> indexConstraints(
+            ParameterDescription parameter,
+            Validators validators,
+            Class<?> resolvedType) {
+        List<ConstraintDefinition> result = new ArrayList<>();
+        parameter.annotations().stream()
+                .filter(it -> it.hasAnnotation(Constraint.class))
+                .forEach(it -> {
+                    switch (validators.get(it, resolvedType)) {
+                        case Validators.Result.NotFound _ -> throw new ConfigurationException(
+                                "no-validator-found",
+                                entry("annotation", it.type().getName()),
+                                entry("parameter", parameter.name())
+                        );
+                        case Validators.Result.UnsupportedType(Collection<Class<?>> supportedTypes) ->
+                                throw new InvalidDeclarationException(
+                                        "validator-type-not-supported",
+                                        entry("annotation", it.type().getName()),
+                                        entry("parameter", parameter.name()),
+                                        entry("supportedTypes", supportedTypes.stream()
+                                                .map(Class::getName)
+                                                .collect(Collectors.joining("\n    -> "))
+                                        )
+                                );
+                        case Validators.Result.Success(Validator<?, ?> validator) ->
+                                result.add(new ConstraintDefinition(validator, it));
+                        case Validators.Result.DiscordHandled _ -> {
+                        }
+                    }
+                });
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<Choice> indexChoices(ClassDescription classDescription, ParameterDescription parameter) {
+        List<Choice> choices = new ArrayList<>();
+        Introspection introspection = Introspection.scopedGet(Property.INTROSPECTION);
+        parameter.findAnnotation(Choices.class).ifPresent(choicesAnn -> {
+            List<String> options = new ArrayList<>(Arrays.asList(choicesAnn.value()));
+
+            ClassDescription source = classDescription;
+            if (choicesAnn.source() != Choices.class) {
+                source = introspection.get(Property.DESCRIPTOR).describe(choicesAnn.source());
+            }
+
+            Collection<MethodDescription> methods = source.findMethods(choicesAnn.provider());
+            Entry[] entries = new Entry[] {
+                    entry("class", classDescription.clazz().getSimpleName()),
+                    entry("method", choicesAnn.provider())
+            };
+            if (!choicesAnn.provider().isBlank() && methods.isEmpty()) {
+                throw new InvalidDeclarationException("provider-not-found", entries);
+
+            }
+
+            methods.forEach(method -> {
+                int modifiers = method.modifiers();
+                if (!Modifier.isStatic(modifiers)) {
+                    throw new InvalidDeclarationException("provider-modifiers", entries);
+                }
+
+                Helpers.checkParametrizedType(method.genericReturnType(), List.class, String.class);
+
+                try {
+                    var instantiator = introspection.get(Property.INSTANTIATOR);
+                    List<Object> arguments = method.parameters().stream()
+                            .map(ParameterDescription::type)
+                            .map(it -> (Object) instantiator.instance(it, introspection))
+                            .toList();
+
+                    List<String> result = (List<String>) method.invoker().invoke(null, arguments);
+                    if (result == null) {
+                        throw new InvalidDeclarationException("provider-null", entries);
+                    }
+
+                    options.addAll(result);
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    if (e instanceof InvocationTargetException) {
+                        throw new InvalidDeclarationException("provider-exception", e.getCause(), entries);
+                    }
+                    throw new InternalException("provider-invocation-failed", e, entries);
+                }
+            });
+
+            for (String option : options) {
+                String[] parsed = option.split(":", 2);
+                if (parsed.length < 1 || option.isBlank()) {
+                    continue;
+                }
+                if (parsed.length < 2) {
+                    choices.add(new Choice(parsed[0], parsed[0]));
+                    continue;
+                }
+                choices.add(new Choice(parsed[0], parsed[1]));
+            }
+        });
+        return choices;
     }
 
     @Override
@@ -277,7 +348,10 @@ public record OptionDataDefinition(
     ///
     /// @param validator  the corresponding [Validator]
     /// @param annotation the corresponding annotation object
-    public record ConstraintDefinition(Validator<?, ?> validator, AnnotationDescription<?> annotation) implements Definition {
+    public record ConstraintDefinition(
+            Validator<?, ?> validator,
+            AnnotationDescription<?> annotation
+    ) implements Definition {
 
         @Override
         public String displayName() {

@@ -1,4 +1,4 @@
-package io.github.kaktushose.jdac.guice.internal.guice;
+package io.github.kaktushose.jdac.guice.internal.guice.modules;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -13,11 +13,12 @@ import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
-public class PropertyProviderModule extends AbstractModule {
+public class ConfigurationScopeModule extends AbstractModule {
 
+    // stage = CONFIGURATION
     protected final Introspection introspection;
 
-    public PropertyProviderModule(Introspection introspection) {
+    public ConfigurationScopeModule(Introspection introspection) {
         this.introspection = introspection;
     }
 

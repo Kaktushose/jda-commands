@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.definitions.description;
 
 import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodType;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /// A [Description] that describes a method.
@@ -9,24 +10,24 @@ import java.util.*;
 /// @param declaringClass the declaring [Class] of this method
 /// @param returnType     the [Class] this method returns
 /// @param name           the name of the method
+/// @param modifiers      the Java language modifiers of this method
 /// @param parameters     a [SequencedCollection] of the [ParameterDescription]s of this method
 /// @param annotations    a [Collection] of all [Annotation]s this method is annotated with
 /// @param invoker        the corresponding [Invoker], used to invoke this method
 public record MethodDescription(
         Class<?> declaringClass,
         Class<?> returnType,
+        Type genericReturnType,
         String name,
+        int modifiers,
         SequencedCollection<ParameterDescription> parameters,
         Collection<AnnotationDescription<?>> annotations,
         Invoker invoker
 ) implements Description {
-    public MethodDescription(Class<?> declaringClass, Class<?> returnType, String name, SequencedCollection<ParameterDescription> parameters, Collection<AnnotationDescription<?>> annotations, Invoker invoker) {
-        this.declaringClass = declaringClass;
-        this.returnType = returnType;
-        this.name = name;
-        this.parameters = Collections.unmodifiableSequencedCollection(parameters);
-        this.annotations = Collections.unmodifiableCollection(annotations);
-        this.invoker = invoker;
+
+    public MethodDescription {
+        parameters = Collections.unmodifiableSequencedCollection(parameters);
+        annotations = Collections.unmodifiableCollection(annotations);
     }
 
     /// Gets the parameter matching the given name if any.

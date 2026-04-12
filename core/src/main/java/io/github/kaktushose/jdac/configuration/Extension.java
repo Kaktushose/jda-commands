@@ -5,7 +5,7 @@ import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.configuration.Property.Category;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
-import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.introspection.Stage;
 import org.jspecify.annotations.Nullable;
@@ -22,7 +22,7 @@ import java.util.List;
 /// 
 /// ## Properties
 /// By implementing [#properties()] and returning a collection of [PropertyProvider]s, you can
-/// for example provide an own implementation of [InteractionControllerInstantiator] 
+/// for example provide an own implementation of [Instantiator]
 /// or [Descriptor]. These implementations will override the default ones. 
 ///
 /// It's important to know, that you can only return [PropertyProvider]s of [Property]s 
@@ -38,7 +38,7 @@ import java.util.List;
 /// This allows further configuration, e.g. through the [Introspection] API by using [JDACommands#introspection()].
 ///
 /// ## Example
-/// This example extension provides an own implementation of [InteractionControllerInstantiator].
+/// This example extension provides an own implementation of [Instantiator].
 /// ```java
 /// public class DIExtension implements Extension<DIExtensionData> {
 ///
@@ -54,7 +54,7 @@ import java.util.List;
 ///     @Override
 ///     public Collection<PropertyProvider<?>> properties() {
 ///         return List.of(PropertyProvider.create(
-///                 Property.INTERACTION_CONTROLLER_INSTANTIATOR,
+///                 Property.INSTANTIATOR,
 ///                 2000,
 ///                 _ -> new CustomInteractionClassProvider(this))
 ///         );
