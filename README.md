@@ -1,5 +1,4 @@
 [![JDA-Version](https://img.shields.io/badge/JDA%20Version-6.4.0-important)](https://github.com/DV8FromTheWorld/JDA#download)
-[![Release badge](https://release-badges-generator.vercel.app/api/releases.svg?user=kaktushose&repo=jda-commands&gradient=92e236,92e236)](https://github.com/Kaktushose/proteus/releases/latest)
 [![Source build & test](https://github.com/Kaktushose/jda-commands/actions/workflows/build_ci.yml/badge.svg)](https://github.com/Kaktushose/jda-commands/actions/workflows/build_ci.yml)
 [![Release Deployment](https://github.com/Kaktushose/jda-commands/actions/workflows/cd.yml/badge.svg)](https://github.com/Kaktushose/jda-commands/actions/workflows/cd.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://app.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
