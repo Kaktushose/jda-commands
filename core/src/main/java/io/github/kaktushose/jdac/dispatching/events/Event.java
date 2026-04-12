@@ -91,7 +91,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// Gets the [JDACIntrospection] instance of this interaction.
     ///
     /// Same as [JDACIntrospection#accessScoped()]
-    /// @return the [JDACIntrospection] instance with stage set to [JDACScope#INTERACTION].
+    /// @return the [JDACIntrospection] instance with scope set to [JDACScope#INTERACTION].
     public JDACIntrospection introspection() {
         return JDACIntrospection.accessScoped();
     }

@@ -9,13 +9,13 @@ import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 
-/// The scope or "stage" inside the framework at which a [properties][Property] value is set.
+/// The scope or "scope" inside the framework at which a [properties][Property] value is set.
 ///
 /// JDA-Commands has the following scopes in this order:
 /// 1. [#CONFIGURATION] -> setting of builder properties, extension loading, construction of framework components
 /// 2. [#INITIALIZED] -> after starting the framework (basically after [JDACBuilder#start()] completed), e.g. all definitions are indexed etc.
 /// 3. [#RUNTIME] -> inside a runtime but outside of processing an [GenericInteractionCreateEvent], e.g. when [Instantiator#instance(Class, JDACIntrospection)] is called
-/// 4. [#PREPARATION] -> during the preparation of an [GenericInteractionCreateEvent] for the [#INTERACTION] stage, e.g. where type adapters get called
+/// 4. [#PREPARATION] -> during the preparation of an [GenericInteractionCreateEvent] for the [#INTERACTION] scope, e.g. where type adapters get called
 /// 5. [#INTERACTION] -> when processing an [GenericInteractionCreateEvent], e.g. in [Middleware#accept(InvocationContext)] or inside a user defined interaction controller method
 ///
 /// Generally, a scope includes all properties that were set in a former scope:

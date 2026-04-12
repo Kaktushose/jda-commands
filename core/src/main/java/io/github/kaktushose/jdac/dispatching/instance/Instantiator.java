@@ -20,7 +20,7 @@ public interface Instantiator {
     /// components/parts of this framework, e.g. [MessageResolver].
     ///
     /// @param clazz         the [Class] of needed instance
-    /// @param introspection the [JDACIntrospection] instance of this runtime (stage = [JDACScope#RUNTIME]).
+    /// @param introspection the [JDACIntrospection] instance of this runtime (scope = [JDACScope#RUNTIME]).
     @IntrospectionAccess(JDACScope.RUNTIME)
     <T> T instance(Class<T> clazz, JDACIntrospection introspection);
 }

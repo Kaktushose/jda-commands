@@ -205,7 +205,7 @@ public final class JDACommands {
         return Optional.of(embeds.get(name));
     }
 
-    /// Gets the [JDACIntrospection] instance with stage [JDACScope#INITIALIZED].
+    /// Gets the [JDACIntrospection] instance with scope [JDACScope#INITIALIZED].
     ///
     /// @return the [JDACIntrospection] instance
     public JDACIntrospection introspection() {

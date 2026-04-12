@@ -3,7 +3,10 @@ package io.github.kaktushose.jdac.guice.internal;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import dev.goldmensch.propane.event.Listener;
+import dev.goldmensch.propane.property.EnumerationPropertySkeleton;
+import dev.goldmensch.propane.property.MappingPropertySkeleton;
 import dev.goldmensch.propane.property.Priority;
+import dev.goldmensch.propane.property.SingletonPropertySkeleton;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
@@ -32,6 +35,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// The implementation of [Extension] for using Googles [Guice] as an [Instantiator].
 ///
@@ -82,25 +87,24 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
 
     private void addDynamicImplementations(List<JDACPropertyProvider<?>> list) {
         // load single types
-        // TODO enable it again
-//        for (JDACProperty<?> property : JDACProperty.LOADABLE) {
-//            if (shouldSkip(property)) continue;
-//
-//            switch (property.generalized()) {
-//                case MapProperty<?, ?> m -> throw new GuiceException("invalid-implementation", entry("class", m.valueType().getName()));
-//                case CollectionProperty<?> e -> list.add(provider(property, ctx -> instances(ctx, Implementation.class, e.type()).toList()));
-//                case SingleProperty<?> i -> list.add(provider(property, ctx -> {
-//                    List<?> instances = instances(ctx, Implementation.class, i.type()).toList();
-//                    if (instances.size() == 1) return instances.getFirst();
-//                    if (instances.isEmpty()) return null;
-//
-//                    throw new GuiceException("multiple-instances",
-//                            entry("type", i.type().getName()),
-//                            entry("found", instances.stream().map(obj -> obj.getClass().getName()).collect(Collectors.joining(", ")))
-//                    );
-//                }));
-//            }
-//        }
+        for (JDACProperty<?> property : JDACProperty.EXTENSION) {
+            if (shouldSkip(property)) continue;
+
+            switch (property.generalized()) {
+                case MappingPropertySkeleton<?, ?> m -> throw new GuiceException("invalid-implementation", entry("class", m.valueType().getName()));
+                case EnumerationPropertySkeleton<?> e -> list.add(provider(property, ctx -> instances(ctx, Implementation.class, e.type()).toList()));
+                case SingletonPropertySkeleton<?> i -> list.add(provider(property, ctx -> {
+                    List<?> instances = instances(ctx, Implementation.class, i.type()).toList();
+                    if (instances.size() == 1) return instances.getFirst();
+                    if (instances.isEmpty()) return null;
+
+                    throw new GuiceException("multiple-instances",
+                            entry("type", i.type().getName()),
+                            entry("found", instances.stream().map(obj -> obj.getClass().getName()).collect(Collectors.joining(", ")))
+                    );
+                }));
+            }
+        }
 
         // load multiple implementable types
         list.add(provider(

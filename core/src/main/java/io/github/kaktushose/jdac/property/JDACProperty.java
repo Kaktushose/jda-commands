@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.property;
 
 import dev.goldmensch.propane.property.*;
+import dev.goldmensch.propane.property.Property.Source;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
@@ -28,6 +29,7 @@ import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
+import io.github.kaktushose.jdac.processor.property.api.PropertyProcessed;
 import io.github.kaktushose.jdac.property.extension.Extension;
 import io.github.kaktushose.jdac.property.extension.ExtensionFilter;
 import io.github.kaktushose.jdac.property.internal.JDACEnumerationProperty;
@@ -69,6 +71,7 @@ import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 /// @see JDACIntrospection
 /// @see Property
 /// @see SpecificProperty
+@PropertyProcessed
 public interface JDACProperty<T> extends SpecificProperty<T> {
   // -------- settable by user + loadable from extension --------
 
@@ -245,7 +248,7 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   /// The [LocalizationFunction] backed by [MessageResolver] used to localize/resolve commands and descriptions.
   ///
   /// @see LocalizationFunction
-  @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
+  @PropertyInformation(scope = JDACScope.INITIALIZED, source = Property.Source.PROVIDED)
   JDACProperty<LocalizationFunction> LOCALIZATION_FUNCTION =
           new JDACSingletonProperty<>("LOCALIZATION_FUNCTION", Property.Source.PROVIDED, JDACScope.INITIALIZED, LocalizationFunction.class);
 
@@ -276,4 +279,20 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   @PropertyInformation(scope = JDACScope.INTERACTION, source = Property.Source.PROVIDED)
   JDACProperty<InvocationContext<?>> INVOCATION_CONTEXT =
           new JDACSingletonProperty<>("INVOCATION_CONTEXT", Property.Source.PROVIDED, JDACScope.INTERACTION, castUnsafe(InvocationContext.class));
+
+  /// A collection consisting of all [Property]s that are
+  /// [settable by the user and loadable through extensions][Source#EXTENSION]
+  ///
+  /// @see Source#EXTENSION
+  Collection<JDACProperty<?>> EXTENSION = PropertyListAccessor.getExtension();
+
+  /// A collection consisting of all [Property]s that are [settable by the user through JDACBuilder][Source#BUILDER]
+  ///
+  /// @see Source#BUILDER
+  Collection<JDACProperty<?>> BUILDER = PropertyListAccessor.getBuilder();
+
+  /// A collection consisting of all [Property]s that are [provided by JDA-Commands][Source#PROVIDED]
+  ///
+  /// @see Source#PROVIDED
+  Collection<JDACProperty<?>> PROVIDED = PropertyListAccessor.getProvided();
 }

@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 /// If this annotation is present on a Class like [RuntimeCloseEvent] it's up to the use case which meaning this has, please
 /// read the Javadocs there.
 ///
-/// Only properties having at least the stage of [#value()] can be used.
+/// Only properties having at least the scope of [#value()] can be used.
 /// - [JDACScope#INTERACTION] includes [JDACScope#CONFIGURATION], [JDACScope#INITIALIZED], [JDACScope#RUNTIME] and [JDACScope#PREPARATION]
 /// - [JDACScope#PREPARATION] includes [JDACScope#CONFIGURATION], [JDACScope#INITIALIZED] and [JDACScope#RUNTIME]
 /// - [JDACScope#RUNTIME] includes [JDACScope#CONFIGURATION] and [JDACScope#INITIALIZED]
