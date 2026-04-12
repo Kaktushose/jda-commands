@@ -57,9 +57,9 @@ import static io.github.kaktushose.jdac.internal.Helpers.castUnsafe;
 ///
 /// There are basically 3 types of properties:
 ///
-/// - [SingletonProperty] for values consisting of one instance
-/// - [EnumerationProperty] for values consisting of multiple instances (reference to [Collection])
-/// - [MappingProperty] for values representing a mapping between keys and values (reference to [Map])
+/// - [Singleton][SingletonPropertySkeleton] for values consisting of one instance
+/// - [Enumeration][EnumerationPropertySkeleton] for values consisting of multiple instances (reference to [Collection])
+/// - [Mapping][MappingPropertySkeleton] for values representing a mapping between keys and values (reference to [Map])
 ///
 /// Beside their purpose, each type hold a slightly different set of information, but they share some common
 /// values:
@@ -195,7 +195,7 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   /// The [I18n] service provided by JDA-Commands.
   /// Needs the values of [#DESCRIPTOR] and [#LOCALIZER].
   ///
-  /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
+  /// @implNote the [JDACPropertyProvider] for this value is defined in the constructor of [JDACBuilder]
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
   JDACProperty<I18n> I18N =
           new JDACSingletonProperty<>("I18N", Property.Source.PROVIDED, JDACScope.CONFIGURATION, I18n.class);
@@ -203,7 +203,7 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   /// The [MessageResolver] service provided byt JDA-Commands.
   /// Needs the values of [#I18N] and [#EMOJI_RESOLVER].
   ///
-  /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
+  /// @implNote the [JDACPropertyProvider] for this value is defined in the constructor of [JDACBuilder]
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
   JDACProperty<MessageResolver> MESSAGE_RESOLVER =
           new JDACSingletonProperty<>("MESSAGE_RESOLVER", Property.Source.PROVIDED, JDACScope.CONFIGURATION, MessageResolver.class);
@@ -211,14 +211,14 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   /// The [EmojiResolver] service provided by JDA-Commands.
   /// Needs the value of [#EMOJI_RESOLVER].
   ///
-  /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
+  /// @implNote the [JDACPropertyProvider] for this value is defined in the constructor of [JDACBuilder]
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
   JDACProperty<EmojiResolver> EMOJI_RESOLVER =
           new JDACSingletonProperty<>("EMOJI_RESOLVER", Property.Source.PROVIDED, JDACScope.CONFIGURATION, EmojiResolver.class);
 
   /// The [PlaceholderResolver] service provided by JDA-Commands.
   ///
-  /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
+  /// @implNote the [JDACPropertyProvider] for this value is defined in the constructor of [JDACBuilder]
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
   JDACProperty<PlaceholderResolver> PLACEHOLDER_RESOLVER =
           new JDACSingletonProperty<>("PLACEHOLDER_RESOLVER", Property.Source.PROVIDED, JDACScope.CONFIGURATION, PlaceholderResolver.class);
@@ -226,7 +226,7 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   /// An [ClassFinder] instance that is backed by all [ClassFinder] of [#CLASS_FINDER].
   /// It will search in all registered [ClassFinder] for the requested class.
   ///
-  /// @implNote the [PropertyProvider] for this value is defined in the constructor of [JDACBuilder]
+  /// @implNote the [JDACPropertyProvider] for this value is defined in the constructor of [JDACBuilder]
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.PROVIDED)
   JDACProperty<ClassFinder> MERGED_CLASS_FINDER =
           new JDACSingletonProperty<>("MERGED_CLASS_FINDER", Property.Source.PROVIDED, JDACScope.CONFIGURATION, ClassFinder.class);

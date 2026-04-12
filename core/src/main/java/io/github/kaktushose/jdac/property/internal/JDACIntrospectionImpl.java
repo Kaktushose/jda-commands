@@ -1,18 +1,16 @@
 package io.github.kaktushose.jdac.property.internal;
 
-import dev.goldmensch.propane.IntrospectionImpl;
+import dev.goldmensch.propane.IntrospectionImplSkeleton;
 import dev.goldmensch.propane.internal.exposed.Properties;
-import dev.goldmensch.propane.property.PropertyProvider;
+import dev.goldmensch.propane.property.Priority;
 import io.github.kaktushose.jdac.property.JDACIntrospection;
 import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.JDACPropertyProvider;
 import io.github.kaktushose.jdac.property.JDACScope;
-import java.lang.Class;
-import java.lang.Override;
-import java.lang.ScopedValue;
+
 import java.util.function.Function;
 
-public final class JDACIntrospectionImpl extends IntrospectionImpl<JDACIntrospectionImpl, JDACIntrospection, JDACIntrospectionImpl.Builder, JDACScope> implements JDACIntrospection {
+public final class JDACIntrospectionImpl extends IntrospectionImplSkeleton<JDACIntrospectionImpl, JDACIntrospection, JDACIntrospectionImpl.Builder, JDACScope> implements JDACIntrospection {
   public static final ScopedValue<JDACIntrospectionImpl> INTROSPECTION = ScopedValue.newInstance();
 
   private JDACIntrospectionImpl(JDACScope scope, Properties<JDACIntrospection> properties,
@@ -33,15 +31,20 @@ public final class JDACIntrospectionImpl extends IntrospectionImpl<JDACIntrospec
     return this.new Builder(scope);
   }
 
+  @Override
+  public ScopedValue.Carrier scoped() {
+    return ScopedValue.where(INTROSPECTION, this);
+  }
+
   public <T> T get(JDACProperty<T> specific) {
     return super.get(specific);
   }
 
   protected void addIntrospectionProvider(Properties<JDACIntrospection> properties) {
-    properties.add(new JDACPropertyProvider<>(JDACProperty.INTROSPECTION, PropertyProvider.Priority.FALLBACK, JDACIntrospection.class, _ -> this));
+    properties.add(new JDACPropertyProvider<>(JDACProperty.INTROSPECTION, Priority.FALLBACK, JDACIntrospection.class, _ -> this));
   }
 
-  public final class Builder extends IntrospectionImpl<JDACIntrospectionImpl, JDACIntrospection, Builder, JDACScope>.Builder {
+  public final class Builder extends IntrospectionImplSkeleton<JDACIntrospectionImpl, JDACIntrospection, Builder, JDACScope>.Builder {
     Builder(JDACScope scope) {
       super(scope);
     }
@@ -53,22 +56,22 @@ public final class JDACIntrospectionImpl extends IntrospectionImpl<JDACIntrospec
 
     public <T> Builder addFallback(JDACProperty<T> property,
         Function<JDACIntrospection, T> supplier) {
-      return add(new JDACPropertyProvider<>(property, PropertyProvider.Priority.FALLBACK, caller(), supplier));
+      return add(new JDACPropertyProvider<>(property, Priority.FALLBACK, caller(), supplier));
     }
 
     public <T> Builder addBuilder(JDACProperty<T> property,
         Function<JDACIntrospection, T> supplier) {
-      return add(new JDACPropertyProvider<>(property, PropertyProvider.Priority.BUILDER, caller(), supplier));
+      return add(new JDACPropertyProvider<>(property, Priority.BUILDER, caller(), supplier));
     }
 
     public <T> Builder addFallback(JDACProperty<T> property, Class<?> owner,
         Function<JDACIntrospection, T> supplier) {
-      return add(new JDACPropertyProvider<>(property, PropertyProvider.Priority.FALLBACK, owner, supplier));
+      return add(new JDACPropertyProvider<>(property, Priority.FALLBACK, owner, supplier));
     }
 
     public <T> Builder addBuilder(JDACProperty<T> property, Class<?> owner,
         Function<JDACIntrospection, T> supplier) {
-      return add(new JDACPropertyProvider<>(property, PropertyProvider.Priority.BUILDER, owner, supplier));
+      return add(new JDACPropertyProvider<>(property, Priority.BUILDER, owner, supplier));
     }
   }
 }

@@ -3,7 +3,7 @@ package io.github.kaktushose.jdac.guice.internal;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import dev.goldmensch.propane.event.Listener;
-import dev.goldmensch.propane.property.PropertyProvider;
+import dev.goldmensch.propane.property.Priority;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
@@ -56,7 +56,7 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
 
     @SuppressWarnings("unchecked")
     private <T> JDACPropertyProvider<T> provider(JDACProperty<?> type, Function<JDACIntrospection, ?> supplier) {
-        return new JDACPropertyProvider<>((JDACProperty<T>) type, PropertyProvider.Priority.of(10), GuiceExtensionModule.class, (Function<JDACIntrospection, T>) supplier);
+        return new JDACPropertyProvider<>((JDACProperty<T>) type, Priority.of(10), GuiceExtensionModule.class, (Function<JDACIntrospection, T>) supplier);
     }
 
     @Override
