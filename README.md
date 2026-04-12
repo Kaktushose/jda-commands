@@ -1,4 +1,5 @@
 [![JDA-Version](https://img.shields.io/badge/JDA%20Version-6.4.0-important)](https://github.com/DV8FromTheWorld/JDA#download)
+[![Discord](https://badgen.net/badge/icon/Support%20Server?icon=discord&label)]([https://https://discord.com/](https://discord.gg/tmq9BrZEKb))
 [![Source build & test](https://github.com/Kaktushose/jda-commands/actions/workflows/build_ci.yml/badge.svg)](https://github.com/Kaktushose/jda-commands/actions/workflows/build_ci.yml)
 [![Release Deployment](https://github.com/Kaktushose/jda-commands/actions/workflows/cd.yml/badge.svg)](https://github.com/Kaktushose/jda-commands/actions/workflows/cd.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2b4367f6d0f42d89b7e51331f3ce299)](https://app.codacy.com/gh/Kaktushose/jda-commands/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
@@ -14,20 +15,15 @@ any boilerplate code, so you can focus solely on the business logic of your bot 
 
 - Simple and intuitive syntax following an annotation-driven and declarative style
 
-
-- Built-in support for slash commands, components, embeds, context menus and modals
-
+- Built-in support for slash commands, message and action components, embeds, context menus and modals
 
 - Automatic and customizable type adapting and constraint validation of parameters
 
-
 - Expandable executing chain (Middleware API)
-
 
 - Multithreaded event handling using VirtualThreads
 
-
-- First-hand localization support (via [project fluent](https://projectfluent.org/) or custom implementation)
+- First-hand localization support (via [Project Fluent](https://projectfluent.org/) or custom implementation)
 
 - Usage of [jSpecify](https://jspecify.dev/) nullability annotations
 
@@ -36,7 +32,6 @@ any boilerplate code, so you can focus solely on the business logic of your bot 
 If you want to learn more, go check out the [Wiki](https://kaktushose.github.io/jda-commands/wiki/) or [Javadocs](https://kaktushose.github.io/jda-commands/javadocs/latest/) and join our [Discord server](https://discord.gg/tmq9BrZEKb).
 
 ## Example
-
 ```java
 @Interaction
 public class CookieClicker {
@@ -58,6 +53,18 @@ public class CookieClicker {
         count = 0;
         event.reply("You've got { $count } cookie(s)!", entry("count", counter));
     }
+}
+```
+### Components V2
+```java
+@Command(value = "cookie clicker", desc = "Play cookie clicker")
+public void onClicker(CommandEvent event) {
+    event.reply(
+            Container.of(
+                    TextDisplay.of("You've got { $count } cookie(s)!"),
+                    ActionRow.of(Component.button("onCookie"), Component.button("onReset"))
+            ), entry("count", 1)
+    );
 }
 ```
 
