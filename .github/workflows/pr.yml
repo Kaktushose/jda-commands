@@ -1,4 +1,4 @@
-name: pr.yml
+name: Check Feature Documentation
 on:
   pull_request_target:
 

@@ -1,4 +1,4 @@
-name: Javadoc build & test
+name: Check Javadoc Errors
 
 on:
   push:
