@@ -1,4 +1,5 @@
 # Properties
+
 The property system is a core system of JDA-Commands. Its purpose is...
 
 - to allow the dynamic and advance configuration of JDA-Commands through our builder and extension system

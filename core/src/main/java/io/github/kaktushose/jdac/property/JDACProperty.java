@@ -108,7 +108,7 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
   /// @see JDACBuilder#middleware(Priority, Middleware)
   @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.EXTENSION, fallbackBehaviour = COMBINE)
   JDACProperty<Collection<Map.Entry<Priority, Middleware>>> MIDDLEWARE =
-          new JDACEnumerationProperty<>("MIDDLEWARE", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(java.util.Map.Entry.class), COMBINE);
+          new JDACEnumerationProperty<>("MIDDLEWARE", Property.Source.EXTENSION, JDACScope.CONFIGURATION, castUnsafe(Map.Entry.class), COMBINE);
 
   /// The TYPE_ADAPTER property maps [AdapterType]s containing the source and targets [Type]s to their associated [TypeAdapter]
   /// @see JDACBuilder#adapter(Class, Class, TypeAdapter)
