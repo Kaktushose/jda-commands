@@ -3,6 +3,7 @@ package io.github.kaktushose.jdac.property;
 import dev.goldmensch.propane.property.Priority;
 import dev.goldmensch.propane.property.Property;
 import dev.goldmensch.propane.property.PropertyProviderSkeleton;
+import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.property.internal.JDACEnumerationProperty;
 import io.github.kaktushose.jdac.property.internal.JDACMappingProperty;
 import io.github.kaktushose.jdac.property.internal.JDACSingletonProperty;
@@ -29,6 +30,13 @@ import java.util.function.Function;
 /// Furthermore, each [JDACPropertyProvider] has a [priority][Priority] stating which providers take
 /// precedence over others. For more information on that, visit the documentation of [JDACSingletonProperty], [JDACEnumerationProperty]
 /// and [JDACMappingProperty].
+///
+/// Following priorities have a special meaning in JDA-Commands:
+/// - priority = [Priority#FALLBACK]    are all fallback/default values provided by JDA-Commands
+/// - priority = [Priority#BUILDER]     are all values set by the user manually in [JDACBuilder]
+///-  priority between 1 and 100        are reserved for internal usage.
+///
+/// Usage of reserved priorities will result in an exception causing JDA-Commands to stop itself.
 ///
 /// For debugging purpose, [JDACPropertyProvider]s store their "owner", which is the class or "logical unit"
 /// (for example the library providing an extension for some property), that can be used to identify an [JDACPropertyProvider]
