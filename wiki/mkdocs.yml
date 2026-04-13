@@ -142,4 +142,5 @@ nav:
             - Writing Extensions: misc/extension/writing.md
             - Configuration: misc/extension/configuring.md
           - Properties: misc/property.md
+  - Migrate to V5: migration.md
   - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/
