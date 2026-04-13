@@ -4,6 +4,7 @@ import dev.goldmensch.propane.IntrospectionSkeleton;
 import dev.goldmensch.propane.Scope;
 import dev.goldmensch.propane.event.Event;
 import dev.goldmensch.propane.event.Listener;
+import dev.goldmensch.propane.event.Subscription;
 import dev.goldmensch.propane.property.*;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.property.events.JDACEvent;
@@ -152,8 +153,9 @@ public interface JDACIntrospection extends IntrospectionSkeleton<JDACIntrospecti
   /// of this introspection instance.
   ///
   /// @param listener the [Listener] to be registered
+  /// @return a [Subscription] identifying the registered listener
   /// @see JDACIntrospection JDACIntrospection' class documentation
   /// @see JDACEvent
   @Override
-  void subscribe(Listener<? extends Event<JDACScope>, JDACScope, JDACIntrospection> listener);
+  Subscription<JDACIntrospection, JDACScope> subscribe(Listener<? extends Event<JDACScope>, JDACScope, JDACIntrospection> listener);
 }

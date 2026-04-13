@@ -48,7 +48,7 @@ public record MyExtensionData(String someOption) implements Extension.Data {}
 
 ## Providing Implementations
 Currently, extensions support providing custom [PropertyProviders](../property.md#propertyprovider) of properties with
-category <Source#LOADABLE>. You can take a look at <JDACProperty> to know what properties can be provided by extensions. 
+category <Property.Source#EXTENSION>. You can take a look at <JDACProperty> to know what properties can be provided by extensions. 
 
 To provide custom <JDACPropertyProvider>s your have to implement the <Extension#properties()> method.
 This method returns a collection of all <JDACPropertyProvider>s that an extension provides. Take a look [here](../property.md#propertyprovider)
