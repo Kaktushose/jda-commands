@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -2056,13 +2056,13 @@ See the Javadocs of <a href="https://kaktushose.github.io/jda-commands/javadocs/
 <div class="language-java highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">Fluava</span><span class="w"> </span><span class="n">myFluava</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fluava</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">Locale</span><span class="p">.</span><span class="na">GERMAN</span><span class="p">);</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">JDACommands</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">jda</span><span class="p">,</span><span class="w"> </span><span class="n">Main</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="p">.</span><span class="na">localizer</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FluavaLocalizer</span><span class="p">(</span><span class="n">myFluava</span><span class="p">))</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="p">.</span><span class="na">localizer</span><span class="p">(</span><span class="n">FluavaLocalizer</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">myFluava</span><span class="p">))</span>
 </span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
 </span></code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Fallback Bundle</p>
 <p>To change the fallback bundle you have to pass it to the <a href="https://goldmensch.github.io/fluava/javadocs/0/dev.goldmensch.fluava/dev/goldmensch/fluava/Fluava.html#create(java.util.Locale)"><code>Fluava#create(Locale)</code></a> method. In the above example the fallback locale
-is German. The default fallback locale of JDA-Commands is English.</p>
+is German. You can also call <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/message/i18n/FluavaLocalizer.html#create(java.util.Locale)"><code>FluavaLocalizer#create(Locale)</code></a>. The default fallback locale of JDA-Commands is English.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
