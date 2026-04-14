@@ -18,18 +18,18 @@ import java.util.function.Function;
 /// Based on the [Property.Source] of the property, property providers can be registered via different ways. Visit the documentation
 /// of [Property.Source] for more information on that matter.
 ///
-/// The possibly [returned][PropertyProviderSkeleton#supplier()] types vary based on the type of the property:
-/// - for [JDACSingletonProperty], a provider can "return" one instance
-/// - for [JDACEnumerationProperty], a provider can "return" an instance of [Collection]
-/// - for [JDACMappingProperty], a provider can "return" an instance of [Map]
+/// The possibly [returned][JDACPropertyProvider#supplier()] types vary based on the type of the property:
+/// - for [`JDACSingletonProperty`][dev.goldmensch.propane.property.SingletonPropertySkeleton], a provider can "return" one instance
+/// - for [`JDACEnumerationProperty`][dev.goldmensch.propane.property.EnumerationPropertySkeleton], a provider can "return" an instance of [Collection]
+/// - for [`JDACMappingProperty`][dev.goldmensch.propane.property.MappingPropertySkeleton], a provider can "return" an instance of [Map]
 ///
-/// The values are "provided" by the [supplier][PropertyProviderSkeleton#supplier()], which is called during resolution.
+/// The values are "provided" by the [supplier][JDACPropertyProvider#supplier()], which is called during resolution.
 /// The supplier must be threadsafe and side effect free, as it could be called multiple times during resolution simultaneously.
 /// Although that, only one value is stored finally (using a "check-then-act" pattern).
 ///
 /// Furthermore, each [JDACPropertyProvider] has a [priority][Priority] stating which providers take
-/// precedence over others. For more information on that, visit the documentation of [JDACSingletonProperty], [JDACEnumerationProperty]
-/// and [JDACMappingProperty].
+/// precedence over others. For more information on that, visit the documentation of [`JDACSingletonProperty`][dev.goldmensch.propane.property.SingletonPropertySkeleton], [`JDACEnumerationProperty`][dev.goldmensch.propane.property.EnumerationPropertySkeleton]
+/// and [`JDACMappingProperty`][dev.goldmensch.propane.property.MappingPropertySkeleton].
 ///
 /// Following priorities have a special meaning in JDA-Commands:
 /// - priority = [Priority#FALLBACK]    are all fallback/default values provided by JDA-Commands
@@ -43,14 +43,14 @@ import java.util.function.Function;
 /// during runtime.
 ///
 /// ## Dependencies on other properties
-/// The [supplier][PropertyProviderSkeleton#supplier()] allows access to the [JDACIntrospection] instance used to resolve this
+/// The [supplier][JDACPropertyProvider#supplier()] allows access to the [JDACIntrospection] instance used to resolve this
 /// property. This can be used to retrieve the values of other properties needed by this [JDACPropertyProvider], thus creating
 /// a dependency on that other property.
 ///
 /// JDA-Commands checks for cycling dependencies during runtime and will provide all needed information to identify the cycle.
 ///
 /// @param <T> the type returned by the supplier
-/// @see PropertyProviderSkeleton
+/// @see JDACPropertyProvider
 public class JDACPropertyProvider<T> extends PropertyProviderSkeleton<T, JDACProperty<T>, JDACIntrospection> {
   public JDACPropertyProvider(JDACProperty<T> property, Priority priority,
       Class<?> owner, Function<JDACIntrospection, T> supplier) {

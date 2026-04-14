@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac.property.events;
 
-import dev.goldmensch.propane.IntrospectionSkeleton;
 import dev.goldmensch.propane.event.Event;
 import dev.goldmensch.propane.event.Listener;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
@@ -15,7 +14,7 @@ import io.github.kaktushose.jdac.property.internal.Registry;
 ///
 /// The [IntrospectionAccess] annotation present on implementors of this interface like
 /// [FrameworkStartEvent] indicate, which scope the [JDACIntrospection] passed to
-/// [Listener#accept(Event, IntrospectionSkeleton)] has.
+/// [Listener#accept(Event, JDACIntrospection)] has.
 ///
 /// @see Listener
 public interface JDACEvent extends Event<JDACScope> {
