@@ -18,15 +18,15 @@ some things have changed in the meantime. This guide will help you to migrate fr
 
 ## Changes
 - After calling <MessageReply#embeds(String...)>, <MessageReply#components(String...)> or <MessageReply#builder(Consumer)> you can no longer access the <ConfigurableReply>
-- <InteractionDefinition.ReplyConfig#editReply()>, <InteractionDefinition.ReplyConfig#keepComponents()> and <InteractionDefinition.ReplyConfig#keepSelections()> can now only be called on a <jdac -> ComponentEvent>
+- <InteractionDefinition.ReplyConfig#editReply()>, <InteractionDefinition.ReplyConfig#keepComponents()> and <InteractionDefinition.ReplyConfig#keepSelections()> can now only be called on a <io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent>
 - The <ErrorMessageFactory> now uses Components V2. It has to return a <MessageTopLevelComponent> instead of <MessageCreateData>
 - The <DefaultErrorMessageFactory> now uses Components V2
 - Removed `EmbedConfig#errorSource()`
 - Removed `Event#i18n()`, use <Event#messageResolver()> instead
 
 ## Renaming
-- `ErrorMessageFactory#getCommandExecutionFailedMessage()` -> <ErrorMessageFactory#getInteractionExecutionFailedMessage()>
+- `ErrorMessageFactory#getCommandExecutionFailedMessage()` -> <ErrorMessageFactory#getInteractionExecutionFailedMessage(Throwable)>
 - `@EntitySelectMenu` -> <@EntityMenu>
 - `@StringSelectMenu` -> <@StringMenu>
-- `Event#localize` -> <Event#resolve>
+- `Event#localize` -> <Event#resolve(String, Entry...)>
 - `Priority#PERMISSIONS` -> <Priority#HIGHEST>
