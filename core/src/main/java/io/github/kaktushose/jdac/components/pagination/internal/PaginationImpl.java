@@ -15,17 +15,30 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.SequencedCollection;
 
 import static io.github.kaktushose.jdac.components.pagination.layout.Control.Direction.BACKWARD;
 import static io.github.kaktushose.jdac.components.pagination.layout.Control.Direction.FORWARD;
 
-public record PaginationImpl(
-        SequencedCollection<PaginationLayout> paginationLayouts,
-        int currentPage,
-        @Nullable Integer maxPages,
-        ContainerConfig config
-) implements Pagination {
+public final class PaginationImpl implements Pagination {
+
+    private final SequencedCollection<PaginationLayout> paginationLayouts;
+    private int currentPage;
+    private @Nullable Integer maxPages;
+    private ContainerConfig config;
+
+    public PaginationImpl(
+            SequencedCollection<PaginationLayout> paginationLayouts,
+            int currentPage,
+            @Nullable Integer maxPages,
+            ContainerConfig config
+    ) {
+        this.paginationLayouts = paginationLayouts;
+        this.currentPage = currentPage;
+        this.maxPages = maxPages;
+        this.config = config;
+    }
 
     public PaginationImpl(SequencedCollection<PaginationLayout> paginationLayouts) {
         this(paginationLayouts, 1, null, new ContainerConfig(true, null, false));
@@ -34,22 +47,26 @@ public record PaginationImpl(
     @Override
     public Pagination maxPages(int maxPages) {
         Checks.check(maxPages > 0, "The maximum amount of pages must be at least 1");
-        return new PaginationImpl(paginationLayouts, currentPage, maxPages, config);
+        this.maxPages = maxPages;
+        return this;
     }
 
     @Override
     public Pagination container(boolean container) {
-        return new PaginationImpl(paginationLayouts, currentPage, maxPages, new ContainerConfig(container, null, false));
+        this.config = new ContainerConfig(container, null, false);
+        return this;
     }
 
     @Override
     public Pagination color(@Nullable Integer color) {
-        return new PaginationImpl(paginationLayouts, currentPage, maxPages, new ContainerConfig(true, color, config().spoiler()));
+        this.config = new ContainerConfig(true, color, config().spoiler());
+        return this;
     }
 
     @Override
     public Pagination spoiler(boolean spoiler) {
-        return new PaginationImpl(paginationLayouts, currentPage, maxPages, new ContainerConfig(true, config.color(), spoiler));
+        this.config = new ContainerConfig(true, config.color(), spoiler);
+        return this;
     }
 
     @Override
@@ -58,15 +75,16 @@ public record PaginationImpl(
         if (maxPages != null) {
             Checks.check(newPage <= maxPages, "Cannot scroll beyond the max page limit");
         }
-        return new PaginationImpl(paginationLayouts, newPage, maxPages, config);
-
+        currentPage = newPage;
+        return this;
     }
 
     @Override
     public Pagination backward(int amount) {
         int newPage = currentPage - amount;
         Checks.check(newPage > 0, "Cannot scroll back beyond page 1");
-        return new PaginationImpl(paginationLayouts, newPage, maxPages, config);
+        currentPage = newPage;
+        return this;
     }
 
     @Override
@@ -75,7 +93,8 @@ public record PaginationImpl(
         if (maxPages != null) {
             Checks.check(page <= maxPages, "Cannot jump to page beyond max page limit");
         }
-        return new PaginationImpl(paginationLayouts, page, maxPages, config);
+        currentPage = page;
+        return this;
     }
 
     @Override
@@ -126,6 +145,22 @@ public record PaginationImpl(
             return List.of(Container.of(result).withAccentColor(config.color()).withSpoiler(config.spoiler()));
         }
         return result.stream().map(MessageTopLevelComponent.class::cast).toList();
+    }
+
+    public SequencedCollection<PaginationLayout> paginationLayouts() {
+        return paginationLayouts;
+    }
+
+    public int currentPage() {
+        return currentPage;
+    }
+
+    public @Nullable Integer maxPages() {
+        return maxPages;
+    }
+
+    public ContainerConfig config() {
+        return config;
     }
 
     private record ContainerConfig(boolean active, @Nullable Integer color, boolean spoiler) { }
