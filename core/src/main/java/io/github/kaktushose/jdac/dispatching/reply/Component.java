@@ -12,11 +12,13 @@ import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComp
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.components.ActionComponent;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponentUnion;
 import net.dv8tion.jda.api.components.section.SectionAccessoryComponentUnion;
 import net.dv8tion.jda.api.components.thumbnail.Thumbnail;
 import org.jspecify.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -224,6 +226,22 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     public static StringSelectComponent stringSelect(
             @Nullable Class<?> origin, String component, Entry... placeholder) {
         return new StringSelectComponent(component, origin, placeholder);
+    }
+
+    /// Creates an [ActionRow] from the passed components.
+    ///
+    /// As with other methods of the class, the components are referenced by passing the name of the method(s) that
+    /// represent the action component(s). The components will always be enabled and runtime-bound.
+    ///
+    /// This is equivalent to:
+    /// ```
+    /// ActionRow.of(Component.button("myButton"), Component.button("anotherButton"));
+    /// ```
+    ///
+    /// @param components the name of the methods that represent the action components
+    /// @return an [ActionRow] containing the provided components
+    public static ActionRow row(String... components) {
+        return ActionRow.of(Arrays.stream(components).map(Component::enabled).toList());
     }
 
     /// @param enabled whether the component should be enabled
