@@ -10,6 +10,7 @@ import io.github.kaktushose.jdac.definitions.features.JDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
+import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.internal.Helpers;
 import net.dv8tion.jda.api.components.selections.SelectOption;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
@@ -20,6 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition.override;
+import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// Representation of a string select menu.
 ///
@@ -50,6 +52,15 @@ public record StringSelectMenuDefinition(
         StringMenu selectMenu = method.annotation(StringMenu.class);
 
         Helpers.checkSignature(method, List.of(ComponentEvent.class, List.class));
+        Class<?> unwrapped = method.parameters().getLast().typeArguments()[0];
+        if (unwrapped != String.class) {
+            throw new InvalidDeclarationException(
+                    "incorrect-method-signature",
+                    entry("prefix", ""),
+                    entry("expected", "List<String>"),
+                    entry("actual", "List<%s>".formatted(unwrapped == null ? "?" : unwrapped.getSimpleName()))
+            );
+        }
 
         Set<MenuOptionDefinition> selectOptions = new HashSet<>();
 

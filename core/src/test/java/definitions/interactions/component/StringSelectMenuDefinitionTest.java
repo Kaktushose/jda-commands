@@ -31,6 +31,11 @@ class StringSelectMenuDefinitionTest {
     }
 
     @Test
+    void method_withWrongListParameterType_shouldThrowInvalidDeclarationException() {
+        assertThrows(InvalidDeclarationException.class, () -> build("wrongParameterType"));
+    }
+
+    @Test
     void singleMenuOption_shouldBuildCorrectly() {
         StringSelectMenuDefinition definition = build("singleOption");
 
@@ -106,8 +111,8 @@ class StringSelectMenuDefinitionTest {
         public void wrongSignature(ComponentEvent event) {
         }
 
-        @StringMenu("wrongList")
-        public void wrongList(ComponentEvent event, List<Integer> values) {
+        @StringMenu("wrongParameterType")
+        public void wrongParameterType(ComponentEvent event, List<Integer> values) {
         }
 
         @StringMenu(value = "Choose one")
