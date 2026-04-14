@@ -17,8 +17,8 @@ some things have changed in the meantime. This guide will help you to migrate fr
     You can find the full changelog [here](https://github.com/Kaktushose/jda-commands/releases/tag/v5.0.0)
 
 ## Changes
-- After calling <MessageReply#embeds(String...)>, <MessageReply#components(String...)> or <MessageReply#builder(String...)> you can no longer access the <ConfigurableReply>
-- <ReplyConfig#editReply()>, <ReplyConfig#keepComponents()> and <ReplyConfig#keepSelections()> can now only be called on a <ComponentEvent>
+- After calling <MessageReply#embeds(String...)>, <MessageReply#components(String...)> or <MessageReply#builder(Consumer)> you can no longer access the <ConfigurableReply>
+- <InteractionDefinition.ReplyConfig#editReply()>, <InteractionDefinition.ReplyConfig#keepComponents()> and <InteractionDefinition.ReplyConfig#keepSelections()> can now only be called on a <jdac -> ComponentEvent>
 - The <ErrorMessageFactory> now uses Components V2. It has to return a <MessageTopLevelComponent> instead of <MessageCreateData>
 - The <DefaultErrorMessageFactory> now uses Components V2
 - Removed `EmbedConfig#errorSource()`
