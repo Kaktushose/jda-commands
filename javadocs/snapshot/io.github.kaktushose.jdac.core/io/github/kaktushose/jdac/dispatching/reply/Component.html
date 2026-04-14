@@ -84,6 +84,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#entitySelect(java.lang.Class,java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">entitySelect(Class, String, Entry...)</a></li>
 <li><a href="#stringSelect(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">stringSelect(String, Entry...)</a></li>
 <li><a href="#stringSelect(java.lang.Class,java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">stringSelect(Class, String, Entry...)</a></li>
+<li><a href="#row(java.lang.String...)" tabindex="0">row(String...)</a></li>
 <li><a href="#enabled(boolean)" tabindex="0">enabled(boolean)</a></li>
 <li><a href="#independent(boolean)" tabindex="0">independent(boolean)</a></li>
 <li><a href="#modify(java.util.function.Function)" tabindex="0">modify(Function)</a></li>
@@ -374,25 +375,30 @@ public void onCommand(CommandEvent event, User user) {
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>[]</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeholder()" class="member-name-link">placeholder</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="#type-param-S" title="type parameter in Component">S</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#self()" class="member-name-link">self</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="dynamic/menu/StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">StringSelectComponent</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stringSelect(java.lang.Class,java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">stringSelect</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
- <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Adds a <a href="dynamic/menu/StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu"><code>StringSelectComponent</code></a> to the reply.</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRow.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRow</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#row(java.lang.String...)" class="member-name-link">row</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>...&nbsp;components)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRow.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link"><code>ActionRow</code></a> from the passed components.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="#type-param-S" title="type parameter in Component">S</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#self()" class="member-name-link">self</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="dynamic/menu/StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">StringSelectComponent</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stringSelect(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">stringSelect</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stringSelect(java.lang.Class,java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">stringSelect</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;origin,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
  <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds a <a href="dynamic/menu/StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu"><code>StringSelectComponent</code></a> to the reply.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in Component">S</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withUniqueId(int)" class="member-name-link">withUniqueId</a><wbr>(int&nbsp;uniqueId)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="dynamic/menu/StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">StringSelectComponent</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stringSelect(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">stringSelect</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+ <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Adds a <a href="dynamic/menu/StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu"><code>StringSelectComponent</code></a> to the reply.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in Component">S</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withUniqueId(int)" class="member-name-link">withUniqueId</a><wbr>(int&nbsp;uniqueId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -685,6 +691,27 @@ runtime-independent.</div>
 <dd><code>origin</code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> the <code>component</code> is defined in</dd>
 <dd><code>component</code> - the name of the method that represents the string select menu</dd>
 <dd><code>placeholder</code> - the placeholders to use to perform <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">message resolution</a></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="row(java.lang.String...)">
+<h3>row</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRow.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRow</a></span>&nbsp;<span class="element-name">row</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>...&nbsp;components)</span></div>
+<div class="block"><p>Creates an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRow.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link"><code>ActionRow</code></a> from the passed components.</p>
+<p>As with other methods of the class, the components are referenced by passing the name of the method(s) that
+represent the action component(s). The components will always be enabled and runtime-bound.</p>
+<p>This is equivalent to:</p>
+<pre><code>ActionRow.of(Component.button(&quot;myButton&quot;), Component.button(&quot;anotherButton&quot;));
+</code></pre>
+</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>components</code> - the name of the methods that represent the action components</dd>
+<dt>Returns:</dt>
+<dd>an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRow.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link"><code>ActionRow</code></a> containing the provided components</dd>
 </dl>
 </div>
 </section>
