@@ -89,7 +89,7 @@ public final class PaginationImpl implements Pagination {
 
     @Override
     public Pagination page(int page) {
-        Checks.check(page < 1, "Cannot jump to negative page");
+        Checks.check(page > 0, "Cannot jump to negative page");
         if (maxPages != null) {
             Checks.check(page <= maxPages, "Cannot jump to page beyond max page limit");
         }
