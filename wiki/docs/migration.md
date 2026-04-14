@@ -25,7 +25,7 @@ some things have changed in the meantime. This guide will help you to migrate fr
 - Removed `Event#i18n()`, use <Event#messageResolver()> instead
 
 ## Renaming
-- `ErrorMessageFactory#getCommandExecutionFailedMessage()` -> <ErrorMessageFactory#getInteractionExecutionFailedMessage(Throwable)>
+- `ErrorMessageFactory#getCommandExecutionFailedMessage()` -> <ErrorMessageFactory#getInteractionExecutionFailedMessage(ErrorMessageFactory.ErrorContext, Throwable)>
 - `@EntitySelectMenu` -> <@EntityMenu>
 - `@StringSelectMenu` -> <@StringMenu>
 - `Event#localize` -> <Event#resolve(String, Entry...)>
