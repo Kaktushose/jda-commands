@@ -5,7 +5,7 @@ import org.jspecify.annotations.NullMarked;
 ///
 @NullMarked
 module io.github.kaktushose.jdac.core {
-    requires com.fasterxml.jackson.databind;
+    requires tools.jackson.databind;
     requires net.dv8tion.jda;
     requires java.desktop;
     requires org.slf4j;

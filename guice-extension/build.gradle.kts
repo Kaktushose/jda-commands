@@ -7,10 +7,10 @@ group = "io.github.kaktushose.jda-commands"
 description = "An extension to JDA-Commands providing Google's Guice as a dependency injection framework"
 
 dependencies {
-    api(libs.com.google.inject.guice)
+    api(libs.guice)
     api(project(":core"))
 
-    implementation("org.ow2.asm:asm:9.9")
+    implementation(libs.asm)
 }
 
 tasks.test {
