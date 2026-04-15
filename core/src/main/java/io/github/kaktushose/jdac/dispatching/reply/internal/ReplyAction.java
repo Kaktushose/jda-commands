@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.dispatching.reply.internal;
 
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.exceptions.ReplyException;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
@@ -21,6 +22,7 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.callbacks.IDeferrableCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
@@ -36,7 +38,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
+import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 @ApiStatus.Internal
@@ -164,10 +166,17 @@ public final class ReplyAction {
 
         var hook = ((IDeferrableCallback) scopedJdaEvent()).getHook();
         if (editReply) {
-            return hook.editOriginal(MessageEditData.fromCreateData(builder.build()))
-                    .setAllowedMentions(allowedMentions)
-                    .mention(mentions)
-                    .complete();
+            try {
+                return hook.editOriginal(MessageEditData.fromCreateData(builder.build()))
+                        .setAllowedMentions(allowedMentions)
+                        .mention(mentions)
+                        .complete();
+            } catch (ErrorResponseException e) {
+                if (e.getMessage().contains("COMPONENT_CUSTOM_ID_DUPLICATED") && keepComponents) {
+                    throw new ReplyException("duplicate-component", e);
+                }
+                throw e;
+            }
         }
         return hook.setEphemeral(ephemeral)
                 .sendMessage(builder.build())

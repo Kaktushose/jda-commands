@@ -1,4 +1,4 @@
-package io.github.kaktushose.jdac.configuration;
+package io.github.kaktushose.jdac.property.extension;
 
 import io.github.kaktushose.jdac.JDACBuilder;
 

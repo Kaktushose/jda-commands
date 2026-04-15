@@ -127,6 +127,11 @@ cycling-tree =
 
     { $tree }
 
+# ReplyException
+duplicate-component =
+    Reply failed due to duplicate component ids. This likely happened because you tried to reply to a ComponentEvent with keepComponents enabled.
+    Try disabling keepComponents or assign different unique ids to your components.
+
 # CustomId
 invalid-runtime-id = Invalid runtime id! Must either be a UUID or "independent".
 invalid-custom-id = Provided custom id is invalid.

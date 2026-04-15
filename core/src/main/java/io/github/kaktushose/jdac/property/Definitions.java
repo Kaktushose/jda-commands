@@ -1,4 +1,4 @@
-package io.github.kaktushose.jdac.introspection;
+package io.github.kaktushose.jdac.property;
 
 import io.github.kaktushose.jdac.definitions.Definition;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;

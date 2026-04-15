@@ -14,7 +14,7 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.concrete.*;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
@@ -121,7 +121,7 @@ class OptionDataTest {
 
     @Test
     void optionData_withNoExplicitType_shouldInferCorrectType() {
-        ScopedValue.where(IntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).run(() -> {
+        ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).run(() -> {
             Validators validators = new Validators(Map.of());
             ParameterDescription description = build("notAnnotated").methodDescription().parameters().getLast();
 
@@ -134,7 +134,7 @@ class OptionDataTest {
 
     @Test
     void optionData_withPrimitiveType_shouldBoxCorrectly() {
-        ScopedValue.where(IntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).run(() -> {
+        ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).run(() -> {
             Validators validators = new Validators(Map.of());
             ParameterDescription description = build("notAnnotated").methodDescription().parameters().getLast();
 
@@ -211,7 +211,7 @@ class OptionDataTest {
     }
 
     private SlashCommandDefinition build(String method) {
-        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).call(() ->
+        return ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).call(() ->
                 SlashCommandDefinition.build(getBuildContext(TestController.class, method))
         );
     }

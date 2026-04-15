@@ -35,7 +35,7 @@ import org.slf4j.Logger;
 import java.util.*;
 import java.util.function.Consumer;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
+import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 /// Handles all the business logic for sending messages, including embeds or V1 components.

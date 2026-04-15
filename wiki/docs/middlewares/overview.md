@@ -3,7 +3,7 @@ Middlewares run just before an interaction event gets dispatched. They are used 
 info the <InvocationContext>.
 Middlewares are intended to provide a flexible system for extending the execution chain.
 
-They are executed based on their <Priority>
+They are executed based on their <io.github.kaktushose.jdac.dispatching.middleware.Priority>
 in the following order:
 
 1. `PERMISSIONS`: Middlewares with this priority will **always** be executed first

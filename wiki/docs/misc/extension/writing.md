@@ -3,7 +3,7 @@
 ## Entrypoint
 
 The entrypoint of the Extension API is the so called
-<io.github.kaktushose.jdac.configuration.Extension>
+<io.github.kaktushose.jdac.property.extension.Extension>
 interface, which your extensions _"entry class"_ must implement:
 
 ```java
@@ -48,10 +48,10 @@ public record MyExtensionData(String someOption) implements Extension.Data {}
 
 ## Providing Implementations
 Currently, extensions support providing custom [PropertyProviders](../property.md#propertyprovider) of properties with
-category <Property.Category#LOADABLE>. You can take a look at <Property> to know what properties can be provided by extensions. 
+category <Property.Source#EXTENSION>. You can take a look at <JDACProperty> to know what properties can be provided by extensions. 
 
-To provide custom <PropertyProvider>s your have to implement the <Extension#properties()> method.
-This method returns a collection of all <PropertyProvider>s that an extension provides. Take a look [here](../property.md#propertyprovider)
+To provide custom <JDACPropertyProvider>s your have to implement the <Extension#properties()> method.
+This method returns a collection of all <JDACPropertyProvider>s that an extension provides. Take a look [here](../property.md#propertyprovider)
 to know how to use them.
 
 ```java
@@ -65,12 +65,12 @@ public class MyExtension implements Extension<MyExtensionData> {
     }
 
     @Override
-    public @NotNull Collection<Implementation<?>> providedImplementations() {
-        return List.of(new PropertyProvider(
+    public @NotNull Collection<JDACPropertyProvider<?>> properties() {
+        return List.of(new JDACPropertyProvider(
                 Property.CLASS_FINDER,
-                200, // pick an appropriated priority
+                Priority.of(200), // pick an appropriated priority
                 Foo.class,
-                ctx -> List.of(new CustomClassFinder(ctx.get(Priority.PACKAGES)))
+                ctx -> List.of(new CustomClassFinder(ctx.get(JDACProperty.PACKAGES)))
         ));
     }
 
@@ -87,20 +87,20 @@ public record MyExtensionData(String someOption) implements Extension.Data {}
 Custom extensions are found with help of Javas [ServiceLoader API][[ServiceLoader]].
 
 To register the above `MyExtension` we have to create a file in our `resources\META-INF` directory called
-`io.github.kaktushose.jdac.configuration.Extension`.
+`io.github.kaktushose.jdac.property.extension.Extension`.
 
 ```
 src
 └── main
     └── resources
         └── META-INF
-            └── io.github.kaktushose.jdac.configuration.Extension
+            └── io.github.kaktushose.jdac.property.extension.Extension
 ```
 
 The full class name of our class `MyExtension` (e.g. `my.package.MyExtension`) must be the content of this file.
 
 !!! example
-    ```text title="io.github.kaktushose.jdac.configuration.Extension"
+    ```text title="io.github.kaktushose.jdac.property.extension.Extension"
     my.package.MyExtension
     ```
 

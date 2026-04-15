@@ -9,16 +9,13 @@ import net.dv8tion.jda.api.components.selections.StringSelectMenu.Builder;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import org.jspecify.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /// An implementation of [Component] specific to [StringSelectMenu]
 public final class StringSelectComponent extends SelectMenuComponent<StringSelectComponent, StringSelectMenu, Builder, StringSelectMenuDefinition> {
 
-    private final Set<SelectOption> selectOptions = new HashSet<>();
+    private final SequencedCollection<SelectOption> selectOptions = new ArrayList<>();
     private final Collection<String> defaultValues = new HashSet<>();
 
     public StringSelectComponent(String method, @Nullable Class<?> origin, Entry[] placeholder) {

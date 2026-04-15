@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
+import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
 
 
 /// Subtype of [Event] that supports replying to the [GenericInteractionCreateEvent] with text messages.

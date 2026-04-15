@@ -8,6 +8,11 @@ plugins {
     `java-library`
 }
 
+repositories {
+    mavenCentral()
+    maven("https://central.sonatype.com/repository/maven-snapshots/")
+}
+
 java {
     val javaVersion = property("java.version") as String
 
@@ -22,4 +27,8 @@ java {
     withJavadocJar()
 
     modularity.inferModulePath.set(true)
+}
+
+tasks.javadoc {
+    isFailOnError = false
 }

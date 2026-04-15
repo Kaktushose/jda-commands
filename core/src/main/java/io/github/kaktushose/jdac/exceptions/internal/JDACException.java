@@ -2,10 +2,7 @@ package io.github.kaktushose.jdac.exceptions.internal;
 
 import dev.goldmensch.fluava.Bundle;
 import dev.goldmensch.fluava.Fluava;
-import io.github.kaktushose.jdac.exceptions.ConfigurationException;
-import io.github.kaktushose.jdac.exceptions.InternalException;
-import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
-import io.github.kaktushose.jdac.exceptions.ParsingException;
+import io.github.kaktushose.jdac.exceptions.*;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import org.jspecify.annotations.Nullable;
 
@@ -16,7 +13,7 @@ import java.util.Map;
 ///
 /// @implNote Error messages can be loaded from a Fluava bundle file called "jdac_internal_en.ftl" located in the resources folder.
 public sealed class JDACException extends RuntimeException
-        permits ConfigurationException, InternalException, InvalidDeclarationException, ParsingException {
+        permits ConfigurationException, InternalException, InvalidDeclarationException, ParsingException, ReplyException {
 
     protected static final Bundle errorMessages = Fluava.create(Locale.ENGLISH).loadBundle("jdac_internal");
 

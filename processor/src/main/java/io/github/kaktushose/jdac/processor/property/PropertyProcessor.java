@@ -35,7 +35,7 @@ public abstract class PropertyProcessor extends AbstractProcessor {
 
                     TypeMirror type = variable.asType();
                     Element element = processingEnv.getTypeUtils().asElement(type);
-                    if (!element.getSimpleName().contentEquals("Property")) return false;
+                    if (!element.getSimpleName().contentEquals("JDACProperty")) return false;
 
                     VariableTree tree = (VariableTree) trees.getPath(variable).getLeaf();
                     ExpressionTree initializer = tree.getInitializer();
@@ -69,23 +69,18 @@ public abstract class PropertyProcessor extends AbstractProcessor {
 
         String type = ((ParameterizedTypeTree) nc.getIdentifier()).getType().toString();
 
-        String category = getValue(arguments.get(1));
-        String stage = switch (type) {
-            case "Enumeration" -> getValue(arguments.get(4));
-            case "Singleton" -> getValue(arguments.get(3));
-            case "Map" -> getValue(arguments.get(5));
-            default -> throw new IllegalStateException("Unknown property type: %s".formatted(nc.getIdentifier().toString()));
-        };
+        String source = getValue(arguments.get(1));
+        String scope = getValue(arguments.get(2));
 
         String fallbackBehaviour = switch (type) {
-            case "Enumeration" -> getValue(arguments.get(3));
-            case "Singleton" -> "NONE";
-            case "Map" -> getValue(arguments.get(4));
+            case "JDACEnumerationProperty" -> getValue(arguments.get(4));
+            case "JDACSingletonProperty" -> "NONE";
+            case "JDACMappingProperty" -> getValue(arguments.get(5));
             default -> throw new IllegalStateException("Unknown property type: %s".formatted(nc.getIdentifier().toString()));
         };
 
 
-        return new Property(variableElement, nc, variableElement.getSimpleName().toString(), type, category, fallbackBehaviour, stage);
+        return new Property(variableElement, nc, variableElement.getSimpleName().toString(), type, source, fallbackBehaviour, scope);
     }
 
     private String getValue(ExpressionTree tree) {
