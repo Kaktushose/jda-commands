@@ -20,6 +20,7 @@ starting-message =
         Welcome to JDA-Commands 5.0.0! What's new?
         -> Components V2
         -> Support for new Modals
+        -> Introspection API
 
         Resources:
         -> Wiki:        https://kaktushose.github.io/jda-commands/wiki/

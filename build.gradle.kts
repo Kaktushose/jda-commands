@@ -9,7 +9,7 @@ repositories {
 }
 
 allprojects {
-    version = "5.0.0-SNAPSHOT"
+    version = "5.0.0"
     if (System.getenv("DEPLOY_ACTIVE") == "SNAPSHOT") {
         if (!version.toString().endsWith("-SNAPSHOT")) {
             val semver = SemanticVersion.of(version.toString())
