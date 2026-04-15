@@ -6,7 +6,7 @@ plugins {
 val mockitoAgent = configurations.create("mockitoAgent")
 
 dependencies {
-    annotationProcessor(libs.dev.goldmensch.propane)
+    annotationProcessor(libs.propane)
 
     api(libs.jspecify)
     api(libs.jda)
@@ -16,7 +16,7 @@ dependencies {
     api(libs.proteus)
     api(libs.fluava)
     api(libs.jemoji)
-    api(libs.dev.goldmensch.propane)
+    api(libs.propane)
 
     implementation(libs.classgraph)
 

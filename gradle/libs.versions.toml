@@ -8,6 +8,7 @@ jemoji = { module = "net.fellbaum:jemoji", version = "1.7.5"}
 jda = { module = "net.dv8tion:JDA", version = "6.4.0" }
 guice = { module = "com.google.inject:guice", version = "7.0.0" }
 proteus = { module = "io.github.kaktushose:proteus", version = "0.2.3" }
+propane = { module = "dev.goldmensch:propane", version = "0.1"}
 
 # Utils
 asm = { module = "org.ow2.asm:asm", version = "9.9.1" }
