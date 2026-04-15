@@ -18,7 +18,6 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition.override;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
@@ -37,7 +36,7 @@ public record StringSelectMenuDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,
         Collection<String> permissions,
-        Set<MenuOptionDefinition> selectOptions,
+        SequencedCollection<MenuOptionDefinition> selectOptions,
         String placeholder,
         int minValue,
         int maxValue,
@@ -62,7 +61,7 @@ public record StringSelectMenuDefinition(
             );
         }
 
-        Set<MenuOptionDefinition> selectOptions = new HashSet<>();
+        SequencedCollection<MenuOptionDefinition> selectOptions = new ArrayList<>();
 
         method.findAnnotation(MenuOption.class)
                 .ifPresent(it -> selectOptions.add(MenuOptionDefinition.build(it)));
@@ -86,7 +85,7 @@ public record StringSelectMenuDefinition(
 
     /// Builds a new [StringSelectMenuDefinition] with the given values.
 
-    public StringSelectMenuDefinition with(Set<SelectOption> selectOptions,
+    public StringSelectMenuDefinition with(SequencedCollection<SelectOption> selectOptions,
                                            Collection<String> defaultValues,
                                            @Nullable String placeholder,
                                            @Nullable Integer minValue,
@@ -104,17 +103,14 @@ public record StringSelectMenuDefinition(
         );
     }
 
-    private Set<MenuOptionDefinition> createOptions(Set<SelectOption> selectOptions, Collection<String> defaultValues) {
-        return override(HashSet::new, this.selectOptions, selectOptions
+    private SequencedCollection<MenuOptionDefinition> createOptions(SequencedCollection<SelectOption> selectOptions, Collection<String> defaultValues) {
+        return override(ArrayList::new, this.selectOptions, selectOptions
                 .stream()
                 .map(MenuOptionDefinition::new)
-                .collect(Collectors.toSet()))
-                .stream()
                 .map(selectOption -> defaultValues.contains(selectOption.value())
                         ? selectOption.withDefault()
                         : selectOption
-                )
-                .collect(Collectors.toSet());
+                ).toList());
     }
 
     /// Transforms this definition to an [StringSelectMenu] with an independent custom id.
@@ -136,7 +132,7 @@ public record StringSelectMenuDefinition(
             StringSelectMenu menu = StringSelectMenu.create(customId.merged())
                     .setPlaceholder(placeholder)
                     .setRequiredRange(minValue, maxValue)
-                    .addOptions(selectOptions.stream().map(MenuOptionDefinition::toJDAEntity).collect(Collectors.toSet()))
+                    .addOptions(selectOptions.stream().map(MenuOptionDefinition::toJDAEntity).toList())
                     .build();
             if (uniqueId != null) {
                 menu = menu.withUniqueId(uniqueId);
