@@ -10,6 +10,9 @@ updates:
       github-actions:
         patterns:
           - "*"
+    labels:
+      - "type:dependencies"
+      - "deps:github actions"
     assignees:
       - Goldmensch
       - Kaktushose
@@ -23,6 +26,9 @@ updates:
       dependencies:
         patterns:
           - "*"
+    labels:
+      - "type:dependencies"
+      - "deps:java"
     assignees:
       - Kaktushose
       - Goldmensch
