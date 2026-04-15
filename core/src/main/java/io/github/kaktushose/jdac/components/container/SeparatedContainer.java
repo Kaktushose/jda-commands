@@ -98,16 +98,16 @@ public final class SeparatedContainer extends SequencedContainer<ContainerChildC
         return this;
     }
 
-    /// {@inheritDoc} Automatically appends the provided [Separator] after the component. If `null` is provided, no
-    /// [Separator] will be appended.
+    /// Adds the provided element to this component as the first element of this component. Automatically appends the
+    /// provided [Separator] after the component. If `null` is provided, no [Separator] will be appended.
     ///
     /// Automatically appends the default [Separator] after the component. Use
     /// [#add(ContainerChildComponent, Separator, Entry...)] to override.
     ///
     /// @param component the component to add
     /// @param separator the [Separator] to append, pass `null` for no [Separator]
-    /// @param entries   {@inheritDoc}
-    /// @return {@inheritDoc}
+    /// @param entries   the [Entries][Entry] used for localization
+    /// @return this instance for fluent interface
     public SeparatedContainer addFirst(ContainerChildComponent component, @Nullable Separator separator, Entry... entries) {
         if (separator != null) {
             super.addFirst(separator);
