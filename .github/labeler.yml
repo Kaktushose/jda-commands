@@ -12,4 +12,4 @@
 "type:fix":
   - head-branch: "fix"
 "type:other":
-  - head-branch: "^(?!feature|fix).*$"
+  - head-branch: "^(?!feature|fix|dependabot).*$"
