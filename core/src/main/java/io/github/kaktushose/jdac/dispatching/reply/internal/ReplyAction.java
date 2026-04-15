@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.dispatching.reply.internal;
 
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.exceptions.InternalException;
+import io.github.kaktushose.jdac.exceptions.ReplyException;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
@@ -21,6 +22,7 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.callbacks.IDeferrableCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
@@ -36,8 +38,8 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
+import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
 
 @ApiStatus.Internal
 public final class ReplyAction {
@@ -91,7 +93,9 @@ public final class ReplyAction {
         if (allowedMentions == null) {
             this.allowedMentions = EnumSet.allOf(MentionType.class);
         } else {
-            this.allowedMentions = allowedMentions.isEmpty() ? EnumSet.noneOf(MentionType.class) : EnumSet.copyOf(allowedMentions);
+            this.allowedMentions = allowedMentions.isEmpty()
+                    ? EnumSet.noneOf(MentionType.class)
+                    : EnumSet.copyOf(allowedMentions);
         }
     }
 
@@ -164,10 +168,17 @@ public final class ReplyAction {
 
         var hook = ((IDeferrableCallback) scopedJdaEvent()).getHook();
         if (editReply) {
-            return hook.editOriginal(MessageEditData.fromCreateData(builder.build()))
-                    .setAllowedMentions(allowedMentions)
-                    .mention(mentions)
-                    .complete();
+            try {
+                return hook.editOriginal(MessageEditData.fromCreateData(builder.build()))
+                        .setAllowedMentions(allowedMentions)
+                        .mention(mentions)
+                        .complete();
+            } catch (ErrorResponseException e) {
+                if (e.getMessage().contains("COMPONENT_CUSTOM_ID_DUPLICATED") && keepComponents) {
+                    throw new ReplyException("duplicate-component", e);
+                }
+                throw e;
+            }
         }
         return hook.setEphemeral(ephemeral)
                 .sendMessage(builder.build())
@@ -201,12 +212,12 @@ public final class ReplyAction {
         component = switch (component) {
             case StringSelectMenu selectMenu
                     when scopedJdaEvent() instanceof StringSelectInteractionEvent selectEvent
-                         && selectEvent.getInteraction().getUniqueId() == selectMenu.getUniqueId() ->
+                    && selectEvent.getInteraction().getUniqueId() == selectMenu.getUniqueId() ->
                     selectMenu.createCopy().setDefaultValues(selectEvent.getValues()).build();
 
             case EntitySelectMenu selectMenu
                     when scopedJdaEvent() instanceof EntitySelectInteractionEvent selectEvent
-                         && selectEvent.getInteraction().getUniqueId() == selectMenu.getUniqueId() -> {
+                    && selectEvent.getInteraction().getUniqueId() == selectMenu.getUniqueId() -> {
 
                 Collection<EntitySelectMenu.DefaultValue> defaultValues = new HashSet<>();
                 Mentions mentions = selectEvent.getInteraction().getMentions();
@@ -235,8 +246,7 @@ public final class ReplyAction {
                     deferEdit(modalEvent);
             case IMessageEditCallback callback when editReply -> deferEdit(callback);
             case IReplyCallback callback -> deferReply(callback);
-            default ->
-                    throw new InternalException("reply-failed", entry("event", jdaEvent.getClass().getName()));
+            default -> throw new InternalException("reply-failed", entry("event", jdaEvent.getClass().getName()));
         }
         if (jdaEvent instanceof ModalInteractionEvent modalEvent) {
             editReply = modalEvent.getMessage() != null;
@@ -255,6 +265,10 @@ public final class ReplyAction {
         }
     }
 
-    private record Replacer(ComponentReplacer userProvided, ComponentReplacer resolver, Map<String, Object> placeholders) {}
+    private record Replacer(
+            ComponentReplacer userProvided,
+            ComponentReplacer resolver,
+            Map<String, Object> placeholders
+    ) { }
 
 }

@@ -6,11 +6,11 @@ import io.github.kaktushose.jdac.annotations.constraints.NotPerm;
 import io.github.kaktushose.jdac.annotations.constraints.Perm;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
-import io.github.kaktushose.jdac.introspection.Stage;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess;
 import io.github.kaktushose.jdac.message.i18n.I18n;
-import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.property.JDACScope;
+import io.github.kaktushose.jdac.property.internal.IntrospectionAccess;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 
 import java.lang.annotation.Annotation;
@@ -45,6 +45,7 @@ import java.lang.annotation.Annotation;
 /// The fail messages of the two default [Validator]s for [Perm] and [NotPerm]
 /// can be localized with the localization keys `validator.noperm.fail` and
 /// `validator.perm.fail` respectively.
+///
 /// @see Constraint
 @FunctionalInterface
 public interface Validator<T, A extends Annotation> {
@@ -57,7 +58,7 @@ public interface Validator<T, A extends Annotation> {
     /// @param argument   the argument to validate
     /// @param annotation the corresponding annotation
     /// @param context    the corresponding [InvocationContext]
-    @io.github.kaktushose.jdac.annotations.IntrospectionAccess(Stage.INTERACTION)
+    @io.github.kaktushose.jdac.annotations.IntrospectionAccess(JDACScope.INTERACTION)
     void apply(T argument, A annotation, Context context);
 
     /// This context provides access to the [InvocationContext] of this interaction and
@@ -82,7 +83,6 @@ public interface Validator<T, A extends Annotation> {
         ///
         /// @param content     the message or localization key
         /// @param placeholder the variables used for localization
-        ///
         /// @see MessageResolver
         /// @see I18n
         public MessageTopLevelComponent failMessage(String content, Entry... placeholder) {

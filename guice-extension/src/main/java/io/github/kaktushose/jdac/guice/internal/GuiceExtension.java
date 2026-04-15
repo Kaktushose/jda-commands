@@ -1,24 +1,29 @@
 package io.github.kaktushose.jdac.guice.internal;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import io.github.kaktushose.jdac.JDACommands;
-import io.github.kaktushose.jdac.configuration.Extension;
-import io.github.kaktushose.jdac.configuration.Property;
-import io.github.kaktushose.jdac.configuration.PropertyProvider;
 import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
-import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.validation.Validator;
 import io.github.kaktushose.jdac.guice.GuiceExtensionData;
 import io.github.kaktushose.jdac.guice.Implementation;
 import io.github.kaktushose.jdac.guice.internal.guice.GuiceExtensionModule;
-import io.github.kaktushose.jdac.guice.internal.guice.PropertyProviderModule;
 import io.github.kaktushose.jdac.guice.internal.guice.RuntimeBoundScope;
-import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
+import io.github.kaktushose.jdac.guice.internal.guice.modules.ConfigurationScopeModule;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACPropertyProvider;
+import io.github.kaktushose.jdac.property.events.RuntimeCloseEvent;
+import io.github.kaktushose.jdac.property.extension.Extension;
 import io.github.kaktushose.proteus.type.Type;
+import dev.goldmensch.propane.event.Listener;
+import dev.goldmensch.propane.property.EnumerationPropertySkeleton;
+import dev.goldmensch.propane.property.MappingPropertySkeleton;
+import dev.goldmensch.propane.property.Priority;
+import dev.goldmensch.propane.property.SingletonPropertySkeleton;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
@@ -33,7 +38,7 @@ import java.util.stream.Stream;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
-/// The implementation of [Extension] for using Googles [Guice] as an [InteractionControllerInstantiator].
+/// The implementation of [Extension] for using Googles [Guice] as an [Instantiator].
 ///
 /// Additionally, this extension allows the automatic registration of some types annotated with [`@Implementation`][Implementation].
 /// For further information please see the docs on [`@Implementation`][Implementation].
@@ -42,8 +47,8 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 @ApiStatus.Internal
 public class GuiceExtension implements Extension<GuiceExtensionData> {
 
-    private Injector injector;
     private final RuntimeBoundScope runtimeBoundScope = new RuntimeBoundScope();
+    private Injector injector;
 
     @Override
     public void init(@Nullable GuiceExtensionData data) {
@@ -55,43 +60,51 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
     }
 
     @SuppressWarnings("unchecked")
-    private <T> PropertyProvider<T> provider(Property<?> type, Function<PropertyProvider.Context, ?> supplier) {
-        return PropertyProvider.create((Property<T>) type, 10, (Function<PropertyProvider.Context, T>) supplier);
+    private <T> JDACPropertyProvider<T> provider(JDACProperty<?> type, Function<JDACIntrospection, ?> supplier) {
+        return new JDACPropertyProvider<>((JDACProperty<T>) type, Priority.of(10), GuiceExtensionModule.class, (Function<JDACIntrospection, T>) supplier);
     }
 
     @Override
-    public Collection<PropertyProvider<?>> properties() {
-        List<PropertyProvider<?>> implementations = new ArrayList<>();
+    public Collection<JDACPropertyProvider<?>> properties() {
+        List<JDACPropertyProvider<?>> implementations = new ArrayList<>();
 
         implementations.add(provider(
-                Property.INTERACTION_CONTROLLER_INSTANTIATOR,
-                _ -> new GuiceInteractionControllerInstantiator(runtimeBoundScope, injector)
+                JDACProperty.INSTANTIATOR,
+                _ -> new GuiceInstantiator(runtimeBoundScope, injector)
         ));
 
         addDynamicImplementations(implementations);
         return implementations;
     }
 
-    private boolean shouldSkip(Property<?> property) {
-        return property == Property.INTERACTION_CONTROLLER_INSTANTIATOR
-                || property == Property.CLASS_FINDER
-                || property == Property.TYPE_ADAPTER
-                || property == Property.MIDDLEWARE
-                || property == Property.VALIDATOR;
+    private boolean shouldSkip(JDACProperty<?> property) {
+        return property == JDACProperty.INSTANTIATOR
+                || property == JDACProperty.CLASS_FINDER
+                || property == JDACProperty.TYPE_ADAPTER
+                || property == JDACProperty.MIDDLEWARE
+                || property == JDACProperty.VALIDATOR;
     }
 
-    private void addDynamicImplementations(List<PropertyProvider<?>> list) {
+    private void addDynamicImplementations(List<JDACPropertyProvider<?>> list) {
         // load single types
-        for (var property : Property.LOADABLE) {
-            if (shouldSkip(property)) continue;
+        for (JDACProperty<?> property : JDACProperty.EXTENSION) {
+            if (shouldSkip(property)) {
+                continue;
+            }
 
-            switch (property) {
-                case Property.Map<?, ?> m -> throw new GuiceException("invalid-implementation", entry("class", m.value().getName()));
-                case Property.Enumeration<?> e -> list.add(provider(e, ctx -> instances(ctx, Implementation.class, e.type()).toList()));
-                case Property.Singleton<?> i -> list.add(provider(i, ctx -> {
+            switch (property.generalized()) {
+                case MappingPropertySkeleton<?, ?> m ->
+                        throw new GuiceException("invalid-implementation", entry("class", m.valueType().getName()));
+                case EnumerationPropertySkeleton<?> e ->
+                        list.add(provider(property, ctx -> instances(ctx, Implementation.class, e.type()).toList()));
+                case SingletonPropertySkeleton<?> i -> list.add(provider(property, ctx -> {
                     List<?> instances = instances(ctx, Implementation.class, i.type()).toList();
-                    if (instances.size() == 1) return instances.getFirst();
-                    if (instances.isEmpty()) return null;
+                    if (instances.size() == 1) {
+                        return instances.getFirst();
+                    }
+                    if (instances.isEmpty()) {
+                        return null;
+                    }
 
                     throw new GuiceException("multiple-instances",
                             entry("type", i.type().getName()),
@@ -103,18 +116,18 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
 
         // load multiple implementable types
         list.add(provider(
-                Property.TYPE_ADAPTER,
-                ctx -> instances(ctx, Implementation.TypeAdapter.class, TypeAdapter.class)
-                        .map(adapter -> {
-                            Implementation.TypeAdapter ann = adapter.getClass().getAnnotation(Implementation.TypeAdapter.class);
-                            return Map.entry(new AdapterType<>(Type.of(ann.source()), Type.of(ann.target())), adapter);
-                        })
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-           )
+                        JDACProperty.TYPE_ADAPTER,
+                        ctx -> instances(ctx, Implementation.TypeAdapter.class, TypeAdapter.class)
+                                .map(adapter -> {
+                                    Implementation.TypeAdapter ann = adapter.getClass().getAnnotation(Implementation.TypeAdapter.class);
+                                    return Map.entry(new AdapterType<>(Type.of(ann.source()), Type.of(ann.target())), adapter);
+                                })
+                                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+                )
         );
 
         list.add(provider(
-                Property.VALIDATOR,
+                JDACProperty.VALIDATOR,
                 ctx -> instances(ctx, Implementation.Validator.class, Validator.class)
                         .collect(Collectors.toMap(
                                 instance -> instance.getClass().getAnnotation(Implementation.Validator.class).annotation(),
@@ -123,22 +136,22 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
         ));
 
         list.add(provider(
-                Property.MIDDLEWARE,
-                ctx -> instances(ctx, Implementation.Middleware.class, Middleware.class)
-                        .map(middleware -> {
-                            Implementation.Middleware ann = middleware.getClass().getAnnotation(Implementation.Middleware.class);
-                            return Map.entry(ann.priority(), middleware);
-                        })
-                        .toList()
+                        JDACProperty.MIDDLEWARE,
+                        ctx -> instances(ctx, Implementation.Middleware.class, Middleware.class)
+                                .map(middleware -> {
+                                    Implementation.Middleware ann = middleware.getClass().getAnnotation(Implementation.Middleware.class);
+                                    return Map.entry(ann.priority(), middleware);
+                                })
+                                .toList()
                 )
         );
     }
 
-    private <T> Stream<T> instances(PropertyProvider.Context ctx, Class<? extends Annotation> annotation, Class<T> type) {
-        Introspection introspection = ctx.get(Property.INTROSPECTION);
-        Injector childInjector = injector.createChildInjector(new PropertyProviderModule(introspection));
+    private <T> Stream<T> instances(JDACIntrospection ctx, Class<? extends Annotation> annotation, Class<T> type) {
+        JDACIntrospection introspection = ctx.get(JDACProperty.INTROSPECTION);
+        Injector childInjector = injector.createChildInjector(new ConfigurationScopeModule(introspection));
 
-        return ctx.get(Property.MERGED_CLASS_FINDER)
+        return ctx.get(JDACProperty.MERGED_CLASS_FINDER)
                 .search(annotation, type)
                 .stream()
                 .map(childInjector::getInstance);
@@ -146,9 +159,9 @@ public class GuiceExtension implements Extension<GuiceExtensionData> {
 
     @Override
     public void onStart(JDACommands commands) {
-        Introspection introspection = commands.introspection();
+        JDACIntrospection introspection = commands.introspection();
 
-        introspection.subscribe(RuntimeCloseEvent.class, (event, _) -> runtimeBoundScope.removeRuntime(event.runtimeId()));
+        introspection.subscribe(Listener.create(RuntimeCloseEvent.class, (event, _) -> runtimeBoundScope.removeRuntime(event.runtimeId())));
     }
 
     @Override

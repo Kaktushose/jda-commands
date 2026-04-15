@@ -11,11 +11,16 @@ import io.github.kaktushose.jdac.definitions.description.reflective.ReflectiveDe
 import io.github.kaktushose.jdac.definitions.interactions.AutoCompleteDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
+import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.internal.BundleFinder;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACScope;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,6 +29,16 @@ public class TestHelpers {
 
     public static final I18n I18N = new I18n(new BundleFinder(Descriptor.REFLECTIVE), FluavaLocalizer.create(Locale.ENGLISH));
     public static final MessageResolver MESSAGE_RESOLVER = new MessageResolver(List.of(I18N));
+    public static final JDACIntrospectionImpl INTROSPECTION = JDACIntrospectionImpl.create(JDACScope.INITIALIZED)
+            .addFallback(JDACProperty.DESCRIPTOR, (_) -> Descriptor.REFLECTIVE)
+            .addFallback(JDACProperty.INSTANTIATOR, (_) -> new Instantiator() {
+                @Override
+                public <T> T instance(Class<T> clazz, JDACIntrospection introspection) {
+                    return null;
+                }
+            })
+            .build();
+
 
     public static final Validators validators = new Validators(Map.of());
 

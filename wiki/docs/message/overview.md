@@ -35,7 +35,7 @@ If you are using localization, please take a look at [implicit localization](loc
     to resolve such messages.
 
 ## Adding custom String Resolvers
-Sometimes it's necessary to introduce custom resolution logic. JDA-Commands provides <Property#STRING_RESOLVER>
+Sometimes it's necessary to introduce custom resolution logic. JDA-Commands provides <JDACProperty#STRING_RESOLVER>
 (configurable by <JDACBuilder#stringResolver(Resolver...)>) allowing the user to add own implementations of 
 [`Resolver<String>`][[io.github.kaktushose.jdac.message.resolver.Resolver]].
 

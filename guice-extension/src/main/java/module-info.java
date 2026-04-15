@@ -1,5 +1,5 @@
-import io.github.kaktushose.jdac.configuration.Extension;
 import io.github.kaktushose.jdac.guice.internal.GuiceExtension;
+import io.github.kaktushose.jdac.property.extension.Extension;
 import org.jspecify.annotations.NullMarked;
 
 /// An extension to JDA-Commands providing Google's Guice as a dependency injection framework.
@@ -14,6 +14,7 @@ module io.github.kaktushose.jdac.guice {
     requires net.dv8tion.jda;
     requires org.slf4j;
     requires io.github.kaktushose.proteus;
+    requires dev.goldmensch.propane;
 
     exports io.github.kaktushose.jdac.guice;
 

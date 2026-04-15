@@ -1,6 +1,6 @@
 plugins {
     // don't change order!
-    id("io.freefair.aggregate-javadoc") version("8.12.2.1")
+    alias(libs.plugins.aggregate.javadoc)
 
     id("io.github.kaktushose.jda.commands.convention.java")
     id("io.github.kaktushose.jda.commands.convention.maven-central-deploy")
@@ -16,7 +16,7 @@ repositories {
 dependencies {
     javadoc(project(":core"))
     javadoc(project(":guice-extension"))
-    
+
     api(project(":core"))
     api(project(":guice-extension"))
 
@@ -28,7 +28,8 @@ tasks.withType<Javadoc>().configureEach {
     options.overview = "src/main/javadoc/overview.md"
     options.links = listOf(
         "https://google.github.io/guice/api-docs/7.0.0/javadoc/",
-        "https://docs.jda.wiki/"
+        "https://docs.jda.wiki/",
+        "https://goldmensch.github.io/propane/javadocs/snapshot/"
     )
 
     doLast {

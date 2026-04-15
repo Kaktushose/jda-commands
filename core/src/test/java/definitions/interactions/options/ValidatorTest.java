@@ -12,8 +12,10 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.validation.impl.PermissionValidator;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
+import definitions.TestHelpers;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
@@ -65,7 +67,15 @@ class ValidatorTest {
     }
 
     private SlashCommandDefinition build(String method) {
-        return SlashCommandDefinition.build(getBuildContext(TestController.class, method));
+        return ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, TestHelpers.INTROSPECTION).call(() ->
+                SlashCommandDefinition.build(getBuildContext(TestController.class, method))
+        );
+    }
+
+    @Target(ElementType.PARAMETER)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Constraint(String.class)
+    public @interface NoValidator {
     }
 
     @Interaction
@@ -94,12 +104,6 @@ class ValidatorTest {
         @Command("constraint")
         public void constraint(CommandEvent event, @Perm(Permission.ADMINISTRATOR) Member member) {
         }
-    }
-
-    @Target(ElementType.PARAMETER)
-    @Retention(RetentionPolicy.RUNTIME)
-    @Constraint(String.class)
-    public @interface NoValidator {
     }
 
 }

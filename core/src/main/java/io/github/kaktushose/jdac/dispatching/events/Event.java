@@ -7,10 +7,10 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
-import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
+import io.github.kaktushose.jdac.property.JDACScope;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Entitlement;
 import net.dv8tion.jda.api.entities.Guild;
@@ -27,9 +27,8 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
+import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
 
 
 /// Abstract base event for all interaction events, like [CommandEvent].
@@ -83,18 +82,18 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// that is bound to the underlying [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
     ///
     /// @return the interaction class instance
-    @Nullable
-    public <I> I interactionInstance(Class<I> interactionClass) {
+    @Nullable public <I> I interactionInstance(Class<I> interactionClass) {
         return scopedRuntime().interactionInstance(interactionClass);
     }
 
 
-    /// Gets the [Introspection] instance of this interaction.
+    /// Gets the [JDACIntrospection] instance of this interaction.
     ///
-    /// Same as [Introspection#accessScoped()]
-    /// @return the [Introspection] instance with stage set to [Stage#INTERACTION].
-    public Introspection introspection() {
-        return Introspection.accessScoped();
+    /// Same as [JDACIntrospection#accessScoped()]
+    ///
+    /// @return the [JDACIntrospection] instance with scope set to [JDACScope#INTERACTION].
+    public JDACIntrospection introspection() {
+        return JDACIntrospection.accessScoped();
     }
 
     /// Gets the [MessageResolver] instance

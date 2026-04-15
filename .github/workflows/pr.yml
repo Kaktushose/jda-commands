@@ -1,4 +1,4 @@
-name: pr.yml
+name: Check Feature Documentation
 on:
   pull_request_target:
 
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Label pr automatically
-        uses: actions/labeler@v5
+        uses: actions/labeler@v6
         with:
           sync-labels: true
 

@@ -54,15 +54,21 @@ public record EntitySelectMenuDefinition(
 
         Set<DefaultValue> defaultValueSet = new HashSet<>();
         for (long id : selectMenu.defaultChannels()) {
-            if (id < 0) continue;
+            if (id < 0) {
+                continue;
+            }
             defaultValueSet.add(DefaultValue.channel(id));
         }
         for (long id : selectMenu.defaultUsers()) {
-            if (id < 0) continue;
+            if (id < 0) {
+                continue;
+            }
             defaultValueSet.add(DefaultValue.user(id));
         }
         for (long id : selectMenu.defaultRoles()) {
-            if (id < 0) continue;
+            if (id < 0) {
+                continue;
+            }
             defaultValueSet.add(DefaultValue.role(id));
         }
 

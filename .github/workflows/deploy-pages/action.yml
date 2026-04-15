@@ -1,4 +1,4 @@
-name: Deploy gh-pages branch
+name: Deploy GitHub Pages
 
 runs:
   using: "composite"

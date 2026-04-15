@@ -21,8 +21,8 @@ public sealed interface ExpirationStrategy {
     /// [ExpirationStrategy] that closes a [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) after the passed amount of time.
     ///
     /// @param afterMinutes the amount of time after a [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) should be closed, in minutes.
-    record Inactivity(long afterMinutes) implements ExpirationStrategy {}
+    record Inactivity(long afterMinutes) implements ExpirationStrategy { }
 
     /// [ExpirationStrategy] that closes a [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) **only** when [Event#closeRuntime()] has been called.
-    record Explicit() implements ExpirationStrategy {}
+    record Explicit() implements ExpirationStrategy { }
 }

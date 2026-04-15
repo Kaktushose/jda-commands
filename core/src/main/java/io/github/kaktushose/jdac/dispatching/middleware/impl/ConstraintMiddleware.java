@@ -39,7 +39,9 @@ public class ConstraintMiddleware implements Middleware {
     @SuppressWarnings("unchecked")
     @Override
     public void accept(InvocationContext<?> context) {
-        if (!(context.definition() instanceof SlashCommandDefinition command)) return;
+        if (!(context.definition() instanceof SlashCommandDefinition command)) {
+            return;
+        }
 
         var arguments = new ArrayList<>(context.arguments());
         arguments.removeIf(Event.class::isInstance);
@@ -78,7 +80,9 @@ public class ConstraintMiddleware implements Middleware {
 
                 validator.apply(converted, constraint.annotation().value(), validatorContext);
 
-                if (context.cancelled()) return;
+                if (context.cancelled()) {
+                    return;
+                }
             }
         }
         log.debug("All constraints passed");

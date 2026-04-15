@@ -6,17 +6,17 @@ import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
-import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
-import io.github.kaktushose.jdac.introspection.Introspection;
+import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
-import dev.goldmensch.fluava.Fluava;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
 import io.github.kaktushose.jdac.testing.invocation.AutoCompleteInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.ContextCommandInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.SlashCommandInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.ButtonInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.EntitySelectInvocation;
 import io.github.kaktushose.jdac.testing.invocation.components.StringSelectInvocation;
+import dev.goldmensch.fluava.Fluava;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -111,22 +111,20 @@ public class TestScenario {
             jdacBuilder = JDACommands.builder(jda)
                     .localizer(localizer)
                     .classFinders(ClassFinder.explicit(klass))
-                    .instanceProvider(new InteractionControllerInstantiator() {
+                    .instantiator(new Instantiator() {
                         @Override
-                        public <T> T instance(Class<T> clazz, Introspection context) {
+                        public <T> T instance(Class<T> clazz, JDACIntrospection context) {
                             return spy(clazz);
                         }
                     });
         }
 
-        @NotNull
-        public Builder replyConfig(@NotNull InteractionDefinition.ReplyConfig config) {
+        @NotNull public Builder replyConfig(@NotNull InteractionDefinition.ReplyConfig config) {
             jdacBuilder.globalReplyConfig(config);
             return this;
         }
 
-        @NotNull
-        public Builder commandConfig(@NotNull CommandDefinition.CommandConfig config) {
+        @NotNull public Builder commandConfig(@NotNull CommandDefinition.CommandConfig config) {
             jdacBuilder.globalCommandConfig(config);
             return this;
         }
@@ -195,8 +193,10 @@ public class TestScenario {
         }
     }
 
-    public record Context(IEventManager eventManager, Class<?> klass, JDACommands jdaCommands,
-                          List<CommandData> commands) {
+    public record Context(
+            IEventManager eventManager, Class<?> klass, JDACommands jdaCommands,
+            List<CommandData> commands
+    ) {
 
         public Context {
             commands = Collections.unmodifiableList(commands);

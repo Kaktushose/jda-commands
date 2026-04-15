@@ -4,7 +4,7 @@ import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.ModalDefinition;
 import io.github.kaktushose.jdac.dispatching.Runtime;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @ApiStatus.Internal
 public final class ModalHandler extends EventHandler<ModalInteractionEvent> {
 
-    public ModalHandler(IntrospectionImpl introspection) {
+    public ModalHandler(JDACIntrospectionImpl introspection) {
         super(introspection);
     }
 

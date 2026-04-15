@@ -19,7 +19,7 @@ public class ReflectiveClassFinder implements ClassFinder {
 
     @Override
     public SequencedCollection<Class<?>> search(Class<? extends Annotation> annotationClass) {
-        try(ScanResult result = new ClassGraph()
+        try (ScanResult result = new ClassGraph()
                 .acceptPackages(packages)
                 .enableAnnotationInfo()
                 .enableClassInfo()

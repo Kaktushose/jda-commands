@@ -10,6 +10,7 @@ import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDe
 import io.github.kaktushose.jdac.dispatching.events.interactions.AutoCompleteEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -17,44 +18,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static definitions.TestHelpers.getBuildContext;
-import static definitions.TestHelpers.getBuildContextOptionalAutoComplete;
+import static definitions.TestHelpers.*;
 
 public class AutoCompleteDefinitionTest {
 
     @Test
-    void testOnlyCommand_shouldWork(){
+    void testOnlyCommand_shouldWork() {
         AutoCompleteDefinition definition = Assertions.assertDoesNotThrow(() -> build("wholeCommand"));
-        List<AutoCompleteDefinition.AutoCompleteRule> rules =  new ArrayList<>(definition.rules());
+        List<AutoCompleteDefinition.AutoCompleteRule> rules = new ArrayList<>(definition.rules());
         Assertions.assertEquals("command", rules.getFirst().command());
         Assertions.assertEquals(Set.of(), rules.getFirst().options());
     }
 
     @Test
-    void testCommandWithSubCommand_shouldWork(){
-        AutoCompleteDefinition definition =Assertions.assertDoesNotThrow(() -> build("subCommand"));
+    void testCommandWithSubCommand_shouldWork() {
+        AutoCompleteDefinition definition = Assertions.assertDoesNotThrow(() -> build("subCommand"));
 
-        List<AutoCompleteDefinition.AutoCompleteRule> rules =  new ArrayList<>(definition.rules());
+        List<AutoCompleteDefinition.AutoCompleteRule> rules = new ArrayList<>(definition.rules());
         Assertions.assertEquals("command sub", rules.getFirst().command());
         Assertions.assertEquals(Set.of(), rules.getFirst().options());
     }
 
     @Test
-    void testWithOption_shouldWork(){
-        AutoCompleteDefinition definition =Assertions.assertDoesNotThrow(() -> build("option"));
+    void testWithOption_shouldWork() {
+        AutoCompleteDefinition definition = Assertions.assertDoesNotThrow(() -> build("option"));
 
-        List<AutoCompleteDefinition.AutoCompleteRule> rules =  new ArrayList<>(definition.rules());
+        List<AutoCompleteDefinition.AutoCompleteRule> rules = new ArrayList<>(definition.rules());
         Assertions.assertEquals("command", rules.getFirst().command());
         Assertions.assertEquals(Set.of("name"), rules.getFirst().options());
     }
 
     @Test
-    void testWithWrongEvent_shouldThrow(){
+    void testWithWrongEvent_shouldThrow() {
         Assertions.assertThrows(InvalidDeclarationException.class, () -> build("wrongEvent"));
     }
 
     @Test
-    void testWithNoEvent_shouldThrow(){
+    void testWithNoEvent_shouldThrow() {
         Assertions.assertThrows(InvalidDeclarationException.class, () -> build("noEvent"));
     }
 
@@ -81,18 +81,24 @@ public class AutoCompleteDefinitionTest {
     }
 
     private AutoCompleteDefinition build(String method) {
-        MethodBuildContext context = getBuildContext(TestController.class, method);
-        return AutoCompleteDefinition.build(context.clazz(), context.method());
+        return ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, INTROSPECTION).call(() -> {
+            MethodBuildContext context = getBuildContext(TestController.class, method);
+            return AutoCompleteDefinition.build(context.clazz(), context.method());
+        });
     }
 
     private AutoCompleteDefinition buildWorking(String method) {
-        MethodBuildContext context = getBuildContextOptionalAutoComplete(TestControllerWorking.class, method, true);
-        return AutoCompleteDefinition.build(context.clazz(), context.method());
+        return ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, INTROSPECTION).call(() -> {
+            MethodBuildContext context = getBuildContextOptionalAutoComplete(TestControllerWorking.class, method, true);
+            return AutoCompleteDefinition.build(context.clazz(), context.method());
+        });
     }
 
     private SlashCommandDefinition buildSlash(String method) {
-        MethodBuildContext context = getBuildContextOptionalAutoComplete(TestControllerWorking.class, method, true);
-        return SlashCommandDefinition.build(context);
+        return ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, INTROSPECTION).call(() -> {
+            MethodBuildContext context = getBuildContextOptionalAutoComplete(TestControllerWorking.class, method, true);
+            return SlashCommandDefinition.build(context);
+        });
     }
 
     @Interaction

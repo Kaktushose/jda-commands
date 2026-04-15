@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
+import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
 
 
 /// Subtype of [Event] that supports replying to the [GenericInteractionCreateEvent] with text messages.
@@ -52,6 +52,7 @@ import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAcce
 ///     event.reply("Hello World");
 /// }
 /// ```
+///
 /// @see ModalEvent
 /// @see CommandEvent
 /// @see ComponentEvent
@@ -139,7 +140,9 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
 
     @SuppressWarnings("unchecked")
     private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(String component, @Nullable Class<?> origin, Class<E> type) {
-        var className = origin == null ? scopedInvocationContext().definition().classDescription().name() : origin.getName();
+        var className = origin == null
+                ? scopedInvocationContext().definition().classDescription().name()
+                : origin.getName();
         var id = String.valueOf((className + component).hashCode());
         var definition = scopedInteractionRegistry().find(type, false, it -> it.definitionId().equals(id));
         return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
@@ -197,7 +200,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///   - URLs don't create embeds
     ///   - You cannot switch this message back to not using Components V2 (you can however upgrade a message to V2)
     ///
-    /// @param component the [MessageTopLevelComponent] to reply with
+    /// @param component   the [MessageTopLevelComponent] to reply with
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
     public Message reply(MessageTopLevelComponent component, Entry... placeholder) {
         return reply(List.of(component), placeholder);
@@ -221,7 +224,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///   - URLs don't create embeds
     ///   - You cannot switch this message back to not using Components V2 (you can however upgrade a message to V2)
     ///
-    /// @param components a [Collection] of [MessageTopLevelComponent]s to reply with
+    /// @param components  a [Collection] of [MessageTopLevelComponent]s to reply with
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
     public Message reply(Collection<MessageTopLevelComponent> components, Entry... placeholder) {
         return with().reply(components, placeholder);

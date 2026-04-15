@@ -139,7 +139,9 @@ public class DefaultErrorMessageFactory implements ErrorMessageFactory {
     public MessageTopLevelComponent getInsufficientPermissionsMessage(ErrorContext context) {
         StringBuilder sbPermissions = new StringBuilder();
         context.definition().permissions().forEach(permission -> sbPermissions.append(permission).append(", "));
-        String permissions = sbPermissions.toString().isEmpty() ? "N/A" : sbPermissions.substring(0, sbPermissions.length() - 2);
+        String permissions = sbPermissions.toString().isEmpty()
+                ? "N/A"
+                : sbPermissions.substring(0, sbPermissions.length() - 2);
 
         return build(
                 Container.of(TextDisplay.of("jdac$insufficient-permissions")),

@@ -36,10 +36,10 @@ You can directly inject following classes:
 - <PlaceholderResolver>
 - <io.github.kaktushose.jdac.definitions.description.Descriptor>
 - <ClassFinder>
-- <Introspection> (see [here fore more information](misc/introspection.md))
+- <JDACIntrospection> (see [here fore more information](misc/introspection.md))
 
-If you need any other <Property>, just inject them via the <Introspection> instance manually.
-During instantiation (inside the constructor) of an interaction controller class, the stage is set to <Stage#RUNTIME>.
+If you need any other <JDACProperty>, just inject them via the <JDACIntrospection> instance manually.
+During instantiation (inside the constructor) of an interaction controller class, the scope is set to <JDACScope#RUNTIME>.
 
 !!! example 
     ```java
@@ -49,7 +49,7 @@ During instantiation (inside the constructor) of an interaction controller class
         @Inject
         MyCommand(JDA jda, //(1)
                   MessageResolver resolver, //(2)
-                  Introspection introspection) { //(3)
+                  JDACIntrospection introspection) { //(3)
             // do whatever you want with them
         }
         
@@ -62,7 +62,7 @@ During instantiation (inside the constructor) of an interaction controller class
     
     1. the <JDA> instance used. If you're using <ShardManager>, this is the one the guild executing the command is paired to.
     2. the <MessageResolver> instance used by JDA-Commands. It's a "framework component".
-    3. the <Introspection> instance used in this scope with stage set to <Stage#RUNTIME>
+    3. the <JDACIntrospection> instance used in this scope with scope set to <JDACScope#RUNTIME>
 
 ### Configuration (providing a custom <guice -> Injector>)
 
@@ -124,13 +124,13 @@ Take a look at the Javadocs of <Implementation> to know what you can inject here
 
 ## Custom dependency injection integrations
 If you want to integrate another dependency injection framework, you have to provide your own 
-implementation of <InteractionControllerInstantiator>.
+implementation of <Instantiator>.
 
 You can do this by either passing it to the builder or by creating your own [extension](misc/extension/writing.md).
 
 !!! example
     ```java
     JDACommands.builder(jda, Main.class)
-            .instanceProvider(new OwnInterationControllerInstantiator(someContext))
+            .instanceProvider(new MyInstantiator(someContext))
             .start();
     ```

@@ -1,11 +1,12 @@
 package io.github.kaktushose.jda.commands.convention
 
-import org.gradle.api.JavaVersion
-import org.gradle.jvm.toolchain.JavaLanguageVersion
-import org.gradle.kotlin.dsl.`java-library`
-
 plugins {
     `java-library`
+}
+
+repositories {
+    mavenCentral()
+    maven("https://central.sonatype.com/repository/maven-snapshots/")
 }
 
 java {
@@ -22,4 +23,8 @@ java {
     withJavadocJar()
 
     modularity.inferModulePath.set(true)
+}
+
+tasks.javadoc {
+    isFailOnError = false
 }

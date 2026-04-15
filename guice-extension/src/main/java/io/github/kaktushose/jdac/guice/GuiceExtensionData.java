@@ -1,6 +1,6 @@
 package io.github.kaktushose.jdac.guice;
 
-import io.github.kaktushose.jdac.configuration.Extension;
+import io.github.kaktushose.jdac.property.extension.Extension;
 import com.google.inject.Injector;
 
 /// Custom [Extension.Data] to be used to configure this extension.

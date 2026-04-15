@@ -21,8 +21,8 @@ import org.slf4j.Logger;
 import java.util.Collection;
 import java.util.List;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
+import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
 
 /// Subtype of [ReplyableEvent] that also supports replying with a [Modal].
 ///

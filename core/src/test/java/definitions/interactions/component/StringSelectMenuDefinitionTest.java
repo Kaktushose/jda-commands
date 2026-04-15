@@ -1,6 +1,9 @@
 package definitions.interactions.component;
 
-import io.github.kaktushose.jdac.annotations.interactions.*;
+import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.annotations.interactions.MenuOption;
+import io.github.kaktushose.jdac.annotations.interactions.Permissions;
+import io.github.kaktushose.jdac.annotations.interactions.StringMenu;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringSelectMenuDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringSelectMenuDefinition.MenuOptionDefinition;
@@ -31,12 +34,17 @@ class StringSelectMenuDefinitionTest {
     }
 
     @Test
+    void method_withWrongListParameterType_shouldThrowInvalidDeclarationException() {
+        assertThrows(InvalidDeclarationException.class, () -> build("wrongParameterType"));
+    }
+
+    @Test
     void singleMenuOption_shouldBuildCorrectly() {
         StringSelectMenuDefinition definition = build("singleOption");
 
         assertEquals("Choose one", definition.placeholder());
         assertEquals(1, definition.selectOptions().size());
-        assertEquals(Set.of(new MenuOptionDefinition(
+        assertEquals(List.of(new MenuOptionDefinition(
                 "v1",
                 "Label 1",
                 "desc",
@@ -72,7 +80,7 @@ class StringSelectMenuDefinitionTest {
         SelectOption existingOption = SelectOption.of("Label 1", "v1");
         SelectOption newOption = SelectOption.of("Label 2", "v2");
 
-        var overridden = base.with(Set.of(existingOption, newOption), List.of("v2"), "New placeholder", 2, 3, 1);
+        var overridden = base.with(List.of(existingOption, newOption), List.of("v2"), "New placeholder", 2, 3, 1);
 
         assertEquals("New placeholder", overridden.placeholder());
         assertEquals(2, overridden.minValue());
@@ -106,8 +114,8 @@ class StringSelectMenuDefinitionTest {
         public void wrongSignature(ComponentEvent event) {
         }
 
-        @StringMenu("wrongList")
-        public void wrongList(ComponentEvent event, List<Integer> values) {
+        @StringMenu("wrongParameterType")
+        public void wrongParameterType(ComponentEvent event, List<Integer> values) {
         }
 
         @StringMenu(value = "Choose one")

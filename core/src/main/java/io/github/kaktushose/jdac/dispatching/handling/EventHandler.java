@@ -1,8 +1,5 @@
 package io.github.kaktushose.jdac.dispatching.handling;
 
-import io.github.kaktushose.jdac.configuration.Property;
-import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
-import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
@@ -16,10 +13,11 @@ import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
 import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.internal.Helpers;
-import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.Stage;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
-import io.github.kaktushose.jdac.introspection.lifecycle.events.InteractionStartEvent;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACScope;
+import io.github.kaktushose.jdac.property.events.InteractionStartEvent;
+import io.github.kaktushose.jdac.property.internal.JDACInternalProperties;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent;
@@ -42,7 +40,7 @@ import java.util.function.BiConsumer;
 /// 2. Middleware execution: In this step all registered [Middleware]s
 /// are executed ordered by their [Priority].
 ///
-/// 3. Invocation ([EventHandler#invoke(InvocationContext, Runtime, IntrospectionImpl)]):
+/// 3. Invocation ([EventHandler#invoke(InvocationContext, Runtime, JDACIntrospectionImpl)]):
 /// In this step the user implemented method is called with help of the right [InteractionDefinition]
 @ApiStatus.Internal
 public abstract sealed class EventHandler<T extends GenericInteractionCreateEvent>
@@ -53,29 +51,28 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
     public static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
-    protected final IntrospectionImpl runtimeIntrospection;
+    protected final JDACIntrospectionImpl runtimeIntrospection;
     protected final InteractionRegistry interactionRegistry;
     protected final ErrorMessageFactory errorMessageFactory;
 
-    public EventHandler(IntrospectionImpl runtimeIntrospection) {
+    public EventHandler(JDACIntrospectionImpl runtimeIntrospection) {
         this.runtimeIntrospection = runtimeIntrospection;
 
-        this.interactionRegistry = runtimeIntrospection.get(InternalProperties.INTERACTION_REGISTRY);
-        this.errorMessageFactory = runtimeIntrospection.get(Property.ERROR_MESSAGE_FACTORY);
+        this.interactionRegistry = runtimeIntrospection.get(JDACInternalProperties.INTERACTION_REGISTRY);
+        this.errorMessageFactory = runtimeIntrospection.get(JDACProperty.ERROR_MESSAGE_FACTORY);
     }
 
-    @Nullable
-    protected abstract PreparationResult prepare(T event, Runtime runtime);
+    @Nullable protected abstract PreparationResult prepare(T event, Runtime runtime);
 
     @Override
     public final void accept(T e, Runtime runtime) {
         log.debug("Got event {}", e);
 
-        IntrospectionImpl preparationIntrospection = Properties.Builder.newRestricted()
-                .addFallback(Property.JDA_EVENT, _ -> e)
-                .createIntrospection(this.runtimeIntrospection, Stage.PREPARATION);
+        JDACIntrospectionImpl preparationIntrospection = runtimeIntrospection.createChild(JDACScope.PREPARATION)
+                .addFallback(JDACProperty.JDA_EVENT, _ -> e)
+                .build();
 
-        PreparationResult preparationResult = ScopedValue.where(IntrospectionImpl.INTROSPECTION, preparationIntrospection)
+        PreparationResult preparationResult = ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, preparationIntrospection)
                 .call(() -> prepare(e, runtime));
 
         if (preparationResult == null || Thread.interrupted()) {
@@ -85,18 +82,17 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
 
         InvocationContext<T> invocationContext =
                 new InvocationContext<>(e, runtime.keyValueStore(), preparationResult.definition,
-                        Helpers.replyConfig(preparationResult.definition, runtimeIntrospection.get(Property.GLOBAL_REPLY_CONFIG)),
+                        Helpers.replyConfig(preparationResult.definition, preparationIntrospection.get(JDACProperty.GLOBAL_REPLY_CONFIG)),
                         preparationResult.rawArguments);
 
-        IntrospectionImpl interactionIntrospection = Properties.Builder.newRestricted()
-                .addFallback(Property.JDA_EVENT, _ -> e)
-                .addFallback(Property.INVOCATION_CONTEXT, _ -> invocationContext)
-                .createIntrospection(preparationIntrospection, Stage.INTERACTION);
+        JDACIntrospectionImpl interactionIntrospection = preparationIntrospection.createChild(JDACScope.INTERACTION)
+                .addFallback(JDACProperty.INVOCATION_CONTEXT, _ -> invocationContext)
+                .build();
 
-        ScopedValue.where(IntrospectionImpl.INTROSPECTION, interactionIntrospection).run(() -> {
+        ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, interactionIntrospection).run(() -> {
             log.debug("Executing middlewares...");
 
-            Middlewares middlewares = Introspection.scopedGet(InternalProperties.MIDDLEWARES);
+            Middlewares middlewares = JDACInternalProperties.MIDDLEWARES.scopedGet();
             middlewares.forOrdered(invocationContext.definition().classDescription().clazz(), middleware -> {
                 log.debug("Executing middleware {}", middleware.getClass().getSimpleName());
                 middleware.accept(invocationContext);
@@ -111,7 +107,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         });
     }
 
-    private void invoke(InvocationContext<T> invocation, Runtime runtime, IntrospectionImpl introspection) {
+    private void invoke(InvocationContext<T> invocation, Runtime runtime, JDACIntrospectionImpl introspection) {
         SequencedCollection<@Nullable Object> arguments = invocation.arguments();
 
         var definition = invocation.definition();
@@ -169,5 +165,8 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         }
     }
 
-    public record PreparationResult(InteractionDefinition definition, SequencedCollection<@Nullable Object> rawArguments) {}
+    public record PreparationResult(
+            InteractionDefinition definition,
+            SequencedCollection<@Nullable Object> rawArguments
+    ) { }
 }

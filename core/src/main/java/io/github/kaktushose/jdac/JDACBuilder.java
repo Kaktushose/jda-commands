@@ -1,11 +1,5 @@
 package io.github.kaktushose.jdac;
 
-import io.github.kaktushose.jdac.configuration.Extension;
-import io.github.kaktushose.jdac.configuration.ExtensionFilter;
-import io.github.kaktushose.jdac.configuration.Property;
-import io.github.kaktushose.jdac.configuration.PropertyProvider;
-import io.github.kaktushose.jdac.configuration.internal.Extensions;
-import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
@@ -15,7 +9,7 @@ import io.github.kaktushose.jdac.dispatching.adapter.AdapterType;
 import io.github.kaktushose.jdac.dispatching.adapter.TypeAdapter;
 import io.github.kaktushose.jdac.dispatching.adapter.internal.TypeAdapters;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
-import io.github.kaktushose.jdac.dispatching.instance.InteractionControllerInstantiator;
+import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
@@ -29,9 +23,6 @@ import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
-import io.github.kaktushose.jdac.introspection.Stage;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
-import io.github.kaktushose.jdac.introspection.internal.Lifecycle;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
 import io.github.kaktushose.jdac.message.emoji.EmojiSource;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
@@ -44,6 +35,14 @@ import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.jdac.permissions.DefaultPermissionsProvider;
 import io.github.kaktushose.jdac.permissions.PermissionsProvider;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACPropertyProvider;
+import io.github.kaktushose.jdac.property.JDACScope;
+import io.github.kaktushose.jdac.property.extension.Extension;
+import io.github.kaktushose.jdac.property.extension.ExtensionFilter;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
+import io.github.kaktushose.jdac.property.internal.extension.Extensions;
 import io.github.kaktushose.jdac.scope.DefaultGuildScopeProvider;
 import io.github.kaktushose.jdac.scope.GuildScopeProvider;
 import io.github.kaktushose.proteus.Proteus;
@@ -58,13 +57,12 @@ import org.slf4j.Logger;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static io.github.kaktushose.jdac.configuration.Property.*;
-import static io.github.kaktushose.jdac.configuration.internal.InternalProperties.*;
+import static io.github.kaktushose.jdac.property.JDACProperty.*;
+import static io.github.kaktushose.jdac.property.internal.JDACInternalProperties.*;
 
 /// This builder is used to build instances of [JDACommands].
 ///
@@ -73,7 +71,7 @@ import static io.github.kaktushose.jdac.configuration.internal.InternalPropertie
 ///
 /// - [#descriptor(Descriptor)]
 /// - [#classFinders(ClassFinder...)]
-/// - [#instanceProvider(InteractionControllerInstantiator)]
+/// - [#instantiator(Instantiator)]
 ///
 ///
 /// In addition to manually configuring this builder, you can also provide implementations of [Extension] trough Javas [`service
@@ -105,86 +103,84 @@ import static io.github.kaktushose.jdac.configuration.internal.InternalPropertie
 ///     .classFinders(ClassFinder.reflective(Main.class), ClassFinders.explicit(ButtonInteraction.class))
 ///     .start();
 /// ```
+///
 /// @see Extension
 public class JDACBuilder {
+
+    private static final Logger log = JDACLogger.getLogger(JDACBuilder.class);
 
     static {
         Proteus.global().register(Type.of(Class.class), Type.of(String.class), Mapper.uni((klass, _) -> MappingResult.lossless(klass.getName())));
     }
 
-    private static final Logger log = JDACLogger.getLogger(JDACBuilder.class);
-
-    private final Properties properties = new Properties();
+    private final JDACIntrospectionImpl.Builder properties = JDACIntrospectionImpl.create(JDACScope.CONFIGURATION);
 
     JDACBuilder(JDAContext jdaContext) {
         // defaults
-        addFallback(PACKAGES, _ -> List.of());
-        addFallback(EXTENSION_FILTER, _ -> new ExtensionFilter(ExtensionFilter.FilterStrategy.EXCLUDE, List.of()));
+        properties.addFallback(PACKAGES, _ -> List.of());
+        properties.addFallback(EXTENSION_FILTER, _ -> new ExtensionFilter(ExtensionFilter.FilterStrategy.EXCLUDE, List.of()));
 
-        addFallback(EXPIRATION_STRATEGY, _ -> ExpirationStrategy.AFTER_15_MINUTES);
-        addFallback(GLOBAL_COMMAND_CONFIG, _ -> new CommandConfig());
-        addFallback(GLOBAL_REPLY_CONFIG, _ -> new ReplyConfig());
-        addFallback(SHUTDOWN_JDA, _ -> true);
-        addFallback(LOCALIZE_COMMANDS, _ -> true);
-        addFallback(LOCALIZER, _ -> FluavaLocalizer.create(Locale.ENGLISH));
-        addFallback(PERMISSION_PROVIDER, _ -> new DefaultPermissionsProvider());
-        addFallback(ERROR_MESSAGE_FACTORY, ctx -> new DefaultErrorMessageFactory(ctx.get(MESSAGE_RESOLVER)));
-        addFallback(GUILD_SCOPE_PROVIDER, _ -> new DefaultGuildScopeProvider());
-        addFallback(DESCRIPTOR, _ -> Descriptor.REFLECTIVE);
+        properties.addFallback(EXPIRATION_STRATEGY, _ -> ExpirationStrategy.AFTER_15_MINUTES);
+        properties.addFallback(GLOBAL_COMMAND_CONFIG, _ -> new CommandConfig());
+        properties.addFallback(GLOBAL_REPLY_CONFIG, _ -> new ReplyConfig());
+        properties.addFallback(SHUTDOWN_JDA, _ -> true);
+        properties.addFallback(LOCALIZE_COMMANDS, _ -> true);
+        properties.addFallback(LOCALIZER, _ -> FluavaLocalizer.create(Locale.ENGLISH));
+        properties.addFallback(PERMISSION_PROVIDER, _ -> new DefaultPermissionsProvider());
+        properties.addFallback(ERROR_MESSAGE_FACTORY, ctx -> new DefaultErrorMessageFactory(ctx.get(MESSAGE_RESOLVER)));
+        properties.addFallback(GUILD_SCOPE_PROVIDER, _ -> new DefaultGuildScopeProvider());
+        properties.addFallback(DESCRIPTOR, _ -> Descriptor.REFLECTIVE);
 
-        addFallback(EMOJI_SOURCES, _ -> List.of(EmojiSource.reflective()));
-        addFallback(CLASS_FINDER, ctx -> {
+        properties.addFallback(EMOJI_SOURCES, _ -> List.of(EmojiSource.reflective()));
+        properties.addFallback(CLASS_FINDER, ctx -> {
             String[] resources = ctx.get(PACKAGES).toArray(String[]::new);
             return List.of(ClassFinder.reflective(resources));
         });
 
-        addFallback(EMBED_CONFIG, _ -> _ -> {});
+        properties.addFallback(EMBED_CONFIG, _ -> _ -> { });
 
         // non settable/provided services
-        addFallback(EMBED_CONFIG_INTERNAL, ctx -> {
+        properties.addFallback(EMBED_CONFIG_INTERNAL, ctx -> {
             Embeds.Configuration embedConfig = new Embeds.Configuration(ctx.get(MESSAGE_RESOLVER), ctx.get(EMBED_SOURCES));
             try {
                 ctx.get(EMBED_CONFIG).accept(embedConfig);
             } catch (Exception e) {
-                if (ctx.get(SHUTDOWN_JDA)) ctx.get(JDA_CONTEXT).shutdown();
+                if (ctx.get(SHUTDOWN_JDA)) {
+                    ctx.get(JDA_CONTEXT).shutdown();
+                }
                 throw e;
             }
 
             return embedConfig;
         });
-        addFallback(EMBEDS, ctx -> ctx.get(EMBED_CONFIG_INTERNAL).build());
+        properties.addFallback(EMBEDS, ctx -> ctx.get(EMBED_CONFIG_INTERNAL).build());
 
-        addFallback(LOCALIZATION_FUNCTION, JDACLocalizationFunction.PROVIDER_FUNC);
-        addFallback(BUNDLE_FINDER, ctx -> new BundleFinder(ctx.get(DESCRIPTOR)));
-        addFallback(I18N, ctx -> new I18n(ctx.get(BUNDLE_FINDER), ctx.get(LOCALIZER)));
+        properties.addFallback(BUNDLE_FINDER, ctx -> new BundleFinder(ctx.get(DESCRIPTOR)));
+        properties.addFallback(I18N, ctx -> new I18n(ctx.get(BUNDLE_FINDER), ctx.get(LOCALIZER)));
 
-        addFallback(STRING_RESOLVER, ctx -> List.of(ctx.get(I18N), ctx.get(EMOJI_RESOLVER), ctx.get(PLACEHOLDER_RESOLVER)));
-        addFallback(MESSAGE_RESOLVER, ctx -> new MessageResolver(ctx.get(STRING_RESOLVER)));
-        addFallback(PLACEHOLDER_RESOLVER, _ -> new PlaceholderResolver());
+        properties.addFallback(STRING_RESOLVER, ctx -> List.of(ctx.get(I18N), ctx.get(EMOJI_RESOLVER), ctx.get(PLACEHOLDER_RESOLVER)));
+        properties.addFallback(MESSAGE_RESOLVER, ctx -> new MessageResolver(ctx.get(STRING_RESOLVER)));
+        properties.addFallback(PLACEHOLDER_RESOLVER, _ -> new PlaceholderResolver());
 
-        addFallback(EMOJI_RESOLVER, ctx -> {
+        properties.addFallback(EMOJI_RESOLVER, ctx -> {
             Helpers.registerAppEmojis(ctx.get(JDA_CONTEXT), ctx.get(EMOJI_SOURCES));
 
             List<ApplicationEmoji> applicationEmojis = ctx.get(JDA_CONTEXT).applicationEmojis();
             return new EmojiResolver(applicationEmojis);
         });
 
-        addFallback(MERGED_CLASS_FINDER, ctx -> annotationClass -> ctx.get(CLASS_FINDER)
+        properties.addFallback(MERGED_CLASS_FINDER, ctx -> annotationClass -> ctx.get(CLASS_FINDER)
                 .stream()
                 .map(classFinder -> classFinder.search(annotationClass))
                 .flatMap(Collection::stream)
                 .toList());
 
         // must be set
-        addFallback(JDA_CONTEXT, _ -> jdaContext);
+        properties.addFallback(JDA_CONTEXT, _ -> jdaContext);
     }
 
-    private <T> void addFallback(Property<T> type, Function<PropertyProvider.Context, T> supplier) {
-        ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.add(PropertyProvider.create(type, Properties.FALLBACK_PRIORITY, supplier)));
-    }
-
-    private <T> JDACBuilder addUserProperty(Property<T> type, Function<PropertyProvider.Context, T> supplier) {
-        ScopedValue.where(Properties.INSIDE_FRAMEWORK, true).run(() -> properties.add(PropertyProvider.create(type, Properties.USER_PRIORITY, supplier)));
+    private <T> JDACBuilder addBuilderProperty(JDACProperty<T> type, Function<JDACIntrospection, T> supplier) {
+        properties.addBuilder(type, supplier);
         return this;
     }
 
@@ -193,16 +189,15 @@ public class JDACBuilder {
     ///
     /// @param packages the packages to scan recursively
     public JDACBuilder packages(String... packages) {
-        return addUserProperty(PACKAGES, _ -> List.of(packages));
+        return addBuilderProperty(PACKAGES, _ -> List.of(packages));
     }
 
     /// @param classFinders the to be used [ClassFinder]s
-    ///
     /// @apiNote This method overrides the default/fallback value but adds to the loaded ones.
     /// If you want to add own [ClassFinder]s while keeping the default reflective implementation, you have to add it explicitly via
     /// [ClassFinder#reflective(String...)] too.
     public JDACBuilder classFinders(ClassFinder... classFinders) {
-        return addUserProperty(CLASS_FINDER, _ -> List.of(classFinders));
+        return addBuilderProperty(CLASS_FINDER, _ -> List.of(classFinders));
     }
 
     /// Application emojis loaded from [EmojiSource]s will be registered upon startup with help of
@@ -213,86 +208,86 @@ public class JDACBuilder {
     /// If you want to add own [EmojiSource]s while keeping the default reflective implementation, you have to add it explicitly via
     /// [EmojiSource#reflective(String...)] too.
     public JDACBuilder emojiSource(EmojiSource... sources) {
-        return addUserProperty(EMOJI_SOURCES, _ -> List.of(sources));
+        return addBuilderProperty(EMOJI_SOURCES, _ -> List.of(sources));
     }
 
     /// @param descriptor the [Descriptor] to be used
     public JDACBuilder descriptor(Descriptor descriptor) {
-        return addUserProperty(DESCRIPTOR, _ -> descriptor);
+        return addBuilderProperty(DESCRIPTOR, _ -> descriptor);
     }
 
     /// Configuration step for the Embed API of JDA-Commands.
     ///
     /// Use the given [EmbedConfig] to declare placeholders or data sources.
     public JDACBuilder embeds(Consumer<EmbedConfig> consumer) {
-        return addUserProperty(EMBED_CONFIG, _ -> consumer);
+        return addBuilderProperty(EMBED_CONFIG, _ -> consumer);
     }
 
     /// @param localizer The [Localizer] to use
     public JDACBuilder localizer(Localizer localizer) {
-        return addUserProperty(LOCALIZER, _ -> localizer);
+        return addBuilderProperty(LOCALIZER, _ -> localizer);
     }
 
-    /// @param instanceProvider the implementation of [InteractionControllerInstantiator] to use
-    public JDACBuilder instanceProvider(InteractionControllerInstantiator instanceProvider) {
-        return addUserProperty(INTERACTION_CONTROLLER_INSTANTIATOR, _ -> instanceProvider);
+    /// @param instantiator the implementation of [Instantiator] to use
+    public JDACBuilder instantiator(Instantiator instantiator) {
+        return addBuilderProperty(INSTANTIATOR, _ -> instantiator);
     }
 
     /// @param strategy The [ExpirationStrategy] to be used
     public JDACBuilder expirationStrategy(ExpirationStrategy strategy) {
-        return addUserProperty(EXPIRATION_STRATEGY, _ -> strategy);
+        return addBuilderProperty(EXPIRATION_STRATEGY, _ -> strategy);
     }
 
     /// @param priority   The [Priority] with what the [Middleware] should be registered
     /// @param middleware The to be registered [Middleware]
     public JDACBuilder middleware(Priority priority, Middleware middleware) {
-        return addUserProperty(MIDDLEWARE, _ -> List.of(Map.entry(priority, middleware)));
+        return addBuilderProperty(MIDDLEWARE, _ -> List.of(Map.entry(priority, middleware)));
     }
 
     /// @param source  The source type that the given [TypeAdapter] can handle
     /// @param target  The target type that the given [TypeAdapter] can handle
     /// @param adapter The [TypeAdapter] to be registered
     public <S, T> JDACBuilder adapter(Class<S> source, Class<T> target, TypeAdapter<S, T> adapter) {
-        return addUserProperty(TYPE_ADAPTER, _ -> Map.of(new AdapterType<>(Type.of(source), Type.of(target)), adapter));
+        return addBuilderProperty(TYPE_ADAPTER, _ -> Map.of(new AdapterType<>(Type.of(source), Type.of(target)), adapter));
     }
 
     /// @param annotation The annotation for which the given [Validator] should be called
     /// @param validator  The [Validator] to be registered
     public JDACBuilder validator(Class<? extends Annotation> annotation, Validator<?, ?> validator) {
-        return addUserProperty(VALIDATOR, _ -> Map.of(annotation, validator));
+        return addBuilderProperty(VALIDATOR, _ -> Map.of(annotation, validator));
     }
 
     /// @param permissionsProvider The [PermissionsProvider] that should be used
     public JDACBuilder permissionsProvider(PermissionsProvider permissionsProvider) {
-        return addUserProperty(PERMISSION_PROVIDER, _ -> permissionsProvider);
+        return addBuilderProperty(PERMISSION_PROVIDER, _ -> permissionsProvider);
     }
 
     /// @param errorMessageFactory The [ErrorMessageFactory] that should be used
     public JDACBuilder errorMessageFactory(ErrorMessageFactory errorMessageFactory) {
-        return addUserProperty(ERROR_MESSAGE_FACTORY, _ -> errorMessageFactory);
+        return addBuilderProperty(ERROR_MESSAGE_FACTORY, _ -> errorMessageFactory);
     }
 
     /// @param guildScopeProvider The [GuildScopeProvider] that should be used
     public JDACBuilder guildScopeProvider(GuildScopeProvider guildScopeProvider) {
-        return addUserProperty(GUILD_SCOPE_PROVIDER, _ -> guildScopeProvider);
+        return addBuilderProperty(GUILD_SCOPE_PROVIDER, _ -> guildScopeProvider);
     }
 
 
     /// @param globalReplyConfig the [ReplyConfig] to be used as a global fallback option
     public JDACBuilder globalReplyConfig(ReplyConfig globalReplyConfig) {
-        return addUserProperty(GLOBAL_REPLY_CONFIG, _ -> globalReplyConfig);
+        return addBuilderProperty(GLOBAL_REPLY_CONFIG, _ -> globalReplyConfig);
     }
 
     /// @param config the [CommandConfig] to be used as a global fallback option
     public JDACBuilder globalCommandConfig(CommandConfig config) {
-        return addUserProperty(GLOBAL_COMMAND_CONFIG, _ -> config);
+        return addBuilderProperty(GLOBAL_COMMAND_CONFIG, _ -> config);
     }
 
     /// Registers [Extension.Data] that will be passed to the respective [Extension]s to configure them properly.
     ///
     /// @param data the instances of [Extension.Data] to be used
     public JDACBuilder extensionData(Extension.Data... data) {
-        return addUserProperty(EXTENSION_DATA, _ -> Arrays.stream(data)
+        return addBuilderProperty(EXTENSION_DATA, _ -> Arrays.stream(data)
                 .collect(Collectors.toMap(Extension.Data::getClass, Function.identity())));
     }
 
@@ -302,7 +297,7 @@ public class JDACBuilder {
     ///
     /// @param shutdown whether to shut down the JDA instance, default true
     public JDACBuilder shutdownJDA(boolean shutdown) {
-        return addUserProperty(SHUTDOWN_JDA, _ -> shutdown);
+        return addBuilderProperty(SHUTDOWN_JDA, _ -> shutdown);
     }
 
     /// Whether JDA-Commands should use the [I18n] feature to localize commands.
@@ -311,7 +306,7 @@ public class JDACBuilder {
     /// @see LocalizationFunction
     /// @see FluavaLocalizer FluavaLocalizer
     public JDACBuilder localizeCommands(boolean localize) {
-        return addUserProperty(LOCALIZE_COMMANDS, _ -> localize);
+        return addBuilderProperty(LOCALIZE_COMMANDS, _ -> localize);
     }
 
 
@@ -321,10 +316,9 @@ public class JDACBuilder {
     /// @param classes  the classes to be filtered
     /// @apiNote This method compares the [`fully classified class name`][Class#getName()] of all [Extension] implementations by using [String#startsWith(String)],
     /// so it's possible to include/exclude a bunch of extensions sharing the same base package by just providing the package name.
-    ///
     /// @see ExtensionFilter
     public JDACBuilder filterExtensions(ExtensionFilter.FilterStrategy strategy, String... classes) {
-        return addUserProperty(EXTENSION_FILTER, _ -> new ExtensionFilter(strategy, Arrays.asList(classes)));
+        return addBuilderProperty(EXTENSION_FILTER, _ -> new ExtensionFilter(strategy, Arrays.asList(classes)));
     }
 
     /// Adds a [Resolver] in the resolution chain for strings provided by the user in annotations, components etc.
@@ -333,27 +327,24 @@ public class JDACBuilder {
     /// This method adds to the default resolvers like localization, placeholders and emojis
     ///
     /// @param resolvers the [Resolver]s to add
-    ///
     /// @see MessageResolver
     /// @see Resolver
     @SafeVarargs
     public final JDACBuilder stringResolver(Resolver<String>... resolvers) {
-        addUserProperty(STRING_RESOLVER, _ -> Arrays.asList(resolvers));
+        addBuilderProperty(STRING_RESOLVER, _ -> Arrays.asList(resolvers));
         return this;
     }
 
-    /// Allows the dynamic configuration of JDA-Commands by setting [Property]s directly.
+    /// Allows the dynamic configuration of JDA-Commands by setting [JDACProperty]s directly.
     ///
-    /// @param property the [Property] to be set
-    /// @param supplier the function providing the custom value for it ([PropertyProvider#supplier()])
-    ///
-    /// @see Property
-    /// @see PropertyProvider#supplier()
-    ///
-    /// @implNote the values will be added as [PropertyProvider]s with priority set to [Integer#MAX_VALUE]
+    /// @param property the [JDACProperty] to be set
+    /// @param supplier the function providing the custom value for it ([JDACPropertyProvider#supplier()])
+    /// @implNote the values will be added as [JDACPropertyProvider]s with priority set to [Integer#MAX_VALUE]
     /// like they were set by any other method of this class.
-    public <T> JDACBuilder setProperty(Property<T> property, Function<PropertyProvider.Context, T> supplier) {
-        return addUserProperty(property, supplier);
+    /// @see JDACProperty
+    /// @see JDACPropertyProvider#supplier()
+    public <T> JDACBuilder setProperty(JDACProperty<T> property, Function<JDACIntrospection, T> supplier) {
+        return addBuilderProperty(property, supplier);
     }
 
     /// This method applies all found implementations of [Extension],
@@ -363,14 +354,14 @@ public class JDACBuilder {
 
         Extensions extensions = loadExtensions();
 
-        IntrospectionImpl introspection = new IntrospectionImpl(new Lifecycle(), properties.createResolver(), Stage.CONFIGURATION);
+        JDACIntrospectionImpl introspection = properties.build();
 
-        return ScopedValue.where(IntrospectionImpl.INTROSPECTION, introspection).call(() -> {
+        return ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, introspection).call(() -> {
             try {
                 Middlewares middlewares = new Middlewares(introspection.get(MIDDLEWARE), introspection.get(ERROR_MESSAGE_FACTORY), introspection.get(PERMISSION_PROVIDER));
                 TypeAdapters typeAdapters = new TypeAdapters(introspection.get(TYPE_ADAPTER), introspection.get(MESSAGE_RESOLVER));
 
-                IntrospectionImpl initIntrospection = Properties.Builder.newRestricted()
+                JDACIntrospectionImpl.Builder initBuilder = introspection.createChild(JDACScope.INITIALIZED)
                         .addFallback(INTERACTION_REGISTRY, ctx -> new InteractionRegistry(
                                 new Validators(ctx.get(VALIDATOR)),
                                 ctx.get(MESSAGE_RESOLVER),
@@ -379,9 +370,9 @@ public class JDACBuilder {
                         .addFallback(DEFINITIONS, ctx -> ctx.get(INTERACTION_REGISTRY))
                         .addFallback(MIDDLEWARES, _ -> middlewares)
                         .addFallback(TYPE_ADAPTERS, _ -> typeAdapters)
-                        .createIntrospection(introspection, Stage.INITIALIZED);
+                        .addFallback(LOCALIZATION_FUNCTION, JDACLocalizationFunction.PROVIDER_FUNC);
 
-                JDACommands jdaCommands = new JDACommands(initIntrospection);
+                JDACommands jdaCommands = new JDACommands(initBuilder);
                 jdaCommands.start(extensions);
 
                 return jdaCommands;
@@ -396,7 +387,7 @@ public class JDACBuilder {
 
     private Extensions loadExtensions() {
         Extensions extensions = new Extensions();
-        extensions.load(properties.createResolver()); // Resolver just for user settable types
+        extensions.load(properties.build()); // Introspection just for user settable types
         extensions.register(properties);
 
         return extensions;

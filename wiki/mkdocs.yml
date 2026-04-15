@@ -90,6 +90,8 @@ markdown_extensions:
         - alias: 'proteus'
           url: 'https://kaktushose.github.io/proteus/javadocs/0/'
           auto_searched: 'false'
+        - alias: 'propane'
+          url: 'https://goldmensch.github.io/propane/javadocs/snapshot'
       autolink-format: |
         name = None
         match ref:
@@ -142,4 +144,5 @@ nav:
             - Writing Extensions: misc/extension/writing.md
             - Configuration: misc/extension/configuring.md
           - Properties: misc/property.md
+  - Migrate to V5: migration.md
   - Javadocs: https://kaktushose.github.io/jda-commands/javadocs/JDAC_JAVADOC_VERSION/

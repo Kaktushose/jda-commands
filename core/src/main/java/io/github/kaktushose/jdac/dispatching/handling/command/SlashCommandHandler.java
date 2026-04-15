@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac.dispatching.handling.command;
 
-import io.github.kaktushose.jdac.configuration.Property;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
@@ -9,7 +8,8 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.handling.EventHandler;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.internal.Helpers;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import io.github.kaktushose.proteus.Proteus;
 import io.github.kaktushose.proteus.conversion.ConversionResult;
 import io.github.kaktushose.proteus.type.Type;
@@ -21,7 +21,10 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
@@ -40,7 +43,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
             Optional.class, Optional.empty()
     );
 
-    public SlashCommandHandler(IntrospectionImpl introspection) {
+    public SlashCommandHandler(JDACIntrospectionImpl introspection) {
         super(introspection);
     }
 
@@ -63,7 +66,7 @@ public final class SlashCommandHandler extends EventHandler<SlashCommandInteract
                 .stream()
                 .map(it -> event.getOption(it.name()))
                 .toList();
-        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, runtimeIntrospection.get(Property.GLOBAL_REPLY_CONFIG));
+        InteractionDefinition.ReplyConfig replyConfig = Helpers.replyConfig(command, runtimeIntrospection.get(JDACProperty.GLOBAL_REPLY_CONFIG));
         List<@Nullable Object> parsedArguments = new ArrayList<>();
 
         log.debug("Type adapting arguments...");

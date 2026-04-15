@@ -240,6 +240,12 @@ as part of a <net.dv8tion.jda.api.components.section.Section>. You add them by u
 [Enabling and disabling](#enabling-disabling) as well as [modifying](#dynamic-components) works the same 
 as explained before.
 
+!!! tip
+    You can use [Component#row(String...)] as a shortcut for creating <ActionRow>s.
+    ```java
+    event.reply(Component.row("onMenu"));
+    ```
+
 ### Subsequent Replies
 Once you've sent a Components V2 message it has to remain Components V2. The [Reply Configuration](#reply-configuration) rules
 also apply to Components V2. 
