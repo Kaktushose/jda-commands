@@ -2,7 +2,7 @@
 name: Bug report
 about: Report a bug in JDA-Commands
 title: ''
-labels: t:bug report
+labels: type:bug report
 assignees: Kaktushose
 
 ---
