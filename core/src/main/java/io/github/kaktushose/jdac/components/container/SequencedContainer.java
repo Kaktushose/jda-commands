@@ -50,7 +50,7 @@ import java.util.stream.Stream;
 /// additional [Entries][Entry] outside the [#add(ContainerChildComponent, Entry...)] methods.
 ///
 /// ## Usage outside JDA-Commands
-/// [Container#of(Collection)] uses the [Introspection] API to access a [Resolver] and the user locale. This means, the
+/// [Container#of(Collection)] uses the [JDACIntrospection] API to access a [Resolver] and the user locale. This means, the
 /// static `of` factory method is only usable in [JDACScope#PREPARATION]. If you want to use this class outside JDA-Commands
 /// call the constructor and pass the [Resolver] as well as the [Locale] manually.
 /// ```
