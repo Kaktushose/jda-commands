@@ -57,10 +57,10 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#get(io.github.kaktushose.jdac.property.JDACProperty)" tabindex="0">get(JDACProperty)</a></li>
 <li><a href="#accessible()" tabindex="0">accessible()</a></li>
 <li><a href="#accessScoped()" tabindex="0">accessScoped()</a></li>
 <li><a href="#scopedGet(io.github.kaktushose.jdac.property.JDACProperty)" tabindex="0">scopedGet(JDACProperty)</a></li>
+<li><a href="#get(io.github.kaktushose.jdac.property.JDACProperty)" tabindex="0">get(JDACProperty)</a></li>
 <li><a href="#subscribe(dev.goldmensch.propane.event.Listener)" tabindex="0">subscribe(Listener)</a></li>
 </ol>
 </li>
@@ -229,28 +229,6 @@ or computing it according to the <a href="JDACIntrospection.html" title="interfa
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="get(io.github.kaktushose.jdac.property.JDACProperty)">
-<h3>get</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="JDACProperty.html" title="interface in io.github.kaktushose.jdac.property">JDACProperty</a>&lt;T&gt;&nbsp;specific)</span></div>
-<div class="block">Returns the value for the requested property by either retrieving it from the cache
-or computing it according to the <a href="JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property">class' documentation</a>.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>specific</code> - the requested property</dd>
-<dt>Returns:</dt>
-<dd>the value of the requested property</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="tag-list-long">
-<li><a href="JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property">JDACIntrospection' class documentation</a></li>
-</ul>
-</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
 <section class="detail" id="accessible()">
 <h3>accessible</h3>
 <div class="horizontal-scroll">
@@ -296,6 +274,28 @@ if <a href="#accessible()"><code>accessible()</code></a> returns <code>false</co
 <dd><code>property</code> - the property to get</dd>
 <dt>Returns:</dt>
 <dd>the value for the property</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="get(io.github.kaktushose.jdac.property.JDACProperty)">
+<h3>get</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="JDACProperty.html" title="interface in io.github.kaktushose.jdac.property">JDACProperty</a>&lt;T&gt;&nbsp;specific)</span></div>
+<div class="block">Returns the value for the requested property by either retrieving it from the cache
+or computing it according to the <a href="JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property">class' documentation</a>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>specific</code> - the requested property</dd>
+<dt>Returns:</dt>
+<dd>the value of the requested property</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property">JDACIntrospection' class documentation</a></li>
+</ul>
+</dd>
 </dl>
 </div>
 </section>
