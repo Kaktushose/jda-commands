@@ -56,8 +56,8 @@ public class TypeAdapters {
         proteus.from(NUMBER).into(STRING, uni((source, _) -> lossless(String.valueOf(source))), IGNORE);
 
         proteus.from(MEMBER).into(USER, uni((source, _) -> lossless(source.getUser())), IGNORE);
-        proteus.from(USER).into(MEMBER, uni((_, _ ) -> failure(messageResolver.resolve("jdac$member-required-got-user",
-                        JDACIntrospection.accessible()
+        proteus.from(USER).into(MEMBER, uni((_, _) -> failure(messageResolver.resolve("jdac$member-required-got-user",
+                JDACIntrospection.accessible()
                         ? JDACProperty.JDA_EVENT.scopedGet().getUserLocale().toLocale()
                         : Locale.ENGLISH))), IGNORE);
 

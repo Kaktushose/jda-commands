@@ -1,4 +1,3 @@
-import com.diffplug.spotless.LineEnding
 import org.jreleaser.version.SemanticVersion
 
 plugins {
@@ -26,7 +25,11 @@ subprojects {
 
         options.encoding = "UTF-8"
         options.addBooleanOption("Xdoclint:none,-missing", true)
-        options.tags("apiNote:a:API Note:", "implSpec:a:Implementation Requirements:", "implNote:a:Implementation Note:")
+        options.tags(
+            "apiNote:a:API Note:",
+            "implSpec:a:Implementation Requirements:",
+            "implNote:a:Implementation Note:"
+        )
     }
 }
 
@@ -36,18 +39,18 @@ spotless {
     format("misc") {
         target("*.gradle.kts", ".gitattributes", ".gitignore")
 
-		trimTrailingWhitespace()
+        trimTrailingWhitespace()
         endWithNewline()
     }
 
     java {
         target("**/*.java")
-		targetExclude(".github/workflows/**")
+        targetExclude(".github/workflows/**")
 
         importOrder("io.github.kaktushose|dev.goldmensch|net.dv8tion|", "java|javax", "\\#")
         forbidModuleImports()
         formatAnnotations()
-		trimTrailingWhitespace()
+        trimTrailingWhitespace()
         endWithNewline()
     }
 
@@ -56,7 +59,7 @@ spotless {
 
         prettier()
 
-		trimTrailingWhitespace()
+        trimTrailingWhitespace()
         endWithNewline()
     }
 

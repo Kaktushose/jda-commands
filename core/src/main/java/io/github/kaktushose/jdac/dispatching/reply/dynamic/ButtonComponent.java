@@ -12,7 +12,7 @@ import org.jspecify.annotations.Nullable;
 
 /// An implementation of [Component] specific to [Button]
 public final class ButtonComponent extends Component<ButtonComponent, Button, Button, ButtonDefinition>
-        implements SectionAccessoryComponentUnion  {
+        implements SectionAccessoryComponentUnion {
 
     private @Nullable Emoji emoji;
     private @Nullable ButtonStyle buttonStyle;

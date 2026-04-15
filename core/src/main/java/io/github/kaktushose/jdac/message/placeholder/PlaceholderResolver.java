@@ -37,27 +37,11 @@ public final class PlaceholderResolver implements Resolver<String> {
             "$"
     );
 
-    /// Resolves the given string according to the class docs.
-    ///
-    /// @param content the string to be resolved
-    /// @param locale the locale - unused in this resolver
-    /// @param placeholders the placeholders to be used
-    ///
-    /// @return the string with placeholders replaced by their value
-    @Override
-    public String resolve(String content, Locale locale, Map<String, @Nullable Object> placeholders) {
-        return parse(content)
-                .stream()
-                .map(component -> switch (component) {
-                    case Component.Literal(String value) -> value;
-                    case Component.PlaceholderReference(String reference) -> getPlaceholder(reference, placeholders);
-                })
-                .collect(Collectors.joining());
-    }
-
     private static String getPlaceholder(String name, Map<String, @Nullable Object> placeholder) {
         Object value = placeholder.get(name);
-        if (value == null) return "null";
+        if (value == null) {
+            return "null";
+        }
         ConversionResult<String> result = Proteus.global().convert(value, Type.dynamic(value), Type.of(String.class));
 
         return switch (result) {
@@ -111,7 +95,7 @@ public final class PlaceholderResolver implements Resolver<String> {
                 components.add(new Component.PlaceholderReference(reference));
 
                 i = closingBracket;
-                nextLiteralStart = i+1;
+                nextLiteralStart = i + 1;
 
             }
 
@@ -122,6 +106,23 @@ public final class PlaceholderResolver implements Resolver<String> {
         }
 
         return components;
+    }
+
+    /// Resolves the given string according to the class docs.
+    ///
+    /// @param content      the string to be resolved
+    /// @param locale       the locale - unused in this resolver
+    /// @param placeholders the placeholders to be used
+    /// @return the string with placeholders replaced by their value
+    @Override
+    public String resolve(String content, Locale locale, Map<String, @Nullable Object> placeholders) {
+        return parse(content)
+                .stream()
+                .map(component -> switch (component) {
+                    case Component.Literal(String value) -> value;
+                    case Component.PlaceholderReference(String reference) -> getPlaceholder(reference, placeholders);
+                })
+                .collect(Collectors.joining());
     }
 
     /// @return 1000

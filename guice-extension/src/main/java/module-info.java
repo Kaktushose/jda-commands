@@ -1,5 +1,5 @@
-import io.github.kaktushose.jdac.property.extension.Extension;
 import io.github.kaktushose.jdac.guice.internal.GuiceExtension;
+import io.github.kaktushose.jdac.property.extension.Extension;
 import org.jspecify.annotations.NullMarked;
 
 /// An extension to JDA-Commands providing Google's Guice as a dependency injection framework.

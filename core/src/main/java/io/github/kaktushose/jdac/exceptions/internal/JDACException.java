@@ -1,9 +1,9 @@
 package io.github.kaktushose.jdac.exceptions.internal;
 
-import dev.goldmensch.fluava.Bundle;
-import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.exceptions.*;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import dev.goldmensch.fluava.Bundle;
+import dev.goldmensch.fluava.Fluava;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
@@ -16,10 +16,9 @@ public sealed class JDACException extends RuntimeException
         permits ConfigurationException, InternalException, InvalidDeclarationException, ParsingException, ReplyException {
 
     protected static final Bundle errorMessages = Fluava.create(Locale.ENGLISH).loadBundle("jdac_internal");
-
-    protected Bundle bundle = errorMessages;
     private final String key;
     private final Map<String, @Nullable Object> placeholder;
+    protected Bundle bundle = errorMessages;
 
     /// Creates a new JDACException and loads the error message from the given key.
     ///
@@ -53,8 +52,8 @@ public sealed class JDACException extends RuntimeException
     /// Creates a new JDACException with the given cause, loads the error message from the given key and inserts
     /// the placeholders.
     ///
-    /// @param key   the key of the error message
-    /// @param cause the cause of the exception
+    /// @param key         the key of the error message
+    /// @param cause       the cause of the exception
     /// @param placeholder the [placeholders][Entry] to insert
     public JDACException(String key, Throwable cause, Entry... placeholder) {
         super(cause);

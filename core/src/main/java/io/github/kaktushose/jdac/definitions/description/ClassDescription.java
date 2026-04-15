@@ -18,7 +18,7 @@ public record ClassDescription(
         Collection<MethodDescription> methods
 ) implements Description {
 
-    public ClassDescription{
+    public ClassDescription {
         annotations = Collections.unmodifiableCollection(annotations);
         methods = Collections.unmodifiableCollection(methods);
     }
@@ -26,7 +26,6 @@ public record ClassDescription(
     /// Gets methods that matches the given name.
     ///
     /// @param name the method name
-    ///
     /// @return a [Collection] of the found [MethodDescription]s or an empty [Collection] if no methods were found
     public Collection<MethodDescription> findMethods(String name) {
         return methods.stream().filter(desc -> desc.name().equals(name)).toList();
@@ -35,9 +34,8 @@ public record ClassDescription(
 
     /// Gets a method that matches the given name and parameter types if found.
     ///
-    /// @param name the method name
+    /// @param name       the method name
     /// @param parameters the method parameters, as stored by [ParameterDescription#type()]
-    ///
     /// @return the found [MethodDescription] or [Optional#empty()]
     public Optional<MethodDescription> findMethod(String name, List<Class<?>> parameters) {
         return methods
@@ -51,9 +49,8 @@ public record ClassDescription(
 
     /// Gets a method that matches the given name and parameter types if found.
     ///
-    /// @param name the method name
+    /// @param name       the method name
     /// @param parameters the method parameters, as stored by [ParameterDescription#type()]
-    ///
     /// @return the found [MethodDescription] or [Optional#empty()]
     public Optional<MethodDescription> findMethod(String name, Class<?>... parameters) {
         return findMethod(name, Arrays.asList(parameters));
@@ -62,11 +59,9 @@ public record ClassDescription(
     /// Gets a method that matches the given name and parameter types.
     /// Throws if no matching method was found.
     ///
-    /// @param name the method name
+    /// @param name       the method name
     /// @param parameters the method parameters, as stored by [ParameterDescription#type()]
-    ///
     /// @return the found [MethodDescription]
-    ///
     /// @throws NoSuchElementException if no element was found
     /// @see Optional#orElseThrow()
     public MethodDescription method(String name, List<Class<?>> parameters) {
@@ -76,11 +71,9 @@ public record ClassDescription(
     /// Gets a method that matches the given name and parameter types.
     /// Throws if no matching method was found.
     ///
-    /// @param name the method name
+    /// @param name       the method name
     /// @param parameters the method parameters, as stored by [ParameterDescription#type()]
-    ///
     /// @return the found [MethodDescription]
-    ///
     /// @throws NoSuchElementException if no element was found
     /// @see Optional#orElseThrow()
     public MethodDescription method(String name, Class<?>... parameters) {

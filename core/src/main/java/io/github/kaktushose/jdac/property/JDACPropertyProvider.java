@@ -1,12 +1,9 @@
 package io.github.kaktushose.jdac.property;
 
+import io.github.kaktushose.jdac.JDACBuilder;
 import dev.goldmensch.propane.property.Priority;
 import dev.goldmensch.propane.property.Property;
 import dev.goldmensch.propane.property.PropertyProviderSkeleton;
-import io.github.kaktushose.jdac.JDACBuilder;
-import io.github.kaktushose.jdac.property.internal.JDACEnumerationProperty;
-import io.github.kaktushose.jdac.property.internal.JDACMappingProperty;
-import io.github.kaktushose.jdac.property.internal.JDACSingletonProperty;
 
 import java.util.Collection;
 import java.util.Map;
@@ -34,7 +31,7 @@ import java.util.function.Function;
 /// Following priorities have a special meaning in JDA-Commands:
 /// - priority = [Priority#FALLBACK]    are all fallback/default values provided by JDA-Commands
 /// - priority = [Priority#BUILDER]     are all values set by the user manually in [JDACBuilder]
-///-  priority between 1 and 100        are reserved for internal usage.
+/// -  priority between 1 and 100        are reserved for internal usage.
 ///
 /// Usage of reserved priorities will result in an exception causing JDA-Commands to stop itself.
 ///
@@ -52,8 +49,8 @@ import java.util.function.Function;
 /// @param <T> the type returned by the supplier
 /// @see JDACPropertyProvider
 public class JDACPropertyProvider<T> extends PropertyProviderSkeleton<T, JDACProperty<T>, JDACIntrospection> {
-  public JDACPropertyProvider(JDACProperty<T> property, Priority priority,
-      Class<?> owner, Function<JDACIntrospection, T> supplier) {
-    super(property, priority, owner, supplier);
-  }
+    public JDACPropertyProvider(JDACProperty<T> property, Priority priority,
+                                Class<?> owner, Function<JDACIntrospection, T> supplier) {
+        super(property, priority, owner, supplier);
+    }
 }

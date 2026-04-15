@@ -1,7 +1,5 @@
 package io.github.kaktushose.jdac.guice.internal.guice.modules;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.description.Descriptor;
 import io.github.kaktushose.jdac.message.emoji.EmojiResolver;
@@ -10,6 +8,8 @@ import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.property.JDACIntrospection;
 import io.github.kaktushose.jdac.property.JDACProperty;
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal

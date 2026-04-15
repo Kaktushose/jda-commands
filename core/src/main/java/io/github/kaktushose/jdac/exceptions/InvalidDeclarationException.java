@@ -52,4 +52,3 @@ public final class InvalidDeclarationException extends JDACException {
         return prefix + super.getMessage();
     }
 }
-

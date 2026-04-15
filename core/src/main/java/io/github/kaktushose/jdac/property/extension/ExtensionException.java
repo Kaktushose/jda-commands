@@ -1,10 +1,10 @@
 package io.github.kaktushose.jdac.property.extension;
 
-import dev.goldmensch.fluava.Bundle;
-import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.property.JDACPropertyProvider;
+import dev.goldmensch.fluava.Bundle;
+import dev.goldmensch.fluava.Fluava;
 
 import java.util.Locale;
 
@@ -66,7 +66,7 @@ public abstract non-sealed class ExtensionException extends ConfigurationExcepti
     private final Information information;
 
     /// @param information the [Information] object holding all necessary (static) information to resolve the messages
-    /// @param key the bundle key of the error message
+    /// @param key         the bundle key of the error message
     public ExtensionException(Information information, String key) {
         super(key);
         this.information = information;
@@ -83,8 +83,8 @@ public abstract non-sealed class ExtensionException extends ConfigurationExcepti
     }
 
     /// @param information the [Information] object holding all necessary (static) information to resolve the messages
-    /// @param key   the bundle key of the error message
-    /// @param cause the cause of the exception
+    /// @param key         the bundle key of the error message
+    /// @param cause       the cause of the exception
     public ExtensionException(Information information, String key, Throwable cause) {
         super(key, cause);
         this.information = information;
@@ -94,15 +94,12 @@ public abstract non-sealed class ExtensionException extends ConfigurationExcepti
     /// @param information the [Information] object holding all necessary (static) information to resolve the messages
     /// @param key         the bundle key of the error message
     /// @param placeholder the placeholders to insert
-    /// @param cause the cause of the exception
+    /// @param cause       the cause of the exception
     public ExtensionException(Information information, String key, Throwable cause, Entry... placeholder) {
         super(key, cause, placeholder);
         this.information = information;
         super.bundle = Fluava.create(Locale.ENGLISH).loadBundle(information.bundleName);
     }
-
-    /// The information object holding information like the [Bundle] name to use.
-    public record Information(String bundleName) {}
 
     /// @return the stored [Information] object
     public Information information() {
@@ -113,4 +110,7 @@ public abstract non-sealed class ExtensionException extends ConfigurationExcepti
     public Bundle bundle() {
         return bundle;
     }
+
+    /// The information object holding information like the [Bundle] name to use.
+    public record Information(String bundleName) { }
 }

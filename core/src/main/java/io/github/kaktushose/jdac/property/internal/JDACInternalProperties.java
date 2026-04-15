@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac.property.internal;
 
-import dev.goldmensch.propane.property.Property;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
 import io.github.kaktushose.jdac.dispatching.Runtime;
 import io.github.kaktushose.jdac.dispatching.adapter.internal.TypeAdapters;
@@ -10,6 +9,7 @@ import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.message.i18n.internal.BundleFinder;
 import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.JDACScope;
+import dev.goldmensch.propane.property.Property;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal

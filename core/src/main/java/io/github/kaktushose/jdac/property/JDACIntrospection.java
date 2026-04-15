@@ -1,14 +1,14 @@
 package io.github.kaktushose.jdac.property;
 
+import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
+import io.github.kaktushose.jdac.property.events.JDACEvent;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import dev.goldmensch.propane.IntrospectionSkeleton;
 import dev.goldmensch.propane.Scope;
 import dev.goldmensch.propane.event.Event;
 import dev.goldmensch.propane.event.Listener;
 import dev.goldmensch.propane.event.Subscription;
 import dev.goldmensch.propane.property.*;
-import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
-import io.github.kaktushose.jdac.property.events.JDACEvent;
-import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 
 import java.util.NoSuchElementException;
 
@@ -112,48 +112,48 @@ import java.util.NoSuchElementException;
 /// to visit the documentation or [source code]((https://github.com/Goldmensch/propane)) of Propane.
 public interface JDACIntrospection extends IntrospectionSkeleton<JDACIntrospection, JDACScope> {
 
-  /// Returns the value for the requested property by either retrieving it from the cache
-  /// or computing it according to the [class' documentation][JDACIntrospection].
-  ///
-  /// @param specific the requested property
-  /// @return the value of the requested property
-  /// @see JDACIntrospection JDACIntrospection' class documentation
-  <T> T get(JDACProperty<T> specific);
+    /// Whether scoped access to the introspection instance (by calling [#scopedGet(JDACProperty)])
+    /// is possible.
+    ///
+    /// @return whether scoped access is possible
+    static boolean accessible() {
+        return JDACIntrospectionImpl.INTROSPECTION.isBound();
+    }
 
-  /// Whether scoped access to the introspection instance (by calling [#scopedGet(JDACProperty)])
-  /// is possible.
-  ///
-  /// @return whether scoped access is possible
-  static boolean accessible() {
-    return JDACIntrospectionImpl.INTROSPECTION.isBound();
-  }
+    /// Returns the introspection instance set via [ScopedValue] if set, else throws
+    /// [NoSuchElementException].
+    ///
+    /// @return the introspection instance of this scope
+    /// @see ScopedValue#get()
+    static JDACIntrospection accessScoped() {
+        return JDACIntrospectionImpl.INTROSPECTION.get();
+    }
 
-  /// Returns the introspection instance set via [ScopedValue] if set, else throws
-  /// [NoSuchElementException].
-  ///
-  /// @return the introspection instance of this scope
-  /// @see ScopedValue#get()
-  static JDACIntrospection accessScoped() {
-    return JDACIntrospectionImpl.INTROSPECTION.get();
-  }
+    /// Shorthand for `accessScoped().get(property)`. Throws [NoSuchElementException]
+    /// if [#accessible()] returns `false`.
+    ///
+    /// @param property the property to get
+    /// @return the value for the property
+    static <T> T scopedGet(JDACProperty<T> property) {
+        return accessScoped().get(property);
+    }
 
-  /// Shorthand for `accessScoped().get(property)`. Throws [NoSuchElementException]
-  /// if [#accessible()] returns `false`.
-  ///
-  /// @param property the property to get
-  /// @return the value for the property
-  static <T> T scopedGet(JDACProperty<T> property) {
-    return accessScoped().get(property);
-  }
+    /// Returns the value for the requested property by either retrieving it from the cache
+    /// or computing it according to the [class' documentation][JDACIntrospection].
+    ///
+    /// @param specific the requested property
+    /// @return the value of the requested property
+    /// @see JDACIntrospection JDACIntrospection' class documentation
+    <T> T get(JDACProperty<T> specific);
 
-  /// Subscribes to an [event][Event] with the given [Listener].
-  /// The provided listener will be stored in this instance, thus be available for the lifetime
-  /// of this introspection instance.
-  ///
-  /// @param listener the [Listener] to be registered
-  /// @return a [Subscription] identifying the registered listener
-  /// @see JDACIntrospection JDACIntrospection' class documentation
-  /// @see JDACEvent
-  @Override
-  Subscription<JDACIntrospection, JDACScope> subscribe(Listener<? extends Event<JDACScope>, JDACScope, JDACIntrospection> listener);
+    /// Subscribes to an [event][Event] with the given [Listener].
+    /// The provided listener will be stored in this instance, thus be available for the lifetime
+    /// of this introspection instance.
+    ///
+    /// @param listener the [Listener] to be registered
+    /// @return a [Subscription] identifying the registered listener
+    /// @see JDACIntrospection JDACIntrospection' class documentation
+    /// @see JDACEvent
+    @Override
+    Subscription<JDACIntrospection, JDACScope> subscribe(Listener<? extends Event<JDACScope>, JDACScope, JDACIntrospection> listener);
 }

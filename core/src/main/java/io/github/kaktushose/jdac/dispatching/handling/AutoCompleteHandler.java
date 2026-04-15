@@ -19,8 +19,7 @@ public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteI
         super(introspection);
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     protected PreparationResult prepare(CommandAutoCompleteInteractionEvent event, Runtime runtime) {
         CommandAutoCompleteInteraction interaction = event.getInteraction();
 

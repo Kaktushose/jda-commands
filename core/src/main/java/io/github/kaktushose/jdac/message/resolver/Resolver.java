@@ -18,10 +18,10 @@ import java.util.Map;
 /// Most Resolvers are not intended to be directly used by end users but part of the public api to allow manual execution
 /// of the frameworks resolving logic for dynamic values if needed.
 ///
+/// @param <T> the type to resolve
 /// @see MessageResolver
 /// @see DataObjectResolver
 /// @see ComponentResolver
-/// @param <T> the type to resolve
 public interface Resolver<T> {
 
     /// Resolves the given object for the provided locale.

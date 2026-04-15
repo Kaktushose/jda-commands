@@ -47,7 +47,6 @@ public final class EmojiResolver implements Resolver<String> {
     /// Resolves the emoji aliases of a string according to the javadocs of this class.
     ///
     /// @param msg The string to be resolved
-    ///
     /// @return the resolved string
     public String resolve(String msg) {
         return parse(msg)
@@ -77,7 +76,8 @@ public final class EmojiResolver implements Resolver<String> {
                 referenceStart = -1;
             }
 
-            outer: if (c == ':') {
+            outer:
+            if (c == ':') {
                 if (i >= 1 && msg.charAt(i - 1) == '\\') {
                     String literal = msg.substring(nextLiteralStart, i - 1);
                     components.add(new Component.Literal(literal));

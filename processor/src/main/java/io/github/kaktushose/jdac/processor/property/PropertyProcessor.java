@@ -1,9 +1,11 @@
 package io.github.kaktushose.jdac.processor.property;
 
+import io.github.kaktushose.jdac.processor.property.api.PropertyProcessed;
 import com.sun.source.tree.*;
 import com.sun.source.util.Trees;
-import io.github.kaktushose.jdac.processor.property.api.PropertyProcessed;
 
+import java.util.List;
+import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.RoundEnvironment;
@@ -13,8 +15,6 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
-import java.util.List;
-import java.util.Set;
 
 public abstract class PropertyProcessor extends AbstractProcessor {
 
@@ -27,7 +27,9 @@ public abstract class PropertyProcessor extends AbstractProcessor {
             Set<? extends Element> annotatedElements
                     = roundEnv.getElementsAnnotatedWith(validated);
             for (Element annotatedElement : annotatedElements) {
-                if (!(annotatedElement instanceof TypeElement typeElement)) continue;
+                if (!(annotatedElement instanceof TypeElement typeElement)) {
+                    continue;
+                }
                 for (Element child : typeElement.getEnclosedElements()) {
                     if (!(child instanceof VariableElement variable && variable.getKind() == ElementKind.FIELD)) {
                         continue;
@@ -35,7 +37,9 @@ public abstract class PropertyProcessor extends AbstractProcessor {
 
                     TypeMirror type = variable.asType();
                     Element element = processingEnv.getTypeUtils().asElement(type);
-                    if (!element.getSimpleName().contentEquals("JDACProperty")) return false;
+                    if (!element.getSimpleName().contentEquals("JDACProperty")) {
+                        return false;
+                    }
 
                     VariableTree tree = (VariableTree) trees.getPath(variable).getLeaf();
                     ExpressionTree initializer = tree.getInitializer();
@@ -76,7 +80,8 @@ public abstract class PropertyProcessor extends AbstractProcessor {
             case "JDACEnumerationProperty" -> getValue(arguments.get(4));
             case "JDACSingletonProperty" -> "NONE";
             case "JDACMappingProperty" -> getValue(arguments.get(5));
-            default -> throw new IllegalStateException("Unknown property type: %s".formatted(nc.getIdentifier().toString()));
+            default ->
+                    throw new IllegalStateException("Unknown property type: %s".formatted(nc.getIdentifier().toString()));
         };
 
 

@@ -15,8 +15,8 @@ import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
-import io.github.kaktushose.jdac.property.Definitions;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.property.Definitions;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -24,19 +24,20 @@ import java.util.*;
 import java.util.function.Predicate;
 
 /// Central registry for all [InteractionDefinition]s.
-public record InteractionRegistry(Validators validators,
-                                  MessageResolver messageResolver,
-                                  Descriptor descriptor,
-                                  Set<InteractionDefinition> definitions
+public record InteractionRegistry(
+        Validators validators,
+        MessageResolver messageResolver,
+        Descriptor descriptor,
+        Set<InteractionDefinition> definitions
 ) implements Definitions {
 
     private static final Logger log = JDACLogger.getLogger(InteractionRegistry.class);
 
     /// Constructs a new [InteractionRegistry]
     ///
-    /// @param registry   the corresponding [Validators]
+    /// @param registry        the corresponding [Validators]
     /// @param messageResolver the [MessageResolver] instance to use
-    /// @param descriptor the [Descriptor] to use
+    /// @param descriptor      the [Descriptor] to use
     public InteractionRegistry(Validators registry, MessageResolver messageResolver, Descriptor descriptor) {
         this(registry, messageResolver, descriptor, new HashSet<>());
     }
@@ -108,12 +109,12 @@ public record InteractionRegistry(Validators validators,
 
 
     private Set<InteractionDefinition> interactionDefinitions(ClassDescription clazz,
-                                                   Validators validators,
-                                                   MessageResolver messageResolver,
-                                                   Interaction interaction,
-                                                   Set<String> permissions,
-                                                   Collection<AutoCompleteDefinition> autocompletes,
-                                                   CommandDefinition.CommandConfig globalCommandConfig) {
+                                                              Validators validators,
+                                                              MessageResolver messageResolver,
+                                                              Interaction interaction,
+                                                              Set<String> permissions,
+                                                              Collection<AutoCompleteDefinition> autocompletes,
+                                                              CommandDefinition.CommandConfig globalCommandConfig) {
         Set<InteractionDefinition> definitions = new HashSet<>(autocompletes);
         for (MethodDescription method : clazz.methods()) {
             final MethodBuildContext context = new MethodBuildContext(
@@ -140,8 +141,7 @@ public record InteractionRegistry(Validators validators,
         return definitions;
     }
 
-    @Nullable
-    private InteractionDefinition construct(MethodDescription method, MethodBuildContext context) {
+    @Nullable private InteractionDefinition construct(MethodDescription method, MethodBuildContext context) {
         // index commands
         if (method.hasAnnotation(Command.class)) {
             Command command = method.findAnnotation(Command.class).get();

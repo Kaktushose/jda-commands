@@ -1,8 +1,8 @@
 package io.github.kaktushose.jdac.exceptions;
 
-import io.github.kaktushose.jdac.property.extension.ExtensionException;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.property.extension.ExtensionException;
 
 /// Will be thrown if anything goes wrong while configuring jda-commands.
 public sealed class ConfigurationException extends JDACException permits ExtensionException {

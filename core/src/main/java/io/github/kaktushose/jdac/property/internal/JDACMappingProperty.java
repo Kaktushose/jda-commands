@@ -1,10 +1,10 @@
 package io.github.kaktushose.jdac.property.internal;
 
-import dev.goldmensch.propane.property.MappingPropertySkeleton;
-import dev.goldmensch.propane.property.Property;
 import io.github.kaktushose.jdac.property.JDACIntrospection;
 import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.JDACScope;
+import dev.goldmensch.propane.property.MappingPropertySkeleton;
+import dev.goldmensch.propane.property.Property;
 
 import java.util.Map;
 
