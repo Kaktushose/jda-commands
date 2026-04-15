@@ -1,8 +1,5 @@
 package io.github.kaktushose.jdac.dispatching;
 
-import io.github.kaktushose.jdac.configuration.Property;
-import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
-import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
 import io.github.kaktushose.jdac.dispatching.expiration.ExpirationStrategy;
 import io.github.kaktushose.jdac.dispatching.handling.AutoCompleteHandler;
@@ -13,10 +10,12 @@ import io.github.kaktushose.jdac.dispatching.handling.command.ContextCommandHand
 import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandler;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
-import io.github.kaktushose.jdac.introspection.Stage;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
-import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeCloseEvent;
-import io.github.kaktushose.jdac.introspection.lifecycle.events.RuntimeOpenEvent;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACScope;
+import io.github.kaktushose.jdac.property.events.RuntimeCloseEvent;
+import io.github.kaktushose.jdac.property.events.RuntimeOpenEvent;
+import io.github.kaktushose.jdac.property.internal.JDACInternalProperties;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -61,19 +60,19 @@ public final class Runtime implements Closeable {
 
     private final KeyValueStore keyValueStore = new KeyValueStore();
 
-    private final IntrospectionImpl introspection;
+    private final JDACIntrospectionImpl introspection;
 
     private LocalDateTime lastActivity = LocalDateTime.now();
 
-    private Runtime(String id, IntrospectionImpl baseIntrospection, JDA jda) {
+    private Runtime(String id, JDACIntrospectionImpl baseIntrospection, JDA jda) {
         this.id = id;
 
-        this.introspection = Properties.Builder.newRestricted()
-                .addFallback(Property.JDA, _ -> jda)
-                .addFallback(InternalProperties.RUNTIME, _ -> this)
-                .addFallback(Property.RUNTIME_ID, _ -> id)
-                .addFallback(Property.KEY_VALUE_STORE, _ -> keyValueStore())
-                .createIntrospection(baseIntrospection, Stage.RUNTIME);
+        this.introspection = baseIntrospection.createChild(JDACScope.RUNTIME)
+                .addFallback(JDACProperty.JDA, _ -> jda)
+                .addFallback(JDACInternalProperties.RUNTIME, _ -> this)
+                .addFallback(JDACProperty.RUNTIME_ID, _ -> id)
+                .addFallback(JDACProperty.KEY_VALUE_STORE, _ -> keyValueStore())
+                .build();
 
         slashCommandHandler = new SlashCommandHandler(introspection);
         autoCompleteHandler = new AutoCompleteHandler(introspection);
@@ -87,7 +86,7 @@ public final class Runtime implements Closeable {
                 .unstarted(this::checkForEvents);
     }
 
-    public static Runtime startNew(String id, IntrospectionImpl introspection, JDA jda) {
+    public static Runtime startNew(String id, JDACIntrospectionImpl introspection, JDA jda) {
         var runtime = new Runtime(id, introspection, jda);
         runtime.executionThread.start();
 
@@ -97,7 +96,7 @@ public final class Runtime implements Closeable {
     }
 
     private void checkForEvents() {
-        ScopedValue.where(IntrospectionImpl.INTROSPECTION, introspection).run(() -> {
+        ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, introspection).run(() -> {
             introspection.publish(new RuntimeOpenEvent(id));
 
             try {
@@ -138,7 +137,7 @@ public final class Runtime implements Closeable {
     }
 
     public <T> T interactionInstance(Class<T> clazz) {
-        return introspection.get(Property.INSTANTIATOR).instance(clazz, introspection);
+        return introspection.get(JDACProperty.INSTANTIATOR).instance(clazz, introspection);
     }
 
     @Override
@@ -148,7 +147,7 @@ public final class Runtime implements Closeable {
     }
 
     public boolean isClosed() {
-        if (introspection.get(Property.EXPIRATION_STRATEGY) instanceof ExpirationStrategy.Inactivity(long minutes) &&
+        if (introspection.get(JDACProperty.EXPIRATION_STRATEGY) instanceof ExpirationStrategy.Inactivity(long minutes) &&
             lastActivity.isBefore(LocalDateTime.now().minusMinutes(minutes))) {
             close();
             return true;

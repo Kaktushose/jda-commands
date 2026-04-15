@@ -4,7 +4,7 @@ import io.github.kaktushose.jdac.definitions.interactions.command.OptionDataDefi
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
 import io.github.kaktushose.jdac.dispatching.Runtime;
 import io.github.kaktushose.jdac.dispatching.events.interactions.AutoCompleteEvent;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
 import org.jetbrains.annotations.ApiStatus;
@@ -15,7 +15,7 @@ import java.util.List;
 @ApiStatus.Internal
 public final class AutoCompleteHandler extends EventHandler<CommandAutoCompleteInteractionEvent> {
 
-    public AutoCompleteHandler(IntrospectionImpl introspection) {
+    public AutoCompleteHandler(JDACIntrospectionImpl introspection) {
         super(introspection);
     }
 

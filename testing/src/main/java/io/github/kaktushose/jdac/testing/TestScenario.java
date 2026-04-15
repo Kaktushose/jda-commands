@@ -7,10 +7,10 @@ import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.command.CommandDefinition;
 import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
-import io.github.kaktushose.jdac.introspection.Introspection;
 import io.github.kaktushose.jdac.message.i18n.FluavaLocalizer;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
 import dev.goldmensch.fluava.Fluava;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
 import io.github.kaktushose.jdac.testing.invocation.AutoCompleteInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.ContextCommandInvocation;
 import io.github.kaktushose.jdac.testing.invocation.commands.SlashCommandInvocation;
@@ -113,7 +113,7 @@ public class TestScenario {
                     .classFinders(ClassFinder.explicit(klass))
                     .instantiator(new Instantiator() {
                         @Override
-                        public <T> T instance(Class<T> clazz, Introspection context) {
+                        public <T> T instance(Class<T> clazz, JDACIntrospection context) {
                             return spy(clazz);
                         }
                     });

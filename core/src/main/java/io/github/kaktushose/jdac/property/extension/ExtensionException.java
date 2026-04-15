@@ -1,14 +1,15 @@
-package io.github.kaktushose.jdac.configuration;
+package io.github.kaktushose.jdac.property.extension;
 
 import dev.goldmensch.fluava.Bundle;
 import dev.goldmensch.fluava.Fluava;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.property.JDACPropertyProvider;
 
 import java.util.Locale;
 
 /// A sub exception of [ConfigurationException] that can be implemented by users of the library for throwing
-/// own exceptions during the initialization of [Extension]s or in [PropertyProvider#supplier()].
+/// own exceptions during the initialization of [Extension]s or in [JDACPropertyProvider#supplier()].
 ///
 /// This class comes particularly handy, because it allows to easily use exception messages defined via
 /// fluent localization files in your resource folder, avoiding long strings in your source code and enabling

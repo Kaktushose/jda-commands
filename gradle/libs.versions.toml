@@ -8,6 +8,7 @@ org-jetbrains-annotations = "24.0.1"
 org-slf4j-slf4j = "2.0.5"
 com-google-inject-guice = "7.0.0"
 dev-goldmensch-fluava = "1.2.4"
+dev-goldmensch-propane = "0.1"
 org-junit-jupiter = "5.13.0"
 org-mockito = "5.18.0"
 
@@ -24,6 +25,7 @@ org-slf4j-slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "org
 com-google-inject-guice = { module = "com.google.inject:guice", version.ref = "com-google-inject-guice" }
 io-github-kaktushose-proteus = { module = "io.github.kaktushose:proteus", version = "0.2.3" }
 dev-goldmensch-fluava = { module = "dev.goldmensch:fluava", version.ref = "dev-goldmensch-fluava" }
+dev-goldmensch-propane = { module = "dev.goldmensch:propane", version.ref = "dev-goldmensch-propane"}
 org-jspecify = { module = "org.jspecify:jspecify", version = "1.0.0"}
 net-fellbaum-jemoji = { module = "net.fellbaum:jemoji", version = "1.7.5"}
 io-github-classgraph = { module = "io.github.classgraph:classgraph", version = "4.8.180" }

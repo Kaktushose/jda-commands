@@ -15,9 +15,8 @@ import io.github.kaktushose.jdac.dispatching.validation.internal.Validators;
 import io.github.kaktushose.jdac.exceptions.InternalException;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
-import io.github.kaktushose.jdac.introspection.Definitions;
+import io.github.kaktushose.jdac.property.Definitions;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
-import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 

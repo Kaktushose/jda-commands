@@ -3,7 +3,7 @@ package io.github.kaktushose.jdac.dispatching.middleware;
 
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
-import io.github.kaktushose.jdac.introspection.Stage;
+import io.github.kaktushose.jdac.property.JDACScope;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jspecify.annotations.Nullable;
 
@@ -57,7 +57,7 @@ public interface Middleware extends Consumer<InvocationContext<?>> {
     /// Executes this middleware with the given [InvocationContext]. Use [InvocationContext#cancel(MessageCreateData)] to cancel the execution chain.
     ///
     /// @param context the [InvocationContext] of the current interaction event
-    @IntrospectionAccess(Stage.INTERACTION)
+    @IntrospectionAccess(JDACScope.INTERACTION)
     void accept(InvocationContext<?> context);
 
     /// Declares the interaction controllers for which this middleware should run.

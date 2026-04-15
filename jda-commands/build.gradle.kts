@@ -28,7 +28,8 @@ tasks.withType<Javadoc>().configureEach {
     options.overview = "src/main/javadoc/overview.md"
     options.links = listOf(
         "https://google.github.io/guice/api-docs/7.0.0/javadoc/",
-        "https://docs.jda.wiki/"
+        "https://docs.jda.wiki/",
+        "https://goldmensch.github.io/propane/javadocs/snapshot/"
     )
 
     doLast {

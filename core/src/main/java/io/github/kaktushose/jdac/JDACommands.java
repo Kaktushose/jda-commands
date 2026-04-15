@@ -4,10 +4,6 @@ import io.github.kaktushose.jdac.annotations.interactions.CommandScope;
 import io.github.kaktushose.jdac.annotations.interactions.EntityMenu;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.annotations.interactions.StringMenu;
-import io.github.kaktushose.jdac.configuration.Property;
-import io.github.kaktushose.jdac.configuration.internal.Extensions;
-import io.github.kaktushose.jdac.configuration.internal.InternalProperties;
-import io.github.kaktushose.jdac.configuration.internal.Properties;
 import io.github.kaktushose.jdac.definitions.description.ClassFinder;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
@@ -21,11 +17,14 @@ import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.internal.register.CommandUpdater;
-import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.Stage;
-import io.github.kaktushose.jdac.introspection.internal.IntrospectionImpl;
-import io.github.kaktushose.jdac.introspection.lifecycle.events.FrameworkShutdownEvent;
-import io.github.kaktushose.jdac.introspection.lifecycle.events.FrameworkStartEvent;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACScope;
+import io.github.kaktushose.jdac.property.events.FrameworkShutdownEvent;
+import io.github.kaktushose.jdac.property.events.FrameworkStartEvent;
+import io.github.kaktushose.jdac.property.internal.JDACInternalProperties;
+import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
+import io.github.kaktushose.jdac.property.internal.extension.Extensions;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
@@ -35,8 +34,8 @@ import org.slf4j.Logger;
 
 import java.util.*;
 
-import static io.github.kaktushose.jdac.configuration.Property.LOCALIZATION_FUNCTION;
-import static io.github.kaktushose.jdac.configuration.Property.LOCALIZE_COMMANDS;
+import static io.github.kaktushose.jdac.property.JDACProperty.LOCALIZATION_FUNCTION;
+import static io.github.kaktushose.jdac.property.JDACProperty.LOCALIZE_COMMANDS;
 
 /// The main entry point of the JDA-Commands framework. This class includes methods to manage the overall framework
 /// while running.
@@ -47,17 +46,17 @@ public final class JDACommands {
 
     private final JDAEventListener jdaEventListener;
     private final CommandUpdater updater;
-    private final IntrospectionImpl introspection;
+    private final JDACIntrospectionImpl introspection;
 
-    JDACommands(IntrospectionImpl baseIntrospection) {
-        this.introspection = Properties.Builder.newRestricted()
-                .addFallback(Property.JDA_COMMANDS, _ -> this)
-                .createIntrospection(baseIntrospection, Stage.INITIALIZED);
+    JDACommands(JDACIntrospectionImpl.Builder builder) {
+        this.introspection = builder
+                .addFallback(JDACProperty.JDA_COMMANDS, _ -> this)
+                .build();
 
         this.updater = new CommandUpdater(
-                introspection.get(InternalProperties.JDA_CONTEXT),
-                introspection.get(Property.GUILD_SCOPE_PROVIDER),
-                introspection.get(InternalProperties.INTERACTION_REGISTRY),
+                introspection.get(JDACInternalProperties.JDA_CONTEXT),
+                introspection.get(JDACProperty.GUILD_SCOPE_PROVIDER),
+                introspection.get(JDACInternalProperties.INTERACTION_REGISTRY),
                 introspection.get(LOCALIZE_COMMANDS) ? introspection.get(LOCALIZATION_FUNCTION) : (_) -> Map.of()
         );
 
@@ -105,13 +104,13 @@ public final class JDACommands {
     }
 
     void start(Extensions extensions) {
-        ScopedValue.where(IntrospectionImpl.INTROSPECTION, introspection).run(() -> {
-            ClassFinder classFinder = introspection.get(Property.MERGED_CLASS_FINDER);
+        ScopedValue.where(JDACIntrospectionImpl.INTROSPECTION, introspection).run(() -> {
+            ClassFinder classFinder = introspection.get(JDACProperty.MERGED_CLASS_FINDER);
 
-            introspection.get(InternalProperties.INTERACTION_REGISTRY).index(classFinder.search(Interaction.class), introspection.get(Property.GLOBAL_COMMAND_CONFIG));
+            introspection.get(JDACInternalProperties.INTERACTION_REGISTRY).index(classFinder.search(Interaction.class), introspection.get(JDACProperty.GLOBAL_COMMAND_CONFIG));
             updater.updateAllCommands();
 
-            introspection.get(InternalProperties.JDA_CONTEXT).performTask(it -> it.addEventListener(jdaEventListener), false);
+            introspection.get(JDACInternalProperties.JDA_CONTEXT).performTask(it -> it.addEventListener(jdaEventListener), false);
 
             log.debug("Run Extension#onStart()");
             extensions.callOnStart(this);
@@ -130,11 +129,11 @@ public final class JDACommands {
     public void shutdown() {
         introspection.publish(new FrameworkShutdownEvent());
 
-        JDAContext jdaContext = introspection.get(InternalProperties.JDA_CONTEXT);
+        JDAContext jdaContext = introspection.get(JDACInternalProperties.JDA_CONTEXT);
 
         jdaContext.performTask(jda -> jda.removeEventListener(jdaEventListener), false);
 
-        if (introspection.get(Property.SHUTDOWN_JDA)) {
+        if (introspection.get(JDACProperty.SHUTDOWN_JDA)) {
             jdaContext.shutdown();
         }
     }
@@ -161,7 +160,7 @@ public final class JDACommands {
     /// @return the JDA [Button]
     public Button getButton(Class<?> origin, String button) {
         var id = String.valueOf((origin.getName() + button).hashCode());
-        var definition = introspection.get(InternalProperties.INTERACTION_REGISTRY).find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = introspection.get(JDACInternalProperties.INTERACTION_REGISTRY).find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
         return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
@@ -176,7 +175,7 @@ public final class JDACommands {
     /// @return the JDA [SelectMenu]
     public SelectMenu getSelectMenu(Class<?> origin, String menu) {
         var id = String.valueOf((origin.getName() + menu).hashCode());
-        var definition = introspection.get(InternalProperties.INTERACTION_REGISTRY).find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
+        var definition = introspection.get(JDACInternalProperties.INTERACTION_REGISTRY).find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
         return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
     }
 
@@ -188,7 +187,7 @@ public final class JDACommands {
     /// @return the [Embed]
     /// @throws IllegalArgumentException if no [Embed] with the given name exists in the configured [data sources][EmbedConfig#sources(EmbedDataSource...)]
     public Embed embed(String name) {
-        return introspection.get(InternalProperties.EMBEDS).get(name);
+        return introspection.get(JDACInternalProperties.EMBEDS).get(name);
     }
 
     /// Gets an [Embed] based on the given name and wraps it in an [Optional].
@@ -198,7 +197,7 @@ public final class JDACommands {
     /// @param name the name of the [Embed]
     /// @return an [Optional] holding the [Embed] or an empty [Optional] if an [Embed] with the given name doesn't exist
     public Optional<Embed> findEmbed(String name) {
-        Embeds embeds = introspection.get(InternalProperties.EMBEDS);
+        Embeds embeds = introspection.get(JDACInternalProperties.EMBEDS);
 
         if (!embeds.exists(name)) {
             return Optional.empty();
@@ -206,10 +205,10 @@ public final class JDACommands {
         return Optional.of(embeds.get(name));
     }
 
-    /// Gets the [Introspection] instance with stage [Stage#INITIALIZED].
+    /// Gets the [JDACIntrospection] instance with scope [JDACScope#INITIALIZED].
     ///
-    /// @return the [Introspection] instance
-    public Introspection introspection() {
+    /// @return the [JDACIntrospection] instance
+    public JDACIntrospection introspection() {
         return introspection;
     }
 
@@ -217,10 +216,10 @@ public final class JDACommands {
     ///
     /// This is a shortcut for `JDACommands#introscpection#get`
     ///
-    /// @param property the [Property] description
+    /// @param property the [JDACProperty] description
     /// @return T
     /// @param <T> the type of property
-    public <T> T property(Property<T> property) {
+    public <T> T property(JDACProperty<T> property) {
         return introspection.get(property);
     }
 }

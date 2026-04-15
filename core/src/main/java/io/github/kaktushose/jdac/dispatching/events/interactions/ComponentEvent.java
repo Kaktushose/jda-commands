@@ -16,7 +16,7 @@ import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionE
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import org.slf4j.Logger;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.scopedReplyConfig;
+import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.scopedReplyConfig;
 
 /// This class is a subclass of [Event]. It provides additional features for replying to a [GenericComponentInteractionCreateEvent].
 ///

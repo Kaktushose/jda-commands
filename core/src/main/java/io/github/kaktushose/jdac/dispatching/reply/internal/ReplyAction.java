@@ -38,7 +38,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static io.github.kaktushose.jdac.introspection.internal.IntrospectionAccess.*;
+import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 
 @ApiStatus.Internal
