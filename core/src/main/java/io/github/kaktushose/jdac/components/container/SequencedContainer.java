@@ -3,12 +3,12 @@ package io.github.kaktushose.jdac.components.container;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.components.SequencedTextDisplay;
 import io.github.kaktushose.jdac.components.internal.SequencedComponent;
-import io.github.kaktushose.jdac.configuration.Property;
-import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACScope;
 import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.container.Container;
@@ -51,7 +51,7 @@ import java.util.stream.Stream;
 ///
 /// ## Usage outside JDA-Commands
 /// [Container#of(Collection)] uses the [Introspection] API to access a [Resolver] and the user locale. This means, the
-/// static `of` factory method is only usable in [Stage#PREPARATION]. If you want to use this class outside JDA-Commands
+/// static `of` factory method is only usable in [JDACScope#PREPARATION]. If you want to use this class outside JDA-Commands
 /// call the constructor and pass the [Resolver] as well as the [Locale] manually.
 /// ```
 /// SequencedContainer<ContainerChildComponent> container = new SequencedContainer(resolver, locale, TextDisplay.of("Hello World!));
@@ -100,18 +100,18 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
     /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
     ///
     /// @param <T> the component type this container supports.
-    /// @throws IllegalStateException if the [Stage#PREPARATION] isn't accessible.
+    /// @throws IllegalStateException if the [JDACScope#PREPARATION] isn't accessible.
     public static <T extends ContainerChildComponent> SequencedContainer<T> of(T header) {
         checkAccess();
         return new SequencedContainer<>(
-                Introspection.scopedGet(Property.MESSAGE_RESOLVER),
-                Introspection.scopedGet(Property.JDA_EVENT).getUserLocale().toLocale(),
+                JDACProperty.MESSAGE_RESOLVER.scopedGet(),
+                JDACProperty.JDA_EVENT.scopedGet().getUserLocale().toLocale(),
                 header
         );
     }
 
     protected static void checkAccess() {
-        if (!Introspection.accessible()) {
+        if (!JDACIntrospection.accessible()) {
             throw new IllegalStateException("TODO: Illegal call outside of of event handler");
         }
     }

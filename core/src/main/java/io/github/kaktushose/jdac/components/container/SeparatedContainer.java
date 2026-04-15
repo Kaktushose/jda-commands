@@ -1,11 +1,10 @@
 package io.github.kaktushose.jdac.components.container;
 
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
-import io.github.kaktushose.jdac.configuration.Property;
-import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACScope;
 import net.dv8tion.jda.api.components.container.ContainerChildComponent;
 import net.dv8tion.jda.api.components.separator.Separator;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
@@ -45,12 +44,12 @@ public final class SeparatedContainer extends SequencedContainer<ContainerChildC
     ///
     /// @param header    the first component of this container
     /// @param separator the [Separator] to use to divide elements
-    /// @throws IllegalStateException if the [Stage#PREPARATION] isn't accessible.
+    /// @throws IllegalStateException if the [JDACScope#PREPARATION] isn't accessible.
     public static SeparatedContainer of(ContainerChildComponent header, Separator separator) {
         SequencedContainer.checkAccess();
         return new SeparatedContainer(
-                Introspection.scopedGet(Property.MESSAGE_RESOLVER),
-                Introspection.scopedGet(Property.JDA_EVENT).getUserLocale().toLocale(),
+                JDACProperty.MESSAGE_RESOLVER.scopedGet(),
+                JDACProperty.JDA_EVENT.scopedGet().getUserLocale().toLocale(),
                 header,
                 separator
         );

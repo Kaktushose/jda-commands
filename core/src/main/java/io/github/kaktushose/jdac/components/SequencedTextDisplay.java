@@ -3,14 +3,13 @@ package io.github.kaktushose.jdac.components;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.components.container.SequencedContainer;
 import io.github.kaktushose.jdac.components.internal.SequencedComponent;
-import io.github.kaktushose.jdac.configuration.Property;
-import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACScope;
 import net.dv8tion.jda.api.components.textdisplay.TextDisplay;
-import net.dv8tion.jda.api.components.utils.ComponentSerializer;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.internal.components.textdisplay.TextDisplayImpl;
@@ -37,8 +36,8 @@ import java.util.stream.Collectors;
 /// additional [Entries][Entry] outside the [#add(String, Entry...)] methods.
 ///
 /// ## Usage outside JDA-Commands
-/// [SequencedTextDisplay#of(String)] uses the [Introspection] API to access a [Resolver] and the user locale. This
-/// means, the static `of` factory method is only usable in [Stage#PREPARATION]. If you want to use this class outside
+/// [SequencedTextDisplay#of(String)] uses the [JDACIntrospection] API to access a [Resolver] and the user locale. This
+/// means, the static `of` factory method is only usable in [JDACScope#PREPARATION]. If you want to use this class outside
 ///  JDA-Commands call the constructor and pass the [Resolver] as well as the [Locale] manually.
 /// ```
 /// var textDisplay = new SequencedTextDisplay(resolver, locale, TextDisplay.of("Hello World!));
@@ -47,7 +46,6 @@ public final class SequencedTextDisplay
         extends TextDisplayImpl
         implements SequencedComponent<TextDisplay> {
 
-    private static final ComponentSerializer componentSerializer = new ComponentSerializer();
     private final SequencedCollection<TextDisplay> textDisplays;
     private final ComponentResolver<TextDisplay> resolver;
     private final List<Entry> entries;
@@ -100,7 +98,7 @@ public final class SequencedTextDisplay
     /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
     ///
     /// @param content the [String] to use for the first [TextDisplay] of this container
-    /// @throws IllegalStateException if the [Stage#PREPARATION] isn't accessible.
+    /// @throws IllegalStateException if the [JDACScope#PREPARATION] isn't accessible.
     public static SequencedTextDisplay of(String content) {
         return of(TextDisplay.of(content));
     }
@@ -110,14 +108,14 @@ public final class SequencedTextDisplay
     /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
     ///
     /// @param header the first [TextDisplay] of this container
-    /// @throws IllegalStateException if the [Stage#PREPARATION] isn't accessible.
+    /// @throws IllegalStateException if the [JDACScope#PREPARATION] isn't accessible.
     public static SequencedTextDisplay of(TextDisplay header) {
-        if (!Introspection.accessible()) {
+        if (!JDACIntrospection.accessible()) {
             throw new IllegalStateException("TODO: Illegal call outside of of event handler");
         }
         return new SequencedTextDisplay(
-                Introspection.scopedGet(Property.MESSAGE_RESOLVER),
-                Introspection.scopedGet(Property.JDA_EVENT).getUserLocale().toLocale(),
+                JDACProperty.MESSAGE_RESOLVER.scopedGet(),
+                JDACProperty.JDA_EVENT.scopedGet().getUserLocale().toLocale(),
                 header
         );
     }

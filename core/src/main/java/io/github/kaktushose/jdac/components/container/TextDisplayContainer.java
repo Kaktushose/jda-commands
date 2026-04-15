@@ -1,11 +1,10 @@
 package io.github.kaktushose.jdac.components.container;
 
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
-import io.github.kaktushose.jdac.configuration.Property;
-import io.github.kaktushose.jdac.introspection.Introspection;
-import io.github.kaktushose.jdac.introspection.Stage;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACScope;
 import net.dv8tion.jda.api.components.textdisplay.TextDisplay;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 
@@ -64,7 +63,7 @@ public final class TextDisplayContainer extends SequencedContainer<TextDisplay> 
     /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
     ///
     /// @param content the [String] to use for the first [TextDisplay] of this container
-    /// @throws IllegalStateException if the [Stage#PREPARATION] isn't accessible.
+    /// @throws IllegalStateException if the [JDACScope#PREPARATION] isn't accessible.
     public static TextDisplayContainer of(String content) {
         return of(TextDisplay.of(content));
     }
@@ -74,12 +73,12 @@ public final class TextDisplayContainer extends SequencedContainer<TextDisplay> 
     /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
     ///
     /// @param header the first [TextDisplay] of this container
-    /// @throws IllegalStateException if the [Stage#PREPARATION] isn't accessible.
+    /// @throws IllegalStateException if the [JDACScope#PREPARATION] isn't accessible.
     public static TextDisplayContainer of(TextDisplay header) {
         SequencedContainer.checkAccess();
         return new TextDisplayContainer(
-                Introspection.scopedGet(Property.MESSAGE_RESOLVER),
-                Introspection.scopedGet(Property.JDA_EVENT).getUserLocale().toLocale(),
+                JDACProperty.MESSAGE_RESOLVER.scopedGet(),
+                JDACProperty.JDA_EVENT.scopedGet().getUserLocale().toLocale(),
                 header
         );
     }
