@@ -87,7 +87,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public final class </span><span class="element-name type-name-label">MessageResolver</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span></div>
-<div class="block"><p>The MessageResolver combines all registered <a href="../../configuration/Property.html#STRING_RESOLVER"><code>Resolver&lt;String&gt;</code></a>
+<div class="block"><p>The MessageResolver combines all registered <a href="../../property/JDACProperty.html#STRING_RESOLVER"><code>Resolver&lt;String&gt;</code></a>
 and following default resolvers:</p>
 <ol>
 <li><a href="../placeholder/PlaceholderResolver.html" title="class in io.github.kaktushose.jdac.message.placeholder"><code>PlaceholderResolver</code></a> (priority = 1000)</li>
@@ -138,7 +138,7 @@ to allow manual execution of the frameworks resolving logic for dynamic values i
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Applies all registered <a href="../../configuration/Property.html#STRING_RESOLVER"><code>Resolver&lt;String&gt;</code></a> to the given message with
+<div class="block">Applies all registered <a href="../../property/JDACProperty.html#STRING_RESOLVER"><code>Resolver&lt;String&gt;</code></a> to the given message with
 the passed locale and placeholders.</div>
 </div>
 </div>
@@ -184,7 +184,7 @@ the passed locale and placeholders.</div>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">resolve</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholder)</span></div>
-<div class="block">Applies all registered <a href="../../configuration/Property.html#STRING_RESOLVER"><code>Resolver&lt;String&gt;</code></a> to the given message with
+<div class="block">Applies all registered <a href="../../property/JDACProperty.html#STRING_RESOLVER"><code>Resolver&lt;String&gt;</code></a> to the given message with
 the passed locale and placeholders. See class docs for more information.</div>
 <dl class="notes">
 <dt>Specified by:</dt>

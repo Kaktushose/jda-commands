@@ -93,13 +93,13 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../../introspection/Definitions.html" title="interface in io.github.kaktushose.jdac.introspection">Definitions</a></code></dd>
+<dd><code><a href="../../property/Definitions.html" title="interface in io.github.kaktushose.jdac.property">Definitions</a></code></dd>
 </dl>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">InteractionRegistry</span>(<a href="../../dispatching/validation/internal/Validators.html" title="class in io.github.kaktushose.jdac.dispatching.validation.internal">Validators</a>&nbsp;validators, <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver">MessageResolver</a>&nbsp;messageResolver, <a href="../description/Descriptor.html" title="interface in io.github.kaktushose.jdac.definitions.description">Descriptor</a>&nbsp;descriptor, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition</a>&gt;&nbsp;definitions)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
-implements <a href="../../introspection/Definitions.html" title="interface in io.github.kaktushose.jdac.introspection">Definitions</a></span></div>
+implements <a href="../../property/Definitions.html" title="interface in io.github.kaktushose.jdac.property">Definitions</a></span></div>
 <div class="block">Central registry for all <a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition</code></a>s.</div>
 </div>
 </section>
@@ -213,8 +213,8 @@ match the passed <a href="https://docs.oracle.com/en/java/javase/25/docs/api/jav
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#method-summary" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-io.github.kaktushose.jdac.introspection.Definitions">Methods inherited from interface&nbsp;<a href="../../introspection/Definitions.html#method-summary" title="interface in io.github.kaktushose.jdac.introspection">Definitions</a></h3>
-<code><a href="../../introspection/Definitions.html#find(java.lang.Class)" title="find(Class)">find</a></code></div>
+<h3 id="methods-inherited-from-class-io.github.kaktushose.jdac.property.Definitions">Methods inherited from interface&nbsp;<a href="../../property/Definitions.html#method-summary" title="interface in io.github.kaktushose.jdac.property">Definitions</a></h3>
+<code><a href="../../property/Definitions.html#find(java.lang.Class)" title="find(Class)">find</a></code></div>
 </section>
 </li>
 </ul>
@@ -316,12 +316,12 @@ This is a rare occasion and can be considered a framework bug</dd>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="../Definition.html" title="interface in io.github.kaktushose.jdac.definitions">Definition</a>&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">findFirst</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;type,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;T&gt;&nbsp;predicate)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../introspection/Definitions.html#findFirst(java.lang.Class,java.util.function.Predicate)">Definitions</a></code></span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../property/Definitions.html#findFirst(java.lang.Class,java.util.function.Predicate)">Definitions</a></code></span></div>
 <div class="block">Gets the first <a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition</code></a> with the given <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">type</a> that
 match the passed <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../introspection/Definitions.html#findFirst(java.lang.Class,java.util.function.Predicate)">findFirst</a></code>&nbsp;in interface&nbsp;<code><a href="../../introspection/Definitions.html" title="interface in io.github.kaktushose.jdac.introspection">Definitions</a></code></dd>
+<dd><code><a href="../../property/Definitions.html#findFirst(java.lang.Class,java.util.function.Predicate)">findFirst</a></code>&nbsp;in interface&nbsp;<code><a href="../../property/Definitions.html" title="interface in io.github.kaktushose.jdac.property">Definitions</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>type</code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">type</a> of the needed <a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition</code></a></dd>
 <dd><code>predicate</code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a> that has to match the needed <a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition</code></a></dd>
@@ -341,7 +341,7 @@ match the passed <a href="https://docs.oracle.com/en/java/javase/25/docs/api/jav
 <div class="block">Attempts to find all <a href="../Definition.html" title="interface in io.github.kaktushose.jdac.definitions"><code>Definition</code></a>s of type <a href="#find(java.lang.Class,java.util.function.Predicate)-type-param-T"><code>T</code></a> based on the given <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a>.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../introspection/Definitions.html#find(java.lang.Class,java.util.function.Predicate)">find</a></code>&nbsp;in interface&nbsp;<code><a href="../../introspection/Definitions.html" title="interface in io.github.kaktushose.jdac.introspection">Definitions</a></code></dd>
+<dd><code><a href="../../property/Definitions.html#find(java.lang.Class,java.util.function.Predicate)">find</a></code>&nbsp;in interface&nbsp;<code><a href="../../property/Definitions.html" title="interface in io.github.kaktushose.jdac.property">Definitions</a></code></dd>
 <dt>Type Parameters:</dt>
 <dd><span id="find(java.lang.Class,java.util.function.Predicate)-type-param-T"><code>T</code> - a subtype of <a href="../Definition.html" title="interface in io.github.kaktushose.jdac.definitions"><code>Definition</code></a></span></dd>
 <dt>Parameters:</dt>
@@ -362,11 +362,11 @@ This is a rare occasion and can be considered a framework bug</dd>
 <h3>all</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions">InteractionDefinition</a>&gt;</span>&nbsp;<span class="element-name">all</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../introspection/Definitions.html#all()">Definitions</a></code></span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../property/Definitions.html#all()">Definitions</a></code></span></div>
 <div class="block">Gets all <a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition</code></a>s that were indexed by JDA-Commands.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../introspection/Definitions.html#all()">all</a></code>&nbsp;in interface&nbsp;<code><a href="../../introspection/Definitions.html" title="interface in io.github.kaktushose.jdac.introspection">Definitions</a></code></dd>
+<dd><code><a href="../../property/Definitions.html#all()">all</a></code>&nbsp;in interface&nbsp;<code><a href="../../property/Definitions.html" title="interface in io.github.kaktushose.jdac.property">Definitions</a></code></dd>
 <dt>Returns:</dt>
 <dd>an <em>immutable</em> collection of all indexes <a href="InteractionDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions"><code>InteractionDefinition</code></a>s</dd>
 </dl>

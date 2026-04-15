@@ -4,8 +4,6 @@ io.github.kaktushose.jdac.annotations
 io.github.kaktushose.jdac.annotations.constraints
 io.github.kaktushose.jdac.annotations.i18n
 io.github.kaktushose.jdac.annotations.interactions
-io.github.kaktushose.jdac.configuration
-io.github.kaktushose.jdac.configuration.internal
 io.github.kaktushose.jdac.definitions
 io.github.kaktushose.jdac.definitions.description
 io.github.kaktushose.jdac.definitions.description.reflective
@@ -44,10 +42,6 @@ io.github.kaktushose.jdac.exceptions.internal
 io.github.kaktushose.jdac.internal
 io.github.kaktushose.jdac.internal.logging
 io.github.kaktushose.jdac.internal.register
-io.github.kaktushose.jdac.introspection
-io.github.kaktushose.jdac.introspection.internal
-io.github.kaktushose.jdac.introspection.lifecycle
-io.github.kaktushose.jdac.introspection.lifecycle.events
 io.github.kaktushose.jdac.message.emoji
 io.github.kaktushose.jdac.message.i18n
 io.github.kaktushose.jdac.message.i18n.internal
@@ -55,6 +49,11 @@ io.github.kaktushose.jdac.message.placeholder
 io.github.kaktushose.jdac.message.resolver
 io.github.kaktushose.jdac.message.resolver.internal
 io.github.kaktushose.jdac.permissions
+io.github.kaktushose.jdac.property
+io.github.kaktushose.jdac.property.events
+io.github.kaktushose.jdac.property.extension
+io.github.kaktushose.jdac.property.internal
+io.github.kaktushose.jdac.property.internal.extension
 io.github.kaktushose.jdac.scope
 module:io.github.kaktushose.jdac.guice
 io.github.kaktushose.jdac.guice

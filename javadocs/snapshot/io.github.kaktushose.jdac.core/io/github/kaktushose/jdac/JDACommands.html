@@ -69,7 +69,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#embed(java.lang.String)" tabindex="0">embed(String)</a></li>
 <li><a href="#findEmbed(java.lang.String)" tabindex="0">findEmbed(String)</a></li>
 <li><a href="#introspection()" tabindex="0">introspection()</a></li>
-<li><a href="#property(io.github.kaktushose.jdac.configuration.Property)" tabindex="0">property(Property)</a></li>
+<li><a href="#property(io.github.kaktushose.jdac.property.JDACProperty)" tabindex="0">property(JDACProperty)</a></li>
 </ol>
 </li>
 </ol>
@@ -140,13 +140,13 @@ and the given class and transforms it into a JDA <a href="https://docs.jda.wiki/
 <div class="block">Gets a <a href="annotations/interactions/StringMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>StringMenu</code></a> or <a href="annotations/interactions/EntityMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>EntityMenu</code></a> based on the method name and the given class and transforms it
 into a JDA <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link"><code>SelectMenu</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection">Introspection</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="property/JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property">JDACIntrospection</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#introspection()" class="member-name-link">introspection</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the <a href="introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> instance with stage <a href="introspection/Stage.html#INITIALIZED"><code>Stage.INITIALIZED</code></a>.</div>
+<div class="block">Gets the <a href="property/JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property"><code>JDACIntrospection</code></a> instance with scope <a href="property/JDACScope.html#INITIALIZED"><code>JDACScope.INITIALIZED</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T&gt;&nbsp;T</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#property(io.github.kaktushose.jdac.configuration.Property)" class="member-name-link">property</a><wbr>(<a href="configuration/Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;T&gt;&nbsp;property)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#property(io.github.kaktushose.jdac.property.JDACProperty)" class="member-name-link">property</a><wbr>(<a href="property/JDACProperty.html" title="interface in io.github.kaktushose.jdac.property">JDACProperty</a>&lt;T&gt;&nbsp;property)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the value of a property.</div>
 </div>
@@ -376,28 +376,28 @@ This may be useful if you want to send a component without using the framework.<
 <section class="detail" id="introspection()">
 <h3>introspection</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection">Introspection</a></span>&nbsp;<span class="element-name">introspection</span>()</div>
-<div class="block">Gets the <a href="introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> instance with stage <a href="introspection/Stage.html#INITIALIZED"><code>Stage.INITIALIZED</code></a>.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="property/JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property">JDACIntrospection</a></span>&nbsp;<span class="element-name">introspection</span>()</div>
+<div class="block">Gets the <a href="property/JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property"><code>JDACIntrospection</code></a> instance with scope <a href="property/JDACScope.html#INITIALIZED"><code>JDACScope.INITIALIZED</code></a>.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the <a href="introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> instance</dd>
+<dd>the <a href="property/JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property"><code>JDACIntrospection</code></a> instance</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="property(io.github.kaktushose.jdac.configuration.Property)">
+<section class="detail" id="property(io.github.kaktushose.jdac.property.JDACProperty)">
 <h3>property</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">property</span><wbr><span class="parameters">(<a href="configuration/Property.html" title="interface in io.github.kaktushose.jdac.configuration">Property</a>&lt;T&gt;&nbsp;property)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">property</span><wbr><span class="parameters">(<a href="property/JDACProperty.html" title="interface in io.github.kaktushose.jdac.property">JDACProperty</a>&lt;T&gt;&nbsp;property)</span></div>
 <div class="block"><p>Gets the value of a property.</p>
 <p>This is a shortcut for <code>JDACommands#introscpection#get</code></p>
 </div>
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><span id="property(io.github.kaktushose.jdac.configuration.Property)-type-param-T"><code>T</code> - the type of property</span></dd>
+<dd><span id="property(io.github.kaktushose.jdac.property.JDACProperty)-type-param-T"><code>T</code> - the type of property</span></dd>
 <dt>Parameters:</dt>
-<dd><code>property</code> - the <a href="configuration/Property.html" title="interface in io.github.kaktushose.jdac.configuration"><code>Property</code></a> description</dd>
+<dd><code>property</code> - the <a href="property/JDACProperty.html" title="interface in io.github.kaktushose.jdac.property"><code>JDACProperty</code></a> description</dd>
 <dt>Returns:</dt>
 <dd>T</dd>
 </dl>

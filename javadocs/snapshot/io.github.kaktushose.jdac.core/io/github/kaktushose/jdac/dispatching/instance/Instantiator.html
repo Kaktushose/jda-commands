@@ -57,7 +57,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#instance(java.lang.Class,io.github.kaktushose.jdac.introspection.Introspection)" tabindex="0">instance(Class, Introspection)</a></li>
+<li><a href="#instance(java.lang.Class,io.github.kaktushose.jdac.property.JDACIntrospection)" tabindex="0">instance(Class, JDACIntrospection)</a></li>
 </ol>
 </li>
 </ol>
@@ -101,8 +101,8 @@ runtime scoped singletons, so to speak.</p>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;T&gt;&nbsp;T</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#instance(java.lang.Class,io.github.kaktushose.jdac.introspection.Introspection)" class="member-name-link">instance</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;clazz,
- <a href="../../introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection">Introspection</a>&nbsp;introspection)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#instance(java.lang.Class,io.github.kaktushose.jdac.property.JDACIntrospection)" class="member-name-link">instance</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;clazz,
+ <a href="../../property/JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property">JDACIntrospection</a>&nbsp;introspection)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">This method will be called each time an instance of a class is needed.</div>
 </div>
@@ -121,20 +121,20 @@ runtime scoped singletons, so to speak.</p>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="instance(java.lang.Class,io.github.kaktushose.jdac.introspection.Introspection)">
+<section class="detail" id="instance(java.lang.Class,io.github.kaktushose.jdac.property.JDACIntrospection)">
 <h3>instance</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="../../annotations/IntrospectionAccess.html" title="annotation interface in io.github.kaktushose.jdac.annotations">@IntrospectionAccess</a>(<a href="../../introspection/Stage.html#RUNTIME">RUNTIME</a>)
+<div class="member-signature"><span class="annotations"><a href="../../annotations/IntrospectionAccess.html" title="annotation interface in io.github.kaktushose.jdac.annotations">@IntrospectionAccess</a>(<a href="../../property/JDACScope.html#RUNTIME">RUNTIME</a>)
 </span><span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">instance</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;clazz,
- <a href="../../introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection">Introspection</a>&nbsp;introspection)</span></div>
+ <a href="../../property/JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property">JDACIntrospection</a>&nbsp;introspection)</span></div>
 <div class="block"><p>This method will be called each time an instance of a class is needed.</p>
-<p>The provided <a href="../../introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> instance or <a href="../../introspection/Introspection.html#accessScoped()"><code>Introspection.accessScoped()</code></a> can be used to retrieve other
+<p>The provided <a href="../../property/JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property"><code>JDACIntrospection</code></a> instance or <a href="../../property/JDACIntrospection.html#accessScoped()"><code>JDACIntrospection.accessScoped()</code></a> can be used to retrieve other
 components/parts of this framework, e.g. <a href="../../message/resolver/MessageResolver.html" title="class in io.github.kaktushose.jdac.message.resolver"><code>MessageResolver</code></a>.</p>
 </div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>clazz</code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> of needed instance</dd>
-<dd><code>introspection</code> - the <a href="../../introspection/Introspection.html" title="interface in io.github.kaktushose.jdac.introspection"><code>Introspection</code></a> instance of this runtime (stage = <a href="../../introspection/Stage.html#RUNTIME"><code>Stage.RUNTIME</code></a>).</dd>
+<dd><code>introspection</code> - the <a href="../../property/JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property"><code>JDACIntrospection</code></a> instance of this runtime (scope = <a href="../../property/JDACScope.html#RUNTIME"><code>JDACScope.RUNTIME</code></a>).</dd>
 </dl>
 </div>
 </section>
