@@ -63,7 +63,7 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#resolve(com.fasterxml.jackson.databind.JsonNode,java.util.Locale,java.util.Map)" tabindex="0">resolve(JsonNode, Locale, Map)</a></li>
+<li><a href="#resolve(tools.jackson.databind.JsonNode,java.util.Locale,java.util.Map)" tabindex="0">resolve(JsonNode, Locale, Map)</a></li>
 <li><a href="#priority()" tabindex="0">priority()</a></li>
 </ol>
 </li>
@@ -80,14 +80,14 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;com.fasterxml.jackson.databind.JsonNode&gt;</code></dd>
+<dd><code><a href="../Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;tools.jackson.databind.JsonNode&gt;</code></dd>
 </dl>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations">@Internal
 </span><span class="modifiers">public final class </span><span class="element-name type-name-label">JsonResolver</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="../Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;com.fasterxml.jackson.databind.JsonNode&gt;</span></div>
+implements <a href="../Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;tools.jackson.databind.JsonNode&gt;</span></div>
 </div>
 </section>
 <section class="summary">
@@ -122,8 +122,8 @@ implements <a href="../Resolver.html" title="interface in io.github.kaktushose.j
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">The priority of this resolver influences the order in which resolver are applied in a resolution pipeline.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.fasterxml.jackson.databind.JsonNode</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(com.fasterxml.jackson.databind.JsonNode,java.util.Locale,java.util.Map)" class="member-name-link">resolve</a><wbr>(com.fasterxml.jackson.databind.JsonNode&nbsp;node,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>tools.jackson.databind.JsonNode</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolve(tools.jackson.databind.JsonNode,java.util.Locale,java.util.Map)" class="member-name-link">resolve</a><wbr>(tools.jackson.databind.JsonNode&nbsp;node,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -167,17 +167,17 @@ implements <a href="../Resolver.html" title="interface in io.github.kaktushose.j
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="resolve(com.fasterxml.jackson.databind.JsonNode,java.util.Locale,java.util.Map)">
+<section class="detail" id="resolve(tools.jackson.databind.JsonNode,java.util.Locale,java.util.Map)">
 <h3>resolve</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.fasterxml.jackson.databind.JsonNode</span>&nbsp;<span class="element-name">resolve</span><wbr><span class="parameters">(com.fasterxml.jackson.databind.JsonNode&nbsp;node,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">tools.jackson.databind.JsonNode</span>&nbsp;<span class="element-name">resolve</span><wbr><span class="parameters">(tools.jackson.databind.JsonNode&nbsp;node,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link">Locale</a>&nbsp;locale,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;placeholders)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../Resolver.html#resolve(T,java.util.Locale,java.util.Map)">Resolver</a></code></span></div>
 <div class="block">Resolves the given object for the provided locale.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Resolver.html#resolve(T,java.util.Locale,java.util.Map)">resolve</a></code>&nbsp;in interface&nbsp;<code><a href="../Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;com.fasterxml.jackson.databind.JsonNode&gt;</code></dd>
+<dd><code><a href="../Resolver.html#resolve(T,java.util.Locale,java.util.Map)">resolve</a></code>&nbsp;in interface&nbsp;<code><a href="../Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;tools.jackson.databind.JsonNode&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>node</code> - the object to resolve</dd>
 <dd><code>locale</code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html" title="class or interface in java.util" class="external-link"><code>Locale</code></a> to use for localization</dd>
@@ -201,7 +201,7 @@ Generally speaking, resolvers with lower priority run first.</p>
 </div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Resolver.html#priority()">priority</a></code>&nbsp;in interface&nbsp;<code><a href="../Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;com.fasterxml.jackson.databind.JsonNode&gt;</code></dd>
+<dd><code><a href="../Resolver.html#priority()">priority</a></code>&nbsp;in interface&nbsp;<code><a href="../Resolver.html" title="interface in io.github.kaktushose.jdac.message.resolver">Resolver</a>&lt;tools.jackson.databind.JsonNode&gt;</code></dd>
 <dt>Returns:</dt>
 <dd>0</dd>
 </dl>
