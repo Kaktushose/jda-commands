@@ -4,12 +4,15 @@ import io.github.kaktushose.jdac.components.pagination.Page;
 import io.github.kaktushose.jdac.components.pagination.Pagination;
 import io.github.kaktushose.jdac.components.pagination.PaginationLayout;
 import io.github.kaktushose.jdac.components.pagination.layout.*;
+import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComponent;
 import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 import net.dv8tion.jda.api.components.container.Container;
 import net.dv8tion.jda.api.components.container.ContainerChildComponent;
+import net.dv8tion.jda.api.components.selections.SelectOption;
+import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.internal.utils.Checks;
 import org.jspecify.annotations.Nullable;
 
@@ -18,8 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.SequencedCollection;
 
-import static io.github.kaktushose.jdac.components.pagination.layout.Control.Direction.BACKWARD;
-import static io.github.kaktushose.jdac.components.pagination.layout.Control.Direction.FORWARD;
+import static io.github.kaktushose.jdac.components.pagination.layout.Control.Direction.*;
 
 public final class PaginationImpl implements Pagination {
 
@@ -121,6 +123,14 @@ public final class PaginationImpl implements Pagination {
                             if (component instanceof ActionComponent actionComponent) {
                                 actionComponent = actionComponent.withDisabled(false);
 
+                                // also support non JDA-Commands components
+                                if (control.direction() == SELECT && component instanceof StringSelectMenu menu) {
+                                    actionComponent = menu.createCopy().addOptions(options()).build();
+                                }
+                                if (control.direction() == SELECT && component instanceof StringSelectComponent menu) {
+                                    actionComponent = menu.selectOptions(options());
+                                }
+
                                 int newPage = currentPage - control.amount();
                                 if (control.direction() == BACKWARD && newPage < 1) {
                                     actionComponent = actionComponent.withDisabled(true);
@@ -164,4 +174,14 @@ public final class PaginationImpl implements Pagination {
     }
 
     private record ContainerConfig(boolean active, @Nullable Integer color, boolean spoiler) { }
+
+    private List<SelectOption> options() {
+        int pages = maxPages == null ? currentPage : maxPages;
+        List<SelectOption> result = new ArrayList<>();
+        for (int i = 1; i <= pages; i++) {
+            result.add(SelectOption.of("Page %d".formatted(i), String.valueOf(i)));
+        }
+        return result;
+    }
+
 }

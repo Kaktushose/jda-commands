@@ -21,6 +21,14 @@ public interface Control extends Threshold {
         return new ControlImpl(component, Direction.BACKWARD, amount);
     }
 
+    static Control select(ActionRowChildComponent component) {
+        return new ControlImpl(component, Direction.SELECT);
+    }
+
+    static Control select(ActionRowChildComponent component, int amount) {
+        return new ControlImpl(component, Direction.SELECT, amount);
+    }
+
     static Control of(ActionRowChildComponent component) {
         return new ControlImpl(component, Direction.NEUTRAL);
     }
@@ -43,6 +51,7 @@ public interface Control extends Threshold {
     enum Direction {
         FORWARD,
         NEUTRAL,
-        BACKWARD
+        BACKWARD,
+        SELECT
     }
 }
