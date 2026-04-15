@@ -62,8 +62,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         this.errorMessageFactory = runtimeIntrospection.get(JDACProperty.ERROR_MESSAGE_FACTORY);
     }
 
-    @Nullable
-    protected abstract PreparationResult prepare(T event, Runtime runtime);
+    @Nullable protected abstract PreparationResult prepare(T event, Runtime runtime);
 
     @Override
     public final void accept(T e, Runtime runtime) {
@@ -166,5 +165,8 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
         }
     }
 
-    public record PreparationResult(InteractionDefinition definition, SequencedCollection<@Nullable Object> rawArguments) {}
+    public record PreparationResult(
+            InteractionDefinition definition,
+            SequencedCollection<@Nullable Object> rawArguments
+    ) { }
 }

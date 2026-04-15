@@ -7,8 +7,8 @@ import dev.goldmensch.fluava.FluavaBuilder.FunctionConfig;
 import dev.goldmensch.fluava.Result;
 import dev.goldmensch.fluava.function.Function;
 import dev.goldmensch.fluava.function.Value;
-import net.dv8tion.jda.api.entities.IMentionable;
 import dev.goldmensch.fluava.logging.LogConfig;
+import net.dv8tion.jda.api.entities.IMentionable;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.event.Level;
 
@@ -75,6 +75,13 @@ public final class FluavaLocalizer implements Localizer {
         return create(Fluava.create(fallback));
     }
 
+    private static Function<?, ?> createMentionableFunction() {
+        return Function.implicit(
+                (_, mentionable, _) ->
+                        new Result.Success<>(new Value.Text(mentionable.getAsMention())), IMentionable.class
+        );
+    }
+
     /// {@inheritDoc}
     ///
     /// For further information regarding functionality, you can take a look at the documentation of:
@@ -88,7 +95,7 @@ public final class FluavaLocalizer implements Localizer {
     /// @param arguments {@inheritDoc}
     /// @return {@inheritDoc}
     @Override
-    public Optional<String> localize(Locale locale, String bundle, String key, Map<String, @Nullable  Object> arguments) {
+    public Optional<String> localize(Locale locale, String bundle, String key, Map<String, @Nullable Object> arguments) {
         String result = cache.computeIfAbsent(bundle, fluava::loadBundle).apply(locale, key, arguments);
         return result.equals(key)
                 ? Optional.empty()
@@ -114,9 +121,9 @@ public final class FluavaLocalizer implements Localizer {
 
     /// A builder allowing the customization of [FluavaLocalizer]
     public static class Builder {
+        private final Fluava parent;
         private boolean mentionableFunction = true;
         private boolean fallbackToString = true;
-        private final Fluava parent;
 
         private Builder(Fluava parent) {
             this.parent = parent;
@@ -126,7 +133,6 @@ public final class FluavaLocalizer implements Localizer {
         /// See [FluavaLocalizer] Javadocs for more information.
         ///
         /// @param add `true` if the function should be added
-        ///
         /// @return this builder
         public Builder mentionableFunction(boolean add) {
             this.mentionableFunction = add;
@@ -156,12 +162,5 @@ public final class FluavaLocalizer implements Localizer {
 
             return new FluavaLocalizer(instance);
         }
-    }
-
-    private static Function<?, ?> createMentionableFunction() {
-        return Function.implicit(
-                (_, mentionable, _) ->
-                        new Result.Success<>(new Value.Text(mentionable.getAsMention())), IMentionable.class
-        );
     }
 }

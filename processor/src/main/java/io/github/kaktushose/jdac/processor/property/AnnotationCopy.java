@@ -1,7 +1,7 @@
 package io.github.kaktushose.jdac.processor.property;
 
-import javax.lang.model.element.*;
 import java.util.Optional;
+import javax.lang.model.element.*;
 
 public class AnnotationCopy {
     private final AnnotationMirror mirror;

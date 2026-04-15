@@ -71,7 +71,7 @@ class EmbedTest {
                 .setTimestamp(OffsetDateTime.parse("2025-09-05T15:28:20Z"))
                 .setColor(0)
                 .build();
-        Embed actual =  embeds.get("modification")
+        Embed actual = embeds.get("modification")
                 .author("Goldmensch", "https://cdn.discordapp.com/embed/avatars/1.png", "https://cdn.discordapp.com/embed/avatars/1.png")
                 .title("Test Title 2")
                 .description("Test Description 2")

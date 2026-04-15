@@ -1,9 +1,9 @@
 package io.github.kaktushose.jdac.guice.internal.guice;
 
+import io.github.kaktushose.jdac.property.JDACProperty;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
-import io.github.kaktushose.jdac.property.JDACProperty;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.HashMap;

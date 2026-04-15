@@ -1,6 +1,5 @@
 package definitions.interactions;
 
-import definitions.TestHelpers;
 import io.github.kaktushose.jdac.annotations.interactions.Command;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
@@ -11,12 +10,14 @@ import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import net.dv8tion.jda.api.interactions.commands.Command.Type;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
+import definitions.TestHelpers;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
 
 import static definitions.TestHelpers.getBuildContext;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class SlashCommandDefinitionTest {
 

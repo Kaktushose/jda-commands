@@ -2,15 +2,15 @@ package io.github.kaktushose.jdac.processor.property;
 
 import com.palantir.javapoet.*;
 
-import javax.annotation.processing.Messager;
-import javax.annotation.processing.RoundEnvironment;
-import javax.lang.model.element.Modifier;
-import javax.lang.model.element.TypeElement;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.processing.Messager;
+import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
 
 public class ListCreatorProcessor extends PropertyProcessor {
 
@@ -24,7 +24,9 @@ public class ListCreatorProcessor extends PropertyProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        if (alreadyRun) return false;
+        if (alreadyRun) {
+            return false;
+        }
 
         super.process(annotations, roundEnv);
         alreadyRun = true;
@@ -73,7 +75,9 @@ public class ListCreatorProcessor extends PropertyProcessor {
 
         for (String field : fields) {
             spec.addCode("$T.$L", propertyClassName, field);
-            if (!fields.getLast().equals(field)) spec.addCode(",");
+            if (!fields.getLast().equals(field)) {
+                spec.addCode(",");
+            }
         }
 
         return spec.addStatement(")")

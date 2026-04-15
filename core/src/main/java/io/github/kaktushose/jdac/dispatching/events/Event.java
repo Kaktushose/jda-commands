@@ -82,8 +82,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// that is bound to the underlying [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
     ///
     /// @return the interaction class instance
-    @Nullable
-    public <I> I interactionInstance(Class<I> interactionClass) {
+    @Nullable public <I> I interactionInstance(Class<I> interactionClass) {
         return scopedRuntime().interactionInstance(interactionClass);
     }
 
@@ -91,6 +90,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// Gets the [JDACIntrospection] instance of this interaction.
     ///
     /// Same as [JDACIntrospection#accessScoped()]
+    ///
     /// @return the [JDACIntrospection] instance with scope set to [JDACScope#INTERACTION].
     public JDACIntrospection introspection() {
         return JDACIntrospection.accessScoped();

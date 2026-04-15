@@ -106,8 +106,7 @@ public final class MessageEventReply extends EventReply {
         }
     }
 
-    @Nullable
-    public MessageEditData lastMessage() {
+    @Nullable public MessageEditData lastMessage() {
         return invocation.lastMessage();
     }
 

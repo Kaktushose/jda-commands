@@ -103,14 +103,15 @@ import static io.github.kaktushose.jdac.property.internal.JDACInternalProperties
 ///     .classFinders(ClassFinder.reflective(Main.class), ClassFinders.explicit(ButtonInteraction.class))
 ///     .start();
 /// ```
+///
 /// @see Extension
 public class JDACBuilder {
+
+    private static final Logger log = JDACLogger.getLogger(JDACBuilder.class);
 
     static {
         Proteus.global().register(Type.of(Class.class), Type.of(String.class), Mapper.uni((klass, _) -> MappingResult.lossless(klass.getName())));
     }
-
-    private static final Logger log = JDACLogger.getLogger(JDACBuilder.class);
 
     private final JDACIntrospectionImpl.Builder properties = JDACIntrospectionImpl.create(JDACScope.CONFIGURATION);
 
@@ -136,7 +137,7 @@ public class JDACBuilder {
             return List.of(ClassFinder.reflective(resources));
         });
 
-        properties.addFallback(EMBED_CONFIG, _ -> _ -> {});
+        properties.addFallback(EMBED_CONFIG, _ -> _ -> { });
 
         // non settable/provided services
         properties.addFallback(EMBED_CONFIG_INTERNAL, ctx -> {
@@ -144,7 +145,9 @@ public class JDACBuilder {
             try {
                 ctx.get(EMBED_CONFIG).accept(embedConfig);
             } catch (Exception e) {
-                if (ctx.get(SHUTDOWN_JDA)) ctx.get(JDA_CONTEXT).shutdown();
+                if (ctx.get(SHUTDOWN_JDA)) {
+                    ctx.get(JDA_CONTEXT).shutdown();
+                }
                 throw e;
             }
 
@@ -190,7 +193,6 @@ public class JDACBuilder {
     }
 
     /// @param classFinders the to be used [ClassFinder]s
-    ///
     /// @apiNote This method overrides the default/fallback value but adds to the loaded ones.
     /// If you want to add own [ClassFinder]s while keeping the default reflective implementation, you have to add it explicitly via
     /// [ClassFinder#reflective(String...)] too.
@@ -314,7 +316,6 @@ public class JDACBuilder {
     /// @param classes  the classes to be filtered
     /// @apiNote This method compares the [`fully classified class name`][Class#getName()] of all [Extension] implementations by using [String#startsWith(String)],
     /// so it's possible to include/exclude a bunch of extensions sharing the same base package by just providing the package name.
-    ///
     /// @see ExtensionFilter
     public JDACBuilder filterExtensions(ExtensionFilter.FilterStrategy strategy, String... classes) {
         return addBuilderProperty(EXTENSION_FILTER, _ -> new ExtensionFilter(strategy, Arrays.asList(classes)));
@@ -326,7 +327,6 @@ public class JDACBuilder {
     /// This method adds to the default resolvers like localization, placeholders and emojis
     ///
     /// @param resolvers the [Resolver]s to add
-    ///
     /// @see MessageResolver
     /// @see Resolver
     @SafeVarargs
@@ -339,12 +339,10 @@ public class JDACBuilder {
     ///
     /// @param property the [JDACProperty] to be set
     /// @param supplier the function providing the custom value for it ([JDACPropertyProvider#supplier()])
-    ///
-    /// @see JDACProperty
-    /// @see JDACPropertyProvider#supplier()
-    ///
     /// @implNote the values will be added as [JDACPropertyProvider]s with priority set to [Integer#MAX_VALUE]
     /// like they were set by any other method of this class.
+    /// @see JDACProperty
+    /// @see JDACPropertyProvider#supplier()
     public <T> JDACBuilder setProperty(JDACProperty<T> property, Function<JDACIntrospection, T> supplier) {
         return addBuilderProperty(property, supplier);
     }

@@ -29,6 +29,7 @@ import java.util.List;
 /// @StringMenu("What's your favourite food?")
 /// public void onMenu(ComponentEvent event, List<String> choices) { ... }
 /// ```
+///
 /// @see Interaction
 /// @see MenuOption
 @Target(ElementType.METHOD)

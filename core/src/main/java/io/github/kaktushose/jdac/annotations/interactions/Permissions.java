@@ -25,7 +25,6 @@ import java.lang.annotation.Target;
 /// @Permissions("BAN_MEMBERS")
 /// public class BanCommand { ... }
 /// ```
-///
 /// @see PermissionsProvider
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

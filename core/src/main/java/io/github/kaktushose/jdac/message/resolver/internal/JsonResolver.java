@@ -1,13 +1,12 @@
 package io.github.kaktushose.jdac.message.resolver.internal;
 
 import io.github.kaktushose.jdac.message.resolver.Resolver;
+import org.jetbrains.annotations.ApiStatus;
+import org.jspecify.annotations.Nullable;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.node.ArrayNode;
 import tools.jackson.databind.node.ObjectNode;
-import org.jetbrains.annotations.ApiStatus;
-import org.jspecify.annotations.Nullable;
 
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;

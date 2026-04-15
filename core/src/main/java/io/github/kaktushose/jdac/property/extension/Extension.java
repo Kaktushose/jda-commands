@@ -1,7 +1,5 @@
 package io.github.kaktushose.jdac.property.extension;
 
-import dev.goldmensch.propane.property.Property;
-import dev.goldmensch.propane.property.Property.Source;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
@@ -10,6 +8,8 @@ import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.JDACPropertyProvider;
 import io.github.kaktushose.jdac.property.JDACScope;
+import dev.goldmensch.propane.property.Property;
+import dev.goldmensch.propane.property.Property.Source;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
@@ -20,12 +20,12 @@ import java.util.List;
 /// in [JDACBuilder] to configure the framework.
 ///
 /// This interface provides ways to extend the framework with own functionality:
-/// 
-/// 
+///
+///
 /// ## Properties
 /// By implementing [#properties()] and returning a collection of [JDACPropertyProvider]s, you can
 /// for example provide an own implementation of [Instantiator]
-/// or [Descriptor]. These implementations will override the default ones. 
+/// or [Descriptor]. These implementations will override the default ones.
 ///
 /// It's important to know, that you can only return [JDACPropertyProvider]s of [JDACProperty]s
 /// with [Property#source()] set to [Source#EXTENSION]!
@@ -86,7 +86,7 @@ public interface Extension<T extends Extension.Data> {
     void init(@Nullable T data);
 
     /// Gets a collection of [JDACPropertyProvider]s this [Extension] provides.
-    /// 
+    ///
     /// The [JDACProperty]s provided by these providers must have [Property#source()()] set to [Source#EXTENSION]!
     ///
     /// @return a collection of [JDACPropertyProvider]s
@@ -98,15 +98,15 @@ public interface Extension<T extends Extension.Data> {
     ///
     /// @param framework the fully initialized [JDACommands] instance.
     @IntrospectionAccess(JDACScope.INITIALIZED)
-    default void onStart(JDACommands framework) {}
+    default void onStart(JDACommands framework) {
+    }
 
     /// @return the [Class] of the custom [Data] implementation or null if the extension doesn't support additional configuration
-    @Nullable
-    default Class<T> dataType() {
+    @Nullable default Class<T> dataType() {
         return null;
     }
 
     /// Implementations of this interface are providing additional configuration to implementations of [Extension].
-    interface Data {}
+    interface Data { }
 
 }

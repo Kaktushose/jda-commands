@@ -9,4 +9,4 @@ import java.util.Collection;
 public record PackageDescription(
         String name,
         Collection<AnnotationDescription<?>> annotations
-) implements Description {}
+) implements Description { }

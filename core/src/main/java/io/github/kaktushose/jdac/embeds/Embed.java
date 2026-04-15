@@ -1,11 +1,11 @@
 package io.github.kaktushose.jdac.embeds;
 
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.message.resolver.DataObjectResolver;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.i18n.Localizer;
-import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.DataObjectResolver;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
@@ -340,7 +340,7 @@ public class Embed {
     /// @return this instance for fluent interface
     public Embed placeholders(Entry... placeholders) {
         this.placeholders.putAll(Arrays.stream(placeholders)
-                .collect(HashMap::new, (m,e)->m.put(e.name(), e.value()), HashMap::putAll));
+                .collect(HashMap::new, (m, e) -> m.put(e.name(), e.value()), HashMap::putAll));
         return this;
     }
 
@@ -419,8 +419,8 @@ public class Embed {
         /// @param inline whether this field should display inline.
         /// @return the builder after the field has been added
         /// @throws java.lang.IllegalArgumentException - If `null` is provided
-        ///                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              - If the character limit of {@value MessageEmbed#TITLE_MAX_LENGTH} for `name` is exceeded.
-        ///                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              - If the character limit of {@value MessageEmbed#VALUE_MAX_LENGTH} for `value` is exceeded.
+        ///                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         - If the character limit of {@value MessageEmbed#TITLE_MAX_LENGTH} for `name` is exceeded.
+        ///                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         - If the character limit of {@value MessageEmbed#VALUE_MAX_LENGTH} for `value` is exceeded.
         ///
         Fields add(String name, String value, boolean inline);
 

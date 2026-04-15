@@ -83,10 +83,10 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
         implements ActionRowChildComponentUnion, SectionAccessoryComponentUnion
         permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
 
-    protected @Nullable Integer uniqueId;
     private final Entry[] placeholder;
     private final String method;
     private final @Nullable Class<?> origin;
+    protected @Nullable Integer uniqueId;
     private boolean enabled = true;
     private boolean independent = false;
     private Function<B, B> callback = Function.identity();

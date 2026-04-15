@@ -1,6 +1,5 @@
 package definitions.interactions.options;
 
-import definitions.TestHelpers;
 import io.github.kaktushose.jdac.annotations.interactions.Choices;
 import io.github.kaktushose.jdac.annotations.interactions.Command;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
@@ -23,6 +22,7 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.interactions.commands.Command.Choice;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import definitions.TestHelpers;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

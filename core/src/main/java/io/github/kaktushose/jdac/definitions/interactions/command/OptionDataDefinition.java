@@ -245,7 +245,7 @@ public record OptionDataDefinition(
             }
 
             Collection<MethodDescription> methods = source.findMethods(choicesAnn.provider());
-            Entry[] entries = new Entry[] {
+            Entry[] entries = new Entry[]{
                     entry("class", classDescription.clazz().getSimpleName()),
                     entry("method", choicesAnn.provider())
             };

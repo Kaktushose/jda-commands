@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac.property.internal.extension;
 
-import dev.goldmensch.propane.property.Priority;
 import io.github.kaktushose.jdac.JDACommands;
 import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
@@ -9,6 +8,7 @@ import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.JDACPropertyProvider;
 import io.github.kaktushose.jdac.property.extension.Extension;
 import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
+import dev.goldmensch.propane.property.Priority;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 

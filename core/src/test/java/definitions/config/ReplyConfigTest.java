@@ -92,13 +92,23 @@ class ReplyConfigTest {
         }
 
         @Button
-        @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false, silent = true, allowedMentions = {})
+        @ReplyConfig(ephemeral = true,
+                editReply = false,
+                keepComponents = false,
+                keepSelections = false,
+                silent = true,
+                allowedMentions = { })
         public void customValues(ComponentEvent event) {
         }
     }
 
     @Interaction
-    @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false, silent = true, allowedMentions = {})
+    @ReplyConfig(ephemeral = true,
+            editReply = false,
+            keepComponents = false,
+            keepSelections = false,
+            silent = true,
+            allowedMentions = { })
     private static class ClassLevelConfig {
 
         @Button
@@ -106,7 +116,12 @@ class ReplyConfigTest {
         }
 
         @Button
-        @ReplyConfig(ephemeral = true, editReply = false, keepComponents = false, keepSelections = false, silent = true, allowedMentions = {})
+        @ReplyConfig(ephemeral = true,
+                editReply = false,
+                keepComponents = false,
+                keepSelections = false,
+                silent = true,
+                allowedMentions = { })
         public void sameValues(ComponentEvent event) {
         }
 

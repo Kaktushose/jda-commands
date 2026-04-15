@@ -1,6 +1,5 @@
 package definitions.interactions.options;
 
-import definitions.TestHelpers;
 import io.github.kaktushose.jdac.annotations.constraints.Constraint;
 import io.github.kaktushose.jdac.annotations.constraints.Max;
 import io.github.kaktushose.jdac.annotations.constraints.Min;
@@ -16,6 +15,7 @@ import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
+import definitions.TestHelpers;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
@@ -72,6 +72,12 @@ class ValidatorTest {
         );
     }
 
+    @Target(ElementType.PARAMETER)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Constraint(String.class)
+    public @interface NoValidator {
+    }
+
     @Interaction
     private static class TestController {
 
@@ -98,12 +104,6 @@ class ValidatorTest {
         @Command("constraint")
         public void constraint(CommandEvent event, @Perm(Permission.ADMINISTRATOR) Member member) {
         }
-    }
-
-    @Target(ElementType.PARAMETER)
-    @Retention(RetentionPolicy.RUNTIME)
-    @Constraint(String.class)
-    public @interface NoValidator {
     }
 
 }

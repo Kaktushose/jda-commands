@@ -11,7 +11,7 @@ public interface ClassFinder {
 
     /// This provides a reflections based implementation of [ClassFinder]
     ///
-    /// @param packages  a list of packages that should be scanned
+    /// @param packages a list of packages that should be scanned
     static ClassFinder reflective(String... packages) {
         return new ReflectiveClassFinder(packages);
     }

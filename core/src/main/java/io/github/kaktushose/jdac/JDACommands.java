@@ -217,8 +217,8 @@ public final class JDACommands {
     /// This is a shortcut for `JDACommands#introscpection#get`
     ///
     /// @param property the [JDACProperty] description
+    /// @param <T>      the type of property
     /// @return T
-    /// @param <T> the type of property
     public <T> T property(JDACProperty<T> property) {
         return introspection.get(property);
     }

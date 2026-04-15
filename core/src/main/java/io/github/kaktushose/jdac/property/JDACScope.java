@@ -1,12 +1,12 @@
 package io.github.kaktushose.jdac.property;
 
-import dev.goldmensch.propane.Scope;
-import dev.goldmensch.propane.property.Property;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.dispatching.context.InvocationContext;
 import io.github.kaktushose.jdac.dispatching.instance.Instantiator;
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
+import dev.goldmensch.propane.Scope;
+import dev.goldmensch.propane.property.Property;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 
 /// The scope or "scope" inside the framework at which a [properties][Property] value is set.
@@ -34,18 +34,18 @@ import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 /// will be called by JDA-Commands you can take a look at [IntrospectionAccess#value()].
 // don't change order!
 public enum JDACScope implements Scope {
-  CONFIGURATION,
+    CONFIGURATION,
 
-  INITIALIZED,
+    INITIALIZED,
 
-  RUNTIME,
+    RUNTIME,
 
-  PREPARATION,
+    PREPARATION,
 
-  INTERACTION;
+    INTERACTION;
 
-  @Override
-  public int priority() {
-    return this.ordinal();
-  }
+    @Override
+    public int priority() {
+        return this.ordinal();
+    }
 }

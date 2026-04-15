@@ -65,8 +65,7 @@ public interface Middleware extends Consumer<InvocationContext<?>> {
     /// If this method returns `null`, then this [Middleware] runs for all interaction controllers.
     ///
     /// @return the classes of the interaction controllers or null (run for all interaction controllers)
-    @Nullable
-    default Collection<Class<?>> runFor() {
+    @Nullable default Collection<Class<?>> runFor() {
         return null;
     }
 }

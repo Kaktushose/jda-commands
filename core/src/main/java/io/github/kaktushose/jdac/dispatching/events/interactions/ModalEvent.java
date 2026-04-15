@@ -78,9 +78,9 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     /// [Proteus].
     ///
     /// @param customId The custom id of the [TextInput]
-    /// @param type the [Class] of the type to convert to
+    /// @param type     the [Class] of the type to convert to
+    /// @param <T>      the type to convert to
     /// @return the [ConversionResult]
-    /// @param <T> the type to convert to
     public <T> ConversionResult<T> value(String customId, Class<T> type) {
         return Proteus.global().convert(value(customId).getAsString(), Type.of(String.class), Type.of(type));
     }
@@ -89,9 +89,9 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     /// [Proteus].
     ///
     /// @param uniqueId The unique id of the [TextInput]
-    /// @param type the [Class] of the type to convert to
+    /// @param type     the [Class] of the type to convert to
+    /// @param <T>      the type to convert to
     /// @return the [ConversionResult]
-    /// @param <T> the type to convert to
     public <T> ConversionResult<T> value(int uniqueId, Class<T> type) {
         return Proteus.global().convert(value(uniqueId).getAsString(), Type.of(String.class), Type.of(type));
     }

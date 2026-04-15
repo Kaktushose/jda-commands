@@ -70,12 +70,10 @@ class FallbackLogger extends LegacyAbstractLogger {
                 .findFirst()
                 .map(frame -> {
                     String[] nameSplit = frame.getClassName().split("[.]");
-                    return new Location(nameSplit[nameSplit.length-1], frame.getMethodName()); // only use class name
+                    return new Location(nameSplit[nameSplit.length - 1], frame.getMethodName()); // only use class name
                 })
         );
     }
-
-    private record Location(String klass, String method) {}
 
     @Override
     public boolean isTraceEnabled() {
@@ -126,4 +124,6 @@ class FallbackLogger extends LegacyAbstractLogger {
     public boolean isErrorEnabled(Marker marker) {
         return isErrorEnabled();
     }
+
+    private record Location(String klass, String method) { }
 }

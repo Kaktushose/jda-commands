@@ -35,8 +35,8 @@ import org.slf4j.Logger;
 import java.util.*;
 import java.util.function.Consumer;
 
-import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
 import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
+import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
 
 /// Handles all the business logic for sending messages, including embeds or V1 components.
 public sealed class MessageReply permits ConfigurableReply, SendableReply {
@@ -47,7 +47,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     /// Constructs a new MessageReply.
     ///
-    ///  @param replyConfig the [ReplyConfig] to use
+    /// @param replyConfig the [ReplyConfig] to use
     public MessageReply(ReplyConfig replyConfig) {
         replyAction = new ReplyAction(replyConfig);
         resolver = new ComponentResolver<>(scopedMessageResolver(), ActionRowChildComponent.class);
@@ -55,7 +55,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
     /// Constructs a new MessageReply.
     ///
-    ///  @param reply the [MessageReply] to copy from
+    /// @param reply the [MessageReply] to copy from
     public MessageReply(MessageReply reply) {
         replyAction = reply.replyAction;
         resolver = new ComponentResolver<>(scopedMessageResolver(), ActionRowChildComponent.class);
@@ -188,6 +188,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     ///     }
     ///  }
     /// ```
+    ///
     /// @see Component
     public SendableReply components(Component<?, ?, ?, ?>... components) {
         List<ActionRowChildComponent> items = Arrays.stream(components).map(this::resolve).toList();

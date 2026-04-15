@@ -1,16 +1,15 @@
 package io.github.kaktushose.jdac.processor.property;
 
+import java.util.function.Function;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.VariableElement;
-import java.util.function.Function;
 
 public class ValidationProcessor extends PropertyProcessor {
 
     @Override
     public void processField(Property field, RoundEnvironment roundEnv, Messager messager) {
         Property annotation = getInfo(field.element());
-
 
 
         if (!equalsContent(field, annotation)) {
@@ -38,7 +37,7 @@ public class ValidationProcessor extends PropertyProcessor {
         String annotationVal = getter.apply(annotation);
 
         if (!fieldVal.equals(annotationVal)) {
-            return "\n  %s: %s (field) vs. %s (annotation)".formatted(name, fieldVal,  annotationVal);
+            return "\n  %s: %s (field) vs. %s (annotation)".formatted(name, fieldVal, annotationVal);
         }
 
         return "";
