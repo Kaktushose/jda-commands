@@ -67,6 +67,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#arguments()" tabindex="0">arguments()</a></li>
 <li><a href="#cancel(net.dv8tion.jda.api.utils.messages.MessageCreateData)" tabindex="0">cancel(MessageCreateData)</a></li>
 <li><a href="#cancel(net.dv8tion.jda.api.components.MessageTopLevelComponent,io.github.kaktushose.jdac.message.placeholder.Entry...)" tabindex="0">cancel(MessageTopLevelComponent, Entry...)</a></li>
+<li><a href="#cancel(net.dv8tion.jda.api.interactions.commands.Command.Choice)" tabindex="0">cancel(Command.Choice)</a></li>
+<li><a href="#cancelAutoComplete()" tabindex="0">cancelAutoComplete()</a></li>
 <li><a href="#cancelled()" tabindex="0">cancelled()</a></li>
 <li><a href="#toString()" tabindex="0">toString()</a></li>
 <li><a href="#hashCode()" tabindex="0">hashCode()</a></li>
@@ -155,9 +157,21 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <div class="block">Stops further execution of this invocation at the next suitable moment.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cancel(net.dv8tion.jda.api.utils.messages.MessageCreateData)" class="member-name-link">cancel</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;errorMessage)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cancel(net.dv8tion.jda.api.interactions.commands.Command.Choice)" class="member-name-link">cancel</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Choice.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">Command.Choice</a>&nbsp;choice)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Stops further execution of this invocation at the next suitable moment if the underlying event is an
+<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericAutoCompleteInteractionEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericAutoCompleteInteractionEvent</code></a>, else does nothing.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cancel(net.dv8tion.jda.api.utils.messages.MessageCreateData)" class="member-name-link">cancel</a><wbr>(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;errorMessage)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Stops further execution of this invocation at the next suitable moment.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cancelAutoComplete()" class="member-name-link">cancelAutoComplete</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Stops further execution of this invocation at the next suitable moment if the underlying event is an
+<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericAutoCompleteInteractionEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericAutoCompleteInteractionEvent</code></a>, else does nothing.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cancelled()" class="member-name-link">cancelled</a>()</code></div>
@@ -265,7 +279,10 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <h3>cancel</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">cancel</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/utils/messages/MessageCreateData.html" title="class or interface in net.dv8tion.jda.api.utils.messages" class="external-link">MessageCreateData</a>&nbsp;errorMessage)</span></div>
-<div class="block">Stops further execution of this invocation at the next suitable moment.</div>
+<div class="block"><p>Stops further execution of this invocation at the next suitable moment.</p>
+<p>If the underlying event is an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericAutoCompleteInteractionEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericAutoCompleteInteractionEvent</code></a>, replies with empty <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Choice.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>Command.Choice</code></a>s and the
+provided message isn't used.</p>
+</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>errorMessage</code> - the error message that should be sent to the user as a reply</dd>
@@ -281,7 +298,10 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">cancel</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">MessageTopLevelComponent</a>&nbsp;component,
  <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholders)</span></div>
-<div class="block">Stops further execution of this invocation at the next suitable moment.</div>
+<div class="block"><p>Stops further execution of this invocation at the next suitable moment.</p>
+<p>If the underlying event is an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericAutoCompleteInteractionEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericAutoCompleteInteractionEvent</code></a>, replies with empty <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Choice.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>Command.Choice</code></a>s and the
+provided message isn't used.</p>
+</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>component</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/MessageTopLevelComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link"><code>MessageTopLevelComponent</code></a> that should be sent to the user as an error message</dd>
@@ -289,6 +309,30 @@ implements <a href="../../embeds/error/ErrorMessageFactory.ErrorContext.html" ti
 <dt>Implementation Note:</dt>
 <dd>This will interrupt the current event thread</dd>
 </dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="cancel(net.dv8tion.jda.api.interactions.commands.Command.Choice)">
+<h3>cancel</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">cancel</span><wbr><span class="parameters">(<a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Choice.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link">Command.Choice</a>&nbsp;choice)</span></div>
+<div class="block">Stops further execution of this invocation at the next suitable moment if the underlying event is an
+<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericAutoCompleteInteractionEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericAutoCompleteInteractionEvent</code></a>, else does nothing.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>choice</code> - the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/Command.Choice.html" title="class or interface in net.dv8tion.jda.api.interactions.commands" class="external-link"><code>Command.Choice</code></a> to reply with. This can be useful to display an error message in the auto complete UI instead of failing silently</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="cancelAutoComplete()">
+<h3>cancelAutoComplete</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">cancelAutoComplete</span>()</div>
+<div class="block">Stops further execution of this invocation at the next suitable moment if the underlying event is an
+<a href="https://docs.jda.wiki/net/dv8tion/jda/api/events/interaction/GenericAutoCompleteInteractionEvent.html" title="class or interface in net.dv8tion.jda.api.events.interaction" class="external-link"><code>GenericAutoCompleteInteractionEvent</code></a>, else does nothing.</div>
 </div>
 </section>
 </li>
