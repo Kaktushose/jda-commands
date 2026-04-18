@@ -19,4 +19,7 @@ public sealed interface SelectMenuDefinition<T extends SelectMenu> extends Compo
     /// the maximum amount of choices
     int maxValue();
 
+    /// whether this menu is required. This only has an effect in Modals.
+    boolean required();
+
 }

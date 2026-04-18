@@ -68,7 +68,7 @@ class EntitySelectMenuDefinitionTest {
         var newDefaults = Set.of(DefaultValue.user(42L));
         var newChannelTypes = Set.of(ChannelType.NEWS);
 
-        var overridden = base.with(newTargets, newDefaults, newChannelTypes, "new placeholder", 2, 3, 1);
+        var overridden = base.with(newTargets, newDefaults, newChannelTypes, "new placeholder", 2, 3, 1, false);
 
         assertTrue(overridden.selectTargets().contains(SelectTarget.USER));
         assertTrue(overridden.defaultValues().stream().anyMatch(d -> d.getIdLong() == 42L));

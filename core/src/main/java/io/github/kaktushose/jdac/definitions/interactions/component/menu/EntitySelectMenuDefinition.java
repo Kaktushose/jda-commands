@@ -40,7 +40,8 @@ public record EntitySelectMenuDefinition(
         String placeholder,
         int minValue,
         int maxValue,
-        @Nullable Integer uniqueId
+        @Nullable Integer uniqueId,
+        boolean required
 ) implements SelectMenuDefinition<EntitySelectMenu> {
 
     /// Builds a new [EntitySelectMenuDefinition] from the given [MethodBuildContext].
@@ -82,7 +83,8 @@ public record EntitySelectMenuDefinition(
                 selectMenu.placeholder(),
                 selectMenu.minValue(),
                 selectMenu.maxValue(),
-                selectMenu.uniqueId() < 0 ? null : selectMenu.uniqueId()
+                selectMenu.uniqueId() < 0 ? null : selectMenu.uniqueId(),
+                selectMenu.required()
         );
     }
 
@@ -94,7 +96,8 @@ public record EntitySelectMenuDefinition(
                                            @Nullable String placeholder,
                                            @Nullable Integer minValue,
                                            @Nullable Integer maxValue,
-                                           @Nullable Integer uniqueId) {
+                                           @Nullable Integer uniqueId,
+                                           @Nullable Boolean required) {
         return new EntitySelectMenuDefinition(
                 classDescription,
                 methodDescription,
@@ -105,7 +108,8 @@ public record EntitySelectMenuDefinition(
                 override(this.placeholder, placeholder),
                 override(this.minValue, minValue),
                 override(this.maxValue, maxValue),
-                override(this.uniqueId, uniqueId)
+                override(this.uniqueId, uniqueId),
+                override(this.required, required)
         );
     }
 
@@ -128,7 +132,8 @@ public record EntitySelectMenuDefinition(
             var menu = EntitySelectMenu.create(customId.merged(), selectTargets)
                     .setDefaultValues(defaultValues)
                     .setPlaceholder(placeholder)
-                    .setRequiredRange(minValue, maxValue);
+                    .setRequiredRange(minValue, maxValue)
+                    .setRequired(required);
 
             // ChannelType.UNKNOWN is the default value inside the annotation. if this statement is true, we can assume that
             // no channel type was selected
