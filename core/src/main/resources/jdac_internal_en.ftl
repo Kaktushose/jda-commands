@@ -132,8 +132,6 @@ cycling-tree =
 duplicate-component =
     Reply failed due to duplicate component ids. This likely happened because you tried to reply to a ComponentEvent with keepComponents enabled.
     Try disabling keepComponents or assign different unique ids to your components.
-cancel-autocomplete = Cannot cancel auto complete events with message content. Use InvocationContext#cancelAutoComplete() instead.
-cancel-non-autocomplete = Cannot cancel non auto complete event with this method. Use InvocationContext#cancel(MessageCreateData) or InvocationContext#cancel(MessageTopLevelComponent) instead.
 
 # CustomId
 invalid-runtime-id = Invalid runtime id! Must either be a UUID or "independent".
