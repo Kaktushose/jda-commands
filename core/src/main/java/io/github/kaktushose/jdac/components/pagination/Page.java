@@ -17,7 +17,11 @@ public class Page {
     }
 
     public Pagination cancel() {
-        pagination = pagination.maxPages(currentPage);
+        return cancel(currentPage);
+    }
+
+    public Pagination cancel(int page) {
+        pagination = pagination.maxPages(page);
         maxPages = currentPage;
         return pagination;
     }

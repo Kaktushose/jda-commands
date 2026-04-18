@@ -103,6 +103,9 @@ public abstract sealed class SelectMenuComponent<S extends SelectMenuComponent<S
         return required;
     }
 
+    /// This method isn't implemented, use methods like [#minValues(int)] instead!
+    ///
+    /// @throws UnsupportedOperationException will always throw
     @Override
     public @NonNull B createCopy() {
         throw new UnsupportedOperationException();

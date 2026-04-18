@@ -2,17 +2,17 @@ package io.github.kaktushose.jdac.components.pagination.internal;
 
 import io.github.kaktushose.jdac.components.pagination.layout.Control;
 import io.github.kaktushose.jdac.components.pagination.layout.PageSelect;
-import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
+import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import org.jspecify.annotations.Nullable;
 
 public record PageSelectImpl(
-        ActionRowChildComponent component,
+        StringSelectMenu component,
         int threshold,
         @Nullable Integer pages,
         String format
 ) implements PageSelect {
 
-    public PageSelectImpl(ActionRowChildComponent component, String format) {
+    public PageSelectImpl(StringSelectMenu component, String format) {
         this(component, 2, null, format);
     }
 

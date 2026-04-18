@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 
-public sealed interface Control extends Threshold permits PageButton, PageSelect {
+public sealed interface Control<T extends ActionRowChildComponent> extends Threshold permits PageButton, PageSelect {
 
     static PageButton forward(Button component) {
         return new PageButtonImpl(component, Direction.FORWARD);
@@ -38,7 +38,7 @@ public sealed interface Control extends Threshold permits PageButton, PageSelect
 
     int threshold();
 
-    ActionRowChildComponent component();
+    T component();
 
     enum Direction {
         FORWARD,

@@ -5,10 +5,8 @@ import io.github.kaktushose.jdac.components.pagination.Pagination;
 import io.github.kaktushose.jdac.components.pagination.PaginationLayout;
 import io.github.kaktushose.jdac.components.pagination.layout.*;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComponent;
-import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
-import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 import net.dv8tion.jda.api.components.container.Container;
 import net.dv8tion.jda.api.components.container.ContainerChildComponent;
 import net.dv8tion.jda.api.components.selections.SelectOption;
@@ -18,9 +16,11 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.SequencedCollection;
 
-import static io.github.kaktushose.jdac.components.pagination.layout.Control.Direction.*;
+import static io.github.kaktushose.jdac.components.pagination.layout.Control.Direction.BACKWARD;
+import static io.github.kaktushose.jdac.components.pagination.layout.Control.Direction.FORWARD;
 
 public final class PaginationImpl implements Pagination {
 
@@ -117,32 +117,31 @@ public final class PaginationImpl implements Pagination {
                             }
                             return it.threshold() <= maxPages;
                         })
-                        .map(control -> {
-                            var component = control.component();
-                            if (component instanceof ActionComponent actionComponent) {
-                                actionComponent = actionComponent.withDisabled(false);
-
-                                // also support non JDA-Commands components
-                                if (control.direction() == SELECT && component instanceof StringSelectMenu menu) {
-                                    actionComponent = menu.createCopy().addOptions(options()).build();
+                        .map(control -> switch (control) {
+                            case PageButton button -> {
+                                int newPage = currentPage - button.amount();
+                                if (button.direction() == BACKWARD && newPage < 1) {
+                                    yield disable(button, true);
                                 }
-                                if (control.direction() == SELECT && component instanceof StringSelectComponent menu) {
-                                    actionComponent = menu.selectOptions(options());
+                                newPage = currentPage + button.amount();
+                                if (button.direction() == FORWARD && maxPages != null && newPage > maxPages) {
+                                    yield disable(button, true);
                                 }
-
-                                int newPage = currentPage - control.amount();
-                                if (control.direction() == BACKWARD && newPage < 1) {
-                                    actionComponent = actionComponent.withDisabled(true);
-                                }
-
-                                newPage = currentPage + control.amount();
-                                if (control.direction() == FORWARD && maxPages != null && newPage > maxPages) {
-                                    actionComponent = actionComponent.withDisabled(true);
-                                }
-
-                                component = (ActionRowChildComponent) actionComponent;
+                                yield disable(button, false);
                             }
-                            return new PageButtonImpl(component, control.direction(), control.amount(), control.threshold());
+                            case PageSelect pageSelect -> {
+                                // StringSelectComponent is a JDA-Commands class and doesn't support #createCopy().
+                                // JDA also doesn't have a StringSelectMenu#withOptions method so this is the workaround
+                                StringSelectMenu component = pageSelect.component();
+                                if (component instanceof StringSelectComponent menu) {
+                                    menu.getOptions().clear();
+                                    yield pageSelect(menu.selectOptions(options(pageSelect)), pageSelect);
+                                }
+                                var copy = component.createCopy();
+                                copy.getOptions().clear();
+                                copy.addOptions(options(pageSelect));
+                                yield pageSelect(copy.build(), pageSelect);
+                            }
                         })
                         .map(Control::component)
                         .toList()));
@@ -172,15 +171,32 @@ public final class PaginationImpl implements Pagination {
         return config;
     }
 
-    private record ContainerConfig(boolean active, @Nullable Integer color, boolean spoiler) { }
+    public record ContainerConfig(boolean active, @Nullable Integer color, boolean spoiler) { }
 
-    private List<SelectOption> options() {
-        int pages = maxPages == null ? currentPage : maxPages;
+    private PageButtonImpl disable(PageButton button, boolean disable) {
+        return new PageButtonImpl(button.component().withDisabled(disable), button.direction(), button.amount(), button.threshold());
+    }
+
+    private PageSelectImpl pageSelect(StringSelectMenu menu, PageSelect pageSelect) {
+        return new PageSelectImpl(menu, pageSelect.threshold(), pageSelect.pages(), pageSelect.format());
+    }
+
+    private List<SelectOption> options(PageSelect pageSelect) {
+        int options;
+        if (maxPages == null) {
+            // if max pages isn't set, set option count to user setting, else current page
+            options = Objects.requireNonNullElse(pageSelect.pages(), currentPage);
+        } else if (pageSelect.pages() != null) {
+            // if max pages and user setting is present, set option count to user setting as long as it's smaller than max pages
+            options = Math.min(pageSelect.pages(), maxPages);
+        } else {
+            // else just set it to max pages
+            options = maxPages;
+        }
         List<SelectOption> result = new ArrayList<>();
-        for (int i = 1; i <= pages; i++) {
-            result.add(SelectOption.of("Page %d".formatted(i), String.valueOf(i)));
+        for (int i = 1; i <= Math.min(options, StringSelectMenu.OPTIONS_MAX_AMOUNT); i++) {
+            result.add(SelectOption.of(pageSelect.format().formatted(i), String.valueOf(i)));
         }
         return result;
     }
-
 }

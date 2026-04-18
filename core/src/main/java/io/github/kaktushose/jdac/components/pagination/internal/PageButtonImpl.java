@@ -1,20 +1,20 @@
 package io.github.kaktushose.jdac.components.pagination.internal;
 
 import io.github.kaktushose.jdac.components.pagination.layout.PageButton;
-import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
+import net.dv8tion.jda.api.components.buttons.Button;
 
 public record PageButtonImpl(
-        ActionRowChildComponent component,
+        Button component,
         Direction direction,
         int amount,
         int threshold
 ) implements PageButton {
 
-    public PageButtonImpl(ActionRowChildComponent component, Direction direction) {
+    public PageButtonImpl(Button component, Direction direction) {
         this(component, direction, 1, 1);
     }
 
-    public PageButtonImpl(ActionRowChildComponent component, Direction direction, int amount) {
+    public PageButtonImpl(Button component, Direction direction, int amount) {
         this(component, direction, amount, 1);
     }
 
