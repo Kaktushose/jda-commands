@@ -1,10 +1,11 @@
 package io.github.kaktushose.jdac.components.pagination.internal;
 
-import io.github.kaktushose.jdac.components.pagination.layout.Control;
 import io.github.kaktushose.jdac.components.pagination.layout.PageSelect;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
+import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
+@ApiStatus.Internal
 public record PageSelectImpl(
         StringSelectMenu component,
         int threshold,
@@ -27,7 +28,7 @@ public record PageSelectImpl(
     }
 
     @Override
-    public Control threshold(int threshold) {
+    public PageSelect threshold(int threshold) {
         return new PageSelectImpl(component, threshold, pages, format);
     }
 }

@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.components.container.ContainerChildComponent;
 import net.dv8tion.jda.api.components.selections.SelectOption;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.internal.utils.Checks;
+import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.SequencedCollection;
 import static io.github.kaktushose.jdac.components.pagination.layout.Control.Direction.BACKWARD;
 import static io.github.kaktushose.jdac.components.pagination.layout.Control.Direction.FORWARD;
 
+@ApiStatus.Internal
 public final class PaginationImpl implements Pagination {
 
     private final SequencedCollection<PaginationLayout> paginationLayouts;

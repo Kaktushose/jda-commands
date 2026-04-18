@@ -2,12 +2,20 @@ package io.github.kaktushose.jdac.components.pagination.internal;
 
 import io.github.kaktushose.jdac.components.pagination.layout.Control;
 import io.github.kaktushose.jdac.components.pagination.layout.ControlRow;
+import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
+import org.jetbrains.annotations.ApiStatus;
 
+import java.util.Collections;
 import java.util.SequencedCollection;
 
-public record ControlRowImpl(SequencedCollection<Control> controls, int threshold) implements ControlRow {
+@ApiStatus.Internal
+public record ControlRowImpl(SequencedCollection<Control<? extends ActionRowChildComponent>> controls, int threshold) implements ControlRow {
 
-    public ControlRowImpl(SequencedCollection<Control> controls) {
+    public ControlRowImpl {
+        controls = Collections.unmodifiableSequencedCollection(controls);
+    }
+
+    public ControlRowImpl(SequencedCollection<Control<? extends ActionRowChildComponent>> controls) {
         this(controls, 1);
     }
 

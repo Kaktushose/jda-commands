@@ -2,7 +2,9 @@ package io.github.kaktushose.jdac.components.pagination.internal;
 
 import io.github.kaktushose.jdac.components.pagination.layout.PageButton;
 import net.dv8tion.jda.api.components.buttons.Button;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Internal
 public record PageButtonImpl(
         Button component,
         Direction direction,
