@@ -1,48 +1,38 @@
 package io.github.kaktushose.jdac.components.pagination.layout;
 
-import io.github.kaktushose.jdac.components.pagination.internal.ControlImpl;
+import io.github.kaktushose.jdac.components.pagination.internal.ButtonImpl;
+import io.github.kaktushose.jdac.components.pagination.internal.PageSelectImpl;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 
-public interface Control extends Threshold {
+public sealed interface Control extends Threshold permits Button, PageSelect {
 
-    static Control forward(ActionRowChildComponent component) {
-        return new ControlImpl(component, Direction.FORWARD);
+    static Button forward(ActionRowChildComponent component) {
+        return new ButtonImpl(component, Direction.FORWARD);
     }
 
-    static Control forward(ActionRowChildComponent component, int amount) {
-        return new ControlImpl(component, Direction.FORWARD, amount);
+    static Button forward(ActionRowChildComponent component, int amount) {
+        return new ButtonImpl(component, Direction.FORWARD, amount);
     }
 
-    static Control backward(ActionRowChildComponent component) {
-        return new ControlImpl(component, Direction.BACKWARD);
+    static Button backward(ActionRowChildComponent component) {
+        return new ButtonImpl(component, Direction.BACKWARD);
     }
 
-    static Control backward(ActionRowChildComponent component, int amount) {
-        return new ControlImpl(component, Direction.BACKWARD, amount);
+    static Button backward(ActionRowChildComponent component, int amount) {
+        return new ButtonImpl(component, Direction.BACKWARD, amount);
     }
 
-    static Control select(ActionRowChildComponent component) {
-        return new ControlImpl(component, Direction.SELECT);
+    static Button neutral(ActionRowChildComponent component) {
+        return new ButtonImpl(component, Direction.NEUTRAL);
     }
 
-    static Control select(ActionRowChildComponent component, int amount) {
-        return new ControlImpl(component, Direction.SELECT, amount);
+    static PageSelect select(ActionRowChildComponent component) {
+        return new PageSelectImpl(component, "Page %d");
     }
 
-    static Control of(ActionRowChildComponent component) {
-        return new ControlImpl(component, Direction.NEUTRAL);
+    static PageSelect select(ActionRowChildComponent component, String format) {
+        return new PageSelectImpl(component, format);
     }
-
-    @Override
-    Control threshold(int threshold);
-
-    Control direction(Direction direction);
-
-    Control amount(int amount);
-
-    Direction direction();
-
-    int amount();
 
     int threshold();
 
@@ -51,7 +41,6 @@ public interface Control extends Threshold {
     enum Direction {
         FORWARD,
         NEUTRAL,
-        BACKWARD,
-        SELECT
+        BACKWARD
     }
 }

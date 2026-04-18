@@ -18,7 +18,6 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.SequencedCollection;
 
 import static io.github.kaktushose.jdac.components.pagination.layout.Control.Direction.*;
@@ -143,7 +142,7 @@ public final class PaginationImpl implements Pagination {
 
                                 component = (ActionRowChildComponent) actionComponent;
                             }
-                            return new ControlImpl(component, control.direction(), control.amount(), control.threshold());
+                            return new ButtonImpl(component, control.direction(), control.amount(), control.threshold());
                         })
                         .map(Control::component)
                         .toList()));
