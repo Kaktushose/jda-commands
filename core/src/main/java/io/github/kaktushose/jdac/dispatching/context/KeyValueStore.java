@@ -160,6 +160,11 @@ public class KeyValueStore {
             return clazz().isAssignableFrom(object.getClass());
         }
 
+        /// Casts the object to a class using [Class#cast(Object)]
+        ///
+        /// @param object Object to cast
+        /// @return the cast object
+        /// @throws ClassCastException if the object cannot be cast to the class defined in the key
         public T cast(Object object) {
             return clazz.cast(object);
         }
