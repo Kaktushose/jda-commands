@@ -9,6 +9,15 @@ public class KeyValueStore {
 
     private final Map<String, Object> values = new HashMap<>();
 
+    /// Create a new key with a given name associated with the given class.
+    ///
+    /// @param <T>   Type of the object that can be set and retrieved with this key
+    /// @param key   Key of the value in the [KeyValueStore]
+    /// @param clazz Class of the object that can be set and retrieved with this key
+    public static <T> Key<T> key(String key, Class<T> clazz) {
+        return new Key<>(key, clazz);
+    }
+
     /// Gets a value.
     ///
     /// @param key   the key
@@ -40,12 +49,13 @@ public class KeyValueStore {
     public <T> Optional<T> get(String key) {
         return Optional.ofNullable((T) values.get(key));
     }
+
     /// Gets a value.
     ///
     /// @param key the key
     /// @param <T> the type of the value
     /// @return an [Optional] holding the value
-    /// @throws ClassCastException if the value cannot be cast to the required class
+    /// @throws ClassCastException               if the value cannot be cast to the required class
     /// @throws java.util.NoSuchElementException if no value is present
     public <T> T getOrThrow(String key) {
         Optional<T> o = get(key); // Line is required for proper type inference
@@ -57,7 +67,7 @@ public class KeyValueStore {
     /// @param key the key
     /// @param <T> the type of the value
     /// @return an [Optional] holding the value
-    public <T> Optional<T> get(ValueKey<T> key) {
+    public <T> Optional<T> get(Key<T> key) {
         return Optional.ofNullable(values.get(key.key())).filter(key::isAssignable).map(key::cast);
     }
 
@@ -67,7 +77,7 @@ public class KeyValueStore {
     /// @param <T> the type of the value
     /// @return an [Optional] holding the value
     /// @throws java.util.NoSuchElementException if no value is present
-    public <T> T getOrThrow(ValueKey<T> key) {
+    public <T> T getOrThrow(Key<T> key) {
         Optional<T> value = get(key.key()); // Line is required for proper type inference
         return value.orElseThrow();
     }
@@ -87,7 +97,7 @@ public class KeyValueStore {
     /// @param key   the key
     /// @param value the value
     /// @return this instance for fluent interface
-    public <T> KeyValueStore put(ValueKey<T> key, T value) {
+    public <T> KeyValueStore put(Key<T> key, T value) {
         values.put(key.key(), value);
         return this;
     }
@@ -104,7 +114,7 @@ public class KeyValueStore {
     ///
     /// @param key the key
     /// @return `true` if this StateSection has a value mapped to the key and has the correct type
-    public <T> boolean contains(ValueKey<T> key) {
+    public <T> boolean contains(Key<T> key) {
         return get(key).isPresent();
     }
 
@@ -121,7 +131,7 @@ public class KeyValueStore {
     ///
     /// @param key key whose mapping is to be removed
     /// @return this instance for fluent interface
-    public <T> KeyValueStore remove(ValueKey<T> key) {
+    public <T> KeyValueStore remove(Key<T> key) {
         values.remove(key.key());
         return this;
     }
@@ -132,5 +142,26 @@ public class KeyValueStore {
     public KeyValueStore clear() {
         values.clear();
         return this;
+    }
+
+    /// Represents a key for a value in a [KeyValueStore].
+    /// The key provides a way to uniquely identify a value in the store.
+    /// The key also defines the class that the value in the [KeyValueStore] should be.
+    ///
+    /// @param <T>   Type of the object that can be set and retrieved with this key
+    /// @param key   Key of the value in the [KeyValueStore]
+    /// @param clazz Class of the object that can be set and retrieved with this key
+    public record Key<T>(String key, Class<T> clazz) {
+        /// Checks whether the class of the object is assignable to the class defined in the key.
+        ///
+        /// @param object Object to check
+        /// @return true if the class of the object is assignable to the class defined in the key, false otherwise
+        public boolean isAssignable(Object object) {
+            return clazz().isAssignableFrom(object.getClass());
+        }
+
+        public T cast(Object object) {
+            return clazz.cast(object);
+        }
     }
 }

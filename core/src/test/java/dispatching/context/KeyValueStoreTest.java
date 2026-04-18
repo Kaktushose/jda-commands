@@ -1,7 +1,7 @@
 package dispatching.context;
 
 import io.github.kaktushose.jdac.dispatching.context.KeyValueStore;
-import io.github.kaktushose.jdac.dispatching.context.ValueKey;
+import io.github.kaktushose.jdac.dispatching.context.KeyValueStore.Key;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -50,8 +50,8 @@ class KeyValueStoreTest {
     }
 
     @Test
-    void putAndGetWithValueKey() {
-        ValueKey<String> key = new ValueKey<>("key", String.class);
+    void putAndGetWithKey() {
+        Key<String> key = new Key<>("key", String.class);
         store.put(key, "value");
         
         Optional<String> result = store.get(key);
@@ -67,9 +67,9 @@ class KeyValueStoreTest {
     }
 
     @Test
-    void containsWithValueKey() {
-        ValueKey<String> key = new ValueKey<>("key", String.class);
-        ValueKey<Integer> wrongTypeKey = new ValueKey<>("key", Integer.class);
+    void containsWithKey() {
+        Key<String> key = new Key<>("key", String.class);
+        Key<Integer> wrongTypeKey = new Key<>("key", Integer.class);
         
         store.put(key, "value");
         
@@ -85,8 +85,8 @@ class KeyValueStoreTest {
     }
 
     @Test
-    void removeWithValueKey() {
-        ValueKey<String> key = new ValueKey<>("key", String.class);
+    void removeWithKey() {
+        Key<String> key = new Key<>("key", String.class);
         store.put(key, "value");
         store.remove(key);
         assertFalse(store.contains("key"));
@@ -104,16 +104,16 @@ class KeyValueStoreTest {
     }
 
     @Test
-    void valueKey_isAssignable() {
-        ValueKey<Number> key = new ValueKey<>("key", Number.class);
+    void Key_isAssignable() {
+        Key<Number> key = new Key<>("key", Number.class);
         assertTrue(key.isAssignable(10)); // Integer is Number
         assertTrue(key.isAssignable(10.5)); // Double is Number
         assertFalse(key.isAssignable("string"));
     }
 
     @Test
-    void getWithValueKey_Inheritance() {
-        ValueKey<Number> key = new ValueKey<>("key", Number.class);
+    void getWithKey_Inheritance() {
+        Key<Number> key = new Key<>("key", Number.class);
         store.put(key, 10); // Stores Integer
         
         Optional<Number> result = store.get(key);
