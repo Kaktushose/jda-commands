@@ -74,6 +74,18 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// interaction execution. Its content will be the same as long as the executions take place in the same [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
     ///
     /// @return the [KeyValueStore]
+    /// @deprecated use [#keyValueStore()] instead
+    @Deprecated(since = "5.1.0", forRemoval = true)
+    public KeyValueStore kv() {
+        return scopedRuntime().keyValueStore();
+    }
+
+    /// Returns the [KeyValueStore] of this [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
+    ///
+    /// The [KeyValueStore] can be accessed during the [Middleware] execution as well as any
+    /// interaction execution. Its content will be the same as long as the executions take place in the same [`Runtime`]({@docRoot}/index.html#runtime-concept-heading).
+    ///
+    /// @return the [KeyValueStore]
     public KeyValueStore keyValueStore() {
         return scopedRuntime().keyValueStore();
     }

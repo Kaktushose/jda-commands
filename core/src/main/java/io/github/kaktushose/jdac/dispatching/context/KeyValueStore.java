@@ -27,7 +27,8 @@ public class KeyValueStore {
     /// @return an [Optional] holding the value
     /// @throws java.util.NoSuchElementException if no value is present
     public <T> T getOrThrow(String key, Class<? extends T> clazz) {
-        return Optional.ofNullable(values.get(key)).filter(it -> clazz.isAssignableFrom(it.getClass())).map(clazz::cast).orElseThrow();
+        Optional<T> value = get(key, clazz); // Line is required for proper type inference
+        return value.orElseThrow();
     }
 
     /// Gets a value.
@@ -67,7 +68,8 @@ public class KeyValueStore {
     /// @return an [Optional] holding the value
     /// @throws java.util.NoSuchElementException if no value is present
     public <T> T getOrThrow(ValueKey<T> key) {
-        return Optional.ofNullable(values.get(key.key())).filter(key::isAssignable).map(key::cast).orElseThrow();
+        Optional<T> value = get(key.key()); // Line is required for proper type inference
+        return value.orElseThrow();
     }
 
     /// Associates the specified value with the specified key.
