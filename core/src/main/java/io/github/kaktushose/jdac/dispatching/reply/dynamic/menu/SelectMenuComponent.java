@@ -99,8 +99,8 @@ public abstract sealed class SelectMenuComponent<S extends SelectMenuComponent<S
     }
 
     @Override
-    public Boolean isRequired() {
-        throw new UnsupportedOperationException();
+    public @Nullable Boolean isRequired() {
+        return required;
     }
 
     @Override
