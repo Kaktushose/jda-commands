@@ -80,7 +80,7 @@ class StringSelectMenuDefinitionTest {
         SelectOption existingOption = SelectOption.of("Label 1", "v1");
         SelectOption newOption = SelectOption.of("Label 2", "v2");
 
-        var overridden = base.with(List.of(existingOption, newOption), List.of("v2"), "New placeholder", 2, 3, 1);
+        var overridden = base.with(List.of(existingOption, newOption), List.of("v2"), "New placeholder", 2, 3, 1, false);
 
         assertEquals("New placeholder", overridden.placeholder());
         assertEquals(2, overridden.minValue());
