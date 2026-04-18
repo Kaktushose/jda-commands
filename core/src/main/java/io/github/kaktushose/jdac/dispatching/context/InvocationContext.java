@@ -8,7 +8,9 @@ import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory.ErrorContext;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
+import net.dv8tion.jda.api.events.interaction.GenericAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
+import net.dv8tion.jda.api.interactions.commands.Command.Choice;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jspecify.annotations.Nullable;
 
@@ -40,21 +42,55 @@ public record InvocationContext<T extends GenericInteractionCreateEvent>(
 
     /// Stops further execution of this invocation at the next suitable moment.
     ///
+    /// If the underlying event is an [GenericAutoCompleteInteractionEvent], replies with empty [Choice]s and the
+    /// provided message isn't used.
+    ///
     /// @param errorMessage the error message that should be sent to the user as a reply
     /// @implNote This will interrupt the current event thread
     public void cancel(MessageCreateData errorMessage) {
+        if (event instanceof GenericAutoCompleteInteractionEvent) {
+            cancelAutoComplete();
+            return;
+        }
         replyAction().reply(errorMessage);
         Thread.currentThread().interrupt();
     }
 
     /// Stops further execution of this invocation at the next suitable moment.
     ///
+    /// If the underlying event is an [GenericAutoCompleteInteractionEvent], replies with empty [Choice]s and the
+    /// provided message isn't used.
+    ///
     /// @param component    the [MessageTopLevelComponent] that should be sent to the user as an error message
     /// @param placeholders the [Entry] placeholders to use for [message resolution][MessageResolver]
     /// @implNote This will interrupt the current event thread
     public void cancel(MessageTopLevelComponent component, Entry... placeholders) {
+        if (event instanceof GenericAutoCompleteInteractionEvent) {
+            cancelAutoComplete();
+            return;
+        }
         replyAction().reply(component, placeholders);
         Thread.currentThread().interrupt();
+    }
+
+    /// Stops further execution of this invocation at the next suitable moment if the underlying event is an
+    /// [GenericAutoCompleteInteractionEvent], else does nothing.
+    ///
+    /// @param choice the [Choice] to reply with. This can be useful to display an error message in the auto complete UI instead of failing silently
+    public void cancel(Choice choice) {
+        if (event instanceof GenericAutoCompleteInteractionEvent autoCompleteEvent) {
+            autoCompleteEvent.replyChoices(choice).complete();
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    /// Stops further execution of this invocation at the next suitable moment if the underlying event is an
+    /// [GenericAutoCompleteInteractionEvent], else does nothing.
+    public void cancelAutoComplete() {
+        if (event instanceof GenericAutoCompleteInteractionEvent autoCompleteEvent) {
+            autoCompleteEvent.replyChoices().complete();
+            Thread.currentThread().interrupt();
+        }
     }
 
     private ReplyAction replyAction() {
