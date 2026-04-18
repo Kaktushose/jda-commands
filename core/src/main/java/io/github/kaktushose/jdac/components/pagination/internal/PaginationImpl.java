@@ -142,7 +142,7 @@ public final class PaginationImpl implements Pagination {
 
                                 component = (ActionRowChildComponent) actionComponent;
                             }
-                            return new ButtonImpl(component, control.direction(), control.amount(), control.threshold());
+                            return new PageButtonImpl(component, control.direction(), control.amount(), control.threshold());
                         })
                         .map(Control::component)
                         .toList()));

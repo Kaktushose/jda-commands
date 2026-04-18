@@ -1,29 +1,29 @@
 package io.github.kaktushose.jdac.components.pagination.layout;
 
-import io.github.kaktushose.jdac.components.pagination.internal.ButtonImpl;
+import io.github.kaktushose.jdac.components.pagination.internal.PageButtonImpl;
 import io.github.kaktushose.jdac.components.pagination.internal.PageSelectImpl;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 
-public sealed interface Control extends Threshold permits Button, PageSelect {
+public sealed interface Control extends Threshold permits PageButton, PageSelect {
 
-    static Button forward(ActionRowChildComponent component) {
-        return new ButtonImpl(component, Direction.FORWARD);
+    static PageButton forward(ActionRowChildComponent component) {
+        return new PageButtonImpl(component, Direction.FORWARD);
     }
 
-    static Button forward(ActionRowChildComponent component, int amount) {
-        return new ButtonImpl(component, Direction.FORWARD, amount);
+    static PageButton forward(ActionRowChildComponent component, int amount) {
+        return new PageButtonImpl(component, Direction.FORWARD, amount);
     }
 
-    static Button backward(ActionRowChildComponent component) {
-        return new ButtonImpl(component, Direction.BACKWARD);
+    static PageButton backward(ActionRowChildComponent component) {
+        return new PageButtonImpl(component, Direction.BACKWARD);
     }
 
-    static Button backward(ActionRowChildComponent component, int amount) {
-        return new ButtonImpl(component, Direction.BACKWARD, amount);
+    static PageButton backward(ActionRowChildComponent component, int amount) {
+        return new PageButtonImpl(component, Direction.BACKWARD, amount);
     }
 
-    static Button neutral(ActionRowChildComponent component) {
-        return new ButtonImpl(component, Direction.NEUTRAL);
+    static PageButton neutral(ActionRowChildComponent component) {
+        return new PageButtonImpl(component, Direction.NEUTRAL);
     }
 
     static PageSelect select(ActionRowChildComponent component) {
