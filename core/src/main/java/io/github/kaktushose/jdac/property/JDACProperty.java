@@ -281,7 +281,7 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
     JDACProperty<String> RUNTIME_ID =
             new JDACSingletonProperty<>("RUNTIME_ID", Property.Source.PROVIDED, JDACScope.RUNTIME, String.class);
 
-    /// The [KeyValueStore] associated with this runtime. Same as [InvocationContext#keyValueStore()] or [Event#kv()].
+    /// The [KeyValueStore] associated with this runtime. Same as [InvocationContext#keyValueStore()] or [Event#keyValueStore()()].
     @PropertyInformation(scope = JDACScope.RUNTIME, source = Property.Source.PROVIDED)
     JDACProperty<KeyValueStore> KEY_VALUE_STORE =
             new JDACSingletonProperty<>("KEY_VALUE_STORE", Property.Source.PROVIDED, JDACScope.RUNTIME, KeyValueStore.class);
