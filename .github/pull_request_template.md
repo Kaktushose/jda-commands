@@ -1,11 +1,14 @@
-# Title
-
-A brief summary of the feature.
+## Type
+- [ ] Feature
+- [ ] Fix
+- [ ] Refactor
 
 closes #issue
 
-## Example
+## Description
 
+### Example
+<!-- only fill out for feature prs -->
 ```java
 // code example
 ```
@@ -15,4 +18,4 @@ closes #issue
 - [ ] Applied IntelliJ Formatter (`Ctrl` + `Shift` + `L`)
 - [ ] Applied `gradle format`
 - [ ] If applicable, added unit tests
-- [ ] Updated Javadocs and Wiki
+- [ ] Updated documentation
