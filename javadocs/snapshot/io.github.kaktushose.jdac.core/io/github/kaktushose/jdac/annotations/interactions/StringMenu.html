@@ -61,6 +61,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#minValue()" tabindex="0">minValue</a></li>
 <li><a href="#maxValue()" tabindex="0">maxValue</a></li>
 <li><a href="#uniqueId()" tabindex="0">uniqueId</a></li>
+<li><a href="#required()" tabindex="0">required</a></li>
 </ol>
 </li>
 </ol>
@@ -125,14 +126,19 @@ public void onMenu(ComponentEvent event, List&lt;String&gt; choices) { ... }
 <div class="col-last odd-row-color">
 <div class="block">The minimum amount of values a user has to select.</div>
 </div>
-<div class="col-first even-row-color"><code>int</code></div>
-<div class="col-second even-row-color"><code><a href="#uniqueId()" class="member-name-link">uniqueId</a></code></div>
+<div class="col-first even-row-color"><code>boolean</code></div>
+<div class="col-second even-row-color"><code><a href="#required()" class="member-name-link">required</a></code></div>
 <div class="col-last even-row-color">
+<div class="block">Configure whether the user must populate this select menu if inside a Modal.</div>
+</div>
+<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-second odd-row-color"><code><a href="#uniqueId()" class="member-name-link">uniqueId</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">The uniqueId of this component.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#value()" class="member-name-link">value</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#value()" class="member-name-link">value</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">Configure the placeholder which is displayed when no selections have been made yet.</div>
 </div>
 </div>
@@ -213,6 +219,29 @@ public void onMenu(ComponentEvent event, List&lt;String&gt; choices) { ... }
 <dl class="notes">
 <dt>Default:</dt>
 <dd><code>-1</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="required()">
+<h3>required</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">required</span></div>
+<div class="block"><p>Configure whether the user must populate this select menu if inside a Modal.</p>
+<p>This defaults to <code>true</code> in Modals when unset.</p>
+<p>This attribute is completely separate from the value range,
+for example, you can have an optional select menu with the range set to <code>[2 ; 5]</code>,
+meaning you accept either 0 options, or, at least 2 but at most 5.</p>
+<p>This only has an effect in Modals!</p>
+</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Whether this menu is required</dd>
+</dl>
+<dl class="notes">
+<dt>Default:</dt>
+<dd><code>true</code></dd>
 </dl>
 </div>
 </section>

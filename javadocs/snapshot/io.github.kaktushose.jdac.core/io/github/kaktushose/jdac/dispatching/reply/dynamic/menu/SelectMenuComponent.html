@@ -63,6 +63,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#placeholder" tabindex="0">placeholder</a></li>
 <li><a href="#minValues" tabindex="0">minValues</a></li>
 <li><a href="#maxValues" tabindex="0">maxValues</a></li>
+<li><a href="#required" tabindex="0">required</a></li>
 </ol>
 </li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
@@ -76,6 +77,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#minValues(int)" tabindex="0">minValues(int)</a></li>
 <li><a href="#maxValues(int)" tabindex="0">maxValues(int)</a></li>
 <li><a href="#requiresRange(int,int)" tabindex="0">requiresRange(int, int)</a></li>
+<li><a href="#required(java.lang.Boolean)" tabindex="0">required(Boolean)</a></li>
 </ol>
 </li>
 </ol>
@@ -154,6 +156,9 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>protected @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#placeholder" class="member-name-link">placeholder</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#required" class="member-name-link">required</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-io.github.kaktushose.jdac.dispatching.reply.Component">Fields inherited from class&nbsp;<a href="../../Component.html#field-summary" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a></h3>
@@ -196,9 +201,12 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeholder(java.lang.String)" class="member-name-link">placeholder</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;placeholder)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#requiresRange(int,int)" class="member-name-link">requiresRange</a><wbr>(int&nbsp;min,
- int&nbsp;max)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#required(java.lang.Boolean)" class="member-name-link">required</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;required)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#requiresRange(int,int)" class="member-name-link">requiresRange</a><wbr>(int&nbsp;min,
+ int&nbsp;max)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -246,6 +254,14 @@ loadScripts(document, 'script');</script>
 <h3>maxValues</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">maxValues</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="required">
+<h3>required</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">required</span></div>
 </div>
 </section>
 </li>
@@ -334,6 +350,22 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="tag-list-long">
 <li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.Builder.html#setRequiredRange(int,int)" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link"><code>SelectMenu.Builder.setRequiredRange(int, int)</code></a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="required(java.lang.Boolean)">
+<h3>required</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a></span>&nbsp;<span class="element-name">required</span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;required)</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.Builder.html#setRequired(java.lang.Boolean)" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link"><code>SelectMenu.Builder.setRequired(Boolean)</code></a></li>
 </ul>
 </dd>
 </dl>
