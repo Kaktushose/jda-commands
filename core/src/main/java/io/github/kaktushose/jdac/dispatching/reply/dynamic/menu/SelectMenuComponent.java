@@ -30,6 +30,7 @@ public abstract sealed class SelectMenuComponent<S extends SelectMenuComponent<S
     // wrapper types for nullability (null -> not set)
     protected @Nullable Integer minValues;
     protected @Nullable Integer maxValues;
+    protected @Nullable Boolean required;
 
     public SelectMenuComponent(String method, @Nullable Class<?> origin, Entry[] placeholder) {
         super(method, origin, placeholder);
@@ -57,6 +58,12 @@ public abstract sealed class SelectMenuComponent<S extends SelectMenuComponent<S
     public S requiresRange(int min, int max) {
         minValues(min);
         maxValues(max);
+        return self();
+    }
+
+    /// @see SelectMenu.Builder#setRequired(Boolean)
+    public S required(@Nullable Boolean required) {
+        this.required = required;
         return self();
     }
 

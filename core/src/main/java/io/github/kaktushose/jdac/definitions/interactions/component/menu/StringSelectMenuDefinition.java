@@ -40,7 +40,8 @@ public record StringSelectMenuDefinition(
         String placeholder,
         int minValue,
         int maxValue,
-        @Nullable Integer uniqueId
+        @Nullable Integer uniqueId,
+        boolean required
 ) implements SelectMenuDefinition<StringSelectMenu> {
 
     /// Builds a new [StringSelectMenuDefinition] from the given [MethodBuildContext].
@@ -79,7 +80,8 @@ public record StringSelectMenuDefinition(
                 selectMenu.value(),
                 selectMenu.minValue(),
                 selectMenu.maxValue(),
-                selectMenu.uniqueId() < 0 ? null : selectMenu.uniqueId()
+                selectMenu.uniqueId() < 0 ? null : selectMenu.uniqueId(),
+                selectMenu.required()
         );
     }
 
@@ -90,7 +92,8 @@ public record StringSelectMenuDefinition(
                                            @Nullable String placeholder,
                                            @Nullable Integer minValue,
                                            @Nullable Integer maxValue,
-                                           @Nullable Integer uniqueId) {
+                                           @Nullable Integer uniqueId,
+                                           @Nullable Boolean required) {
         return new StringSelectMenuDefinition(
                 this.classDescription,
                 this.methodDescription,
@@ -99,7 +102,8 @@ public record StringSelectMenuDefinition(
                 override(this.placeholder, placeholder),
                 override(this.minValue, minValue),
                 override(this.maxValue, maxValue),
-                override(this.uniqueId, uniqueId)
+                override(this.uniqueId, uniqueId),
+                override(this.required, required)
         );
     }
 
@@ -133,6 +137,7 @@ public record StringSelectMenuDefinition(
                     .setPlaceholder(placeholder)
                     .setRequiredRange(minValue, maxValue)
                     .addOptions(selectOptions.stream().map(MenuOptionDefinition::toJDAEntity).toList())
+                    .setRequired(required)
                     .build();
             if (uniqueId != null) {
                 menu = menu.withUniqueId(uniqueId);

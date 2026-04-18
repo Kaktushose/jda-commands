@@ -89,4 +89,18 @@ public @interface EntityMenu {
 
     /// The uniqueId of this component. Must be greater than 0. Default value is `-1` which will result in Discord auto assigning an id.
     int uniqueId() default -1;
+
+    /// Configure whether the user must populate this select menu if inside a Modal.
+    ///
+    /// This defaults to `true` in Modals when unset.
+    ///
+    /// This attribute is completely separate from the value range,
+    /// for example, you can have an optional select menu with the range set to `[2 ; 5]`,
+    /// meaning you accept either 0 options, or, at least 2 but at most 5.
+    ///
+    /// This only has an effect in Modals!
+    ///
+    /// @return Whether this menu is required
+    boolean required() default true;
+
 }
