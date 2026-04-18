@@ -13,7 +13,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /// An implementation of [Component] specific to [StringSelectMenu]
-public final class StringSelectComponent extends SelectMenuComponent<StringSelectComponent, StringSelectMenu, Builder, StringSelectMenuDefinition> {
+public final class StringSelectComponent
+        extends SelectMenuComponent<StringSelectComponent, StringSelectMenu, Builder, StringSelectMenuDefinition>
+        implements StringSelectMenu {
 
     private final SequencedCollection<SelectOption> selectOptions = new ArrayList<>();
     private final Collection<String> defaultValues = new HashSet<>();
@@ -92,5 +94,10 @@ public final class StringSelectComponent extends SelectMenuComponent<StringSelec
     @Override
     public Type getType() {
         return Type.STRING_SELECT;
+    }
+
+    @Override
+    public List<SelectOption> getOptions() {
+        return selectOptions.stream().toList();
     }
 }

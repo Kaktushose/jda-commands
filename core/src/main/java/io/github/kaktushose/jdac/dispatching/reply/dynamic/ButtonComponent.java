@@ -3,17 +3,16 @@ package io.github.kaktushose.jdac.dispatching.reply.dynamic;
 import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
 import io.github.kaktushose.jdac.dispatching.reply.Component;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
-import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.buttons.ButtonStyle;
-import net.dv8tion.jda.api.components.section.SectionAccessoryComponentUnion;
-import net.dv8tion.jda.api.components.thumbnail.Thumbnail;
+import net.dv8tion.jda.api.entities.SkuSnowflake;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.entities.emoji.EmojiUnion;
 import org.jspecify.annotations.Nullable;
 
 /// An implementation of [Component] specific to [Button]
 public final class ButtonComponent extends Component<ButtonComponent, Button, Button, ButtonDefinition>
-        implements SectionAccessoryComponentUnion {
+        implements Button {
 
     private @Nullable Emoji emoji;
     private @Nullable ButtonStyle buttonStyle;
@@ -64,7 +63,37 @@ public final class ButtonComponent extends Component<ButtonComponent, Button, Bu
     }
 
     @Override
-    public Thumbnail asThumbnail() {
-        throw new UnsupportedOperationException();
+    public @Nullable String getLabel() {
+        return label;
+    }
+
+    @Override
+    public @Nullable ButtonStyle getStyle() {
+        return buttonStyle;
+    }
+
+    @Override
+    public @Nullable String getUrl() {
+        return url;
+    }
+
+    @Override
+    public @Nullable SkuSnowflake getSku() {
+        return null;
+    }
+
+    @Override
+    public @Nullable EmojiUnion getEmoji() {
+        return (EmojiUnion) emoji;
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return !enabled();
+    }
+
+    @Override
+    public @Nullable String getCustomId() {
+        return null;
     }
 }

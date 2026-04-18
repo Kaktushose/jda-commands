@@ -303,9 +303,9 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     }
 
     @Override
-    public Component<S, T, B, D> withDisabled(boolean disabled) {
+    public S withDisabled(boolean disabled) {
         this.enabled = !disabled;
-        return this;
+        return self();
     }
 
     @Override
