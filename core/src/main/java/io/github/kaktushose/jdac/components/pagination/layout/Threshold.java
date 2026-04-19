@@ -4,7 +4,7 @@ import io.github.kaktushose.jdac.components.pagination.PaginationLayout;
 
 /// Indicates that a [PaginationLayout] can be limited by a threshold.
 ///
-/// This threshold must be reached before they show up. In other words, the current page must be equal or greater than
+/// This threshold must be reached before they show up. In other words, the current page number must be equal or greater than
 /// then the set threshold for the [PaginationLayout] to show up.
 ///
 /// @see Dynamic

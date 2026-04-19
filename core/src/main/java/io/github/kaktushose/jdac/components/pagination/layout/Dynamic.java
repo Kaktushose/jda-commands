@@ -10,7 +10,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /// A type of [PaginationLayout] that is as the name says *dynamic*. This means its content is dependent on the
-/// pagination state, e.g. the current page.
+/// pagination state, e.g. the current page number.
 ///
 /// @see Page
 public non-sealed interface Dynamic extends PaginationLayout, Threshold {

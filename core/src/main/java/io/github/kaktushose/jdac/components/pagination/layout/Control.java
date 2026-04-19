@@ -54,10 +54,10 @@ public sealed interface Control<T extends ActionRowChildComponent> extends Thres
         return new PageButtonImpl(component, Direction.FORWARD);
     }
 
-    /// Creates a new [PageButton] with [Direction#FORWARD] that skips the passed amount.
+    /// Creates a new [PageButton] with [Direction#FORWARD] that skips the passed number of pages.
     ///
     /// @param component the underlying [Button]. Can also be [Component#button(String, Entry...)]
-    /// @param amount    the amount to scroll forward
+    /// @param amount    the number of pages to scroll forward
     /// @return the new [PageButton]
     static PageButton forward(Button component, int amount) {
         return new PageButtonImpl(component, Direction.FORWARD, amount);
@@ -71,10 +71,10 @@ public sealed interface Control<T extends ActionRowChildComponent> extends Thres
         return new PageButtonImpl(component, Direction.BACKWARD);
     }
 
-    /// Creates a new [PageButton] with [Direction#BACKWARD] that skips the passed amount.
+    /// Creates a new [PageButton] with [Direction#BACKWARD] that skips the passed number of pages.
     ///
     /// @param component the underlying [Button]. Can also be [Component#button(String, Entry...)]
-    /// @param amount    the amount to scroll backward
+    /// @param amount    the number of pages to scroll backward
     /// @return the new [PageButton]
     static PageButton backward(Button component, int amount) {
         return new PageButtonImpl(component, Direction.BACKWARD, amount);
@@ -99,7 +99,7 @@ public sealed interface Control<T extends ActionRowChildComponent> extends Thres
     /// Creates a new [PageSelect] with a custom format. The format uses [String#format(String, Object...)] and passes
     /// the page number as an int.
     ///
-    /// @param format the format to generate the [SelectOption]'s value from.
+    /// @param format the format to generate the [SelectOption]'s value from
     /// @param component the underlying [StringSelectMenu]. Can also be [Component#stringSelect(String, Entry...)]
     /// @return the new [PageSelect]
     static PageSelect select(StringSelectMenu component, String format) {

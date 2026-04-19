@@ -9,7 +9,7 @@ import org.jspecify.annotations.Nullable;
 public record PageSelectImpl(
         StringSelectMenu component,
         int threshold,
-        @Nullable Integer pages,
+        @Nullable Integer selectOptions,
         String format
 ) implements PageSelect {
 
@@ -18,17 +18,17 @@ public record PageSelectImpl(
     }
 
     @Override
-    public PageSelect pages(@Nullable Integer pages) {
+    public PageSelect selectOptions(@Nullable Integer pages) {
         return new PageSelectImpl(component, threshold, pages, format);
     }
 
     @Override
     public PageSelect format(String format) {
-        return new PageSelectImpl(component, threshold, pages, format);
+        return new PageSelectImpl(component, threshold, selectOptions, format);
     }
 
     @Override
     public PageSelect threshold(int threshold) {
-        return new PageSelectImpl(component, threshold, pages, format);
+        return new PageSelectImpl(component, threshold, selectOptions, format);
     }
 }

@@ -49,7 +49,7 @@ public final class PaginationImpl implements Pagination {
 
     @Override
     public Pagination maxPages(int maxPages) {
-        Checks.check(maxPages > 0, "The maximum amount of pages must be at least 1");
+        Checks.check(maxPages > 0, "The maximum number of pages must be at least 1");
         this.maxPages = maxPages;
         return this;
     }
@@ -111,7 +111,7 @@ public final class PaginationImpl implements Pagination {
 
             SequencedCollection<ContainerChildComponent> components = switch (paginationLayout) {
                 case Static staticImpl -> staticImpl.components();
-                case Dynamic dynamic -> dynamic.function().apply(new Page(this, currentPage, maxPages));
+                case Dynamic dynamic -> dynamic.function().apply(new Page(this));
                 case ControlRow controlRow -> List.of(ActionRow.of(controlRow.controls().stream()
                         .filter(it -> {
                             if (maxPages == null) {
@@ -180,17 +180,17 @@ public final class PaginationImpl implements Pagination {
     }
 
     private PageSelectImpl pageSelect(StringSelectMenu menu, PageSelect pageSelect) {
-        return new PageSelectImpl(menu, pageSelect.threshold(), pageSelect.pages(), pageSelect.format());
+        return new PageSelectImpl(menu, pageSelect.threshold(), pageSelect.selectOptions(), pageSelect.format());
     }
 
     private List<SelectOption> options(PageSelect pageSelect) {
         int options;
         if (maxPages == null) {
             // if max pages isn't set, set option count to user setting, else current page
-            options = Objects.requireNonNullElse(pageSelect.pages(), currentPage);
-        } else if (pageSelect.pages() != null) {
+            options = Objects.requireNonNullElse(pageSelect.selectOptions(), currentPage);
+        } else if (pageSelect.selectOptions() != null) {
             // if max pages and user setting is present, set option count to user setting as long as it's smaller than max pages
-            options = Math.min(pageSelect.pages(), maxPages);
+            options = Math.min(pageSelect.selectOptions(), maxPages);
         } else {
             // else just set it to max pages
             options = maxPages;

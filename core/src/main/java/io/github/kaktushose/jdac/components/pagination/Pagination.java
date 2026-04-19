@@ -52,11 +52,11 @@ import java.util.SequencedCollection;
 ///
 /// ## Maximum Page
 /// By default, the pagination has no last page. It is possible to scroll forward indefinitely. Use [#maxPages(int)] to
-/// set a limit. Use [Page#cancel()] to set the maximum page dynamically when paginating.
+/// set a limit. Use [Page#cancel()] to set the maximum number of pages dynamically when paginating.
 ///
 /// ## Threshold
 /// [Dynamic] content, [ControlRow]s as well as their [Control]s can have a [Threshold#threshold()] that must be reached
-/// before they show up. In other words, the [#currentPage()] must be equal or greater than then the threshold for the
+/// before they show up. In other words, the [#currentPage()] number must be equal or greater than then the threshold for the
 /// [PaginationLayout] to show up.
 /// ```
 /// Pagination.of(
@@ -82,10 +82,10 @@ public interface Pagination {
         return new PaginationImpl(components);
     }
 
-    /// Sets the maximum amount of pages this pagination has. When the last page is reached, all controls with
+    /// Sets the maximum number of pages this pagination has. When the last page is reached, all controls with
     /// [Direction#FORWARD] will be disabled.
     ///
-    /// @param maxPages the maximum amount of pages
+    /// @param maxPages the maximum number of pages
     /// @return this instance for fluent interface
     Pagination maxPages(int maxPages);
 
@@ -131,7 +131,7 @@ public interface Pagination {
     ///
     /// Throws an exception if [#maxPages(int)] is set and the [#currentPage()] is already the last page.
     ///
-    /// @param amount the amount to scroll forward
+    /// @param amount the number of pages to scroll forward
     /// @return this instance for fluent interface
     Pagination forward(int amount);
 
@@ -148,7 +148,7 @@ public interface Pagination {
     ///
     /// Throws an exception if the [#currentPage()] is the first page.
     ///
-    /// @param amount the amount to scroll back
+    /// @param amount the number of pages to scroll back
     /// @return this instance for fluent interface
     Pagination backward(int amount);
 
@@ -165,9 +165,9 @@ public interface Pagination {
     /// @return the current page
     int currentPage();
 
-    /// Gets the maximum amount of pages of this pagination. Will return `null` if not set via [#maxPages()]
+    /// Gets the maximum number of pages of this pagination. Will return `null` if not set via [#maxPages()]
     ///
-    /// @return possibly null amount of maximum pages
+    /// @return possibly null number of maximum pages
     @Nullable Integer maxPages();
 
     /// Builds this pagination into a collection of [MessageTopLevelComponent]s that can be sent.

@@ -11,7 +11,7 @@ import net.dv8tion.jda.internal.utils.Helpers;
 import java.util.SequencedCollection;
 
 /// A type of [PaginationLayout] that is as the name says *static*. This means it always remains exactly the same,
-/// independent of the pagination state (e.g. current page).
+/// independent of the pagination state (e.g. current page number).
 ///
 /// This can be any [ContainerChildComponent].
 public non-sealed interface Static extends PaginationLayout {
