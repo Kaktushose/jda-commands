@@ -45,7 +45,7 @@ spotless {
 
     java {
         target("**/*.java")
-        targetExclude(".github/workflows/**")
+        targetExclude(".github/workflows/**", "build/**", "**/.direnv/**")
 
         importOrder("io.github.kaktushose|dev.goldmensch|net.dv8tion|", "java|javax", "\\#")
         forbidModuleImports()

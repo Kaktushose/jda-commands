@@ -53,7 +53,7 @@ class KeyValueStoreTest {
     void putAndGetWithKey() {
         Key<String> key = new Key<>("key", String.class);
         store.put(key, "value");
-        
+
         Optional<String> result = store.get(key);
         assertTrue(result.isPresent());
         assertEquals("value", result.get());
@@ -70,9 +70,9 @@ class KeyValueStoreTest {
     void containsWithKey() {
         Key<String> key = new Key<>("key", String.class);
         Key<Integer> wrongTypeKey = new Key<>("key", Integer.class);
-        
+
         store.put(key, "value");
-        
+
         assertTrue(store.contains(key));
         assertFalse(store.contains(wrongTypeKey));
     }
@@ -96,9 +96,9 @@ class KeyValueStoreTest {
     void clear_ShouldRemoveAllValues() {
         store.put("key1", "value1");
         store.put("key2", 2);
-        
+
         store.clear();
-        
+
         assertFalse(store.contains("key1"));
         assertFalse(store.contains("key2"));
     }
@@ -115,7 +115,7 @@ class KeyValueStoreTest {
     void getWithKey_Inheritance() {
         Key<Number> key = new Key<>("key", Number.class);
         store.put(key, 10); // Stores Integer
-        
+
         Optional<Number> result = store.get(key);
         assertTrue(result.isPresent());
         assertEquals(10, result.get());
