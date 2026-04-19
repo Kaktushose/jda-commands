@@ -33,6 +33,7 @@
             virtualenv
             python312Packages.pip
             python312
+            nodejs_24
         ];
        in {
          devShells.default = pkgs.mkShell {
