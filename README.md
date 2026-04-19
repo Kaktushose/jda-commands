@@ -6,7 +6,7 @@
 [![license-shield](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)]()
 
 # JDA-Commands
- 
+
 A lightweight, easy-to-use command framework for building Discord bots
 with [JDA](https://github.com/DV8FromTheWorld/JDA) with full support for interactions. JDA-Commands goal is to remove
 any boilerplate code, so you can focus solely on the business logic of your bot - writing bots has never been easier!

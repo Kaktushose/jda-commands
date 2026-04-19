@@ -15,6 +15,7 @@ import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.JDACScope;
+import io.github.kaktushose.jdac.property.events.InteractionFinishedEvent;
 import io.github.kaktushose.jdac.property.events.InteractionStartEvent;
 import io.github.kaktushose.jdac.property.internal.JDACInternalProperties;
 import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
@@ -129,14 +130,17 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
             Object instance = runtime.interactionInstance(definition.classDescription().clazz());
 
             ScopedValue.where(INVOCATION_PERMITTED, true).call(() -> definition.invoke(instance, invocation));
-        } catch (Exception exception) {
+            introspection.publish(new InteractionFinishedEvent(invocation, null));
+        } catch (Throwable throwable) {
             // this unwraps the underlying error in case of an exception inside the command class
-            Throwable throwable = exception instanceof InvocationTargetException ? exception.getCause() : exception;
-            log.error("Interaction execution failed!", throwable);
+            Throwable original = throwable instanceof InvocationTargetException ? throwable.getCause() : throwable;
+            log.error("Interaction execution failed!", original);
+
+            introspection.publish(new InteractionFinishedEvent(invocation, original));
 
             // 10062 is the error code for "Unknown interaction". In that case we cannot send any reply, not even the
             // error message.
-            if (throwable instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
+            if (original instanceof ErrorResponseException errorResponse && errorResponse.getErrorCode() == 10062) {
                 return;
             }
 
@@ -161,7 +165,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                     replyConfig.silent(),
                     replyConfig.allowedMentions()
             )
-            ).reply(errorMessageFactory.getInteractionExecutionFailedMessage(invocation, throwable));
+            ).reply(errorMessageFactory.getInteractionExecutionFailedMessage(invocation, original));
         }
     }
 

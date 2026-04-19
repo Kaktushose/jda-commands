@@ -147,8 +147,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return jdaEvent().getToken();
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public Guild getGuild() {
         return jdaEvent().getGuild();
     }
@@ -158,8 +157,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return jdaEvent().getUser();
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public Member getMember() {
         return jdaEvent().getMember();
     }
@@ -169,8 +167,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
         return jdaEvent().isAcknowledged();
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public Channel getChannel() {
         return jdaEvent().getChannel();
     }
