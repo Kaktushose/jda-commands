@@ -5,7 +5,7 @@ import io.github.kaktushose.jdac.components.pagination.internal.PageButtonImpl;
 import io.github.kaktushose.jdac.dispatching.reply.Component;
 import net.dv8tion.jda.api.components.buttons.Button;
 
-/// A [PageButton] is backed by a [Button] that performs an arbitrary task with a [Pagithenation]. Most commonly, this
+/// A [PageButton] is backed by a [Button] that performs an arbitrary task with a [Pagination]. Most commonly, this
 /// would be scrolling back and forth, but could also be something like a refresh button.
 ///
 /// [PageButton]s can have a [Direction]. When the direction is set to [Direction#BACKWARD], the [PageButton] will

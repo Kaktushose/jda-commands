@@ -82,7 +82,7 @@ placeholder feature.
     <JDACommands#findEmbed(String)> method, which
     returns an Optional, if you cannot ensure that the Embed exists.
 
-See the [Reply Section](../interactions/reply.md#embeds) of this wiki to learn more about on how to use Embeds for your
+See the [Reply Section](../interactions/reply/overview.md#embeds) of this wiki to learn more about on how to use Embeds for your
 interaction replies.
 
 ## Localization

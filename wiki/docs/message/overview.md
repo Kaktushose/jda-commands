@@ -22,10 +22,10 @@ Instead of manually using the <MessageResolver>
 class, JDA-Commands allows for implicit resolution
 of messages in many common please. These include:
 
-- [Component API](../interactions/components.md) including the corresponding annotations like <io.github.kaktushose.jdac.annotations.interactions.Button>,
+- [Component API](../interactions/reply/legacy.md) including the corresponding annotations like <io.github.kaktushose.jdac.annotations.interactions.Button>,
   <io.github.kaktushose.jdac.annotations.interactions.Modal> etc.
 - [Embed API](embeds.md) 
-- [Reply API](../interactions/reply.md), for example the string content of a message <ReplyableEvent#reply(String,Entry...)>
+- [Reply API](../interactions/reply/overview.md), for example the string content of a message <ReplyableEvent#reply(String,Entry...)>
 
 If you are using localization, please take a look at [implicit localization](localization.md#implicit-localization).
 
