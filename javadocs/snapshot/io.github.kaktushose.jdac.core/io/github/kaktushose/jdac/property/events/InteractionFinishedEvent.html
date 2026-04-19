@@ -59,7 +59,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.context.InvocationContext,java.lang.Exception)" tabindex="0">InteractionFinishedEvent(InvocationContext, Exception)</a></li>
+<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.context.InvocationContext,java.lang.Throwable)" tabindex="0">InteractionFinishedEvent(InvocationContext, Throwable)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -87,7 +87,8 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Record Components:</dt>
 <dd><code><span id="param-invocationContext">invocationContext</span></code> - the <a href="../../dispatching/context/InvocationContext.html" title="class in io.github.kaktushose.jdac.dispatching.context"><code>InvocationContext</code></a> that was used to invoke the interaction controller method</dd>
-<dd><code><span id="param-exception">exception</span></code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link"><code>Exception</code></a> thrown by <a href="../../definitions/description/Invoker.html#invoke(java.lang.Object,java.util.SequencedCollection)"><code>Invoker.invoke(Object, SequencedCollection)</code></a> or <code>null</code> if no exception was thrown</dd>
+<dd><code><span id="param-exception">exception</span></code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link"><code>Throwable</code></a> thrown by <a href="../../definitions/description/Invoker.html#invoke(java.lang.Object,java.util.SequencedCollection)"><code>Invoker.invoke(Object, SequencedCollection)</code></a> or <code>null</code> if no exception was thrown.
+If an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/reflect/InvocationTargetException.html" title="class or interface in java.lang.reflect" class="external-link"><code>InvocationTargetException</code></a> is thrown, the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/reflect/InvocationTargetException.html#getCause()" title="class or interface in java.lang.reflect" class="external-link">cause</a> is unwrapped and passed instead.</dd>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
@@ -96,7 +97,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations"><a href="../../annotations/IntrospectionAccess.html" title="annotation interface in io.github.kaktushose.jdac.annotations">@IntrospectionAccess</a>(<a href="../JDACScope.html#INTERACTION">INTERACTION</a>)
-</span><span class="modifiers">public record </span><span class="element-name type-name-label">InteractionFinishedEvent</span>(<a href="../../dispatching/context/InvocationContext.html" title="class in io.github.kaktushose.jdac.dispatching.context">InvocationContext</a>&lt;?&gt;&nbsp;invocationContext, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a>&nbsp;exception)
+</span><span class="modifiers">public record </span><span class="element-name type-name-label">InteractionFinishedEvent</span>(<a href="../../dispatching/context/InvocationContext.html" title="class in io.github.kaktushose.jdac.dispatching.context">InvocationContext</a>&lt;?&gt;&nbsp;invocationContext, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;exception)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="JDACEvent.html" title="interface in io.github.kaktushose.jdac.property.events">JDACEvent</a></span></div>
 <div class="block">Published after an interaction controller method is called.</div>
@@ -112,8 +113,8 @@ implements <a href="JDACEvent.html" title="interface in io.github.kaktushose.jda
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.context.InvocationContext,java.lang.Exception)" class="member-name-link">InteractionFinishedEvent</a><wbr>(<a href="../../dispatching/context/InvocationContext.html" title="class in io.github.kaktushose.jdac.dispatching.context">InvocationContext</a>&lt;?&gt;&nbsp;invocationContext,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a>&nbsp;exception)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.context.InvocationContext,java.lang.Throwable)" class="member-name-link">InteractionFinishedEvent</a><wbr>(<a href="../../dispatching/context/InvocationContext.html" title="class in io.github.kaktushose.jdac.dispatching.context">InvocationContext</a>&lt;?&gt;&nbsp;invocationContext,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;exception)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>InteractionFinishedEvent</code> record class.</div>
 </div>
@@ -136,7 +137,7 @@ implements <a href="JDACEvent.html" title="interface in io.github.kaktushose.jda
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#exception()" class="member-name-link">exception</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-exception"><code>exception</code></a> record component.</div>
@@ -177,11 +178,11 @@ implements <a href="JDACEvent.html" title="interface in io.github.kaktushose.jda
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.dispatching.context.InvocationContext,java.lang.Exception)">
+<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.dispatching.context.InvocationContext,java.lang.Throwable)">
 <h3>InteractionFinishedEvent</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InteractionFinishedEvent</span><wbr><span class="parameters">(<a href="../../dispatching/context/InvocationContext.html" title="class in io.github.kaktushose.jdac.dispatching.context">InvocationContext</a>&lt;?&gt;&nbsp;invocationContext,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a>&nbsp;exception)</span></div>
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;exception)</span></div>
 <div class="block">Creates an instance of a <code>InteractionFinishedEvent</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -263,7 +264,7 @@ implements <a href="JDACEvent.html" title="interface in io.github.kaktushose.jda
 <section class="detail" id="exception()">
 <h3>exception</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span>&nbsp;<span class="element-name">exception</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></span>&nbsp;<span class="element-name">exception</span>()</div>
 <div class="block">Returns the value of the <a href="#param-exception"><code>exception</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
