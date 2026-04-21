@@ -54,7 +54,7 @@ import java.util.stream.Stream;
 /// static `of` factory method is only usable in [JDACScope#PREPARATION]. If you want to use this class outside JDA-Commands
 /// call the constructor and pass the [Resolver] as well as the [Locale] manually.
 /// ```
-/// SequencedContainer<ContainerChildComponent> container = new SequencedContainer(resolver, locale, TextDisplay.of("Hello World!));
+/// SequencedContainer<ContainerChildComponent> container = new SequencedContainer(resolver, locale, TextDisplay.of("Hello World!"));
 /// ```
 ///
 /// @param <T> the component type this container supports.

@@ -132,6 +132,7 @@ nav:
         - Action Components: interactions/reply/legacy.md
         - Components V2:  interactions/reply/components.md
         - Component Utils: interactions/reply/utils.md
+        - Pagination: interactions/reply/pagination.md
   - Middlewares:
       - Overview: middlewares/overview.md
       - Type Adapters: middlewares/typeadapter.md
