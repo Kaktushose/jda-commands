@@ -82,7 +82,10 @@ When used within JDA-Commands you can use the <io.github.kaktushose.jdac.dispatc
     ```java
     @Command("pagination")
     public void onCommand(CommandEvent event) {
-        Control.forward(Component.button("onForth"));
+        event.reply(Pagination.of(
+            Dynamic.of(...),
+            Control.forward(Component.button("onForth"));
+        ));
     }    
 
     @Button("Forth")
@@ -91,24 +94,42 @@ When used within JDA-Commands you can use the <io.github.kaktushose.jdac.dispatc
     }
     ```
 ### <PageSelect>
-A <PageSelect> is backed by <StringSelectMenu> and can be used by the user to directly jump to a specific page.
+A <PageSelect> is backed by <StringSelectMenu> and can be used by the user to directly jump to a specific page. The 
+<SelectOption>s are generated automatically depending on the state of the <Pagination>. 
 
-The <SelectOption]s are generated automatically depending on the state of the <Pagination>. If
-<Pagination#maxPages()> is set, this will be the number of <SelectOption>s generated, else <Pagination#currentPage()>
-will determine the number of <SelectOption>s. Either of these options can be overwritten by <PageSelect#selectOptions(Integer)>.
-However, if in any case the number of <SelectOption>s exceeds <StringSelectMenu#OPTIONS_MAX_AMOUNT>, this value
-will be used instead.
+If set, <Pagination#maxPages()> will determine the number of <SelectOption>s generated, else <Pagination#currentPage()>. 
+This can be overwritten by <PageSelect#selectOptions(Integer)>. However, if in any case the number of <SelectOption>s 
+exceeds <SelectMenu#OPTIONS_MAX_AMOUNT>, this value will be used instead.
+
+The <SelectOption>'s label will be generated using Java's <String#format(String, Object...)> method with a format 
+String and the current page number. The default format String is `Page %d`. Use <PageSelect#format(String)> to change 
+the format String. The <SelectOption>'s value will always just be the page number.
 
 When used within JDA-Commands you can use the <io.github.kaktushose.jdac.dispatching.reply.Component> class to reference 
-a <StringMenu> handler. Please note, that this <StringMenu> cannot have any own <MenuOption>s.
+a <StringMenu> handler. 
 
-```
-var control = Control.select(Component.stringSelect("onPageSelect"));
-```
+!!! example
+    ```java
+    @Command("pagination")
+    public void onCommand(CommandEvent event) {
+        event.reply(Pagination.of(
+            Dynamic.of(...),
+            Control.select(Component.stringSelect("onPageSelect"));
+        ).maxPages(10));
+    }    
 
-Use [PageSelect#format(String)] to change the value of the [SelectOption]. The default is `Page %d`.
+    @StringMenu("Forth")
+    public void onPageSelect(ComponentEvent event, List<String> options) {
+        event.reply(pagination.page(options.getFirst().getValue()));
+    }
+    ```
 
-Both of them must be wrapped in a <ControlRow> and just like with <ActionRow>, one <ControlRow> can support up to five
+!!! note 
+    The used <StringMenu> for a <PageSelect> cannot have any own <MenuOption>s.
+
+### <ControlRow>
+
+Both <PageButton> and <PageSelect> must be wrapped in a <ControlRow> and just like with <ActionRow>, one <ControlRow> can support up to five
 <PageButton>s but only one <PageSelect> per row.
 
 The <Pagination> is then controlled by the instance itself. Use methods like <Pagination#forward()> or <Pagination#backward()>
@@ -121,10 +142,6 @@ to paginate back and forth.
         event.reply(pagination.backward());
     }
     ```
-
-Controls that were added via <Control#forward(Button)> or <Control#backward(Button)> will automatically be disabled
-when the first or [last page](#maximum-page) is reached. <Control#select(StringSelectMenu)> will automatically be
-populated with <SelectOption>s.
 
 ## Replying
 When used inside JDA-Commands, just pass the <Pagination> to <ReplyableEvent#reply(Pagination, Entry...)>.

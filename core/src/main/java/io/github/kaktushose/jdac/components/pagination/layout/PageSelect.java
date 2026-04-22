@@ -11,11 +11,10 @@ import org.jspecify.annotations.Nullable;
 
 /// A [PageSelect] is backed by [StringSelectMenu] and can be used by the user to directly jump to a specific page.
 ///
-/// The [SelectOption]s are generated automatically depending on the state of the [Pagination]. If
-/// [Pagination#maxPages()] is set, this will be the number of [SelectOption]s generated, else [Pagination#currentPage()]
-/// will determine the number of [SelectOption]s. Either of these options can be overwritten by [PageSelect#selectOptions(Integer)].
-/// However, if in any case the number of [SelectOption]s exceeds [StringSelectMenu#OPTIONS_MAX_AMOUNT], this value
-/// will be used instead.
+/// The [SelectOption]s are generated automatically depending on the state of the [Pagination]. If set,
+/// [Pagination#maxPages()] will determine the number of [SelectOption]s generated, else [Pagination#currentPage()]
+/// This can be overwritten by [PageSelect#selectOptions(Integer)]. However, if in any case the number of
+/// [SelectOption]s exceeds [StringSelectMenu#OPTIONS_MAX_AMOUNT], this value will be used instead.
 ///
 /// When used within JDA-Commands you can use the [Component] class to reference a [StringMenu] handler. Please note,
 /// that this [StringMenu] cannot have any own [MenuOption]s.
@@ -24,7 +23,9 @@ import org.jspecify.annotations.Nullable;
 /// var control = Control.select(Component.stringSelect("onPageSelect"));
 /// ```
 ///
-/// Use [PageSelect#format(String)] to change the value of the [SelectOption]. The default is `Page %d`.
+/// The [SelectOption]'s label will be generated using Java's [String#format(String, Object...)] method with a format
+/// String and the current page number. The default format String is `Page %d`. Use [PageSelect#format(String)] to change the
+/// format String. The [SelectOption]'s value will always just be the page number.
 public sealed interface PageSelect extends Control<StringSelectMenu> permits PageSelectImpl {
 
     /// Gets the number of [SelectOption]s to generate, or `null` if not set.
@@ -39,13 +40,13 @@ public sealed interface PageSelect extends Control<StringSelectMenu> permits Pag
     /// @return this instance for fluent interface
     PageSelect selectOptions(@Nullable Integer pages);
 
-    /// Gets the format to generate the [SelectOption]s with. Uses [String#format(String, Object...)] and passes the page
+    /// Gets the format to generate the [SelectOption]s label with. Uses [String#format(String, Object...)] and passes the page
     /// number as an int. The default value is `Page %d`.
     ///
     /// @return the format to generate the [SelectOption]'s value from
     String format();
 
-    /// Sets the format to generate the [SelectOption]s with. Uses [String#format(String, Object...)] and passes the page
+    /// Sets the format to generate the [SelectOption]s label with. Uses [String#format(String, Object...)] and passes the page
     /// number as an int. The default value is `Page %d`.
     ///
     /// @param format the format to generate the [SelectOption]'s value from
