@@ -136,10 +136,12 @@ public final class PaginationImpl implements Pagination {
                                 // JDA also doesn't have a StringSelectMenu#withOptions method so this is the workaround
                                 StringSelectMenu component = pageSelect.component();
                                 if (component instanceof StringSelectComponent menu) {
+                                    menu.requiresRange(1, 1); // user should not be able to override this
                                     menu.getOptions().clear();
                                     yield pageSelect(menu.selectOptions(options(pageSelect)), pageSelect);
                                 }
                                 var copy = component.createCopy();
+                                copy.setRequiredRange(1, 1);
                                 copy.getOptions().clear();
                                 copy.addOptions(options(pageSelect));
                                 yield pageSelect(copy.build(), pageSelect);
