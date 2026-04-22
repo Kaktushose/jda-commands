@@ -99,7 +99,7 @@ public sealed interface Control<T extends ActionRowChildComponent> extends Thres
     /// Creates a new [PageSelect] with a custom format. The format uses [String#format(String, Object...)] and passes
     /// the page number as an int.
     ///
-    /// @param format the format to generate the [SelectOption]'s value from
+    /// @param format    the format to generate the [SelectOption]'s value from
     /// @param component the underlying [StringSelectMenu]. Can also be [Component#stringSelect(String, Entry...)]
     /// @return the new [PageSelect]
     static PageSelect select(StringSelectMenu component, String format) {

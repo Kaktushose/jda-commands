@@ -9,7 +9,10 @@ import java.util.Collections;
 import java.util.SequencedCollection;
 
 @ApiStatus.Internal
-public record ControlRowImpl(SequencedCollection<Control<? extends ActionRowChildComponent>> controls, int threshold) implements ControlRow {
+public record ControlRowImpl(
+        SequencedCollection<Control<? extends ActionRowChildComponent>> controls,
+        int threshold
+) implements ControlRow {
 
     public ControlRowImpl {
         controls = Collections.unmodifiableSequencedCollection(controls);

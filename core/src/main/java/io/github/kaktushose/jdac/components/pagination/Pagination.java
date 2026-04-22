@@ -158,8 +158,8 @@ public interface Pagination {
     /// Throws an exception if [#maxPages(int)] is set and the passed page exceeds this limit.
     ///
     /// @param page the page to jump to provided as a String
-    /// @throws NumberFormatException if the String conversion fails
     /// @return this instance for fluent interface
+    /// @throws NumberFormatException if the String conversion fails
     default Pagination page(String page) {
         return page(Integer.parseInt(page));
     }

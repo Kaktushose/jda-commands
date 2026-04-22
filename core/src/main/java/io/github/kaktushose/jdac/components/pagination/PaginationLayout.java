@@ -3,7 +3,6 @@ package io.github.kaktushose.jdac.components.pagination;
 import io.github.kaktushose.jdac.components.pagination.layout.ControlRow;
 import io.github.kaktushose.jdac.components.pagination.layout.Dynamic;
 import io.github.kaktushose.jdac.components.pagination.layout.Static;
-import net.dv8tion.jda.api.components.container.ContainerChildComponent;
 
 /// PaginationLayouts make up a [Pagination]. You can think of them like child components of a top level component.
 ///
