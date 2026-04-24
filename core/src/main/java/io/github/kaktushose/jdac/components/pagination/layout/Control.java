@@ -54,6 +54,14 @@ public sealed interface Control<T extends ActionRowChildComponent> extends Thres
         return new PageButtonImpl(component, Direction.FORWARD);
     }
 
+    /// Creates a new [PageButton] with [Direction#FORWARD].
+    ///
+    /// @param component the name of the method that represents the button, see [Component#button(String, Entry...)]
+    /// @return the new [PageButton]
+    static PageButton forward(String component) {
+        return forward(Component.button(component));
+    }
+
     /// Creates a new [PageButton] with [Direction#FORWARD] that skips the passed number of pages.
     ///
     /// @param component the underlying [Button]. Can also be [Component#button(String, Entry...)]
@@ -63,12 +71,29 @@ public sealed interface Control<T extends ActionRowChildComponent> extends Thres
         return new PageButtonImpl(component, Direction.FORWARD, amount);
     }
 
+    /// Creates a new [PageButton] with [Direction#FORWARD] that skips the passed number of pages.
+    ///
+    /// @param component the name of the method that represents the button, see [Component#button(String, Entry...)]
+    /// @param amount    the number of pages to scroll forward
+    /// @return the new [PageButton]
+    static PageButton forward(String component, int amount) {
+        return forward(Component.button(component), amount);
+    }
+
     /// Creates a new [PageButton] with [Direction#BACKWARD].
     ///
     /// @param component the underlying [Button]. Can also be [Component#button(String, Entry...)]
     /// @return the new [PageButton]
     static PageButton backward(Button component) {
         return new PageButtonImpl(component, Direction.BACKWARD);
+    }
+
+    /// Creates a new [PageButton] with [Direction#BACKWARD].
+    ///
+    /// @param component the name of the method that represents the button, see [Component#button(String, Entry...)]
+    /// @return the new [PageButton]
+    static PageButton backward(String component) {
+        return backward(Component.button(component));
     }
 
     /// Creates a new [PageButton] with [Direction#BACKWARD] that skips the passed number of pages.
@@ -80,12 +105,29 @@ public sealed interface Control<T extends ActionRowChildComponent> extends Thres
         return new PageButtonImpl(component, Direction.BACKWARD, amount);
     }
 
+    /// Creates a new [PageButton] with [Direction#BACKWARD] that skips the passed number of pages.
+    ///
+    /// @param component the name of the method that represents the button, see [Component#button(String, Entry...)]
+    /// @param amount    the number of pages to scroll backward
+    /// @return the new [PageButton]
+    static PageButton backward(String component, int amount) {
+        return backward(Component.button(component), amount);
+    }
+
     /// Creates a new [PageButton] with [Direction#NEUTRAL].
     ///
     /// @param component the underlying [Button]. Can also be [Component#button(String, Entry...)]
     /// @return the new [PageButton]
     static PageButton neutral(Button component) {
         return new PageButtonImpl(component, Direction.NEUTRAL);
+    }
+
+    /// Creates a new [PageButton] with [Direction#NEUTRAL].
+    ///
+    /// @param component the name of the method that represents the button, see [Component#button(String, Entry...)]
+    /// @return the new [PageButton]
+    static PageButton neutral(String component) {
+        return neutral(Component.button(component));
     }
 
     /// Creates a new [PageSelect] with the default format of `Page %d`.
@@ -96,6 +138,14 @@ public sealed interface Control<T extends ActionRowChildComponent> extends Thres
         return new PageSelectImpl(component, "Page %d");
     }
 
+    /// Creates a new [PageSelect] with the default format of `Page %d`.
+    ///
+    /// @param component the name of the method that represents the select menu, see [Component#stringSelect(String, Entry...)]
+    /// @return the new [PageSelect]
+    static PageSelect select(String component) {
+        return select(Component.stringSelect(component));
+    }
+
     /// Creates a new [PageSelect] with a custom format. The format uses [String#format(String, Object...)] and passes
     /// the page number as an int.
     ///
@@ -104,6 +154,16 @@ public sealed interface Control<T extends ActionRowChildComponent> extends Thres
     /// @return the new [PageSelect]
     static PageSelect select(StringSelectMenu component, String format) {
         return new PageSelectImpl(component, format);
+    }
+
+    /// Creates a new [PageSelect] with a custom format. The format uses [String#format(String, Object...)] and passes
+    /// the page number as an int.
+    ///
+    /// @param format    the format to generate the [SelectOption]'s value from
+    /// @param component the name of the method that represents the select menu, see [Component#stringSelect(String, Entry...)]
+    /// @return the new [PageSelect]
+    static PageSelect select(String component, String format) {
+        return select(Component.stringSelect(component), format);
     }
 
     int threshold();
