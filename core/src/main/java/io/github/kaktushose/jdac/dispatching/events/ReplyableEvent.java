@@ -230,15 +230,19 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         return with().reply(components, placeholder);
     }
 
-    // TODO docs
+    /// Acknowledgement of this event with a [Pagination].
+    ///
+    /// @param pagination  the [Pagination] to send
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#resolve(Object, Locale, Entry...)]
+    /// @return the [Message] that got created
     public Message reply(Pagination pagination, Entry... placeholder) {
-        return reply(pagination.build(), placeholder);
+        return with().reply(pagination, placeholder);
     }
 
     /// Acknowledgement of this event with a text message.
     ///
     /// @param message     the message to send or the localization key
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale , String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#resolve(Object, Locale, Entry...)]
     /// @return the [Message] that got created
     /// @implSpec Internally this method calls [RestAction#complete()], thus the [Message] object can get
     /// returned directly.

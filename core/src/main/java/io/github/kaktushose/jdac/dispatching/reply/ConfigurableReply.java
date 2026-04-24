@@ -2,7 +2,9 @@ package io.github.kaktushose.jdac.dispatching.reply;
 
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
+import io.github.kaktushose.jdac.components.pagination.Pagination;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
+import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import net.dv8tion.jda.api.components.Component;
@@ -19,6 +21,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
 /// messages and changing the [InteractionDefinition.ReplyConfig].
@@ -166,4 +169,15 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
         componentTree = componentTree.replace(resolver());
         return replyAction.reply(componentTree.getComponents(), placeholder);
     }
+
+    /// Acknowledgement of this event with a [Pagination].
+    ///
+    /// @param pagination  the [Pagination] to send
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#resolve(Object, Locale, Entry...)]
+    /// @return the [Message] that got created
+    public Message reply(Pagination pagination, Entry... placeholder) {
+        replyAction.keepComponents(false);
+        return reply(pagination.build(), placeholder);
+    }
+
 }
