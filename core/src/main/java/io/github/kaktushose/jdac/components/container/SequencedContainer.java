@@ -27,7 +27,9 @@ import net.dv8tion.jda.internal.components.container.ContainerImpl;
 import org.jetbrains.annotations.Unmodifiable;
 import org.jspecify.annotations.Nullable;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
@@ -258,6 +260,12 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
 
     @Override
     public SequencedContainer<T> withAccentColor(@Nullable Integer accentColor) {
+        container = container.withAccentColor(accentColor);
+        return this;
+    }
+
+    @Override
+    public SequencedContainer<T> withAccentColor(@Nullable Color accentColor) {
         container = container.withAccentColor(accentColor);
         return this;
     }

@@ -5,10 +5,16 @@ import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.JDACScope;
+import net.dv8tion.jda.api.components.container.ContainerChildComponent;
 import net.dv8tion.jda.api.components.textdisplay.TextDisplay;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
+import org.jspecify.annotations.Nullable;
 
+import java.awt.*;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 /// An implementation of [SequencedContainer] that only allows [TextDisplay]s.
 ///
@@ -110,6 +116,35 @@ public final class TextDisplayContainer extends SequencedContainer<TextDisplay> 
     /// @return this instance for fluent interface
     public TextDisplayContainer addLast(String content, Entry... entries) {
         addLast(TextDisplay.of(content), entries);
+        return this;
+    }
+
+    @Override
+    public TextDisplayContainer withAccentColor(@Nullable Integer accentColor) {
+        container = container.withAccentColor(accentColor);
+        return this;
+    }
+
+    @Override
+    public TextDisplayContainer withAccentColor(@Nullable Color accentColor) {
+        container = container.withAccentColor(accentColor);
+        return this;
+    }
+
+    @Override
+    public TextDisplayContainer withSpoiler(boolean spoiler) {
+        container = container.withSpoiler(spoiler);
+        return this;
+    }
+
+    @Override
+    public TextDisplayContainer withComponents(ContainerChildComponent component, ContainerChildComponent... components) {
+        return withComponents(Stream.concat(Stream.of(component), Arrays.stream(components)).toList());
+    }
+
+    @Override
+    public TextDisplayContainer withComponents(Collection<? extends ContainerChildComponent> components) {
+        container = container.withComponents(components);
         return this;
     }
 }

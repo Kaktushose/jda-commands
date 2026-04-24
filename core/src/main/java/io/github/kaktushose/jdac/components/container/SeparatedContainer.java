@@ -10,7 +10,11 @@ import net.dv8tion.jda.api.components.separator.Separator;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 import org.jspecify.annotations.Nullable;
 
+import java.awt.*;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 /// An implementation of [SequencedContainer] that always adds a [Separator] between its elements.
 public final class SeparatedContainer extends SequencedContainer<ContainerChildComponent> {
@@ -126,6 +130,35 @@ public final class SeparatedContainer extends SequencedContainer<ContainerChildC
     @Override
     public SeparatedContainer addLast(ContainerChildComponent component, Entry... entries) {
         super.addLast(component, entries);
+        return this;
+    }
+
+    @Override
+    public SeparatedContainer withAccentColor(@Nullable Integer accentColor) {
+        container = container.withAccentColor(accentColor);
+        return this;
+    }
+
+    @Override
+    public SeparatedContainer withAccentColor(@Nullable Color accentColor) {
+        container = container.withAccentColor(accentColor);
+        return this;
+    }
+
+    @Override
+    public SeparatedContainer withSpoiler(boolean spoiler) {
+        container = container.withSpoiler(spoiler);
+        return this;
+    }
+
+    @Override
+    public SeparatedContainer withComponents(ContainerChildComponent component, ContainerChildComponent... components) {
+        return withComponents(Stream.concat(Stream.of(component), Arrays.stream(components)).toList());
+    }
+
+    @Override
+    public SeparatedContainer withComponents(Collection<? extends ContainerChildComponent> components) {
+        container = container.withComponents(components);
         return this;
     }
 }
