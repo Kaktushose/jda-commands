@@ -4,12 +4,11 @@ import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 
 /// Interface for [Component]s that can be localized.
-public sealed interface LocalizedComponent permits SequencedComponent {
+public sealed interface LocalizedComponent permits AbstractSequencedContainer, SequencedComponent {
 
     /// Gets the [Locale] this container will be localized in
     ///
@@ -20,9 +19,7 @@ public sealed interface LocalizedComponent permits SequencedComponent {
     ///
     /// @param locale the new [DiscordLocale] to use for localization
     /// @return this instance for fluent interface
-    default LocalizedComponent locale(DiscordLocale locale) {
-        return locale(locale.toLocale());
-    }
+    LocalizedComponent locale(DiscordLocale locale);
 
     /// Sets the [Locale] this component will be localized in
     ///
@@ -34,9 +31,7 @@ public sealed interface LocalizedComponent permits SequencedComponent {
     ///
     /// @param entries the [Entries][Entry]
     /// @return this instance for fluent interface
-    default LocalizedComponent entries(Entry... entries) {
-        return entries(Arrays.asList(entries));
-    }
+    LocalizedComponent entries(Entry... entries);
 
     /// Adds [Entries][Entry] to use for localization.
     ///

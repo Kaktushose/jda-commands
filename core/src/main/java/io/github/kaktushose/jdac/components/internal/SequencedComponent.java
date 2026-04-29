@@ -21,7 +21,7 @@ import java.util.Collection;
 /// @param <T> the component type this container supports.
 public sealed interface SequencedComponent<T extends Component>
         extends LocalizedComponent
-        permits SequencedContainer, SequencedTextDisplay {
+        permits SequencedTextDisplay, SequencedContainer, AbstractSequencedContainer {
 
     /// Appends the provided element to the end of this component.
     ///

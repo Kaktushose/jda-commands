@@ -2,7 +2,7 @@ package io.github.kaktushose.jdac.components.container;
 
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.components.SequencedTextDisplay;
-import io.github.kaktushose.jdac.components.internal.SequencedComponent;
+import io.github.kaktushose.jdac.components.internal.AbstractSequencedContainer;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
@@ -10,26 +10,17 @@ import io.github.kaktushose.jdac.property.JDACIntrospection;
 import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.JDACScope;
 import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
-import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.container.Container;
 import net.dv8tion.jda.api.components.container.ContainerChildComponent;
 import net.dv8tion.jda.api.components.container.ContainerChildComponentUnion;
-import net.dv8tion.jda.api.components.filedisplay.FileDisplay;
-import net.dv8tion.jda.api.components.mediagallery.MediaGallery;
 import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
-import net.dv8tion.jda.api.components.section.Section;
-import net.dv8tion.jda.api.components.separator.Separator;
-import net.dv8tion.jda.api.components.textdisplay.TextDisplay;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.utils.data.DataObject;
-import net.dv8tion.jda.internal.components.AbstractComponentImpl;
 import net.dv8tion.jda.internal.components.container.ContainerImpl;
 import org.jetbrains.annotations.Unmodifiable;
 import org.jspecify.annotations.Nullable;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
@@ -59,10 +50,9 @@ import java.util.stream.Stream;
 /// SequencedContainer<ContainerChildComponent> container = new SequencedContainer(resolver, locale, TextDisplay.of("Hello World!"));
 /// ```
 ///
-/// @param <T> the component type this container supports.
-public sealed class SequencedContainer<T extends ContainerChildComponent>
-        extends AbstractComponentImpl
-        implements SequencedComponent<T>, Container, MessageTopLevelComponentUnion
+/// @param <E> the component type this container supports.
+public sealed class SequencedContainer<E extends ContainerChildComponent>
+        extends AbstractSequencedContainer<E, SequencedContainer<E>>
         permits TextDisplayContainer, SeparatedContainer {
 
     protected final List<Entry> entries;
@@ -76,7 +66,7 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
     /// @param resolver the [Resolver] to use for localization
     /// @param locale   the locale this container will be localized to
     /// @param header   the first component of this container
-    public SequencedContainer(Resolver<String> resolver, DiscordLocale locale, T header) {
+    public SequencedContainer(Resolver<String> resolver, DiscordLocale locale, E header) {
         this(resolver, locale.toLocale(), header);
     }
 
@@ -85,7 +75,7 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
     /// @param resolver the [Resolver] to use for localization
     /// @param locale   the locale this container will be localized to
     /// @param header   the first component of this container
-    public SequencedContainer(Resolver<String> resolver, Locale locale, T header) {
+    public SequencedContainer(Resolver<String> resolver, Locale locale, E header) {
         this.resolver = new ComponentResolver<>(resolver, Container.class);
         this.locale = locale;
         entries = new ArrayList<>();
@@ -119,31 +109,31 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
     }
 
     @Override
-    public SequencedContainer<T> add(T component, Entry... entries) {
+    public SequencedContainer<E> add(E component, Entry... entries) {
         entries(entries);
         return add(component, ArrayList::add);
     }
 
     @Override
-    public SequencedContainer<T> addFirst(T component, Entry... entries) {
+    public SequencedContainer<E> addFirst(E component, Entry... entries) {
         entries(entries);
         return add(component, ArrayList::addFirst);
     }
 
     @Override
-    public SequencedContainer<T> addLast(T component, Entry... entries) {
+    public SequencedContainer<E> addLast(E component, Entry... entries) {
         entries(entries);
         return add(component, ArrayList::addLast);
     }
 
     @Override
-    public SequencedContainer<T> addAll(Collection<T> component, Entry... entries) {
+    public SequencedContainer<E> addAll(Collection<E> component, Entry... entries) {
         entries(entries);
         component.forEach(this::add);
         return this;
     }
 
-    private SequencedContainer<T> add(T component, BiConsumer<ArrayList<ContainerChildComponent>, ContainerChildComponent> consumer) {
+    private SequencedContainer<E> add(E component, BiConsumer<ArrayList<ContainerChildComponent>, ContainerChildComponent> consumer) {
         var components = new ArrayList<>(container.getComponents().stream().map(ContainerChildComponent.class::cast).toList());
         if (component instanceof SequencedTextDisplay textDisplay) {
             textDisplay.textDisplays().stream()
@@ -162,13 +152,18 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
     }
 
     @Override
-    public SequencedContainer<T> locale(Locale locale) {
+    protected SequencedContainer<E> self() {
+        return this;
+    }
+
+    @Override
+    public SequencedContainer<E> locale(Locale locale) {
         this.locale = locale;
         return this;
     }
 
     @Override
-    public SequencedContainer<T> entries(Collection<Entry> entries) {
+    public SequencedContainer<E> entries(Collection<Entry> entries) {
         this.entries.addAll(entries);
         return this;
     }
@@ -206,51 +201,9 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
     }
 
     @Override
-    public SequencedContainer<T> withUniqueId(int uniqueId) {
-        this.uniqueId = uniqueId;
-        return this;
-    }
-
-    @Override
-    public SequencedContainer<T> replace(ComponentReplacer replacer) {
+    public SequencedContainer<E> replace(ComponentReplacer replacer) {
         container = container.replace(replacer);
         return this;
-    }
-
-    /// This method is not supported and will always throw [UnsupportedOperationException].
-    @Override
-    public ActionRow asActionRow() {
-        throw new UnsupportedOperationException();
-    }
-
-    /// This method is not supported and will always throw [UnsupportedOperationException].
-    @Override
-    public Section asSection() {
-        throw new UnsupportedOperationException();
-    }
-
-    /// This method is not supported and will always throw [UnsupportedOperationException].
-    @Override
-    public TextDisplay asTextDisplay() {
-        throw new UnsupportedOperationException();
-    }
-
-    /// This method is not supported and will always throw [UnsupportedOperationException].
-    @Override
-    public MediaGallery asMediaGallery() {
-        throw new UnsupportedOperationException();
-    }
-
-    /// This method is not supported and will always throw [UnsupportedOperationException].
-    @Override
-    public Separator asSeparator() {
-        throw new UnsupportedOperationException();
-    }
-
-    /// This method is not supported and will always throw [UnsupportedOperationException].
-    @Override
-    public FileDisplay asFileDisplay() {
-        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -259,42 +212,14 @@ public sealed class SequencedContainer<T extends ContainerChildComponent>
     }
 
     @Override
-    public SequencedContainer<T> withAccentColor(@Nullable Integer accentColor) {
-        container = container.withAccentColor(accentColor);
-        return this;
-    }
-
-    @Override
-    public SequencedContainer<T> withAccentColor(@Nullable Color accentColor) {
-        container = container.withAccentColor(accentColor);
-        return this;
-    }
-
-    @Override
-    public SequencedContainer<T> withSpoiler(boolean spoiler) {
-        container = container.withSpoiler(spoiler);
-        return this;
-    }
-
-    @Override
-    public SequencedContainer<T> withComponents(ContainerChildComponent component, ContainerChildComponent... components) {
+    public SequencedContainer<E> withComponents(ContainerChildComponent component, ContainerChildComponent... components) {
         return withComponents(Stream.concat(Stream.of(component), Arrays.stream(components)).toList());
     }
 
     @Override
-    public SequencedContainer<T> withComponents(Collection<? extends ContainerChildComponent> components) {
+    public SequencedContainer<E> withComponents(Collection<? extends ContainerChildComponent> components) {
         container = container.withComponents(components);
         return this;
-    }
-
-    @Override
-    public @Nullable Integer getAccentColorRaw() {
-        return container.getAccentColorRaw();
-    }
-
-    @Override
-    public boolean isSpoiler() {
-        return container.isSpoiler();
     }
 
     private Map<String, @Nullable Object> toMap() {

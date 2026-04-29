@@ -1,6 +1,7 @@
 package io.github.kaktushose.jdac.components.container;
 
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
+import io.github.kaktushose.jdac.components.internal.AbstractSequencedContainer;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.jdac.property.JDACProperty;
@@ -17,7 +18,7 @@ import java.util.Locale;
 import java.util.stream.Stream;
 
 /// An implementation of [SequencedContainer] that always adds a [Separator] between its elements.
-public final class SeparatedContainer extends SequencedContainer<ContainerChildComponent> {
+public final class SeparatedContainer extends AbstractSequencedContainer<ContainerChildComponent, SeparatedContainer> {
 
     private final Separator separator;
 
@@ -161,4 +162,7 @@ public final class SeparatedContainer extends SequencedContainer<ContainerChildC
         container = container.withComponents(components);
         return this;
     }
+
+
+
 }
