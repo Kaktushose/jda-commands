@@ -19,7 +19,7 @@ public non-sealed interface Dynamic extends PaginationLayout, Threshold {
     ///
     /// @param bodyFunction the [Function] to render the current page with
     /// @return a new [Dynamic]
-    static Dynamic of(Function<Page, SequencedCollection<ContainerChildComponent>> bodyFunction) {
+    static Dynamic of(Function<Page, ? extends SequencedCollection<ContainerChildComponent>> bodyFunction) {
         return new DynamicImpl(bodyFunction);
     }
 
@@ -29,5 +29,5 @@ public non-sealed interface Dynamic extends PaginationLayout, Threshold {
     /// Gets the function to render the page
     ///
     /// @return the function to render the page
-    Function<Page, SequencedCollection<ContainerChildComponent>> function();
+    Function<Page, ? extends SequencedCollection<ContainerChildComponent>> function();
 }

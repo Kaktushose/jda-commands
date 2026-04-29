@@ -10,11 +10,11 @@ import java.util.function.Function;
 
 @ApiStatus.Internal
 public record DynamicImpl(
-        Function<Page, SequencedCollection<ContainerChildComponent>> function,
+        Function<Page, ? extends SequencedCollection<ContainerChildComponent>> function,
         int threshold
 ) implements Dynamic {
 
-    public DynamicImpl(Function<Page, SequencedCollection<ContainerChildComponent>> bodyFunction) {
+    public DynamicImpl(Function<Page, ? extends SequencedCollection<ContainerChildComponent>> bodyFunction) {
         this(bodyFunction, 1);
     }
 
