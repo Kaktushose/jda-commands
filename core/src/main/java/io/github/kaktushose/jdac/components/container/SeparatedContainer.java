@@ -6,16 +6,13 @@ import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.JDACScope;
+import net.dv8tion.jda.api.components.container.Container;
 import net.dv8tion.jda.api.components.container.ContainerChildComponent;
 import net.dv8tion.jda.api.components.separator.Separator;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 import org.jspecify.annotations.Nullable;
 
-import java.awt.*;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Locale;
-import java.util.stream.Stream;
 
 /// An implementation of [SequencedContainer] that always adds a [Separator] between its elements.
 public final class SeparatedContainer extends AbstractSequencedContainer<ContainerChildComponent, SeparatedContainer> {
@@ -39,7 +36,7 @@ public final class SeparatedContainer extends AbstractSequencedContainer<Contain
     /// @param header    the first component of this container
     /// @param separator the [Separator] to use to divide elements
     public SeparatedContainer(Resolver<String> resolver, Locale locale, ContainerChildComponent header, Separator separator) {
-        super(resolver, locale, header);
+        super(resolver, locale, Container.of(header));
         this.separator = separator;
     }
 
@@ -51,13 +48,18 @@ public final class SeparatedContainer extends AbstractSequencedContainer<Contain
     /// @param separator the [Separator] to use to divide elements
     /// @throws IllegalStateException if the [JDACScope#PREPARATION] isn't accessible.
     public static SeparatedContainer of(ContainerChildComponent header, Separator separator) {
-        SequencedContainer.checkAccess();
+        checkAccess();
         return new SeparatedContainer(
                 JDACProperty.MESSAGE_RESOLVER.scopedGet(),
                 JDACProperty.JDA_EVENT.scopedGet().getUserLocale().toLocale(),
                 header,
                 separator
         );
+    }
+
+    @Override
+    protected SeparatedContainer self() {
+        return this;
     }
 
     /// {@inheritDoc} Automatically appends the default [Separator] after the component. Use
@@ -117,8 +119,7 @@ public final class SeparatedContainer extends AbstractSequencedContainer<Contain
         if (separator != null) {
             super.addFirst(separator);
         }
-        super.addFirst(component, entries);
-        return this;
+        return super.addFirst(component, entries);
     }
 
     /// {@inheritDoc}
@@ -130,39 +131,6 @@ public final class SeparatedContainer extends AbstractSequencedContainer<Contain
     /// @return {@inheritDoc}
     @Override
     public SeparatedContainer addLast(ContainerChildComponent component, Entry... entries) {
-        super.addLast(component, entries);
-        return this;
+        return super.addLast(component, entries);
     }
-
-    @Override
-    public SeparatedContainer withAccentColor(@Nullable Integer accentColor) {
-        container = container.withAccentColor(accentColor);
-        return this;
-    }
-
-    @Override
-    public SeparatedContainer withAccentColor(@Nullable Color accentColor) {
-        container = container.withAccentColor(accentColor);
-        return this;
-    }
-
-    @Override
-    public SeparatedContainer withSpoiler(boolean spoiler) {
-        container = container.withSpoiler(spoiler);
-        return this;
-    }
-
-    @Override
-    public SeparatedContainer withComponents(ContainerChildComponent component, ContainerChildComponent... components) {
-        return withComponents(Stream.concat(Stream.of(component), Arrays.stream(components)).toList());
-    }
-
-    @Override
-    public SeparatedContainer withComponents(Collection<? extends ContainerChildComponent> components) {
-        container = container.withComponents(components);
-        return this;
-    }
-
-
-
 }
