@@ -4,7 +4,7 @@ slf4j = "2.0.17"
 [libraries]
 # Core
 fluava = { module = "dev.goldmensch:fluava", version = "1.2.4" }
-jemoji = { module = "net.fellbaum:jemoji", version = "1.7.6" }
+jemoji = { module = "net.fellbaum:jemoji", version = "2.0.0" }
 jda = { module = "net.dv8tion:JDA", version = "6.4.1" }
 guice = { module = "com.google.inject:guice", version = "7.0.0" }
 proteus = { module = "io.github.kaktushose:proteus", version = "0.2.3" }
@@ -13,8 +13,8 @@ propane = { module = "dev.goldmensch:propane", version = "0.1" }
 # Utils
 asm = { module = "org.ow2.asm:asm", version = "9.9.1" }
 classgraph = { module = "io.github.classgraph:classgraph", version = "4.8.184" }
-jackson = { module = "tools.jackson.core:jackson-databind", version = "3.1.1" }
-javapoet = { module = "com.palantir.javapoet:javapoet", version = "0.14.0" }
+jackson = { module = "tools.jackson.core:jackson-databind", version = "3.1.3" }
+javapoet = { module = "com.palantir.javapoet:javapoet", version = "0.15.0" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
@@ -34,5 +34,5 @@ slf4j = [
 ]
 
 [plugins]
-aggregate-javadoc = "io.freefair.aggregate-javadoc:9.2.0"
+aggregate-javadoc = "io.freefair.aggregate-javadoc:9.5.0"
 spotless = "com.diffplug.spotless:8.4.0"
