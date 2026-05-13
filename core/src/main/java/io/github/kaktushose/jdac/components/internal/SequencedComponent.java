@@ -1,7 +1,6 @@
 package io.github.kaktushose.jdac.components.internal;
 
 import io.github.kaktushose.jdac.components.SequencedTextDisplay;
-import io.github.kaktushose.jdac.components.container.SequencedContainer;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.Component;
 
@@ -21,7 +20,7 @@ import java.util.Collection;
 /// @param <T> the component type this container supports.
 public sealed interface SequencedComponent<T extends Component>
         extends LocalizedComponent
-        permits SequencedTextDisplay, SequencedContainer, AbstractSequencedContainer {
+        permits SequencedTextDisplay, AbstractSequencedContainer {
 
     /// Appends the provided element to the end of this component.
     ///

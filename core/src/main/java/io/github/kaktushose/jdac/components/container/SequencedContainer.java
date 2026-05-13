@@ -3,12 +3,14 @@ package io.github.kaktushose.jdac.components.container;
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.components.SequencedTextDisplay;
 import io.github.kaktushose.jdac.components.internal.AbstractSequencedContainer;
+import io.github.kaktushose.jdac.components.internal.SequencedComponent;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.jdac.property.JDACIntrospection;
 import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.JDACScope;
+import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.components.MessageTopLevelComponentUnion;
 import net.dv8tion.jda.api.components.container.Container;
 import net.dv8tion.jda.api.components.container.ContainerChildComponent;
@@ -33,7 +35,7 @@ import java.util.Locale;
 /// ## Localization
 /// This [Container] implementation also supports localization. When [#getComponents()] or [#toData()] is called, the
 /// component list of this container is localized via [ComponentResolver]. Use [#entries(Entry...)] to provide
-/// additional [Entries][Entry] outside the [#add(ContainerChildComponent, Entry...)] methods.
+/// additional [Entries][Entry] outside the [SequencedComponent#add(Component, Entry...)] methods.
 ///
 /// ## Usage outside JDA-Commands
 /// [Container#of(Collection)] uses the [JDACIntrospection] API to access a [Resolver] and the user locale. This means, the
