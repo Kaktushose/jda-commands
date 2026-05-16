@@ -118,6 +118,15 @@ public interface Pagination {
     /// @see Container#withSpoiler(boolean)
     Pagination spoiler(boolean spoiler);
 
+    /// Sets the current page of this pagination to the first page.
+    ///
+    /// This is equivalent to calling [`pagination.page(1)`][#page(int)].
+    ///
+    /// @return this instance for fluent interface
+    default Pagination firstPage() {
+        return page(1);
+    }
+
     /// Scrolls this pagination one page forth.
     ///
     /// Throws an exception if [#maxPages(int)] is set and the [#currentPage()] is already the last page.
@@ -152,8 +161,19 @@ public interface Pagination {
     /// @return this instance for fluent interface
     Pagination backward(int amount);
 
+    /// Sets the current page of this pagination to the first page.
+    ///
+    /// This method does nothing, if [Pagination#maxPages(int)] isn't set!
+    ///
+    /// @return this instance for fluent interface
+    default Pagination lastPage() {
+        if (maxPages() != null) {
+            return page(maxPages());
+        }
+        return this;
+    }
 
-    /// Sets the current page of this pagination to the passed page
+    /// Sets the current page of this pagination to the passed page.
     ///
     /// Throws an exception if [#maxPages(int)] is set and the passed page exceeds this limit.
     ///
@@ -164,12 +184,13 @@ public interface Pagination {
         return page(Integer.parseInt(page));
     }
 
-    /// Sets the current page of this pagination to the passed page
+    /// Sets the current page of this pagination to the passed page.
     ///
     /// Throws an exception if [#maxPages(int)] is set and the passed page exceeds this limit.
     ///
     /// @param page the page to jump to
     /// @return this instance for fluent interface
+    /// @implNote the first page begins at index `1`
     Pagination page(int page);
 
     /// Gets the current page of this pagination.
