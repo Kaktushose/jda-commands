@@ -5,18 +5,18 @@ import io.github.kaktushose.jdac.dispatching.reply.Component;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu.Builder;
-import net.dv8tion.jda.api.components.selections.EntitySelectMenu.DefaultValue;
-import net.dv8tion.jda.api.components.selections.EntitySelectMenu.SelectTarget;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
+import org.jetbrains.annotations.Unmodifiable;
 import org.jspecify.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+
+import static net.dv8tion.jda.api.components.Component.Type.MENTIONABLE_SELECT;
 
 /// An implementation of [Component] specific to [EntitySelectMenu]
-public final class EntitySelectMenuComponent extends SelectMenuComponent<EntitySelectMenuComponent, EntitySelectMenu, Builder, EntitySelectMenuDefinition> {
+public final class EntitySelectMenuComponent
+        extends SelectMenuComponent<EntitySelectMenuComponent, EntitySelectMenu, Builder, EntitySelectMenuDefinition>
+        implements EntitySelectMenu {
 
     private final Set<SelectTarget> entityTypes = new HashSet<>();
     private final Set<ChannelType> channelTypes = new HashSet<>();
@@ -74,6 +74,21 @@ public final class EntitySelectMenuComponent extends SelectMenuComponent<EntityS
 
     @Override
     public Type getType() {
-        return Type.MENTIONABLE_SELECT;
+        return MENTIONABLE_SELECT;
+    }
+
+    @Override
+    public EnumSet<SelectTarget> getEntityTypes() {
+        return EnumSet.of(SelectTarget.USER);
+    }
+
+    @Override
+    public EnumSet<ChannelType> getChannelTypes() {
+        return EnumSet.copyOf(channelTypes);
+    }
+
+    @Override
+    public @Unmodifiable List<DefaultValue> getDefaultValues() {
+        return defaultValues.stream().toList();
     }
 }

@@ -26,7 +26,7 @@ you can focus solely on the business logic of your bot - writing bots has never 
       `CookieClicker` for every command execution, so you don't need to worry about state. You can read more about 
       it [here](./start/runtime.md).
       2. This will edit the original message and will also keep the `🍪 Collect` button attached. You can find find more 
-      about building replies [here](./interactions/reply.md).
+      about building replies [here](./interactions/reply/overview.md).
 
 === "Execution"
       ![Cookie Clicker](./assets/cookie-clicker.gif)

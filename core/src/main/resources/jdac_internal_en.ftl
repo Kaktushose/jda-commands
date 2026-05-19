@@ -132,6 +132,7 @@ cycling-tree =
 duplicate-component =
     Reply failed due to duplicate component ids. This likely happened because you tried to reply to a ComponentEvent with keepComponents enabled.
     Try disabling keepComponents or assign different unique ids to your components.
+outside-event-handler = This method cannot be used outside outside of an event handler because it relies on the Introspection API. Use the appropriate constructor instead.
 
 # CustomId
 invalid-runtime-id = Invalid runtime id! Must either be a UUID or "independent".
