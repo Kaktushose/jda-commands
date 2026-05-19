@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponentUnion;
 import net.dv8tion.jda.api.components.section.SectionAccessoryComponentUnion;
+import net.dv8tion.jda.api.components.selections.SelectMenu;
 import net.dv8tion.jda.api.components.thumbnail.Thumbnail;
 import org.jspecify.annotations.Nullable;
 
@@ -80,7 +81,7 @@ import java.util.function.Function;
 /// @see StringSelectComponent
 /// @see EntitySelectMenuComponent
 public abstract sealed class Component<S extends Component<S, T, B, D>, T extends ActionComponent, B, D extends ComponentDefinition<T>>
-        implements ActionRowChildComponentUnion, SectionAccessoryComponentUnion
+        implements ActionComponent, ActionRowChildComponentUnion, SectionAccessoryComponentUnion
         permits ButtonComponent, UnspecificComponent, SelectMenuComponent {
 
     private final Entry[] placeholder;
@@ -293,6 +294,22 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
 
     @Override
     public Thumbnail asThumbnail() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return !enabled;
+    }
+
+    @Override
+    public S withDisabled(boolean disabled) {
+        this.enabled = !disabled;
+        return self();
+    }
+
+    @Override
+    public String getCustomId() {
         throw new UnsupportedOperationException();
     }
 

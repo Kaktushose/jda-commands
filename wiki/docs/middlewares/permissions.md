@@ -1,7 +1,7 @@
 # Permissions
 When it comes to permissions there are essentially two options:
 
-1. Use the [`default permissions`](../interactions/commands.md#enabledfor) of a slash command. This defines a set of 
+1. Use the [`default permissions`](../interactions/commands/config.md#enabled-for-permissions) of a slash command. This defines a set of 
 permissions of who can use a command by default. This will perform a Discord client side check. 
 
 2. Use the permissions system of JDA-Commands described below. This will perform a bot side permissions check guild admins

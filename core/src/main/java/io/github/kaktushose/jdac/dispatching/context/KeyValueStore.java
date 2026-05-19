@@ -46,6 +46,7 @@ public class KeyValueStore {
     /// @param <T> the type of the value
     /// @return an [Optional] holding the value
     /// @throws ClassCastException if the value cannot be cast to the required class
+    @SuppressWarnings("unchecked")
     public <T> Optional<T> get(String key) {
         return Optional.ofNullable((T) values.get(key));
     }

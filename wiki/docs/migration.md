@@ -4,11 +4,11 @@ doesn't have support for Components V2 or Modals. With JDA-Commands V5, we final
 some things have changed in the meantime. This guide will help you to migrate from V4 to V5.
 
 ## New Features
-- You can now reply with [Components V2](./interactions/reply.md#components-v2)
+- You can now reply with [Components V2](interactions/reply/components.md)
 - The [Modal API](./interactions/modals.md#modal-components) has changed to also support CV2
 - The new [Introspection API](./misc/introspection.md) allows you to access JDA-Commands' properties and event system
-- The [Reply Config](./interactions/reply.md#replyconfig) now supports JDA's `setSuppresedNotifications` and `setAllowedMentions`
-- [Command Choices](./interactions/commands.md#choices) can now be dynamically loaded 
+- The [Reply Config](interactions/reply/overview.md#reply-configuration) now supports JDA's `setSuppresedNotifications` and `setAllowedMentions`
+- [Command Choices](./interactions/commands/slash.md#choices) can now be dynamically loaded 
 - <IMentionable> objects now will be automatically localized
 - You can now update the guild commands for a [specific guild][[JDACommands#updateGuildCommands(Collection)]]
 - You can now add custom [String Resolvers](./message/overview.md#adding-custom-string-resolvers) to the localization system

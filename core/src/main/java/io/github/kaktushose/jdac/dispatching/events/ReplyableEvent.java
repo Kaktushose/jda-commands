@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.dispatching.events;
 
 import io.github.kaktushose.jdac.annotations.interactions.EntityMenu;
 import io.github.kaktushose.jdac.annotations.interactions.StringMenu;
+import io.github.kaktushose.jdac.components.pagination.Pagination;
 import io.github.kaktushose.jdac.definitions.features.CustomIdJDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
@@ -15,7 +16,6 @@ import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
-import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
@@ -31,7 +31,6 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jspecify.annotations.Nullable;
-import org.slf4j.Logger;
 
 import java.util.Collection;
 import java.util.List;
@@ -59,8 +58,6 @@ import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
 /// @see ComponentEvent
 public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEvent> extends Event<T>
         permits ModalEvent, ModalReplyableEvent {
-
-    private static final Logger log = JDACLogger.getLogger(ReplyableEvent.class);
 
     /// Acknowledge this interaction and defer the reply to a later time.
     ///
@@ -233,10 +230,19 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
         return with().reply(components, placeholder);
     }
 
+    /// Acknowledgement of this event with a [Pagination].
+    ///
+    /// @param pagination  the [Pagination] to send
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#resolve(Object, Locale, Entry...)]
+    /// @return the [Message] that got created
+    public Message reply(Pagination pagination, Entry... placeholder) {
+        return with().reply(pagination, placeholder);
+    }
+
     /// Acknowledgement of this event with a text message.
     ///
     /// @param message     the message to send or the localization key
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale , String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#resolve(Object, Locale, Entry...)]
     /// @return the [Message] that got created
     /// @implSpec Internally this method calls [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
