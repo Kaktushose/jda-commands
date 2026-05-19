@@ -82,8 +82,6 @@ module io.github.kaktushose.jdac.core {
     // components
     exports io.github.kaktushose.jdac.components;
     exports io.github.kaktushose.jdac.components.container;
-    exports io.github.kaktushose.jdac.components.pagination;
-    exports io.github.kaktushose.jdac.components.pagination.layout;
 
 
     uses Extension;
