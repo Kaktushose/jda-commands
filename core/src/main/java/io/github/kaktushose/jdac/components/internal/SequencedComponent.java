@@ -5,6 +5,7 @@ import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.Component;
 
 import java.util.Collection;
+import java.util.Locale;
 
 /// An interface for [Component]s that allow adding its elements in sequence.
 ///

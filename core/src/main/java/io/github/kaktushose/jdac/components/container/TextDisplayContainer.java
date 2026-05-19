@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.components.container;
 
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.components.internal.AbstractSequencedContainer;
+import io.github.kaktushose.jdac.exceptions.ReplyException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.jdac.property.JDACProperty;
@@ -75,7 +76,7 @@ public final class TextDisplayContainer extends AbstractSequencedContainer<TextD
     /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
     ///
     /// @param header the first [TextDisplay] of this container
-    /// @throws IllegalStateException if the [JDACScope#PREPARATION] isn't accessible.
+    /// @throws ReplyException if the [JDACScope#PREPARATION] isn't accessible.
     public static TextDisplayContainer of(TextDisplay header) {
         SequencedContainer.checkAccess();
         return new TextDisplayContainer(

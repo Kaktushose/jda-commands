@@ -4,6 +4,7 @@ import io.github.kaktushose.jdac.components.SequencedTextDisplay;
 import io.github.kaktushose.jdac.components.container.SeparatedContainer;
 import io.github.kaktushose.jdac.components.container.SequencedContainer;
 import io.github.kaktushose.jdac.components.container.TextDisplayContainer;
+import io.github.kaktushose.jdac.exceptions.ReplyException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
@@ -20,6 +21,7 @@ import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.components.section.Section;
 import net.dv8tion.jda.api.components.separator.Separator;
 import net.dv8tion.jda.api.components.textdisplay.TextDisplay;
+import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.api.utils.data.SerializableData;
 import net.dv8tion.jda.internal.components.container.ContainerImpl;
@@ -58,9 +60,19 @@ public abstract sealed class AbstractSequencedContainer<E extends Component, R e
     }
 
     @Override
+    public R locale(DiscordLocale locale) {
+        return locale(locale.toLocale());
+    }
+
+    @Override
     public R locale(Locale locale) {
         this.locale = locale;
         return self();
+    }
+
+    @Override
+    public R entries(Entry... entries) {
+        return entries(Arrays.asList(entries));
     }
 
     @Override
@@ -256,7 +268,7 @@ public abstract sealed class AbstractSequencedContainer<E extends Component, R e
 
     protected static void checkAccess() {
         if (!JDACIntrospection.accessible()) {
-            throw new IllegalStateException("TODO: Illegal call outside of of event handler");
+            throw new ReplyException("outside-event-handler");
         }
     }
 

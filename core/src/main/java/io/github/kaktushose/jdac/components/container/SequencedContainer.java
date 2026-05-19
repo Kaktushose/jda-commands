@@ -4,6 +4,7 @@ import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.components.SequencedTextDisplay;
 import io.github.kaktushose.jdac.components.internal.AbstractSequencedContainer;
 import io.github.kaktushose.jdac.components.internal.SequencedComponent;
+import io.github.kaktushose.jdac.exceptions.ReplyException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
@@ -78,7 +79,7 @@ public final class SequencedContainer<E extends ContainerChildComponent>
     /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
     ///
     /// @param <T> the component type this container supports.
-    /// @throws IllegalStateException if the [JDACScope#PREPARATION] isn't accessible.
+    /// @throws ReplyException if the [JDACScope#PREPARATION] isn't accessible.
     public static <T extends ContainerChildComponent> SequencedContainer<T> of(T header) {
         checkAccess();
         return new SequencedContainer<>(

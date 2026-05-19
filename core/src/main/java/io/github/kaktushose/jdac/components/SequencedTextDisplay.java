@@ -2,7 +2,9 @@ package io.github.kaktushose.jdac.components;
 
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.components.container.SequencedContainer;
+import io.github.kaktushose.jdac.components.internal.LocalizedComponent;
 import io.github.kaktushose.jdac.components.internal.SequencedComponent;
+import io.github.kaktushose.jdac.exceptions.ReplyException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
@@ -48,7 +50,7 @@ public final class SequencedTextDisplay
 
     private final SequencedCollection<TextDisplay> textDisplays;
     private final ComponentResolver<TextDisplay> resolver;
-    private final List<Entry> entries;
+    private final HashMap<TextDisplay, List<Entry>> entries;
     private Locale locale;
     private String delimiter = "\n";
 
@@ -57,7 +59,7 @@ public final class SequencedTextDisplay
     /// @param resolver the [Resolver] to use for localization
     /// @param locale   the locale this container will be localized to
     /// @param content  the [String] to use for the first [TextDisplay] of this container
-    public SequencedTextDisplay(Resolver<String> resolver, DiscordLocale locale, String content) {
+    public SequencedTextDisplay(Resolver<String> resolver, DiscordLocale locale, String content, Entry... entries) {
         this(resolver, locale.toLocale(), content);
     }
 
@@ -66,7 +68,7 @@ public final class SequencedTextDisplay
     /// @param resolver the [Resolver] to use for localization
     /// @param locale   the locale this container will be localized to
     /// @param header   the first [TextDisplay] of this container
-    public SequencedTextDisplay(Resolver<String> resolver, DiscordLocale locale, TextDisplay header) {
+    public SequencedTextDisplay(Resolver<String> resolver, DiscordLocale locale, TextDisplay header, Entry... entries) {
         this(resolver, locale.toLocale(), header);
     }
 
@@ -75,7 +77,7 @@ public final class SequencedTextDisplay
     /// @param resolver the [Resolver] to use for localization
     /// @param locale   the locale this container will be localized to
     /// @param content  the [String] to use for the first [TextDisplay] of this container
-    public SequencedTextDisplay(Resolver<String> resolver, Locale locale, String content) {
+    public SequencedTextDisplay(Resolver<String> resolver, Locale locale, String content, Entry... entries) {
         this(resolver, locale, TextDisplay.of(content));
     }
 
@@ -84,12 +86,13 @@ public final class SequencedTextDisplay
     /// @param resolver the [Resolver] to use for localization
     /// @param locale   the locale this container will be localized to
     /// @param header   the first [TextDisplay] of this container
-    public SequencedTextDisplay(Resolver<String> resolver, Locale locale, TextDisplay header) {
+    public SequencedTextDisplay(Resolver<String> resolver, Locale locale, TextDisplay header, Entry... entries) {
         super("");
         textDisplays = new ArrayList<>();
         textDisplays.add(header);
         this.resolver = new ComponentResolver<>(resolver, TextDisplay.class);
-        entries = new ArrayList<>();
+        this.entries = new HashMap<>();
+        this.entries.put(header, new ArrayList<>(Arrays.asList(entries)));
         this.locale = locale;
     }
 
@@ -99,8 +102,8 @@ public final class SequencedTextDisplay
     ///
     /// @param content the [String] to use for the first [TextDisplay] of this container
     /// @throws IllegalStateException if the [JDACScope#PREPARATION] isn't accessible.
-    public static SequencedTextDisplay of(String content) {
-        return of(TextDisplay.of(content));
+    public static SequencedTextDisplay of(String content, Entry... entries) {
+        return of(TextDisplay.of(content), entries);
     }
 
     /// Constructs a new [SequencedTextDisplay] from the given [TextDisplay].
@@ -108,15 +111,16 @@ public final class SequencedTextDisplay
     /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
     ///
     /// @param header the first [TextDisplay] of this container
-    /// @throws IllegalStateException if the [JDACScope#PREPARATION] isn't accessible.
-    public static SequencedTextDisplay of(TextDisplay header) {
+    /// @throws ReplyException if the [JDACScope#PREPARATION] isn't accessible.
+    public static SequencedTextDisplay of(TextDisplay header, Entry... entries) {
         if (!JDACIntrospection.accessible()) {
-            throw new IllegalStateException("TODO: Illegal call outside of of event handler");
+            throw new ReplyException("outside-event-handler");
         }
         return new SequencedTextDisplay(
                 JDACProperty.MESSAGE_RESOLVER.scopedGet(),
                 JDACProperty.JDA_EVENT.scopedGet().getUserLocale().toLocale(),
-                header
+                header,
+                entries
         );
     }
 
@@ -135,7 +139,7 @@ public final class SequencedTextDisplay
     /// @param entries the [Entries][Entry] used for localization
     /// @return this instance for fluent interface
     public SequencedTextDisplay add(TextDisplay display, Entry... entries) {
-        entries(entries);
+        entries(display, entries);
         textDisplays.add(display);
         return this;
     }
@@ -155,7 +159,7 @@ public final class SequencedTextDisplay
     /// @param entries the [Entries][Entry] used for localization
     /// @return this instance for fluent interface
     public SequencedTextDisplay addFirst(TextDisplay display, Entry... entries) {
-        entries(entries);
+        entries(display, entries);
         textDisplays.addFirst(display);
         return this;
     }
@@ -175,14 +179,14 @@ public final class SequencedTextDisplay
     /// @param entries the [Entries][Entry] used for localization
     /// @return this instance for fluent interface
     public SequencedTextDisplay addLast(TextDisplay display, Entry... entries) {
-        entries(entries);
+        entries(display, entries);
         textDisplays.addLast(display);
         return this;
     }
 
     @Override
     public SequencedTextDisplay addAll(Collection<TextDisplay> component, Entry... entries) {
-        entries(entries);
+        component.forEach(it -> entries(it, entries));
         textDisplays.addAll(component);
         return this;
     }
@@ -193,14 +197,24 @@ public final class SequencedTextDisplay
     }
 
     @Override
+    public SequencedTextDisplay locale(DiscordLocale locale) {
+        return locale(locale.toLocale());
+    }
+
+    @Override
     public SequencedTextDisplay locale(Locale locale) {
         this.locale = locale;
         return this;
     }
 
     @Override
+    public SequencedTextDisplay entries(Entry... entries) {
+        return entries(Arrays.asList(entries));
+    }
+
+    @Override
     public SequencedTextDisplay entries(Collection<Entry> entries) {
-        this.entries.addAll(entries);
+        this.entries.forEach((_, value) -> value.addAll(entries));
         return this;
     }
 
@@ -215,7 +229,7 @@ public final class SequencedTextDisplay
     ///
     /// @return the [TextDisplay]s of this container
     public SequencedCollection<TextDisplay> textDisplays() {
-        return textDisplays.stream().map(it -> resolver.resolve(it, locale, toMap())).toList();
+        return textDisplays.stream().map(it -> resolver.resolve(it, locale, toMap(it))).toList();
     }
 
     /// Serialized [DataObject] for this container.
@@ -238,12 +252,12 @@ public final class SequencedTextDisplay
     @Override
     public String getContent() {
         return textDisplays.stream()
-                .map(it -> resolver.resolve(it, locale, toMap()))
+                .map(it -> resolver.resolve(it, locale, toMap(it)))
                 .map(TextDisplay::getContent)
                 .collect(Collectors.joining(delimiter));
     }
 
-    /// Creates a new [SequencedTextDisplay] with the specified content. This replaces any [TextDisplay] added before.
+    /// Replaces all [TextDisplay]s of this [SequencedTextDisplay] with the specified content.
     ///
     /// @param content The new content
     /// @return The new [SequencedTextDisplay]
@@ -252,7 +266,7 @@ public final class SequencedTextDisplay
         return withContent(TextDisplay.of(content));
     }
 
-    /// Creates a new [SequencedTextDisplay] with the specified content. This replaces any [TextDisplay] added before.
+    /// Replaces all [TextDisplay]s of this [SequencedTextDisplay] with the specified content.
     ///
     /// @param content The new content
     /// @param entries the [Entries][Entry] used for localization
@@ -261,13 +275,13 @@ public final class SequencedTextDisplay
         return withContent(TextDisplay.of(content), entries);
     }
 
-    /// Creates a new [SequencedTextDisplay] with the specified [TextDisplay]. This replaces any [TextDisplay] added before.
+    ///Replaces all [TextDisplay]s of this [SequencedTextDisplay] with the specified [TextDisplay].
     ///
     /// @param display The new [TextDisplay]
     /// @param entries the [Entries][Entry] used for localization
     /// @return The new [SequencedTextDisplay]
     public SequencedTextDisplay withContent(TextDisplay display, Entry... entries) {
-        entries(entries);
+        entries(display, entries);
         textDisplays.clear();
         textDisplays.add(display);
         return this;
@@ -278,7 +292,11 @@ public final class SequencedTextDisplay
         return (SequencedTextDisplay) super.withUniqueId(uniqueId);
     }
 
-    private Map<String, @Nullable Object> toMap() {
-        return Entry.toMap(entries.toArray(Entry[]::new));
+    private void entries(TextDisplay textDisplay, Entry... entries) {
+        this.entries.computeIfAbsent(textDisplay, _ -> new ArrayList<>()).addAll(Arrays.asList(entries));
+    }
+
+    private Map<String, @Nullable Object> toMap(TextDisplay textDisplay) {
+        return Entry.toMap(entries.get(textDisplay).toArray(Entry[]::new));
     }
 }

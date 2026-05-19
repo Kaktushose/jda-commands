@@ -24,8 +24,8 @@ Select Options are defined by annotating the method with <MenuOption>.
     ```
 
 ### Min & Max Value
-String Select Menus support up to 25 options. You can set the minimum and maximum value by using the `minValue` and
-`maxValue` fields.
+String Select Menus support up to 25 options. You can set the minimum and maximum value by using the <StringMenu#minValue()> and <StringMenu#maxValue()>
+fields.
 
 !!! example
     ```java
@@ -49,7 +49,7 @@ The second parameter must be of type <Mentions>.
     ```
 
 ### Channel Types
-When using `SelectTarget.CHANNEL` you can limit the selectable channel types with the `channelTypes` field.
+When using <SelectTarget#CHANNEL> you can limit the selectable channel types with the <EntityMenu#channelTypes()> field.
 
 !!! example
     ```java
@@ -63,7 +63,7 @@ When using `SelectTarget.CHANNEL` you can limit the selectable channel types wit
 
 ### Default Values
 You can set the [default values][[EntitySelectMenu.DefaultValue]]
-of the Entity Select Menu by using respectively the `defaultChannels`, `defaultRoles` or `defaultUsers` fields.
+of the Entity Select Menu by using respectively the <EntityMenu#defaultChannels()>, <EntityMenu#defaultRoles()> or <EntityMenu#defaultUsers()> fields.
 
 !!! example
     ```java
@@ -76,7 +76,7 @@ of the Entity Select Menu by using respectively the `defaultChannels`, `defaultR
     ```
 
 ### Min & Max Value
-Just as for String Select Menus you can set the minimum and maximum value by using the `minValue` and `maxValue` fields.
+Just as for String Select Menus you can set the minimum and maximum value by using the <EntityMenu#minValue()> and <EntityMenu#maxValue()> fields.
 
 ## Localization and Emojis
 To avoid hardcoded values, all string values of an annotation can be replaced by a localization key as supported by the

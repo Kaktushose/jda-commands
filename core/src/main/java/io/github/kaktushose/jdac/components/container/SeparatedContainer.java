@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.components.container;
 
 import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
 import io.github.kaktushose.jdac.components.internal.AbstractSequencedContainer;
+import io.github.kaktushose.jdac.exceptions.ReplyException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.Resolver;
 import io.github.kaktushose.jdac.property.JDACProperty;
@@ -46,7 +47,7 @@ public final class SeparatedContainer extends AbstractSequencedContainer<Contain
     ///
     /// @param header    the first component of this container
     /// @param separator the [Separator] to use to divide elements
-    /// @throws IllegalStateException if the [JDACScope#PREPARATION] isn't accessible.
+    /// @throws ReplyException if the [JDACScope#PREPARATION] isn't accessible.
     public static SeparatedContainer of(ContainerChildComponent header, Separator separator) {
         checkAccess();
         return new SeparatedContainer(
