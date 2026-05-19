@@ -3,7 +3,6 @@
 
     - Replying with the [Legacy Component System](../reply/legacy.md)
     - [Components V2 Guide](../reply/components.md)
-    - [Component Utils](../reply/utils.md)
 
 Buttons are defined by annotating a method with <io.github.kaktushose.jdac.annotations.interactions.Button>.
 The first parameter must always be a <io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent>.
