@@ -8,8 +8,8 @@ the component list of this container isn't immutable and can be extended. This a
 containers.
 
 Similar to Java's <SequencedCollection>, special methods like 
-[`SequencedContainer#addFirst(...)`][[SequencedContainer#addFirst(T, Entry...)]] and 
-[`SequencedContainer#addLast(...)`][[SequencedContainer#addLast(T, Entry...)]] exist to further improve the developer
+[`SequencedContainer#addFirst(...)`][[AbstractSequencedContainer#addFirst(E, Entry...)]] and 
+[`SequencedContainer#addLast(...)`][[AbstractSequencedContainer#addLast(E, Entry...)]] exist to further improve the developer
 experience.
 
 This class is fully compatible with JDA and implements both <net.dv8tion.jda.api.components.container.Container> and 

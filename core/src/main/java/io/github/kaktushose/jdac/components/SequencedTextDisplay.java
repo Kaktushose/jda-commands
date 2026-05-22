@@ -59,8 +59,9 @@ public final class SequencedTextDisplay
     /// @param resolver the [Resolver] to use for localization
     /// @param locale   the locale this container will be localized to
     /// @param content  the [String] to use for the first [TextDisplay] of this container
+    /// @param entries the [Entries][Entry] used for localization
     public SequencedTextDisplay(Resolver<String> resolver, DiscordLocale locale, String content, Entry... entries) {
-        this(resolver, locale.toLocale(), content);
+        this(resolver, locale.toLocale(), content, entries);
     }
 
     /// Constructs a new [SequencedTextDisplay].
@@ -68,8 +69,9 @@ public final class SequencedTextDisplay
     /// @param resolver the [Resolver] to use for localization
     /// @param locale   the locale this container will be localized to
     /// @param header   the first [TextDisplay] of this container
+    /// @param entries the [Entries][Entry] used for localization
     public SequencedTextDisplay(Resolver<String> resolver, DiscordLocale locale, TextDisplay header, Entry... entries) {
-        this(resolver, locale.toLocale(), header);
+        this(resolver, locale.toLocale(), header, entries);
     }
 
     /// Constructs a new [SequencedTextDisplay].
@@ -77,8 +79,9 @@ public final class SequencedTextDisplay
     /// @param resolver the [Resolver] to use for localization
     /// @param locale   the locale this container will be localized to
     /// @param content  the [String] to use for the first [TextDisplay] of this container
+    /// @param entries the [Entries][Entry] used for localization
     public SequencedTextDisplay(Resolver<String> resolver, Locale locale, String content, Entry... entries) {
-        this(resolver, locale, TextDisplay.of(content));
+        this(resolver, locale, TextDisplay.of(content), entries);
     }
 
     /// Constructs a new [SequencedTextDisplay].
@@ -86,6 +89,7 @@ public final class SequencedTextDisplay
     /// @param resolver the [Resolver] to use for localization
     /// @param locale   the locale this container will be localized to
     /// @param header   the first [TextDisplay] of this container
+    /// @param entries the [Entries][Entry] used for localization
     public SequencedTextDisplay(Resolver<String> resolver, Locale locale, TextDisplay header, Entry... entries) {
         super("");
         textDisplays = new ArrayList<>();
@@ -101,6 +105,7 @@ public final class SequencedTextDisplay
     /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
     ///
     /// @param content the [String] to use for the first [TextDisplay] of this container
+    /// @param entries the [Entries][Entry] used for localization
     /// @throws IllegalStateException if the [JDACScope#PREPARATION] isn't accessible.
     public static SequencedTextDisplay of(String content, Entry... entries) {
         return of(TextDisplay.of(content), entries);
@@ -111,6 +116,7 @@ public final class SequencedTextDisplay
     /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
     ///
     /// @param header the first [TextDisplay] of this container
+    /// @param entries the [Entries][Entry] used for localization
     /// @throws ReplyException if the [JDACScope#PREPARATION] isn't accessible.
     public static SequencedTextDisplay of(TextDisplay header, Entry... entries) {
         if (!JDACIntrospection.accessible()) {
