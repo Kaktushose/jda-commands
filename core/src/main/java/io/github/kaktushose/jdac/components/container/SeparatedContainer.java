@@ -109,9 +109,6 @@ public final class SeparatedContainer extends AbstractSequencedContainer<Contain
     /// Adds the provided element to this component as the first element of this component. Automatically appends the
     /// provided [Separator] after the component. If `null` is provided, no [Separator] will be appended.
     ///
-    /// Automatically appends the default [Separator] after the component. Use
-    /// [#add(ContainerChildComponent, Separator, Entry...)] to override.
-    ///
     /// @param component the component to add
     /// @param separator the [Separator] to append, pass `null` for no [Separator]
     /// @param entries   the [Entries][Entry] used for localization
@@ -121,6 +118,14 @@ public final class SeparatedContainer extends AbstractSequencedContainer<Contain
             super.addFirst(separator);
         }
         return super.addFirst(component, entries);
+    }
+
+    /// Appends a component to the end of this container without appending a [Separator].
+    ///
+    /// @param component the component to add
+    /// @param entries   the [Entries][Entry] used for localization
+    public SeparatedContainer addUnseparated(ContainerChildComponent component, Entry... entries) {
+        return add(component, null, entries);
     }
 
     /// {@inheritDoc}
