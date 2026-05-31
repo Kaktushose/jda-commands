@@ -79,6 +79,14 @@ loadScripts(document, 'script');</script>
 <li><a href="#maxValues(int)" tabindex="0">maxValues(int)</a></li>
 <li><a href="#requiresRange(int,int)" tabindex="0">requiresRange(int, int)</a></li>
 <li><a href="#required(java.lang.Boolean)" tabindex="0">required(Boolean)</a></li>
+<li><a href="#isDisabled()" tabindex="0">isDisabled()</a></li>
+<li><a href="#withDisabled(boolean)" tabindex="0">withDisabled(boolean)</a></li>
+<li><a href="#getCustomId()" tabindex="0">getCustomId()</a></li>
+<li><a href="#getPlaceholder()" tabindex="0">getPlaceholder()</a></li>
+<li><a href="#getMinValues()" tabindex="0">getMinValues()</a></li>
+<li><a href="#getMaxValues()" tabindex="0">getMaxValues()</a></li>
+<li><a href="#isRequired()" tabindex="0">isRequired()</a></li>
+<li><a href="#createCopy()" tabindex="0">createCopy()</a></li>
 </ol>
 </li>
 </ol>
@@ -103,7 +111,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponent.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponent</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponentUnion</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">Component</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/IComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">IComponentUnion</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponent.html" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">SectionAccessoryComponent</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">SectionAccessoryComponentUnion</a></code></dd>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ActionComponent</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponent.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponent</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponentUnion</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/ICustomId.html" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">ICustomId</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">IDisableable</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">Component</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/IComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">IComponentUnion</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/label/LabelChildComponent.html" title="class or interface in net.dv8tion.jda.api.components.label" class="external-link">LabelChildComponent</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponent.html" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">SectionAccessoryComponent</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">SectionAccessoryComponentUnion</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a></code></dd>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
@@ -112,7 +120,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public abstract sealed class </span><span class="element-name type-name-label">SelectMenuComponent&lt;S extends SelectMenuComponent&lt;S,<wbr>T,<wbr>B,<wbr>D&gt;, T extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a>, B extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.Builder.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu.Builder</a>&lt;T,<wbr>B&gt;, D extends <a href="../../../../definitions/interactions/component/menu/SelectMenuDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions.component.menu">SelectMenuDefinition</a>&lt;T&gt;&gt;</span>
-<span class="extends-implements">extends <a href="../../Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a>&lt;S,<wbr>T,<wbr>B,<wbr>D&gt;</span>
+<span class="extends-implements">extends <a href="../../Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a>&lt;S,<wbr>T,<wbr>B,<wbr>D&gt;
+implements <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a></span>
 <span class="permits">permits <a href="StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">StringSelectComponent</a>, <a href="EntitySelectMenuComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">EntitySelectMenuComponent</a></span></div>
 <div class="block"><p>An implementation of <a href="../../Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>Component</code></a> specific to <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link"><code>SelectMenu</code></a>.</p>
 <p>Dynamic registration of menu options is supported by <a href="EntitySelectMenuComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu"><code>EntitySelectMenuComponent</code></a> and <a href="StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu"><code>StringSelectComponent</code></a>.</p>
@@ -137,6 +146,9 @@ loadScripts(document, 'script');</script>
 <div class="inherited-list">
 <h3 id="nested-classes-inherited-from-class-net.dv8tion.jda.api.components.Component">Nested classes/interfaces inherited from interface&nbsp;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#nested-class-summary" title="class or interface in net.dv8tion.jda.api.components" class="external-link">Component</a></h3>
 <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.Type.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">Component.Type</a></code></div>
+<div class="inherited-list">
+<h3 id="nested-classes-inherited-from-class-net.dv8tion.jda.api.components.selections.SelectMenu">Nested classes/interfaces inherited from interface&nbsp;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#nested-class-summary" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a></h3>
+<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.Builder.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu.Builder</a>&lt;T,<wbr>B&gt;</code></div>
 </section>
 </li>
 <!-- =========== FIELD SUMMARY =========== -->
@@ -164,6 +176,9 @@ loadScripts(document, 'script');</script>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-io.github.kaktushose.jdac.dispatching.reply.Component">Fields inherited from class&nbsp;<a href="../../Component.html#field-summary" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a></h3>
 <code><a href="../../Component.html#uniqueId">uniqueId</a></code></div>
+<div class="inherited-list">
+<h3 id="fields-inherited-from-class-net.dv8tion.jda.api.components.selections.SelectMenu">Fields inherited from interface&nbsp;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#field-summary" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a></h3>
+<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#ID_MAX_LENGTH" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">ID_MAX_LENGTH</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#OPTIONS_MAX_AMOUNT" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">OPTIONS_MAX_AMOUNT</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#PLACEHOLDER_MAX_LENGTH" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">PLACEHOLDER_MAX_LENGTH</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -192,21 +207,47 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxValues(int)" class="member-name-link">maxValues</a><wbr>(int&nbsp;maxValue)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NonNull <a href="#type-param-B" title="type parameter in SelectMenuComponent">B</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createCopy()" class="member-name-link">createCopy</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">This method isn't implemented, use methods like <a href="#minValues(int)"><code>minValues(int)</code></a> instead!</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCustomId()" class="member-name-link">getCustomId</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxValues()" class="member-name-link">getMaxValues</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMinValues()" class="member-name-link">getMinValues</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlaceholder()" class="member-name-link">getPlaceholder</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isDisabled()" class="member-name-link">isDisabled</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isRequired()" class="member-name-link">isRequired</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#minValues(int)" class="member-name-link">minValues</a><wbr>(int&nbsp;minValue)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxValues(int)" class="member-name-link">maxValues</a><wbr>(int&nbsp;maxValue)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeholder(java.lang.String)" class="member-name-link">placeholder</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;placeholder)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#minValues(int)" class="member-name-link">minValues</a><wbr>(int&nbsp;minValue)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#required(java.lang.Boolean)" class="member-name-link">required</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;required)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeholder(java.lang.String)" class="member-name-link">placeholder</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;placeholder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#requiresRange(int,int)" class="member-name-link">requiresRange</a><wbr>(int&nbsp;min,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#required(java.lang.Boolean)" class="member-name-link">required</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;required)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#requiresRange(int,int)" class="member-name-link">requiresRange</a><wbr>(int&nbsp;min,
  int&nbsp;max)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NonNull <a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withDisabled(boolean)" class="member-name-link">withDisabled</a><wbr>(boolean&nbsp;disabled)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
@@ -219,10 +260,16 @@ loadScripts(document, 'script');</script>
 <code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-net.dv8tion.jda.api.components.Component">Methods inherited from interface&nbsp;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#method-summary" title="class or interface in net.dv8tion.jda.api.components" class="external-link">Component</a></h3>
-<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#getType()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">getType</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#isMessageCompatible()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">isMessageCompatible</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#isModalCompatible()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">isModalCompatible</a></code></div>
+<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#getType()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">getType</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#getUniqueId()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">getUniqueId</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#isMessageCompatible()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">isMessageCompatible</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#isModalCompatible()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">isModalCompatible</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-net.dv8tion.jda.api.components.IComponentUnion">Methods inherited from interface&nbsp;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/IComponentUnion.html#method-summary" title="class or interface in net.dv8tion.jda.api.components" class="external-link">IComponentUnion</a></h3>
 <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/IComponentUnion.html#isUnknownComponent()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">isUnknownComponent</a></code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-net.dv8tion.jda.api.components.attribute.IDisableable">Methods inherited from interface&nbsp;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html#method-summary" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">IDisableable</a></h3>
+<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html#isEnabled()" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">isEnabled</a></code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-net.dv8tion.jda.api.components.selections.SelectMenu">Methods inherited from interface&nbsp;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#method-summary" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a></h3>
+<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#asDisabled()" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">asDisabled</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#asEnabled()" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">asEnabled</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#withUniqueId(int)" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">withUniqueId</a></code></div>
 </section>
 </li>
 </ul>
@@ -369,6 +416,119 @@ loadScripts(document, 'script');</script>
 <li><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.Builder.html#setRequired(java.lang.Boolean)" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link"><code>SelectMenu.Builder.setRequired(Boolean)</code></a></li>
 </ul>
 </dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="isDisabled()">
+<h3>isDisabled</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isDisabled</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html#isDisabled()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">isDisabled</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ActionComponent</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html#isDisabled()" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">isDisabled</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">IDisableable</a></code></dd>
+<dt>Overrides:</dt>
+<dd><code><a href="../../Component.html#isDisabled()">isDisabled</a></code>&nbsp;in class&nbsp;<code><a href="../../Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a>&lt;<a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a> extends <a href="SelectMenuComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">SelectMenuComponent</a>&lt;<a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a>,<wbr><a href="#type-param-T" title="type parameter in SelectMenuComponent">T</a>,<wbr><a href="#type-param-B" title="type parameter in SelectMenuComponent">B</a>,<wbr><a href="#type-param-D" title="type parameter in SelectMenuComponent">D</a>&gt;, <a href="#type-param-T" title="type parameter in SelectMenuComponent">T</a> extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a>, <a href="#type-param-B" title="type parameter in SelectMenuComponent">B</a> extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.Builder.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu.Builder</a>&lt;<a href="#type-param-T" title="type parameter in SelectMenuComponent">T</a>,<wbr><a href="#type-param-B" title="type parameter in SelectMenuComponent">B</a>&gt;, <a href="#type-param-D" title="type parameter in SelectMenuComponent">D</a> extends <a href="../../../../definitions/interactions/component/menu/SelectMenuDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions.component.menu">SelectMenuDefinition</a>&lt;<a href="#type-param-T" title="type parameter in SelectMenuComponent">T</a>&gt;&gt;</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="withDisabled(boolean)">
+<h3>withDisabled</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@NonNull <a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a></span>&nbsp;<span class="element-name">withDisabled</span><wbr><span class="parameters">(boolean&nbsp;disabled)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html#withDisabled(boolean)" title="class or interface in net.dv8tion.jda.api.components" class="external-link">withDisabled</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ActionComponent</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html#withDisabled(boolean)" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">withDisabled</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">IDisableable</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#withDisabled(boolean)" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">withDisabled</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a></code></dd>
+<dt>Overrides:</dt>
+<dd><code><a href="../../Component.html#withDisabled(boolean)">withDisabled</a></code>&nbsp;in class&nbsp;<code><a href="../../Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a>&lt;<a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a> extends <a href="SelectMenuComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">SelectMenuComponent</a>&lt;<a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a>,<wbr><a href="#type-param-T" title="type parameter in SelectMenuComponent">T</a>,<wbr><a href="#type-param-B" title="type parameter in SelectMenuComponent">B</a>,<wbr><a href="#type-param-D" title="type parameter in SelectMenuComponent">D</a>&gt;, <a href="#type-param-T" title="type parameter in SelectMenuComponent">T</a> extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a>, <a href="#type-param-B" title="type parameter in SelectMenuComponent">B</a> extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.Builder.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu.Builder</a>&lt;<a href="#type-param-T" title="type parameter in SelectMenuComponent">T</a>,<wbr><a href="#type-param-B" title="type parameter in SelectMenuComponent">B</a>&gt;, <a href="#type-param-D" title="type parameter in SelectMenuComponent">D</a> extends <a href="../../../../definitions/interactions/component/menu/SelectMenuDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions.component.menu">SelectMenuDefinition</a>&lt;<a href="#type-param-T" title="type parameter in SelectMenuComponent">T</a>&gt;&gt;</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getCustomId()">
+<h3>getCustomId</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getCustomId</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/ICustomId.html#getCustomId()" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">getCustomId</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/ICustomId.html" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">ICustomId</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#getCustomId()" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">getCustomId</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a></code></dd>
+<dt>Overrides:</dt>
+<dd><code><a href="../../Component.html#getCustomId()">getCustomId</a></code>&nbsp;in class&nbsp;<code><a href="../../Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a>&lt;<a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a> extends <a href="SelectMenuComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">SelectMenuComponent</a>&lt;<a href="#type-param-S" title="type parameter in SelectMenuComponent">S</a>,<wbr><a href="#type-param-T" title="type parameter in SelectMenuComponent">T</a>,<wbr><a href="#type-param-B" title="type parameter in SelectMenuComponent">B</a>,<wbr><a href="#type-param-D" title="type parameter in SelectMenuComponent">D</a>&gt;, <a href="#type-param-T" title="type parameter in SelectMenuComponent">T</a> extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a>, <a href="#type-param-B" title="type parameter in SelectMenuComponent">B</a> extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.Builder.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu.Builder</a>&lt;<a href="#type-param-T" title="type parameter in SelectMenuComponent">T</a>,<wbr><a href="#type-param-B" title="type parameter in SelectMenuComponent">B</a>&gt;, <a href="#type-param-D" title="type parameter in SelectMenuComponent">D</a> extends <a href="../../../../definitions/interactions/component/menu/SelectMenuDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions.component.menu">SelectMenuDefinition</a>&lt;<a href="#type-param-T" title="type parameter in SelectMenuComponent">T</a>&gt;&gt;</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getPlaceholder()">
+<h3>getPlaceholder</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getPlaceholder</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#getPlaceholder()" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">getPlaceholder</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a></code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getMinValues()">
+<h3>getMinValues</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getMinValues</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#getMinValues()" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">getMinValues</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a></code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getMaxValues()">
+<h3>getMaxValues</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getMaxValues</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#getMaxValues()" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">getMaxValues</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a></code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="isRequired()">
+<h3>isRequired</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">isRequired</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#isRequired()" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">isRequired</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a></code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="createCopy()">
+<h3>createCopy</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@NonNull <a href="#type-param-B" title="type parameter in SelectMenuComponent">B</a></span>&nbsp;<span class="element-name">createCopy</span>()</div>
+<div class="block">This method isn't implemented, use methods like <a href="#minValues(int)"><code>minValues(int)</code></a> instead!</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html#createCopy()" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">createCopy</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/SelectMenu.html" title="class or interface in net.dv8tion.jda.api.components.selections" class="external-link">SelectMenu</a></code></dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class or interface in java.lang" class="external-link">UnsupportedOperationException</a></code> - will always throw</dd>
 </dl>
 </div>
 </section>

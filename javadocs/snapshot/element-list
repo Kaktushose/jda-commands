@@ -4,6 +4,9 @@ io.github.kaktushose.jdac.annotations
 io.github.kaktushose.jdac.annotations.constraints
 io.github.kaktushose.jdac.annotations.i18n
 io.github.kaktushose.jdac.annotations.interactions
+io.github.kaktushose.jdac.components
+io.github.kaktushose.jdac.components.container
+io.github.kaktushose.jdac.components.internal
 io.github.kaktushose.jdac.definitions
 io.github.kaktushose.jdac.definitions.description
 io.github.kaktushose.jdac.definitions.description.reflective

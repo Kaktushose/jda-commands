@@ -95,6 +95,9 @@ loadScripts(document, 'script');</script>
 <li><a href="#asStringSelectMenu()" tabindex="0">asStringSelectMenu()</a></li>
 <li><a href="#asEntitySelectMenu()" tabindex="0">asEntitySelectMenu()</a></li>
 <li><a href="#asThumbnail()" tabindex="0">asThumbnail()</a></li>
+<li><a href="#isDisabled()" tabindex="0">isDisabled()</a></li>
+<li><a href="#withDisabled(boolean)" tabindex="0">withDisabled(boolean)</a></li>
+<li><a href="#getCustomId()" tabindex="0">getCustomId()</a></li>
 <li><a href="#enabled()" tabindex="0">enabled()</a></li>
 <li><a href="#independent()" tabindex="0">independent()</a></li>
 <li><a href="#name()" tabindex="0">name()</a></li>
@@ -126,7 +129,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponent.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponent</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponentUnion</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">Component</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/IComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">IComponentUnion</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponent.html" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">SectionAccessoryComponent</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">SectionAccessoryComponentUnion</a></code></dd>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ActionComponent</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponent.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponent</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponentUnion</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/ICustomId.html" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">ICustomId</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">IDisableable</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">Component</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/IComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">IComponentUnion</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponent.html" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">SectionAccessoryComponent</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">SectionAccessoryComponentUnion</a></code></dd>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
@@ -136,7 +139,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public abstract sealed class </span><span class="element-name type-name-label">Component&lt;S extends Component&lt;S,<wbr>T,<wbr>B,<wbr>D&gt;, T extends <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ActionComponent</a>, B, D extends <a href="../../definitions/interactions/component/ComponentDefinition.html" title="interface in io.github.kaktushose.jdac.definitions.interactions.component">ComponentDefinition</a>&lt;T&gt;&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponentUnion</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">SectionAccessoryComponentUnion</a></span>
+implements <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ActionComponent</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponentUnion</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">SectionAccessoryComponentUnion</a></span>
 <span class="permits">permits <a href="dynamic/ButtonComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic">ButtonComponent</a>, <a href="dynamic/internal/UnspecificComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.internal">UnspecificComponent</a>, <a href="dynamic/menu/SelectMenuComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu">SelectMenuComponent</a>&lt;S,<wbr>T,<wbr>B,<wbr>D&gt;</span></div>
 <div class="block"><p>Represents a component, namely <a href="../../annotations/interactions/Button.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>Button</code></a>, <a href="../../annotations/interactions/StringMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>StringMenu</code></a> or <a href="../../annotations/interactions/EntityMenu.html" title="annotation interface in io.github.kaktushose.jdac.annotations.interactions"><code>EntityMenu</code></a>, that should be added to a reply.</p>
 <p>Also holds the following two settings:</p>
@@ -324,21 +327,27 @@ public void onCommand(CommandEvent event, User user) {
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds an <a href="dynamic/menu/EntitySelectMenuComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu"><code>EntitySelectMenuComponent</code></a> to the reply.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUniqueId()" class="member-name-link">getUniqueId</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCustomId()" class="member-name-link">getCustomId</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#independent()" class="member-name-link">independent</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUniqueId()" class="member-name-link">getUniqueId</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in Component">S</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#independent(boolean)" class="member-name-link">independent</a><wbr>(boolean&nbsp;independent)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#independent()" class="member-name-link">independent</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#independent(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">independent</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in Component">S</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#independent(boolean)" class="member-name-link">independent</a><wbr>(boolean&nbsp;independent)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a><wbr>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#independent(java.lang.String,io.github.kaktushose.jdac.message.placeholder.Entry...)" class="member-name-link">independent</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;component,
  <a href="../../message/placeholder/Entry.html" title="class in io.github.kaktushose.jdac.message.placeholder">Entry</a>...&nbsp;placeholder)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Adds an enabled, runtime-independent <a href="Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply"><code>Component</code></a> to the reply.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isDisabled()" class="member-name-link">isDisabled</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in Component">S</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modify(java.util.function.Function)" class="member-name-link">modify</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="#type-param-B" title="type parameter in Component">B</a>,<wbr><a href="#type-param-B" title="type parameter in Component">B</a>&gt;&nbsp;callback)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -398,8 +407,11 @@ public void onCommand(CommandEvent event, User user) {
 <div class="block">Adds a <a href="dynamic/menu/StringSelectComponent.html" title="class in io.github.kaktushose.jdac.dispatching.reply.dynamic.menu"><code>StringSelectComponent</code></a> to the reply.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in Component">S</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withUniqueId(int)" class="member-name-link">withUniqueId</a><wbr>(int&nbsp;uniqueId)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withDisabled(boolean)" class="member-name-link">withDisabled</a><wbr>(boolean&nbsp;disabled)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type-param-S" title="type parameter in Component">S</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withUniqueId(int)" class="member-name-link">withUniqueId</a><wbr>(int&nbsp;uniqueId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -407,11 +419,17 @@ public void onCommand(CommandEvent event, User user) {
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#method-summary" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
+<h3 id="methods-inherited-from-class-net.dv8tion.jda.api.components.ActionComponent">Methods inherited from interface&nbsp;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html#method-summary" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ActionComponent</a></h3>
+<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html#asDisabled()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">asDisabled</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html#asEnabled()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">asEnabled</a></code></div>
+<div class="inherited-list">
 <h3 id="methods-inherited-from-class-net.dv8tion.jda.api.components.Component">Methods inherited from interface&nbsp;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#method-summary" title="class or interface in net.dv8tion.jda.api.components" class="external-link">Component</a></h3>
 <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#getType()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">getType</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#isMessageCompatible()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">isMessageCompatible</a>, <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#isModalCompatible()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">isModalCompatible</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-net.dv8tion.jda.api.components.IComponentUnion">Methods inherited from interface&nbsp;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/IComponentUnion.html#method-summary" title="class or interface in net.dv8tion.jda.api.components" class="external-link">IComponentUnion</a></h3>
 <code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/IComponentUnion.html#isUnknownComponent()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">isUnknownComponent</a></code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-net.dv8tion.jda.api.components.attribute.IDisableable">Methods inherited from interface&nbsp;<a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html#method-summary" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">IDisableable</a></h3>
+<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html#isEnabled()" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">isEnabled</a></code></div>
 </section>
 </li>
 </ul>
@@ -780,6 +798,8 @@ shortly before the component is localized and then registered in the message</dd
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="#type-param-S" title="type parameter in Component">S</a></span>&nbsp;<span class="element-name">withUniqueId</span><wbr><span class="parameters">(int&nbsp;uniqueId)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html#withUniqueId(int)" title="class or interface in net.dv8tion.jda.api.components" class="external-link">withUniqueId</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ActionComponent</a></code></dd>
+<dt>Specified by:</dt>
 <dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponent.html#withUniqueId(int)" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">withUniqueId</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponent.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponent</a></code></dd>
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponentUnion.html#withUniqueId(int)" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">withUniqueId</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponentUnion</a></code></dd>
@@ -787,6 +807,10 @@ shortly before the component is localized and then registered in the message</dd
 <dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html#withUniqueId(int)" title="class or interface in net.dv8tion.jda.api.components" class="external-link">withUniqueId</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/Component.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">Component</a></code></dd>
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/IComponentUnion.html#withUniqueId(int)" title="class or interface in net.dv8tion.jda.api.components" class="external-link">withUniqueId</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/IComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">IComponentUnion</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/ICustomId.html#withUniqueId(int)" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">withUniqueId</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/ICustomId.html" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">ICustomId</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html#withUniqueId(int)" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">withUniqueId</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">IDisableable</a></code></dd>
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponent.html#withUniqueId(int)" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">withUniqueId</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponent.html" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">SectionAccessoryComponent</a></code></dd>
 <dt>Specified by:</dt>
@@ -841,6 +865,46 @@ shortly before the component is localized and then registered in the message</dd
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponentUnion.html#asThumbnail()" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">asThumbnail</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponentUnion.html" title="class or interface in net.dv8tion.jda.api.components.section" class="external-link">SectionAccessoryComponentUnion</a></code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="isDisabled()">
+<h3>isDisabled</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isDisabled</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html#isDisabled()" title="class or interface in net.dv8tion.jda.api.components" class="external-link">isDisabled</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ActionComponent</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html#isDisabled()" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">isDisabled</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">IDisableable</a></code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="withDisabled(boolean)">
+<h3>withDisabled</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="#type-param-S" title="type parameter in Component">S</a></span>&nbsp;<span class="element-name">withDisabled</span><wbr><span class="parameters">(boolean&nbsp;disabled)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html#withDisabled(boolean)" title="class or interface in net.dv8tion.jda.api.components" class="external-link">withDisabled</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/ActionComponent.html" title="class or interface in net.dv8tion.jda.api.components" class="external-link">ActionComponent</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html#withDisabled(boolean)" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">withDisabled</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/IDisableable.html" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">IDisableable</a></code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getCustomId()">
+<h3>getCustomId</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getCustomId</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/ICustomId.html#getCustomId()" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">getCustomId</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/attribute/ICustomId.html" title="class or interface in net.dv8tion.jda.api.components.attribute" class="external-link">ICustomId</a></code></dd>
 </dl>
 </div>
 </section>
