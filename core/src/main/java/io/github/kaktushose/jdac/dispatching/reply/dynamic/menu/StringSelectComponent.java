@@ -13,9 +13,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /// An implementation of [Component] specific to [StringSelectMenu]
-public final class StringSelectComponent extends SelectMenuComponent<StringSelectComponent, StringSelectMenu, Builder, StringSelectMenuDefinition> {
+public final class StringSelectComponent
+        extends SelectMenuComponent<StringSelectComponent, StringSelectMenu, Builder, StringSelectMenuDefinition>
+        implements StringSelectMenu {
 
-    private final SequencedCollection<SelectOption> selectOptions = new ArrayList<>();
+    private final List<SelectOption> selectOptions = new ArrayList<>();
     private final Collection<String> defaultValues = new HashSet<>();
 
     public StringSelectComponent(String method, @Nullable Class<?> origin, Entry[] placeholder) {
@@ -92,5 +94,16 @@ public final class StringSelectComponent extends SelectMenuComponent<StringSelec
     @Override
     public Type getType() {
         return Type.STRING_SELECT;
+    }
+
+    /// Returns a **modifiable** list of the [SelectOption]s.
+    ///
+    /// Please note, that this differs from the JDA implementation ([StringSelectMenu#getOptions()]), which is necessary
+    /// because the builder ([#createCopy()]) cannot be accessed from this implementation.
+    ///
+    /// @return {@inheritDoc}
+    @Override
+    public List<SelectOption> getOptions() {
+        return selectOptions;
     }
 }

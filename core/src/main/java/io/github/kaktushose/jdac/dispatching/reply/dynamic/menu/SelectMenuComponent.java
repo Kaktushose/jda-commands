@@ -5,7 +5,10 @@ import io.github.kaktushose.jdac.dispatching.reply.Component;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
 import net.dv8tion.jda.api.components.selections.SelectMenu.Builder;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+
+import java.util.Objects;
 
 /// An implementation of [Component] specific to [SelectMenu].
 ///
@@ -17,8 +20,9 @@ import org.jspecify.annotations.Nullable;
 /// @param <D> the type of [SelectMenuDefinition] this [SelectMenuComponent] represents
 /// @see EntitySelectMenuComponent
 /// @see StringSelectComponent
-public sealed abstract class SelectMenuComponent<S extends SelectMenuComponent<S, T, B, D>,
+public abstract sealed class SelectMenuComponent<S extends SelectMenuComponent<S, T, B, D>,
         T extends SelectMenu, B extends Builder<T, B>, D extends SelectMenuDefinition<T>> extends Component<S, T, B, D>
+        implements SelectMenu
         permits StringSelectComponent, EntitySelectMenuComponent {
 
     protected @Nullable String placeholder;
@@ -61,5 +65,49 @@ public sealed abstract class SelectMenuComponent<S extends SelectMenuComponent<S
     public S required(@Nullable Boolean required) {
         this.required = required;
         return self();
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return !enabled();
+    }
+
+    @Override
+    public @NonNull S withDisabled(boolean disabled) {
+        super.enabled(!disabled);
+        return self();
+    }
+
+    @Override
+    public @Nullable String getCustomId() {
+        return null;
+    }
+
+    @Override
+    public @Nullable String getPlaceholder() {
+        return placeholder;
+    }
+
+    @Override
+    public int getMinValues() {
+        return Objects.requireNonNullElse(minValues, -1);
+    }
+
+    @Override
+    public int getMaxValues() {
+        return Objects.requireNonNullElse(maxValues, -1);
+    }
+
+    @Override
+    public @Nullable Boolean isRequired() {
+        return required;
+    }
+
+    /// This method isn't implemented, use methods like [#minValues(int)] instead!
+    ///
+    /// @throws UnsupportedOperationException will always throw
+    @Override
+    public @NonNull B createCopy() {
+        throw new UnsupportedOperationException();
     }
 }

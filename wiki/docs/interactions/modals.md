@@ -50,8 +50,8 @@ When using input components, such as a text input or select menu, you can access
 <ModalEvent>.
 !!! example
     ```java
-    @Modal("User Select")
-    public void onModal(ModalEvent event) {
+    @Command("User Select")
+    public void onCommand(CommandEvent event) {
         event.replyModal("onModal", Label.of(
             "Select a user",
             EntitySelectMenu.create("user-select", SelectTarget.USER).build()

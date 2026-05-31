@@ -10,7 +10,7 @@ and its subtypes.
 
 Thus, you can add all primitive types and their respective wrapper types as well as any underlying type of the 
 <OptionType> enum
-as a parameter to your slash command methods. See [Command Options](../interactions/commands.md#command-options)
+as a parameter to your slash command methods. See [Command Options](../interactions/commands/config.md)
 for details.
 
 ## Writing Own Type Adapters

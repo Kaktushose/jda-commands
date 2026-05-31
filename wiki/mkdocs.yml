@@ -117,10 +117,21 @@ nav:
       - Runtime Concept: start/runtime.md
   - Interactions:
       - Overview: interactions/overview.md
-      - Commands: interactions/commands.md
-      - Action Components: interactions/components.md
-      - Modals: interactions/modals.md
-      - Reply API: interactions/reply.md
+      - Commands:
+        - Slash Commands: interactions/commands/slash.md
+        - Context Commands: interactions/commands/context.md
+        - Command Config: interactions/commands/config.md
+        - Localization: interactions/commands/localization.md
+      - Components:
+        - Buttons: interactions/components/buttons.md
+        - Select Menus: interactions/components/menus.md
+      - Modals:
+        - Modals: interactions/modals.md
+      - Reply API:
+        - Overview: interactions/reply/overview.md
+        - Action Components: interactions/reply/legacy.md
+        - Components V2:  interactions/reply/components.md
+        - Component Utils: interactions/reply/utils.md
   - Middlewares:
       - Overview: middlewares/overview.md
       - Type Adapters: middlewares/typeadapter.md

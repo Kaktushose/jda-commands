@@ -114,4 +114,4 @@ them on your own.
         event.with().components(Component.independent("onButton")).reply("Hello World!");
     }
     ```
-_Read more about building replies [here](../interactions/reply.md)._
+_Read more about building replies [here](../interactions/reply/overview.md)._
