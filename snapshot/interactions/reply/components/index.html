@@ -1271,10 +1271,9 @@ You're not viewing the latest stable version.
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Replying with Components V2">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#action-components" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1284,8 +1283,8 @@ You're not viewing the latest stable version.
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#subsequent-replies" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1293,11 +1292,6 @@ You're not viewing the latest stable version.
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2254,7 +2248,7 @@ stage (accessed by calling <a href="https://kaktushose.github.io/jda-commands/ja
 <li><code>builder(...)</code></li>
 </ul>
 <p>has been called, because adding content, embeds, files, etc. disqualifies the message from being Components V2.</p>
-<h3 id="action-components">Action Components<a class="headerlink" href="#action-components" title="Permanent link">&para;</a></h3>
+<h2 id="action-components">Action Components<a class="headerlink" href="#action-components" title="Permanent link">&para;</a></h2>
 <p>Components V2 also can have action components. They can either be added to an <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRow.html"><code>ActionRow</code></a> or a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/SectionAccessoryComponent.html"><code>SectionAccessoryComponent</code></a>
 as part of a <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/section/Section.html"><code>Section</code></a>. You add them by using the
 <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/reply/Component.html"><code>Component</code></a> class:</p>
@@ -2273,7 +2267,7 @@ as explained before.</p>
 <div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">event</span><span class="p">.</span><span class="na">reply</span><span class="p">(</span><span class="n">Component</span><span class="p">.</span><span class="na">row</span><span class="p">(</span><span class="s">&quot;onMenu&quot;</span><span class="p">));</span>
 </span></code></pre></div></p>
 </div>
-<h3 id="subsequent-replies">Subsequent Replies<a class="headerlink" href="#subsequent-replies" title="Permanent link">&para;</a></h3>
+<h2 id="subsequent-replies">Subsequent Replies<a class="headerlink" href="#subsequent-replies" title="Permanent link">&para;</a></h2>
 <p>Once you've sent a Components V2 message it has to remain Components V2. The <a href="../overview/#reply-configuration">Reply Configuration</a> rules
 also apply to Components V2.</p>
 <p>Often, you want to keep the original components, but edit some of them. You can do so by calling

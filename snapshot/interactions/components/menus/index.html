@@ -1047,6 +1047,17 @@ You're not viewing the latest stable version.
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1091,6 +1102,17 @@ You're not viewing the latest stable version.
     <span class="md-ellipsis">
       
         Min &amp; Max Value
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#required_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required
       
     </span>
   </a>
@@ -2281,12 +2303,13 @@ You're not viewing the latest stable version.
 
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-</div>
 <p>This section only covers how you define action components. You might also find the following resources useful:</p>
-<div class="language-text highlight"><pre><span></span><code>- Replying with the [Legacy Component System](./reply/legacy.md)
-- [Components V2 Guide](./reply/components.md)
-- [Component Utils](./reply/utils.md)
-</code></pre></div>
+<ul>
+<li>Replying with the <a href="../../reply/legacy/">Legacy Component System</a></li>
+<li><a href="../../reply/components/">Components V2 Guide</a></li>
+<li><a href="../../reply/utils/">Component Utils</a></li>
+</ul>
+</div>
 <h2 id="string-select-menus">String Select Menus<a class="headerlink" href="#string-select-menus" title="Permanent link">&para;</a></h2>
 <p>String Select Menus are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/StringMenu.html"><code>@StringMenu</code></a>
 The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html"><code>ComponentEvent</code></a>.
@@ -2315,26 +2338,36 @@ fields.</p>
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onMenu</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">choices</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 </div>
+<h3 id="required">Required<a class="headerlink" href="#required" title="Permanent link">&para;</a></h3>
+<p>For Modals, you can also configure whether the user must populate the select menu. You can do this directly via the annotation.
+For example, you can have an optional select menu with the range set to [2 ; 5], meaning you accept either 0 options, or, at least 2 but at most 5.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@SelectOption</span><span class="p">(...)</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nd">@StringMenu</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;What&#39;s your favourite food?&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">minValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">maxValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onMenu</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">choices</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w">    </span>
+</span></code></pre></div>
+</div>
 <h2 id="entity-select-menus">Entity Select Menus<a class="headerlink" href="#entity-select-menus" title="Permanent link">&para;</a></h2>
 <p>Entity Select Menus are defined by annotating a method with <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntityMenu.html"><code>@EntityMenu</code></a>.
 The first parameter must always be a <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/dispatching/events/interactions/ComponentEvent.html"><code>ComponentEvent</code></a>.
 The second parameter must be of type <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Mentions.html"><code>Mentions</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@EntityMenu</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SelectTarget</span><span class="p">.</span><span class="na">USER</span><span class="p">,</span><span class="w"> </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Who&#39;s your favourite user?&quot;</span><span class="p">)</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onMenu</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">Mentions</span><span class="w"> </span><span class="n">mentions</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@EntityMenu</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SelectTarget</span><span class="p">.</span><span class="na">USER</span><span class="p">,</span><span class="w"> </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Who&#39;s your favourite user?&quot;</span><span class="p">)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onMenu</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">Mentions</span><span class="w"> </span><span class="n">mentions</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 </div>
 <h3 id="channel-types">Channel Types<a class="headerlink" href="#channel-types" title="Permanent link">&para;</a></h3>
 <p>When using <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/selections/EntitySelectMenu.SelectTarget.html#CHANNEL"><code>EntitySelectMenu.SelectTarget#CHANNEL</code></a> you can limit the selectable channel types with the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntityMenu.html#channelTypes()"><code>EntityMenu#channelTypes()</code></a> field.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@EntityMenu</span><span class="p">(</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">            </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SelectTarget</span><span class="p">.</span><span class="na">CHANNEL</span><span class="p">,</span><span class="w"> </span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">            </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;What&#39;s your favourite channel?&quot;</span><span class="p">,</span><span class="w"> </span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">            </span><span class="n">channelTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">ChannelType</span><span class="p">.</span><span class="na">TEXT</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelType</span><span class="p">.</span><span class="na">VOICE</span><span class="p">}</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">)</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onMenu</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">Mentions</span><span class="w"> </span><span class="n">mentions</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nd">@EntityMenu</span><span class="p">(</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">            </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SelectTarget</span><span class="p">.</span><span class="na">CHANNEL</span><span class="p">,</span><span class="w"> </span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">            </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;What&#39;s your favourite channel?&quot;</span><span class="p">,</span><span class="w"> </span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">            </span><span class="n">channelTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">ChannelType</span><span class="p">.</span><span class="na">TEXT</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelType</span><span class="p">.</span><span class="na">VOICE</span><span class="p">}</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">)</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onMenu</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">Mentions</span><span class="w"> </span><span class="n">mentions</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 </div>
 <h3 id="default-values">Default Values<a class="headerlink" href="#default-values" title="Permanent link">&para;</a></h3>
@@ -2342,16 +2375,18 @@ The second parameter must be of type <a href="https://docs.jda.wiki/net/dv8tion/
 of the Entity Select Menu by using respectively the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntityMenu.html#defaultChannels()"><code>EntityMenu#defaultChannels()</code></a>, <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntityMenu.html#defaultRoles()"><code>EntityMenu#defaultRoles()</code></a> or <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntityMenu.html#defaultUsers()"><code>EntityMenu#defaultUsers()</code></a> fields.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nd">@EntityMenu</span><span class="p">(</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">            </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SelectTarget</span><span class="p">.</span><span class="na">CHANNEL</span><span class="p">,</span><span class="w"> </span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">            </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;What&#39;s your favourite channel?&quot;</span><span class="p">,</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">            </span><span class="n">defaultChannels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mo">01234567</span><span class="mi">89L</span><span class="p">,</span><span class="w"> </span><span class="mi">9876543210L</span><span class="p">}</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">)</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onMenu</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">Mentions</span><span class="w"> </span><span class="n">mentions</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@EntityMenu</span><span class="p">(</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">            </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SelectTarget</span><span class="p">.</span><span class="na">CHANNEL</span><span class="p">,</span><span class="w"> </span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">            </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;What&#39;s your favourite channel?&quot;</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">            </span><span class="n">defaultChannels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mo">01234567</span><span class="mi">89L</span><span class="p">,</span><span class="w"> </span><span class="mi">9876543210L</span><span class="p">}</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">)</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onMenu</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">Mentions</span><span class="w"> </span><span class="n">mentions</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 </div>
 <h3 id="min-max-value_1">Min &amp; Max Value<a class="headerlink" href="#min-max-value_1" title="Permanent link">&para;</a></h3>
 <p>Just as for String Select Menus you can set the minimum and maximum value by using the <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntityMenu.html#minValue()"><code>EntityMenu#minValue()</code></a> and <a href="https://kaktushose.github.io/jda-commands/javadocs/snapshot/io.github.kaktushose.jdac.core/io/github/kaktushose/jdac/annotations/interactions/EntityMenu.html#maxValue()"><code>EntityMenu#maxValue()</code></a> fields.</p>
+<h3 id="required_1">Required<a class="headerlink" href="#required_1" title="Permanent link">&para;</a></h3>
+<p>Again, this is handled the same way as with String Select Menus.</p>
 <h2 id="localization-and-emojis">Localization and Emojis<a class="headerlink" href="#localization-and-emojis" title="Permanent link">&para;</a></h2>
 <p>To avoid hardcoded values, all string values of an annotation can be replaced by a localization key as supported by the
 current used <a href="../../../message/localization/">Localization System</a>.</p>
@@ -2360,8 +2395,8 @@ For more information on how to use placeholders please visit <a href="../../../m
 <p>Also take a look at the general <a href="../../../message/overview/">message resolution documentation</a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example (with Fluava)</p>
-<div class="language-java highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@EntityMenu</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SelectTarget</span><span class="p">.</span><span class="na">USER</span><span class="p">,</span><span class="w"> </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{ $select-user-placeholder }&quot;</span><span class="p">)</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onMenu</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">Mentions</span><span class="w"> </span><span class="n">mentions</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nd">@EntityMenu</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SelectTarget</span><span class="p">.</span><span class="na">USER</span><span class="p">,</span><span class="w"> </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{ $select-user-placeholder }&quot;</span><span class="p">)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onMenu</span><span class="p">(</span><span class="n">ComponentEvent</span><span class="w"> </span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">Mentions</span><span class="w"> </span><span class="n">mentions</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 </div>
 <div class="admonition warning">
