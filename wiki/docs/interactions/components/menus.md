@@ -1,9 +1,9 @@
 !!! tip
     This section only covers how you define action components. You might also find the following resources useful:
 
-    - Replying with the [Legacy Component System](./reply/legacy.md)
-    - [Components V2 Guide](./reply/components.md)
-    - [Component Utils](./reply/utils.md)
+    - Replying with the [Legacy Component System](../reply/legacy.md)
+    - [Components V2 Guide](../reply/components.md)
+    - [Component Utils](../reply/utils.md)
 
 ## String Select Menus
 String Select Menus are defined by annotating a method with <io.github.kaktushose.jdac.annotations.interactions.StringMenu>
