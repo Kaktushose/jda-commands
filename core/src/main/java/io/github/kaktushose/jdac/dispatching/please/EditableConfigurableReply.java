@@ -1,4 +1,4 @@
-package io.github.kaktushose.jdac.dispatching.reply;
+package io.github.kaktushose.jdac.dispatching.please;
 
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
@@ -77,7 +77,7 @@ public final class EditableConfigurableReply extends ConfigurableReply {
 
         replyAction.keepComponents(true);
 
-        return replyAction.reply();
+        return replyAction.please();
     }
 
     /// Acknowledgement of this event with the V2 Components of the original reply. Will also apply the passed
@@ -97,6 +97,6 @@ public final class EditableConfigurableReply extends ConfigurableReply {
 
         replyAction.keepComponents(true);
 
-        return replyAction.reply(replacer, resolver(), placeholder);
+        return replyAction.please(replacer, resolver(), placeholder);
     }
 }

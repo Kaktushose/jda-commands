@@ -1,7 +1,7 @@
-package io.github.kaktushose.jdac.dispatching.reply.dynamic.menu;
+package io.github.kaktushose.jdac.dispatching.please.dynamic.menu;
 
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.EntitySelectMenuDefinition;
-import io.github.kaktushose.jdac.dispatching.reply.Component;
+import io.github.kaktushose.jdac.dispatching.please.Component;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu.Builder;

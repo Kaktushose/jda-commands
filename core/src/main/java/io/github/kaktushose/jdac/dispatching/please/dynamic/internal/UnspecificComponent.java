@@ -1,7 +1,7 @@
-package io.github.kaktushose.jdac.dispatching.reply.dynamic.internal;
+package io.github.kaktushose.jdac.dispatching.please.dynamic.internal;
 
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
-import io.github.kaktushose.jdac.dispatching.reply.Component;
+import io.github.kaktushose.jdac.dispatching.please.Component;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;

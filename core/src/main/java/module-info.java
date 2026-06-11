@@ -43,9 +43,9 @@ module io.github.kaktushose.jdac.core {
     exports io.github.kaktushose.jdac.dispatching.expiration;
     exports io.github.kaktushose.jdac.dispatching.context;
 
-    exports io.github.kaktushose.jdac.dispatching.reply;
-    exports io.github.kaktushose.jdac.dispatching.reply.dynamic;
-    exports io.github.kaktushose.jdac.dispatching.reply.dynamic.menu;
+    exports io.github.kaktushose.jdac.dispatching.please;
+    exports io.github.kaktushose.jdac.dispatching.please.dynamic;
+    exports io.github.kaktushose.jdac.dispatching.please.dynamic.menu;
 
     exports io.github.kaktushose.jdac.dispatching.adapter;
 

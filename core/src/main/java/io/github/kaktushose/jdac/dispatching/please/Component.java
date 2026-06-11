@@ -1,21 +1,20 @@
-package io.github.kaktushose.jdac.dispatching.reply;
+package io.github.kaktushose.jdac.dispatching.please;
 
 import io.github.kaktushose.jdac.annotations.interactions.Button;
 import io.github.kaktushose.jdac.annotations.interactions.EntityMenu;
 import io.github.kaktushose.jdac.annotations.interactions.StringMenu;
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.ButtonComponent;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.internal.UnspecificComponent;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.SelectMenuComponent;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComponent;
+import io.github.kaktushose.jdac.dispatching.please.dynamic.ButtonComponent;
+import io.github.kaktushose.jdac.dispatching.please.dynamic.internal.UnspecificComponent;
+import io.github.kaktushose.jdac.dispatching.please.dynamic.menu.EntitySelectMenuComponent;
+import io.github.kaktushose.jdac.dispatching.please.dynamic.menu.SelectMenuComponent;
+import io.github.kaktushose.jdac.dispatching.please.dynamic.menu.StringSelectComponent;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponentUnion;
 import net.dv8tion.jda.api.components.section.SectionAccessoryComponentUnion;
-import net.dv8tion.jda.api.components.selections.SelectMenu;
 import net.dv8tion.jda.api.components.thumbnail.Thumbnail;
 import org.jspecify.annotations.Nullable;
 

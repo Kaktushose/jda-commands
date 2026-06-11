@@ -50,12 +50,12 @@ class ContextCommandTest {
 
         @Command(value = "context user", type = Type.USER)
         public void onUserContext(CommandEvent event, User user) {
-            event.reply(user.getName());
+            event.please(user.getName());
         }
 
         @Command(value = "context message", type = Type.MESSAGE)
         public void onMessageContext(CommandEvent event, Message message) {
-            event.reply(message.getContentRaw());
+            event.please(message.getContentRaw());
         }
     }
 }

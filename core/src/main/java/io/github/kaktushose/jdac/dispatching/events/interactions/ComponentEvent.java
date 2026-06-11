@@ -2,7 +2,7 @@ package io.github.kaktushose.jdac.dispatching.events.interactions;
 
 import io.github.kaktushose.jdac.dispatching.events.Event;
 import io.github.kaktushose.jdac.dispatching.events.ModalReplyableEvent;
-import io.github.kaktushose.jdac.dispatching.reply.EditableConfigurableReply;
+import io.github.kaktushose.jdac.dispatching.please.EditableConfigurableReply;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
@@ -37,7 +37,7 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     }
 
     @Override
-    public void deferReply(boolean ephemeral) {
+    public void deferPlease(boolean ephemeral) {
         jdaEvent().deferReply(ephemeral).complete();
     }
 
@@ -51,7 +51,7 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     ///
     /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
-    /// Use [#reply(String, Entry...)] to edit it directly.
+    /// Use [#please(String, Entry...)] to edit it directly.
     public void deferEdit() {
         jdaEvent().deferEdit().complete();
     }

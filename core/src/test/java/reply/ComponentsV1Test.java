@@ -109,48 +109,48 @@ class ComponentsV1Test {
 
         @Command("test single")
         public void testSingle(CommandEvent event) {
-            event.with().components("button").reply();
+            event.with().components("button").please();
         }
 
         @Command("test all")
         public void testAll(CommandEvent event) {
-            event.with().components("button").components("stringSelect").components("entitySelect").reply();
+            event.with().components("button").components("stringSelect").components("entitySelect").please();
         }
 
         @Command("test select")
         public void testSelect(CommandEvent event) {
-            event.with().components("entitySelect").reply();
+            event.with().components("entitySelect").please();
         }
 
         @Button("My Button")
         public void button(ComponentEvent event) {
-            event.reply("success");
+            event.please("success");
         }
 
         @MenuOption(label = "Sushi", value = "Sushi")
         @StringMenu("What's your favourite food?")
         public void stringSelect(ComponentEvent event, List<String> selection) {
-            event.reply("success");
+            event.please("success");
         }
 
         @EntityMenu(value = SelectTarget.USER, placeholder = "Select one")
         public void entitySelect(ComponentEvent event, Mentions mentions) {
-            event.reply("success");
+            event.please("success");
         }
 
         @Command("false")
         public void keepAndEditFalse(CommandEvent event) {
-            event.with().components("falseButton").components("stringSelect").components("entitySelect").reply();
+            event.with().components("falseButton").components("stringSelect").components("entitySelect").please();
         }
 
         @Button("My Button")
         public void falseButton(ComponentEvent event) {
-            event.with().keepComponents(false).editReply(false).reply("success");
+            event.with().keepComponents(false).editReply(false).please("success");
         }
 
         @Command("duplicate")
         public void duplicate(CommandEvent event) {
-            event.with().components("button").components("button").reply();
+            event.with().components("button").components("button").please();
         }
 
     }

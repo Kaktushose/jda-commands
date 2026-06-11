@@ -1,4 +1,4 @@
-package io.github.kaktushose.jdac.dispatching.reply;
+package io.github.kaktushose.jdac.dispatching.please;
 
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
@@ -8,11 +8,11 @@ import io.github.kaktushose.jdac.definitions.interactions.ModalDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.SelectMenuDefinition;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.ButtonComponent;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.internal.UnspecificComponent;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComponent;
-import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
+import io.github.kaktushose.jdac.dispatching.please.dynamic.ButtonComponent;
+import io.github.kaktushose.jdac.dispatching.please.dynamic.internal.UnspecificComponent;
+import io.github.kaktushose.jdac.dispatching.please.dynamic.menu.EntitySelectMenuComponent;
+import io.github.kaktushose.jdac.dispatching.please.dynamic.menu.StringSelectComponent;
+import io.github.kaktushose.jdac.dispatching.please.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
@@ -70,8 +70,8 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    public Message reply(String message, Entry... placeholder) {
-        return replyAction.reply(message, placeholder);
+    public Message please(String message, Entry... placeholder) {
+        return replyAction.please(message, placeholder);
     }
 
     /// Access the underlying [MessageCreateBuilder] for configuration steps not covered by [ConfigurableReply].

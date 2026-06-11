@@ -2,8 +2,8 @@ package io.github.kaktushose.jdac.annotations.interactions;
 
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.dispatching.events.ReplyableEvent;
-import io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply;
-import io.github.kaktushose.jdac.dispatching.reply.EditableConfigurableReply;
+import io.github.kaktushose.jdac.dispatching.please.ConfigurableReply;
+import io.github.kaktushose.jdac.dispatching.please.EditableConfigurableReply;
 import net.dv8tion.jda.api.entities.Message.MentionType;
 
 import java.lang.annotation.ElementType;

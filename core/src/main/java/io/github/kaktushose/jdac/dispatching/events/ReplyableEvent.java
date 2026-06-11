@@ -10,8 +10,8 @@ import io.github.kaktushose.jdac.definitions.interactions.component.menu.SelectM
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.ModalEvent;
-import io.github.kaktushose.jdac.dispatching.reply.ConfigurableReply;
-import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
+import io.github.kaktushose.jdac.dispatching.please.ConfigurableReply;
+import io.github.kaktushose.jdac.dispatching.please.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
@@ -41,7 +41,7 @@ import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
 
 /// Subtype of [Event] that supports replying to the [GenericInteractionCreateEvent] with text messages.
 ///
-/// You can either reply directly by using one of the `reply` methods, like [#reply(String, Entry...)], or you can call
+/// You can either reply directly by using one of the `reply` methods, like [#please(String, Entry...)], or you can call
 /// [#with()] to use a [ConfigurableReply] to append components or override reply settings from the
 /// [`ReplyConfig`][io.github.kaktushose.jdac.annotations.interactions.ReplyConfig].
 ///
@@ -62,32 +62,32 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// This will send a `<Bot> is thinking...` message in chat that will be updated later. This will use the respective
     /// [InteractionDefinition.ReplyConfig] to set the ephemeral flag. If your initial deferred message is ephemeral it
-    /// cannot be made non-ephemeral later. Use [#deferReply(boolean)] to override the [InteractionDefinition.ReplyConfig].
+    /// cannot be made non-ephemeral later. Use [#deferPlease(boolean)] to override the [InteractionDefinition.ReplyConfig].
     ///
     /// **You only have 3 seconds to acknowledge an interaction!**
     ///
     /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
-    /// Use [#reply(String, Entry...)] to reply directly.
-    public void deferReply() {
-        deferReply(scopedReplyConfig().ephemeral());
+    /// Use [#please(String, Entry...)] to reply directly.
+    public void deferPlease() {
+        deferPlease(scopedReplyConfig().ephemeral());
     }
 
     /// Acknowledge this interaction and defer the reply to a later time.
     ///
     /// This will send a `<Bot> is thinking...` message in chat that will be updated later. This will use the passed
     /// boolean to set the ephemeral flag. If your initial deferred message is ephemeral it
-    /// cannot be made non-ephemeral later. Use [#deferReply()] to use the [InteractionDefinition.ReplyConfig] for
+    /// cannot be made non-ephemeral later. Use [#deferPlease()] to use the [InteractionDefinition.ReplyConfig] for
     /// the ephemeral flag.
     ///
     /// **You only have 3 seconds to acknowledge an interaction!**
     ///
     /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
-    /// Use [#reply(String, Entry...)] to reply directly.
+    /// Use [#please(String, Entry...)] to reply directly.
     ///
     /// @param ephemeral yes
-    public abstract void deferReply(boolean ephemeral);
+    public abstract void deferPlease(boolean ephemeral);
 
     /// Gets a [`Button`][io.github.kaktushose.jdac.annotations.interactions.Button] based on the method name
     /// and transforms it into a JDA [Button].
@@ -201,8 +201,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param component   the [MessageTopLevelComponent] to reply with
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
-    public Message reply(MessageTopLevelComponent component, Entry... placeholder) {
-        return reply(List.of(component), placeholder);
+    public Message please(MessageTopLevelComponent component, Entry... placeholder) {
+        return please(List.of(component), placeholder);
     }
 
     /// Acknowledgement of this event with V2 Components.
@@ -225,8 +225,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     ///
     /// @param components  a [Collection] of [MessageTopLevelComponent]s to reply with
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
-    public Message reply(Collection<MessageTopLevelComponent> components, Entry... placeholder) {
-        return with().reply(components, placeholder);
+    public Message please(Collection<MessageTopLevelComponent> components, Entry... placeholder) {
+        return with().please(components, placeholder);
     }
 
     /// Acknowledgement of this event with a text message.
@@ -238,8 +238,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    public Message reply(String message, Entry... placeholder) {
-        return with().reply(message, placeholder);
+    public Message please(String message, Entry... placeholder) {
+        return with().please(message, placeholder);
     }
 
     /// Acknowledgement of this event with a [MessageEmbed].
@@ -251,8 +251,8 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    public Message reply(MessageEmbed first, MessageEmbed... additional) {
-        return new ReplyAction(scopedReplyConfig()).reply(first, additional);
+    public Message please(MessageEmbed first, MessageEmbed... additional) {
+        return new ReplyAction(scopedReplyConfig()).please(first, additional);
     }
 
     /// Acknowledgement of this event with a [MessageCreateData].
@@ -263,7 +263,7 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// returned directly.
     ///
     /// This might throw [RuntimeException]s if JDA fails to send the message.
-    public Message reply(MessageCreateData message) {
-        return new ReplyAction(scopedReplyConfig()).reply(message);
+    public Message please(MessageCreateData message) {
+        return new ReplyAction(scopedReplyConfig()).please(message);
     }
 }

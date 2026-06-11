@@ -22,7 +22,7 @@ import java.util.Objects;
 public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
 
     @Override
-    public void deferReply(boolean ephemeral) {
+    public void deferPlease(boolean ephemeral) {
         jdaEvent().deferReply(ephemeral).complete();
     }
 
@@ -36,7 +36,7 @@ public final class ModalEvent extends ReplyableEvent<ModalInteractionEvent> {
     ///
     /// When the acknowledgement is sent after the interaction expired, you will receive [ErrorResponse#UNKNOWN_INTERACTION].
     ///
-    /// Use [#reply(String, Entry...)] to edit it directly.
+    /// Use [#please(String, Entry...)] to edit it directly.
     public void deferEdit() {
         jdaEvent().deferEdit().complete();
     }

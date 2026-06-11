@@ -27,7 +27,7 @@ has been called, because adding content, embeds, files, etc. disqualifies the me
 ### Action Components
 Components V2 also can have action components. They can either be added to an <ActionRow> or a <SectionAccessoryComponent>
 as part of a <net.dv8tion.jda.api.components.section.Section>. You add them by using the
-<io.github.kaktushose.jdac.dispatching.reply.Component> class:
+<io.github.kaktushose.jdac.dispatching.please.Component> class:
 
 !!! example
     ```java
@@ -40,7 +40,7 @@ as part of a <net.dv8tion.jda.api.components.section.Section>. You add them by u
 as explained before.
 
 !!! tip
-    You can use <io.github.kaktushose.jdac.dispatching.reply.Component#row(String...)> as a shortcut for creating <ActionRow>s.
+    You can use <io.github.kaktushose.jdac.dispatching.please.Component#row(String...)> as a shortcut for creating <ActionRow>s.
     ```java
     event.reply(Component.row("onMenu"));
     ```

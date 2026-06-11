@@ -1,9 +1,8 @@
-package io.github.kaktushose.jdac.dispatching.reply;
+package io.github.kaktushose.jdac.dispatching.please;
 
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
-import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.placeholder.PlaceholderResolver;
 import net.dv8tion.jda.api.components.Component;
@@ -20,7 +19,6 @@ import org.jspecify.annotations.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 /// Builder for sending messages based on a [GenericInteractionCreateEvent] that supports adding components to
 /// messages and changing the [InteractionDefinition.ReplyConfig].
@@ -139,8 +137,8 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
     ///
     /// @param component   the [MessageTopLevelComponent] to reply with
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
-    public Message reply(MessageTopLevelComponent component, Entry... placeholder) {
-        return reply(List.of(component), placeholder);
+    public Message please(MessageTopLevelComponent component, Entry... placeholder) {
+        return please(List.of(component), placeholder);
     }
 
     /// Acknowledgement of this event with V2 Components.
@@ -163,9 +161,9 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
     ///
     /// @param components  a [Collection] of [MessageTopLevelComponent]s to reply with
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
-    public Message reply(Collection<MessageTopLevelComponent> components, Entry... placeholder) {
+    public Message please(Collection<MessageTopLevelComponent> components, Entry... placeholder) {
         MessageComponentTree componentTree = ComponentTree.forMessage(components);
         componentTree = componentTree.replace(resolver());
-        return replyAction.reply(componentTree.getComponents(), placeholder);
+        return replyAction.please(componentTree.getComponents(), placeholder);
     }
 }

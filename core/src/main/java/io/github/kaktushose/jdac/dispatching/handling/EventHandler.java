@@ -10,7 +10,7 @@ import io.github.kaktushose.jdac.dispatching.handling.command.SlashCommandHandle
 import io.github.kaktushose.jdac.dispatching.middleware.Middleware;
 import io.github.kaktushose.jdac.dispatching.middleware.Priority;
 import io.github.kaktushose.jdac.dispatching.middleware.internal.Middlewares;
-import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
+import io.github.kaktushose.jdac.dispatching.please.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.error.ErrorMessageFactory;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.property.JDACProperty;
@@ -165,7 +165,7 @@ public abstract sealed class EventHandler<T extends GenericInteractionCreateEven
                     replyConfig.silent(),
                     replyConfig.allowedMentions()
             )
-            ).reply(errorMessageFactory.getInteractionExecutionFailedMessage(invocation, original));
+            ).please(errorMessageFactory.getInteractionExecutionFailedMessage(invocation, original));
         }
     }
 

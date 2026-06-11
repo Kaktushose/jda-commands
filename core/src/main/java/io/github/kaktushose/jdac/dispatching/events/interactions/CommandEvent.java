@@ -21,7 +21,7 @@ public final class CommandEvent extends ModalReplyableEvent<GenericCommandIntera
     }
 
     @Override
-    public void deferReply(boolean ephemeral) {
+    public void deferPlease(boolean ephemeral) {
         jdaEvent().deferReply(ephemeral).complete();
     }
 }

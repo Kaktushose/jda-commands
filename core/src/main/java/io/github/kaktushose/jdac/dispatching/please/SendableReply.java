@@ -1,11 +1,11 @@
-package io.github.kaktushose.jdac.dispatching.reply;
+package io.github.kaktushose.jdac.dispatching.please;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 
-/// Subtype of [MessageReply] that allows replying without message content ([#reply()]).
+/// Subtype of [MessageReply] that allows replying without message content ([#please()]).
 public final class SendableReply extends MessageReply {
 
     /// Constructs a new SendableReply.
@@ -24,8 +24,8 @@ public final class SendableReply extends MessageReply {
     /// will be called.
     ///
     /// If `keepComponents` is `true`, queries the original message first and adds its components to the reply before sending it.
-    public Message reply() {
-        return replyAction.reply();
+    public Message please() {
+        return replyAction.please();
     }
 
 }

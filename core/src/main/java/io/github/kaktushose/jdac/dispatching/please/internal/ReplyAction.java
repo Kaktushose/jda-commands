@@ -1,4 +1,4 @@
-package io.github.kaktushose.jdac.dispatching.reply.internal;
+package io.github.kaktushose.jdac.dispatching.please.internal;
 
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.exceptions.InternalException;
@@ -111,34 +111,34 @@ public final class ReplyAction {
         return builder.getComponentTree();
     }
 
-    public Message reply(String message, Entry... placeholder) {
+    public Message please(String message, Entry... placeholder) {
         builder.setContent(scopedMessageResolver().resolve(message, scopedUserLocale(), placeholder));
-        return reply();
+        return please();
     }
 
-    public Message reply(MessageEmbed first, MessageEmbed... additional) {
+    public Message please(MessageEmbed first, MessageEmbed... additional) {
         builder.setEmbeds(Stream.concat(Stream.of(first), Arrays.stream(additional)).toList());
-        return reply();
+        return please();
     }
 
-    public Message reply(MessageCreateData data) {
+    public Message please(MessageCreateData data) {
         builder = MessageCreateBuilder.from(data);
-        return reply();
+        return please();
     }
 
-    public Message reply(MessageTopLevelComponent component, Entry... placeholder) {
-        return reply(List.of((MessageTopLevelComponentUnion) component), placeholder);
+    public Message please(MessageTopLevelComponent component, Entry... placeholder) {
+        return please(List.of((MessageTopLevelComponentUnion) component), placeholder);
     }
 
-    public Message reply(Collection<MessageTopLevelComponentUnion> components, Entry... placeholder) {
+    public Message please(Collection<MessageTopLevelComponentUnion> components, Entry... placeholder) {
         components = componentResolver.resolve(components, scopedUserLocale(), Entry.toMap(placeholder));
         builder.closeFiles().clear().useComponentsV2().addComponents(components);
-        return reply();
+        return please();
     }
 
-    public Message reply(ComponentReplacer userProvided, ComponentReplacer resolver, Entry... placeholder) {
+    public Message please(ComponentReplacer userProvided, ComponentReplacer resolver, Entry... placeholder) {
         replacer = new Replacer(userProvided, resolver, Entry.toMap(placeholder));
-        return reply();
+        return please();
     }
 
     public void builder(Consumer<MessageCreateBuilder> builder) {
@@ -153,7 +153,7 @@ public final class ReplyAction {
         builder.addEmbeds(embeds);
     }
 
-    public Message reply() {
+    public Message please() {
         defer();
 
         if (scopedJdaEvent() instanceof ComponentInteraction interaction && keepComponents) {
