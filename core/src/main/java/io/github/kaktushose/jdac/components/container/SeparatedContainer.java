@@ -71,8 +71,8 @@ public final class SeparatedContainer extends AbstractSequencedContainer<Contain
     /// @return {@inheritDoc}
     @Override
     public SeparatedContainer add(ContainerChildComponent component, Entry... entries) {
-        super.add(component, entries);
         super.add(separator);
+        super.add(component, entries);
         return this;
     }
 
@@ -84,10 +84,10 @@ public final class SeparatedContainer extends AbstractSequencedContainer<Contain
     /// @param entries   the [Entries][Entry] used for localization
     /// @return this instance for fluent interface
     public SeparatedContainer add(ContainerChildComponent component, @Nullable Separator separator, Entry... entries) {
-        super.add(component, entries);
         if (separator != null) {
             super.add(separator);
         }
+        super.add(component, entries);
         return this;
     }
 
