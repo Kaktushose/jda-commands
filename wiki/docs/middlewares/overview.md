@@ -59,6 +59,25 @@ annotation:
 public class LoggingMiddleware implements Middleware {...}
 ```
 
+### Cancellation
+You can stop further execution of invocations passed to your middleware by calling <InvocationContext#cancel(MessageCreateData)>.
+This will stop execution at the next suitable moment. 
+
+For <GenericAutoCompleteInteractionEvent>s, you can either use <InvocationContext#cancel(Command.Choice)> or <InvocationContext#cancelAutoComplete()>.
+
+!!! example
+    ```java
+    public class CancelMiddleware implements Middleware {
+
+        public void accept(InvocationContext<?> context) {
+            if (condition()) {
+                context.cancel(errorMessage());
+            }
+        }
+
+    }
+    ```
+
 ### Run only for certain interaction controllers
 If you want your Middleware to only run for certain interaction controllers, just implement <Middleware#runFor()>
 returning the classes of the interaction controllers for which the middleware should run.

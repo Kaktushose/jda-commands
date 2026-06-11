@@ -1,5 +1,5 @@
 !!! tip
-This section only covers how you define action components. You might also find the following resources useful:
+    This section only covers how you define action components. You might also find the following resources useful:
 
     - Replying with the [Legacy Component System](./reply/legacy.md)
     - [Components V2 Guide](./reply/components.md)
@@ -35,6 +35,17 @@ fields.
     ...
     @StringMenu(value = "What's your favourite food?", minValue = 2, maxValue = 4)
     public void onMenu(ComponentEvent event, List<String> choices) { ... }
+    ```
+
+### Required
+For Modals, you can also configure whether the user must populate the select menu. You can do this directly via the annotation.
+For example, you can have an optional select menu with the range set to [2 ; 5], meaning you accept either 0 options, or, at least 2 but at most 5.
+
+!!! example
+    ```java
+    @SelectOption(...)
+    @StringMenu(value = "What's your favourite food?", minValue = 2, maxValue = 4, required = true)
+    public void onMenu(ComponentEvent event, List<String> choices) { ... }    
     ```
 
 ## Entity Select Menus
@@ -77,6 +88,9 @@ of the Entity Select Menu by using respectively the <EntityMenu#defaultChannels(
 
 ### Min & Max Value
 Just as for String Select Menus you can set the minimum and maximum value by using the <EntityMenu#minValue()> and <EntityMenu#maxValue()> fields.
+
+### Required
+Again, this is handled the same way as with String Select Menus.
 
 ## Localization and Emojis
 To avoid hardcoded values, all string values of an annotation can be replaced by a localization key as supported by the
