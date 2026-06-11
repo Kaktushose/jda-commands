@@ -7,5 +7,5 @@ import io.github.kaktushose.jdac.property.JDACScope;
 ///
 /// @param runtimeId the runtimes id
 @IntrospectionAccess(JDACScope.RUNTIME)
-public record RuntimeCloseEvent(String runtimeId) implements JDACEvent {
+public record RuntimeCloseEvent(long runtimeId) implements JDACEvent {
 }

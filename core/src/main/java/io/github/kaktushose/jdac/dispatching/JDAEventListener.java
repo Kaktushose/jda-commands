@@ -18,16 +18,18 @@ import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /// Handles incoming [GenericInteractionCreateEvent]s and maps them to their corresponding [Runtime], creating new ones if needed.
 @ApiStatus.Internal
 public final class JDAEventListener extends ListenerAdapter {
 
+
     private static final Logger log = JDACLogger.getLogger(JDAEventListener.class);
-    private final Map<String, Runtime> runtimes = new ConcurrentHashMap<>();
+    private final Map<Long, Runtime> runtimes = new ConcurrentHashMap<>();
     private final JDACIntrospectionImpl introspection;
+    private final AtomicLong counter = new AtomicLong(1); // 0 is independent
 
     public JDAEventListener(JDACIntrospectionImpl introspection) {
         this.introspection = introspection;
@@ -42,17 +44,17 @@ public final class JDAEventListener extends ListenerAdapter {
             // always create new one for command events (starter)
             case SlashCommandInteractionEvent _, GenericContextInteractionEvent<?> _,
                  CommandAutoCompleteInteractionEvent _ ->
-                    runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, introspection, jdaEvent.getJDA()));
+                    runtimes.compute(counter.getAndIncrement(), (id, _) -> Runtime.startNew(id, introspection, jdaEvent.getJDA()));
             // check events with custom id (components or modals)
             case ICustomIdInteraction interaction -> {
-                if (CustomId.isInvalid(interaction.getCustomId())) {
+                if (!CustomId.isValid(interaction.getCustomId())) {
                     yield null;
                 }
                 CustomId customId = CustomId.fromMerged(interaction.getCustomId());
                 if (customId.isBound()) {
                     yield runtimes.get(customId.runtimeId());
                 }
-                yield runtimes.compute(UUID.randomUUID().toString(), (id, _) -> Runtime.startNew(id, introspection, jdaEvent.getJDA()));
+                yield runtimes.compute(counter.getAndIncrement(), (id, _) -> Runtime.startNew(id, introspection, jdaEvent.getJDA()));
             }
             default -> null;
         };
@@ -63,10 +65,12 @@ public final class JDAEventListener extends ListenerAdapter {
             return;
         }
 
-        if (!(jdaEvent instanceof GenericComponentInteractionCreateEvent componentEvent && !CustomId.isInvalid(componentEvent.getComponentId()))) {
+        if (!(jdaEvent instanceof GenericComponentInteractionCreateEvent componentEvent && CustomId.isValid(componentEvent.getComponentId()))) {
             log.debug("Received unknown event: {}", jdaEvent);
             return;
         }
+
+
 
         if (Helpers.isValidWithoutComponents(componentEvent.getMessage())) {
             componentEvent.editComponents().queue();

@@ -258,6 +258,6 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     private CustomId createId(InteractionDefinition definition, boolean independent) {
         return independent
                 ? CustomId.independent(definition.definitionId())
-                : new CustomId(scopedRuntime().id(), definition.definitionId());
+                : new CustomId(scopedRuntime().id(), definition.definitionId(), "");
     }
 }

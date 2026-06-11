@@ -111,10 +111,10 @@ public final class MessageEventReply extends EventReply {
     }
 
     private String customId(String component) {
-        return new CustomId(runtimeId(component), definitionId(component)).merged();
+        return new CustomId(runtimeId(component), definitionId(component), "").merged();
     }
 
-    private String runtimeId(String component) {
+    private long runtimeId(String component) {
         String definitionId = definitionId(component);
         return components.stream()
                 .map(ActionComponent::getCustomId)

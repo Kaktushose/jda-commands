@@ -94,7 +94,7 @@ public class TestScenario {
     }
 
     private String customId(String component) {
-        return new CustomId("independent", String.valueOf((context.klass().getName() + component).hashCode())).merged();
+        return new CustomId(CustomId.INDEPENDENT_ID, String.valueOf((context.klass().getName() + component).hashCode()), "").merged();
     }
 
     public static final class Builder {

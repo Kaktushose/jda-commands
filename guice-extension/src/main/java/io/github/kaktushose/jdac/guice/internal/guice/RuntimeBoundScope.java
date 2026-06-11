@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @ApiStatus.Internal
 public class RuntimeBoundScope implements Scope {
 
-    private final Map<String, Map<Key<?>, Object>> store = new ConcurrentHashMap<>();
+    private final Map<Long, Map<Key<?>, Object>> store = new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked")
     @Override
@@ -32,7 +32,7 @@ public class RuntimeBoundScope implements Scope {
         };
     }
 
-    public void removeRuntime(String id) {
+    public void removeRuntime(long id) {
         store.remove(id);
     }
 }
