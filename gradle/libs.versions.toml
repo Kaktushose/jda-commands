@@ -5,7 +5,7 @@ slf4j = "2.0.18"
 # Core
 fluava = { module = "dev.goldmensch:fluava", version = "1.2.4" }
 jemoji = { module = "net.fellbaum:jemoji", version = "2.0.0" }
-jda = { module = "net.dv8tion:JDA", version = "6.4.1" }
+jda = { module = "net.dv8tion:JDA", version = "6.4.2" }
 guice = { module = "com.google.inject:guice", version = "7.0.0" }
 proteus = { module = "io.github.kaktushose:proteus", version = "0.2.3" }
 propane = { module = "dev.goldmensch:propane", version = "0.1" }
