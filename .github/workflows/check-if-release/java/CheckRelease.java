@@ -1,7 +1,7 @@
-//COMPILE_OPTIONS --enable-preview --release 24
+//COMPILE_OPTIONS --enable-preview --release 25
 //RUNTIME_OPTIONS --enable-preview
 
-//JAVA 24
+//JAVA 25
 
 import java.io.IOException;
 import java.nio.file.Files;
