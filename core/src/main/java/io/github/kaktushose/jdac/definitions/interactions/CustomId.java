@@ -21,7 +21,7 @@ import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 /// | 6-16                             	| Runtime ID            	| long as base64            	|
 /// | 17-22                            	| Definition ID         	| int (hashcode) as base64  	|
 /// | 23 - 35                           | Reserved for later use    | `000000000000000`             |
-/// | 36 - 99                           | Payload                   | user specific                 |
+/// | 36 - 99                           | Payload                   | user specific, 64 chars       |
 ///
 /// If the component is runtime independent, then its runtime id is `0`.
 ///
