@@ -19,9 +19,7 @@
         system,
         ...
       }: let
-        javaVersion = 25;
-
-        jdk = pkgs.javaPackages.compiler.temurin-bin."jdk-${toString javaVersion}";
+        jdk = pkgs.jdk25;
         gradle = pkgs.gradle_9.override {
             javaToolchains = [
                 jdk
