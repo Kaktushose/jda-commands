@@ -26,6 +26,8 @@ updates:
       dependencies:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "gradle"
     labels:
       - "type:dependencies"
       - "deps:java"
