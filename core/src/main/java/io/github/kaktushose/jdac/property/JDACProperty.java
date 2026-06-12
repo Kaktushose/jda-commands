@@ -278,8 +278,8 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
 
     /// The identifier bound to this runtime. Same as [Event#runtimeId()].
     @PropertyInformation(scope = JDACScope.RUNTIME, source = Property.Source.PROVIDED)
-    JDACProperty<Long> RUNTIME_ID =
-            new JDACSingletonProperty<>("RUNTIME_ID", Property.Source.PROVIDED, JDACScope.RUNTIME, Long.class);
+    JDACProperty<String> RUNTIME_ID =
+            new JDACSingletonProperty<>("RUNTIME_ID", Property.Source.PROVIDED, JDACScope.RUNTIME, String.class);
 
     /// The [KeyValueStore] associated with this runtime. Same as [InvocationContext#keyValueStore()] or [Event#keyValueStore()()].
     @PropertyInformation(scope = JDACScope.RUNTIME, source = Property.Source.PROVIDED)

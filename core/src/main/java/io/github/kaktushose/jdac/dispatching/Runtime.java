@@ -54,7 +54,7 @@ public final class Runtime implements Closeable {
     private final ComponentHandler componentHandler;
     private final ModalHandler modalHandler;
 
-    private final long id;
+    private final String id;
     private final BlockingQueue<GenericInteractionCreateEvent> eventQueue = new LinkedBlockingQueue<>();
     private final Thread executionThread;
 
@@ -64,7 +64,7 @@ public final class Runtime implements Closeable {
 
     private LocalDateTime lastActivity = LocalDateTime.now();
 
-    private Runtime(long id, JDACIntrospectionImpl baseIntrospection, JDA jda) {
+    private Runtime(String id, JDACIntrospectionImpl baseIntrospection, JDA jda) {
         this.id = id;
 
         this.introspection = baseIntrospection.createChild(JDACScope.RUNTIME)
@@ -86,7 +86,7 @@ public final class Runtime implements Closeable {
                 .unstarted(this::checkForEvents);
     }
 
-    public static Runtime startNew(long id, JDACIntrospectionImpl introspection, JDA jda) {
+    public static Runtime startNew(String id, JDACIntrospectionImpl introspection, JDA jda) {
         var runtime = new Runtime(id, introspection, jda);
         runtime.executionThread.start();
 
@@ -124,7 +124,7 @@ public final class Runtime implements Closeable {
         }
     }
 
-    public long id() {
+    public String id() {
         return id;
     }
 

@@ -43,8 +43,6 @@ import static io.github.kaktushose.jdac.property.JDACProperty.LOCALIZE_COMMANDS;
 /// Instances of this class can be created by using one of the "start" or "builder" methods.
 public final class JDACommands {
     private static final Logger log = JDACLogger.getLogger(JDACommands.class);
-
-    private final JDAEventListener jdaEventListener;
     private final CommandUpdater updater;
     private final JDACIntrospectionImpl introspection;
 
@@ -59,8 +57,6 @@ public final class JDACommands {
                 introspection.get(JDACInternalProperties.INTERACTION_REGISTRY),
                 introspection.get(LOCALIZE_COMMANDS) ? introspection.get(LOCALIZATION_FUNCTION) : (_) -> Map.of()
         );
-
-        this.jdaEventListener = new JDAEventListener(introspection);
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
@@ -110,7 +106,7 @@ public final class JDACommands {
             introspection.get(JDACInternalProperties.INTERACTION_REGISTRY).index(classFinder.search(Interaction.class), introspection.get(JDACProperty.GLOBAL_COMMAND_CONFIG));
             updater.updateAllCommands();
 
-            introspection.get(JDACInternalProperties.JDA_CONTEXT).performTask(it -> it.addEventListener(jdaEventListener), false);
+            introspection.get(JDACInternalProperties.JDA_CONTEXT).performTask(jda -> jda.addEventListener(new JDAEventListener(jda, introspection)), false);
 
             log.debug("Run Extension#onStart()");
             extensions.callOnStart(this);
@@ -131,7 +127,14 @@ public final class JDACommands {
 
         JDAContext jdaContext = introspection.get(JDACInternalProperties.JDA_CONTEXT);
 
-        jdaContext.performTask(jda -> jda.removeEventListener(jdaEventListener), false);
+        jdaContext.performTask(jda -> {
+            List<Object> toUnregister = jda.getRegisteredListeners()
+                    .stream()
+                    .filter(o -> o.getClass().equals(JDAEventListener.class))
+                    .toList();
+            jda.removeEventListener(toUnregister);
+
+        }, false);
 
         if (introspection.get(JDACProperty.SHUTDOWN_JDA)) {
             jdaContext.shutdown();

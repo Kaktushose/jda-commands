@@ -55,7 +55,7 @@ public abstract sealed class Event<T extends GenericInteractionCreateEvent> impl
     /// Returns the id of the [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) this event is dispatched in.
     ///
     /// @return the id of the current [`Runtime`]({@docRoot}/index.html#runtime-concept-heading)
-    public long runtimeId() {
+    public String runtimeId() {
         return scopedRuntime().id();
     }
 

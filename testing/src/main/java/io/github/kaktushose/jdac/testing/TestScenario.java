@@ -94,7 +94,7 @@ public class TestScenario {
     }
 
     private String customId(String component) {
-        return new CustomId(CustomId.INDEPENDENT_ID, String.valueOf((context.klass().getName() + component).hashCode()), "").merged();
+        return CustomId.independent(InteractionDefinition.createDefinitionId(context.klass.getName(), component)).merged();
     }
 
     public static final class Builder {
@@ -158,6 +158,8 @@ public class TestScenario {
                 commands.addAll(invocation.getArgument(0));
                 return invocation.getMock();
             });
+
+            when(jda.getShardInfo()).thenReturn(JDA.ShardInfo.SINGLE);
 
             consumer.accept(jdacBuilder);
             JDACommands jdaCommands = jdacBuilder.start();

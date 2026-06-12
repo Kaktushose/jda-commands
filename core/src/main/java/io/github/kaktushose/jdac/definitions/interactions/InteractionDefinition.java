@@ -11,6 +11,7 @@ import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefini
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.EntitySelectMenuDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.StringSelectMenuDefinition;
+import io.github.kaktushose.jdac.definitions.interactions.internal.Base64Utils;
 import io.github.kaktushose.jdac.dispatching.middleware.impl.PermissionsMiddleware;
 import net.dv8tion.jda.api.entities.Message.MentionType;
 
@@ -33,18 +34,21 @@ import java.util.function.Consumer;
 public sealed interface InteractionDefinition extends Definition, Invokable
         permits AutoCompleteDefinition, ModalDefinition, CommandDefinition, ComponentDefinition {
 
-    /// Creates a definition id from the classname and method name
+    /// Creates a definition id from the classname and method name. This is the base64 of the hash of the classname
+    /// and methodname.
     ///
     /// @param className  the classname ([Class#getName()] or [ClassDescription#name()])
     /// @param methodName the method name ([Method#getName()] or [MethodDescription#name()])
     /// @return the definition id
     static String createDefinitionId(String className, String methodName) {
-        return String.valueOf((className + methodName).hashCode());
+        int hash = (className + methodName).hashCode();
+        return Base64Utils.encodeInt(hash);
     }
 
     /// The id for this definition. For interaction definition this is the hash code of the full class name and method
     /// name combined.
-    @Override
+    ///
+    /// @see #createDefinitionId(String, String)
     default String definitionId() {
         return createDefinitionId(classDescription().name(), methodDescription().name());
     }

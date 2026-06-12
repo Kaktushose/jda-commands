@@ -14,7 +14,7 @@ public sealed interface Definition permits CustomIdJDAEntity, Invokable, JDAEnti
 
     /// The id for this definition. Per default this is the hash code of the [Object#toString()] method.
     default String definitionId() {
-        return String.valueOf(toString().hashCode());
+        throw new UnsupportedOperationException("TODO: message");
     }
 
     /// The human-readable name of this definition.

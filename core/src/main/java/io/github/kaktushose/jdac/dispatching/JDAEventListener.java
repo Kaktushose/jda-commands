@@ -6,6 +6,7 @@ import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
@@ -19,7 +20,6 @@ import org.slf4j.Logger;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 /// Handles incoming [GenericInteractionCreateEvent]s and maps them to their corresponding [Runtime], creating new ones if needed.
 @ApiStatus.Internal
@@ -27,12 +27,13 @@ public final class JDAEventListener extends ListenerAdapter {
 
 
     private static final Logger log = JDACLogger.getLogger(JDAEventListener.class);
-    private final Map<Long, Runtime> runtimes = new ConcurrentHashMap<>();
+    private final Map<String, Runtime> runtimes = new ConcurrentHashMap<>();
     private final JDACIntrospectionImpl introspection;
-    private final AtomicLong counter = new AtomicLong(1); // 0 is independent
+    private final RuntimeIdGenerator generator;
 
-    public JDAEventListener(JDACIntrospectionImpl introspection) {
+    public JDAEventListener(JDA jda, JDACIntrospectionImpl introspection) {
         this.introspection = introspection;
+        this.generator = new RuntimeIdGenerator(jda.getShardInfo());
     }
 
     @Override
@@ -44,7 +45,7 @@ public final class JDAEventListener extends ListenerAdapter {
             // always create new one for command events (starter)
             case SlashCommandInteractionEvent _, GenericContextInteractionEvent<?> _,
                  CommandAutoCompleteInteractionEvent _ ->
-                    runtimes.compute(counter.getAndIncrement(), (id, _) -> Runtime.startNew(id, introspection, jdaEvent.getJDA()));
+                    runtimes.compute(generator.next(), (id, _) -> Runtime.startNew(id, introspection, jdaEvent.getJDA()));
             // check events with custom id (components or modals)
             case ICustomIdInteraction interaction -> {
                 if (!CustomId.isValid(interaction.getCustomId())) {
@@ -54,7 +55,7 @@ public final class JDAEventListener extends ListenerAdapter {
                 if (customId.isBound()) {
                     yield runtimes.get(customId.runtimeId());
                 }
-                yield runtimes.compute(counter.getAndIncrement(), (id, _) -> Runtime.startNew(id, introspection, jdaEvent.getJDA()));
+                yield runtimes.compute(generator.next(), (id, _) -> Runtime.startNew(id, introspection, jdaEvent.getJDA()));
             }
             default -> null;
         };

@@ -1,10 +1,8 @@
 package io.github.kaktushose.jdac.definitions.interactions;
 
 import io.github.kaktushose.jdac.definitions.Definition;
+import io.github.kaktushose.jdac.definitions.interactions.internal.Base64Utils;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
-
-import java.nio.ByteBuffer;
-import java.util.Base64;
 
 /// # Custom ID
 /// Representation of a custom id used in modals, buttons or select menus.
@@ -22,8 +20,8 @@ import java.util.Base64;
 /// | 4-5                              	| Specification Version 	| 2 character decimal number    |
 /// | 6-16                             	| Runtime ID            	| long as base64            	|
 /// | 17-22                            	| Definition ID         	| int (hashcode) as base64  	|
-/// | 23 - 37                           | Reserved for later use    | `000000000000000`             |
-/// | 38 - 99                           | Payload                   | user specific                 |
+/// | 23 - 35                           | Reserved for later use    | `000000000000000`             |
+/// | 36 - 99                           | Payload                   | user specific                 |
 ///
 /// If the component is runtime independent, then its runtime id is `0`.
 ///
@@ -50,19 +48,17 @@ import java.util.Base64;
 /// @param definitionId the [Definition#definitionId()]
 /// @implNote the custom id has the following format: `jdac.runtimeId.definitionId`
 ///
-public record CustomId(long runtimeId, String definitionId, String payload) {
+public record CustomId(String runtimeId, String definitionId, String payload) {
     private static final String PREFIX = "jdac";
     public static final long INDEPENDENT_ID = 0;
     private static final int CURRENT_VERSION = 2;
-
-
 
     /// Constructs a new [CustomId] from the given String.
     ///
     /// @param id the custom id String
     /// @return the [CustomId]
     public static CustomId fromMerged(String id) {
-        if (!(id.startsWith(PREFIX)) || (id.length() > 100 || id.length() < 38)) {
+        if (!(id.startsWith(PREFIX)) || (id.length() > 100 || id.length() < 36)) {
             throw new IllegalArgumentException(JDACException.errorMessage("invalid-custom-id"));
         }
 
@@ -84,47 +80,18 @@ public record CustomId(long runtimeId, String definitionId, String payload) {
             throw new RuntimeException("TODO: exception");
         }
 
-        return new CustomId(INDEPENDENT_ID, split[2], "");
+        return new CustomId(String.valueOf(INDEPENDENT_ID), split[2], "");
     }
 
     private static CustomId parseV2(String id) {
-        long runtimeId = decodeLong(substring(id, 6, 16));
-        int definitionId = decodeInt(substring(id, 17, 22));
+        String runtimeId = part(id, 6, 16);
+        String definitionId = part(id, 17, 22);
 
-        return new CustomId(runtimeId, String.valueOf(definitionId), "");
+        return new CustomId(runtimeId, definitionId, "");
     }
 
-    private static long decodeLong(String raw) {
-        byte[] bytes = Base64.getUrlDecoder().decode(raw);
-        return ByteBuffer.wrap(bytes).getLong();
-    }
 
-    private static String encodeLong(long raw) {
-        byte[] data = ByteBuffer.allocate(8)
-                .putLong(raw)
-                .array();
-
-        return Base64.getUrlEncoder()
-                .withoutPadding()
-                .encodeToString(data);
-    }
-
-    private static int decodeInt(String raw) {
-        byte[] bytes = Base64.getUrlDecoder().decode(raw);
-        return ByteBuffer.wrap(bytes).getInt();
-    }
-
-    private static String encodeInt(int raw) {
-        byte[] data = ByteBuffer.allocate(4)
-                .putInt(raw)
-                .array();
-
-        return Base64.getUrlEncoder()
-                .withoutPadding()
-                .encodeToString(data);
-    }
-
-    private static String substring(String id, int begin, int end) {
+    private static String part(String id, int begin, int end) {
         return id.substring(begin, end + 1);
     }
 
@@ -133,7 +100,7 @@ public record CustomId(long runtimeId, String definitionId, String payload) {
     /// @param definitionId the definition id to construct the [CustomId] from
     /// @return a new runtime-independent [CustomId]
     public static CustomId independent(String definitionId) {
-        return new CustomId(INDEPENDENT_ID, definitionId, "");
+        return new CustomId(Base64Utils.encodeLong(INDEPENDENT_ID), definitionId, "");
     }
 
     public static boolean isValid(String id) {
@@ -142,14 +109,14 @@ public record CustomId(long runtimeId, String definitionId, String payload) {
 
     /// The String representation of this custom id.
     public String merged() {
-        return PREFIX + "%02d".formatted(CURRENT_VERSION) + encodeLong(runtimeId) + encodeInt(Integer.parseInt(definitionId)) + "0".repeat(15) + payload;
+        return PREFIX + "%02d".formatted(CURRENT_VERSION) + runtimeId + definitionId + "0".repeat(13) + payload;
     }
 
     /// Gets the runtime id of this custom id.
     ///
     /// @return the runtime id
     /// @throws IllegalStateException if this custom id is runtime-independent
-    public long runtimeId() {
+    public String runtimeId() {
         if (isIndependent()) {
             throw new IllegalStateException(JDACException.errorMessage("independent-runtime-id"));
         }
@@ -160,7 +127,7 @@ public record CustomId(long runtimeId, String definitionId, String payload) {
     ///
     /// @return `true` if the custom id is runtime-independent
     public boolean isIndependent() {
-        return runtimeId == INDEPENDENT_ID;
+        return Base64Utils.decodeLong(runtimeId) == INDEPENDENT_ID;
     }
 
     /// Checks if the passed custom id is runtime-bound.
