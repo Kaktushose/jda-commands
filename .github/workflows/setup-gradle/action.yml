@@ -17,4 +17,4 @@ runs:
       with:
         distribution: temurin
         java-version: ${{ steps.version.outputs.java }}
-    - uses: gradle/actions/setup-gradle@v4
+    - uses: gradle/actions/setup-gradle@v6.1.1
