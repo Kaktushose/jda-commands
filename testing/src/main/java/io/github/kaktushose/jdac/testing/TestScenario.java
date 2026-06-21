@@ -94,7 +94,7 @@ public class TestScenario {
     }
 
     private String customId(String component) {
-        return CustomId.independent(InteractionDefinition.createDefinitionId(context.klass.getName(), component)).merged();
+        return CustomId.independent(InteractionDefinition.createDefinitionId(context.klass.getName(), component), "").merged();
     }
 
     public static final class Builder {

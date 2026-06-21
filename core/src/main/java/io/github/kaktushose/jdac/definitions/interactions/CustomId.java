@@ -53,6 +53,12 @@ public record CustomId(String runtimeId, String definitionId, String payload) {
     public static final long INDEPENDENT_ID = 0;
     private static final int CURRENT_VERSION = 2;
 
+    public CustomId {
+        if (payload.length() > 64) {
+            throw new RuntimeException("TODO: better exception");
+        }
+    }
+
     /// Constructs a new [CustomId] from the given String.
     ///
     /// @param id the custom id String
@@ -86,8 +92,9 @@ public record CustomId(String runtimeId, String definitionId, String payload) {
     private static CustomId parseV2(String id) {
         String runtimeId = part(id, 6, 16);
         String definitionId = part(id, 17, 22);
+        String payload = id.substring(36);
 
-        return new CustomId(runtimeId, definitionId, "");
+        return new CustomId(runtimeId, definitionId, payload);
     }
 
 
@@ -99,8 +106,8 @@ public record CustomId(String runtimeId, String definitionId, String payload) {
     ///
     /// @param definitionId the definition id to construct the [CustomId] from
     /// @return a new runtime-independent [CustomId]
-    public static CustomId independent(String definitionId) {
-        return new CustomId(Base64Utils.encodeLong(INDEPENDENT_ID), definitionId, "");
+    public static CustomId independent(String definitionId, String payload) {
+        return new CustomId(Base64Utils.encodeLong(INDEPENDENT_ID), definitionId, payload);
     }
 
     public static boolean isValid(String id) {

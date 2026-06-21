@@ -212,9 +212,9 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
         int uniqueId = Objects.requireNonNullElse(definition.uniqueId(), -1);
         ActionRowChildComponent item = switch (definition) {
             case ButtonDefinition buttonDefinition ->
-                    buttonDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
+                    buttonDefinition.toJDAEntity(createId(definition, component)).withDisabled(!component.enabled());
             case SelectMenuDefinition<?> menuDefinition ->
-                    menuDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
+                    menuDefinition.toJDAEntity(createId(definition, component)).withDisabled(!component.enabled());
         };
 
         item = switch (component) {
@@ -255,9 +255,9 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
         }
     }
 
-    private CustomId createId(InteractionDefinition definition, boolean independent) {
-        return independent
-                ? CustomId.independent(definition.definitionId())
-                : new CustomId(scopedRuntime().id(), definition.definitionId(), "");
+    private CustomId createId(InteractionDefinition definition, Component<?, ?, ?, ?> component) {
+        return component.independent()
+                ? CustomId.independent(definition.definitionId(), component.payload())
+                : new CustomId(scopedRuntime().id(), definition.definitionId(), component.payload());
     }
 }

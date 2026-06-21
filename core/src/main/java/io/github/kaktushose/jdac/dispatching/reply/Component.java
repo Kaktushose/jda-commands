@@ -3,7 +3,9 @@ package io.github.kaktushose.jdac.dispatching.reply;
 import io.github.kaktushose.jdac.annotations.interactions.Button;
 import io.github.kaktushose.jdac.annotations.interactions.EntityMenu;
 import io.github.kaktushose.jdac.annotations.interactions.StringMenu;
+import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
+import io.github.kaktushose.jdac.dispatching.events.interactions.ComponentEvent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.ButtonComponent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.internal.UnspecificComponent;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
@@ -15,7 +17,6 @@ import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponentUnion;
 import net.dv8tion.jda.api.components.section.SectionAccessoryComponentUnion;
-import net.dv8tion.jda.api.components.selections.SelectMenu;
 import net.dv8tion.jda.api.components.thumbnail.Thumbnail;
 import org.jspecify.annotations.Nullable;
 
@@ -91,6 +92,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     private boolean enabled = true;
     private boolean independent = false;
     private Function<B, B> callback = Function.identity();
+    private String payload = "";
 
     protected Component(String method, @Nullable Class<?> origin, Entry[] placeholder) {
         this.method = method;
@@ -266,6 +268,17 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
         return self();
     }
 
+    /// Allows to set a payload, that will be stored in the components' [CustomId].
+    /// Currently, with custom id version 2.0, this supports up to 64 characters.
+    ///
+    /// The payload can be retried using [ComponentEvent#payload()].
+    ///
+    /// @param payload the string to set as the payload
+    public S payload(String payload) {
+        this.payload = payload;
+        return self();
+    }
+
     @Override
     public int getUniqueId() {
         return uniqueId == null ? -1 : uniqueId;
@@ -308,10 +321,23 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
         return self();
     }
 
+    /// Returns the [custom id payload][CustomId#payload()] set by [#payload(String)].
+    ///
+    /// Delegates to [#payload()].
+    ///
+    /// @return the payload
     @Override
     public String getCustomId() {
-        throw new UnsupportedOperationException();
+        return this.payload;
     }
+
+    /// Returns the [custom id payload][CustomId#payload()] set by [#payload(String)].
+    ///
+    /// @return the payload
+    public String payload() {
+        return this.payload;
+    }
+
 
     protected boolean enabled() {
         return enabled;
@@ -345,5 +371,4 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     protected abstract Class<D> definitionClass();
 
     protected abstract D build(D definition);
-
 }

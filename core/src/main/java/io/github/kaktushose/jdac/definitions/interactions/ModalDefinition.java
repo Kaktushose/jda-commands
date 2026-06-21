@@ -55,7 +55,7 @@ public record ModalDefinition(
     /// Transforms this definition to an [Modal] with the given custom id.
     ///
     /// @return the [Modal]
-    /// @see CustomId#independent(String)
+    /// @see CustomId
     public Modal toJDAEntity(CustomId customId) {
         try {
             return Modal.create(customId.merged(), title).addComponents(components).build();

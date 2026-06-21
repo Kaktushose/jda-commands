@@ -88,12 +88,13 @@ public record ButtonDefinition(
     }
 
     /// Transforms this definition to an [Button] with an independent custom id.
+    /// The [custom id payload][CustomId#payload()] will be set to an empty string.
     ///
     /// @return the [Button]
-    /// @see CustomId#independent(String)
+    /// @see CustomId#independent(String, String)
     @Override
     public Button toJDAEntity() {
-        return toJDAEntity(CustomId.independent(definitionId()));
+        return toJDAEntity(CustomId.independent(definitionId(), ""));
     }
 
     /// Transforms this definition to an [Button] with the given [CustomId].

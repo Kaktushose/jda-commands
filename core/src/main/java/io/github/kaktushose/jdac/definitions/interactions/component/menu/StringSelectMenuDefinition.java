@@ -118,12 +118,13 @@ public record StringSelectMenuDefinition(
     }
 
     /// Transforms this definition to an [StringSelectMenu] with an independent custom id.
+    /// The [custom id payload][CustomId#payload()] will be set to an empty string.
     ///
     /// @return the [StringSelectMenu]
-    /// @see CustomId#independent(String)
+    /// @see CustomId#independent(String, String)
     @Override
     public StringSelectMenu toJDAEntity() {
-        return toJDAEntity(CustomId.independent(definitionId()));
+        return toJDAEntity(CustomId.independent(definitionId(), ""));
     }
 
     /// Transforms this definition to an [StringSelectMenu] with the given [CustomId].

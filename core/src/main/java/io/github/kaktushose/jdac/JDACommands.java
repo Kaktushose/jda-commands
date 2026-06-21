@@ -159,12 +159,42 @@ public final class JDACommands {
     /// The button will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent.
     /// This may be useful if you want to send a message without using the framework.
     ///
+    /// The [custom id payload][CustomId#payload()] will be set to an empty string.
     /// @param button the name of the button in the format `FullClassNameWithPackage.method``
     /// @return the JDA [Button]
+    @Deprecated(forRemoval = true)
     public Button getButton(Class<?> origin, String button) {
+        return getButton(origin, button, "");
+    }
+
+    /// Gets a [`Button`][io.github.kaktushose.jdac.annotations.interactions.Button] based on the method name
+    /// and the given class and transforms it into a JDA [Button].
+    ///
+    /// The button will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent.
+    /// This may be useful if you want to send a message without using the framework.
+    ///
+    /// @param button the name of the button in the format `FullClassNameWithPackage.method``
+    /// @param payload the [payload][CustomId@#payload() ] to be set in the [CustomId]
+    /// @return the JDA [Button]
+    public Button getButton(Class<?> origin, String button, String payload) {
         var id = String.valueOf((origin.getName() + button).hashCode());
         var definition = introspection.get(JDACInternalProperties.INTERACTION_REGISTRY).find(ButtonDefinition.class, false, it -> it.definitionId().equals(id));
-        return definition.toJDAEntity(CustomId.independent(definition.definitionId()));
+        return definition.toJDAEntity(CustomId.independent(definition.definitionId(), ""));
+    }
+
+    /// Gets a [StringMenu] or [EntityMenu] based on the method name and the given class and transforms it
+    /// into a JDA [SelectMenu].
+    ///
+    /// The select menu will be [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) independent.
+    /// This may be useful if you want to send a component without using the framework.
+    ///
+    /// The [custom id payload][CustomId#payload()] will be set to an empty string.
+    /// @param origin the [Class] of the method
+    /// @param menu   the name of the button in the format `FullClassNameWithPackage.method``
+    /// @return the JDA [SelectMenu]
+    @Deprecated(forRemoval = true)
+    public SelectMenu getSelectMenu(Class<?> origin, String menu) {
+        return getSelectMenu(origin, menu, "");
     }
 
     /// Gets a [StringMenu] or [EntityMenu] based on the method name and the given class and transforms it
@@ -175,11 +205,12 @@ public final class JDACommands {
     ///
     /// @param origin the [Class] of the method
     /// @param menu   the name of the button in the format `FullClassNameWithPackage.method``
+    /// @param payload the [payload][CustomId@#payload() ] to be set in the [CustomId]
     /// @return the JDA [SelectMenu]
-    public SelectMenu getSelectMenu(Class<?> origin, String menu) {
+    public SelectMenu getSelectMenu(Class<?> origin, String menu, String payload) {
         var id = String.valueOf((origin.getName() + menu).hashCode());
         var definition = introspection.get(JDACInternalProperties.INTERACTION_REGISTRY).find(SelectMenuDefinition.class, false, it -> it.definitionId().equals(id));
-        return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId()));
+        return (SelectMenu) definition.toJDAEntity(CustomId.independent(definition.definitionId(), payload));
     }
 
     /// Gets an [Embed] based on the given name.
