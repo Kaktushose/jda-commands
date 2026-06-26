@@ -20,11 +20,13 @@ import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
+import net.dv8tion.jda.api.components.ActionComponent;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.components.selections.SelectMenu;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -210,11 +212,13 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
         var definition = findDefinition(component, definitionId, className);
 
         int uniqueId = Objects.requireNonNullElse(definition.uniqueId(), -1);
+        final CustomId customId = createId(definition, component);
+
         ActionRowChildComponent item = switch (definition) {
             case ButtonDefinition buttonDefinition ->
-                    buttonDefinition.toJDAEntity(createId(definition, component)).withDisabled(!component.enabled());
+                    buttonDefinition.toJDAEntity(customId).withDisabled(!component.enabled());
             case SelectMenuDefinition<?> menuDefinition ->
-                    menuDefinition.toJDAEntity(createId(definition, component)).withDisabled(!component.enabled());
+                    menuDefinition.toJDAEntity(customId).withDisabled(!component.enabled());
         };
 
         item = switch (component) {
@@ -225,6 +229,22 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
                     stringSelectComponent.callback().apply(((StringSelectMenu) item).createCopy()).build();
             case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
         };
+
+        // All ActionRowComponents are ActionComponents
+        String itemCustomId = ((ActionComponent) item).getCustomId();
+
+        // check if custom id was overridden manually by user,
+        // if yes set the user-set custom id as the new payload
+        if (customId.merged().equals(itemCustomId)) {
+            String modified = new CustomId(customId.runtimeId(), customId.definitionId(), itemCustomId).merged();
+
+            item = switch (item) {
+                case Button button -> button.withCustomId(modified);
+                case SelectMenu menu -> menu.createCopy().setCustomId(modified).build();
+                default -> throw new IllegalArgumentException("Can't be reached!");
+            };
+        }
+
 
         if (uniqueId > 0) {
             item = item.withUniqueId(uniqueId);
