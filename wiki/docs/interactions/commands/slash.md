@@ -162,11 +162,11 @@ public void onBanMember(CommandEvent event, Member target, Optional<String> reas
     Required options must be added before non-required options.
 
 ### Min & Max Value
-Use the <Min> or <Max> annotation to set the minimum and maximum value for numeral options.
+Use the <Min> or <Max> annotation to set the minimum and maximum value for numeral options or for Strings.
 !!! example
     ```java
     @Command("ban")
-    public void onBanMember(CommandEvent event, Member target, String reason, @Max(7) int delDays) {
+    public void onBanMember(CommandEvent event, Member target, @Min(10) String reason, @Max(7) int delDays) {
         (...)
     }
     ```
