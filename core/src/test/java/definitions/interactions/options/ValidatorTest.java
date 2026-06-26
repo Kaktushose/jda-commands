@@ -90,7 +90,7 @@ class ValidatorTest {
         }
 
         @Command("minMaxWrongType")
-        public void minMaxWrongType(CommandEvent event, @Min(1) String min, @Max(1) String max) {
+        public void minMaxWrongType(CommandEvent event, @Min(1) Object min, @Max(1) Object max) {
         }
 
         @Command("noValidator")
