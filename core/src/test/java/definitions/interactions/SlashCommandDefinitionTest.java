@@ -2,22 +2,32 @@ package definitions.interactions;
 
 import io.github.kaktushose.jdac.annotations.interactions.Command;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
+import io.github.kaktushose.jdac.definitions.description.Descriptor;
+import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
 import io.github.kaktushose.jdac.definitions.interactions.command.SlashCommandDefinition;
 import io.github.kaktushose.jdac.dispatching.events.ReplyableEvent;
 import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
+import io.github.kaktushose.jdac.message.i18n.internal.BundleFinder;
+import io.github.kaktushose.jdac.message.i18n.internal.JDACLocalizationFunction;
+import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.property.Definitions;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACScope;
+import io.github.kaktushose.jdac.property.internal.JDACInternalProperties;
 import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import net.dv8tion.jda.api.interactions.commands.Command.Type;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import definitions.TestHelpers;
+import net.dv8tion.jda.api.utils.data.DataObject;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static definitions.TestHelpers.getBuildContext;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SlashCommandDefinitionTest {
 
@@ -69,7 +79,6 @@ class SlashCommandDefinitionTest {
         assertEquals("description", command.getDescription());
         assertEquals(1, command.getOptions().size());
         assertEquals(Type.SLASH, command.getType());
-
     }
 
     @Test
@@ -81,6 +90,22 @@ class SlashCommandDefinitionTest {
         assertEquals(name, command.getName());
         assertEquals("description", command.getDescription());
         assertEquals(1, command.getOptions().size());
+    }
+
+    @Test
+    public void test() {
+        SlashCommandData command = build("correct").toJDAEntity();
+        JDACIntrospectionImpl jdacIntrospection = JDACIntrospectionImpl
+                .create(JDACScope.INITIALIZED)
+                .addFallback(JDACInternalProperties.BUNDLE_FINDER, _ -> new BundleFinder(Descriptor.REFLECTIVE))
+                .addFallback(JDACProperty.DEFINITIONS, _ -> new InteractionRegistry(null, null, null))
+                .addFallback(JDACProperty.MESSAGE_RESOLVER, _ -> new MessageResolver(List.of()))
+                .build();
+        command.setLocalizationFunction(JDACLocalizationFunction.PROVIDER_FUNC.apply(jdacIntrospection));
+
+        DataObject data = command.toData();
+
+
     }
 
     private SlashCommandDefinition build(String method) {
@@ -127,5 +152,10 @@ class SlashCommandDefinitionTest {
         @Command(value = "correct", desc = "description")
         public void correct(CommandEvent event, String option) {
         }
+
+        @Command(value = "noDescription")
+        public void noDescription(CommandEvent event) {
+        }
+
     }
 }
