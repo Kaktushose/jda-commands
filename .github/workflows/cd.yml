@@ -17,7 +17,7 @@ jobs:
       version_minor: ${{ steps.check.outputs.version_minor }}
       title: ${{ steps.check.outputs.title }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - id: check
         uses: ./.github/workflows/check-if-release
       - name: Check if version acceptable
@@ -63,7 +63,7 @@ jobs:
       target: ${{ steps.target_dir.outputs.name }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Find target directory
         id: target_dir
         run: |
@@ -91,7 +91,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - uses: ./.github/workflows/setup-gradle
       - name: Generate Documentation
         run: ./gradlew javadoc  2>&1 | tee out.log # 2>&1 -> redirect err to out
@@ -122,7 +122,7 @@ jobs:
     environment:
       name: github-pages
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
@@ -179,7 +179,7 @@ jobs:
           else
             echo "active=NEVER" >> "$GITHUB_OUTPUT"
           fi
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/workflows/setup-gradle
       - name: Build and deploy
         if: ${{ steps.find_active.outputs.active != 'NEVER' }}
@@ -200,7 +200,7 @@ jobs:
     needs: [ check_if_release, maven_central ]
     if: ${{ needs.check_if_release.outputs.release == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: softprops/action-gh-release@v3
         with:
           draft: true
