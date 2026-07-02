@@ -323,7 +323,8 @@ implements <a href="CommandDefinition.html" title="interface in io.github.kaktus
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link">SlashCommandData</a></span>&nbsp;<span class="element-name">toJDAEntity</span>()</div>
 <div class="block"><p>Transforms this definition into <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/SlashCommandData.html" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link"><code>SlashCommandData</code></a>.</p>
-<p>This does not set <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/CommandData.html#setLocalizationFunction(net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction)" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link"><code>CommandData.setLocalizationFunction(LocalizationFunction)</code></a>!</p>
+<p>This does not set <a href="https://docs.jda.wiki/net/dv8tion/jda/api/interactions/commands/build/CommandData.html#setLocalizationFunction(net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction)" title="class or interface in net.dv8tion.jda.api.interactions.commands.build" class="external-link"><code>CommandData.setLocalizationFunction(LocalizationFunction)</code></a>! However, if no description is
+provided, will set all available locales with the default message (<code>jdac$no-description</code>) from the <code>jdac</code> bundle.</p>
 </div>
 <dl class="notes">
 <dt>Specified by:</dt>
