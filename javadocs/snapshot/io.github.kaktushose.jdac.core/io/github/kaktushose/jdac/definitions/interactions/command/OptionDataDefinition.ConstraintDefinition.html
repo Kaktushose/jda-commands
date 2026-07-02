@@ -61,6 +61,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
 <li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.Validator,io.github.kaktushose.jdac.definitions.description.AnnotationDescription)" tabindex="0">ConstraintDefinition(Validator, AnnotationDescription)</a></li>
+<li><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.Validator,io.github.kaktushose.jdac.definitions.description.AnnotationDescription,boolean)" tabindex="0">ConstraintDefinition(Validator, AnnotationDescription, boolean)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -71,6 +72,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#equals(java.lang.Object)" tabindex="0">equals(Object)</a></li>
 <li><a href="#validator()" tabindex="0">validator()</a></li>
 <li><a href="#annotation()" tabindex="0">annotation()</a></li>
+<li><a href="#discordHandled()" tabindex="0">discordHandled()</a></li>
 </ol>
 </li>
 </ol>
@@ -90,6 +92,7 @@ loadScripts(document, 'script');</script>
 <dt>Record Components:</dt>
 <dd><code><span id="param-validator">validator</span></code> - the corresponding <a href="../../../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation"><code>Validator</code></a></dd>
 <dd><code><span id="param-annotation">annotation</span></code> - the corresponding annotation object</dd>
+<dd><code><span id="param-discordHandled">discordHandled</span></code> - whether this constraint is handled by Discord itself or by JDA-Commands</dd>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
@@ -101,7 +104,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public static record </span><span class="element-name type-name-label">OptionDataDefinition.ConstraintDefinition</span>(<a href="../../../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&nbsp;validator, <a href="../../description/AnnotationDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">AnnotationDescription</a>&lt;?&gt;&nbsp;annotation)
+<div class="type-signature"><span class="modifiers">public static record </span><span class="element-name type-name-label">OptionDataDefinition.ConstraintDefinition</span>(<a href="../../../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&nbsp;validator, <a href="../../description/AnnotationDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">AnnotationDescription</a>&lt;?&gt;&nbsp;annotation, boolean&nbsp;discordHandled)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
 implements <a href="../../Definition.html" title="interface in io.github.kaktushose.jdac.definitions">Definition</a></span></div>
 <div class="block">Representation of a parameter constraint defined by a constraint annotation.</div>
@@ -120,6 +123,12 @@ implements <a href="../../Definition.html" title="interface in io.github.kaktush
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.Validator,io.github.kaktushose.jdac.definitions.description.AnnotationDescription)" class="member-name-link">ConstraintDefinition</a><wbr>(<a href="../../../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&nbsp;validator,
  <a href="../../description/AnnotationDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">AnnotationDescription</a>&lt;?&gt;&nbsp;annotation)</code></div>
 <div class="col-last even-row-color">
+<div class="block">Representation of a parameter constraint defined by a constraint annotation.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(io.github.kaktushose.jdac.dispatching.validation.Validator,io.github.kaktushose.jdac.definitions.description.AnnotationDescription,boolean)" class="member-name-link">ConstraintDefinition</a><wbr>(<a href="../../../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&nbsp;validator,
+ <a href="../../description/AnnotationDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">AnnotationDescription</a>&lt;?&gt;&nbsp;annotation,
+ boolean&nbsp;discordHandled)</code></div>
+<div class="col-last odd-row-color">
 <div class="block">Creates an instance of a <code>ConstraintDefinition</code> record class.</div>
 </div>
 </div>
@@ -141,29 +150,34 @@ implements <a href="../../Definition.html" title="interface in io.github.kaktush
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-annotation"><code>annotation</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#displayName()" class="member-name-link">displayName</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#discordHandled()" class="member-name-link">discordHandled</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <a href="#param-discordHandled"><code>discordHandled</code></a> record component.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#displayName()" class="member-name-link">displayName</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">The human-readable name of this definition.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator</a><wbr>&lt;?,<wbr>?&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validator()" class="member-name-link">validator</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator</a><wbr>&lt;?,<wbr>?&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validator()" class="member-name-link">validator</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-validator"><code>validator</code></a> record component.</div>
 </div>
 </div>
@@ -192,11 +206,28 @@ implements <a href="../../Definition.html" title="interface in io.github.kaktush
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ConstraintDefinition</span><wbr><span class="parameters">(<a href="../../../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&nbsp;validator,
  <a href="../../description/AnnotationDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">AnnotationDescription</a>&lt;?&gt;&nbsp;annotation)</span></div>
+<div class="block">Representation of a parameter constraint defined by a constraint annotation.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>validator</code> - the corresponding <a href="../../../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation"><code>Validator</code></a></dd>
+<dd><code>annotation</code> - the corresponding annotation object</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(io.github.kaktushose.jdac.dispatching.validation.Validator,io.github.kaktushose.jdac.definitions.description.AnnotationDescription,boolean)">
+<h3>ConstraintDefinition</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ConstraintDefinition</span><wbr><span class="parameters">(<a href="../../../dispatching/validation/Validator.html" title="interface in io.github.kaktushose.jdac.dispatching.validation">Validator</a>&lt;?,<wbr>?&gt;&nbsp;validator,
+ <a href="../../description/AnnotationDescription.html" title="class in io.github.kaktushose.jdac.definitions.description">AnnotationDescription</a>&lt;?&gt;&nbsp;annotation,
+ boolean&nbsp;discordHandled)</span></div>
 <div class="block">Creates an instance of a <code>ConstraintDefinition</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>validator</code> - the value for the <a href="#param-validator"><code>validator</code></a> record component</dd>
 <dd><code>annotation</code> - the value for the <a href="#param-annotation"><code>annotation</code></a> record component</dd>
+<dd><code>discordHandled</code> - the value for the <a href="#param-discordHandled"><code>discordHandled</code></a> record component</dd>
 </dl>
 </div>
 </section>
@@ -258,7 +289,7 @@ implements <a href="../../Definition.html" title="interface in io.github.kaktush
 <h3>equals</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</span></div>
-<div class="block">Indicates whether some other object is "equal to" this one. The objects are equal if the other object is of the same class and if all the record components are equal. All components in this record class are compared with <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Objects.html#equals(java.lang.Object,java.lang.Object)" title="class or interface in java.util" class="external-link"><code>Objects::equals(Object,Object)</code></a>.</div>
+<div class="block">Indicates whether some other object is "equal to" this one. The objects are equal if the other object is of the same class and if all the record components are equal. Reference components are compared with <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Objects.html#equals(java.lang.Object,java.lang.Object)" title="class or interface in java.util" class="external-link"><code>Objects::equals(Object,Object)</code></a>; primitive components are compared with the <code>compare</code> method from their corresponding wrapper classes.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></code></dd>
@@ -292,6 +323,19 @@ implements <a href="../../Definition.html" title="interface in io.github.kaktush
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the <a href="#param-annotation"><code>annotation</code></a> record component</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="discordHandled()">
+<h3>discordHandled</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">discordHandled</span>()</div>
+<div class="block">Returns the value of the <a href="#param-discordHandled"><code>discordHandled</code></a> record component.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value of the <a href="#param-discordHandled"><code>discordHandled</code></a> record component</dd>
 </dl>
 </div>
 </section>
