@@ -44,7 +44,7 @@ import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 /// ```
 ///
 /// @param <T> the type of [ActionRowChildComponent] of this [Control]
-public sealed interface Control<T extends ActionRowChildComponent> extends Threshold permits PageButton, PageSelect {
+public sealed interface Control<T extends ActionRowChildComponent> permits PageButton, PageSelect {
 
     /// Creates a new [PageButton] with [Direction#FORWARD].
     ///

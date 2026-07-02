@@ -1,11 +1,10 @@
 package io.github.kaktushose.jdac.components.pagination;
 
 import io.github.kaktushose.jdac.components.pagination.internal.PaginationImpl;
+import io.github.kaktushose.jdac.components.pagination.layout.Content;
 import io.github.kaktushose.jdac.components.pagination.layout.Control;
 import io.github.kaktushose.jdac.components.pagination.layout.Control.Direction;
 import io.github.kaktushose.jdac.components.pagination.layout.ControlRow;
-import io.github.kaktushose.jdac.components.pagination.layout.Dynamic;
-import io.github.kaktushose.jdac.components.pagination.layout.Threshold;
 import io.github.kaktushose.jdac.dispatching.events.ReplyableEvent;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
@@ -54,13 +53,12 @@ import java.util.SequencedCollection;
 /// By default, the pagination has no last page. It is possible to scroll forward indefinitely. Use [#maxPages(int)] to
 /// set a limit. Use [Page#cancel()] to set the maximum number of pages dynamically when paginating.
 ///
-/// ## Threshold
-/// [Dynamic] content, [ControlRow]s as well as their [Control]s can have a [Threshold#threshold()] that must be reached
-/// before they show up. In other words, the [#currentPage()] number must be equal or greater than then the threshold for the
-/// [PaginationLayout] to show up.
+/// ## Predicate
+/// [Content], [ControlRow]s as well as their [Control]s can have a [PaginationLayout#predicate()()] that must be matched
+/// before they show up.
 /// ```
 /// Pagination.of(
-///     ControlRow.of(...).threshold(2) // only show this control row starting from the second page
+///     ControlRow.of(...).predicate(page -> condition) // only show this control row if the condition is met
 /// );
 /// ```
 public interface Pagination {

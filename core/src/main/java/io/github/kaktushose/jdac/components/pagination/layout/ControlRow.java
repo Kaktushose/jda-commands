@@ -11,7 +11,7 @@ import java.util.SequencedCollection;
 /// A type of [PaginationLayout] that can hold [Control]s. You can think of it like [ActionRow].
 ///
 /// Just like with [ActionRow], one [ControlRow] can support up to five [PageButton]s but only one [PageSelect] per row.
-public non-sealed interface ControlRow extends PaginationLayout, Threshold {
+public non-sealed interface ControlRow extends PaginationLayout {
 
     /// Creates a new [ControlRow].
     ///
@@ -30,9 +30,6 @@ public non-sealed interface ControlRow extends PaginationLayout, Threshold {
     static ControlRow of(SequencedCollection<Control<? extends ActionRowChildComponent>> controls) {
         return new ControlRowImpl(controls);
     }
-
-    @Override
-    ControlRow threshold(int threshold);
 
     /// Gets all [Control]s of this [ControlRow].
     ///

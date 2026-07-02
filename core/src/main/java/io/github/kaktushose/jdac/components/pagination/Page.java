@@ -1,12 +1,12 @@
 package io.github.kaktushose.jdac.components.pagination;
 
-import io.github.kaktushose.jdac.components.pagination.layout.Dynamic;
+import io.github.kaktushose.jdac.components.pagination.layout.Content;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 
-/// Contains information about a page of a [Pagination] that will be rendered by a [Dynamic].
+/// Contains information about a page of a [Pagination] that will be rendered by a [Content].
 ///
 /// You can retrieve the current page number, if present, the maximum number of pages or cancel the pagination.
 ///
