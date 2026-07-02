@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions.command;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.interactions.MethodBuildContext;
@@ -27,6 +28,7 @@ import java.util.Optional;
 /// @param name              the name of the command
 /// @param commandType       the [Command.Type] of this command
 /// @param commandConfig     the [CommandConfig] to use
+@UnstableApi
 public record ContextCommandDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,

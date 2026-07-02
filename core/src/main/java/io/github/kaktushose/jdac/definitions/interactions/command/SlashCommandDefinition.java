@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions.command;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.annotations.interactions.Command;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
@@ -35,6 +36,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// @param commandConfig     the [CommandConfig] to use
 /// @param description       the command description
 /// @param commandOptions    a [SequencedCollection] of [OptionDataDefinition]s
+@UnstableApi
 public record SlashCommandDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,

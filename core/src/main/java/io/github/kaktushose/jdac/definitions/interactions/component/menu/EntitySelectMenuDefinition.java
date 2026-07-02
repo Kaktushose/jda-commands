@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions.component.menu;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.annotations.interactions.EntityMenu;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
@@ -30,6 +31,7 @@ import static io.github.kaktushose.jdac.definitions.interactions.component.Compo
 /// @param minValue          the minimum amount of choices
 /// @param maxValue          the maximum amount of choices
 /// @param uniqueId          the uniqueId of this menu
+@UnstableApi
 public record EntitySelectMenuDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,

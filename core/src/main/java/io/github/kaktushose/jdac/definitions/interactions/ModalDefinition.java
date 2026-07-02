@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.features.CustomIdJDAEntity;
@@ -21,6 +22,7 @@ import java.util.Optional;
 /// @param permissions       a [Collection] of permissions for this modal
 /// @param title             the title of the modal
 /// @param components        a [Collection] of [ModalTopLevelComponent]s that will be added to this modal
+@UnstableApi
 public record ModalDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,

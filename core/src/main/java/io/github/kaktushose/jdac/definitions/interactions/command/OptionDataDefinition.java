@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions.command;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.annotations.constraints.Constraint;
 import io.github.kaktushose.jdac.annotations.constraints.Max;
 import io.github.kaktushose.jdac.annotations.constraints.Min;
@@ -59,6 +60,7 @@ import static java.util.Map.entry;
 /// @param description  the description of the command option
 /// @param choices      a [SequencedCollection] of possible [Choice]s for this command option
 /// @param constraints  a [Collection] of [ConstraintDefinition]s of this command option
+@UnstableApi
 public record OptionDataDefinition(
         Class<?> declaredType,
         Class<?> resolvedType,

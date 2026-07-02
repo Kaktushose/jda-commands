@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions.component.menu;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.annotations.interactions.MenuOption;
 import io.github.kaktushose.jdac.annotations.interactions.MenuOptionContainer;
 import io.github.kaktushose.jdac.annotations.interactions.StringMenu;
@@ -32,6 +33,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// @param minValue          the minimum amount of choices
 /// @param maxValue          the maximum amount of choices
 /// @param uniqueId          the uniqueId of this menu
+@UnstableApi
 public record StringSelectMenuDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,
