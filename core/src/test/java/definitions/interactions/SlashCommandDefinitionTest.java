@@ -94,18 +94,21 @@ class SlashCommandDefinitionTest {
 
     @Test
     public void test() {
-        SlashCommandData command = build("correct").toJDAEntity();
         JDACIntrospectionImpl jdacIntrospection = JDACIntrospectionImpl
                 .create(JDACScope.INITIALIZED)
                 .addFallback(JDACInternalProperties.BUNDLE_FINDER, _ -> new BundleFinder(Descriptor.REFLECTIVE))
                 .addFallback(JDACProperty.DEFINITIONS, _ -> new InteractionRegistry(null, null, null))
                 .addFallback(JDACProperty.MESSAGE_RESOLVER, _ -> new MessageResolver(List.of()))
                 .build();
-        command.setLocalizationFunction(JDACLocalizationFunction.PROVIDER_FUNC.apply(jdacIntrospection));
+        jdacIntrospection.scoped().run(() -> {
+            SlashCommandData command = build("noDescription").toJDAEntity();
+            command.setLocalizationFunction(JDACLocalizationFunction.PROVIDER_FUNC.apply(jdacIntrospection));
 
-        DataObject data = command.toData();
+            DataObject data = command.toData();
 
-
+            assertEquals("no description", data.getString("description"));
+            assertTrue(data.getObject("description_localizations").keys().isEmpty());
+        });
     }
 
     private SlashCommandDefinition build(String method) {
@@ -153,7 +156,7 @@ class SlashCommandDefinitionTest {
         public void correct(CommandEvent event, String option) {
         }
 
-        @Command(value = "noDescription")
+        @Command(value = "nodescription")
         public void noDescription(CommandEvent event) {
         }
 
