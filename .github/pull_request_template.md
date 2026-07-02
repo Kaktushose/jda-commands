@@ -2,13 +2,14 @@
 - [ ] Feature
 - [ ] Fix
 - [ ] Refactor
+- [ ] Documentation
 
 closes #issue
 
 ## Description
 
 ### Example
-<!-- only fill out for feature prs -->
+<!-- only fill out for feature prs, or if applicable -->
 ```java
 // code example
 ```
