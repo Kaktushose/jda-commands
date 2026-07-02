@@ -1,5 +1,7 @@
 package definitions.interactions.options;
 
+import io.github.kaktushose.jdac.annotations.constraints.Max;
+import io.github.kaktushose.jdac.annotations.constraints.Min;
 import io.github.kaktushose.jdac.annotations.interactions.Choices;
 import io.github.kaktushose.jdac.annotations.interactions.Command;
 import io.github.kaktushose.jdac.annotations.interactions.Interaction;
@@ -202,6 +204,18 @@ class OptionDataTest {
         assertEquals("camel_case", optionData("camelCase").name());
     }
 
+    @Test
+    void optionData_withMinMax_shouldRegisterAtDiscord() {
+        var optionData = optionData("minMaxString").toJDAEntity();
+        assertEquals(2, optionData.getMinLength());
+        assertEquals(4, optionData.getMaxLength());
+
+        optionData = optionData("minMaxInt").toJDAEntity();
+        assertEquals(2L, optionData.getMinValue());
+        assertEquals(4L, optionData.getMaxValue());
+
+    }
+
     private ParameterDescription modify(Class<?> type, ParameterDescription description) {
         return new ParameterDescription(type, description.typeArguments(), description.name(), description.annotations());
     }
@@ -295,6 +309,14 @@ class OptionDataTest {
         @Command("providerCombined")
         public void providerCombined(CommandEvent event, @Choices(value = "Foo",
                 provider = "correctProvider") String option) {
+        }
+
+        @Command("minMaxString")
+        public void minMaxString(CommandEvent event, @Min(2) @Max(4) String option) {
+        }
+
+        @Command("minMaxInt")
+        public void minMaxInt(CommandEvent event, @Min(2) @Max(4) int option) {
         }
 
         private List<String> privateProvider() {
