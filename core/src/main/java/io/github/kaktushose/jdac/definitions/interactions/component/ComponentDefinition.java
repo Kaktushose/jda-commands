@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions.component;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.features.CustomIdJDAEntity;
@@ -18,6 +19,7 @@ import java.util.function.Supplier;
 /// @see ButtonDefinition
 /// @see EntitySelectMenuDefinition
 /// @see StringSelectMenuDefinition
+@UnstableApi
 public sealed interface ComponentDefinition<T> extends InteractionDefinition, JDAEntity<T>, CustomIdJDAEntity<T>
         permits ButtonDefinition, SelectMenuDefinition {
 

@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.annotations.interactions.AutoComplete;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 /// @param classDescription  the [ClassDescription] of the declaring class of the [#methodDescription()]
 /// @param methodDescription the [MethodDescription] of the method this definition is bound to
 /// @param rules             the rules this autocomplete handler can handle
+@UnstableApi
 public record AutoCompleteDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,

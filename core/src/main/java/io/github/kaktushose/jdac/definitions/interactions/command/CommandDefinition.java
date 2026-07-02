@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions.command;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.annotations.interactions.CommandScope;
 import io.github.kaktushose.jdac.definitions.features.JDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
@@ -19,6 +20,7 @@ import java.util.function.Consumer;
 ///
 /// @see SlashCommandDefinition
 /// @see ContextCommandDefinition
+@UnstableApi
 public sealed interface CommandDefinition extends InteractionDefinition, JDAEntity<CommandData> permits ContextCommandDefinition, SlashCommandDefinition {
 
     /// The name of the command.

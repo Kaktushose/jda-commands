@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.annotations.interactions.*;
 import io.github.kaktushose.jdac.definitions.Definition;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
@@ -24,6 +25,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 /// Central registry for all [InteractionDefinition]s.
+@UnstableApi
 public record InteractionRegistry(
         Validators validators,
         MessageResolver messageResolver,
