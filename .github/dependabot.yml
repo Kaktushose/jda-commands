@@ -10,6 +10,11 @@ updates:
       github-actions:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-minor"
+          - "version-update:semver-patch"
     labels:
       - "type:dependencies"
       - "deps:github actions"
@@ -26,6 +31,8 @@ updates:
       dependencies:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "gradle-wrapper"
     labels:
       - "type:dependencies"
       - "deps:java"

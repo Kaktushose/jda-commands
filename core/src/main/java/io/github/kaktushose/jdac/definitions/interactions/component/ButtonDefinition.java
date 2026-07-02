@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions.component;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
@@ -28,6 +29,7 @@ import static io.github.kaktushose.jdac.definitions.interactions.component.Compo
 /// @param link              the link of this button or `null`
 /// @param style             the [ButtonStyle] of this button
 /// @param uniqueId          the uniqueId of this button
+@UnstableApi
 public record ButtonDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,

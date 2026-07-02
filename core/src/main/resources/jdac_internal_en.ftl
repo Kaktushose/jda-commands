@@ -10,21 +10,21 @@ multiple-autocomplete =
     Every command option can only have one auto complete handler. Please exclude the unwanted ones to enable auto complete for this command option.
 
 starting-message =
-           _ _____                _____                                          _       _____  ___   ___
-          | |  __ \   /\         / ____|                                        | |     | ____|/ _ \ / _ \
-          | | |  | | /  \ ______| |     ___  _ __ ___  _ __ ___   __ _ _ __   __| |___  | |__ | | | | | | |
-      _   | | |  | |/ /\ \______| |    / _ \| '_ ` _ \| '_ ` _ \ / _` | '_ \ / _` / __| |___ \| | | | | | |
-     | |__| | |__| / ____ \     | |___| (_) | | | | | | | | | | | (_| | | | | (_| \__ \  ___) | |_| | |_| |
-      \____/|_____/_/    \_\     \_____\___/|_| |_| |_|_| |_| |_|\__,_|_| |_|\__,_|___/ |____(_)___(_)___/
+             _ _____                _____                                          _       _____ __  __
+            | |  __ \   /\         / ____|                                        | |     | ____/_ |/_ |
+            | | |  | | /  \ ______| |     ___  _ __ ___  _ __ ___   __ _ _ __   __| |___  | |__  | | | |
+        _   | | |  | |/ /\ \______| |    / _ \| '_ ` _ \| '_ ` _ \ / _` | '_ \ / _` / __| |___ \ | | | |
+       | |__| | |__| / ____ \     | |___| (_) | | | | | | | | | | | (_| | | | | (_| \__ \  ___) || |_| |
+        \____/|_____/_/    \_\     \_____\___/|_| |_| |_|_| |_| |_|\__,_|_| |_|\__,_|___/ |____(_)_(_)_|
 
-        Welcome to JDA-Commands 5.0.0! What's new?
-        -> Components V2
-        -> Support for new Modals
-        -> Introspection API
+        Welcome to JDA-Commands 5.1.1! What's new?
+        -> Component Utils
+        -> Improved KeyValueStore
+        -> Bug Fixes
 
         Resources:
         -> Wiki:        https://kaktushose.github.io/jda-commands/wiki/
-        -> Javadocs:    https://kaktushose.github.io/jda-commands/javadocs/5.0/
+        -> Javadocs:    https://kaktushose.github.io/jda-commands/javadocs/5.1/
         -> Discord:     https://discord.gg/tmq9BrZEKb
 
 # Internal Errors
@@ -132,6 +132,7 @@ cycling-tree =
 duplicate-component =
     Reply failed due to duplicate component ids. This likely happened because you tried to reply to a ComponentEvent with keepComponents enabled.
     Try disabling keepComponents or assign different unique ids to your components.
+outside-event-handler = This method cannot be used outside outside of an event handler because it relies on the Introspection API. Use the appropriate constructor instead.
 
 # CustomId
 invalid-runtime-id = Invalid runtime id! Must either be a UUID or "independent".

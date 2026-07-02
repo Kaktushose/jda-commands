@@ -24,7 +24,7 @@ Note, that you cannot reply with Components V2 after:
 
 has been called, because adding content, embeds, files, etc. disqualifies the message from being Components V2.
 
-### Action Components
+## Action Components
 Components V2 also can have action components. They can either be added to an <ActionRow> or a <SectionAccessoryComponent>
 as part of a <net.dv8tion.jda.api.components.section.Section>. You add them by using the
 <io.github.kaktushose.jdac.dispatching.reply.Component> class:
@@ -45,7 +45,7 @@ as explained before.
     event.reply(Component.row("onMenu"));
     ```
 
-### Subsequent Replies
+## Subsequent Replies
 Once you've sent a Components V2 message it has to remain Components V2. The [Reply Configuration](./overview.md#reply-configuration) rules
 also apply to Components V2.
 

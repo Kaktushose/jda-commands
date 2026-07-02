@@ -60,7 +60,7 @@ public class ConstraintMiddleware implements Middleware {
             }
 
             var optionData = commandOptions.get(i);
-            for (var constraint : optionData.constraints()) {
+            for (var constraint : optionData.constraints().stream().filter(it -> !it.discordHandled()).toList()) {
                 log.debug("Found constraint {} for parameter {}", constraint, optionData.declaredType().getName());
                 Validator<Object, Annotation> validator = (Validator<Object, Annotation>) constraint.validator();
 

@@ -12,7 +12,7 @@ jobs:
     outputs:
       version_major: ${{ steps.extract.outputs.major }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: ./.github/workflows/setup-gradle
@@ -33,7 +33,7 @@ jobs:
       previous_minor: ${{ steps.parse.outputs.version_minor }}
       start_commit: ${{ steps.previous_release.outputs.commit }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -67,7 +67,7 @@ jobs:
     needs: [ compare ]
     if: ${{ needs.compare.outputs.new_major == 'yes' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           token: ${{ secrets.PUSH_TOKEN }}

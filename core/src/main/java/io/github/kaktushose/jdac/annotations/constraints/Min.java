@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 /// @see Constraint
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint({Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class})
+@Constraint({Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class, String.class})
 public @interface Min {
 
     /// Returns the value the element must be greater or equal to.

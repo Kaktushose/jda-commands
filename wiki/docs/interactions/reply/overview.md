@@ -54,6 +54,7 @@ You can also reply with components. Here is a list of useful resources for worki
 - Defining [Buttons](../components/buttons.md) and [Select Menus](../components/menus.md)
 - Replying with the [Legacy Component System](./legacy.md) (ActionRows)
 - [Components V2 Guide](./components.md)
+- [Component Utils](./utils.md)
 
 ## Localization and Emojis
 To avoid hardcoded values, all string properties of a component/the content of a message can be replaced by a localization key as supported by the

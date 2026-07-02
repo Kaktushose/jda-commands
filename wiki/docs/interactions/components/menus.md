@@ -1,8 +1,9 @@
 !!! tip
-This section only covers how you define action components. You might also find the following resources useful:
+    This section only covers how you define action components. You might also find the following resources useful:
 
-    - Replying with the [Legacy Component System](./reply/legacy.md)
-    - [Components V2 Guide](./reply/components.md)
+    - Replying with the [Legacy Component System](../reply/legacy.md)
+    - [Components V2 Guide](../reply/components.md)
+    - [Component Utils](../reply/utils.md)
 
 ## String Select Menus
 String Select Menus are defined by annotating a method with <io.github.kaktushose.jdac.annotations.interactions.StringMenu>
@@ -23,8 +24,8 @@ Select Options are defined by annotating the method with <MenuOption>.
     ```
 
 ### Min & Max Value
-String Select Menus support up to 25 options. You can set the minimum and maximum value by using the `minValue` and
-`maxValue` fields.
+String Select Menus support up to 25 options. You can set the minimum and maximum value by using the <StringMenu#minValue()> and <StringMenu#maxValue()>
+fields.
 
 !!! example
     ```java
@@ -34,6 +35,17 @@ String Select Menus support up to 25 options. You can set the minimum and maximu
     ...
     @StringMenu(value = "What's your favourite food?", minValue = 2, maxValue = 4)
     public void onMenu(ComponentEvent event, List<String> choices) { ... }
+    ```
+
+### Required
+For Modals, you can also configure whether the user must populate the select menu. You can do this directly via the annotation.
+For example, you can have an optional select menu with the range set to [2 ; 5], meaning you accept either 0 options, or, at least 2 but at most 5.
+
+!!! example
+    ```java
+    @SelectOption(...)
+    @StringMenu(value = "What's your favourite food?", minValue = 2, maxValue = 4, required = true)
+    public void onMenu(ComponentEvent event, List<String> choices) { ... }    
     ```
 
 ## Entity Select Menus
@@ -48,7 +60,7 @@ The second parameter must be of type <Mentions>.
     ```
 
 ### Channel Types
-When using `SelectTarget.CHANNEL` you can limit the selectable channel types with the `channelTypes` field.
+When using <SelectTarget#CHANNEL> you can limit the selectable channel types with the <EntityMenu#channelTypes()> field.
 
 !!! example
     ```java
@@ -62,7 +74,7 @@ When using `SelectTarget.CHANNEL` you can limit the selectable channel types wit
 
 ### Default Values
 You can set the [default values][[EntitySelectMenu.DefaultValue]]
-of the Entity Select Menu by using respectively the `defaultChannels`, `defaultRoles` or `defaultUsers` fields.
+of the Entity Select Menu by using respectively the <EntityMenu#defaultChannels()>, <EntityMenu#defaultRoles()> or <EntityMenu#defaultUsers()> fields.
 
 !!! example
     ```java
@@ -75,7 +87,10 @@ of the Entity Select Menu by using respectively the `defaultChannels`, `defaultR
     ```
 
 ### Min & Max Value
-Just as for String Select Menus you can set the minimum and maximum value by using the `minValue` and `maxValue` fields.
+Just as for String Select Menus you can set the minimum and maximum value by using the <EntityMenu#minValue()> and <EntityMenu#maxValue()> fields.
+
+### Required
+Again, this is handled the same way as with String Select Menus.
 
 ## Localization and Emojis
 To avoid hardcoded values, all string values of an annotation can be replaced by a localization key as supported by the

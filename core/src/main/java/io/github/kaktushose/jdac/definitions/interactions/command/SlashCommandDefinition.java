@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions.command;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.annotations.interactions.Command;
 import io.github.kaktushose.jdac.definitions.description.ClassDescription;
 import io.github.kaktushose.jdac.definitions.description.MethodDescription;
@@ -11,6 +12,8 @@ import io.github.kaktushose.jdac.dispatching.events.interactions.CommandEvent;
 import io.github.kaktushose.jdac.exceptions.InvalidDeclarationException;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 import io.github.kaktushose.jdac.internal.Helpers;
+import io.github.kaktushose.jdac.property.JDACProperty;
+import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -33,6 +36,7 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 /// @param commandConfig     the [CommandConfig] to use
 /// @param description       the command description
 /// @param commandOptions    a [SequencedCollection] of [OptionDataDefinition]s
+@UnstableApi
 public record SlashCommandDefinition(
         ClassDescription classDescription,
         MethodDescription methodDescription,
@@ -122,7 +126,8 @@ public record SlashCommandDefinition(
 
     /// Transforms this definition into [SlashCommandData].
     ///
-    /// This does not set [CommandData#setLocalizationFunction(LocalizationFunction)]!
+    /// This does not set [CommandData#setLocalizationFunction(LocalizationFunction)]! However, if no description is
+    /// provided, will set all available locales with the default message (`jdac$no-description`) from the `jdac` bundle.
     ///
     /// @return the [SlashCommandData]
     @Override
@@ -142,6 +147,19 @@ public record SlashCommandDefinition(
                             .map(OptionDataDefinition::toJDAEntity)
                             .toList()
                     );
+
+            if (description.isBlank()) {
+                Map<DiscordLocale, String> localizations = new HashMap<>();
+                for (DiscordLocale locale : DiscordLocale.values()) {
+                    if (locale == DiscordLocale.UNKNOWN) {
+                        continue;
+                    }
+                    String result = JDACProperty.MESSAGE_RESOLVER.scopedGet().resolve("jdac$no-description", locale);
+                    localizations.put(locale, result);
+                }
+                command.setDescriptionLocalizations(localizations);
+            }
+
             return command;
         } catch (IllegalArgumentException e) {
             throw Helpers.jdaException(e, this);

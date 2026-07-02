@@ -1,4 +1,4 @@
-[![JDA-Version](https://img.shields.io/badge/JDA%20Version-6.4.1-important)](https://github.com/DV8FromTheWorld/JDA#download)
+[![JDA-Version](https://img.shields.io/badge/JDA%20Version-6.4.2-important)](https://github.com/DV8FromTheWorld/JDA#download)
 [![Discord](https://badgen.net/badge/icon/Support%20Server?icon=discord&label)](<[https://https://discord.com/](https://discord.gg/tmq9BrZEKb)>)
 [![Source build & test](https://github.com/Kaktushose/jda-commands/actions/workflows/build_ci.yml/badge.svg)](https://github.com/Kaktushose/jda-commands/actions/workflows/build_ci.yml)
 [![Release Deployment](https://github.com/Kaktushose/jda-commands/actions/workflows/cd.yml/badge.svg)](https://github.com/Kaktushose/jda-commands/actions/workflows/cd.yml)
@@ -83,7 +83,7 @@ You can download the latest version [here](https://github.com/Kaktushose/jda-com
 <dependency>
    <groupId>io.github.kaktushose</groupId>
    <artifactId>jda-commands</artifactId>
-   <version>5.0.0</version>
+   <version>5.1.1</version>
 </dependency>
 ```
 
@@ -94,7 +94,7 @@ repositories {
    mavenCentral()
 }
 dependencies {
-   implementation("io.github.kaktushose:jda-commands:5.0.0")
+   implementation("io.github.kaktushose:jda-commands:5.1.1")
 }
 ```
 

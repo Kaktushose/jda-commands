@@ -176,6 +176,9 @@ For this task the reserved bundle `jdac` was defined, allowing the customization
     no-description = Keine Beschreibung angegeben!
     ```
 
+## Command Localization
+You can find an explanation of command localization (JDA's <LocalizationFunction>) [here](../interactions/commands/localization.md).
+
 ## Default Implementation
 By default, JDA-Commands supports localization with help of the [Fluava](https://github.com/Goldmensch/fluava) library, a [Project Fluent](https://projectfluent.org/) implementation for Java.
 You can provide an own instance of the [Fluava](https://goldmensch.github.io/fluava/javadocs/snapshot/dev.goldmensch.fluava/dev/goldmensch/fluava/Fluava.html) class by calling

@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions.component.menu;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
 
@@ -7,6 +8,7 @@ import net.dv8tion.jda.api.components.selections.SelectMenu;
 ///
 /// @see EntitySelectMenuDefinition
 /// @see StringSelectMenuDefinition
+@UnstableApi
 public sealed interface SelectMenuDefinition<T extends SelectMenu> extends ComponentDefinition<T>
         permits EntitySelectMenuDefinition, StringSelectMenuDefinition {
 

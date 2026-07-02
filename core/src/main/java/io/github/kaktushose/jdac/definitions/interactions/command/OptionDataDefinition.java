@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.definitions.interactions.command;
 
+import io.github.kaktushose.jdac.annotations.UnstableApi;
 import io.github.kaktushose.jdac.annotations.constraints.Constraint;
 import io.github.kaktushose.jdac.annotations.constraints.Max;
 import io.github.kaktushose.jdac.annotations.constraints.Min;
@@ -59,6 +60,7 @@ import static java.util.Map.entry;
 /// @param description  the description of the command option
 /// @param choices      a [SequencedCollection] of possible [Choice]s for this command option
 /// @param constraints  a [Collection] of [ConstraintDefinition]s of this command option
+@UnstableApi
 public record OptionDataDefinition(
         Class<?> declaredType,
         Class<?> resolvedType,
@@ -226,8 +228,8 @@ public record OptionDataDefinition(
                                 );
                         case Validators.Result.Success(Validator<?, ?> validator) ->
                                 result.add(new ConstraintDefinition(validator, it));
-                        case Validators.Result.DiscordHandled _ -> {
-                        }
+                        case Validators.Result.DiscordHandled _ ->
+                                result.add(new ConstraintDefinition((_, _, _) -> {}, it));
                     }
                 });
         return result;
@@ -330,11 +332,25 @@ public record OptionDataDefinition(
 
         constraints.stream().filter(constraint ->
                 constraint.annotation().value() instanceof Min
-        ).findFirst().ifPresent(constraint -> optionData.setMinValue(((Min) constraint.annotation().value()).value()));
+        ).findFirst().ifPresent(constraint -> {
+            long value = ((Min) constraint.annotation().value()).value();
+            if (optionData.getType() == OptionType.STRING) {
+                optionData.setMinLength((int) value);
+            } else {
+                optionData.setMinValue(value);
+            }
+        });
 
         constraints.stream().filter(constraint ->
                 constraint.annotation().value() instanceof Max
-        ).findFirst().ifPresent(constraint -> optionData.setMaxValue(((Max) constraint.annotation().value()).value()));
+        ).findFirst().ifPresent(constraint -> {
+            long value = ((Max) constraint.annotation().value()).value();
+            if (optionData.getType() == OptionType.STRING) {
+                optionData.setMaxLength((int) value);
+            } else {
+                optionData.setMaxValue(value);
+            }
+        });
 
         java.util.Optional.ofNullable(CHANNEL_TYPE_RESTRICTIONS.get(declaredType)).ifPresent(optionData::setChannelTypes);
 
@@ -343,12 +359,22 @@ public record OptionDataDefinition(
 
     /// Representation of a parameter constraint defined by a constraint annotation.
     ///
-    /// @param validator  the corresponding [Validator]
-    /// @param annotation the corresponding annotation object
+    /// @param validator      the corresponding [Validator]
+    /// @param annotation     the corresponding annotation object
+    /// @param discordHandled whether this constraint is handled by Discord itself or by JDA-Commands
     public record ConstraintDefinition(
             Validator<?, ?> validator,
-            AnnotationDescription<?> annotation
+            AnnotationDescription<?> annotation,
+            boolean discordHandled
     ) implements Definition {
+
+        /// Representation of a parameter constraint defined by a constraint annotation.
+        ///
+        /// @param validator  the corresponding [Validator]
+        /// @param annotation the corresponding annotation object
+        public ConstraintDefinition(Validator<?, ?> validator, AnnotationDescription<?> annotation) {
+            this(validator, annotation, false);
+        }
 
         @Override
         public String displayName() {

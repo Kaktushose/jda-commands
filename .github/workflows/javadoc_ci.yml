@@ -8,7 +8,7 @@ jobs:
   build-javadoc:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/workflows/setup-gradle
       - name: Generate javadocs with Gradle
         run: ./gradlew javadoc  2>&1 | tee out.log # 2>&1 -> redirect err to out

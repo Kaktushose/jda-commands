@@ -94,18 +94,10 @@ public final class JDACLocalizationFunction implements LocalizationFunction {
             }
 
             tryLocalize(bundle + "$" + localizationKey, locale) // with found bundle (or default)
-                    .or(() -> tryLocalize(localizationKey, locale)) // fallback to default bundle if not found in special bundle
-                    .or(() -> {
-                        if (localizationKey.endsWith(".description")) {
-                            String result = resolver.resolve("jdac$no-description", locale);
-                            return Optional.of(result);
-                        }
-
-                        missingLocalizations.computeIfAbsent(localizationKey, _ -> new HashSet<>()).add(locale);
-
-                        return Optional.empty();
-                    })
-                    .ifPresent(s -> localizations.put(locale, s));
+                    .or(() -> tryLocalize(localizationKey, locale))
+                    .ifPresentOrElse(s -> localizations.put(locale, s), () ->
+                            missingLocalizations.computeIfAbsent(localizationKey, _ -> new HashSet<>()).add(locale)
+                    );
         }
 
         return localizations;
