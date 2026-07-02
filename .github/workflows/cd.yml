@@ -6,6 +6,7 @@ on:
       - main
       - "[0-9]+.[0-9]+.x"
       - "hotfix/[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:
 
 jobs:
   check_if_release:
