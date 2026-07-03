@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.components.container.ContainerChildComponent;
 import net.dv8tion.jda.api.components.textdisplay.TextDisplay;
 import net.dv8tion.jda.internal.utils.Helpers;
 
+import java.util.List;
 import java.util.SequencedCollection;
 import java.util.function.Function;
 
@@ -45,15 +46,24 @@ public sealed interface Content extends PaginationLayout permits ContentImpl {
     /// @param components the [ContainerChildComponent]s to add
     /// @return a new pagination [Content] containing the given [ContainerChildComponent]s
     static Content of(SequencedCollection<ContainerChildComponent> components) {
-        return of(_ -> components);
+        return dynamic(_ -> components);
     }
 
-    /// Creates a new pagination [Content]. The passed [Function] takes a [Page] and must return a [SequencedCollection] of
-    /// [ContainerChildComponent]s to show for the current page.
+    /// Creates a new pagination [Content]. The passed [Function] takes a [Page] and must return a
+    /// [ContainerChildComponent] to show for the current page.
     ///
     /// @param bodyFunction the [Function] to render the current page with
     /// @return a new pagination [Content]
-    static Content of(Function<Page, SequencedCollection<ContainerChildComponent>> bodyFunction) {
+    static Content of(Function<Page, ContainerChildComponent> bodyFunction) {
+        return dynamic(page -> List.of(bodyFunction.apply(page)));
+    }
+
+    /// Creates a new pagination [Content]. The passed [Function] takes a [Page] and must return a [SequencedCollection]
+    /// of [ContainerChildComponent]s to show for the current page.
+    ///
+    /// @param bodyFunction the [Function] to render the current page with
+    /// @return a new pagination [Content]
+    static Content dynamic(Function<Page, SequencedCollection<ContainerChildComponent>> bodyFunction) {
         return new ContentImpl(bodyFunction);
     }
 }

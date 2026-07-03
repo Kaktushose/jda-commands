@@ -103,50 +103,18 @@ public final class PaginationImpl implements Pagination {
     @Override
     public SequencedCollection<MessageTopLevelComponent> build() {
         List<ContainerChildComponent> result = new ArrayList<>();
+        Page page = new Page(this);
 
         for (PaginationLayout paginationLayout : paginationLayouts) {
-            if (maxPages != null && paginationLayout instanceof Threshold threshold && threshold.threshold() > maxPages) {
+            if (!paginationLayout.predicate().test(page)) {
                 continue;
             }
 
             SequencedCollection<ContainerChildComponent> components = switch (paginationLayout) {
-                case Static staticImpl -> staticImpl.components();
-                case Dynamic dynamic -> dynamic.function().apply(new Page(this));
+                case Content content -> content.components().apply(page);
                 case ControlRow controlRow -> List.of(ActionRow.of(controlRow.controls().stream()
-                        .filter(it -> {
-                            if (maxPages == null) {
-                                return true;
-                            }
-                            return it.threshold() <= maxPages;
-                        })
-                        .map(control -> switch (control) {
-                            case PageButton button -> {
-                                int newPage = currentPage - button.amount();
-                                if (button.direction() == BACKWARD && newPage < 1) {
-                                    yield disable(button, true);
-                                }
-                                newPage = currentPage + button.amount();
-                                if (button.direction() == FORWARD && maxPages != null && newPage > maxPages) {
-                                    yield disable(button, true);
-                                }
-                                yield disable(button, false);
-                            }
-                            case PageSelect pageSelect -> {
-                                // StringSelectComponent is a JDA-Commands class and doesn't support #createCopy().
-                                // JDA also doesn't have a StringSelectMenu#withOptions method so this is the workaround
-                                StringSelectMenu component = pageSelect.component();
-                                if (component instanceof StringSelectComponent menu) {
-                                    menu.requiresRange(1, 1); // user should not be able to override this
-                                    menu.getOptions().clear();
-                                    yield pageSelect(menu.selectOptions(options(pageSelect)), pageSelect);
-                                }
-                                var copy = component.createCopy();
-                                copy.setRequiredRange(1, 1);
-                                copy.getOptions().clear();
-                                copy.addOptions(options(pageSelect));
-                                yield pageSelect(copy.build(), pageSelect);
-                            }
-                        })
+                        .filter(it -> it.predicate().test(page))
+                        .map(this::configureControl)
                         .map(Control::component)
                         .toList()));
             };
@@ -175,14 +143,54 @@ public final class PaginationImpl implements Pagination {
         return config;
     }
 
-    public record ContainerConfig(boolean active, @Nullable Integer color, boolean spoiler) { }
+    private Control configureControl(Control control) {
+        return switch (control) {
+            case PageButton button -> {
+                int newPage = currentPage - button.amount();
+                if (button.direction() == BACKWARD && newPage < 1) {
+                    yield disable(button, true);
+                }
+                newPage = currentPage + button.amount();
+                if (button.direction() == FORWARD && maxPages != null && newPage > maxPages) {
+                    yield disable(button, true);
+                }
+                yield disable(button, false);
+            }
+            case PageSelect pageSelect -> {
+                // StringSelectComponent is a JDA-Commands class and doesn't support #createCopy().
+                // JDA also doesn't have a StringSelectMenu#withOptions method so this is the workaround
+                StringSelectMenu component = pageSelect.component();
+                if (component instanceof StringSelectComponent menu) {
+                    menu.requiresRange(1, 1); // user should not be able to override this
+                    menu.getOptions().clear();
+                    yield pageSelect(menu.selectOptions(options(pageSelect)), pageSelect);
+                }
+
+                var copy = component.createCopy();
+                copy.setRequiredRange(1, 1);
+                copy.getOptions().clear();
+                copy.addOptions(options(pageSelect));
+                yield pageSelect(copy.build(), pageSelect);
+            }
+        };
+    }
 
     private PageButtonImpl disable(PageButton button, boolean disable) {
-        return new PageButtonImpl(button.component().withDisabled(disable), button.direction(), button.amount(), button.threshold());
+        return new PageButtonImpl(
+                button.component().withDisabled(disable),
+                button.direction(),
+                button.amount(),
+                button.predicate()
+        );
     }
 
     private PageSelectImpl pageSelect(StringSelectMenu menu, PageSelect pageSelect) {
-        return new PageSelectImpl(menu, pageSelect.threshold(), pageSelect.selectOptions(), pageSelect.format());
+        return new PageSelectImpl(
+                menu,
+                pageSelect.predicate(),
+                pageSelect.selectOptions(),
+                pageSelect.format()
+        );
     }
 
     private List<SelectOption> options(PageSelect pageSelect) {
@@ -203,4 +211,6 @@ public final class PaginationImpl implements Pagination {
         }
         return result;
     }
+
+    public record ContainerConfig(boolean active, @Nullable Integer color, boolean spoiler) { }
 }

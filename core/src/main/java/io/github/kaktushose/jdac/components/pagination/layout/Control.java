@@ -2,7 +2,9 @@ package io.github.kaktushose.jdac.components.pagination.layout;
 
 import io.github.kaktushose.jdac.annotations.interactions.MenuOption;
 import io.github.kaktushose.jdac.annotations.interactions.StringMenu;
+import io.github.kaktushose.jdac.components.pagination.Page;
 import io.github.kaktushose.jdac.components.pagination.Pagination;
+import io.github.kaktushose.jdac.components.pagination.PaginationLayout;
 import io.github.kaktushose.jdac.components.pagination.internal.PageButtonImpl;
 import io.github.kaktushose.jdac.components.pagination.internal.PageSelectImpl;
 import io.github.kaktushose.jdac.dispatching.reply.Component;
@@ -11,6 +13,8 @@ import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.SelectOption;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
+
+import java.util.function.Predicate;
 
 /// A [Control] is responsible for controlling a [Pagination]. It cannot be added directly to the [Pagination] and must
 /// be instead wrapped inside a [ControlRow].
@@ -166,7 +170,21 @@ public sealed interface Control<T extends ActionRowChildComponent> permits PageB
         return select(Component.stringSelect(component), format);
     }
 
-    int threshold();
+    /// Gets the [Predicate] that must be matched before the [PaginationLayout] shows up.
+    ///
+    /// @return the [Predicate]
+    Predicate<Page> predicate();
+
+    /// Sets a [Predicate] that must be matched before the [Control] shows up.
+    ///
+    /// For instance, this can be useful to only show [Content] starting at a certain page number:
+    /// ```java
+    /// Control.forward(...).predicate(page -> page.currentPage >= 3)
+    /// ```
+    ///
+    /// @param predicate the [Predicate] that must be matched
+    /// @return the [Predicate]
+    Control predicate(Predicate<Page> predicate);
 
     /// Gets the component of this control
     ///
