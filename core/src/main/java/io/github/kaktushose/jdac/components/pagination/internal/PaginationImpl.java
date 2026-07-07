@@ -5,20 +5,24 @@ import io.github.kaktushose.jdac.components.pagination.Pagination;
 import io.github.kaktushose.jdac.components.pagination.PaginationLayout;
 import io.github.kaktushose.jdac.components.pagination.layout.*;
 import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComponent;
+import io.github.kaktushose.jdac.exceptions.ReplyException;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
+import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
+import io.github.kaktushose.jdac.message.resolver.Resolver;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
+import io.github.kaktushose.jdac.property.JDACProperty;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.container.Container;
 import net.dv8tion.jda.api.components.container.ContainerChildComponent;
 import net.dv8tion.jda.api.components.selections.SelectOption;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
+import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.internal.utils.Checks;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.SequencedCollection;
+import java.util.*;
 
 import static io.github.kaktushose.jdac.components.pagination.layout.Control.Direction.BACKWARD;
 import static io.github.kaktushose.jdac.components.pagination.layout.Control.Direction.FORWARD;
@@ -27,24 +31,54 @@ import static io.github.kaktushose.jdac.components.pagination.layout.Control.Dir
 public final class PaginationImpl implements Pagination {
 
     private final SequencedCollection<PaginationLayout> paginationLayouts;
+    private final List<Entry> entries;
+    private final ComponentResolver<ContainerChildComponent> resolver;
     private int currentPage;
     private @Nullable Integer maxPages;
     private ContainerConfig config;
+    private Locale locale;
+
+    public PaginationImpl(SequencedCollection<PaginationLayout> paginationLayouts) {
+        if (!JDACIntrospection.accessible()) {
+            throw new ReplyException("outside-event-handler");
+        }
+        this(
+                paginationLayouts,
+                JDACProperty.MESSAGE_RESOLVER.scopedGet(),
+                JDACProperty.JDA_EVENT.scopedGet().getUserLocale().toLocale()
+        );
+    }
+
+    public PaginationImpl(
+            SequencedCollection<PaginationLayout> paginationLayouts,
+            Resolver<String> resolver,
+            Locale locale
+    ) {
+        this(
+                paginationLayouts,
+                1,
+                null,
+                new ContainerConfig(true, null, false),
+                resolver,
+                locale
+        );
+    }
 
     public PaginationImpl(
             SequencedCollection<PaginationLayout> paginationLayouts,
             int currentPage,
             @Nullable Integer maxPages,
-            ContainerConfig config
+            ContainerConfig config,
+            Resolver<String> resolver,
+            Locale locale
     ) {
         this.paginationLayouts = paginationLayouts;
+        this.resolver = new ComponentResolver<>(resolver, ContainerChildComponent.class);
+        this.entries = new ArrayList<>();
         this.currentPage = currentPage;
         this.maxPages = maxPages;
         this.config = config;
-    }
-
-    public PaginationImpl(SequencedCollection<PaginationLayout> paginationLayouts) {
-        this(paginationLayouts, 1, null, new ContainerConfig(true, null, false));
+        this.locale = locale;
     }
 
     @Override
@@ -121,6 +155,8 @@ public final class PaginationImpl implements Pagination {
             result.addAll(components);
         }
 
+        result = result.stream().map(it -> resolver.resolve(it, locale, toMap())).toList();
+
         if (config.active()) {
             return List.of(Container.of(result).withAccentColor(config.color()).withSpoiler(config.spoiler()));
         }
@@ -143,7 +179,7 @@ public final class PaginationImpl implements Pagination {
         return config;
     }
 
-    private Control configureControl(Control control) {
+    private Control<?> configureControl(Control<?> control) {
         return switch (control) {
             case PageButton button -> {
                 int newPage = currentPage - button.amount();
@@ -210,6 +246,37 @@ public final class PaginationImpl implements Pagination {
             result.add(SelectOption.of(pageSelect.format().formatted(i), String.valueOf(i)));
         }
         return result;
+    }
+
+    @Override
+    public Locale locale() {
+        return locale;
+    }
+
+    @Override
+    public Pagination locale(DiscordLocale locale) {
+        return locale(locale.toLocale());
+    }
+
+    @Override
+    public Pagination locale(Locale locale) {
+        this.locale = locale;
+        return this;
+    }
+
+    @Override
+    public Pagination entries(Entry... entries) {
+        return entries(Arrays.asList(entries));
+    }
+
+    @Override
+    public Pagination entries(Collection<Entry> entries) {
+        this.entries.addAll(entries);
+        return this;
+    }
+
+    private Map<String, @Nullable Object> toMap() {
+        return Entry.toMap(entries.toArray(Entry[]::new));
     }
 
     public record ContainerConfig(boolean active, @Nullable Integer color, boolean spoiler) { }

@@ -1,13 +1,18 @@
 package io.github.kaktushose.jdac.components.pagination;
 
+import io.github.kaktushose.jdac.annotations.IntrospectionAccess;
+import io.github.kaktushose.jdac.components.internal.LocalizedComponent;
 import io.github.kaktushose.jdac.components.pagination.internal.PaginationImpl;
 import io.github.kaktushose.jdac.components.pagination.layout.Content;
 import io.github.kaktushose.jdac.components.pagination.layout.Control;
 import io.github.kaktushose.jdac.components.pagination.layout.Control.Direction;
 import io.github.kaktushose.jdac.components.pagination.layout.ControlRow;
 import io.github.kaktushose.jdac.dispatching.events.ReplyableEvent;
+import io.github.kaktushose.jdac.exceptions.ReplyException;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
+import io.github.kaktushose.jdac.message.resolver.Resolver;
+import io.github.kaktushose.jdac.property.JDACScope;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.container.Container;
@@ -18,6 +23,7 @@ import net.dv8tion.jda.internal.utils.Helpers;
 import org.jspecify.annotations.Nullable;
 
 import java.awt.*;
+import java.util.Locale;
 import java.util.SequencedCollection;
 
 /// A pagination that is based on components v2 and is controlled by action components.
@@ -61,23 +67,39 @@ import java.util.SequencedCollection;
 ///     ControlRow.of(...).predicate(page -> condition) // only show this control row if the condition is met
 /// );
 /// ```
-public interface Pagination {
+public sealed interface Pagination extends LocalizedComponent permits PaginationImpl {
 
     /// Constructs a new [Pagination].
+    ///
+    /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
     ///
     /// @param component  the first [PaginationLayout] of this [Pagination]
     /// @param components additional [PaginationLayout]s
     /// @return a sendable [Pagination] instance
+    /// @throws ReplyException if the [JDACScope#PREPARATION] isn't accessible.
     static Pagination of(PaginationLayout component, PaginationLayout... components) {
         return of(Helpers.mergeVararg(component, components));
     }
 
     /// Constructs a new [Pagination].
     ///
+    /// This method can only be used inside events or in methods annotated with [IntrospectionAccess].
+    ///
     /// @param components a collection of [PaginationLayout]s of this [Pagination]
     /// @return a sendable [Pagination] instance
+    /// @throws ReplyException if the [JDACScope#PREPARATION] isn't accessible.
     static Pagination of(SequencedCollection<PaginationLayout> components) {
         return new PaginationImpl(components);
+    }
+
+    /// Constructs a new [Pagination].
+    ///
+    /// @param components a collection of [PaginationLayout]s of this [Pagination]
+    /// @param resolver   the [Resolver] to use for localization
+    /// @param locale     the locale the pagination will be localized to
+    /// @return a sendable [Pagination] instance
+    static Pagination of(SequencedCollection<PaginationLayout> components, Resolver<String> resolver, Locale locale) {
+        return new PaginationImpl(components, resolver, locale);
     }
 
     /// Sets the maximum number of pages this pagination has. When the last page is reached, all controls with
