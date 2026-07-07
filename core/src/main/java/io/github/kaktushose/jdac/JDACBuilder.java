@@ -52,6 +52,7 @@ import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
+import net.dv8tion.jda.api.hooks.IEventManager;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.slf4j.Logger;
 
@@ -125,6 +126,7 @@ public class JDACBuilder {
         properties.addFallback(GLOBAL_REPLY_CONFIG, _ -> new ReplyConfig());
         properties.addFallback(SHUTDOWN_JDA, _ -> true);
         properties.addFallback(LOCALIZE_COMMANDS, _ -> true);
+        properties.addFallback(OVERRIDE_EVENT_MANAGER, _ -> true);
         properties.addFallback(LOCALIZER, _ -> FluavaLocalizer.create(Locale.ENGLISH));
         properties.addFallback(PERMISSION_PROVIDER, _ -> new DefaultPermissionsProvider());
         properties.addFallback(ERROR_MESSAGE_FACTORY, ctx -> new DefaultErrorMessageFactory(ctx.get(MESSAGE_RESOLVER)));
@@ -309,6 +311,16 @@ public class JDACBuilder {
         return addBuilderProperty(LOCALIZE_COMMANDS, _ -> localize);
     }
 
+    /// Whether JDA-Commands should override the default JDA [IEventManager] implementation with an implementation that
+    /// adds [JDACIntrospection] access.
+    ///
+    /// **Disabling this will make any [JDACProperty] inaccessible inside your normal event listeners (that live outside
+    /// of interactions).**
+    ///
+    /// @param override whether to override the default JDA [IEventManager], default true
+    public JDACBuilder overrideEventManager(boolean override) {
+        return addBuilderProperty(OVERRIDE_EVENT_MANAGER, _ -> override);
+    }
 
     /// Specifies a way to filter found implementations of [Extension] if you have clashing or cycling dependencies for example.
     ///

@@ -101,6 +101,7 @@ missing-implementation = No implementation for "{ $type }" found. Please provide
 multiple-implementations =
     Found multiple implementations of"{ $type }", please exclude the unwanted extension:
         { $found }
+event-manager = Custom IEventManager implementations aren't supported by JDA-Commands! Either remove the implementation or disable event manager overriding by setting JDACBuilder#overrideEventManager(boolean) to false
 
 ## properties
 reserved-priority =

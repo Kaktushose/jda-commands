@@ -143,6 +143,7 @@ public class TestScenario {
                 eventManager.register(invocation.getArgument(0));
                 return null;
             }).when(jda).addEventListener(any());
+            when(jda.getEventManager()).thenReturn(eventManager);
 
             // make JDAContext functional
             SnowflakeCacheView<Guild> snowflakeCacheView = mock(SnowflakeCacheView.class);
