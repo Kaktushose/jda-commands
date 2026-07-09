@@ -140,6 +140,7 @@ public final class PaginationImpl implements Pagination {
         Page page = new Page(this);
 
         for (PaginationLayout paginationLayout : paginationLayouts) {
+            entries.addAll(paginationLayout.entries());
             if (!paginationLayout.predicate().test(page)) {
                 continue;
             }
