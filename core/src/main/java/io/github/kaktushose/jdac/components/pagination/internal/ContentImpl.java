@@ -18,8 +18,8 @@ public record ContentImpl(
         List<Entry> entries
 ) implements Content {
 
-    public ContentImpl(Function<Page, ? extends SequencedCollection<ContainerChildComponent>> components) {
-        this(components, _ -> true, new ArrayList<>());
+    public ContentImpl(Function<Page, ? extends SequencedCollection<ContainerChildComponent>> components, Entry... entries) {
+        this(components, _ -> true, new ArrayList<>(Arrays.asList(entries)));
     }
 
     @Override

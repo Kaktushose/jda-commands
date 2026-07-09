@@ -1,7 +1,6 @@
 package io.github.kaktushose.jdac.components.pagination.internal;
 
 import io.github.kaktushose.jdac.components.pagination.Page;
-import io.github.kaktushose.jdac.components.pagination.layout.Control;
 import io.github.kaktushose.jdac.components.pagination.layout.PageSelect;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import org.jetbrains.annotations.ApiStatus;
@@ -32,7 +31,7 @@ public record PageSelectImpl(
     }
 
     @Override
-    public Control predicate(Predicate<Page> predicate) {
+    public PageSelect predicate(Predicate<Page> predicate) {
         return new PageSelectImpl(component, predicate, selectOptions, format);
     }
 }

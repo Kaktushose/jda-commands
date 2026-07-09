@@ -1,7 +1,6 @@
 package io.github.kaktushose.jdac.components.pagination.internal;
 
 import io.github.kaktushose.jdac.components.pagination.Page;
-import io.github.kaktushose.jdac.components.pagination.layout.Control;
 import io.github.kaktushose.jdac.components.pagination.layout.PageButton;
 import net.dv8tion.jda.api.components.buttons.Button;
 import org.jetbrains.annotations.ApiStatus;
@@ -25,7 +24,7 @@ public record PageButtonImpl(
     }
 
     @Override
-    public Control predicate(Predicate<Page> predicate) {
+    public PageButton predicate(Predicate<Page> predicate) {
         return new PageButtonImpl(component, direction, amount, predicate);
     }
 

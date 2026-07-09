@@ -1,7 +1,6 @@
 package io.github.kaktushose.jdac.components.pagination.internal;
 
 import io.github.kaktushose.jdac.components.pagination.Page;
-import io.github.kaktushose.jdac.components.pagination.PaginationLayout;
 import io.github.kaktushose.jdac.components.pagination.layout.Control;
 import io.github.kaktushose.jdac.components.pagination.layout.ControlRow;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
@@ -22,8 +21,8 @@ public record ControlRowImpl(
         controls = Collections.unmodifiableSequencedCollection(controls);
     }
 
-    public ControlRowImpl(SequencedCollection<Control<? extends ActionRowChildComponent>> controls) {
-        this(controls, _ -> true, new ArrayList<>());
+    public ControlRowImpl(SequencedCollection<Control<? extends ActionRowChildComponent>> controls, Entry... entries) {
+        this(controls, _ -> true, new ArrayList<>(Arrays.asList(entries)));
     }
 
     @Override

@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.components.pagination.layout;
 
 import io.github.kaktushose.jdac.components.pagination.PaginationLayout;
 import io.github.kaktushose.jdac.components.pagination.internal.ControlRowImpl;
+import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
 import net.dv8tion.jda.internal.utils.Helpers;
@@ -26,9 +27,10 @@ public sealed interface ControlRow extends PaginationLayout permits ControlRowIm
     /// Creates a new [ControlRow].
     ///
     /// @param controls the [Control]s to add to the row
+    /// @param entries  the [Entries][Entry] used for localization
     /// @return the new [ControlRow]
-    static ControlRow of(SequencedCollection<Control<? extends ActionRowChildComponent>> controls) {
-        return new ControlRowImpl(controls);
+    static ControlRow of(SequencedCollection<Control<? extends ActionRowChildComponent>> controls, Entry... entries) {
+        return new ControlRowImpl(controls, entries);
     }
 
     /// Gets all [Control]s of this [ControlRow].
