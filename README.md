@@ -1,4 +1,4 @@
-[![JDA-Version](https://img.shields.io/badge/JDA%20Version-6.4.2-important)](https://github.com/DV8FromTheWorld/JDA#download)
+[![JDA-Version](https://img.shields.io/badge/JDA%20Version-6.5.0-important)](https://github.com/discord-jda/JDA/releases/)
 [![Discord](https://badgen.net/badge/icon/Support%20Server?icon=discord&label)](<[https://https://discord.com/](https://discord.gg/tmq9BrZEKb)>)
 [![Source build & test](https://github.com/Kaktushose/jda-commands/actions/workflows/build_ci.yml/badge.svg)](https://github.com/Kaktushose/jda-commands/actions/workflows/build_ci.yml)
 [![Release Deployment](https://github.com/Kaktushose/jda-commands/actions/workflows/cd.yml/badge.svg)](https://github.com/Kaktushose/jda-commands/actions/workflows/cd.yml)
