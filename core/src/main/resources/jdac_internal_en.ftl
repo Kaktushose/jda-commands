@@ -138,6 +138,15 @@ outside-event-handler = This method cannot be used outside outside of an event h
 invalid-runtime-id = Invalid runtime id! Must either be a UUID or "independent".
 invalid-custom-id = Provided custom id is invalid.
 independent-runtime-id = Provided custom id is runtime-independent.
+customid-payload-too-long =
+    The provided custom id payload is too long.
+    The payload is  { $length ->
+                        [one] one charcater
+                        *[other] { $length} characters
+                    }
+    long, but only up to 64 characters are supported.
+illegal-version = The version { $ver } isn't supported.
+v1-not-independent = For custom id version 1, only independent ids are supported.
 
 # ConfigurableReply
 modal-as-component = Modals cannot be attached as components! "{ $method }" is a modal method! You have to reply with "ModalReplyableEvent#replyModal".

@@ -4,6 +4,8 @@ import io.github.kaktushose.jdac.definitions.Definition;
 import io.github.kaktushose.jdac.definitions.interactions.internal.Base64Utils;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 
+import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
+
 /// # Custom ID
 /// Representation of a custom id used in modals, buttons or select menus.
 ///
@@ -55,7 +57,7 @@ public record CustomId(String runtimeId, String definitionId, String payload) {
 
     public CustomId {
         if (payload.length() > 64) {
-            throw new RuntimeException("TODO: better exception");
+            throw new IllegalArgumentException(JDACException.errorMessage("customid-payload-too-long", entry("length", payload.length())));
         }
     }
 
@@ -75,7 +77,7 @@ public record CustomId(String runtimeId, String definitionId, String payload) {
         int version = Integer.parseUnsignedInt(id.substring(4, 6));
         return switch (version) {
             case 2 -> parseV2(id);
-            default -> throw new RuntimeException("TODO: illegal version");
+            default -> throw new RuntimeException(JDACException.errorMessage("illegal-version", entry("ver", version)));
         };
     }
 
@@ -83,7 +85,7 @@ public record CustomId(String runtimeId, String definitionId, String payload) {
         String[] split = id.split("\\.");
 
         if (!split[1].equals("independent")) {
-            throw new RuntimeException("TODO: exception");
+            throw new RuntimeException("v1-not-independent");
         }
 
         return new CustomId(String.valueOf(INDEPENDENT_ID), split[2], "");
