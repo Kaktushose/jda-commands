@@ -13,7 +13,7 @@ propane = { module = "dev.goldmensch:propane", version = "0.1" }
 # Utils
 asm = { module = "org.ow2.asm:asm", version = "9.10.1" }
 classgraph = { module = "io.github.classgraph:classgraph", version = "4.8.184" }
-jackson = { module = "tools.jackson.core:jackson-databind", version = "3.2.0" }
+jackson = { module = "tools.jackson.core:jackson-databind", version = "3.2.1" }
 javapoet = { module = "com.palantir.javapoet:javapoet", version = "0.17.0" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
@@ -24,7 +24,7 @@ jspecify = { module = "org.jspecify:jspecify", version = "1.0.0" }
 
 # Testing
 jakarta = { module = "jakarta.inject:jakarta.inject-api", version = "2.0.1" }
-junit = { module = "org.junit.jupiter:junit-jupiter", version = "6.1.1" }
+junit = { module = "org.junit.jupiter:junit-jupiter", version = "6.1.2" }
 mockito-core = { module = "org.mockito:mockito-core", version = "5.23.0" }
 
 [bundles]
