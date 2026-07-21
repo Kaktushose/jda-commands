@@ -271,7 +271,7 @@ public abstract sealed class Component<S extends Component<S, T, B, D>, T extend
     /// Allows to set a payload, that will be stored in the components' [CustomId].
     /// Currently, with custom id version 2.0, this supports up to 64 characters.
     ///
-    /// The payload can be retried using [ComponentEvent#payload()].
+    /// The payload can be retrieved using [ComponentEvent#payload()].
     ///
     /// @param payload the string to set as the payload
     public S payload(String payload) {

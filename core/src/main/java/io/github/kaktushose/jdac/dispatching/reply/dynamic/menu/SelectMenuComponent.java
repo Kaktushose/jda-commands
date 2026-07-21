@@ -79,11 +79,6 @@ public abstract sealed class SelectMenuComponent<S extends SelectMenuComponent<S
     }
 
     @Override
-    public @Nullable String getCustomId() {
-        return null;
-    }
-
-    @Override
     public @Nullable String getPlaceholder() {
         return placeholder;
     }
