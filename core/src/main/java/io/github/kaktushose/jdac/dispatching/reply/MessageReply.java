@@ -235,7 +235,7 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
 
         // check if custom id was overridden manually by user,
         // if yes set the user-set custom id as the new payload
-        if (customId.merged().equals(itemCustomId)) {
+        if (!customId.merged().equals(itemCustomId)) {
             String modified = new CustomId(customId.runtimeId(), customId.definitionId(), itemCustomId).merged();
 
             item = switch (item) {
