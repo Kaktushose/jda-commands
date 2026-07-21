@@ -77,7 +77,7 @@ public record CustomId(String runtimeId, String definitionId, String payload) {
         int version = Integer.parseUnsignedInt(id.substring(4, 6));
         return switch (version) {
             case 2 -> parseV2(id);
-            default -> throw new RuntimeException(JDACException.errorMessage("illegal-version", entry("ver", version)));
+            default -> throw new IllegalArgumentException(JDACException.errorMessage("illegal-version", entry("ver", version)));
         };
     }
 
@@ -85,7 +85,7 @@ public record CustomId(String runtimeId, String definitionId, String payload) {
         String[] split = id.split("\\.");
 
         if (!split[1].equals("independent")) {
-            throw new RuntimeException("v1-not-independent");
+            throw new IllegalArgumentException("v1-not-independent");
         }
 
         return new CustomId(String.valueOf(INDEPENDENT_ID), split[2], "");
