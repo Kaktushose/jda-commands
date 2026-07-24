@@ -191,11 +191,6 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
     JDACProperty<Boolean> SHUTDOWN_JDA =
             new JDACSingletonProperty<>("SHUTDOWN_JDA", Property.Source.BUILDER, JDACScope.CONFIGURATION, Boolean.class);
 
-    /// @see JDACBuilder#overrideEventManager(boolean)
-    @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER)
-    JDACProperty<Boolean> OVERRIDE_EVENT_MANAGER =
-            new JDACSingletonProperty<>("OVERRIDE_EVENT_MANAGER", Property.Source.BUILDER, JDACScope.CONFIGURATION, Boolean.class);
-
     /// @see JDACBuilder#extensionData(Extension.Data...)
     @PropertyInformation(scope = JDACScope.CONFIGURATION, source = Property.Source.BUILDER, fallbackBehaviour = COMBINE)
     JDACProperty<Map<Class<? extends Extension.Data>, Extension.Data>> EXTENSION_DATA =

@@ -13,11 +13,9 @@ import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
-import io.github.kaktushose.jdac.exceptions.ConfigurationException;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
+import io.github.kaktushose.jdac.property.internal.IntrospectionEventManager;
 import io.github.kaktushose.jdac.internal.JDAContext;
-import io.github.kaktushose.jdac.internal.eventmanager.AnnotatedIntrospectionEventManager;
-import io.github.kaktushose.jdac.internal.eventmanager.InterfacedIntrospectionEventManager;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.internal.register.CommandUpdater;
 import io.github.kaktushose.jdac.property.JDACIntrospection;
@@ -32,14 +30,13 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
-import net.dv8tion.jda.api.hooks.InterfacedEventManager;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
 
 import java.util.*;
 
-import static io.github.kaktushose.jdac.property.JDACProperty.*;
+import static io.github.kaktushose.jdac.property.JDACProperty.LOCALIZATION_FUNCTION;
+import static io.github.kaktushose.jdac.property.JDACProperty.LOCALIZE_COMMANDS;
 
 /// The main entry point of the JDA-Commands framework. This class includes methods to manage the overall framework
 /// while running.
@@ -59,18 +56,7 @@ public final class JDACommands {
 
         var jdaContext = introspection.get(JDACInternalProperties.JDA_CONTEXT);
 
-        if (introspection.get(OVERRIDE_EVENT_MANAGER)) {
-            jdaContext.performTask(jda -> {
-                var oldManager = jda.getEventManager();
-                var newManager = switch (oldManager) {
-                    case InterfacedEventManager _ -> new InterfacedIntrospectionEventManager(introspection);
-                    case AnnotatedEventManager _ -> new AnnotatedIntrospectionEventManager(introspection);
-                    default -> throw new ConfigurationException("event-manager");
-                };
-                oldManager.getRegisteredListeners().forEach(oldManager::register);
-                jda.setEventManager(newManager);
-            }, false);
-        }
+        jdaContext.performTask(jda -> jda.setEventManager(new IntrospectionEventManager(jda.getEventManager(), introspection)), false);
 
         this.updater = new CommandUpdater(
                 jdaContext,
