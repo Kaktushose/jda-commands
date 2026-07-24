@@ -24,7 +24,7 @@ Inside of [interaction controller methods](../interactions/overview.md#structure
 the <JDACIntrospection> instance is always set with the stage <JDACScope#INTERACTION>, providing access to all [`Properties`][[JDACProperty]].
 
 Inside of JDA event handlers (e.g. `onMessageReceived(MessageReceivedEvent)`) the <JDACIntrospection> instance is also 
-accessible via scoped access, unless disabled with <JDACBuilder#overrideEventManager(boolean)>. It is always set with the stage <JDACScope#INITIALIZED>.
+accessible via scoped access. It is set with the stage <JDACScope#GENERIC_EVENT> and grants access to JDA's <GenericEvent>.
 
 !!! note
     Internally we use Javas <ScopedValue>s for this. If you want to know how <JDACIntrospection#accessScoped()> works in regard
