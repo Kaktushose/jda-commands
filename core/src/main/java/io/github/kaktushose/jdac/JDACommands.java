@@ -65,7 +65,7 @@ public final class JDACommands {
                 introspection.get(LOCALIZE_COMMANDS) ? introspection.get(LOCALIZATION_FUNCTION) : (_) -> Map.of()
         );
 
-        this.jdaEventListener = new JDAEventListener(introspection);
+        this.jdaEventListener = new JDAEventListener();
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.

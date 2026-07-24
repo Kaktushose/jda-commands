@@ -1,5 +1,7 @@
 package io.github.kaktushose.jdac.property.internal;
 
+import io.github.kaktushose.jdac.property.JDACProperty;
+import io.github.kaktushose.jdac.property.JDACScope;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.hooks.IEventManager;
 import org.jetbrains.annotations.ApiStatus;
@@ -29,7 +31,11 @@ public final class IntrospectionEventManager implements IEventManager {
 
     @Override
     public void handle(GenericEvent event) {
-        introspection.scoped().run(() -> delegate.handle(event));
+        introspection.createChild(JDACScope.GENERIC_EVENT)
+                .addFallback(JDACProperty.GENERIC_EVENT, _ -> event)
+                .build()
+                .scoped()
+                .run(() -> delegate.handle(event));
     }
 
     @Override
