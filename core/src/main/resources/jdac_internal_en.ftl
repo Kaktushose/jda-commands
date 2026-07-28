@@ -140,11 +140,7 @@ invalid-custom-id = Provided custom id is invalid.
 independent-runtime-id = Provided custom id is runtime-independent.
 customid-payload-too-long =
     The provided custom id payload is too long.
-    The payload is  { $length ->
-                        [one] one charcater
-                        *[other] { $length} characters
-                    }
-    long, but only up to 64 characters are supported.
+    The payload is { $length } characters long, but only up to 64 characters are supported.
 illegal-version = The version { $ver } isn't supported.
 v1-not-independent = For custom id version 1, only independent ids are supported.
 

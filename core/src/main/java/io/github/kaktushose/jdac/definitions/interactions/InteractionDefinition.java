@@ -45,8 +45,8 @@ public sealed interface InteractionDefinition extends Definition, Invokable
         return Base64Utils.encodeInt(hash);
     }
 
-    /// The id for this definition. For interaction definition this is the hash code of the full class name and method
-    /// name combined.
+    /// The id for this definition. For interaction definition this is the base64 of the hash code consisting of the full class name and method
+    /// name.
     ///
     /// @see #createDefinitionId(String, String)
     default String definitionId() {

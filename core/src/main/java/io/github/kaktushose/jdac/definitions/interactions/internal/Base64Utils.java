@@ -1,9 +1,12 @@
 package io.github.kaktushose.jdac.definitions.interactions.internal;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import java.nio.ByteBuffer;
 import java.util.Base64;
 
-public class Base64Utils {
+@ApiStatus.Internal
+public final class Base64Utils {
     public static long decodeLong(String raw) {
         byte[] bytes = Base64.getUrlDecoder().decode(raw);
         return ByteBuffer.wrap(bytes).getLong();

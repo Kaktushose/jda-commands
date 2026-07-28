@@ -1,6 +1,5 @@
 package io.github.kaktushose.jdac.definitions.interactions;
 
-import io.github.kaktushose.jdac.definitions.Definition;
 import io.github.kaktushose.jdac.definitions.interactions.internal.Base64Utils;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
 
@@ -47,8 +46,8 @@ import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
 ///
 /// @param runtimeId    the id of the [`Runtime`]({@docRoot}/index.html#runtime-concept-heading) this custom id is bound to
 ///                     or the literal `independent`.
-/// @param definitionId the [Definition#definitionId()]
-/// @implNote the custom id has the following format: `jdac.runtimeId.definitionId`
+/// @param definitionId the [InteractionDefinition#definitionId()]
+/// @param payload      a user-provided custom information, see [#payload()]
 ///
 public record CustomId(String runtimeId, String definitionId, String payload) {
     private static final String PREFIX = "jdac";
