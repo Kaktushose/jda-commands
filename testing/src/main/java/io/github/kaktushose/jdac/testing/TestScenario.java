@@ -33,6 +33,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
@@ -137,12 +138,17 @@ public class TestScenario {
         @SuppressWarnings("unchecked")
         public TestScenario create() {
             // event manager
-            IEventManager eventManager = new InterfacedEventManager();
-            jda.setEventManager(eventManager);
+            AtomicReference<IEventManager> eventManager = new AtomicReference<>(new InterfacedEventManager());
+            jda.setEventManager(eventManager.get());
             doAnswer(invocation -> {
-                eventManager.register(invocation.getArgument(0));
+                eventManager.get().register(invocation.getArgument(0));
                 return null;
             }).when(jda).addEventListener(any());
+            when(jda.getEventManager()).thenReturn(eventManager.get());
+            doAnswer(invocation -> {
+                eventManager.set(invocation.getArgument(0));
+                return null;
+            }).when(jda).setEventManager(any());
 
             // make JDAContext functional
             SnowflakeCacheView<Guild> snowflakeCacheView = mock(SnowflakeCacheView.class);
@@ -162,7 +168,7 @@ public class TestScenario {
             consumer.accept(jdacBuilder);
             JDACommands jdaCommands = jdacBuilder.start();
 
-            return new TestScenario(new Context(eventManager, klass, jdaCommands, commands));
+            return new TestScenario(new Context(eventManager.get(), klass, jdaCommands, commands));
         }
     }
 

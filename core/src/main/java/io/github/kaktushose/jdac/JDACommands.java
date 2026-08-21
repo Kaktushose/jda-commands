@@ -14,6 +14,7 @@ import io.github.kaktushose.jdac.embeds.EmbedConfig;
 import io.github.kaktushose.jdac.embeds.EmbedDataSource;
 import io.github.kaktushose.jdac.embeds.internal.Embeds;
 import io.github.kaktushose.jdac.exceptions.internal.JDACException;
+import io.github.kaktushose.jdac.property.internal.IntrospectionEventManager;
 import io.github.kaktushose.jdac.internal.JDAContext;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.internal.register.CommandUpdater;
@@ -53,14 +54,18 @@ public final class JDACommands {
                 .addFallback(JDACProperty.JDA_COMMANDS, _ -> this)
                 .build();
 
+        var jdaContext = introspection.get(JDACInternalProperties.JDA_CONTEXT);
+
+        jdaContext.performTask(jda -> jda.setEventManager(new IntrospectionEventManager(jda.getEventManager(), introspection)), false);
+
         this.updater = new CommandUpdater(
-                introspection.get(JDACInternalProperties.JDA_CONTEXT),
+                jdaContext,
                 introspection.get(JDACProperty.GUILD_SCOPE_PROVIDER),
                 introspection.get(JDACInternalProperties.INTERACTION_REGISTRY),
                 introspection.get(LOCALIZE_COMMANDS) ? introspection.get(LOCALIZATION_FUNCTION) : (_) -> Map.of()
         );
 
-        this.jdaEventListener = new JDAEventListener(introspection);
+        this.jdaEventListener = new JDAEventListener();
     }
 
     /// Creates a new JDACommands instance and starts the frameworks, including scanning the classpath for annotated classes.
