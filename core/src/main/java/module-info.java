@@ -21,6 +21,7 @@ module io.github.kaktushose.jdac.core {
     requires java.logging;
     requires static io.github.kaktushose.jdac.processor;
     requires dev.goldmensch.propane;
+    requires de.mkammerer.snowflakeid;
 
     // base package
     exports io.github.kaktushose.jdac;

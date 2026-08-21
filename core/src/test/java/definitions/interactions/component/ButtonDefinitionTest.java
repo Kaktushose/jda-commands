@@ -91,7 +91,7 @@ class ButtonDefinitionTest {
     @Test
     void button_withCustomId_shouldUseGivenId() {
         ButtonDefinition definition = build("normalButton");
-        CustomId customId = CustomId.independent("test-id-123");
+        CustomId customId = CustomId.independent("test-id-123", "");
 
         var button = definition.toJDAEntity(customId);
 

@@ -19,6 +19,7 @@ dependencies {
     api(libs.propane)
 
     implementation(libs.classgraph)
+    implementation(libs.snowflake)
 
     annotationProcessor(project(":processor"))
 

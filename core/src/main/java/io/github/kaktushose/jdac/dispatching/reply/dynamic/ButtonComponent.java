@@ -92,8 +92,4 @@ public final class ButtonComponent extends Component<ButtonComponent, Button, Bu
         return !enabled();
     }
 
-    @Override
-    public @Nullable String getCustomId() {
-        return null;
-    }
 }

@@ -138,13 +138,13 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     }
 
     @SuppressWarnings("unchecked")
-    private <C extends ActionComponent, E extends CustomIdJDAEntity<?>> C getComponent(String component, @Nullable Class<?> origin, Class<E> type) {
+    private <C extends ActionComponent, E extends InteractionDefinition & CustomIdJDAEntity<?>> C getComponent(String component, @Nullable Class<?> origin, Class<E> type) {
         var className = origin == null
                 ? scopedInvocationContext().definition().classDescription().name()
                 : origin.getName();
-        var id = String.valueOf((className + component).hashCode());
-        var definition = scopedInteractionRegistry().find(type, false, it -> it.definitionId().equals(id));
-        return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId()));
+        var id = InteractionDefinition.createDefinitionId(className, component);
+        E definition = scopedInteractionRegistry().find(type, false, it -> it.definitionId().equals(id));
+        return (C) definition.toJDAEntity(new CustomId(runtimeId(), definition.definitionId(), ""));
     }
 
     /// Gets an [Embed] based on the given name.

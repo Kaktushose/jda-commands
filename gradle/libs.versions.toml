@@ -9,6 +9,7 @@ jda = { module = "net.dv8tion:JDA", version = "6.5.0" }
 guice = { module = "com.google.inject:guice", version = "7.0.0" }
 proteus = { module = "io.github.kaktushose:proteus", version = "0.2.3" }
 propane = { module = "dev.goldmensch:propane", version = "0.1" }
+snowflake = {module = "de.mkammerer.snowflake-id:snowflake-id", version = "0.0.2"}
 
 # Utils
 asm = { module = "org.ow2.asm:asm", version = "9.10.1" }
