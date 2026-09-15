@@ -11,9 +11,6 @@ import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import io.github.kaktushose.jdac.message.resolver.MessageResolver;
 import net.dv8tion.jda.api.components.ModalTopLevelComponent;
 import net.dv8tion.jda.api.components.ModalTopLevelComponentUnion;
-import net.dv8tion.jda.api.components.label.Label;
-import net.dv8tion.jda.api.components.label.LabelChildComponent;
-import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
 import net.dv8tion.jda.api.components.tree.ModalComponentTree;
 import net.dv8tion.jda.api.interactions.callbacks.IModalCallback;
 import net.dv8tion.jda.internal.utils.Checks;
@@ -42,7 +39,7 @@ public final class ModalReply extends ActionComponentResolver {
     public void reply(
             @Nullable Class<?> origin,
             String modal,
-            Collection<ModalTopLevelComponent> components,
+            Collection<? extends ModalTopLevelComponent> components,
             Entry... placeholders
     ) {
         if (!(scopedJdaEvent() instanceof IModalCallback callback)) {
@@ -61,11 +58,7 @@ public final class ModalReply extends ActionComponentResolver {
 
         // manual workaround for now
         ModalComponentTree componentTree = ModalComponentTree.of(components);
-        componentTree = componentTree.replace(ComponentReplacer.of(
-                Label.class,
-                label -> label.getChild() instanceof Component<?, ?, ?, ?>,
-                label -> label.withChild((LabelChildComponent) resolveActionComponent((Component<?, ?, ?, ?>) label.getChild()))
-        ));
+        componentTree = componentTree.replace(resolver());
 
         var entryMap = Entry.toMap(placeholders);
         var resolver = new ComponentResolver<>(scopedMessageResolver(), ModalTopLevelComponentUnion.class);
