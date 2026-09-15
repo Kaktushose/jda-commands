@@ -49,7 +49,7 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// @param components   a [Collection] of [ModalTopLevelComponent]s to add to this modal
     /// @param placeholders the [Entry] placeholders to use for [message resolution][MessageResolver]
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
-    public void replyModal(String modal, Collection<ModalTopLevelComponent> components, Entry... placeholders) {
+    public void replyModal(String modal, Collection<? extends ModalTopLevelComponent> components, Entry... placeholders) {
         reply(null, modal, components, placeholders);
     }
 
@@ -60,11 +60,11 @@ public abstract sealed class ModalReplyableEvent<T extends GenericInteractionCre
     /// @param components   a [Collection] of [ModalTopLevelComponent]s to add to this modal
     /// @param placeholders the [Entry] placeholders to use for [message resolution][MessageResolver]
     /// @throws IllegalArgumentException if no [Modal] with the given name was found
-    public void replyModal(Class<?> origin, String modal, Collection<ModalTopLevelComponent> components, Entry... placeholders) {
+    public void replyModal(Class<?> origin, String modal, Collection<? extends ModalTopLevelComponent> components, Entry... placeholders) {
         reply(origin, modal, components, placeholders);
     }
 
-    private void reply(@Nullable Class<?> origin, String modal, Collection<ModalTopLevelComponent> components, Entry... placeholders) {
+    private void reply(@Nullable Class<?> origin, String modal, Collection<? extends ModalTopLevelComponent> components, Entry... placeholders) {
         new ModalReply().reply(origin, modal, components, placeholders);
     }
 }
