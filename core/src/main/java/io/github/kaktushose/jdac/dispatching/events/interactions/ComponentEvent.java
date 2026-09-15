@@ -1,5 +1,6 @@
 package io.github.kaktushose.jdac.dispatching.events.interactions;
 
+import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.dispatching.events.Event;
 import io.github.kaktushose.jdac.dispatching.events.ModalReplyableEvent;
 import io.github.kaktushose.jdac.dispatching.reply.EditableConfigurableReply;
@@ -34,6 +35,14 @@ public final class ComponentEvent extends ModalReplyableEvent<GenericComponentIn
     /// @return [T] the event
     public <T extends GenericComponentInteractionCreateEvent> T jdaEvent(Class<T> type) {
         return type.cast(jdaEvent());
+
+    }
+
+    /// Returns the user-set [custom id payload][CustomId#payload()] of this interaction.
+    ///
+    /// @return the payload of the [CustomId]
+    public String payload() {
+        return CustomId.fromMerged(jdaEvent().getCustomId()).payload();
     }
 
     @Override
