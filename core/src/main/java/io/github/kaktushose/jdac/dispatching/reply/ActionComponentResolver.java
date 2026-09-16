@@ -41,7 +41,7 @@ sealed class ActionComponentResolver permits MessageReply, ModalReply {
     }
 
     protected ActionRowChildComponent resolveActionComponent(Component<?, ?, ?, ?> component) {
-        var className = component.origin().map(Class::getName)
+        String className = component.origin().map(Class::getName)
                 .orElseGet(() -> scopedInvocationContext().definition().methodDescription().declaringClass().getName());
         String definitionId = InteractionDefinition.createDefinitionId(className, component.name());
 

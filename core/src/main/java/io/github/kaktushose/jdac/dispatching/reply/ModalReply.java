@@ -56,7 +56,6 @@ public final class ModalReply extends ActionComponentResolver {
                 it -> it.definitionId().equals(definitionId)
         );
 
-        // manual workaround for now
         ModalComponentTree componentTree = ModalComponentTree.of(components);
         componentTree = componentTree.replace(resolver());
 
