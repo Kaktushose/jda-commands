@@ -83,8 +83,9 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">JDACIntrospection</span><span class="extends-implements">
-extends <a href="https://goldmensch.github.io/propane/javadocs/snapshot/dev.goldmensch.propane/dev/goldmensch/propane/IntrospectionSkeleton.html" title="class or interface in dev.goldmensch.propane" class="external-link">IntrospectionSkeleton</a>&lt;<a href="JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property">JDACIntrospection</a>, <a href="JDACScope.html" title="enum class in io.github.kaktushose.jdac.property">JDACScope</a>&gt;</span></div>
+<div class="type-signature"><span class="modifiers">public sealed interface </span><span class="element-name type-name-label">JDACIntrospection</span><span class="extends-implements">
+extends <a href="https://goldmensch.github.io/propane/javadocs/snapshot/dev.goldmensch.propane/dev/goldmensch/propane/IntrospectionSkeleton.html" title="class or interface in dev.goldmensch.propane" class="external-link">IntrospectionSkeleton</a>&lt;<a href="JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property">JDACIntrospection</a>, <a href="JDACScope.html" title="enum class in io.github.kaktushose.jdac.property">JDACScope</a>&gt;</span>
+<span class="permits">permits <a href="internal/JDACIntrospectionImpl.html" title="class in io.github.kaktushose.jdac.property.internal">JDACIntrospectionImpl</a></span></div>
 <div class="block"><p>The <a href="JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property"><code>JDACIntrospection</code></a> type is the central element of the property system.
 Its purpose is to expose the property and event system to the user.</p>
 <p>Each <a href="JDACIntrospection.html" title="interface in io.github.kaktushose.jdac.property"><code>JDACIntrospection</code></a> instance is bound to a <a href="https://goldmensch.github.io/propane/javadocs/snapshot/dev.goldmensch.propane/dev/goldmensch/propane/Scope.html" title="class or interface in dev.goldmensch.propane" class="external-link"><code>Scope</code></a>, allowing accessing the scopes' and its parents'
