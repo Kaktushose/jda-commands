@@ -80,6 +80,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#components(java.lang.String...)" tabindex="0">components(String...)</a></li>
 <li><a href="#components(io.github.kaktushose.jdac.dispatching.reply.Component...)" tabindex="0">components(Component...)</a></li>
 <li><a href="#resolver()" tabindex="0">resolver()</a></li>
+<li><a href="#resolveActionComponent(io.github.kaktushose.jdac.dispatching.reply.Component)" tabindex="0">resolveActionComponent(Component)</a></li>
 </ol>
 </li>
 </ol>
@@ -196,9 +197,12 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Acknowledgement of this event with a text message.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link">ComponentReplacer</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolver()" class="member-name-link">resolver</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponent.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponent</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolveActionComponent(io.github.kaktushose.jdac.dispatching.reply.Component)" class="member-name-link">resolveActionComponent</a><wbr>(<a href="Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;&nbsp;component)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link">ComponentReplacer</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolver()" class="member-name-link">resolver</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -276,7 +280,7 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>message</code> - the message to send or the localization key</dd>
-<dd><code>placeholder</code> - the placeholders to use to perform localization, see [I18n#localize(Locale , String, Entry...) ]</dd>
+<dd><code>placeholder</code> - the placeholders to use to perform localization, see <a href="../../message/resolver/Resolver.html#resolve(T,java.util.Locale,io.github.kaktushose.jdac.message.placeholder.Entry...)"><code>Resolver.resolve(Object, Locale, Entry...)</code></a></dd>
 <dt>Returns:</dt>
 <dd>the <a href="https://docs.jda.wiki/net/dv8tion/jda/api/entities/Message.html" title="class or interface in net.dv8tion.jda.api.entities" class="external-link"><code>Message</code></a> that got created</dd>
 <dt>Implementation Requirements:</dt>
@@ -449,6 +453,14 @@ settings.</p>
 <h3>resolver</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/replacer/ComponentReplacer.html" title="class or interface in net.dv8tion.jda.api.components.replacer" class="external-link">ComponentReplacer</a></span>&nbsp;<span class="element-name">resolver</span>()</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="resolveActionComponent(io.github.kaktushose.jdac.dispatching.reply.Component)">
+<h3>resolveActionComponent</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.jda.wiki/net/dv8tion/jda/api/components/actionrow/ActionRowChildComponent.html" title="class or interface in net.dv8tion.jda.api.components.actionrow" class="external-link">ActionRowChildComponent</a></span>&nbsp;<span class="element-name">resolveActionComponent</span><wbr><span class="parameters">(<a href="Component.html" title="class in io.github.kaktushose.jdac.dispatching.reply">Component</a>&lt;?,<wbr>?,<wbr>?,<wbr>?&gt;&nbsp;component)</span></div>
 </div>
 </section>
 </li>
