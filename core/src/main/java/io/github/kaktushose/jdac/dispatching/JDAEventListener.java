@@ -4,6 +4,7 @@ import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
 import io.github.kaktushose.jdac.internal.Helpers;
 import io.github.kaktushose.jdac.internal.logging.JDACLogger;
+import io.github.kaktushose.jdac.property.JDACIntrospection;
 import io.github.kaktushose.jdac.property.JDACProperty;
 import io.github.kaktushose.jdac.property.internal.JDACIntrospectionImpl;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
@@ -27,17 +28,13 @@ public final class JDAEventListener extends ListenerAdapter {
 
     private static final Logger log = JDACLogger.getLogger(JDAEventListener.class);
     private final Map<String, Runtime> runtimes = new ConcurrentHashMap<>();
-    private final JDACIntrospectionImpl introspection;
-
-    public JDAEventListener(JDACIntrospectionImpl introspection) {
-        this.introspection = introspection;
-    }
 
     @Override
     @SubscribeEvent
     public void onGenericInteractionCreate(GenericInteractionCreateEvent jdaEvent) {
         checkRuntimesAlive();
 
+        JDACIntrospectionImpl introspection = (JDACIntrospectionImpl) JDACIntrospection.accessScoped();
         Runtime runtime = switch (jdaEvent) {
             // always create new one for command events (starter)
             case SlashCommandInteractionEvent _, GenericContextInteractionEvent<?> _,

@@ -23,6 +23,9 @@ An <JDACIntrospection> instance is set in most but not in all places, to know wh
 Inside of [interaction controller methods](../interactions/overview.md#structure) 
 the <JDACIntrospection> instance is always set with the stage <JDACScope#INTERACTION>, providing access to all [`Properties`][[JDACProperty]].
 
+Inside of JDA event handlers (e.g. `onMessageReceived(MessageReceivedEvent)`) the <JDACIntrospection> instance is also 
+accessible via scoped access. It is set with the stage <JDACScope#GENERIC_EVENT> and grants access to JDA's <GenericEvent>.
+
 !!! note
     Internally we use Javas <ScopedValue>s for this. If you want to know how <JDACIntrospection#accessScoped()> works in regard
     with Threads make yourself familiar with their docs.
