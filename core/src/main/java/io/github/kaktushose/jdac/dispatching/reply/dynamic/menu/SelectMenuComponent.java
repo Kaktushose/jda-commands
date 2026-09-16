@@ -3,8 +3,14 @@ package io.github.kaktushose.jdac.dispatching.reply.dynamic.menu;
 import io.github.kaktushose.jdac.definitions.interactions.component.menu.SelectMenuDefinition;
 import io.github.kaktushose.jdac.dispatching.reply.Component;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
+import net.dv8tion.jda.api.components.attachmentupload.AttachmentUpload;
+import net.dv8tion.jda.api.components.checkbox.Checkbox;
+import net.dv8tion.jda.api.components.checkboxgroup.CheckboxGroup;
+import net.dv8tion.jda.api.components.label.LabelChildComponentUnion;
+import net.dv8tion.jda.api.components.radiogroup.RadioGroup;
 import net.dv8tion.jda.api.components.selections.SelectMenu;
 import net.dv8tion.jda.api.components.selections.SelectMenu.Builder;
+import net.dv8tion.jda.api.components.textinput.TextInput;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -22,7 +28,7 @@ import java.util.Objects;
 /// @see StringSelectComponent
 public abstract sealed class SelectMenuComponent<S extends SelectMenuComponent<S, T, B, D>,
         T extends SelectMenu, B extends Builder<T, B>, D extends SelectMenuDefinition<T>> extends Component<S, T, B, D>
-        implements SelectMenu
+        implements SelectMenu, LabelChildComponentUnion
         permits StringSelectComponent, EntitySelectMenuComponent {
 
     protected @Nullable String placeholder;
@@ -107,7 +113,32 @@ public abstract sealed class SelectMenuComponent<S extends SelectMenuComponent<S
     ///
     /// @throws UnsupportedOperationException will always throw
     @Override
-    public @NonNull B createCopy() {
+    public B createCopy() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public TextInput asTextInput() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public AttachmentUpload asAttachmentUpload() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public RadioGroup asRadioGroup() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CheckboxGroup asCheckboxGroup() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Checkbox asCheckbox() {
         throw new UnsupportedOperationException();
     }
 }
