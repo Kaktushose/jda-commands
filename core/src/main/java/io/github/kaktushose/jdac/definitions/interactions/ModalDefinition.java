@@ -28,7 +28,7 @@ public record ModalDefinition(
         MethodDescription methodDescription,
         Collection<String> permissions,
         String title,
-        Collection<ModalTopLevelComponent> components
+        Collection<? extends ModalTopLevelComponent> components
 ) implements InteractionDefinition, CustomIdJDAEntity<Modal> {
 
     /// Builds a new [ModalDefinition] from the given [MethodBuildContext].
@@ -44,7 +44,7 @@ public record ModalDefinition(
     }
 
     /// Builds a new [ModalDefinition] with the given values.
-    public ModalDefinition with(@Nullable String title, @Nullable Collection<ModalTopLevelComponent> components) {
+    public ModalDefinition with(@Nullable String title, @Nullable Collection<? extends ModalTopLevelComponent> components) {
         return new ModalDefinition(
                 classDescription,
                 methodDescription,

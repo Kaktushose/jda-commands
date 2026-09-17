@@ -1,56 +1,36 @@
 package io.github.kaktushose.jdac.dispatching.reply;
 
-import io.github.kaktushose.jdac.definitions.interactions.CustomId;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition.ReplyConfig;
-import io.github.kaktushose.jdac.definitions.interactions.InteractionRegistry;
-import io.github.kaktushose.jdac.definitions.interactions.ModalDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.component.ButtonDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.component.ComponentDefinition;
-import io.github.kaktushose.jdac.definitions.interactions.component.menu.SelectMenuDefinition;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.ButtonComponent;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.internal.UnspecificComponent;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.EntitySelectMenuComponent;
-import io.github.kaktushose.jdac.dispatching.reply.dynamic.menu.StringSelectComponent;
 import io.github.kaktushose.jdac.dispatching.reply.internal.ReplyAction;
 import io.github.kaktushose.jdac.embeds.Embed;
 import io.github.kaktushose.jdac.embeds.EmbedConfig;
-import io.github.kaktushose.jdac.exceptions.internal.JDACException;
-import io.github.kaktushose.jdac.internal.logging.JDACLogger;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
-import io.github.kaktushose.jdac.message.resolver.ComponentResolver;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.actionrow.ActionRowChildComponent;
-import net.dv8tion.jda.api.components.buttons.Button;
-import net.dv8tion.jda.api.components.replacer.ComponentReplacer;
-import net.dv8tion.jda.api.components.selections.EntitySelectMenu;
-import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import org.slf4j.Logger;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 
-import static io.github.kaktushose.jdac.message.placeholder.Entry.entry;
-import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.*;
+import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.scopedEmbeds;
+import static io.github.kaktushose.jdac.property.internal.IntrospectionAccess.scopedUserLocale;
 
 /// Handles all the business logic for sending messages, including embeds or V1 components.
-public sealed class MessageReply permits ConfigurableReply, SendableReply {
+public sealed class MessageReply extends ActionComponentResolver permits ConfigurableReply, SendableReply {
 
-    private static final Logger log = JDACLogger.getLogger(MessageReply.class);
     protected final ReplyAction replyAction;
-    private final ComponentResolver<ActionRowChildComponent> resolver;
 
     /// Constructs a new MessageReply.
     ///
     /// @param replyConfig the [ReplyConfig] to use
     public MessageReply(ReplyConfig replyConfig) {
         replyAction = new ReplyAction(replyConfig);
-        resolver = new ComponentResolver<>(scopedMessageResolver(), ActionRowChildComponent.class);
     }
 
     /// Constructs a new MessageReply.
@@ -58,13 +38,12 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     /// @param reply the [MessageReply] to copy from
     public MessageReply(MessageReply reply) {
         replyAction = reply.replyAction;
-        resolver = new ComponentResolver<>(scopedMessageResolver(), ActionRowChildComponent.class);
     }
 
     /// Acknowledgement of this event with a text message.
     ///
     /// @param message     the message to send or the localization key
-    /// @param placeholder the placeholders to use to perform localization, see [I18n#localize(Locale , String, Entry...) ]
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#resolve(Object, Locale, Entry...)]
     /// @return the [Message] that got created
     /// @implSpec Internally this method must call [RestAction#complete()], thus the [Message] object can get
     /// returned directly.
@@ -191,73 +170,10 @@ public sealed class MessageReply permits ConfigurableReply, SendableReply {
     ///
     /// @see Component
     public SendableReply components(Component<?, ?, ?, ?>... components) {
-        List<ActionRowChildComponent> items = Arrays.stream(components).map(this::resolve).toList();
+        List<ActionRowChildComponent> items = Arrays.stream(components).map(this::resolveActionComponent).toList();
         if (!items.isEmpty()) {
             replyAction.addComponents(ActionRow.of(items));
         }
         return new SendableReply(this);
-    }
-
-    protected ComponentReplacer resolver() {
-        return ComponentReplacer.of(Component.class, _ -> true, this::resolve);
-    }
-
-    private ActionRowChildComponent resolve(Component<?, ?, ?, ?> component) {
-        var className = component.origin().map(Class::getName)
-                .orElseGet(() -> scopedInvocationContext().definition().methodDescription().declaringClass().getName());
-        String definitionId = InteractionDefinition.createDefinitionId(className, component.name());
-
-        var definition = findDefinition(component, definitionId, className);
-
-        int uniqueId = Objects.requireNonNullElse(definition.uniqueId(), -1);
-        ActionRowChildComponent item = switch (definition) {
-            case ButtonDefinition buttonDefinition ->
-                    buttonDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
-            case SelectMenuDefinition<?> menuDefinition ->
-                    menuDefinition.toJDAEntity(createId(definition, component.independent())).withDisabled(!component.enabled());
-        };
-
-        item = switch (component) {
-            case ButtonComponent buttonComponent -> buttonComponent.callback().apply((Button) item);
-            case EntitySelectMenuComponent entitySelectMenuComponent ->
-                    entitySelectMenuComponent.callback().apply(((EntitySelectMenu) item).createCopy()).build();
-            case StringSelectComponent stringSelectComponent ->
-                    stringSelectComponent.callback().apply(((StringSelectMenu) item).createCopy()).build();
-            case UnspecificComponent unspecificComponent -> unspecificComponent.callback().apply(item);
-        };
-
-        if (uniqueId > 0) {
-            item = item.withUniqueId(uniqueId);
-        }
-        item = resolver.resolve(item, scopedUserLocale(), component.placeholder());
-        log.debug("Reply Debug: Adding component \"{}\" to the reply", definition.displayName());
-        return item;
-    }
-
-    private <D extends ComponentDefinition<?>, T extends Component<T, ?, ?, D>> D findDefinition(Component<T, ?, ?, D> component, String definitionId, String className) {
-        InteractionRegistry registry = scopedInteractionRegistry();
-
-        try {
-            // this cast is effective safe
-            D definition = registry.find(component.definitionClass(), false, it ->
-                    it.definitionId().equals(definitionId)
-            );
-
-            return component.build(definition);
-        } catch (IllegalArgumentException e) { // only check if search failed
-            Collection<ModalDefinition> found = registry.find(ModalDefinition.class, it -> it.definitionId().equals(definitionId));
-            if (!found.isEmpty()) {
-                throw new IllegalArgumentException(
-                        JDACException.errorMessage("modal-as-component", entry("method", "%s#%s".formatted(className, component.name())))
-                );
-            }
-            throw e;
-        }
-    }
-
-    private CustomId createId(InteractionDefinition definition, boolean independent) {
-        return independent
-                ? CustomId.independent(definition.definitionId())
-                : new CustomId(scopedRuntime().id(), definition.definitionId());
     }
 }

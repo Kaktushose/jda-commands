@@ -38,6 +38,7 @@ import io.github.kaktushose.proteus.type.Type;
 import dev.goldmensch.propane.property.*;
 import dev.goldmensch.propane.property.Property.Source;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 
@@ -269,6 +270,11 @@ public interface JDACProperty<T> extends SpecificProperty<T> {
     @PropertyInformation(scope = JDACScope.INITIALIZED, source = Property.Source.PROVIDED)
     JDACProperty<LocalizationFunction> LOCALIZATION_FUNCTION =
             new JDACSingletonProperty<>("LOCALIZATION_FUNCTION", Property.Source.PROVIDED, JDACScope.INITIALIZED, LocalizationFunction.class);
+
+    // ------- generic event ---------
+    @PropertyInformation(scope = JDACScope.GENERIC_EVENT, source = Source.PROVIDED)
+    JDACProperty<GenericEvent> GENERIC_EVENT =
+            new JDACSingletonProperty<>("GENERIC_EVENT", Source.PROVIDED, JDACScope.GENERIC_EVENT, GenericEvent.class);
 
     // ------- runtime ---------
     /// The [JDA] instance bound to this specific Runtime.

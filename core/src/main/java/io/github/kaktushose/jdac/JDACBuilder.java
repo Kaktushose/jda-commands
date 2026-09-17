@@ -52,6 +52,7 @@ import io.github.kaktushose.proteus.type.Type;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.entities.emoji.ApplicationEmoji;
+import net.dv8tion.jda.api.hooks.IEventManager;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.slf4j.Logger;
 
@@ -308,7 +309,6 @@ public class JDACBuilder {
     public JDACBuilder localizeCommands(boolean localize) {
         return addBuilderProperty(LOCALIZE_COMMANDS, _ -> localize);
     }
-
 
     /// Specifies a way to filter found implementations of [Extension] if you have clashing or cycling dependencies for example.
     ///
