@@ -14,7 +14,7 @@ propane = { module = "dev.goldmensch:propane", version = "0.1" }
 asm = { module = "org.ow2.asm:asm", version = "9.10.1" }
 classgraph = { module = "io.github.classgraph:classgraph", version = "4.8.195" }
 jackson = { module = "tools.jackson.core:jackson-databind", version = "3.2.2" }
-javapoet = { module = "com.palantir.javapoet:javapoet", version = "0.19.0" }
+javapoet = { module = "com.palantir.javapoet:javapoet", version = "0.20.0" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
