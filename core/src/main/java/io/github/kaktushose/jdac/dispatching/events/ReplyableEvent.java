@@ -2,6 +2,7 @@ package io.github.kaktushose.jdac.dispatching.events;
 
 import io.github.kaktushose.jdac.annotations.interactions.EntityMenu;
 import io.github.kaktushose.jdac.annotations.interactions.StringMenu;
+import io.github.kaktushose.jdac.components.pagination.Pagination;
 import io.github.kaktushose.jdac.definitions.features.CustomIdJDAEntity;
 import io.github.kaktushose.jdac.definitions.interactions.CustomId;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
@@ -227,6 +228,15 @@ public sealed abstract class ReplyableEvent<T extends GenericInteractionCreateEv
     /// @param placeholder the [placeholders][Entry] to use. See [PlaceholderResolver]
     public Message reply(Collection<MessageTopLevelComponent> components, Entry... placeholder) {
         return with().reply(components, placeholder);
+    }
+
+    /// Acknowledgement of this event with a [Pagination].
+    ///
+    /// @param pagination  the [Pagination] to send
+    /// @param placeholder the placeholders to use to perform localization, see [I18n#resolve(Object, Locale, Entry...)]
+    /// @return the [Message] that got created
+    public Message reply(Pagination pagination, Entry... placeholder) {
+        return with().reply(pagination, placeholder);
     }
 
     /// Acknowledgement of this event with a text message.

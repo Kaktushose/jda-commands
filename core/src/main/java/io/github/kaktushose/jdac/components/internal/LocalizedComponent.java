@@ -1,15 +1,15 @@
 package io.github.kaktushose.jdac.components.internal;
 
+import io.github.kaktushose.jdac.components.pagination.Pagination;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
 import net.dv8tion.jda.api.components.Component;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 
 /// Interface for [Component]s that can be localized.
-public sealed interface LocalizedComponent permits AbstractSequencedContainer, SequencedComponent {
+public sealed interface LocalizedComponent permits AbstractSequencedContainer, SequencedComponent, Pagination {
 
     /// Gets the [Locale] this container will be localized in
     ///
