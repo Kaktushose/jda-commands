@@ -268,7 +268,7 @@ public final class ReplyAction {
     private record Replacer(
             ComponentReplacer userProvided,
             ComponentReplacer resolver,
-            Map<String, Object> placeholders
+            Map<String, @Nullable Object> placeholders
     ) { }
 
 }

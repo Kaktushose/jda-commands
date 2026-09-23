@@ -223,9 +223,11 @@ public sealed interface Pagination extends LocalizedComponent permits Pagination
     /// @return possibly null number of maximum pages
     @Nullable Integer maxPages();
 
-    /// Builds this pagination into a collection of [MessageTopLevelComponent]s that can be sent.
+    /// Builds this pagination into a collection of [MessageTopLevelComponent]s that can be sent manually without using
+    /// JDA-Commands.
     ///
-    /// Will automatically disable controls and populate select menus as described in the class level documentation.
+    /// Will localize all components, automatically disable controls and populate select menus as described in
+    /// the class level documentation.
     ///
     /// @return a [SequencedCollection] of [MessageTopLevelComponent]s representing this pagination.
     SequencedCollection<MessageTopLevelComponent> build();

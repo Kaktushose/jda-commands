@@ -136,6 +136,10 @@ public final class PaginationImpl implements Pagination {
 
     @Override
     public SequencedCollection<MessageTopLevelComponent> build() {
+        return build(true);
+    }
+
+    public SequencedCollection<MessageTopLevelComponent> build(boolean localize) {
         List<ContainerChildComponent> result = new ArrayList<>();
         Page page = new Page(this);
 
@@ -156,7 +160,9 @@ public final class PaginationImpl implements Pagination {
             result.addAll(components);
         }
 
-        result = result.stream().map(it -> resolver.resolve(it, locale, toMap())).toList();
+        if (localize) {
+            result = result.stream().map(it -> resolver.resolve(it, locale, toMap())).toList();
+        }
 
         if (config.active()) {
             return List.of(Container.of(result).withAccentColor(config.color()).withSpoiler(config.spoiler()));

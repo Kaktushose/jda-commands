@@ -3,6 +3,7 @@ package io.github.kaktushose.jdac.dispatching.reply;
 import io.github.kaktushose.jdac.JDACBuilder;
 import io.github.kaktushose.jdac.annotations.interactions.ReplyConfig;
 import io.github.kaktushose.jdac.components.pagination.Pagination;
+import io.github.kaktushose.jdac.components.pagination.internal.PaginationImpl;
 import io.github.kaktushose.jdac.definitions.interactions.InteractionDefinition;
 import io.github.kaktushose.jdac.message.i18n.I18n;
 import io.github.kaktushose.jdac.message.placeholder.Entry;
@@ -177,7 +178,7 @@ public sealed class ConfigurableReply extends MessageReply permits EditableConfi
     /// @return the [Message] that got created
     public Message reply(Pagination pagination, Entry... placeholder) {
         replyAction.keepComponents(false);
-        return reply(pagination.build(), placeholder);
+        return reply(((PaginationImpl) pagination).build(false), placeholder);
     }
 
 }
