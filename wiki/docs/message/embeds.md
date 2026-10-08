@@ -6,7 +6,7 @@ which eventually gets built into a <MessageEmbed>.
 
 !!! tip inline end
     For details on the `JSON` format of Embeds, see the [Discord Documentation](https://discord.com/developers/docs/resources/message#embed-object)
-    or use one the various [Online Embed Builders](https://glitchii.github.io/embedbuilder/).
+    or use one of the various online embed builders, like [Glitchii's Embed Builder](https://glitchii.github.io/embedbuilder/) or [Embed Generator](https://message.style/app/editor/json).
 
 JDA-Commands takes advantage of this and provides the <EmbedDataSource>
 interface to load Embeds from a `JSON` object. It supports the following sources by default:
